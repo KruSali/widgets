@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mr.News | เรื่องราวของ "ยาดม" (ฉบับปรับปรุง)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Sarabun', sans-serif;
+        }
+        .highlight {
+            font-weight: 700;
+        }
+        .vocab-card h3 {
+            font-weight: 700;
+        }
+        .vocab-card .pronunciation {
+            color: #dc2626; /* red-600 */
+            font-weight: 500;
+        }
+        .vocab-card .pronunciation u {
+            text-decoration-thickness: 2px;
+        }
+        .vocab-card .example-sentence {
+            font-style: italic;
+            color: #4A5568; /* gray-700 */
+        }
+        .btn-active {
+            background-color: #16a34a; /* green-600 */
+            color: white;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+        }
+        .btn-inactive {
+            background-color: #e5e7eb; /* gray-200 */
+            color: #374151; /* gray-700 */
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+
+    <div class="container mx-auto p-4 sm:p-6 md:p-8 max-w-6xl">
+        <header class="text-center mb-6">
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-800">The Story of "Yadom"</h1>
+            <p class="text-gray-600 mt-2">ประวัติและวิธีใช้ยาดมสมุนไพรไทย</p>
+        </header>
+
+        <div class="flex justify-center mb-8 space-x-2">
+            <button id="btn-basic" onclick="switchVersion('basic')" class="btn-active font-semibold py-2 px-6 rounded-full transition-all duration-300 ease-in-out">
+                Basic English
+            </button>
+            <button id="btn-intermediate" onclick="switchVersion('intermediate')" class="btn-inactive font-semibold py-2 px-6 rounded-full transition-all duration-300 ease-in-out">
+                Intermediate English
+            </button>
+        </div>
+
+        <main class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+            <div class="bg-white rounded-2xl shadow-lg overflow-hidden flex flex-col">
+                <div class="p-6 bg-yellow-500 text-white"><h2 class="text-2xl font-bold">Part 1: Ancient Origins</h2></div>
+                <div class="p-6 flex-grow">
+                    <div class="version-content basic">
+                        <p class="text-lg leading-relaxed mb-4">The idea for yadom is very old. It comes from <span class="highlight text-yellow-600">aromatherapy</span>. In ancient Egypt, people would <span class="highlight text-yellow-600">smell</span> special plants to help them <span class="highlight text-yellow-600">breathe</span>.</p>
+                        <button onclick="toggleVocab(this)" class="w-full bg-yellow-100 text-yellow-800 font-semibold py-2 px-4 rounded-lg hover:bg-yellow-200">แสดงคำศัพท์ (Show Vocabulary)</button>
+                        <div class="vocab-list hidden mt-4 space-y-3">
+                            <div class="vocab-card bg-gray-50 p-3 rounded-lg border-l-4 border-yellow-400"><h3>aromatherapy (noun): <span class="font-normal">สุคนธบำบัด</span></h3><p class="pronunciation">อะ-โร-มะ-<u>เท</u>-รา-ปี้</p><p class="text-sm mt-1 example-sentence">She uses aromatherapy to relax.</p></div>
+                            <div class="vocab-card bg-gray-50 p-3 rounded-lg border-l-4 border-yellow-400"><h3>smell (verb): <span class="font-normal">ดม, ได้กลิ่น</span></h3><p class="pronunciation"><u>สเมล</u></p><p class="text-sm mt-1 example-sentence">I can smell flowers in the garden.</p></div>
+                            <div class="vocab-card bg-gray-50 p-3 rounded-lg border-l-4 border-yellow-400"><h3>breathe (verb): <span class="font-normal">หายใจ</span></h3><p class="pronunciation"><u>บรีธ</u></p><p class="text-sm mt-1 example-sentence">It is important to breathe fresh air.</p></div>
+                        </div>
+                    </div>
+                    <div class="version-content intermediate hidden">
+                        <p class="text-lg leading-relaxed mb-4">The concept of yadom is rooted in ancient <span class="highlight text-yellow-600">aromatherapy</span>. Historical <span class="highlight text-yellow-600">evidence</span>, like the Ebers Papyrus from Egypt, shows that inhaling the <span class="highlight text-yellow-600">vapor</span> of <span class="highlight text-yellow-600">medicinal</span> plants was used to treat <span class="highlight text-yellow-600">respiratory</span> problems thousands of years ago.</p>
+                        <button onclick="toggleVocab(this)" class="w-full bg-yellow-100 text-yellow-800 font-semibold py-2 px-4 rounded-lg hover:bg-yellow-200">แสดงคำศัพท์ (Show Vocabulary)</button>
+                        <div class="vocab-list hidden mt-4 space-y-3">
+                            <div class="vocab-card bg-gray-50 p-3 rounded-lg border-l-4 border-yellow-400"><h3>aromatherapy (noun): <span class="font-normal">สุคนธบำบัด</span></h3><p class="pronunciation">อะ-โร-มะ-<u>เท</u>-รา-ปี้</p><p class="text-sm text-gray-600">The use of aromatic plant extracts for healing purposes.</p><p class="text-sm mt-1 example-sentence">Aromatherapy can help reduce stress and anxiety.</p></div>
+                            <div class="vocab-card bg-gray-50 p-3 rounded-lg border-l-4 border-yellow-400"><h3>evidence (noun): <span class="font-normal">หลักฐาน</span></h3><p class="pronunciation"><u>เอ</u>-วิ-เดนซ์</p><p class="text-sm text-gray-600">Facts or information indicating whether a belief is true.</p><p class="text-sm mt-1 example-sentence">Archaeologists found evidence of an ancient city.</p></div>
+                            <div class="vocab-card bg-gray-50 p-3 rounded-lg border-l-4 border-yellow-400"><h3>vapor (noun): <span class="font-normal">ไอระเหย</span></h3><p class="pronunciation"><u>เว</u>-เปอร์</p><p class="text-sm text-gray-600">A substance diffused in the air, normally a liquid or solid.</p><p class="text-sm mt-1 example-sentence">We could see the vapor from her breath in the cold air.</p></div>
+                             <div class="vocab-card bg-gray-50 p-3 rounded-lg border-l-4 border-yellow-400"><h3>medicinal (adjective): <span class="font-normal">ทางยา, สรรพคุณทางยา</span></h3><p class="pronunciation">เหมอะ-<u>ดิ</u>-ซิ-เนิล</p><p class="text-sm text-gray-600">Having healing properties.</p><p class="text-sm mt-1 example-sentence">Ginger is a plant with medicinal uses.</p></div>
+                             <div class="vocab-card bg-gray-50 p-3 rounded-lg border-l-4 border-yellow-400"><h3>respiratory (adjective): <span class="font-normal">เกี่ยวกับทางเดินหายใจ</span></h3><p class="pronunciation">เรส-<u>เพอ</u>-รา-ทอ-รี่</p><p class="text-sm text-gray-600">Relating to the organs used for breathing.</p><p class="text-sm mt-1 example-sentence">Smoking can cause serious respiratory diseases.</p></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-2xl shadow-lg overflow-hidden flex flex-col">
+                <div class="p-6 bg-green-600 text-white"><h2 class="text-2xl font-bold">Part 2: Thai Royal Traditions</h2></div>
+                <div class="p-6 flex-grow">
+                    <div class="version-content basic">
+                        <p class="text-lg leading-relaxed mb-4">In old Thailand, people in the palace made sweet smells called "Bunga Rampai". During King Rama V's time, yadom became very <span class="highlight text-green-700">popular</span>. A famous one was "Yadom Som Mue," made with a special <span class="highlight text-green-700">fruit</span>.</p>
+                        <button onclick="toggleVocab(this)" class="w-full bg-green-100 text-green-800 font-semibold py-2 px-4 rounded-lg hover:bg-green-200">แสดงคำศัพท์ (Show Vocabulary)</button>
+                        <div class="vocab-list hidden mt-4 space-y-3">
+                           <div class="vocab-card bg-gray-50 p-3 rounded-lg border-l-4 border-green-400"><h3>popular (adjective): <span class="font-normal">เป็นที่นิยม</span></h3><p class="pronunciation"><u>พอป</u>-พิว-ลาร์</p><p class="text-sm mt-1 example-sentence">This song is very popular with young people.</p></div>
+                           <div class="vocab-card bg-gray-50 p-3 rounded-lg border-l-4 border-green-400"><h3>fruit (noun): <span class="font-normal">ผลไม้</span></h3><p class="pronunciation"><u>ฟรุท</u></p><p class="text-sm mt-1 example-sentence">An apple is a type of fruit.</p></div>
+                        </div>
+                    </div>
+                    <div class="version-content intermediate hidden">
+                        <p class="text-lg leading-relaxed mb-4">In Thailand, the tradition of <span class="highlight text-green-700">crafting</span> aromatic <span class="highlight text-green-700">blends</span> existed in the <span class="highlight text-green-700">royal court</span> since the late Ayutthaya period. The <span class="highlight text-green-700">reign</span> of King Rama V is considered a "golden age" for Thai aromatherapy, leading to many famous <span class="highlight text-green-700">remedies</span>, <span class="highlight text-green-700">invented</span> by a royal <span class="highlight text-green-700">consort</span>.</p>
+                        <button onclick="toggleVocab(this)" class="w-full bg-green-100 text-green-800 font-semibold py-2 px-4 rounded-lg hover:bg-green-200">แสดงคำศัพท์ (Show Vocabulary)</button>
+                         <div class="vocab-list hidden mt-4 space-y-3">
+                           <div class="vocab-card bg-gray-50 p-3 rounded-lg border-l-4 border-green-400"><h3>crafting (verb): <span class="font-normal">การประดิษฐ์, การปรุง</span></h3><p class="pronunciation"><u>คราฟ</u>-ทิง</p><p class="text-sm text-gray-600">The activity of making things by hand.</p><p class="text-sm mt-1 example-sentence">She enjoys crafting jewelry in her free time.</p></div>
+                           <div class="vocab-card bg-gray-50 p-3 rounded-lg border-l-4 border-green-400"><h3>blends (noun): <span class="font-normal">ส่วนผสม</span></h3><p class="pronunciation"><u>เบลนดส์</u></p><p class="text-sm text-gray-600">A mixture of different things.</p><p class="text-sm mt-1 example-sentence">This coffee is a blend of beans from Brazil and Colombia.</p></div>
+                           <div class="vocab-card bg-gray-50 p-3 rounded-lg border-l-4 border-green-400"><h3>royal court (noun): <span class="font-normal">ราชสำนัก</span></h3><p class="pronunciation"><u>รอย</u>-ัล-<u>คอร์ท</u></p><p class="text-sm text-gray-600">The family and advisors of a king or queen.</p><p class="text-sm mt-1 example-sentence">Life in the royal court was full of ceremony.</p></div>
+                           <div class="vocab-card bg-gray-50 p-3 rounded-lg border-l-4 border-green-400"><h3>reign (noun): <span class="font-normal">รัชสมัย</span></h3><p class="pronunciation"><u>เรน</u></p><p class="text-sm text-gray-600">The period of time a king or queen rules a country.</p><p class="text-sm mt-1 example-sentence">The country was peaceful during her long reign.</p></div>
+                           <div class="vocab-card bg-gray-50 p-3 rounded-lg border-l-4 border-green-400"><h3>remedies (noun): <span class="font-normal">ยา, วิธีการรักษา</span></h3><p class="pronunciation"><u>เร</u>-เม-ดีส์</p><p class="text-sm text-gray-600">A medicine or treatment for a disease.</p><p class="text-sm mt-1 example-sentence">There are many old remedies for a common cold.</p></div>
+                           <div class="vocab-card bg-gray-50 p-3 rounded-lg border-l-4 border-green-400"><h3>invented (verb): <span class="font-normal">คิดค้น</span></h3><p class="pronunciation">อิน-<u>เวน</u>-เทด</p><p class="text-sm text-gray-600">To create something that has not existed before.</p><p class="text-sm mt-1 example-sentence">Alexander Graham Bell invented the telephone.</p></div>
+                           <div class="vocab-card bg-gray-50 p-3 rounded-lg border-l-4 border-green-400"><h3>consort (noun): <span class="font-normal">เจ้าจอม, พระสนม</span></h3><p class="pronunciation"><u>คอน</u>-สอร์ท</p><p class="text-sm text-gray-600">The wife or husband of a ruler.</p><p class="text-sm mt-1 example-sentence">The king and his royal consort attended the event.</p></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-2xl shadow-lg overflow-hidden flex flex-col">
+                <div class="p-6 bg-orange-500 text-white"><h2 class="text-2xl font-bold">Part 3: The Herbal Ingredients</h2></div>
+                <div class="p-6 flex-grow">
+                     <div class="version-content basic">
+                         <p class="text-lg leading-relaxed mb-4">Old Thai yadom used many things from nature. They used a fruit called "Som Mue" and other dried <span class="highlight text-orange-600">herbs</span> like cloves and cinnamon. Each herb has a special smell and <span class="highlight text-orange-600">benefit</span>.</p>
+                         <button onclick="toggleVocab(this)" class="w-full bg-orange-100 text-orange-800 font-semibold py-2 px-4 rounded-lg hover:bg-orange-200">แสดงคำศัพท์ (Show Vocabulary)</button>
+                         <div class="vocab-list hidden mt-4 space-y-3">
+                             <div class="vocab-card bg-gray-50 p-3 rounded-lg border-l-4 border-orange-400"><h3>herbs (noun): <span class="font-normal">สมุนไพร</span></h3><p class="pronunciation"><u>เฮิร์บส์</u></p><p class="text-sm mt-1 example-sentence">This tea is made from natural herbs.</p></div>
+                             <div class="vocab-card bg-gray-50 p-3 rounded-lg border-l-4 border-orange-400"><h3>benefit (noun): <span class="font-normal">ประโยชน์</span></h3><p class="pronunciation"><u>เบ</u>-เน-ฟิท</p><p class="text-sm mt-1 example-sentence">Exercise has many benefits for your health.</p></div>
+                         </div>
+                    </div>
+                     <div class="version-content intermediate hidden">
+                         <p class="text-lg leading-relaxed mb-4">Traditional inhalers often featured a citrus base, particularly the peel of the Buddha's Hand fruit ("Som Mue"). This was <span class="highlight text-orange-600">blended</span> with various aromatic dried <span class="highlight text-orange-600">herbs</span>, such as cloves and star anise. Each <span class="highlight text-orange-600">ingredient</span> was chosen for its unique scent and <span class="highlight text-orange-600">therapeutic</span> <span class="highlight text-orange-600">properties</span>.</p>
+                        <button onclick="toggleVocab(this)" class="w-full bg-orange-100 text-orange-800 font-semibold py-2 px-4 rounded-lg hover:bg-orange-200">แสดงคำศัพท์ (Show Vocabulary)</button>
+                         <div class="vocab-list hidden mt-4 space-y-3">
+                            <div class="vocab-card bg-gray-50 p-3 rounded-lg border-l-4 border-orange-400"><h3>blended (verb): <span class="font-normal">ผสมผสาน</span></h3><p class="pronunciation"><u>เบลน</u>-เดด</p><p class="text-sm text-gray-600">Mixed together with something else.</p><p class="text-sm mt-1 example-sentence">The artist blended the colors perfectly.</p></div>
+                             <div class="vocab-card bg-gray-50 p-3 rounded-lg border-l-4 border-orange-400"><h3>herbs (noun): <span class="font-normal">สมุนไพร</span></h3><p class="pronunciation"><u>เฮิร์บส์</u></p><p class="text-sm text-gray-600">Plants used for flavoring, food, medicine, or perfume.</p><p class="text-sm mt-1 example-sentence">She grows herbs in her garden for cooking.</p></div>
+                             <div class="vocab-card bg-gray-50 p-3 rounded-lg border-l-4 border-orange-400"><h3>ingredient (noun): <span class="font-normal">ส่วนผสม</span></h3><p class="pronunciation">อิน-<u>กรี</u>-เดียนท์</p><p class="text-sm text-gray-600">One of the things used to make a food or product.</p><p class="text-sm mt-1 example-sentence">The main ingredient in this dish is rice.</p></div>
+                             <div class="vocab-card bg-gray-50 p-3 rounded-lg border-l-4 border-orange-400"><h3>therapeutic (adjective): <span class="font-normal">เชิงบำบัดรักษา</span></h3><p class="pronunciation">เท-รา-<u>พิว</u>-ทิค</p><p class="text-sm text-gray-600">Having a healing effect; making you feel better.</p><p class="text-sm mt-1 example-sentence">I find swimming very therapeutic.</p></div>
+                             <div class="vocab-card bg-gray-50 p-3 rounded-lg border-l-4 border-orange-400"><h3>properties (noun): <span class="font-normal">คุณสมบัติ, สรรพคุณ</span></h3><p class="pronunciation"><u>พรอพ</u>-เพอ-ทีส์</p><p class="text-sm text-gray-600">A quality or characteristic that something has.</p><p class="text-sm mt-1 example-sentence">This plant is known for its healing properties.</p></div>
+                         </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-2xl shadow-lg overflow-hidden flex flex-col">
+                <div class="p-6 bg-blue-600 text-white"><h2 class="text-2xl font-bold">Part 4: Safe Usage Guide</h2></div>
+                <div class="p-6 flex-grow">
+                    <div class="version-content basic">
+                        <p class="text-lg leading-relaxed mb-4">Yadom is good, but you must be <span class="highlight text-blue-700">careful</span>. Do not put it inside your nose. Do not <span class="highlight text-blue-700">share</span> your yadom with others. It can spread <span class="highlight text-blue-700">germs</span>.</p>
+                        <button onclick="toggleVocab(this)" class="w-full bg-blue-100 text-blue-800 font-semibold py-2 px-4 rounded-lg hover:bg-blue-200">แสดงคำศัพท์ (Show Vocabulary)</button>
+                        <div class="vocab-list hidden mt-4 space-y-3">
+                            <div class="vocab-card bg-gray-50 p-3 rounded-lg border-l-4 border-blue-400"><h3>careful (adjective): <span class="font-normal">ระมัดระวัง</span></h3><p class="pronunciation"><u>แคร์</u>-ฟูล</p><p class="text-sm mt-1 example-sentence">Be careful when you cross the street.</p></div>
+                            <div class="vocab-card bg-gray-50 p-3 rounded-lg border-l-4 border-blue-400"><h3>share (verb): <span class="font-normal">ใช้ร่วมกัน</span></h3><p class="pronunciation"><u>แชร์</u></p><p class="text-sm mt-1 example-sentence">It's not a good idea to share your towel.</p></div>
+                            <div class="vocab-card bg-gray-50 p-3 rounded-lg border-l-4 border-blue-400"><h3>germs (noun): <span class="font-normal">เชื้อโรค</span></h3><p class="pronunciation"><u>เจิร์มส์</u></p><p class="text-sm mt-1 example-sentence">Wash your hands to remove germs.</p></div>
+                        </div>
+                    </div>
+                    <div class="version-content intermediate hidden">
+                        <p class="text-lg leading-relaxed mb-4">While <span class="highlight text-blue-700">beneficial</span>, improper use can have side effects. To use it safely, one should avoid deep <span class="highlight text-blue-700">inhalation</span> or direct <span class="highlight text-blue-700">contact</span> with the liquid. It is also <span class="highlight text-blue-700">unhygienic</span> to share inhalers, as this can transmit respiratory <span class="highlight text-blue-700">pathogens</span>. People with sinus issues should be especially <span class="highlight text-blue-700">cautious</span>.</p>
+                        <button onclick="toggleVocab(this)" class="w-full bg-blue-100 text-blue-800 font-semibold py-2 px-4 rounded-lg hover:bg-blue-200">แสดงคำศัพท์ (Show Vocabulary)</button>
+                        <div class="vocab-list hidden mt-4 space-y-3">
+                            <div class="vocab-card bg-gray-50 p-3 rounded-lg border-l-4 border-blue-400"><h3>beneficial (adjective): <span class="font-normal">เป็นประโยชน์</span></h3><p class="pronunciation">เบ-เน-<u>ฟิ</u>-เชียล</p><p class="text-sm text-gray-600">Having a helpful or good effect.</p><p class="text-sm mt-1 example-sentence">A balanced diet is beneficial to your health.</p></div>
+                            <div class="vocab-card bg-gray-50 p-3 rounded-lg border-l-4 border-blue-400"><h3>inhalation (noun): <span class="font-normal">การสูดดม</span></h3><p class="pronunciation">อิน-ฮา-<u>เล</u>-ชั่น</p><p class="text-sm text-gray-600">The action of breathing in.</p><p class="text-sm mt-1 example-sentence">Deep inhalation of steam can help clear your nose.</p></div>
+                            <div class="vocab-card bg-gray-50 p-3 rounded-lg border-l-4 border-blue-400"><h3>contact (noun): <span class="font-normal">การสัมผัส</span></h3><p class="pronunciation"><u>คอน</u>-แทคทฺ</p><p class="text-sm text-gray-600">The state of physically touching.</p><p class="text-sm mt-1 example-sentence">Avoid direct contact with the chemical.</p></div>
+                            <div class="vocab-card bg-gray-50 p-3 rounded-lg border-l-4 border-blue-400"><h3>unhygienic (adjective): <span class="font-normal">ไม่ถูกสุขลักษณะ</span></h3><p class="pronunciation">อัน-ไฮ-<u>จิ</u>-หนิค</p><p class="text-sm text-gray-600">Not clean or sanitary.</p><p class="text-sm mt-1 example-sentence">Sharing drinks is unhygienic.</p></div>
+                            <div class="vocab-card bg-gray-50 p-3 rounded-lg border-l-4 border-blue-400"><h3>pathogens (noun): <span class="font-normal">เชื้อโรค</span></h3><p class="pronunciation"><u>แพ</u>-โธ-เจนส์</p><p class="text-sm text-gray-600">A microorganism that can cause disease.</p><p class="text-sm mt-1 example-sentence">The body has defenses against pathogens.</p></div>
+                             <div class="vocab-card bg-gray-50 p-3 rounded-lg border-l-4 border-blue-400"><h3>cautious (adjective): <span class="font-normal">ระมัดระวัง</span></h3><p class="pronunciation"><u>คอ</u>-เชิส</p><p class="text-sm text-gray-600">Careful to avoid potential problems.</p><p class="text-sm mt-1 example-sentence">He is a cautious driver.</p></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </main>
+    </div>
+
+    <script>
+        function switchVersion(version) {
+            const targetClass = version;
+            const otherClass = version === 'basic' ? 'intermediate' : 'basic';
+            
+            const btnTarget = document.getElementById('btn-' + targetClass);
+            const btnOther = document.getElementById('btn-' + otherClass);
+
+            document.querySelectorAll('.version-content.' + targetClass).forEach(el => el.classList.remove('hidden'));
+            document.querySelectorAll('.version-content.' + otherClass).forEach(el => el.classList.add('hidden'));
+
+            btnTarget.classList.add('btn-active');
+            btnTarget.classList.remove('btn-inactive');
+            btnOther.classList.add('btn-inactive');
+            btnOther.classList.remove('btn-active');
+        }
+
+        function toggleVocab(button) {
+            const vocabList = button.nextElementSibling;
+            const isHidden = vocabList.classList.contains('hidden');
+            
+            if (isHidden) {
+                vocabList.classList.remove('hidden');
+                button.textContent = 'ซ่อนคำศัพท์ (Hide Vocabulary)';
+            } else {
+                vocabList.classList.add('hidden');
+                button.textContent = 'แสดงคำศัพท์ (Show Vocabulary)';
+            }
+        }
+        
+        // Initialize with default state
+        switchVersion('basic');
+    </script>
+</body>
+</html>

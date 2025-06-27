@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mr.News | ข่าวความตึงเครียดไทย-กัมพูชา (ฉบับปรับปรุง)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Sarabun', sans-serif;
+        }
+        .highlight {
+            font-weight: 700;
+        }
+        .vocab-card h3 {
+            font-weight: 700;
+        }
+        .vocab-card .example-sentence {
+            font-style: italic;
+            color: #4A5568; /* gray-700 */
+        }
+        .btn-active {
+            background-color: #dc2626; /* red-600 */
+            color: white;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+        }
+        .btn-inactive {
+            background-color: #e5e7eb; /* gray-200 */
+            color: #374151; /* gray-700 */
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+
+    <div class="container mx-auto p-4 sm:p-6 md:p-8 max-w-6xl">
+        <header class="text-center mb-6">
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-800">Thailand-Cambodia Tensions Rise</h1>
+            <p class="text-gray-600 mt-2">สรุปข่าวความตึงเครียดไทย-กัมพูชา</p>
+        </header>
+
+        <div class="flex justify-center mb-8 space-x-2">
+            <button id="btn-basic" onclick="switchVersion('basic')" class="btn-active font-semibold py-2 px-6 rounded-full transition-all duration-300 ease-in-out">
+                Basic English
+            </button>
+            <button id="btn-intermediate" onclick="switchVersion('intermediate')" class="btn-inactive font-semibold py-2 px-6 rounded-full transition-all duration-300 ease-in-out">
+                Intermediate English
+            </button>
+        </div>
+
+        <main class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+            <div class="bg-white rounded-2xl shadow-lg overflow-hidden flex flex-col">
+                <div class="p-6 bg-red-600 text-white"><h2 class="text-2xl font-bold">Part 1: The Threat to the Shinawatras</h2></div>
+                <div class="p-6 flex-grow">
+                    <div class="version-content basic">
+                        <p class="text-lg leading-relaxed mb-4">A leader in Cambodia, Hun Sen, is angry with Thaksin Shinawatra. He <span class="highlight text-red-700">threatened</span> to tell <span class="highlight text-red-700">secrets</span> about Thaksin. He said Thaksin did not <span class="highlight text-red-700">respect</span> the king.</p>
+                        <button onclick="toggleVocab(this)" class="w-full bg-red-100 text-red-800 font-semibold py-2 px-4 rounded-lg hover:bg-red-200">แสดงคำศัพท์ (Show Vocabulary)</button>
+                        <div class="vocab-list hidden mt-4 space-y-3">
+                            <div class="vocab-card bg-gray-50 p-3 rounded-lg border-l-4 border-red-400"><h3>threatened (verb): <span class="font-normal">ข่มขู่</span></h3><p class="text-sm mt-1 example-sentence">The man threatened to call the police.</p></div>
+                            <div class="vocab-card bg-gray-50 p-3 rounded-lg border-l-4 border-red-400"><h3>secrets (noun): <span class="font-normal">ความลับ</span></h3><p class="text-sm mt-1 example-sentence">Can you keep a secret?</p></div>
+                            <div class="vocab-card bg-gray-50 p-3 rounded-lg border-l-4 border-red-400"><h3>respect (verb): <span class="font-normal">เคารพ, ให้เกียรติ</span></h3><p class="text-sm mt-1 example-sentence">You should respect your teachers.</p></div>
+                        </div>
+                    </div>
+                    <div class="version-content intermediate hidden">
+                        <p class="text-lg leading-relaxed mb-4">Tensions have <span class="highlight text-red-700">escalated</span> after Cambodian Senate President Hun Sen issued a <span class="highlight text-red-700">stern warning</span> to former Thai PM Thaksin Shinawatra. He threatened to <span class="highlight text-red-700">disclose</span> sensitive information, including <span class="highlight text-red-700">allegations</span> of <span class="highlight text-red-700">lèse-majesté</span>.</p>
+                        <button onclick="toggleVocab(this)" class="w-full bg-red-100 text-red-800 font-semibold py-2 px-4 rounded-lg hover:bg-red-200">แสดงคำศัพท์ (Show Vocabulary)</button>
+                        <div class="vocab-list hidden mt-4 space-y-3">
+                            <div class="vocab-card bg-gray-50 p-3 rounded-lg border-l-4 border-red-400"><h3>escalated (verb): <span class="font-normal">ทวีความรุนแรงขึ้น</span></h3><p class="text-sm text-gray-600">To become or make something become greater or more serious.</p><p class="text-sm mt-1 example-sentence">The argument escalated into a full-scale war.</p></div>
+                            <div class="vocab-card bg-gray-50 p-3 rounded-lg border-l-4 border-red-400"><h3>stern warning (noun): <span class="font-normal">คำเตือนที่จริงจัง</span></h3><p class="text-sm text-gray-600">A very serious statement telling someone to stop doing something.</p><p class="text-sm mt-1 example-sentence">The judge gave the criminal a stern warning.</p></div>
+                            <div class="vocab-card bg-gray-50 p-3 rounded-lg border-l-4 border-red-400"><h3>disclose (verb): <span class="font-normal">เปิดเผย</span></h3><p class="text-sm text-gray-600">To give new or secret information to the public.</p><p class="text-sm mt-1 example-sentence">The company will disclose its financial results tomorrow.</p></div>
+                            <div class="vocab-card bg-gray-50 p-3 rounded-lg border-l-4 border-red-400"><h3>allegations (noun): <span class="font-normal">ข้อกล่าวหา</span></h3><p class="text-sm text-gray-600">A statement, made without giving proof, that someone has done something wrong.</p><p class="text-sm mt-1 example-sentence">He denied the allegations against him.</p></div>
+                            <div class="vocab-card bg-gray-50 p-3 rounded-lg border-l-4 border-red-400"><h3>lèse-majesté (noun): <span class="font-normal">การหมิ่นพระบรมเดชานุภาพ</span></h3><p class="text-sm text-gray-600">The crime of offending the dignity of a reigning sovereign or a state.</p><p class="text-sm mt-1 example-sentence">In Thailand, lèse-majesté is a serious offense.</p></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-2xl shadow-lg overflow-hidden flex flex-col">
+                <div class="p-6 bg-gray-700 text-white"><h2 class="text-2xl font-bold">Part 2: Military Moves at the Border</h2></div>
+                <div class="p-6 flex-grow">
+                    <div class="version-content basic">
+                        <p class="text-lg leading-relaxed mb-4">Hun Sen <span class="highlight text-gray-800">visited</span> the border. He wore an army uniform. He told his <span class="highlight text-gray-800">soldiers</span> to be ready to <span class="highlight text-gray-800">fight</span>.</p>
+                        <button onclick="toggleVocab(this)" class="w-full bg-gray-200 text-gray-800 font-semibold py-2 px-4 rounded-lg hover:bg-gray-300">แสดงคำศัพท์ (Show Vocabulary)</button>
+                        <div class="vocab-list hidden mt-4 space-y-3">
+                           <div class="vocab-card bg-gray-50 p-3 rounded-lg border-l-4 border-gray-500"><h3>visited (verb): <span class="font-normal">ไปเยือน</span></h3><p class="text-sm mt-1 example-sentence">We visited our grandparents last weekend.</p></div>
+                           <div class="vocab-card bg-gray-50 p-3 rounded-lg border-l-4 border-gray-500"><h3>soldiers (noun): <span class="font-normal">ทหาร</span></h3><p class="text-sm mt-1 example-sentence">The soldiers marched in the parade.</p></div>
+                           <div class="vocab-card bg-gray-50 p-3 rounded-lg border-l-4 border-gray-500"><h3>fight (verb): <span class="font-normal">ต่อสู้</span></h3><p class="text-sm mt-1 example-sentence">The two cats started to fight.</p></div>
+                        </div>
+                    </div>
+                    <div class="version-content intermediate hidden">
+                        <p class="text-lg leading-relaxed mb-4">Hun Sen adopted a <span class="highlight text-gray-800">belligerent</span> <span class="highlight text-gray-800">stance</span>, visiting the border region in military <span class="highlight text-gray-800">attire</span>. He urged his military to maintain a high state of <span class="highlight text-gray-800">readiness</span> for potential <span class="highlight text-gray-800">conflict</span>.</p>
+                        <button onclick="toggleVocab(this)" class="w-full bg-gray-200 text-gray-800 font-semibold py-2 px-4 rounded-lg hover:bg-gray-300">แสดงคำศัพท์ (Show Vocabulary)</button>
+                         <div class="vocab-list hidden mt-4 space-y-3">
+                           <div class="vocab-card bg-gray-50 p-3 rounded-lg border-l-4 border-gray-500"><h3>belligerent (adjective): <span class="font-normal">ก้าวร้าว, พร้อมรบ</span></h3><p class="text-sm text-gray-600">Hostile and aggressive; wishing to fight.</p><p class="text-sm mt-1 example-sentence">He is always very belligerent towards me.</p></div>
+                           <div class="vocab-card bg-gray-50 p-3 rounded-lg border-l-4 border-gray-500"><h3>stance (noun): <span class="font-normal">จุดยืน, ท่าที</span></h3><p class="text-sm text-gray-600">A person's attitude or way of thinking about something.</p><p class="text-sm mt-1 example-sentence">The government has taken a firm stance against the proposal.</p></div>
+                           <div class="vocab-card bg-gray-50 p-3 rounded-lg border-l-4 border-gray-500"><h3>attire (noun): <span class="font-normal">เครื่องแต่งกาย</span></h3><p class="text-sm text-gray-600">Clothes, especially formal or special ones.</p><p class="text-sm mt-1 example-sentence">Guests were asked to wear formal attire.</p></div>
+                           <div class="vocab-card bg-gray-50 p-3 rounded-lg border-l-4 border-gray-500"><h3>readiness (noun): <span class="font-normal">ความพร้อม</span></h3><p class="text-sm text-gray-600">The state of being fully prepared for something.</p><p class="text-sm mt-1 example-sentence">The troops were in a state of readiness.</p></div>
+                            <div class="vocab-card bg-gray-50 p-3 rounded-lg border-l-4 border-gray-500"><h3>conflict (noun): <span class="font-normal">ความขัดแย้ง, การสู้รบ</span></h3><p class="text-sm text-gray-600">A serious disagreement or argument, sometimes involving fighting.</p><p class="text-sm mt-1 example-sentence">The conflict between the two countries has lasted for years.</p></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-2xl shadow-lg overflow-hidden flex flex-col">
+                <div class="p-6 bg-blue-600 text-white"><h2 class="text-2xl font-bold">Part 3: Questioning Thai Authority</h2></div>
+                <div class="p-6 flex-grow">
+                     <div class="version-content basic">
+                         <p class="text-lg leading-relaxed mb-4">Hun Manet, the Prime Minister of Cambodia, <span class="highlight text-blue-700">asked</span> who is in charge in Thailand. He wants to know who has the <span class="highlight text-blue-700">power</span> to close the border.</p>
+                         <button onclick="toggleVocab(this)" class="w-full bg-blue-100 text-blue-800 font-semibold py-2 px-4 rounded-lg hover:bg-blue-200">แสดงคำศัพท์ (Show Vocabulary)</button>
+                         <div class="vocab-list hidden mt-4 space-y-3">
+                             <div class="vocab-card bg-gray-50 p-3 rounded-lg border-l-4 border-blue-400"><h3>asked (verb): <span class="font-normal">ถาม</span></h3><p class="text-sm mt-1 example-sentence">She asked me for directions.</p></div>
+                             <div class="vocab-card bg-gray-50 p-3 rounded-lg border-l-4 border-blue-400"><h3>power (noun): <span class="font-normal">อำนาจ</span></h3><p class="text-sm mt-1 example-sentence">The president has the power to make important decisions.</p></div>
+                         </div>
+                    </div>
+                     <div class="version-content intermediate hidden">
+                         <p class="text-lg leading-relaxed mb-4">PM Hun Manet has publicly <span class="highlight text-blue-700">questioned</span> the clarity of Thailand's <span class="highlight text-blue-700">chain of command</span>. He is seeking <span class="highlight text-blue-700">clarification</span> on who holds the ultimate <span class="highlight text-blue-700">authority</span> over border control decisions.</p>
+                        <button onclick="toggleVocab(this)" class="w-full bg-blue-100 text-blue-800 font-semibold py-2 px-4 rounded-lg hover:bg-blue-200">แสดงคำศัพท์ (Show Vocabulary)</button>
+                         <div class="vocab-list hidden mt-4 space-y-3">
+                             <div class="vocab-card bg-gray-50 p-3 rounded-lg border-l-4 border-blue-400"><h3>questioned (verb): <span class="font-normal">ตั้งคำถาม</span></h3><p class="text-sm text-gray-600">To ask someone questions, especially in an official context.</p><p class="text-sm mt-1 example-sentence">The police questioned the witness for two hours.</p></div>
+                             <div class="vocab-card bg-gray-50 p-3 rounded-lg border-l-4 border-blue-400"><h3>chain of command (noun): <span class="font-normal">สายการบังคับบัญชา</span></h3><p class="text-sm text-gray-600">The structure of authority in an organization like the military.</p><p class="text-sm mt-1 example-sentence">An order must be passed down through the chain of command.</p></div>
+                             <div class="vocab-card bg-gray-50 p-3 rounded-lg border-l-4 border-blue-400"><h3>clarification (noun): <span class="font-normal">การทำให้กระจ่าง</span></h3><p class="text-sm text-gray-600">The act of making something clear or easier to understand.</p><p class="text-sm mt-1 example-sentence">I am writing to ask for clarification of your new policy.</p></div>
+                             <div class="vocab-card bg-gray-50 p-3 rounded-lg border-l-4 border-blue-400"><h3>authority (noun): <span class="font-normal">อำนาจ, ผู้มีอำนาจ</span></h3><p class="text-sm text-gray-600">The official power to make decisions or to control people.</p><p class="text-sm mt-1 example-sentence">Only the manager has the authority to sign the document.</p></div>
+                         </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-2xl shadow-lg overflow-hidden flex flex-col">
+                <div class="p-6 bg-yellow-600 text-white"><h2 class="text-2xl font-bold">Part 4: Preparing for Consequences</h2></div>
+                <div class="p-6 flex-grow">
+                    <div class="version-content basic">
+                        <p class="text-lg leading-relaxed mb-4">Cambodia is getting <span class="highlight text-yellow-700">ready</span> for problems. They will <span class="highlight text-yellow-700">help</span> Cambodian workers who come back from Thailand. They will give them food and free rides home.</p>
+                        <button onclick="toggleVocab(this)" class="w-full bg-yellow-100 text-yellow-800 font-semibold py-2 px-4 rounded-lg hover:bg-yellow-200">แสดงคำศัพท์ (Show Vocabulary)</button>
+                        <div class="vocab-list hidden mt-4 space-y-3">
+                            <div class="vocab-card bg-gray-50 p-3 rounded-lg border-l-4 border-yellow-400"><h3>ready (adjective): <span class="font-normal">พร้อม</span></h3><p class="text-sm mt-1 example-sentence">Are you ready to go?</p></div>
+                            <div class="vocab-card bg-gray-50 p-3 rounded-lg border-l-4 border-yellow-400"><h3>help (verb): <span class="font-normal">ช่วยเหลือ</span></h3><p class="text-sm mt-1 example-sentence">Can you help me with this box?</p></div>
+                        </div>
+                    </div>
+                    <div class="version-content intermediate hidden">
+                        <p class="text-lg leading-relaxed mb-4">Cambodia is implementing <span class="highlight text-yellow-700">contingency measures</span> in anticipation of a prolonged standoff. The government has <span class="highlight text-yellow-700">assured</span> returning laborers of comprehensive <span class="highlight text-yellow-700">support</span>.</p>
+                        <button onclick="toggleVocab(this)" class="w-full bg-yellow-100 text-yellow-800 font-semibold py-2 px-4 rounded-lg hover:bg-yellow-200">แสดงคำศัพท์ (Show Vocabulary)</button>
+                        <div class="vocab-list hidden mt-4 space-y-3">
+                            <div class="vocab-card bg-gray-50 p-3 rounded-lg border-l-4 border-yellow-400"><h3>contingency measures (noun): <span class="font-normal">มาตรการรับมือเหตุฉุกเฉิน</span></h3><p class="text-sm text-gray-600">Actions planned for possible future events or problems.</p><p class="text-sm mt-1 example-sentence">The company has contingency measures for a power outage.</p></div>
+                            <div class="vocab-card bg-gray-50 p-3 rounded-lg border-l-4 border-yellow-400"><h3>assured (verb): <span class="font-normal">ให้ความมั่นใจ</span></h3><p class="text-sm text-gray-600">To tell someone confidently that something is true or will happen.</p><p class="text-sm mt-1 example-sentence">She assured me that she would be on time.</p></div>
+                            <div class="vocab-card bg-gray-50 p-3 rounded-lg border-l-4 border-yellow-400"><h3>support (noun): <span class="font-normal">การสนับสนุน, ความช่วยเหลือ</span></h3><p class="text-sm text-gray-600">Help given to someone, for example, money, food, or emotional help.</p><p class="text-sm mt-1 example-sentence">Victims of the flood need a lot of support.</p></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </main>
+    </div>
+
+    <script>
+        function switchVersion(version) {
+            const targetClass = version;
+            const otherClass = version === 'basic' ? 'intermediate' : 'basic';
+            
+            const btnTarget = document.getElementById('btn-' + targetClass);
+            const btnOther = document.getElementById('btn-' + otherClass);
+
+            document.querySelectorAll('.version-content.' + targetClass).forEach(el => el.classList.remove('hidden'));
+            document.querySelectorAll('.version-content.' + otherClass).forEach(el => el.classList.add('hidden'));
+
+            btnTarget.classList.add('btn-active');
+            btnTarget.classList.remove('btn-inactive');
+            btnOther.classList.add('btn-inactive');
+            btnOther.classList.remove('btn-active');
+        }
+
+        function toggleVocab(button) {
+            const vocabList = button.nextElementSibling;
+            const isHidden = vocabList.classList.contains('hidden');
+            
+            if (isHidden) {
+                vocabList.classList.remove('hidden');
+                button.textContent = 'ซ่อนคำศัพท์ (Hide Vocabulary)';
+            } else {
+                vocabList.classList.add('hidden');
+                button.textContent = 'แสดงคำศัพท์ (Show Vocabulary)';
+            }
+        }
+        
+        // Initialize with default state
+        switchVersion('basic');
+    </script>
+</body>
+</html>

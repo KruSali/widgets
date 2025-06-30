@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>App Box: โครงสร้าง I'm happy to + (verb)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Kanit', sans-serif;
+            /* === NEW BACKGROUND === */
+            background: linear-gradient(to right top, #fefce8, #fef9c3, #fef08a, #fde047, #facc15);
+        }
+        .app-box {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.7));
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .main-title {
+            background: linear-gradient(45deg, #a16207, #ca8a04);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 700;
+        }
+        .sentence-item {
+            transition: all 0.2s ease-in-out;
+            background-color: rgba(255, 255, 255, 0.7);
+        }
+        .sentence-item:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 8px 20px rgba(161, 98, 7, 0.15);
+            background-color: rgba(255, 255, 255, 1);
+        }
+        /* Modal styles */
+        .modal {
+            transition: opacity 0.3s ease;
+        }
+        .modal.pointer-events-none {
+            transition: opacity 0.3s ease, visibility 0s 0.3s;
+        }
+        .modal-content {
+            transition: transform 0.3s ease;
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center min-h-screen p-4">
+
+    <!-- Main App Box Container -->
+    <div id="app-container" class="app-box w-full max-w-4xl mx-auto p-6 md:p-10">
+        <!-- Header -->
+        <header class="text-center mb-8">
+            <h1 class="main-title text-4xl md:text-5xl font-bold mb-3">โครงสร้าง: "I'm happy to..."</h1>
+            <p class="text-gray-700 text-lg">
+                ใช้เพื่อแสดงความเต็มใจหรือความยินดีที่จะทำบางสิ่งบางอย่าง สื่อถึงความรู้สึกเชิงบวกและมีประโยชน์ในการเสนอความช่วยเหลือ
+            </p>
+        </header>
+
+        <!-- Sentences List -->
+        <div id="sentences-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <!-- Sentences will be injected here by JavaScript -->
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div id="sentence-modal" class="modal fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center p-4 opacity-0 pointer-events-none invisible">
+        <div id="modal-content" class="modal-content bg-white rounded-xl shadow-2xl w-full max-w-lg p-6 relative transform scale-95">
+            <!-- Modal Header -->
+            <div class="border-b pb-3 mb-4">
+                 <h3 id="modal-sentence" class="text-xl font-bold text-yellow-700"></h3>
+                 <p id="modal-translation" class="text-gray-500"></p>
+            </div>
+           
+            <!-- Modal Body -->
+            <div>
+                <div class="mb-4">
+                    <h4 class="font-semibold text-lg text-gray-800 mb-2">ตัวอย่างการใช้งานในสถานการณ์ต่างๆ:</h4>
+                    <ul id="modal-usage" class="list-disc list-inside text-gray-700 space-y-2">
+                        <!-- Usage examples will be injected here -->
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold text-lg text-gray-800 mb-2">คำที่มักใช้ร่วมกัน (Collocations):</h4>
+                    <div id="modal-collocations" class="flex flex-wrap gap-2">
+                        <!-- Collocation tags will be injected here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Close Button -->
+            <button id="close-modal-btn" class="absolute top-4 right-4 text-gray-400 hover:text-gray-800 transition">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+        </div>
+    </div>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // --- DATA ---
+            const sentencesData = [
+                { eng: "I'm happy to help you with your project.", thai: "ฉันยินดีที่จะช่วยคุณทำโปรเจกต์นะ", usage: ["**เมื่อเห็นเพื่อนร่วมงานกำลังลำบาก:** 'You look overwhelmed. I'm happy to help you with your project.'"], collocations: ["happy to help", "glad to assist", "offer my help"] },
+                { eng: "I'm happy to answer any questions you may have.", thai: "ฉันยินดีที่จะตอบทุกคำถามที่คุณอาจมี", usage: ["**หลังจบการนำเสนอ:** 'That concludes my part. I'm happy to answer any questions now.'"], collocations: ["answer questions", "field questions", "any questions"] },
+                { eng: "I'm happy to give you a ride to the airport.", thai: "ฉันยินดีไปส่งคุณที่สนามบินนะ", usage: ["**เมื่อเพื่อนต้องการคนไปส่ง:** 'Don't worry about a taxi. I'm happy to give you a ride.'"], collocations: ["give you a ride", "drive you to", "drop you off"] },
+                { eng: "I'm happy to share my notes with you.", thai: "ฉันยินดีที่จะแบ่งปันสมุดจดของฉันให้คุณ", usage: ["**เมื่อเพื่อนขาดเรียน:** 'You missed the lecture? Here, I'm happy to share my notes with you.'"], collocations: ["share my notes", "lend you my notes", "copy my notes"] },
+                { eng: "I'm happy to be here today.", thai: "ฉันมีความสุขที่ได้มาอยู่ที่นี่ในวันนี้", usage: ["**เมื่อกล่าวเปิดงาน:** 'Thank you for having me. I'm happy to be here today with all of you.'"], collocations: ["happy to be here", "a pleasure to be here", "great to be here"] },
+                { eng: "I'm happy to listen if you need someone to talk to.", thai: "ฉันยินดีที่จะรับฟังนะถ้าคุณต้องการใครสักคนให้คุยด้วย", usage: ["**เมื่อเห็นเพื่อนเศร้า:** 'You seem down. I'm happy to listen if you need to talk.'"], collocations: ["happy to listen", "lend an ear", "here for you"] },
+                { eng: "I'm happy to recommend a good restaurant.", thai: "ฉันยินดีที่จะแนะนำร้านอาหารดีๆ ให้", usage: ["**เมื่อมีคนถามหาร้านอาหาร:** 'You're looking for Italian food? I'm happy to recommend a great place nearby.'"], collocations: ["recommend a restaurant", "suggest a place", "a good spot"] },
+                { eng: "I'm happy to explain it again.", thai: "ฉันยินดีที่จะอธิบายอีกครั้ง", usage: ["**เมื่อมีคนไม่เข้าใจ:** 'Don't worry if you didn't get it. I'm happy to explain it again.'"], collocations: ["explain it again", "go over it again", "no problem"] },
+                { eng: "I'm happy to join the team.", thai: "ฉันมีความสุขที่ได้เข้าร่วมทีม", usage: ["**ในวันแรกของการทำงาน:** 'Thank you for the warm welcome. I'm happy to join the team.'"], collocations: ["join the team", "be part of the team", "looking forward to working with you"] },
+                { eng: "I'm happy to contribute to the charity.", thai: "ฉันยินดีที่จะร่วมบริจาคเพื่อการกุศล", usage: ["**เมื่อมีโครงการการกุศล:** 'It's for a great cause. I'm happy to contribute.'"], collocations: ["contribute to", "make a donation", "support a cause"] },
+                { eng: "I'm happy to wait for you.", thai: "ฉันยินดีที่จะรอคุณนะ", usage: ["**เมื่อเพื่อนบอกว่าจะมาสาย:** 'No rush, take your time. I'm happy to wait.'"], collocations: ["happy to wait", "no hurry", "take your time"] },
+                { eng: "I'm happy to provide more information.", thai: "ฉันยินดีที่จะให้ข้อมูลเพิ่มเติม", usage: ["**ในอีเมลธุรกิจ:** 'If you need more details, please let me know. I'm happy to provide more information.'"], collocations: ["provide information", "give more details", "if you need anything else"] },
+                { eng: "I'm happy to babysit for you tonight.", thai: "คืนนี้ฉันยินดีที่จะช่วยดูแลลูกให้คุณนะ", usage: ["**เมื่อเพื่อนบ้านต้องการคนช่วย:** 'You have a date night? Of course, I'm happy to babysit.'"], collocations: ["babysit for you", "look after the kids", "watch the children"] },
+                { eng: "I'm happy to see you succeed.", thai: "ฉันมีความสุขที่ได้เห็นคุณประสบความสำเร็จ", usage: ["**เมื่อแสดงความยินดีกับเพื่อน:** 'Congratulations on your promotion! I'm so happy to see you succeed.'"], collocations: ["see you succeed", "proud of you", "you deserve it"] },
+                { eng: "I'm happy to show you around the city.", thai: "ฉันยินดีที่จะพาคุณชมรอบๆ เมือง", usage: ["**เมื่อมีเพื่อนจากต่างเมืองมาเยี่ยม:** 'Welcome to Bangkok! I'm happy to show you around.'"], collocations: ["show you around", "give you a tour", "be your guide"] },
+                { eng: "I'm happy to lend you my book.", thai: "ฉันยินดีที่จะให้เธอยืมหนังสือของฉันนะ", usage: ["**เมื่อเพื่อนอยากอ่านหนังสือที่เรามี:** 'You want to read this? Sure, I'm happy to lend you my book.'"], collocations: ["lend you", "you can borrow", "just bring it back"] },
+                { eng: "I'm happy to announce the winner.", thai: "ดิฉันมีความยินดีที่จะประกาศชื่อผู้ชนะ", usage: ["**ในงานประกาศรางวัล:** 'And now, the moment you've all been waiting for. I'm happy to announce the winner is... '"], collocations: ["announce the winner", "the winner is", "a round of applause"] },
+                { eng: "I'm happy to lead this project.", thai: "ผมยินดีที่จะเป็นผู้นำโครงการนี้", usage: ["**เมื่อรับหน้าที่ใหม่:** 'Thank you for the opportunity. I'm happy to lead this project.'"], collocations: ["lead this project", "take the lead on", "project leader"] },
+                { eng: "I'm happy to hear that you're feeling better.", thai: "ฉันดีใจที่ได้ยินว่าคุณรู้สึกดีขึ้นแล้ว", usage: ["**เมื่อเพื่อนหายป่วย:** 'That's great news! I'm happy to hear that you're feeling better.'"], collocations: ["happy to hear", "glad to hear", "good news"] },
+                { eng: "I'm happy to support your decision.", thai: "ฉันยินดีที่จะสนับสนุนการตัดสินใจของคุณ", usage: ["**เมื่อเพื่อนตัดสินใจเรื่องสำคัญ:** 'Whatever you choose, I'm happy to support your decision.'"], collocations: ["support your decision", "behind you 100%", "whatever you decide"] },
+                { eng: "I'm happy to make a reservation for you.", thai: "ฉันยินดีที่จะจองให้คุณ", usage: ["**เมื่อพนักงานโรงแรมช่วยเหลือ:** 'You need a table for dinner? I'm happy to make a reservation for you.'"], collocations: ["make a reservation", "book a table", "let me handle it"] },
+                { eng: "I'm happy to work with such a great team.", thai: "ฉันมีความสุขที่ได้ทำงานกับทีมที่ยอดเยี่ยมเช่นนี้", usage: ["**ในการประเมินผลงาน:** 'It's been a productive year. I'm happy to work with such a great team.'"], collocations: ["work with a team", "a great team", "collaborate with"] },
+                { eng: "I'm happy to take care of your cat while you're away.", thai: "ฉันยินดีที่จะดูแลแมวของคุณให้ตอนที่คุณไม่อยู่", usage: ["**เมื่อเพื่อนจะไปเที่ยว:** 'Don't worry about Mittens. I'm happy to take care of your cat.'"], collocations: ["take care of", "look after", "while you're away"] },
+                { eng: "I'm happy to come to your party.", thai: "ฉันยินดีที่จะไปงานปาร์ตี้ของคุณ", usage: ["**เมื่อตอบรับคำเชิญ:** 'Thanks for inviting me! I'm happy to come to your party.'"], collocations: ["come to your party", "attend the event", "I'll be there"] },
+                { eng: "I'm happy to teach you how to cook this dish.", thai: "ฉันยินดีที่จะสอนคุณทำอาหารจานนี้", usage: ["**เมื่อมีคนชมฝีมือทำอาหาร:** 'You like it? It's easy to make. I'm happy to teach you.'"], collocations: ["teach you how", "show you how", "share the recipe"] },
+                { eng: "I'm happy to know that you trust me.", thai: "ฉันดีใจที่ได้รู้ว่าคุณไว้ใจฉัน", usage: ["**เมื่อเพื่อนบอกความลับ:** 'Thank you for sharing that with me. I'm happy to know that you trust me.'"], collocations: ["know you trust me", "appreciate your trust", "your secret is safe with me"] },
+                { eng: "I'm happy to introduce our guest speaker.", thai: "ดิฉันมีความยินดีที่จะแนะนำวิทยากรรับเชิญของเรา", usage: ["**ในงานสัมมนา:** 'Next up, we have a very special guest. I'm happy to introduce Dr. Somchai.'"], collocations: ["introduce a speaker", "welcome our guest", "it's my pleasure to introduce"] },
+                { eng: "I'm happy to receive your feedback.", thai: "เรายินดีที่จะรับฟังความคิดเห็นของคุณ", usage: ["**ในแบบฟอร์มสำรวจ:** 'Your opinion matters. We are happy to receive your feedback.'"], collocations: ["receive feedback", "get your thoughts", "customer feedback"] },
+                { eng: "I'm happy to translate this for you.", thai: "ฉันยินดีที่จะแปลสิ่งนี้ให้คุณ", usage: ["**เมื่อเห็นนักท่องเที่ยวมีปัญหา:** 'You look confused. Do you need help? I'm happy to translate.'"], collocations: ["translate for you", "help with translation", "language barrier"] },
+                { eng: "I'm happy to be a part of this community.", thai: "ฉันมีความสุขที่ได้เป็นส่วนหนึ่งของชุมชนนี้", usage: ["**เมื่อเข้าร่วมกลุ่มใหม่:** 'Everyone is so welcoming. I'm happy to be a part of this community.'"], collocations: ["be a part of", "a member of", "this community"] },
+            ];
+
+            // --- ELEMENTS ---
+            const sentencesGrid = document.getElementById('sentences-grid');
+            const modal = document.getElementById('sentence-modal');
+            const modalContent = document.getElementById('modal-content');
+            
+            const modalSentence = document.getElementById('modal-sentence');
+            const modalTranslation = document.getElementById('modal-translation');
+            const modalUsage = document.getElementById('modal-usage');
+            const modalCollocations = document.getElementById('modal-collocations');
+
+            // --- FUNCTIONS ---
+            
+            function displaySentences() {
+                sentencesGrid.innerHTML = ''; 
+                sentencesData.forEach((data, index) => {
+                    const item = document.createElement('div');
+                    item.className = 'sentence-item cursor-pointer p-4 rounded-lg shadow-sm border border-gray-200';
+                    item.dataset.index = index;
+                    
+                    const engText = document.createElement('p');
+                    engText.className = 'font-semibold text-yellow-800 pointer-events-none';
+                    engText.textContent = data.eng;
+                    
+                    const thaiText = document.createElement('p');
+                    thaiText.className = 'text-gray-600 text-sm pointer-events-none';
+                    thaiText.textContent = `(${data.thai})`;
+                    
+                    item.appendChild(engText);
+                    item.appendChild(thaiText);
+                    
+                    sentencesGrid.appendChild(item);
+                });
+            }
+
+            function openModal(index) {
+                const data = sentencesData[index];
+                
+                modalSentence.textContent = data.eng;
+                modalTranslation.textContent = data.thai;
+
+                modalUsage.innerHTML = '';
+                data.usage.forEach(use => {
+                    const li = document.createElement('li');
+                    li.innerHTML = use.replace(/\*\*(.*?)\*\*/g, '<strong class="font-semibold text-gray-800">$1</strong>');
+                    modalUsage.appendChild(li);
+                });
+
+                modalCollocations.innerHTML = '';
+                data.collocations.forEach(collocation => {
+                    const tag = document.createElement('span');
+                    tag.className = 'bg-yellow-100 text-yellow-800 text-sm font-medium px-3 py-1 rounded-full';
+                    tag.textContent = collocation;
+                    modalCollocations.appendChild(tag);
+                });
+                
+                modal.classList.remove('opacity-0', 'pointer-events-none', 'invisible');
+                modalContent.classList.remove('scale-95');
+                modalContent.classList.add('scale-100');
+            }
+
+            function closeModal() {
+                modal.classList.add('opacity-0');
+                modalContent.classList.add('scale-95');
+                setTimeout(() => {
+                    modal.classList.add('pointer-events-none', 'invisible');
+                }, 300); 
+            }
+
+            // --- REBUILT EVENT LISTENERS ---
+
+            document.body.addEventListener('click', (e) => {
+                const sentenceItem = e.target.closest('.sentence-item');
+                const closeButton = e.target.closest('#close-modal-btn');
+                const modalContentArea = e.target.closest('#modal-content');
+                const modalIsVisible = !modal.classList.contains('invisible');
+
+                if (sentenceItem) {
+                    const index = sentenceItem.dataset.index;
+                    openModal(index);
+                    return;
+                }
+
+                if (closeButton) {
+                    closeModal();
+                    return;
+                }
+
+                if (modalIsVisible && !modalContentArea) {
+                    closeModal();
+                    return;
+                }
+            });
+
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape' && !modal.classList.contains('invisible')) {
+                    closeModal();
+                }
+            });
+
+            // --- INITIALIZATION ---
+            displaySentences();
+        });
+    </script>
+
+</body>
+</html>

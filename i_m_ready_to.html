@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>App Box: โครงสร้าง I'm ready to + (verb)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Kanit', sans-serif;
+            /* === NEW BACKGROUND === */
+            background: linear-gradient(to right top, #ecfccb, #d9f99d, #bef264, #a3e635, #84cc16);
+        }
+        .app-box {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.7));
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .main-title {
+            background: linear-gradient(45deg, #4d7c0f, #65a30d);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 700;
+        }
+        .sentence-item {
+            transition: all 0.2s ease-in-out;
+            background-color: rgba(255, 255, 255, 0.7);
+        }
+        .sentence-item:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 8px 20px rgba(132, 204, 22, 0.15);
+            background-color: rgba(255, 255, 255, 1);
+        }
+        /* Modal styles */
+        .modal {
+            transition: opacity 0.3s ease;
+        }
+        .modal.pointer-events-none {
+            transition: opacity 0.3s ease, visibility 0s 0.3s;
+        }
+        .modal-content {
+            transition: transform 0.3s ease;
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center min-h-screen p-4">
+
+    <!-- Main App Box Container -->
+    <div id="app-container" class="app-box w-full max-w-4xl mx-auto p-6 md:p-10">
+        <!-- Header -->
+        <header class="text-center mb-8">
+            <h1 class="main-title text-4xl md:text-5xl font-bold mb-3">โครงสร้าง: "I'm ready to..."</h1>
+            <p class="text-gray-700 text-lg">
+                ใช้เพื่อแสดงความเต็มใจ, ความพร้อม หรือความกระตือรือร้นที่จะทำบางสิ่งบางอย่าง บ่งบอกว่าคุณได้เตรียมพร้อมและเต็มใจที่จะลงมือทำแล้ว
+            </p>
+        </header>
+
+        <!-- Sentences List -->
+        <div id="sentences-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <!-- Sentences will be injected here by JavaScript -->
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div id="sentence-modal" class="modal fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center p-4 opacity-0 pointer-events-none invisible">
+        <div id="modal-content" class="modal-content bg-white rounded-xl shadow-2xl w-full max-w-lg p-6 relative transform scale-95">
+            <!-- Modal Header -->
+            <div class="border-b pb-3 mb-4">
+                 <h3 id="modal-sentence" class="text-xl font-bold text-lime-700"></h3>
+                 <p id="modal-translation" class="text-gray-500"></p>
+            </div>
+           
+            <!-- Modal Body -->
+            <div>
+                <div class="mb-4">
+                    <h4 class="font-semibold text-lg text-gray-800 mb-2">ตัวอย่างการใช้งานในสถานการณ์ต่างๆ:</h4>
+                    <ul id="modal-usage" class="list-disc list-inside text-gray-700 space-y-2">
+                        <!-- Usage examples will be injected here -->
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold text-lg text-gray-800 mb-2">คำที่มักใช้ร่วมกัน (Collocations):</h4>
+                    <div id="modal-collocations" class="flex flex-wrap gap-2">
+                        <!-- Collocation tags will be injected here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Close Button -->
+            <button id="close-modal-btn" class="absolute top-4 right-4 text-gray-400 hover:text-gray-800 transition">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+        </div>
+    </div>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // --- DATA ---
+            const sentencesData = [
+                { eng: "I'm ready to start the meeting.", thai: "ฉันพร้อมที่จะเริ่มการประชุมแล้ว", usage: ["**เมื่อทุกคนมาพร้อมหน้า:** 'Okay, looks like everyone's here. I'm ready to start the meeting.'"], collocations: ["start the meeting", "begin the discussion", "let's get started"] },
+                { eng: "I'm ready to go whenever you are.", thai: "ฉันพร้อมที่จะไปทุกเมื่อที่คุณพร้อม", usage: ["**เมื่อรอเพื่อน:** 'No rush, but just to let you know, I'm ready to go whenever you are.'"], collocations: ["whenever you are", "all set to go", "just say the word"] },
+                { eng: "I'm ready to order now.", thai: "ตอนนี้ฉันพร้อมที่จะสั่งอาหารแล้ว", usage: ["**เมื่อเรียกพนักงานเสิร์ฟ:** 'Excuse me, we're ready to order now.'"], collocations: ["ready to order", "place an order", "we've decided"] },
+                { eng: "I'm ready to listen to your proposal.", thai: "ผมพร้อมที่จะรับฟังข้อเสนอของคุณแล้ว", usage: ["**ในการประชุมธุรกิจ:** 'Thank you for preparing this. I'm ready to listen to your proposal.'"], collocations: ["listen to a proposal", "hear your ideas", "I'm all ears"] },
+                { eng: "I'm ready to leave this town.", thai: "ฉันพร้อมที่จะจากเมืองนี้ไปแล้ว", usage: ["**เมื่อรู้สึกเบื่อหน่าย:** 'There's nothing for me here anymore. I'm ready to leave this town.'"], collocations: ["leave this town", "move on", "start over"] },
+                { eng: "I'm ready to take on new challenges.", thai: "ฉันพร้อมที่จะรับความท้าทายใหม่ๆ", usage: ["**ในการสัมภาษณ์งาน:** 'My previous role was great, but I'm ready to take on new challenges.'"], collocations: ["take on new challenges", "embrace new opportunities", "step up"] },
+                { eng: "I'm ready to learn from my mistakes.", thai: "ฉันพร้อมที่จะเรียนรู้จากข้อผิดพลาดของฉัน", usage: ["**หลังจากทำพลาด:** 'I know I messed up, but I'm ready to learn from my mistakes and do better.'"], collocations: ["learn from mistakes", "a learning experience", "won't happen again"] },
+                { eng: "I'm ready to begin the next chapter of my life.", thai: "ฉันพร้อมที่จะเริ่มต้นบทต่อไปของชีวิตแล้ว", usage: ["**เมื่อเรียนจบ:** 'Graduation day is here! I'm ready to begin the next chapter.'"], collocations: ["begin a new chapter", "a fresh start", "turn the page"] },
+                { eng: "I'm ready to hear the results.", thai: "ฉันพร้อมที่จะฟังผลลัพธ์แล้ว", usage: ["**เมื่อรอผลตรวจหรือผลสอบ:** 'I'm nervous, but I'm ready to hear the results, whatever they are.'"], collocations: ["hear the results", "get the news", "the moment of truth"] },
+                { eng: "I'm ready to work hard to achieve my goals.", thai: "ฉันพร้อมที่จะทำงานอย่างหนักเพื่อให้บรรลุเป้าหมาย", usage: ["**เมื่อตั้งเป้าหมาย:** 'I know it won't be easy, but I'm ready to work hard.'"], collocations: ["work hard", "put in the effort", "achieve my goals"] },
+                { eng: "I'm ready to forgive and move on.", thai: "ฉันพร้อมที่จะให้อภัยและก้าวต่อไป", usage: ["**เมื่อต้องการยุติความขัดแย้ง:** 'Life's too short to hold grudges. I'm ready to forgive and move on.'"], collocations: ["forgive and move on", "let go of the past", "put it behind me"] },
+                { eng: "I'm ready to face the consequences.", thai: "ฉันพร้อมที่จะเผชิญหน้ากับผลที่ตามมา", usage: ["**เมื่อยอมรับความผิด:** 'I made a mistake, and I'm ready to face the consequences.'"], collocations: ["face the consequences", "take responsibility", "accept the outcome"] },
+                { eng: "I'm ready to make a change.", thai: "ฉันพร้อมที่จะสร้างการเปลี่ยนแปลงแล้ว", usage: ["**เมื่อรู้สึกไม่พอใจกับสถานการณ์ปัจจุบัน:** 'I can't live like this anymore. I'm ready to make a change.'"], collocations: ["make a change", "time for a change", "shake things up"] },
+                { eng: "I'm ready to answer your questions.", thai: "ดิฉันพร้อมที่จะตอบคำถามของคุณแล้ว", usage: ["**หลังจากการนำเสนอ:** 'That concludes my presentation. Now, I'm ready to answer your questions.'"], collocations: ["answer your questions", "take any questions", "Q&A session"] },
+                { eng: "I'm ready to give my presentation.", thai: "ผมพร้อมที่จะนำเสนองานแล้ว", usage: ["**เมื่อถึงคิวของตัวเอง:** 'Okay, my slides are loaded. I'm ready to give my presentation.'"], collocations: ["give a presentation", "start my talk", "my turn to present"] },
+                { eng: "I'm ready to commit to this relationship.", thai: "ฉันพร้อมที่จะทุ่มเทให้กับความสัมพันธ์นี้", usage: ["**เมื่อความสัมพันธ์จริงจังขึ้น:** 'I've thought about it a lot, and I'm ready to commit to this relationship.'"], collocations: ["commit to a relationship", "get serious", "take the next step"] },
+                { eng: "I'm ready to admit that I was wrong.", thai: "ฉันพร้อมที่จะยอมรับว่าฉันผิดเอง", usage: ["**เมื่อได้สติ:** 'You tried to tell me. Okay, I'm ready to admit that I was wrong.'"], collocations: ["admit I was wrong", "swallow my pride", "you were right"] },
+                { eng: "I'm ready to invest in this company.", thai: "ผมพร้อมที่จะลงทุนในบริษัทนี้", usage: ["**หลังจากพิจารณาข้อมูล:** 'The numbers look good. I'm ready to invest.'"], collocations: ["invest in", "make an investment", "put money into"] },
+                { eng: "I'm ready to move forward.", thai: "ฉันพร้อมที่จะก้าวไปข้างหน้า", usage: ["**หลังจากผ่านช่วงเวลาที่ยากลำบาก:** 'It's been tough, but I'm ready to move forward.'"], collocations: ["move forward", "look to the future", "leave the past behind"] },
+                { eng: "I'm ready to fight for what I believe in.", thai: "ฉันพร้อมที่จะต่อสู้เพื่อสิ่งที่ฉันเชื่อ", usage: ["**เมื่อเผชิญกับความอยุติธรรม:** 'This isn't right. I'm ready to fight for what I believe in.'"], collocations: ["fight for", "stand up for", "defend my beliefs"] },
+                { eng: "I'm ready to get back to work.", thai: "ฉันพร้อมที่จะกลับไปทำงานแล้ว", usage: ["**หลังจากวันหยุดยาว:** 'The vacation was great, but I'm ready to get back to work and be productive.'"], collocations: ["get back to work", "end of vacation", "back to the grind"] },
+                { eng: "I'm ready to celebrate your success.", thai: "ฉันพร้อมที่จะฉลองความสำเร็จของคุณ", usage: ["**เมื่อเพื่อนประสบความสำเร็จ:** 'You did it! I'm so proud and ready to celebrate your success.'"], collocations: ["celebrate success", "pop the champagne", "a big achievement"] },
+                { eng: "I'm ready to sign the contract.", thai: "ผมพร้อมที่จะเซ็นสัญญาแล้ว", usage: ["**เมื่อการเจรจาเสร็จสิ้น:** 'I've reviewed all the terms. I'm ready to sign the contract.'"], collocations: ["sign the contract", "close the deal", "make it official"] },
+                { eng: "I'm ready to try something new.", thai: "ฉันพร้อมที่จะลองอะไรใหม่ๆ", usage: ["**เมื่อรู้สึกเบื่อ:** 'I'm tired of the same old routine. I'm ready to try something new.'"], collocations: ["try something new", "step out of my comfort zone", "a new experience"] },
+                { eng: "I'm ready to get started.", thai: "ฉันพร้อมที่จะเริ่มแล้ว", usage: ["**เมื่อทุกคนพร้อมในทีม:** 'Okay team, is everyone prepared? I'm ready to get started.'"], collocations: ["get started", "begin now", "let's do this"] },
+                { eng: "I'm ready to help in any way I can.", thai: "ฉันพร้อมที่จะช่วยในทุกทางที่ฉันสามารถทำได้", usage: ["**เมื่อมีเหตุฉุกเฉิน:** 'This is a difficult situation. I'm ready to help in any way I can.'"], collocations: ["ready to help", "offer my assistance", "whatever you need"] },
+                { eng: "I'm ready to put the past behind me.", thai: "ฉันพร้อมที่จะทิ้งอดีตไว้ข้างหลัง", usage: ["**เมื่อเริ่มต้นใหม่:** 'There's no point in dwelling on it. I'm ready to put the past behind me.'"], collocations: ["put the past behind", "move on", "a clean slate"] },
+                { eng: "I'm ready to take a risk.", thai: "ฉันพร้อมที่จะเสี่ยง", usage: ["**เมื่อมีโอกาสดีๆเข้ามา:** 'This could be huge. It's a gamble, but I'm ready to take a risk.'"], collocations: ["take a risk", "a leap of faith", "no guts, no glory"] },
+                { eng: "I'm ready to dedicate myself to this cause.", thai: "ฉันพร้อมที่จะอุทิศตนเพื่อเป้าหมายนี้", usage: ["**เมื่อเจอสิ่งที่เชื่อมั่น:** 'This isn't just a job; it's a mission. I'm ready to dedicate myself to this cause.'"], collocations: ["dedicate myself to", "fully commit", "give my all"] },
+                { eng: "I'm ready to accept your offer.", thai: "ฉันพร้อมที่จะยอมรับข้อเสนอของคุณ", usage: ["**ในการเจรจาธุรกิจ:** 'After careful consideration, I'm ready to accept your offer.'"], collocations: ["accept an offer", "agree to the terms", "we have a deal"] },
+            ];
+
+            // --- ELEMENTS ---
+            const sentencesGrid = document.getElementById('sentences-grid');
+            const modal = document.getElementById('sentence-modal');
+            const modalContent = document.getElementById('modal-content');
+            
+            const modalSentence = document.getElementById('modal-sentence');
+            const modalTranslation = document.getElementById('modal-translation');
+            const modalUsage = document.getElementById('modal-usage');
+            const modalCollocations = document.getElementById('modal-collocations');
+
+            // --- FUNCTIONS ---
+            
+            function displaySentences() {
+                sentencesGrid.innerHTML = ''; 
+                sentencesData.forEach((data, index) => {
+                    const item = document.createElement('div');
+                    item.className = 'sentence-item cursor-pointer p-4 rounded-lg shadow-sm border border-gray-200';
+                    item.dataset.index = index;
+                    
+                    const engText = document.createElement('p');
+                    engText.className = 'font-semibold text-lime-800 pointer-events-none';
+                    engText.textContent = data.eng;
+                    
+                    const thaiText = document.createElement('p');
+                    thaiText.className = 'text-gray-600 text-sm pointer-events-none';
+                    thaiText.textContent = `(${data.thai})`;
+                    
+                    item.appendChild(engText);
+                    item.appendChild(thaiText);
+                    
+                    sentencesGrid.appendChild(item);
+                });
+            }
+
+            function openModal(index) {
+                const data = sentencesData[index];
+                
+                modalSentence.textContent = data.eng;
+                modalTranslation.textContent = data.thai;
+
+                modalUsage.innerHTML = '';
+                data.usage.forEach(use => {
+                    const li = document.createElement('li');
+                    li.innerHTML = use.replace(/\*\*(.*?)\*\*/g, '<strong class="font-semibold text-gray-800">$1</strong>');
+                    modalUsage.appendChild(li);
+                });
+
+                modalCollocations.innerHTML = '';
+                data.collocations.forEach(collocation => {
+                    const tag = document.createElement('span');
+                    tag.className = 'bg-lime-100 text-lime-800 text-sm font-medium px-3 py-1 rounded-full';
+                    tag.textContent = collocation;
+                    modalCollocations.appendChild(tag);
+                });
+                
+                modal.classList.remove('opacity-0', 'pointer-events-none', 'invisible');
+                modalContent.classList.remove('scale-95');
+                modalContent.classList.add('scale-100');
+            }
+
+            function closeModal() {
+                modal.classList.add('opacity-0');
+                modalContent.classList.add('scale-95');
+                setTimeout(() => {
+                    modal.classList.add('pointer-events-none', 'invisible');
+                }, 300); 
+            }
+
+            // --- REBUILT EVENT LISTENERS ---
+
+            document.body.addEventListener('click', (e) => {
+                const sentenceItem = e.target.closest('.sentence-item');
+                const closeButton = e.target.closest('#close-modal-btn');
+                const modalContentArea = e.target.closest('#modal-content');
+                const modalIsVisible = !modal.classList.contains('invisible');
+
+                if (sentenceItem) {
+                    const index = sentenceItem.dataset.index;
+                    openModal(index);
+                    return;
+                }
+
+                if (closeButton) {
+                    closeModal();
+                    return;
+                }
+
+                if (modalIsVisible && !modalContentArea) {
+                    closeModal();
+                    return;
+                }
+            });
+
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape' && !modal.classList.contains('invisible')) {
+                    closeModal();
+                }
+            });
+
+            // --- INITIALIZATION ---
+            displaySentences();
+        });
+    </script>
+
+</body>
+</html>

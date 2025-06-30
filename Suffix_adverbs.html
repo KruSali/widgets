@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mr. Vocab - Suffix Magic Box (Adverbs)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'IBM Plex Sans Thai', sans-serif;
+            background: linear-gradient(120deg, #f093fb 0%, #f5576c 100%);
+        }
+        .font-poppins {
+            font-family: 'Poppins', sans-serif;
+        }
+        .word-btn {
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px 0 rgb(0 0 0 / 8%);
+        }
+        .word-btn:hover {
+            transform: translateY(-3px) scale(1.03);
+            box-shadow: 0 4px 12px 0 rgb(0 0 0 / 15%);
+            background-color: #c2410c; /* Rose-600 */
+            color: white;
+        }
+        #modal {
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+        #modal.hidden {
+            opacity: 0;
+            transform: scale(0.95);
+            pointer-events: none;
+        }
+        .modal-content {
+            transition: transform 0.3s ease;
+        }
+    </style>
+</head>
+<body class="antialiased text-gray-800">
+
+    <div class="container mx-auto p-4 md:p-8 max-w-6xl">
+
+        <header class="text-center mb-10">
+            <h1 class="text-4xl md:text-5xl font-bold font-poppins text-white text-shadow">Suffix Magic Box</h1>
+            <p class="text-lg text-white/90 mt-2">จอมเวทแปลงร่างคำให้เป็นคำวิเศษณ์ (Adverb)</p>
+        </header>
+
+        <div id="suffix-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+            <div class="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg p-6 md:col-span-2 lg:col-span-3">
+                <h2 class="text-3xl font-bold font-poppins text-rose-700">-ly</h2>
+                <p class="text-gray-600 mb-6">Suffix ที่พบบ่อยที่สุด! เปลี่ยน Adjective เป็น Adverb เพื่อบอกลักษณะอาการว่า "ทำ...อย่าง..." (how)</p>
+                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
+                    <button class="word-btn bg-white p-3 rounded-lg font-semibold text-rose-600" data-word="Slowly" data-pronounce="<u>สโล</u>-ลี" data-en-sentence="He walked slowly because he was tired." data-th-sentence="เขาเดินอย่างช้าๆ เพราะว่าเขาเหนื่อย">Slowly</button>
+                    <button class="word-btn bg-white p-3 rounded-lg font-semibold text-rose-600" data-word="Quickly" data-pronounce="<u>ควิค</u>-ลี" data-en-sentence="She finished her work quickly." data-th-sentence="เธอทำงานของเธอเสร็จอย่างรวดเร็ว">Quickly</button>
+                    <button class="word-btn bg-white p-3 rounded-lg font-semibold text-rose-600" data-word="Carefully" data-pronounce="<u>แคร์</u>-ฟูล-ลี" data-en-sentence="Please drive carefully." data-th-sentence="กรุณาขับรถอย่างระมัดระวัง">Carefully</button>
+                    <button class="word-btn bg-white p-3 rounded-lg font-semibold text-rose-600" data-word="Happily" data-pronounce="<u>แฮพ</u>-พิ-ลี" data-en-sentence="The children were playing happily." data-th-sentence="เด็กๆ กำลังเล่นกันอย่างมีความสุข">Happily</button>
+                    <button class="word-btn bg-white p-3 rounded-lg font-semibold text-rose-600" data-word="Loudly" data-pronounce="<u>ลาวดฺ</u>-ลี" data-en-sentence="He shouted loudly to get her attention." data-th-sentence="เขาตะโกนเสียงดังเพื่อดึงดูดความสนใจของเธอ">Loudly</button>
+                    <button class="word-btn bg-white p-3 rounded-lg font-semibold text-rose-600" data-word="Quietly" data-pronounce="<u>ไคว</u>-เอท-ลี" data-en-sentence="She entered the room quietly." data-th-sentence="เธอเข้าห้องมาอย่างเงียบๆ">Quietly</button>
+                    <button class="word-btn bg-white p-3 rounded-lg font-semibold text-rose-600" data-word="Easily" data-pronounce="<u>อี</u>-สิ-ลี" data-en-sentence="He passed the exam easily." data-th-sentence="เขาสอบผ่านอย่างง่ายดาย">Easily</button>
+                    <button class="word-btn bg-white p-3 rounded-lg font-semibold text-rose-600" data-word="Beautifully" data-pronounce="<u>บิว</u>-ทิ-ฟูล-ลี" data-en-sentence="She sings beautifully." data-th-sentence="เธอร้องเพลงได้ไพเราะมาก">Beautifully</button>
+                    <button class="word-btn bg-white p-3 rounded-lg font-semibold text-rose-600" data-word="Completely" data-pronounce="เคิม-<u>พลีท</u>-ลี" data-en-sentence="I completely forgot about the meeting." data-th-sentence="ฉันลืมเรื่องการประชุมไปสนิทเลย">Completely</button>
+                    <button class="word-btn bg-white p-3 rounded-lg font-semibold text-rose-600" data-word="Finally" data-pronounce="<u>ไฟ</u>-เนิล-ลี" data-en-sentence="Finally, the rain has stopped." data-th-sentence="ในที่สุด ฝนก็หยุดตก">Finally</button>
+                </div>
+            </div>
+
+            <div class="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg p-6">
+                <h2 class="text-3xl font-bold font-poppins text-rose-700">-ward(s)</h2>
+                <p class="text-gray-600 mb-6">ใช้ต่อท้ายคำเพื่อแสดง "ทิศทาง" (Direction)</p>
+                <div class="grid grid-cols-2 gap-3">
+                    <button class="word-btn bg-white p-3 rounded-lg font-semibold text-rose-600" data-word="Forward" data-pronounce="<u>ฟอร์</u>-เวิร์ด" data-en-sentence="She took a step forward." data-th-sentence="เธอก้าวไปข้างหน้าหนึ่งก้าว">Forward</button>
+                    <button class="word-btn bg-white p-3 rounded-lg font-semibold text-rose-600" data-word="Backward" data-pronounce="<u>แบค</u>-เวิร์ด" data-en-sentence="Look backward before you reverse the car." data-th-sentence="มองไปข้างหลังก่อนที่จะถอยรถ">Backward</button>
+                    <button class="word-btn bg-white p-3 rounded-lg font-semibold text-rose-600" data-word="Upward" data-pronounce="<u>อัพ</u>-เวิร์ด" data-en-sentence="The smoke floated upward." data-th-sentence="ควันลอยขึ้นไปด้านบน">Upward</button>
+                    <button class="word-btn bg-white p-3 rounded-lg font-semibold text-rose-600" data-word="Downward" data-pronounce="<u>ดาวน์</u>-เวิร์ด" data-en-sentence="The path slopes downward." data-th-sentence="เส้นทางลาดลงไปด้านล่าง">Downward</button>
+                    <button class="word-btn bg-white p-3 rounded-lg font-semibold text-rose-600" data-word="Onward" data-pronounce="<u>ออน</u>-เวิร์ด" data-en-sentence="The army marched onward to the city." data-th-sentence="กองทัพเดินหน้าต่อไปยังเมือง">Onward</button>
+                    <button class="word-btn bg-white p-3 rounded-lg font-semibold text-rose-600" data-word="Inward" data-pronounce="<u>อิน</u>-เวิร์ด" data-en-sentence="The door opens inward." data-th-sentence="ประตูเปิดเข้าด้านใน">Inward</button>
+                    <button class="word-btn bg-white p-3 rounded-lg font-semibold text-rose-600" data-word="Outward" data-pronounce="<u>เอาทฺ</u>-เวิร์ด" data-en-sentence="He appears calm outward, but he's very nervous." data-th-sentence="ภายนอกเขาดูสงบ แต่จริงๆ แล้วประหม่ามาก">Outward</button>
+                    <button class="word-btn bg-white p-3 rounded-lg font-semibold text-rose-600" data-word="Afterward(s)" data-pronounce="<u>อาฟ</u>-เทอร์-เวิร์ดส" data-en-sentence="Let's go to the cinema first and eat afterwards." data-th-sentence="ไปดูหนังกันก่อนแล้วค่อยไปกินข้าวทีหลัง">Afterward(s)</button>
+                </div>
+            </div>
+
+            <div class="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg p-6">
+                <h2 class="text-3xl font-bold font-poppins text-rose-700">-wise</h2>
+                <p class="text-gray-600 mb-6">ใช้ต่อท้ายคำเพื่อแสดง "ลักษณะ" (Manner) หรือ "ในทาง..."</p>
+                <div class="grid grid-cols-2 gap-3">
+                    <button class="word-btn bg-white p-3 rounded-lg font-semibold text-rose-600" data-word="Clockwise" data-pronounce="<u>คลอค</u>-ไวซ์" data-en-sentence="Please turn the knob clockwise." data-th-sentence="กรุณาหมุนลูกบิดตามเข็มนาฬิกา">Clockwise</button>
+                    <button class="word-btn bg-white p-3 rounded-lg font-semibold text-rose-600" data-word="Likewise" data-pronounce="<u>ไลคฺ</u>-ไวซ์" data-en-sentence="She greeted him, and he responded likewise." data-th-sentence="เธอทักทายเขา และเขาก็ตอบกลับในทำนองเดียวกัน">Likewise</button>
+                    <button class="word-btn bg-white p-3 rounded-lg font-semibold text-rose-600" data-word="Otherwise" data-pronounce="<u>อัพ</u>-เธอร์-ไวซ์" data-en-sentence="You must study hard, otherwise you will fail." data-th-sentence="คุณต้องตั้งใจเรียน มิฉะนั้นคุณจะสอบตก">Otherwise</button>
+                    <button class="word-btn bg-white p-3 rounded-lg font-semibold text-rose-600" data-word="Lengthwise" data-pronounce="<u>เล็งธฺ</u>-ไวซ์" data-en-sentence="Fold the paper lengthwise." data-th-sentence="พับกระดาษตามแนวยาว">Lengthwise</button>
+                    <button class="word-btn bg-white p-3 rounded-lg font-semibold text-rose-600" data-word="Crosswise" data-pronounce="<u>ครอส</u>-ไวซ์" data-en-sentence="She cut the sandwich crosswise." data-th-sentence="เธอหั่นแซนด์วิชตามขวาง">Crosswise</button>
+                     <button class="word-btn bg-white p-3 rounded-lg font-semibold text-rose-600" data-word="Weather-wise" data-pronounce="<u>เว</u>-เธอร์-ไวซ์" data-en-sentence="Weather-wise, it was a perfect day for a picnic." data-th-sentence="ในแง่ของสภาพอากาศ มันเป็นวันที่สมบูรณ์แบบสำหรับการปิกนิก">Weather-wise</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div id="modal" class="fixed inset-0 bg-black bg-opacity-60 flex justify-center items-center p-4 z-50 hidden">
+        <div id="modal-content" class="bg-white rounded-2xl shadow-2xl w-full max-w-md mx-auto overflow-hidden transform">
+            <div class="p-6 md:p-8">
+                <div class="flex justify-between items-start mb-4">
+                    <h2 id="modal-word" class="text-3xl font-bold font-poppins text-rose-600">Word</h2>
+                    <button id="modal-close-btn" class="text-gray-400 hover:text-gray-700 transition text-3xl leading-none">&times;</button>
+                </div>
+                
+                <div>
+                    <div class="mb-5">
+                        <h3 class="font-bold text-lg text-gray-700 mb-2 border-b-2 border-rose-200 pb-1">คำอ่านภาษาไทย</h3>
+                        <p id="modal-pronounce" class="text-gray-600 text-xl"></p>
+                    </div>
+
+                    <div>
+                        <h3 class="font-bold text-lg text-gray-700 mb-2 border-b-2 border-rose-200 pb-1">ตัวอย่างประโยค</h3>
+                        <div id="modal-examples" class="text-gray-600 space-y-2">
+                           <p id="modal-en-sentence" class="font-semibold"></p>
+                           <p id="modal-th-sentence" class="text-sm text-gray-500"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get all necessary elements
+            const wordButtons = document.querySelectorAll('.word-btn');
+            const modal = document.getElementById('modal');
+            const modalCloseBtn = document.getElementById('modal-close-btn');
+            
+            const modalWord = document.getElementById('modal-word');
+            const modalPronounce = document.getElementById('modal-pronounce');
+            const modalEnSentence = document.getElementById('modal-en-sentence');
+            const modalThSentence = document.getElementById('modal-th-sentence');
+
+            // Function to open the modal
+            function openModal(e) {
+                const button = e.currentTarget;
+                const data = button.dataset;
+
+                // Populate modal with data from the button
+                modalWord.textContent = data.word;
+                modalPronounce.innerHTML = data.pronounce; // Use innerHTML to render the <u> tag
+                modalEnSentence.textContent = data.enSentence;
+                modalThSentence.textContent = data.thSentence;
+
+                // Show the modal
+                modal.classList.remove('hidden');
+                document.body.style.overflow = 'hidden'; // Prevent background scrolling
+            }
+
+            // Function to close the modal
+            function closeModal() {
+                modal.classList.add('hidden');
+                document.body.style.overflow = ''; // Restore scrolling
+            }
+
+            // Add event listeners
+            wordButtons.forEach(button => {
+                button.addEventListener('click', openModal);
+            });
+
+            modalCloseBtn.addEventListener('click', closeModal);
+
+            // Close modal if clicking on the background overlay
+            modal.addEventListener('click', (e) => {
+                if (e.target.id === 'modal') {
+                    closeModal();
+                }
+            });
+
+            // Close modal with the Escape key
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
+                    closeModal();
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>

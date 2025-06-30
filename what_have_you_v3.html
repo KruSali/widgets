@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mr. Vocab - Structure #55: What have you + (V.3)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Mitr:wght@300;400;500;600&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Mitr', sans-serif;
+        }
+        .font-poppins {
+            font-family: 'Poppins', sans-serif;
+        }
+        .sentence-btn {
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            border: 2px solid transparent;
+        }
+        .sentence-btn:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+        }
+        #modal {
+            transition: opacity 0.3s ease;
+        }
+        .modal-content-container {
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            opacity: 0;
+            transform: translateY(20px) scale(0.95);
+        }
+        #modal.active .modal-content-container {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-yellow-100 via-rose-100 to-sky-200 min-h-screen">
+
+    <div class="container mx-auto p-4 sm:p-6 lg:p-8">
+
+        <header class="text-center mb-10">
+            <h1 class="text-4xl sm:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-orange-500 font-poppins">Structure #55</h1>
+            <h2 class="text-2xl sm:text-3xl font-bold text-slate-800 mt-2 font-poppins">"What have you + (past participle)...?"</h2>
+            <p class="text-slate-600 mt-4 max-w-2xl mx-auto text-lg">
+                ใช้ถามถึงการกระทำหรือประสบการณ์ที่เชื่อมโยง <strong class="text-red-500">"อดีตสู่ปัจจุบัน"</strong><br>
+                หัวใจสำคัญคือ <strong class="text-orange-500">have/has + กริยาช่องที่ 3 (V.3)</strong> นั่นเองครับ!
+            </p>
+        </header>
+
+        <main id="sentences-grid" class="grid grid-cols-1 md:grid-cols-2 gap-5">
+            </main>
+
+        <footer class="text-center mt-12">
+            <p class="text-slate-700 font-medium">🎨 สร้างสรรค์บทเรียนมีสีสันโดย Mr. Vocab 🎨</p>
+        </footer>
+
+    </div>
+
+    <div id="modal" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center p-4 z-50 opacity-0 pointer-events-none">
+        <div class="modal-content-container w-full max-w-2xl max-h-[90vh] overflow-y-auto bg-white rounded-2xl shadow-2xl">
+            <div id="modal-header" class="p-6 sm:p-8 rounded-t-2xl bg-gradient-to-r from-red-500 to-orange-500">
+                <p id="modal-english" class="font-poppins font-bold text-2xl text-white text-center"></p>
+                <p id="modal-thai" class="text-xl text-white text-center mt-2 opacity-90"></p>
+            </div>
+            <div class="p-6 sm:p-8">
+                <div id="modal-details" class="space-y-5">
+                    </div>
+                <div class="text-center mt-8">
+                    <button id="close-modal-btn" class="bg-slate-600 hover:bg-slate-700 text-white font-bold py-2 px-8 rounded-full shadow-lg transform hover:scale-105 transition-transform duration-300">
+                        ปิด
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const sentences = [
+            {
+                eng: "What have you been up to lately?", th: "ช่วงนี้คุณทำอะไรอยู่บ้าง?",
+                context: "เป็นคำถามเปิดบทสนทนาที่ฮิตที่สุด! ใช้ถามเพื่อนที่ไม่ได้เจอกันสักพัก เพื่ออัปเดตชีวิตทั่วไปแบบไม่เจาะจงเวลา",
+                dialogue: { a: "Hey Jen! Long time no see. What have you been up to lately?", b: "Not much, just working on a new project. You?" },
+                alternatives: "<strong>What have you been doing?</strong> (ใช้ Present Perfect Continuous เพื่อเน้นความต่อเนื่องของการกระทำ)<br><strong>How have you been?</strong> (เป็นอย่างไรบ้าง? - ถามสารทุกข์สุกดิบ)"
+            },
+            {
+                eng: "What have you done so far?", th: "จนถึงตอนนี้คุณทำอะไรไปแล้วบ้าง?",
+                context: "ใช้ถามถึงความคืบหน้าของงานหรือโปรเจกต์ ว่าทำอะไรสำเร็จไปแล้วบ้าง ณ จุดที่คุยกัน",
+                dialogue: { a: "Okay, it's our weekly check-in. What have you done so far on the report?", b: "I've completed the research and written the introduction." },
+                alternatives: "<strong>What progress have you made?</strong> (คุณทำคืบหน้าไปถึงไหนแล้ว?)<br><strong>Where are you at with the report?</strong> (รายงานถึงไหนแล้ว? - ไม่เป็นทางการ)"
+            },
+            {
+                eng: "What have you learned this week?", th: "สัปดาห์นี้คุณได้เรียนรู้อะไรใหม่บ้าง?",
+                context: "คำถามที่ดีมากสำหรับใช้ทบทวนตัวเอง (reflection) หรือใช้ในทีมเพื่อแชร์ความรู้ใหม่ๆ ที่แต่ละคนได้รับมาในช่วงสัปดาห์นั้น",
+                dialogue: { a: "Team meeting time! Let's share one thing. What have you learned this week?", b: "I've learned how to use a new software for video editing." },
+                alternatives: "<strong>Have you learned anything new this week?</strong> (ถามแบบ Yes/No ก่อน)<br><strong>What was your key takeaway this week?</strong> (บทเรียนสำคัญของสัปดาห์นี้คืออะไร?)"
+            },
+            {
+                eng: "What have you decided about the job offer?", th: "คุณตัดสินใจเรื่องข้อเสนองานว่ายังไงบ้าง?",
+                context: "ใช้ถามถึงการตัดสินใจที่เพิ่งเกิดขึ้น หรือยังคงส่งผลถึงปัจจุบันอยู่ (เพราะยังสามารถเปลี่ยนใจได้ หรือเพิ่งตัดสินใจไป)",
+                dialogue: { a: "Any news on that job offer you got?", b: "Yes! I need to tell them tomorrow. What have you decided about the job offer?" },
+                alternatives: "<strong>Have you made a decision yet?</strong> (คุณตัดสินใจหรือยัง?)<br><strong>What did you decide?</strong> (ถ้าแน่ใจว่าเขาตัดสินใจไปแล้วและจบสิ้นแล้ว ก็ใช้ Past Simple ได้)"
+            },
+            {
+                eng: "What have you eaten today?", th: "วันนี้คุณกินอะไรไปแล้วบ้าง?",
+                context: "ใช้ถามถึงอาหารการกินใน 'วันนี้' ซึ่งเป็นช่วงเวลาที่ยังไม่จบสิ้น ต่างจาก What did you eat? ที่มักจะถามถึงมื้อที่จบไปแล้ว",
+                dialogue: { a: "You look a bit pale. What have you eaten today?", b: "To be honest, I've only had a cup of coffee so far." },
+                alternatives: "<strong>Have you eaten anything today?</strong> (วันนี้กินอะไรหรือยัง?)<br><strong>What did you have for lunch?</strong> (เจาะจงไปเลยว่ามื้อกลางวันกินอะไร)"
+            },
+            {
+                eng: "What have you heard about the new policy?", th: "คุณได้ยินอะไรเกี่ยวกับนโยบายใหม่มาบ้าง?",
+                context: "ใช้ถามถึงข่าวสารหรือข้อมูลล่าสุดที่เพิ่งได้ยินมา ซึ่งอาจจะยังไม่เป็นทางการหรือยังมีการเปลี่ยนแปลงได้",
+                dialogue: { a: "There are a lot of rumors flying around.", b: "I know. What have you heard about the new work-from-home policy?" },
+                alternatives: "<strong>What's the latest on the new policy?</strong> (ข่าวล่าสุดของนโยบายใหม่คืออะไร?)<br><strong>Do you know anything about the new policy?</strong> (คุณรู้อะไรเกี่ยวกับนโยบายใหม่ไหม?)"
+            },
+            {
+                eng: "What have you achieved this year?", th: "ปีนี้คุณทำอะไรสำเร็จไปแล้วบ้าง?",
+                context: "ใช้ถามเพื่อทบทวนความสำเร็จหรือเป้าหมายที่ทำได้ในปีนี้ (ซึ่งยังไม่จบ) เป็นคำถามที่ดีสำหรับการประเมินผลปลายปี",
+                dialogue: { a: "As 2025 is coming to a close, let's reflect. What have you achieved this year?", b: "I've finally launched my own online store!" },
+                alternatives: "<strong>What are you most proud of this year?</strong> (ปีนี้คุณภูมิใจกับอะไรมากที่สุด?)<br><strong>What were your biggest accomplishments this year?</strong> (ความสำเร็จที่ยิ่งใหญ่ที่สุดของคุณในปีนี้คืออะไร?)"
+            },
+            {
+                eng: "What have you brought us?", th: "คุณเอาอะไรมาฝากพวกเราเหรอ?",
+                context: "ใช้ถามแบบตื่นเต้น เมื่อเห็นใครบางคนกลับมาจากการเดินทางหรือมาเยี่ยมพร้อมกับหิ้วของบางอย่างมาด้วย",
+                dialogue: { a: "(Seeing a friend arrive with a big box) Welcome back! What have you brought us?", b: "I've brought some special snacks from Japan!" },
+                alternatives: "<strong>What's in the box?</strong> (ในกล่องมีอะไรเหรอ?)<br><strong>Did you get us anything?</strong> (ซื้ออะไรมาฝากพวกเราไหม?)"
+            },
+            {
+                eng: "What have you done to your hair?", th: "คุณไปทำอะไรกับผมมาน่ะ?",
+                context: "ใช้ทักเมื่อเห็นการเปลี่ยนแปลงที่ชัดเจนบนทรงผมของใครสักคน มักจะมีความรู้สึกประหลาดใจปนอยู่ด้วย",
+                dialogue: { a: "Wow, you look so different! What have you done to your hair?", b: "I've just had it cut and colored. Do you like it?" },
+                alternatives: "<strong>You've changed your hair! I love it!</strong> (เปลี่ยนทรงผมเหรอ! ชอบจัง! - เป็นการชมไปเลย)<br><strong>Is that a new hairstyle?</strong> (นั่นทรงผมใหม่เหรอ?)"
+            },
+            {
+                eng: "What have you told them?", th: "คุณบอกอะไรพวกเขาไปแล้วบ้าง?",
+                context: "ใช้ถามเพื่อตรวจสอบว่าข้อมูลอะไรบ้างที่ถูกสื่อสารออกไปแล้ว เพื่อให้ทุกคนเข้าใจสถานการณ์ตรงกัน",
+                dialogue: { a: "I'm about to call the client.", b: "Wait. What have you told them about the delay so far?" },
+                alternatives: "<strong>What information have they received?</strong> (พวกเขาได้รับข้อมูลอะไรไปแล้วบ้าง?)<br><strong>Are they up to speed?</strong> (พวกเขาตามทันเรื่องราวล่าสุดหรือยัง?)"
+            },
+            {
+                eng: "What books have you read recently?", th: "ช่วงนี้คุณได้อ่านหนังสืออะไรบ้าง?",
+                context: "ใช้ถามนักอ่าน เพื่อพูดคุยเกี่ยวกับหนังสือที่เพิ่งอ่านจบไปหรือกำลังอ่านอยู่ในช่วงนี้",
+                dialogue: { a: "I'm looking for a new book recommendation. What books have you read recently?", b: "I've just finished 'Atomic Habits'. It was life-changing." },
+                alternatives: "<strong>Are you reading anything good?</strong> (กำลังอ่านอะไรดีๆ อยู่ไหม?)<br><strong>Any book recommendations?</strong> (มีหนังสือแนะนำไหม?)"
+            },
+            {
+                eng: "What movies have you seen this month?", th: "เดือนนี้คุณได้ดูหนังเรื่องอะไรไปบ้าง?",
+                context: "ใช้ชวนคุยเรื่องหนังที่ได้ดูในเดือนนี้ (ซึ่งยังไม่จบ) เพื่อแลกเปลี่ยนความคิดเห็นหรือหาเรื่องคุย",
+                dialogue: { a: "I feel like I haven't been to the cinema in ages.", b: "Really? What movies have you seen this month?" },
+                alternatives: "<strong>Have you seen any good movies lately?</strong> (ช่วงนี้ได้ดูหนังดีๆ บ้างไหม?)<br><strong>What was the last movie you saw?</strong> (หนังเรื่องล่าสุดที่ดูคือเรื่องอะไร?)"
+            },
+            {
+                eng: "What have you got planned for the weekend?", th: "คุณมีแผนจะทำอะไรสุดสัปดาห์นี้?",
+                context: "ถึงแม้จะใช้ have got แต่ก็ให้ความหมายเหมือน What do you have planned... เป็นวิธีถามถึงแผนในอนาคตอันใกล้ที่นิยมใช้กันมาก",
+                dialogue: { a: "Thank goodness it's Friday! What have you got planned for the weekend?", b: "I think I'll just relax at home." },
+                alternatives: "<strong>What are your plans for the weekend?</strong> (แผนของคุณสำหรับสุดสัปดาห์นี้คืออะไร?)<br><strong>Doing anything fun this weekend?</strong> (สุดสัปดาห์นี้ทำอะไรสนุกๆ ไหม?)"
+            },
+            {
+                eng: "What have you contributed to this project?", th: "คุณได้ทำประโยชน์อะไรให้กับโปรเจกต์นี้บ้าง?",
+                context: "คำถามที่มักใช้ในการประเมินผลงานหรือสัมภาษณ์งาน เพื่อให้ผู้ตอบอธิบายคุณค่าหรืองานที่ตัวเองได้ทำในโปรเจกต์นั้น",
+                dialogue: { a: "In your own words, what have you contributed to this project's success?", b: "I've streamlined the communication process between departments." },
+                alternatives: "<strong>What was your role in this project?</strong> (บทบาทของคุณในโปรเจกต์นี้คืออะไร?)<br><strong>How have you added value to the team?</strong> (คุณได้เพิ่มคุณค่าให้ทีมอย่างไร?)"
+            },
+            {
+                eng: "What have you changed your mind about?", th: "มีเรื่องอะไรที่คุณได้เปลี่ยนใจไปบ้าง?",
+                context: "คำถามเชิงลึก ที่ใช้ถามถึงการเปลี่ยนแปลงทางความคิดหรือทัศนคติที่เกิดขึ้นกับคนคนหนึ่งเมื่อเวลาผ่านไป",
+                dialogue: { a: "People grow and evolve. What have you changed your mind about in the last five years?", b: "I've changed my mind about what success means to me." },
+                alternatives: "<strong>What are some beliefs you've updated?</strong> (มีความเชื่ออะไรบ้างที่คุณได้อัปเดตไป?)"
+            }
+        ];
+        
+        const buttonColors = [
+            'bg-rose-100 hover:border-rose-400',
+            'bg-sky-100 hover:border-sky-400',
+            'bg-teal-100 hover:border-teal-400',
+            'bg-amber-100 hover:border-amber-400'
+        ];
+        
+        const grid = document.getElementById('sentences-grid');
+        const modal = document.getElementById('modal');
+        const modalHeader = document.getElementById('modal-header');
+        const modalEnglish = document.getElementById('modal-english');
+        const modalThai = document.getElementById('modal-thai');
+        const modalDetails = document.getElementById('modal-details');
+        const closeModalBtn = document.getElementById('close-modal-btn');
+
+        sentences.forEach((sentence, index) => {
+            const button = document.createElement('button');
+            const colorClass = buttonColors[index % buttonColors.length];
+            button.className = `sentence-btn p-5 rounded-xl text-left font-poppins text-slate-700 ${colorClass}`;
+            button.innerHTML = `<span class="font-semibold">${sentence.eng}</span>`;
+            button.addEventListener('click', () => openModal(sentence));
+            grid.appendChild(button);
+        });
+
+        function openModal(sentence) {
+            modalEnglish.textContent = sentence.eng;
+            modalThai.textContent = sentence.th;
+
+            modalDetails.innerHTML = `
+                <div class="p-4 bg-slate-100 rounded-lg">
+                    <h4 class="font-semibold text-lg text-slate-800 mb-2">💡 บริบทการใช้งาน (Context)</h4>
+                    <p class="text-slate-600">${sentence.context}</p>
+                </div>
+                <div class="p-4 bg-slate-100 rounded-lg">
+                    <h4 class="font-semibold text-lg text-slate-800 mb-2">💬 ตัวอย่างบทสนทนา (Dialogue)</h4>
+                    <div class="space-y-1 text-slate-600">
+                        <p><strong>A:</strong> ${sentence.dialogue.a}</p>
+                        <p><strong>B:</strong> ${sentence.dialogue.b}</p>
+                    </div>
+                </div>
+                <div class="p-4 bg-slate-100 rounded-lg">
+                    <h4 class="font-semibold text-lg text-slate-800 mb-2">🔄 คำที่เกี่ยวข้อง / ใช้แทนได้ (Alternatives)</h4>
+                    <div class="text-slate-600">${sentence.alternatives}</div>
+                </div>
+            `;
+
+            modal.classList.add('active');
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            modal.classList.add('opacity-0', 'pointer-events-none');
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        closeModalBtn.addEventListener('click', closeModal);
+        modal.addEventListener('click', (e) => {
+            if (e.target.id === 'modal') {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>

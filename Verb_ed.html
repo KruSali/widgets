@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mr. Vocab - ED Pronunciation Lab & Quiz</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'IBM Plex Sans Thai', sans-serif;
+            background: linear-gradient(to top, #cfd9df 0%, #e2ebf0 100%);
+        }
+        .font-poppins {
+            font-family: 'Poppins', sans-serif;
+        }
+        .main-tab {
+            transition: all 0.3s ease;
+        }
+        .main-tab.active {
+            background-color: #475569; /* slate-600 */
+            color: white;
+        }
+        .word-btn {
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px 0 rgb(0 0 0 / 8%);
+        }
+        .word-btn:hover {
+            transform: translateY(-3px) scale(1.03);
+            box-shadow: 0 4px 12px 0 rgb(0 0 0 / 15%);
+            color: white;
+        }
+        .t-sound-hover:hover { background-color: #3b82f6; }
+        .d-sound-hover:hover { background-color: #16a34a; }
+        .id-sound-hover:hover { background-color: #c026d3; }
+        #modal { transition: opacity 0.3s ease, transform 0.3s ease; }
+        #modal.hidden { opacity: 0; transform: scale(0.95); pointer-events: none; }
+        .quiz-choice-btn {
+            transition: all 0.2s ease-in-out;
+        }
+        .quiz-choice-btn.correct {
+            background-color: #22c55e; /* green-500 */
+            color: white;
+            transform: scale(1.05);
+            border-color: #16a34a;
+        }
+        .quiz-choice-btn.incorrect {
+            background-color: #ef4444; /* red-500 */
+            color: white;
+            border-color: #dc2626;
+        }
+        .quiz-choice-btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body class="antialiased text-gray-800">
+
+    <div class="container mx-auto p-4 md:p-8 max-w-6xl">
+
+        <header class="text-center mb-8">
+            <h1 class="text-4xl md:text-5xl font-bold font-poppins text-slate-700">ED Pronunciation Lab & Quiz</h1>
+            <p class="text-lg text-slate-600 mt-2">เรียนรู้และทดสอบความเข้าใจเรื่องการออกเสียง -ed</p>
+        </header>
+
+        <nav class="flex justify-center bg-slate-200 rounded-full p-1 mb-8 max-w-sm mx-auto">
+            <button id="tab-lesson" class="main-tab active w-1/2 py-2 px-4 rounded-full font-semibold">บทเรียน</button>
+            <button id="tab-quiz" class="main-tab w-1/2 py-2 px-4 rounded-full font-semibold">แบบทดสอบ</button>
+        </nav>
+
+        <main>
+            <div id="panel-lesson">
+                <div class="space-y-8">
+                    <div class="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg p-6 border-l-8 border-blue-500">
+                         <h2 class="text-3xl font-bold font-poppins text-blue-600">Rule 1: เสียง /t/ (ทฺ)</h2>
+                        <p class="text-gray-600 mb-6">เมื่อคำกริยาลงท้ายด้วยเสียง **ไม่สั่น (Voiceless)** เช่น /p/, /k/, /s/, /f/, /ʃ/ (sh), /tʃ/ (ch)</p>
+                        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
+                           <button class="word-btn t-sound-hover bg-white p-3 rounded-lg font-semibold text-blue-600" data-word="helped" data-pronounce="เฮลพฺทฺ" data-rule="เสียง /t/ เพราะ help ลงท้ายด้วยเสียง /p/ (voiceless)" data-en-sentence="He helped me carry the boxes." data-th-sentence="เขาช่วยฉันถือกล่อง">helped</button>
+                            <button class="word-btn t-sound-hover bg-white p-3 rounded-lg font-semibold text-blue-600" data-word="looked" data-pronounce="ลุคทฺ" data-rule="เสียง /t/ เพราะ look ลงท้ายด้วยเสียง /k/ (voiceless)" data-en-sentence="She looked at the beautiful sky." data-th-sentence="เธอมองไปที่ท้องฟ้าที่สวยงาม">looked</button>
+                            <button class="word-btn t-sound-hover bg-white p-3 rounded-lg font-semibold text-blue-600" data-word="watched" data-pronounce="วอชทฺ" data-rule="เสียง /t/ เพราะ watch ลงท้ายด้วยเสียง /tʃ/ (voiceless)" data-en-sentence="We watched a movie last night." data-th-sentence="เราดูหนังเมื่อคืนนี้">watched</button>
+                            <button class="word-btn t-sound-hover bg-white p-3 rounded-lg font-semibold text-blue-600" data-word="laughed" data-pronounce="ลาฟทฺ" data-rule="เสียง /t/ เพราะ laugh ลงท้ายด้วยเสียง /f/ (voiceless)" data-en-sentence="They laughed at his joke." data-th-sentence="พวกเขาหัวเราะกับเรื่องตลกของเขา">laughed</button>
+                            <button class="word-btn t-sound-hover bg-white p-3 rounded-lg font-semibold text-blue-600" data-word="danced" data-pronounce="ดานซฺทฺ" data-rule="เสียง /t/ เพราะ dance ลงท้ายด้วยเสียง /s/ (voiceless)" data-en-sentence="We danced all night." data-th-sentence="เราเต้นกันทั้งคืน">danced</button>
+                        </div>
+                    </div>
+
+                    <div class="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg p-6 border-l-8 border-green-600">
+                        <h2 class="text-3xl font-bold font-poppins text-green-700">Rule 2: เสียง /d/ (ดฺ)</h2>
+                        <p class="text-gray-600 mb-6">เมื่อคำกริยาลงท้ายด้วยเสียง **สั่น (Voiced)** เช่น /b/, /g/, /v/, /l/, /m/, /n/, /z/ หรือ **เสียงสระ**</p>
+                        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
+                           <button class="word-btn d-sound-hover bg-white p-3 rounded-lg font-semibold text-green-600" data-word="played" data-pronounce="เพลดฺ" data-rule="เสียง /d/ เพราะ play ลงท้ายด้วยเสียงสระ (voiced)" data-en-sentence="The kids played in the park." data-th-sentence="เด็กๆ เล่นกันในสนามเด็กเล่น">played</button>
+                            <button class="word-btn d-sound-hover bg-white p-3 rounded-lg font-semibold text-green-600" data-word="loved" data-pronounce="เลิฟดฺ" data-rule="เสียง /d/ เพราะ love ลงท้ายด้วยเสียง /v/ (voiced)" data-en-sentence="She loved the gift." data-th-sentence="เธอชอบของขวัญชิ้นนั้นมาก">loved</button>
+                            <button class="word-btn d-sound-hover bg-white p-3 rounded-lg font-semibold text-green-600" data-word="called" data-pronounce="คอลดฺ" data-rule="เสียง /d/ เพราะ call ลงท้ายด้วยเสียง /l/ (voiced)" data-en-sentence="He called me yesterday." data-th-sentence="เขาโทรหาฉันเมื่อวานนี้">called</button>
+                            <button class="word-btn d-sound-hover bg-white p-3 rounded-lg font-semibold text-green-600" data-word="cleaned" data-pronounce="คลีนดฺ" data-rule="เสียง /d/ เพราะ clean ลงท้ายด้วยเสียง /n/ (voiced)" data-en-sentence="I cleaned my room." data-th-sentence="ฉันทำความสะอาดห้องของฉัน">cleaned</button>
+                            <button class="word-btn d-sound-hover bg-white p-3 rounded-lg font-semibold text-green-600" data-word="smiled" data-pronounce="สไมลดฺ" data-rule="เสียง /d/ เพราะ smile ลงท้ายด้วยเสียง /l/ (voiced)" data-en-sentence="She smiled at me." data-th-sentence="เธอยิ้มให้ฉัน">smiled</button>
+                        </div>
+                    </div>
+
+                    <div class="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg p-6 border-l-8 border-fuchsia-600">
+                       <h2 class="text-3xl font-bold font-poppins text-fuchsia-700">Rule 3: เสียง /ɪd/ (เอ็ด)</h2>
+                        <p class="text-gray-600 mb-6">เมื่อคำกริยาลงท้ายด้วยเสียง **/t/ หรือ /d/** เท่านั้น! (จะมีการเพิ่มพยางค์)</p>
+                        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
+                            <button class="word-btn id-sound-hover bg-white p-3 rounded-lg font-semibold text-fuchsia-600" data-word="wanted" data-pronounce="<u>วอน</u>-เท็ด" data-rule="เสียง /ɪd/ เพราะ want ลงท้ายด้วยเสียง /t/" data-en-sentence="I wanted to go, but I was too busy." data-th-sentence="ฉันอยากจะไป แต่ฉันยุ่งเกินไป">wanted</button>
+                            <button class="word-btn id-sound-hover bg-white p-3 rounded-lg font-semibold text-fuchsia-600" data-word="needed" data-pronounce="<u>นี</u>-เด็ด" data-rule="เสียง /ɪd/ เพราะ need ลงท้ายด้วยเสียง /d/" data-en-sentence="She needed some help." data-th-sentence="เธอต้องการความช่วยเหลือ">needed</button>
+                            <button class="word-btn id-sound-hover bg-white p-3 rounded-lg font-semibold text-fuchsia-600" data-word="started" data-pronounce="<u>สตาร์ท</u>-เท็ด" data-rule="เสียง /ɪd/ เพราะ start ลงท้ายด้วยเสียง /t/" data-en-sentence="The race started on time." data-th-sentence="การแข่งขันเริ่มตรงเวลา">started</button>
+                            <button class="word-btn id-sound-hover bg-white p-3 rounded-lg font-semibold text-fuchsia-600" data-word="ended" data-pronounce="<u>เอน</u>-เด็ด" data-rule="เสียง /ɪd/ เพราะ end ลงท้ายด้วยเสียง /d/" data-en-sentence="The movie ended happily." data-th-sentence="หนังจบอย่างมีความสุข">ended</button>
+                            <button class="word-btn id-sound-hover bg-white p-3 rounded-lg font-semibold text-fuchsia-600" data-word="decided" data-pronounce="ดิ-<u>ไซ</u>-เด็ด" data-rule="เสียง /ɪd/ เพราะ decide ลงท้ายด้วยเสียง /d/" data-en-sentence="We decided to stay home." data-th-sentence="เราตัดสินใจที่จะอยู่บ้าน">decided</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="panel-quiz" class="hidden">
+                 <div id="quiz-container" class="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg p-6 md:p-8 text-center max-w-2xl mx-auto">
+                    <div id="quiz-start">
+                        <h2 class="text-2xl font-bold text-slate-700 mb-4">พร้อมประลองความแม่นยำรึยัง?</h2>
+                        <p class="text-slate-600 mb-6">ทดสอบความเข้าใจเรื่องการออกเสียง -ed ทั้ง 10 ข้อ!</p>
+                        <button id="start-quiz-btn" class="bg-slate-600 text-white font-bold py-3 px-8 rounded-full hover:bg-slate-700 transition transform hover:scale-105">เริ่มทำแบบทดสอบ!</button>
+                    </div>
+
+                    <div id="quiz-main" class="hidden">
+                        <p id="quiz-progress" class="text-sm text-slate-500 mb-2">คำถามที่ 1/10</p>
+                        <h2 class="text-5xl md:text-6xl font-bold font-poppins text-slate-800 mb-8" id="question-word"></h2>
+                        <p class="text-slate-600 mb-6 font-semibold">คำนี้ออกเสียง -ed แบบไหน?</p>
+                        <div id="choices-container" class="grid grid-cols-3 gap-4 mb-6">
+                            <button data-choice="/t/" class="quiz-choice-btn border-2 border-blue-400 text-blue-500 font-bold py-4 rounded-lg text-2xl hover:bg-blue-500 hover:text-white">/t/ <span class="hidden sm:inline">(ทฺ)</span></button>
+                            <button data-choice="/d/" class="quiz-choice-btn border-2 border-green-500 text-green-600 font-bold py-4 rounded-lg text-2xl hover:bg-green-600 hover:text-white">/d/ <span class="hidden sm:inline">(ดฺ)</span></button>
+                            <button data-choice="/id/" class="quiz-choice-btn border-2 border-fuchsia-500 text-fuchsia-600 font-bold py-4 rounded-lg text-2xl hover:bg-fuchsia-600 hover:text-white">/ɪd/ <span class="hidden sm:inline">(เอ็ด)</span></button>
+                        </div>
+                        <p id="feedback" class="h-6 text-lg font-bold mb-4"></p>
+                        <button id="next-question-btn" class="bg-slate-600 text-white font-bold py-2 px-6 rounded-full hover:bg-slate-700 transition hidden">คำถามถัดไป</button>
+                    </div>
+
+                    <div id="quiz-end" class="hidden">
+                        <h2 class="text-2xl font-bold text-slate-700 mb-4">ทำแบบทดสอบเสร็จแล้ว!</h2>
+                        <p class="text-slate-600 mb-2">คะแนนของคุณคือ:</p>
+                        <p id="final-score" class="text-6xl font-bold font-poppins text-slate-800 mb-6"></p>
+                        <p id="score-message" class="text-lg mb-6"></p>
+                        <button id="restart-quiz-btn" class="bg-slate-600 text-white font-bold py-3 px-8 rounded-full hover:bg-slate-700 transition transform hover:scale-105">ลองอีกครั้ง</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <div id="modal" class="fixed inset-0 bg-black bg-opacity-60 flex justify-center items-center p-4 z-50 hidden">
+        <div id="modal-content" class="bg-white rounded-2xl shadow-2xl w-full max-w-md mx-auto overflow-hidden transform">
+            <div class="p-6 md:p-8">
+                <div class="flex justify-between items-start mb-4">
+                    <h2 id="modal-word" class="text-3xl font-bold font-poppins text-slate-700">Word</h2>
+                    <button id="modal-close-btn" class="text-gray-400 hover:text-gray-700 transition text-3xl leading-none">&times;</button>
+                </div>
+                <div>
+                    <div class="mb-5"><h3 class="font-bold text-lg text-gray-700 mb-2 border-b-2 border-slate-200 pb-1">หลักการออกเสียง</h3><p id="modal-rule" class="text-gray-600 text-md"></p></div>
+                    <div class="mb-5"><h3 class="font-bold text-lg text-gray-700 mb-2 border-b-2 border-slate-200 pb-1">คำอ่านภาษาไทย</h3><p id="modal-pronounce" class="text-gray-600 text-xl"></p></div>
+                    <div><h3 class="font-bold text-lg text-gray-700 mb-2 border-b-2 border-slate-200 pb-1">ตัวอย่างประโยค</h3><div id="modal-examples" class="text-gray-600 space-y-2"><p id="modal-en-sentence" class="font-semibold"></p><p id="modal-th-sentence" class="text-sm text-gray-500"></p></div></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // --- Universal Elements ---
+            const tabLesson = document.getElementById('tab-lesson');
+            const tabQuiz = document.getElementById('tab-quiz');
+            const panelLesson = document.getElementById('panel-lesson');
+            const panelQuiz = document.getElementById('panel-quiz');
+
+            // --- Tab Switching Logic ---
+            tabLesson.addEventListener('click', () => {
+                tabLesson.classList.add('active');
+                tabQuiz.classList.remove('active');
+                panelLesson.classList.remove('hidden');
+                panelQuiz.classList.add('hidden');
+            });
+
+            tabQuiz.addEventListener('click', () => {
+                tabQuiz.classList.add('active');
+                tabLesson.classList.remove('active');
+                panelQuiz.classList.remove('hidden');
+                panelLesson.classList.add('hidden');
+            });
+            
+            // --- Lesson Modal Logic ---
+            const wordButtons = document.querySelectorAll('.word-btn');
+            const modal = document.getElementById('modal');
+            const modalCloseBtn = document.getElementById('modal-close-btn');
+            const modalWord = document.getElementById('modal-word');
+            const modalRule = document.getElementById('modal-rule');
+            const modalPronounce = document.getElementById('modal-pronounce');
+            const modalEnSentence = document.getElementById('modal-en-sentence');
+            const modalThSentence = document.getElementById('modal-th-sentence');
+
+            function openModal(e) {
+                const button = e.currentTarget;
+                const data = button.dataset;
+                modalWord.textContent = data.word;
+                modalRule.textContent = data.rule;
+                modalPronounce.innerHTML = data.pronounce;
+                modalEnSentence.textContent = data.enSentence;
+                modalThSentence.textContent = data.thSentence;
+                modal.classList.remove('hidden');
+                document.body.style.overflow = 'hidden';
+            }
+
+            function closeModal() {
+                modal.classList.add('hidden');
+                document.body.style.overflow = '';
+            }
+
+            wordButtons.forEach(button => button.addEventListener('click', openModal));
+            modalCloseBtn.addEventListener('click', closeModal);
+            modal.addEventListener('click', (e) => { if (e.target.id === 'modal') closeModal(); });
+            document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !modal.classList.contains('hidden')) closeModal(); });
+
+            // --- Quiz Logic ---
+            const quizQuestions = [
+                { word: 'stopped', answer: '/t/' }, { word: 'planned', answer: '/d/' },
+                { word: 'waited', answer: '/id/' }, { word: 'washed', answer: '/t/' },
+                { word: 'smiled', answer: '/d/' }, { word: 'asked', answer: '/t/' },
+                { word: 'decided', answer: '/id/' }, { word: 'loved', answer: '/d/' },
+                { word: 'missed', answer: '/t/' }, { word: 'needed', answer: '/id/' }
+            ];
+            let shuffledQuestions = [];
+            let currentQuestionIndex = 0;
+            let score = 0;
+
+            const quizStart = document.getElementById('quiz-start');
+            const quizMain = document.getElementById('quiz-main');
+            const quizEnd = document.getElementById('quiz-end');
+            const startQuizBtn = document.getElementById('start-quiz-btn');
+            const restartQuizBtn = document.getElementById('restart-quiz-btn');
+            const nextQuestionBtn = document.getElementById('next-question-btn');
+            const questionWord = document.getElementById('question-word');
+            const choicesContainer = document.getElementById('choices-container');
+            const choiceBtns = choicesContainer.querySelectorAll('.quiz-choice-btn');
+            const quizProgress = document.getElementById('quiz-progress');
+            const feedback = document.getElementById('feedback');
+            const finalScore = document.getElementById('final-score');
+            const scoreMessage = document.getElementById('score-message');
+            
+            function startQuiz() {
+                shuffledQuestions = [...quizQuestions].sort(() => Math.random() - 0.5);
+                currentQuestionIndex = 0;
+                score = 0;
+                quizStart.classList.add('hidden');
+                quizEnd.classList.add('hidden');
+                quizMain.classList.remove('hidden');
+                nextQuestionBtn.classList.add('hidden');
+                showQuestion();
+            }
+
+            function showQuestion() {
+                resetState();
+                const question = shuffledQuestions[currentQuestionIndex];
+                questionWord.textContent = question.word;
+                quizProgress.textContent = `คำถามที่ ${currentQuestionIndex + 1}/${shuffledQuestions.length}`;
+            }
+            
+            function resetState() {
+                choiceBtns.forEach(btn => {
+                    btn.classList.remove('correct', 'incorrect');
+                    btn.disabled = false;
+                });
+                feedback.textContent = '';
+                nextQuestionBtn.classList.add('hidden');
+            }
+
+            function selectAnswer(e) {
+                const selectedChoice = e.target.dataset.choice;
+                const correct = selectedChoice === shuffledQuestions[currentQuestionIndex].answer;
+                
+                if(correct) {
+                    score++;
+                    feedback.textContent = 'ถูกต้องครับ!';
+                    feedback.className = 'h-6 text-lg font-bold mb-4 text-green-600';
+                    e.target.classList.add('correct');
+                } else {
+                    feedback.textContent = 'ยังไม่ถูกนะครับ';
+                    feedback.className = 'h-6 text-lg font-bold mb-4 text-red-600';
+                    e.target.classList.add('incorrect');
+                    // Show the correct answer
+                    const correctBtn = Array.from(choiceBtns).find(btn => btn.dataset.choice === shuffledQuestions[currentQuestionIndex].answer);
+                    correctBtn.classList.add('correct');
+                }
+                
+                choiceBtns.forEach(btn => btn.disabled = true);
+                
+                if (currentQuestionIndex < shuffledQuestions.length - 1) {
+                    nextQuestionBtn.textContent = 'คำถามถัดไป';
+                } else {
+                    nextQuestionBtn.textContent = 'ดูผลคะแนน';
+                }
+                nextQuestionBtn.classList.remove('hidden');
+            }
+
+            function handleNextQuestion() {
+                currentQuestionIndex++;
+                if (currentQuestionIndex < shuffledQuestions.length) {
+                    showQuestion();
+                } else {
+                    showEndScreen();
+                }
+            }
+            
+            function showEndScreen() {
+                quizMain.classList.add('hidden');
+                quizEnd.classList.remove('hidden');
+                finalScore.textContent = `${score}/${shuffledQuestions.length}`;
+                
+                let message = '';
+                const percentage = (score / shuffledQuestions.length) * 100;
+                if (percentage === 100) message = 'สุดยอด! คุณคือเจ้าแห่งการออกเสียง -ed!';
+                else if (percentage >= 70) message = 'เก่งมาก! ความเข้าใจแม่นยำมากครับ!';
+                else if (percentage >= 50) message = 'เยี่ยมเลย! ลองทบทวนอีกนิดจะเพอร์เฟคเลยครับ!';
+                else message = 'ไม่เป็นไรนะ! ลองทบทวนในหน้าบทเรียนแล้วมาลองใหม่กัน!';
+                scoreMessage.textContent = message;
+            }
+            
+            startQuizBtn.addEventListener('click', startQuiz);
+            restartQuizBtn.addEventListener('click', startQuiz);
+            nextQuestionBtn.addEventListener('click', handleNextQuestion);
+            choiceBtns.forEach(btn => btn.addEventListener('click', selectAnswer));
+        });
+    </script>
+
+</body>
+</html>

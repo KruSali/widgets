@@ -1,0 +1,1042 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cloze Test Challenge</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8; /* Light blue-gray background */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        #app-container {
+            background-color: #ffffff;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            max-width: 900px;
+            width: 100%;
+            padding: 30px;
+            overflow: hidden;
+            position: relative;
+            box-sizing: border-box;
+        }
+        .text-section {
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .reading-passage {
+            background-color: #e0f2f7; /* Light cyan */
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            font-size: 1.1em;
+            line-height: 1.6;
+        }
+        .question-card {
+            background-color: #fef08a; /* Light yellow for questions */
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 15px;
+            border: 1px solid #fde047; /* Yellow border */
+        }
+        .question-card:nth-child(even) {
+            background-color: #d1fae5; /* Light green for alternating questions */
+            border: 1px solid #6ee7b7; /* Green border */
+        }
+        .option-button {
+            display: block;
+            width: 100%;
+            text-align: left;
+            padding: 12px 15px;
+            margin-top: 10px;
+            border-radius: 10px;
+            background-color: #93c5fd; /* Light blue for options */
+            color: #1e3a8a; /* Dark blue text */
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border: none;
+            cursor: pointer;
+        }
+        .option-button:hover {
+            background-color: #60a5fa; /* Slightly darker blue on hover */
+            transform: translateY(-2px);
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+        }
+        .navigation-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+        .nav-button {
+            background-color: #3b82f6; /* Blue */
+            color: white;
+            padding: 12px 25px;
+            border-radius: 10px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border: none;
+        }
+        .nav-button:hover {
+            background-color: #2563eb; /* Darker blue on hover */
+        }
+        .nav-button:disabled {
+            background-color: #9ca3af; /* Gray when disabled */
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+
+        /* Popup styles */
+        #popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+        #popup-overlay.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+        #popup-box {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            position: relative;
+            transform: translateY(20px);
+            opacity: 0;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+        #popup-overlay.visible #popup-box {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        #popup-title {
+            font-size: 1.8em;
+            font-weight: 700;
+            color: #3b82f6; /* Blue */
+            margin-bottom: 15px;
+        }
+        #popup-meaning {
+            font-size: 1.2em;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        #popup-synonyms {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 20px;
+        }
+        #popup-close-button {
+            background-color: #ef4444; /* Red */
+            color: white;
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-weight: 700;
+            cursor: pointer;
+            border: none;
+            transition: background-color 0.3s ease;
+        }
+        #popup-close-button:hover {
+            background-color: #dc2626; /* Darker red on hover */
+        }
+
+        /* Answer explanation styles */
+        details {
+            background-color: #f3f4f6; /* Light gray */
+            border: 1px solid #d1d5db; /* Gray border */
+            border-radius: 10px;
+            padding: 10px 15px;
+            margin-top: 15px;
+            font-size: 0.95em;
+            line-height: 1.5;
+            transition: background-color 0.3s ease;
+        }
+        details[open] {
+            background-color: #e5e7eb; /* Slightly darker gray when open */
+        }
+        summary {
+            font-weight: 700;
+            color: #4b5563; /* Dark gray */
+            cursor: pointer;
+            outline: none;
+            padding: 5px 0;
+        }
+        summary:hover {
+            color: #1f2937; /* Even darker gray on hover */
+        }
+        details p {
+            margin-top: 10px;
+            color: #374151; /* Medium gray text */
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            #app-container {
+                padding: 20px;
+            }
+            .nav-button {
+                padding: 10px 15px;
+                font-size: 0.9em;
+            }
+            #popup-title {
+                font-size: 1.5em;
+            }
+            #popup-meaning {
+                font-size: 1.1em;
+            }
+            .question-card {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="app-container">
+        <h1 id="app-title" class="text-4xl font-extrabold text-center mb-6 text-purple-700"></h1>
+        <div id="page-content">
+            <!-- Content will be dynamically loaded here -->
+        </div>
+
+        <div id="loading-indicator" class="hidden text-center text-lg text-gray-500 mt-4">
+            กำลังโหลด... 🔄
+        </div>
+
+        <div id="popup-overlay">
+            <div id="popup-box">
+                <h3 id="popup-title"></h3>
+                <p id="popup-meaning"></p>
+                <p id="popup-synonyms" class="italic"></p>
+                <button id="popup-close-button">ปิด</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const clozeData = [
+            {
+                type: "introduction",
+                title: "English Master: Cloze Test Challenge! 🚀",
+                content: `
+                    <div class="text-section bg-blue-100 text-blue-800">
+                        <p class="text-lg mb-4">ยินดีต้อนรับเข้าสู่เกม <span class="font-bold">English Master: Cloze Test Challenge!</span></p>
+                        <p class="mb-4">เกมนี้จะพาคุณไปสำรวจเรื่องราวที่น่าสนใจและทันสมัยในหลากหลายด้าน ทั้งวิทยาศาสตร์ 💡 ประวัติศาสตร์ 🏛️ จิตวิทยา 🧠 สิ่งแวดล้อม 🌎 ธุรกิจ 💼 และอีกมากมาย!</p>
+                        <p class="mb-4">เป้าหมายของคุณคือการเลือกคำศัพท์ที่ถูกต้องที่สุดเพื่อเติมลงในช่องว่างในแต่ละประโยค และเมื่อคุณกดเลือกคำตอบ จะมีกล่องป๊อปอัป ✨ เด้งขึ้นมาบอกความหมายภาษาไทย พร้อมคำที่มีความหมายเหมือนกัน เพื่อช่วยให้คุณเข้าใจคำศัพท์ได้ลึกซึ้งยิ่งขึ้น!</p>
+                        <p class="text-xl font-bold mt-6">มาลับคมทักษะภาษาอังกฤษของคุณไปด้วยกัน! 💪</p>
+                    </div>
+                `,
+                buttonText: "เริ่มต้น ➡️"
+            },
+            // Reading passages for Cloze Test Set 2 - NEW CONTENT
+            {
+                type: "reading",
+                id: "set2_reading1",
+                title: "Reading 1: The Revolution of Renewable Energy ☀️🌬️",
+                passage: "พลังงานหมุนเวียนกำลังปฏิวัติวงการพลังงานของโลก เรามาดูนวัตกรรมล่าสุดและผลกระทบของมันกัน",
+                questions: [
+                    {
+                        question: "The global energy landscape is undergoing a significant ____, driven by growing concerns about climate change and the finite nature of fossil fuels.",
+                        options: [
+                            { text: "stagnation", meaning: "ความซบเซา", synonyms: ["inertia", "inactivity"] },
+                            { text: "transformation", meaning: "การเปลี่ยนแปลงครั้งใหญ่", synonyms: ["revolution", "overhaul"] },
+                            { text: "deterioration", meaning: "การเสื่อมสภาพ", synonyms: ["decline", "decay"] },
+                            { text: "preservation", meaning: "การสงวน", synonyms: ["conservation", "maintenance"] },
+                        ],
+                        answer: "transformation",
+                        explanation: "**transformation** (n.) หมายถึง การเปลี่ยนแปลงครั้งใหญ่ คำนี้เหมาะสมที่สุดเพราะภูมิทัศน์พลังงานกำลังเปลี่ยนแปลงไปอย่างมาก\n* **stagnation** (n.) หมายถึง ความซบเซา\n* **deterioration** (n.) หมายถึง การเสื่อมสภาพ\n* **preservation** (n.) หมายถึง การสงวน",
+                    },
+                    {
+                        question: "Renewable energy sources, such as solar, wind, and geothermal, are at the forefront of this shift, offering sustainable alternatives to traditional, carbon-____ energy production.",
+                        options: [
+                            { text: "intensive", meaning: "เข้มข้น", synonyms: ["heavy", "concentrated"] },
+                            { text: "efficient", meaning: "มีประสิทธิภาพ", synonyms: ["effective", "productive"] },
+                            { text: "sparse", meaning: "เบาบาง, ขาดแคลน", synonyms: ["scarce", "meager"] },
+                            { text: "abundant", meaning: "อุดมสมบูรณ์", synonyms: ["plentiful", "ample"] },
+                        ],
+                        answer: "intensive",
+                        explanation: "**intensive** (adj.) หมายถึง เข้มข้น ในที่นี้คือ \"carbon-intensive\" หมายถึงการผลิตพลังงานที่ใช้คาร์บอนในปริมาณมาก\n* **efficient** (adj.) หมายถึง มีประสิทธิภาพ\n* **sparse** (adj.) หมายถึง เบาบาง, ขาดแคลน\n* **abundant** (adj.) หมายถึง อุดมสมบูรณ์",
+                    },
+                    {
+                        question: "Innovations in battery storage technology are addressing the ____ of renewable energy, ensuring a more consistent and reliable power supply.",
+                        options: [
+                            { text: "stability", meaning: "ความเสถียร", synonyms: ["steadiness", "firmness"] },
+                            { text: "intermittency", meaning: "การไม่ต่อเนื่อง, การขาดช่วง", synonyms: ["irregularity", "discontinuity"] },
+                            { text: "abundance", meaning: "ความอุดมสมบูรณ์", synonyms: ["plenty", "profusion"] },
+                            { text: "efficiency", meaning: "ประสิทธิภาพ", synonyms: ["effectiveness", "productivity"] },
+                        ],
+                        answer: "intermittency",
+                        explanation: "**intermittency** (n.) หมายถึง การไม่ต่อเนื่อง, การขาดช่วง คำนี้เหมาะสมที่สุดเพราะพลังงานหมุนเวียนเช่นแสงอาทิตย์และลมไม่ได้ผลิตกระแสไฟฟ้าตลอดเวลา ทำให้การกักเก็บพลังงานเป็นสิ่งสำคัญ\n* **stability** (n.) หมายถึง ความเสถียร\n* **abundance** (n.) หมายถึง ความอุดมสมบูรณ์\n* **efficiency** (n.) หมายถึง ประสิทธิภาพ",
+                    },
+                    {
+                        question: "The transition to renewable energy is not only crucial for environmental ____ but also offers economic benefits, creating new jobs and reducing reliance on volatile fossil fuel markets.",
+                        options: [
+                            { text: "degradation", meaning: "การเสื่อมโทรม", synonyms: ["deterioration", "decay"] },
+                            { text: "preservation", meaning: "การสงวน, การรักษา", synonyms: ["conservation", "safeguarding"] },
+                            { text: "exploitation", meaning: "การหาประโยชน์โดยมิชอบ", synonyms: ["abuse", "misuse"] },
+                            { text: "neglect", meaning: "การละเลย", synonyms: ["disregard", "omission"] },
+                        ],
+                        answer: "preservation",
+                        explanation: "**preservation** (n.) หมายถึง การสงวน, การรักษา คำนี้เหมาะสมกับบริบทของการรักษาสิ่งแวดล้อม\n* **degradation** (n.) หมายถึง การเสื่อมโทรม\n* **exploitation** (n.) หมายถึง การหาประโยชน์โดยมิชอบ\n* **neglect** (n.) หมายถึง การละเลย",
+                    },
+                    {
+                        question: "Governments and private sectors worldwide are investing heavily in renewable energy infrastructure, signaling a collective ____ towards a greener and more sustainable future.",
+                        options: [
+                            { text: "indifference", meaning: "ความไม่แยแส", synonyms: ["apathy", "unconcern"] },
+                            { text: "reluctance", meaning: "ความไม่เต็มใจ", synonyms: ["hesitation", "unwillingness"] },
+                            { text: "commitment", meaning: "ความมุ่งมั่น, พันธสัญญา", synonyms: ["dedication", "pledge"] },
+                            { text: "abandonment", meaning: "การละทิ้ง", synonyms: ["desertion", "forsaking"] },
+                        ],
+                        answer: "commitment",
+                        explanation: "**commitment** (n.) หมายถึง ความมุ่งมั่น, พันธสัญญา คำนี้แสดงถึงความตั้งใจร่วมกันที่จะก้าวไปสู่อนาคตที่ยั่งยืน\n* **indifference** (n.) หมายถึง ความไม่แยแส\n* **reluctance** (n.) หมายถึง ความไม่เต็มใจ\n* **abandonment** (n.) หมายถึง การละทิ้ง",
+                    },
+                ]
+            },
+            {
+                type: "reading",
+                id: "set2_reading2",
+                title: "Reading 2: Digital Privacy and Cybersecurity in the Modern Age 🔒🌐",
+                passage: "ในยุคดิจิทัลที่ข้อมูลถูกใช้และเก็บเกี่ยวมากมาย การปกป้องข้อมูลส่วนตัวและความปลอดภัยทางไซเบอร์จึงเป็นสิ่งสำคัญยิ่ง",
+                questions: [
+                    {
+                        question: "In an increasingly interconnected world, digital privacy and cybersecurity have become paramount ____ for individuals, businesses, and governments alike.",
+                        options: [
+                            { text: "concerns", meaning: "ความกังวล", synonyms: ["worries", "issues"] },
+                            { text: "luxuries", meaning: "ความฟุ่มเฟือย", synonyms: ["extravagances", "indulgence"] },
+                            { text: "afterthoughts", meaning: "สิ่งที่คิดขึ้นมาทีหลัง", synonyms: ["oversights", "additions"] },
+                            { text: "trivialities", meaning: "สิ่งเล็กน้อย", synonyms: ["unimportant matters", "trifles"] },
+                        ],
+                        answer: "concerns",
+                        explanation: "**concerns** (n.) หมายถึง ความกังวล คำนี้เหมาะสมที่สุดเพราะความเป็นส่วนตัวทางดิจิทัลและความปลอดภัยทางไซเบอร์เป็นประเด็นสำคัญที่ทุกคนควรใส่ใจ\n* **luxuries** (n.) หมายถึง ความฟุ่มเฟือย\n* **afterthoughts** (n.) หมายถึง สิ่งที่คิดขึ้นมาทีหลัง\n* **trivialities** (n.) หมายถึง สิ่งเล็กน้อย",
+                    },
+                    {
+                        question: "The proliferation of online activities, from social media to e-commerce, has led to an exponential ____ in the volume of personal data being collected and processed.",
+                        options: [
+                            { text: "decline", meaning: "การลดลง", synonyms: ["decrease", "reduction"] },
+                            { text: "stagnation", meaning: "ความซบเซา", synonyms: ["inertia", "inactivity"] },
+                            { text: "growth", meaning: "การเติบโต, การเพิ่มขึ้น", synonyms: ["expansion", "increase"] },
+                            { text: "constriction", meaning: "การหดตัว", synonyms: ["narrowing", "tightening"] },
+                        ],
+                        answer: "growth",
+                        explanation: "**growth** (n.) หมายถึง การเติบโต, การเพิ่มขึ้น คำนี้เหมาะสมที่สุดเพราะข้อมูลส่วนตัวถูกเก็บรวบรวมและประมวลผลเพิ่มขึ้นอย่างรวดเร็ว\n* **decline** (n.) หมายถึง การลดลง\n* **stagnation** (n.) หมายถึง ความซบเซา\n* **constriction** (n.) หมายถึง การหดตัว",
+                    },
+                    {
+                        question: "This wealth of data, while facilitating convenience and innovation, also presents a lucrative target for cybercriminals seeking to exploit ____ in security systems.",
+                        options: [
+                            { text: "strengths", meaning: "จุดแข็ง", synonyms: ["advantages", "fortes"] },
+                            { text: "vulnerabilities", meaning: "ช่องโหว่, จุดอ่อน", synonyms: ["weaknesses", "flaws"] },
+                            { text: "assets", meaning: "สินทรัพย์", synonyms: ["resources", "holdings"] },
+                            { text: "enhancements", meaning: "การปรับปรุงให้ดีขึ้น", synonyms: ["improvements", "upgrades"] },
+                        ],
+                        answer: "vulnerabilities",
+                        explanation: "**vulnerabilities** (n.) หมายถึง ช่องโหว่, จุดอ่อน คำนี้เหมาะสมที่สุดเพราะอาชญากรไซเบอร์มักพุ่งเป้าไปที่จุดอ่อนในระบบความปลอดภัย\n* **strengths** (n.) หมายถึง จุดแข็ง\n* **assets** (n.) หมายถึง สินทรัพย์\n* **enhancements** (n.) หมายถึง การปรับปรุงให้ดีขึ้น",
+                    },
+                    {
+                        question: "Implementing strong passwords, using multi-factor authentication, and being wary of phishing attempts are crucial steps individuals can take to enhance their digital ____.",
+                        options: [
+                            { text: "exposure", meaning: "การเปิดเผย", synonyms: ["vulnerability", "disclosure"] },
+                            { text: "complicity", meaning: "การมีส่วนร่วมในอาชญากรรม", synonyms: ["collusion", "involvement"] },
+                            { text: "resilience", meaning: "ความยืดหยุ่น", synonyms: ["adaptability", "sturdiness"] },
+                            { text: "security", meaning: "ความปลอดภัย", synonyms: ["protection", "safeguard"] },
+                        ],
+                        answer: "security",
+                        explanation: "**security** (n.) หมายถึง ความปลอดภัย คำนี้เหมาะสมที่สุดเพราะการใช้มาตรการต่างๆ ช่วยเพิ่มความปลอดภัยทางดิจิทัล\n* **exposure** (n.) หมายถึง การเปิดเผย\n* **complicity** (n.) หมายถึง การมีส่วนร่วมในอาชญากรรม\n* **resilience** (n.) หมายถึง ความยืดหยุ่น",
+                    },
+                    {
+                        question: "Ultimately, safeguarding digital privacy requires a collective ____ between users, technology companies, and governments to establish robust regulations and best practices.",
+                        options: [
+                            { text: "disagreement", meaning: "ความไม่ลงรอยกัน", synonyms: ["conflict", "dissent"] },
+                            { text: "ignorance", meaning: "ความไม่รู้", synonyms: ["unawareness", "obliviousness"] },
+                            { text: "effort", meaning: "ความพยายาม", synonyms: ["endeavor", "exertion"] },
+                            { text: "negligence", meaning: "ความประมาท", synonyms: ["carelessness", "dereliction"] },
+                        ],
+                        answer: "effort",
+                        explanation: "**effort** (n.) หมายถึง ความพยายาม คำนี้เหมาะสมที่สุดเพราะการปกป้องความเป็นส่วนตัวทางดิจิทัลต้องอาศัยความพยายามร่วมกันจากหลายฝ่าย\n* **disagreement** (n.) หมายถึง ความไม่ลงรอยกัน\n* **ignorance** (n.) หมายถึง ความไม่รู้\n* **negligence** (n.) หมายถึง ความประมาท",
+                    },
+                ]
+            },
+            {
+                type: "reading",
+                id: "set2_reading3",
+                title: "Reading 3: The Future of Food: Innovation on Our Plates 🍽️🌱",
+                passage: "อนาคตของอาหารกำลังเปลี่ยนแปลงไปอย่างรวดเร็วด้วยนวัตกรรมใหม่ๆ เรามาดูกันว่าอาหารของเราจะมาจากไหนในอนาคต",
+                questions: [
+                    {
+                        question: "As the global population continues to grow, the challenge of providing sustainable and nutritious food for everyone becomes increasingly ____.",
+                        options: [
+                            { text: "insignificant", meaning: "ไม่สำคัญ", synonyms: ["trivial", "minor"] },
+                            { text: "irrelevant", meaning: "ไม่เกี่ยวข้อง", synonyms: ["unrelated", "unimportant"] },
+                            { text: "pressing", meaning: "เร่งด่วน, สำคัญ", synonyms: ["urgent", "critical"] },
+                            { text: "negligible", meaning: "เล็กน้อยมากจนไม่สำคัญ", synonyms: ["slight", "minimal"] },
+                        ],
+                        answer: "pressing",
+                        explanation: "**pressing** (adj.) หมายถึง เร่งด่วน, สำคัญ คำนี้เหมาะสมที่สุดเพราะการจัดหาอาหารที่ยั่งยืนเป็นความท้าทายที่สำคัญและเร่งด่วน\n* **insignificant** (adj.) หมายถึง ไม่สำคัญ\n* **irrelevant** (adj.) หมายถึง ไม่เกี่ยวข้อง\n* **negligible** (adj.) หมายถึง เล็กน้อยมากจนไม่สำคัญ",
+                    },
+                    {
+                        question: "Innovations in food technology are offering novel solutions, from vertical farms that maximize crop ____ in urban areas to lab-grown meat that reduces environmental impact.",
+                        options: [
+                            { text: "yield", meaning: "ผลผลิต", synonyms: ["output", "harvest"] },
+                            { text: "decay", meaning: "การเน่าเปื่อย", synonyms: ["decomposition", "rot"] },
+                            { text: "erosion", meaning: "การสึกกร่อน", synonyms: ["deterioration", "corrosion"] },
+                            { text: "consumption", meaning: "การบริโภค", synonyms: ["eating", "ingestion"] },
+                        ],
+                        answer: "yield",
+                        explanation: "**yield** (n.) หมายถึง ผลผลิต คำนี้เหมาะสมกับบริบทของการเพิ่มปริมาณการผลิตพืชผลในพื้นที่จำกัด\n* **decay** (n.) หมายถึง การเน่าเปื่อย\n* **erosion** (n.) หมายถึง การสึกกร่อน\n* **consumption** (n.) หมายถึง การบริโภค",
+                    },
+                    {
+                        question: "Cellular agriculture, a process of cultivating meat from animal cells without raising and slaughtering animals, holds immense ____ for revolutionizing the protein industry.",
+                        options: [
+                            { text: "drawbacks", meaning: "ข้อเสีย", synonyms: ["disadvantages", "limitations"] },
+                            { text: "potential", meaning: "ศักยภาพ, ความเป็นไปได้", synonyms: ["promise", "capacity"] },
+                            { text: "obstacles", meaning: "อุปสรรค", synonyms: ["hindrances", "barriers"] },
+                            { text: "failures", meaning: "ความล้มเหลว", synonyms: ["setbacks", "defeats"] },
+                        ],
+                        answer: "potential",
+                        explanation: "**potential** (n.) หมายถึง ศักยภาพ, ความเป็นไปได้ คำนี้เหมาะสมที่สุดเพราะเทคโนโลยีนี้มีศักยภาพในการเปลี่ยนแปลงอุตสาหกรรมโปรตีน\n* **drawbacks** (n.) หมายถึง ข้อเสีย\n* **obstacles** (n.) หมายถึง อุปสรรค\n* **failures** (n.) หมายถึง ความล้มเหลว",
+                    },
+                    {
+                        question: "Beyond sustainability, these advancements also aim to address issues of food security and access, particularly in regions facing ____ challenges.",
+                        options: [
+                            { text: "affluence", meaning: "ความมั่งคั่ง", synonyms: ["wealth", "prosperity"] },
+                            { text: "abundance", meaning: "ความอุดมสมบูรณ์", synonyms: ["plenty", "profusion"] },
+                            { text: "scarcity", meaning: "ความขาดแคลน", synonyms: ["shortage", "poverty"] },
+                            { text: "equilibrium", meaning: "ความสมดุล", synonyms: ["balance", "stability"] },
+                        ],
+                        answer: "scarcity",
+                        explanation: "**scarcity** (n.) หมายถึง ความขาดแคลน คำนี้เหมาะสมกับบริบทของปัญหาการขาดแคลนอาหารในบางพื้นที่\n* **affluence** (n.) หมายถึง ความมั่งคั่ง\n* **abundance** (n.) หมายถึง ความอุดมสมบูรณ์\n* **equilibrium** (n.) หมายถึง ความสมดุล",
+                    },
+                    {
+                        question: "Consumer acceptance and regulatory frameworks are key factors that will ____ the widespread adoption of these innovative food technologies.",
+                        options: [
+                            { text: "hinder", meaning: "กีดขวาง", synonyms: ["impede", "promote"] },
+                            { text: "facilitate", meaning: "อำนวยความสะดวก", synonyms: ["enable", "promote"] },
+                            { text: "complicate", meaning: "ทำให้ซับซ้อน", synonyms: ["confuse", "entangle"] },
+                            { text: "restrict", meaning: "จำกัด", synonyms: ["limit", "constrain"] },
+                        ],
+                        answer: "facilitate",
+                        explanation: "**facilitate** (v.) หมายถึง อำนวยความสะดวก คำนี้เหมาะสมที่สุดเพราะการยอมรับของผู้บริโภคและกฎระเบียบจะช่วยส่งเสริมการนำเทคโนโลยีอาหารใหม่ๆ มาใช้อย่างแพร่หลาย\n* **hinder** (v.) หมายถึง กีดขวาง\n* **complicate** (v.) หมายถึง ทำให้ซับซ้อน\n* **restrict** (v.) หมายถึง จำกัด",
+                    },
+                ]
+            },
+            {
+                type: "reading",
+                id: "set2_reading4",
+                title: "Reading 4: Neuroscience and Brain-Computer Interfaces 🧠🔗",
+                passage: "วิทยาการด้านประสาทและเทคโนโลยีอินเทอร์เฟซสมองกับคอมพิวเตอร์กำลังก้าวหน้าอย่างรวดเร็ว เรามาดูกันว่ามันจะเปลี่ยนชีวิตเราได้อย่างไร",
+                questions: [
+                    {
+                        question: "Neuroscience, the study of the nervous system, is rapidly uncovering the intricate ____ of the human brain, offering insights into cognition, emotion, and behavior.",
+                        options: [
+                            { text: "simplicities", meaning: "ความเรียบง่าย", synonyms: ["ease", "plainness"] },
+                            { text: "complexities", meaning: "ความซับซ้อน", synonyms: ["intricacies", "complications"] },
+                            { text: "superficialities", meaning: "ความผิวเผิน", synonyms: ["shallowness", "trivialities"] },
+                            { text: "redundancies", meaning: "ความซ้ำซ้อน", synonyms: ["superfluities", "excesses"] },
+                        ],
+                        answer: "complexities",
+                        explanation: "**complexities** (n.) หมายถึง ความซับซ้อน คำนี้เหมาะสมที่สุดเพราะหมายถึงโครงสร้างและการทำงานที่ซับซ้อนของสมองมนุษย์\n* **simplicities** (n.) หมายถึง ความเรียบง่าย\n* **superficialities** (n.) หมายถึง ความผิวเผิน\n* **redundancies** (n.) หมายถึง ความซ้ำซ้อน",
+                    },
+                    {
+                        question: "A particularly exciting frontier in this field is the development of Brain-Computer Interfaces (BCIs), devices that allow direct communication pathways between the brain and an external ____.",
+                        options: [
+                            { text: "organ", meaning: "อวัยวะ", synonyms: ["viscera", "body part"] },
+                            { text: "stimulus", meaning: "สิ่งกระตุ้น", synonyms: ["incentive", "impetus"] },
+                            { text: "device", meaning: "อุปกรณ์", synonyms: ["gadget", "instrument"] },
+                            { text: "thought", meaning: "ความคิด", synonyms: ["idea", "concept"] },
+                        ],
+                        answer: "device",
+                        explanation: "**device** (n.) หมายถึง อุปกรณ์ คำนี้เหมาะสมที่สุดเพราะ BCI เป็นอุปกรณ์ที่เชื่อมต่อกับสมอง\n* **organ** (n.) หมายถึง อวัยวะ\n* **stimulus** (n.) หมายถึง สิ่งกระตุ้น\n* **thought** (n.) หมายถึง ความคิด",
+                    },
+                    {
+                        question: "BCIs hold immense ____ for individuals with paralysis or neurological disorders, potentially enabling them to control prosthetic limbs or communicate through thought.",
+                        options: [
+                            { text: "threats", meaning: "ภัยคุกคาม", synonyms: ["dangers", "menaces"] },
+                            { text: "limitations", meaning: "ข้อจำกัด", synonyms: ["restrictions", "constraints"] },
+                            { text: "promise", meaning: "อนาคตที่สดใส, แนวโน้มที่ดี", synonyms: ["potential", "hope"] },
+                            { text: "challenges", meaning: "ความท้าทาย", synonyms: ["difficulties", "obstacles"] },
+                        ],
+                        answer: "promise",
+                        explanation: "**promise** (n.) หมายถึง อนาคตที่สดใส, แนวโน้มที่ดี คำนี้เหมาะสมที่สุดเพราะ BCI มีศักยภาพที่จะช่วยผู้ป่วยได้มาก\n* **threats** (n.) หมายถึง ภัยคุกคาม\n* **limitations** (n.) หมายถึง ข้อจำกัด\n* **challenges** (n.) หมายถึง ความท้าทาย",
+                    },
+                    {
+                        question: "However, ethical ____ surrounding data privacy, mind control, and equitable access to such advanced technologies are actively being debated.",
+                        options: [
+                            { text: "ignorance", meaning: "ความไม่รู้", synonyms: ["unawareness", "obliviousness"] },
+                            { text: "resolutions", meaning: "การตัดสินใจ, ข้อสรุป", synonyms: ["decisions", "solutions"] },
+                            { text: "considerations", meaning: "การพิจารณา, ข้อคิด", synonyms: ["factors", "aspects"] },
+                            { text: "simplifications", meaning: "การทำให้ง่ายขึ้น", synonyms: ["reductions", "clarifications"] },
+                        ],
+                        answer: "considerations",
+                        explanation: "**considerations** (n.) หมายถึง การพิจารณา, ข้อคิด คำนี้เหมาะสมกับบริบทของการถกเถียงประเด็นทางจริยธรรมที่เกี่ยวข้องกับ BCI\n* **ignorance** (n.) หมายถึง ความไม่รู้\n* **resolutions** (n.) หมายถึง การตัดสินใจ, ข้อสรุป\n* **simplifications** (n.) หมายถึง การทำให้ง่ายขึ้น",
+                    },
+                    {
+                        question: "As neuroscience continues to unravel the mysteries of the brain, BCIs could fundamentally ____ human interaction with technology and even redefine human capabilities.",
+                        options: [
+                            { text: "hinder", meaning: "กีดขวาง", synonyms: ["impede", "obstruct"] },
+                            { text: "transform", meaning: "เปลี่ยนแปลง, พลิกโฉม", synonyms: ["revolutionize", "reshape"] },
+                            { text: "stabilize", meaning: "ทำให้คงที่", synonyms: ["balance", "fix"] },
+                            { text: "complicate", meaning: "ทำให้ซับซ้อน", synonyms: ["confuse", "entangle"] },
+                        ],
+                        answer: "transform",
+                        explanation: "**transform** (v.) หมายถึง เปลี่ยนแปลง, พลิกโฉม คำนี้เหมาะสมที่สุดเพราะ BCI มีศักยภาพที่จะเปลี่ยนวิธีการที่มนุษย์มีปฏิสัมพันธ์กับเทคโนโลยี\n* **hinder** (v.) หมายถึง กีดขวาง\n* **stabilize** (v.) หมายถึง ทำให้คงที่\n* **complicate** (v.) หมายถึง ทำให้ซับซ้อน",
+                    },
+                ]
+            },
+            {
+                type: "reading",
+                id: "set2_reading5",
+                title: "Reading 5: Social Entrepreneurship and Impact Investing 🌱💰",
+                passage: "การประกอบการเพื่อสังคมและการลงทุนสร้างผลกระทบกำลังเติบโตขึ้นเรื่อยๆ เรามาดูกันว่าธุรกิจเหล่านี้สร้างการเปลี่ยนแปลงได้อย่างไร",
+                questions: [
+                    {
+                        question: "Beyond traditional profit-driven models, a new wave of businesses is emerging, driven by the desire to create positive social and environmental ____ alongside financial returns.",
+                        options: [
+                            { text: "detriments", meaning: "ความเสียหาย", synonyms: ["harms", "disadvantages"] },
+                            { text: "impact", meaning: "ผลกระทบ", synonyms: ["effect", "consequence"] },
+                            { text: "negligence", meaning: "ความประมาท", synonyms: ["carelessness", "dereliction"] },
+                            { text: "disruption", meaning: "การขัดขวาง", synonyms: ["interruption", "disturbance"] },
+                        ],
+                        answer: "impact",
+                        explanation: "**impact** (n.) หมายถึง ผลกระทบ คำนี้เหมาะสมที่สุดเพราะผู้ประกอบการเพื่อสังคมมุ่งสร้างผลกระทบเชิงบวกต่อสังคมและสิ่งแวดล้อม\n* **detriments** (n.) หมายถึง ความเสียหาย\n* **negligence** (n.) หมายถึง ความประมาท\n* **disruption** (n.) หมายถึง การขัดขวาง",
+                    },
+                    {
+                        question: "This movement is often referred to as social entrepreneurship, where innovative solutions are developed to address pressing societal ____, such as poverty, inequality, and climate change.",
+                        options: [
+                            { text: "luxuries", meaning: "ความฟุ่มเฟือย", synonyms: ["extravagances", "indulgence"] },
+                            { text: "achievements", meaning: "ความสำเร็จ", synonyms: ["accomplishments", "feats"] },
+                            { text: "challenges", meaning: "ความท้าทาย, ปัญหา", synonyms: ["problems", "obstacles"] },
+                            { text: "advantages", meaning: "ข้อดี", synonyms: ["benefits", "pros"] },
+                        ],
+                        answer: "challenges",
+                        explanation: "**challenges** (n.) หมายถึง ความท้าทาย, ปัญหา คำนี้เหมาะสมที่สุดเพราะผู้ประกอบการเพื่อสังคมมุ่งแก้ปัญหาทางสังคมที่สำคัญ\n* **luxuries** (n.) หมายถึง ความฟุ่มเฟือย\n* **achievements** (n.) หมายถึง ความสำเร็จ\n* **advantages** (n.) หมายถึง ข้อดี",
+                    },
+                    {
+                        question: "Complementing this trend is impact investing, a strategy that seeks to generate financial returns while also producing measurable social and environmental ____.",
+                        options: [
+                            { text: "losses", meaning: "การสูญเสีย", synonyms: ["deficits", "damages"] },
+                            { text: "costs", meaning: "ค่าใช้จ่าย", synonyms: ["expenses", "expenditures"] },
+                            { text: "benefits", meaning: "ผลประโยชน์", synonyms: ["gains", "advantages"] },
+                            { text: "risks", meaning: "ความเสี่ยง", synonyms: ["hazards", "perils"] },
+                        ],
+                        answer: "benefits",
+                        explanation: "**benefits** (n.) หมายถึง ผลประโยชน์ คำนี้เหมาะสมที่สุดเพราะการลงทุนสร้างผลกระทบมุ่งสร้างทั้งผลตอบแทนทางการเงินและผลประโยชน์ทางสังคม/สิ่งแวดล้อม\n* **losses** (n.) หมายถึง การสูญเสีย\n* **costs** (n.) หมายถึง ค่าใช้จ่าย\n* **risks** (n.) หมายถึง ความเสี่ยง",
+                    },
+                    {
+                        question: "Investors are increasingly looking beyond traditional metrics, considering a company's environmental, social, and governance (ESG) factors to assess its overall ____.",
+                        options: [
+                            { text: "inefficiency", meaning: "ความไม่มีประสิทธิภาพ", synonyms: ["wastefulness", "unproductiveness"] },
+                            { text: "vulnerability", meaning: "ความเปราะบาง", synonyms: ["weakness", "fragility"] },
+                            { text: "sustainability", meaning: "ความยั่งยืน", synonyms: ["longevity", "viability"] },
+                            { text: "obsolescence", meaning: "การล้าสมัย", synonyms: ["antiquity", "outdatedness"] },
+                        ],
+                        answer: "sustainability",
+                        explanation: "**sustainability** (n.) หมายถึง ความยั่งยืน คำนี้เหมาะสมที่สุดเพราะปัจจัย ESG ใช้ประเมินความยั่งยืนโดยรวมของบริษัท\n* **inefficiency** (n.) หมายถึง ความไม่มีประสิทธิภาพ\n* **vulnerability** (n.) หมายถึง ความเปราะบาง\n* **obsolescence** (n.) หมายถึง การล้าสมัย",
+                    },
+                    {
+                        question: "This growing emphasis on purpose-driven business is shaping a more ____ and equitable economic landscape, where profit and positive impact go hand in hand.",
+                        options: [
+                            { text: "exploitative", meaning: "ซึ่งหาประโยชน์โดยมิชอบ", synonyms: ["abusive", "unscrupulous"] },
+                            { text: "inclusive", meaning: "ครอบคลุม, ไม่แบ่งแยก", synonyms: ["diverse", "broad-minded"] },
+                            { text: "stagnant", meaning: "ซบเซา", synonyms: ["inactive", "sluggish"] },
+                            { text: "exclusive", meaning: "พิเศษ, เฉพาะสำหรับบางกลุ่ม", synonyms: ["private", "limited"] },
+                        ],
+                        answer: "inclusive",
+                        explanation: "**inclusive** (adj.) หมายถึง ครอบคลุม, ไม่แบ่งแยก คำนี้เหมาะสมที่สุดเพราะธุรกิจที่ขับเคลื่อนด้วยเป้าหมายสร้างเศรษฐกิจที่ครอบคลุมและเท่าเทียมมากขึ้น\n* **exploitative** (adj.) หมายถึง ซึ่งหาประโยชน์โดยมิชอบ\n* **stagnant** (adj.) หมายถึง ซบเซา\n* **exclusive** (adj.) หมายถึง พิเศษ, เฉพาะสำหรับบางกลุ่ม",
+                    },
+                ]
+            },
+            {
+                type: "reading",
+                id: "set2_reading6",
+                title: "Reading 6: Urban Planning and Smart Cities of Tomorrow 🏙️💡",
+                passage: "การวางผังเมืองและแนวคิดเมืองอัจฉริยะกำลังกำหนดรูปแบบเมืองในอนาคต เรามาสำรวจนวัตกรรมที่ทำให้เมืองน่าอยู่ขึ้นกัน",
+                questions: [
+                    {
+                        question: "As urbanization accelerates worldwide, urban planning is evolving to address the complex ____ of growing populations, resource scarcity, and environmental sustainability.",
+                        options: [
+                            { text: "advantages", meaning: "ข้อดี", synonyms: ["benefits", "pros"] },
+                            { text: "opportunities", meaning: "โอกาส", synonyms: ["chances", "prospects"] },
+                            { text: "challenges", meaning: "ความท้าทาย, ปัญหา", synonyms: ["problems", "obstacles"] },
+                            { text: "solutions", meaning: "ทางออก", synonyms: ["answers", "resolves"] },
+                        ],
+                        answer: "challenges",
+                        explanation: "**challenges** (n.) หมายถึง ความท้าทาย, ปัญหา คำนี้เหมาะสมที่สุดเพราะการวางผังเมืองต้องรับมือกับปัญหาที่ซับซ้อนของการขยายตัวของเมือง\n* **advantages** (n.) หมายถึง ข้อดี\n* **opportunities** (n.) หมายถึง โอกาส\n* **solutions** (n.) หมายถึง ทางออก",
+                    },
+                    {
+                        question: "The concept of \"smart cities\" is gaining ____, leveraging technology and data to improve urban infrastructure, services, and the quality of life for residents.",
+                        options: [
+                            { text: "obscurity", meaning: "ความคลุมเครือ, การไม่มีชื่อเสียง", synonyms: ["anonymity", "unknownness"] },
+                            { text: "prominence", meaning: "ความโดดเด่น, ความสำคัญ", synonyms: ["salience", "importance"] },
+                            { text: "irrelevance", meaning: "ความไม่เกี่ยวข้อง", synonyms: ["insignificance", "unimportance"] },
+                            { text: "disregard", meaning: "การไม่สนใจ", synonyms: ["neglect", "apathy"] },
+                        ],
+                        answer: "prominence",
+                        explanation: "**prominence** (n.) หมายถึง ความโดดเด่น, ความสำคัญ คำนี้เหมาะสมที่สุดเพราะแนวคิดเมืองอัจฉริยะกำลังเป็นที่รู้จักและสำคัญมากขึ้น\n* **obscurity** (n.) หมายถึง ความคลุมเครือ\n* **irrelevance** (n.) หมายถึง ความไม่เกี่ยวข้อง\n* **disregard** (n.) หมายถึง การไม่สนใจ",
+                    },
+                    {
+                        question: "This includes integrating smart sensors for traffic management, energy-efficient building designs, and intelligent waste disposal systems to minimize environmental ____.",
+                        options: [
+                            { text: "preservation", meaning: "การสงวน", synonyms: ["conservation", "maintenance"] },
+                            { text: "enhancement", meaning: "การปรับปรุงให้ดีขึ้น", synonyms: ["improvement", "upgrade"] },
+                            { text: "degradation", meaning: "การเสื่อมโทรม", synonyms: ["deterioration", "decay"] },
+                            { text: "stewardship", meaning: "การดูแล", synonyms: ["guardianship", "supervision"] },
+                        ],
+                        answer: "degradation",
+                        explanation: "**degradation** (n.) หมายถึง การเสื่อมโทรม คำนี้เหมาะสมที่สุดเพราะระบบอัจฉริยะมุ่งลดการเสื่อมโทรมของสิ่งแวดล้อม\n* **preservation** (n.) หมายถึง การสงวน\n* **enhancement** (n.) หมายถึง การปรับปรุงให้ดีขึ้น\n* **stewardship** (n.) หมายถึง การดูแล",
+                    },
+                    {
+                        question: "However, the implementation of smart city initiatives also raises concerns about data privacy, surveillance, and the potential for digital ____, necessitating careful ethical consideration.",
+                        options: [
+                            { text: "inclusion", meaning: "การรวมเข้าด้วยกัน", synonyms: ["integration", "incorporation"] },
+                            { text: "equity", meaning: "ความเท่าเทียม", synonyms: ["fairness", "justice"] },
+                            { text: "divide", meaning: "ความแตกต่าง, การแบ่งแยก", synonyms: ["gap", "separation"] },
+                            { text: "cohesion", meaning: "ความสามัคคี", synonyms: ["unity", "solidarity"] },
+                        ],
+                        answer: "divide",
+                        explanation: "**divide** (n.) หมายถึง ความแตกต่าง, การแบ่งแยก ในที่นี้คือ \"digital divide\" ซึ่งหมายถึงความเหลื่อมล้ำในการเข้าถึงเทคโนโลยี\n* **inclusion** (n.) หมายถึง การรวมเข้าด้วยกัน\n* **equity** (n.) หมายถึง ความเท่าเทียม\n* **cohesion** (n.) หมายถึง ความสามัคคี",
+                    },
+                    {
+                        question: "Ultimately, the success of future urban planning will depend on a balanced approach that leverages technological advancements while prioritizing human well-being and environmental ____.",
+                        options: [
+                            { text: "exploitation", meaning: "การหาประโยชน์โดยมิชอบ", synonyms: ["abuse", "misuse"] },
+                            { text: "sustainability", meaning: "ความยั่งยืน", synonyms: ["longevity", "viability"] },
+                            { text: "negligence", meaning: "ความประมาท", synonyms: ["carelessness", "dereliction"] },
+                            { text: "consumption", meaning: "การบริโภค", synonyms: ["eating", "utilization"] },
+                        ],
+                        answer: "sustainability",
+                        explanation: "**sustainability** (n.) หมายถึง ความยั่งยืน คำนี้เหมาะสมที่สุดเพราะการวางผังเมืองต้องคำนึงถึงความยั่งยืนของสิ่งแวดล้อม\n* **exploitation** (n.) หมายถึง การหาประโยชน์โดยมิชอบ\n* **negligence** (n.) หมายถึง ความประมาท\n* **consumption** (n.) หมายถึง การบริโภค",
+                    },
+                ]
+            },
+            {
+                type: "reading",
+                id: "set2_reading7",
+                title: "Reading 7: The Ethics of Artificial Intelligence 🤖⚖️",
+                passage: "เมื่อ AI ฉลาดขึ้นเรื่อยๆ ประเด็นด้านจริยธรรมที่เกี่ยวข้องกับการพัฒนาและการใช้งาน AI ก็กลายเป็นสิ่งสำคัญที่ต้องพิจารณาอย่างรอบคอบ",
+                questions: [
+                    {
+                        question: "As Artificial Intelligence (AI) continues its rapid advancement, ethical ____ surrounding its development and deployment have become a critical area of discussion.",
+                        options: [
+                            { text: "benefits", meaning: "ผลประโยชน์", synonyms: ["advantages", "gains"] },
+                            { text: "innovations", meaning: "นวัตกรรม", synonyms: ["novelties", "breakthroughs"] },
+                            { text: "dilemmas", meaning: "ภาวะกลืนไม่เข้าคายไม่ออก, ปัญหาที่ยากจะตัดสินใจ", synonyms: ["predicaments", "quandaries"] },
+                            { text: "solutions", meaning: "ทางออก", synonyms: ["answers", "resolves"] },
+                        ],
+                        answer: "dilemmas",
+                        explanation: "**dilemmas** (n.) หมายถึง ภาวะกลืนไม่เข้าคายไม่ออก, ปัญหาที่ยากจะตัดสินใจ คำนี้เหมาะสมที่สุดเพราะการพัฒนา AI มาพร้อมกับปัญหาทางจริยธรรมที่ซับซ้อน\n* **benefits** (n.) หมายถึง ผลประโยชน์\n* **innovations** (n.) หมายถึง นวัตกรรม\n* **solutions** (n.) หมายถึง ทางออก",
+                    },
+                    {
+                        question: "Concerns range from potential job displacement due to automation to the more profound questions of AI ____, accountability, and biased decision-making.",
+                        options: [
+                            { text: "simplicity", meaning: "ความเรียบง่าย", synonyms: ["ease", "plainness"] },
+                            { text: "autonomy", meaning: "ความเป็นอิสระ, การปกครองตนเอง", synonyms: ["independence", "self-governance"] },
+                            { text: "dependence", meaning: "การพึ่งพา", synonyms: ["reliance", "subservience"] },
+                            { text: "submissiveness", meaning: "ความยอมจำนน", synonyms: ["obedience", "passivity"] },
+                        ],
+                        answer: "autonomy",
+                        explanation: "**autonomy** (n.) หมายถึง ความเป็นอิสระ, การปกครองตนเอง คำนี้เหมาะสมที่สุดเพราะ AI ที่มีอิสระในการตัดสินใจก่อให้เกิดคำถามด้านจริยธรรม\n* **simplicity** (n.) หมายถึง ความเรียบง่าย\n* **dependence** (n.) หมายถึง การพึ่งพา\n* **submissiveness** (n.) หมายถึง ความยอมจำนน",
+                    },
+                    {
+                        question: "Ensuring that AI systems are developed and used in a fair, transparent, and non-discriminatory manner requires careful consideration of their societal ____.",
+                        options: [
+                            { text: "advantages", meaning: "ข้อดี", synonyms: ["benefits", "pros"] },
+                            { text: "implications", meaning: "ผลกระทบที่อาจเกิดขึ้น, ความเกี่ยวพัน", synonyms: ["consequences", "ramifications"] },
+                            { text: "limitations", meaning: "ข้อจำกัด", synonyms: ["restrictions", "constraints"] },
+                            { text: "efficiencies", meaning: "ประสิทธิภาพ", synonyms: ["effectiveness", "productivity"] },
+                        ],
+                        answer: "implications",
+                        explanation: "**implications** (n.) หมายถึง ผลกระทบที่อาจเกิดขึ้น, ความเกี่ยวพัน คำนี้เหมาะสมที่สุดเพราะหมายถึงผลกระทบทางสังคมของระบบ AI\n* **advantages** (n.) หมายถึง ข้อดี\n* **limitations** (n.) หมายถึง ข้อจำกัด\n* **efficiencies** (n.) หมายถึง ประสิทธิภาพ",
+                    },
+                    {
+                        question: "Developing robust ethical guidelines and regulatory frameworks is crucial to prevent unintended consequences and build public ____ in AI technologies.",
+                        options: [
+                            { text: "distrust", meaning: "ความไม่ไว้วางใจ", synonyms: ["suspicion", "mistrust"] },
+                            { text: "skepticism", meaning: "ความสงสัย", synonyms: ["doubt", "cynicism"] },
+                            { text: "confidence", meaning: "ความมั่นใจ, ความไว้วางใจ", synonyms: ["trust", "faith"] },
+                            { text: "indifference", meaning: "ความไม่แยแส", synonyms: ["apathy", "unconcern"] },
+                        ],
+                        answer: "confidence",
+                        explanation: "**confidence** (n.) หมายถึง ความมั่นใจ, ความไว้วางใจ คำนี้เหมาะสมที่สุดเพราะการมีจริยธรรมที่ดีจะช่วยสร้างความเชื่อมั่นในเทคโนโลยี AI\n* **distrust** (n.) หมายถึง ความไม่ไว้วางใจ\n* **skepticism** (n.) หมายถึง ความสงสัย\n* **indifference** (n.) หมายถึง ความไม่แยแส",
+                    },
+                    {
+                        question: "The ongoing dialogue between ethicists, technologists, policymakers, and the public is ____ to shaping a future where AI serves humanity responsibly and beneficially.",
+                        options: [
+                            { text: "irrelevant", meaning: "ไม่เกี่ยวข้อง", synonyms: ["unimportant", "unrelated"] },
+                            { text: "incidental", meaning: "บังเอิญ, โดยบังเอิญ", synonyms: ["accidental", "unintentional"] },
+                            { text: "peripheral", meaning: "ส่วนรอบนอก, ไม่สำคัญ", synonyms: ["minor", "secondary"] },
+                            { text: "integral", meaning: "สำคัญ, เป็นส่วนสำคัญ", synonyms: ["essential", "crucial"] },
+                        ],
+                        answer: "integral",
+                        explanation: "**integral** (adj.) หมายถึง สำคัญ, เป็นส่วนสำคัญ คำนี้เหมาะสมที่สุดเพราะการพูดคุยอย่างต่อเนื่องเป็นสิ่งสำคัญในการกำหนดอนาคตของ AI\n* **irrelevant** (adj.) หมายถึง ไม่เกี่ยวข้อง\n* **incidental** (adj.) หมายถึง บังเอิญ, โดยบังเอิญ\n* **peripheral** (adj.) หมายถึง ส่วนรอบนอก, ไม่สำคัญ",
+                    },
+                ]
+            },
+            {
+                type: "reading",
+                id: "set2_reading8",
+                title: "Reading 8: Mental Health Technology and Digital Well-being 📱💖",
+                passage: "เทคโนโลยีด้านสุขภาพจิตกำลังเติบโตอย่างรวดเร็ว พร้อมมอบเครื่องมือใหม่ๆ ในการดูแลสุขภาพใจในยุคดิจิทัล",
+                questions: [
+                    {
+                        question: "In response to the growing awareness of mental health challenges, a new wave of technology is emerging, offering digital tools and platforms to support mental ____.",
+                        options: [
+                            { text: "deterioration", meaning: "การเสื่อมสภาพ", synonyms: ["decline", "decay"] },
+                            { text: "ailments", meaning: "ความเจ็บป่วย", synonyms: ["illnesses", "maladies"] },
+                            { text: "well-being", meaning: "ความเป็นอยู่ที่ดี, สุขภาพจิตที่ดี", synonyms: ["health", "welfare"] },
+                            { text: "stigma", meaning: "ตราหน้า, ความอัปยศ", synonyms: ["disgrace", "shame"] },
+                        ],
+                        answer: "well-being",
+                        explanation: "**well-being** (n.) หมายถึง ความเป็นอยู่ที่ดี, สุขภาพจิตที่ดี คำนี้เหมาะสมที่สุดเพราะเทคโนโลยีเหล่านี้มุ่งสนับสนุนสุขภาพจิตที่ดี\n* **deterioration** (n.) หมายถึง การเสื่อมสภาพ\n* **ailments** (n.) หมายถึง ความเจ็บป่วย\n* **stigma** (n.) หมายถึง ตราหน้า, ความอัปยศ",
+                    },
+                    {
+                        question: "From meditation apps and online therapy platforms to virtual reality (VR) interventions for anxiety, these innovations aim to make mental health support more ____ and accessible.",
+                        options: [
+                            { text: "exclusive", meaning: "พิเศษ, เฉพาะสำหรับบางกลุ่ม", synonyms: ["private", "limited"] },
+                            { text: "complicated", meaning: "ทำให้ซับซ้อน", synonyms: ["intricated", "complexified"] },
+                            { text: "convenient", meaning: "สะดวกสบาย", synonyms: ["handy", "easy"] },
+                            { text: "redundant", meaning: "ซ้ำซ้อน", synonyms: ["unnecessary", "superfluous"] },
+                        ],
+                        answer: "convenient",
+                        explanation: "**convenient** (adj.) หมายถึง สะดวกสบาย คำนี้เหมาะสมที่สุดเพราะเทคโนโลยีช่วยให้การสนับสนุนสุขภาพจิตสะดวกและเข้าถึงง่ายขึ้น\n* **exclusive** (adj.) หมายถึง พิเศษ, เฉพาะสำหรับบางกลุ่ม\n* **complicated** (adj.) หมายถึง ทำให้ซับซ้อน\n* **redundant** (adj.) หมายถึง ซ้ำซ้อน",
+                    },
+                    {
+                        question: "The anonymity and flexibility offered by digital platforms can particularly benefit individuals who might otherwise face ____ in seeking traditional in-person therapy.",
+                        options: [
+                            { text: "opportunities", meaning: "โอกาส", synonyms: ["chances", "prospects"] },
+                            { text: "incentives", meaning: "สิ่งจูงใจ", synonyms: ["motivations", "stimuli"] },
+                            { text: "barriers", meaning: "อุปสรรค", synonyms: ["obstacles", "hindrances"] },
+                            { text: "advantages", meaning: "ข้อดี", synonyms: ["benefits", "pros"] },
+                        ],
+                        answer: "barriers",
+                        explanation: "**barriers** (n.) หมายถึง อุปสรรค คำนี้เหมาะสมที่สุดเพราะความสะดวกของแพลตฟอร์มดิจิทัลช่วยลดอุปสรรคในการเข้าถึงการบำบัด\n* **opportunities** (n.) หมายถึง โอกาส\n* **incentives** (n.) หมายถึง สิ่งจูงใจ\n* **advantages** (n.) หมายถึง ข้อดี",
+                    },
+                    {
+                        question: "However, concerns about data privacy, the effectiveness of AI-driven therapies, and the potential for digital ____ are also part of the ongoing discussion.",
+                        options: [
+                            { text: "connection", meaning: "การเชื่อมต่อ", synonyms: ["bond", "relationship"] },
+                            { text: "overload", meaning: "ข้อมูลที่มากเกินไป, ภาระที่มากเกินไป", synonyms: ["excess", "saturation"] },
+                            { text: "cohesion", meaning: "ความสามัคคี", synonyms: ["unity", "solidarity"] },
+                            { text: "engagement", meaning: "การมีส่วนร่วม", synonyms: ["involvement", "participation"] },
+                        ],
+                        answer: "overload",
+                        explanation: "**overload** (n.) หมายถึง ข้อมูลที่มากเกินไป, ภาระที่มากเกินไป คำนี้เหมาะสมกับบริบทของปัญหาที่เกิดจากการใช้เทคโนโลยีดิจิทัลมากเกินไป\n* **connection** (n.) หมายถึง การเชื่อมต่อ\n* **cohesion** (n.) หมายถึง ความสามัคคี\n* **engagement** (n.) หมายถึง การมีส่วนร่วม",
+                    },
+                    {
+                        question: "As mental health technology evolves, the key will be to balance innovation with ethical considerations, ensuring that these tools genuinely enhance, rather than ____, overall well-being.",
+                        options: [
+                            { text: "improve", meaning: "ปรับปรุง", synonyms: ["enhance", "better"] },
+                            { text: "augment", meaning: "เพิ่มพูน", synonyms: ["enlarge", "expand"] },
+                            { text: "detract", meaning: "ทำให้ลดคุณค่า, ทำให้ด้อยลง", synonyms: ["diminish", "reduce"] },
+                            { text: "strengthen", meaning: "เสริมสร้าง", synonyms: ["fortify", "reinforce"] },
+                        ],
+                        answer: "detract",
+                        explanation: "**detract** (v.) หมายถึง ทำให้ลดคุณค่า, ทำให้ด้อยลง คำนี้เหมาะสมที่สุดเพราะเราต้องการให้เทคโนโลยีส่งเสริมสุขภาพจิต ไม่ใช่บั่นทอน\n* **improve** (v.) หมายถึง ปรับปรุง\n* **augment** (v.) หมายถึง เพิ่มพูน\n* **strengthen** (v.) หมายถึง เสริมสร้าง",
+                    },
+                ]
+            },
+            {
+                type: "reading",
+                id: "set2_reading9",
+                title: "Reading 9: The History of Pandemics and Global Health 🦠🌍",
+                passage: "ประวัติศาสตร์ของโรคระบาดใหญ่สอนอะไรเรามากมายเกี่ยวกับสุขภาพโลกและวิธีรับมือกับวิกฤตการณ์",
+                questions: [
+                    {
+                        question: "Throughout human history, pandemics have repeatedly shaped societies, leaving indelible ____ on populations, economies, and cultures.",
+                        options: [
+                            { text: "insignificance", meaning: "ความไม่สำคัญ", synonyms: ["triviality", "unimportance"] },
+                            { text: "marks", meaning: "ร่องรอย, ผลกระทบ", synonyms: ["impressions", "effects"] },
+                            { text: "benefits", meaning: "ผลประโยชน์", synonyms: ["advantages", "gains"] },
+                            { text: "opportunities", meaning: "โอกาส", synonyms: ["chances", "prospects"] },
+                        ],
+                        answer: "marks",
+                        explanation: "**marks** (n.) หมายถึง ร่องรอย, ผลกระทบ คำนี้เหมาะสมที่สุดเพราะโรคระบาดทิ้งร่องรอยที่ลบไม่ออกไว้บนสังคม\n* **insignificance** (n.) หมายถึง ความไม่สำคัญ\n* **benefits** (n.) หมายถึง ผลประโยชน์\n* **opportunities** (n.) หมายถึง โอกาส",
+                    },
+                    {
+                        question: "From the Black Death to the Spanish Flu, these global health crises have highlighted humanity's ____ to infectious diseases and the critical need for preparedness.",
+                        options: [
+                            { text: "immunity", meaning: "ภูมิคุ้มกัน", synonyms: ["resistance", "defense"] },
+                            { text: "invulnerability", meaning: "การไม่สามารถถูกทำร้ายได้", synonyms: ["impenetrability", "indestructibility"] },
+                            { text: "resilience", meaning: "ความยืดหยุ่น", synonyms: ["adaptability", "sturdiness"] },
+                            { text: "vulnerability", meaning: "ความเปราะบาง, ความอ่อนแอ", synonyms: ["susceptibility", "fragility"] },
+                        ],
+                        answer: "vulnerability",
+                        explanation: "**vulnerability** (n.) หมายถึง ความเปราะบาง, ความอ่อนแอ คำนี้เหมาะสมที่สุดเพราะโรคระบาดแสดงให้เห็นว่ามนุษย์อ่อนแอต่อโรคติดเชื้อ\n* **immunity** (n.) หมายถึง ภูมิคุ้มกัน\n* **invulnerability** (n.) หมายถึง การไม่สามารถถูกทำร้ายได้\n* **resilience** (n.) หมายถึง ความยืดหยุ่น",
+                    },
+                    {
+                        question: "Each major pandemic has spurred advancements in medicine, public health infrastructure, and international ____, leading to better strategies for disease control.",
+                        options: [
+                            { text: "isolation", meaning: "การแยกตัว", synonyms: ["separation", "solitude"] },
+                            { text: "competition", meaning: "การแข่งขัน", synonyms: ["rivalry", "contest"] },
+                            { text: "cooperation", meaning: "ความร่วมมือ", synonyms: ["collaboration", "teamwork"] },
+                            { text: "conflict", meaning: "ความขัดแย้ง", synonyms: ["dispute", "clash"] },
+                        ],
+                        answer: "cooperation",
+                        explanation: "**cooperation** (n.) หมายถึง ความร่วมมือ คำนี้เหมาะสมที่สุดเพราะวิกฤตด้านสุขภาพทั่วโลกกระตุ้นให้เกิดความร่วมมือระหว่างประเทศ\n* **isolation** (n.) หมายถึง การแยกตัว\n* **competition** (n.) หมายถึง การแข่งขัน\n* **conflict** (n.) หมายถึง ความขัดแย้ง",
+                    },
+                    {
+                        question: "The lessons learned from past pandemics emphasize the importance of early detection, rapid response, and equitable distribution of medical ____ to mitigate future outbreaks.",
+                        options: [
+                            { text: "hindrances", meaning: "อุปสรรค", synonyms: ["obstacles", "barriers"] },
+                            { text: "deficiencies", meaning: "ความขาดแคลน", synonyms: ["shortages", "lacks"] },
+                            { text: "resources", meaning: "ทรัพยากร", synonyms: ["assets", "supplies"] },
+                            { text: "burdens", meaning: "ภาระ", synonyms: ["loads", "responsibilities"] },
+                        ],
+                        answer: "resources",
+                        explanation: "**resources** (n.) หมายถึง ทรัพยากร คำนี้เหมาะสมที่สุดเพราะการกระจายทรัพยากรทางการแพทย์อย่างเท่าเทียมเป็นสิ่งสำคัญในการควบคุมโรคระบาด\n* **hindrances** (n.) หมายถึง อุปสรรค\n* **deficiencies** (n.) หมายถึง ความขาดแคลน\n* **burdens** (n.) หมายถึง ภาระ",
+                    },
+                    {
+                        question: "Global health security is a shared ____, requiring continuous investment in research, surveillance, and public awareness to protect populations from emergent infectious threats.",
+                        options: [
+                            { text: "indifference", meaning: "ความไม่แยแส", synonyms: ["apathy", "unconcern"] },
+                            { text: "responsibility", meaning: "ความรับผิดชอบ", synonyms: ["duty", "obligation"] },
+                            { text: "luxury", meaning: "ความฟุ่มเฟือย", synonyms: ["extravagance", "indulgence"] },
+                            { text: "privilege", meaning: "เอกสิทธิ์", synonyms: ["advantage", "right"] },
+                        ],
+                        answer: "responsibility",
+                        explanation: "**responsibility** (n.) หมายถึง ความรับผิดชอบ คำนี้เหมาะสมที่สุดเพราะความมั่นคงด้านสุขภาพโลกเป็นความรับผิดชอบร่วมกัน\n* **indifference** (n.) หมายถึง ความไม่แยแส\n* **luxury** (n.) หมายถึง ความฟุ่มเฟือย\n* **privilege** (n.) หมายถึง เอกสิทธิ์",
+                    },
+                ]
+            },
+            {
+                type: "reading",
+                id: "set2_reading10",
+                title: "Reading 10: The Power of Social Movements in Digital Age ✊🌐",
+                passage: "การเคลื่อนไหวทางสังคมในยุคดิจิทัลมีพลังมากขึ้นกว่าที่เคยเป็นมา เรามาดูกันว่าแพลตฟอร์มออนไลน์ช่วยขับเคลื่อนการเปลี่ยนแปลงได้อย่างไร",
+                questions: [
+                    {
+                        question: "The digital age has fundamentally ____ the dynamics of social movements, enabling rapid information dissemination and unprecedented levels of global mobilization.",
+                        options: [
+                            { text: "hindered", meaning: "กีดขวาง", synonyms: ["impeded", "obstructed"] },
+                            { text: "transformed", meaning: "เปลี่ยนแปลง, พลิกโฉม", synonyms: ["revolutionized", "reshaped"] },
+                            { text: "isolated", meaning: "ทำให้โดดเดี่ยว", synonyms: ["separated", "secluded"] },
+                            { text: "stagnated", meaning: "ทำให้ซบเซา", synonyms: ["halted", "slowed"] },
+                        ],
+                        answer: "transformed",
+                        explanation: "**transformed** (v.) หมายถึง เปลี่ยนแปลง, พลิกโฉม คำนี้เหมาะสมที่สุดเพราะยุคดิจิทัลได้เปลี่ยนแปลงพลวัตของการเคลื่อนไหวทางสังคมอย่างสิ้นเชิง\n* **hindered** (v.) หมายถึง กีดขวาง\n* **isolated** (v.) หมายถึง ทำให้โดดเดี่ยว\n* **stagnated** (v.) หมายถึง ทำให้ซบเซา",
+                    },
+                    {
+                        question: "Social media platforms, in particular, have emerged as powerful tools for activists to organize, share their messages, and build a sense of collective ____ among diverse groups.",
+                        options: [
+                            { text: "apathy", meaning: "ความไม่แยแส", synonyms: ["indifference", "unconcern"] },
+                            { text: "fragmentation", meaning: "การแตกออกเป็นชิ้นเล็กชิ้นน้อย", synonyms: ["breakup", "disintegration"] },
+                            { text: "identity", meaning: "อัตลักษณ์, ตัวตน", synonyms: ["self", "individuality"] },
+                            { text: "isolation", meaning: "ความโดดเดี่ยว", synonyms: ["loneliness", "solitude"] },
+                        ],
+                        answer: "identity",
+                        explanation: "**identity** (n.) หมายถึง อัตลักษณ์, ตัวตน ในที่นี้หมายถึงการสร้างความรู้สึกเป็นส่วนหนึ่งของกลุ่มร่วมกัน\n* **apathy** (n.) หมายถึง ความไม่แยแส\n* **fragmentation** (n.) หมายถึง การแตกออกเป็นชิ้นเล็กชิ้นน้อย\n* **isolation** (n.) หมายถึง ความโดดเดี่ยว",
+                    },
+                    {
+                        question: "The speed at which information can spread online allows movements to gain momentum rapidly, bringing global ____ to issues that might otherwise remain localized.",
+                        options: [
+                            { text: "ignorance", meaning: "ความไม่รู้", synonyms: ["unawareness", "obliviousness"] },
+                            { text: "indifference", meaning: "ความไม่แยแส", synonyms: ["apathy", "unconcern"] },
+                            { text: "attention", meaning: "ความสนใจ", synonyms: ["focus", "awareness"] },
+                            { text: "neglect", meaning: "การละเลย", synonyms: ["disregard", "omission"] },
+                        ],
+                        answer: "attention",
+                        explanation: "**attention** (n.) หมายถึง ความสนใจ คำนี้เหมาะสมที่สุดเพราะการเผยแพร่ข้อมูลอย่างรวดเร็วทำให้ประเด็นต่างๆ ได้รับความสนใจจากทั่วโลก\n* **ignorance** (n.) หมายถึง ความไม่รู้\n* **indifference** (n.) หมายถึง ความไม่แยแส\n* **neglect** (n.) หมายถึง การละเลย",
+                    },
+                    {
+                        question: "However, digital activism also faces challenges, including the risk of misinformation, 'slacktivism' (superficial engagement), and the potential for online ____ to escalate into real-world harm.",
+                        options: [
+                            { text: "unity", meaning: "ความเป็นอันหนึ่งอันเดียวกัน", synonyms: ["harmony", "cohesion"] },
+                            { text: "dialogue", meaning: "การสนทนา", synonyms: ["conversation", "discussion"] },
+                            { text: "polarization", meaning: "การแบ่งขั้ว, ความแตกแยก", synonyms: ["division", "fragmentation"] },
+                            { text: "collaboration", meaning: "การทำงานร่วมกัน", synonyms: ["cooperation", "partnership"] },
+                        ],
+                        answer: "polarization",
+                        explanation: "**polarization** (n.) หมายถึง การแบ่งขั้ว, ความแตกแยก คำนี้เหมาะสมที่สุดเพราะการโต้ตอบออนไลน์บางครั้งอาจนำไปสู่ความแตกแยกที่รุนแรงขึ้น\n* **unity** (n.) หมายถึง ความเป็นอันหนึ่งอันเดียวกัน\n* **dialogue** (n.) หมายถึง การสนทนา\n* **collaboration** (n.) หมายถึง การทำงานร่วมกัน",
+                    },
+                    {
+                        question: "Despite these complexities, the power of social movements in the digital age remains undeniable, serving as a vital force for advocacy, awareness, and societal ____.",
+                        options: [
+                            { text: "stagnation", meaning: "ความซบเซา", synonyms: ["inertia", "inactivity"] },
+                            { text: "regression", meaning: "การถอยหลัง", synonyms: ["decline", "deterioration"] },
+                            { text: "transformation", meaning: "การเปลี่ยนแปลงครั้งใหญ่", synonyms: ["revolution", "overhaul"] },
+                            { text: "preservation", meaning: "การสงวน", synonyms: ["conservation", "maintenance"] },
+                        ],
+                        answer: "transformation",
+                        explanation: "**transformation** (n.) หมายถึง การเปลี่ยนแปลงครั้งใหญ่ คำนี้เหมาะสมที่สุดเพราะการเคลื่อนไหวทางสังคมเป็นพลังสำคัญในการเปลี่ยนแปลงสังคม\n* **stagnation** (n.) หมายถึง ความซบเซา\n* **regression** (n.) หมายถึง การถอยหลัง\n* **preservation** (n.) หมายถึง การสงวน",
+                    },
+                ]
+            },
+            {
+                type: "conclusion",
+                title: "สิ้นสุดการท้าทาย 🎉",
+                content: `
+                    <div class="text-section bg-green-100 text-green-800">
+                        <p class="text-lg mb-4">ขอแสดงความยินดีที่คุณทำ Cloze Test Challenge ครบทุกข้อแล้ว! 🥳</p>
+                        <p class="mb-4">หวังว่าคุณจะได้รับความรู้และคำศัพท์ใหม่ๆ ไปใช้ประโยชน์ในการเรียนการสอนนะครับ</p>
+                        <p class="text-xl font-bold mt-6">อย่าลืมนำ App Box นี้ไปปรับใช้กับการสอนบน TikTok, Facebook และ YouTube ให้เข้ากับสไตล์ของคุณนะครับ! หากมีข้อเสนอแนะเพิ่มเติม หรือต้องการ Cloze Test ในหัวข้ออื่นๆ อีก ผมยินดีช่วยเหลือเสมอครับ! 😊</p>
+                    </div>
+                `,
+                buttonText: "กลับไปหน้าแรก 🏠"
+            }
+        ];
+
+        let currentPageIndex = 0;
+        const appTitleElement = document.getElementById('app-title');
+        const pageContentElement = document.getElementById('page-content');
+        const popupOverlay = document.getElementById('popup-overlay');
+        const popupBox = document.getElementById('popup-box');
+        const popupTitle = document.getElementById('popup-title');
+        const popupMeaning = document.getElementById('popup-meaning');
+        const popupSynonyms = document.getElementById('popup-synonyms');
+        const popupCloseButton = document.getElementById('popup-close-button');
+        const loadingIndicator = document.getElementById('loading-indicator');
+
+        // Function to show loading indicator
+        function showLoading() {
+            pageContentElement.innerHTML = ''; // Clear content
+            loadingIndicator.classList.remove('hidden');
+        }
+
+        // Function to hide loading indicator
+        function hideLoading() {
+            loadingIndicator.classList.add('hidden');
+        }
+
+        // Function to render the current page
+        function renderPage() {
+            showLoading(); // Show loading indicator
+            setTimeout(() => { // Simulate a small delay for content loading
+                hideLoading(); // Hide loading indicator
+                const currentPageData = clozeData[currentPageIndex];
+                appTitleElement.textContent = currentPageData.title;
+                let contentHTML = '';
+
+                if (currentPageData.type === "introduction" || currentPageData.type === "conclusion") {
+                    contentHTML = currentPageData.content;
+                    contentHTML += `
+                        <div class="navigation-buttons">
+                            ${currentPageIndex > 0 && currentPageData.type !== "introduction" ? `<button id="prev-button" class="nav-button">⬅️ ก่อนหน้า</button>` : `<button class="nav-button opacity-0 cursor-default" disabled></button>`}
+                            ${currentPageIndex < clozeData.length - 1 ? `<button id="next-button" class="nav-button">${currentPageData.buttonText}</button>` : `<button id="reset-button" class="nav-button">${currentPageData.buttonText}</button>`}
+                        </div>
+                    `;
+                } else if (currentPageData.type === "reading") {
+                    contentHTML = `<div class="reading-passage mb-6 text-gray-700">${currentPageData.passage}</div>`;
+                    currentPageData.questions.forEach((q, qIndex) => {
+                        // Calculate global question number
+                        let globalQuestionNumber = 0;
+                        for (let i = 0; i < currentPageIndex; i++) {
+                            if (clozeData[i].type === "reading") {
+                                globalQuestionNumber += clozeData[i].questions.length;
+                            }
+                        }
+                        globalQuestionNumber += (qIndex + 1);
+
+                        contentHTML += `
+                            <div class="question-card">
+                                <p class="text-lg font-semibold mb-4 text-gray-800">${globalQuestionNumber}. ${q.question}</p>
+                                <div class="options-container">
+                                    ${q.options.map((option, optIndex) => `
+                                        <button class="option-button" data-question-index="${qIndex}" data-option-index="${optIndex}">
+                                            ${String.fromCharCode(65 + optIndex)}. ${option.text}
+                                        </button>
+                                    `).join('')}
+                                </div>
+                                <details class="mt-4">
+                                    <summary>เฉลยและคำอธิบาย</summary>
+                                    <p class="text-gray-700">${q.explanation.replace(/\n/g, '<br>')}</p>
+                                </details>
+                            </div>
+                        `;
+                    });
+                    contentHTML += `
+                        <div class="navigation-buttons">
+                            <button id="prev-button" class="nav-button">⬅️ ก่อนหน้า</button>
+                            <button id="next-button" class="nav-button">ถัดไป ➡️</button>
+                        </div>
+                    `;
+                }
+
+                pageContentElement.innerHTML = contentHTML;
+                attachEventListeners();
+            }, 100); // Small delay
+        }
+
+        // Function to attach event listeners to dynamically created elements
+        function attachEventListeners() {
+            // Option buttons
+            document.querySelectorAll('.option-button').forEach(button => {
+                button.addEventListener('click', (event) => {
+                    const qIndex = parseInt(event.target.dataset.questionIndex);
+                    const optIndex = parseInt(event.target.dataset.optionIndex);
+                    const selectedOption = clozeData[currentPageIndex].questions[qIndex].options[optIndex];
+
+                    popupTitle.textContent = selectedOption.text;
+                    popupMeaning.textContent = `ความหมาย: ${selectedOption.meaning}`;
+                    popupSynonyms.textContent = `คำที่มีความหมายเหมือนกัน: ${selectedOption.synonyms.join(', ')}`;
+                    
+                    popupOverlay.classList.add('visible');
+                });
+            });
+
+            // Navigation buttons
+            const prevButton = document.getElementById('prev-button');
+            const nextButton = document.getElementById('next-button');
+            const resetButton = document.getElementById('reset-button'); // For the conclusion page
+
+            if (prevButton) {
+                prevButton.addEventListener('click', () => {
+                    currentPageIndex = Math.max(0, currentPageIndex - 1);
+                    renderPage();
+                });
+            }
+
+            if (nextButton) {
+                nextButton.addEventListener('click', () => {
+                    currentPageIndex = Math.min(clozeData.length - 1, currentPageIndex + 1);
+                    renderPage();
+                });
+            }
+
+            if (resetButton) {
+                resetButton.addEventListener('click', () => {
+                    currentPageIndex = 0;
+                    renderPage();
+                });
+            }
+        }
+
+        // Popup close button
+        popupCloseButton.addEventListener('click', () => {
+            popupOverlay.classList.remove('visible');
+        });
+
+        // Close popup if clicked outside (optional, but good for UX)
+        popupOverlay.addEventListener('click', (event) => {
+            if (event.target === popupOverlay) {
+                popupOverlay.classList.remove('visible');
+            }
+        });
+
+        // Initial page render
+        document.addEventListener('DOMContentLoaded', renderPage);
+    </script>
+</body>
+</html>

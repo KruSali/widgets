@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mr.News: The Power of Short-Form Video</title>
+    <style>
+        /* Import Google Fonts */
+        @import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@400;700&family=Roboto:wght@400;500;700&display=swap');
+
+        /* CSS Variables for easy theme management */
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --background-color: #ecf0f1;
+            --text-color: #34495e;
+            --light-text-color: #ffffff;
+            --card-bg-color: #ffffff;
+            --shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            --border-radius: 12px;
+        }
+
+        /* Basic Reset and Body Styling */
+        body {
+            font-family: 'Sarabun', 'Roboto', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* The main App Box container */
+        .app-box {
+            max-width: 900px;
+            margin: 20px auto;
+            background: var(--card-bg-color);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            border: 1px solid #ddd;
+        }
+        
+        /* Header Section */
+        .app-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: var(--light-text-color);
+            padding: 30px 25px;
+            text-align: center;
+        }
+
+        .app-header h1 {
+            margin: 0;
+            font-size: 2.2em;
+            font-weight: 700;
+            font-family: 'Sarabun', sans-serif;
+        }
+
+        .app-header p {
+            margin: 5px 0 0;
+            opacity: 0.9;
+            font-size: 1.1em;
+        }
+
+        /* Toggle Buttons for content switching */
+        .toggle-buttons {
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+            background-color: #f8f9fa;
+        }
+
+        .toggle-btn {
+            background-color: transparent;
+            border: 2px solid var(--secondary-color);
+            color: var(--secondary-color);
+            padding: 10px 25px;
+            margin: 0 10px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 700;
+            font-family: 'Sarabun', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        .toggle-btn:hover {
+            background-color: var(--secondary-color);
+            color: var(--light-text-color);
+        }
+
+        .toggle-btn.active {
+            background-color: var(--secondary-color);
+            color: var(--light-text-color);
+            box-shadow: 0 2px 8px rgba(52, 152, 219, 0.4);
+        }
+        
+        /* Content Area Styling */
+        .content-area {
+            padding: 25px 30px 35px 30px;
+        }
+
+        .content-section {
+            display: none; /* Hidden by default */
+        }
+        
+        .content-section.active {
+            display: block; /* Show active section */
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .content-section h2 {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--secondary-color);
+            padding-bottom: 10px;
+            margin-top: 0;
+            font-size: 1.5em;
+        }
+
+        /* Clickable vocabulary term styling */
+        .vocab-term {
+            color: var(--accent-color);
+            font-weight: 700;
+            cursor: pointer;
+            border-bottom: 2px dotted var(--accent-color);
+            transition: background-color 0.3s, color 0.3s;
+            padding: 0 2px;
+        }
+
+        .vocab-term:hover {
+            background-color: var(--accent-color);
+            color: var(--light-text-color);
+            text-decoration: none;
+            border-bottom-color: transparent;
+        }
+
+        /* Modal (Pop-up) Styling */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.6);
+            align-items: center;
+            justify-content: center;
+        }
+        
+        /* Modal Content Box */
+        .modal-content {
+            background-color: var(--card-bg-color);
+            margin: auto;
+            padding: 30px;
+            border-radius: var(--border-radius);
+            max-width: 550px;
+            width: 90%;
+            position: relative;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            animation: slideIn 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        
+        @keyframes slideIn {
+            from {transform: translateY(-50px); opacity: 0;}
+            to {transform: translateY(0); opacity: 1;}
+        }
+
+        /* Modal Close Button */
+        .close-button {
+            color: #aaa;
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close-button:hover,
+        .close-button:focus {
+            color: var(--accent-color);
+        }
+        
+        /* Modal Content Details */
+        #modal-term {
+            color: var(--primary-color);
+            font-size: 2em;
+            font-weight: 700;
+            margin-bottom: 15px;
+            border-bottom: 2px solid var(--secondary-color);
+            padding-bottom: 10px;
+        }
+
+        .modal-section {
+            margin-bottom: 15px;
+        }
+
+        .modal-section h4 {
+            font-family: 'Sarabun', sans-serif;
+            color: var(--text-color);
+            margin: 0 0 5px 0;
+            font-size: 1.1em;
+            font-weight: 700;
+        }
+
+        #modal-meaning, #modal-pronunciation, #modal-example {
+            font-size: 1em;
+            padding-left: 10px;
+        }
+
+        #modal-pronunciation {
+            font-style: italic;
+            color: var(--secondary-color);
+            font-weight: 500;
+        }
+
+        #modal-example-thai {
+            font-size: 0.9em;
+            color: #7f8c8d;
+            padding-left: 10px;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 600px) {
+            body {
+                padding: 10px;
+            }
+
+            .app-header h1 {
+                font-size: 1.8em;
+            }
+            .app-header p {
+                font-size: 1em;
+            }
+
+            .toggle-buttons {
+                flex-direction: column;
+            }
+            
+            .toggle-btn {
+                margin: 5px 0;
+                width: 100%;
+                box-sizing: border-box; /* Ensures padding is included in width */
+            }
+
+            .content-area {
+                padding: 20px 15px;
+            }
+
+            .modal-content {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="app-box">
+        <header class="app-header">
+            <h1>บทเรียนจากข่าว: อิทธิพลของคลิปสั้น</h1>
+            <p>ถอดรหัสเบื้องหลังวิดีโอสั้นที่เปลี่ยนพฤติกรรมผู้บริโภค</p>
+        </header>
+
+        <div class="toggle-buttons">
+            <button id="btn-basic" class="toggle-btn active">ระดับพื้นฐาน (Basic)</button>
+            <button id="btn-advanced" class="toggle-btn">ระดับสูง (Advanced)</button>
+        </div>
+
+        <main class="content-area">
+            <section id="basic-content" class="content-section active">
+                <h2>The Power of Short Videos</h2>
+                <p>
+                    Short-form videos, which are very short clips, have become the most <span class="vocab-term" data-term="dominant">dominant</span> type of content today. We see them on <span class="vocab-term" data-term="platforms">platforms</span> like TikTok and Instagram. These videos have strongly changed consumer <span class="vocab-term" data-term="behavior">behavior</span> and thinking. There are three main reasons for this.
+                </p>
+                <p>
+                    First, it's about our brains. The apps are designed to show us an <span class="vocab-term" data-term="endless">endless</span> stream of new and exciting videos. This makes our brain release dopamine, a chemical that makes us feel happy. This process can be addictive and makes us keep watching. Also, these fast videos have shortened our <span class="vocab-term" data-term="attention_span">attention span</span>. We now prefer very short and quick information.
+                </p>
+                <p>
+                    Second, it's about social influence. We trust <span class="vocab-term" data-term="influencers">influencers</span> and regular users more than traditional ads. When we see people we relate to using a product, we are more likely to buy it. This is a <span class="vocab-term" data-term="phenomenon">phenomenon</span> called "social proof." Trends now start and spread very quickly because of these videos.
+                </p>
+                <p>
+                    Third, it's about technology. The platforms have smart algorithms that show us content we might like, even if we weren't looking for it. This helps us discover new products easily. They also mix shopping features directly into the videos. This <span class="vocab-term" data-term="strategy">strategy</span> makes it very easy to buy things instantly, turning entertainment into a shopping experience.
+                </p>
+            </section>
+
+            <section id="advanced-content" class="content-section">
+                <h2>The Profound Influence of Short-Form Video</h2>
+                <p>
+                    Short-form video has emerged as the most <span class="vocab-term" data-term="dominant">dominant</span> content format, <span class="vocab-term" data-term="profoundly">profoundly</span> reshaping consumer behavior. This shift isn't just a trend; it's deeply <span class="vocab-term" data-term="ingrained">ingrained</span> in neuroscientific principles, socio-cultural dynamics, and platform technology.
+                </p>
+                <p>
+                    From a psychological perspective, these platforms masterfully engage the brain's <span class="vocab-term" data-term="dopamine_reward_system">dopamine reward system</span>. The endless scroll provides <span class="vocab-term" data-term="intermittent_reinforcement">intermittent reinforcement</span>, creating a compelling, almost addictive loop. This continuous content consumption has been linked to decreasing attention spans, forcing brands to communicate their message in mere seconds. Furthermore, the low <span class="vocab-term" data-term="cognitive_load">cognitive load</span> of these videos encourages passive consumption, making viewers more susceptible to emotional and impulsive decision-making.
+                </p>
+                <p>
+                    Socially, the power of <span class="vocab-term" data-term="social_proof">social proof</span> is amplified. Influencer marketing and user-generated content are more persuasive than ever, as seen in the #TikTokMadeMeBuyIt <span class="vocab-term" data-term="phenomenon">phenomenon</span>. Trends now have <span class="vocab-term" data-term="accelerated">accelerated</span> life cycles, emerging and spreading globally with unprecedented speed, demanding brands to be highly agile to stay relevant.
+                </p>
+                <p>
+                    Technologically, discovery-driven algorithms create a <span class="vocab-term" data-term="hyper_personalized">hyper-personalized</span> content feed, introducing consumers to products aligned with their latent interests. The integration of e-commerce features is <span class="vocab-term" data-term="blurring_the_lines">blurring the lines</span> between entertainment and commerce, a concept known as "shoppertainment." This seamless experience shortens the customer journey and encourages impulse purchases.
+                </p>
+            </section>
+        </main>
+    </div>
+
+    <div id="vocab-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <h3 id="modal-term"></h3>
+            <div class="modal-section">
+                <h4>ความหมาย (Meaning)</h4>
+                <p id="modal-meaning"></p>
+            </div>
+            <div class="modal-section">
+                <h4>คำอ่าน (Pronunciation)</h4>
+                <p id="modal-pronunciation"></p>
+            </div>
+            <div class="modal-section">
+                <h4>ประโยคตัวอย่าง (Example)</h4>
+                <p id="modal-example"></p>
+                <p id="modal-example-thai"></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- Data for the vocabulary pop-ups ---
+        const vocabData = {
+            dominant: {
+                meaning: "most important, powerful, or influential.",
+                pronunciation: "<u>ดอม</u>-มิ-เนินท์",
+                example: "Short-form video is the dominant form of content on social media today.",
+                example_thai: "วิดีโอสั้นเป็นรูปแบบเนื้อหาที่โดดเด่นที่สุดบนโซเชียลมีเดียในปัจจุบัน"
+            },
+            platforms: {
+                meaning: "a particular method or system for communication, or for selling a product.",
+                pronunciation: "<u>แพลท</u>-ฟอร์ม",
+                example: "TikTok and Instagram are popular platforms for sharing short videos.",
+                example_thai: "TikTok และ Instagram เป็นแพลตฟอร์มยอดนิยมสำหรับการแชร์วิดีโอสั้น"
+            },
+            behavior: {
+                meaning: "the way that someone acts or conducts themselves.",
+                pronunciation: "บิ-<u>เฮ</u>-เวียร์",
+                example: "The study focuses on how these videos influence consumer behavior.",
+                example_thai: "งานวิจัยนี้มุ่งเน้นไปที่ว่าวิดีโอเหล่านี้มีอิทธิพลต่อพฤติกรรมผู้บริโภคอย่างไร"
+            },
+            endless: {
+                meaning: "having or seeming to have no end or limit.",
+                pronunciation: "<u>เอน</u>-เลส",
+                example: "The app provides an endless stream of content to keep users engaged.",
+                example_thai: "แอปพลิเคชันนี้นำเสนอเนื้อหาที่ไม่มีที่สิ้นสุดเพื่อให้ผู้ใช้มีส่วนร่วมอยู่เสมอ"
+            },
+            attention_span: {
+                meaning: "the length of time for which a person is able to concentrate on a particular activity or subject.",
+                pronunciation: "อะ-<u>เทน</u>-เชิน สแปน",
+                example: "Many researchers believe that our attention span is getting shorter.",
+                example_thai: "นักวิจัยจำนวนมากเชื่อว่าช่วงความสนใจของเรากำลังสั้นลง"
+            },
+            influencers: {
+                meaning: "people who have the power to affect the purchasing decisions of others because of their authority, knowledge, position, or relationship with their audience.",
+                pronunciation: "<u>อิน</u>-ฟลู-เอน-เซอร์",
+                example: "Brands often collaborate with influencers to promote their products.",
+                example_thai: "แบรนด์ต่างๆ มักจะร่วมมือกับอินฟลูเอนเซอร์เพื่อโปรโมตผลิตภัณฑ์ของตน"
+            },
+            phenomenon: {
+                meaning: "a fact or situation that is observed to exist or happen, especially one whose cause or explanation is in question.",
+                pronunciation: "ฟิ-<u>นอม</u>-มิ-นอน",
+                example: "The success of that product was a social media phenomenon.",
+                example_thai: "ความสำเร็จของผลิตภัณฑ์นั้นเป็นปรากฏการณ์บนโซเชียลมีเดีย"
+            },
+            strategy: {
+                meaning: "a plan of action designed to achieve a long-term or overall aim.",
+                pronunciation: "<u>สแตร</u>-ทิ-จี",
+                example: "Their marketing strategy focuses on short, engaging video ads.",
+                example_thai: "กลยุทธ์การตลาดของพวกเขามุ่งเน้นไปที่โฆษณาวิดีโอสั้นที่น่าสนใจ"
+            },
+            profoundly: {
+                meaning: "to a profound extent; extremely or deeply.",
+                pronunciation: "โพร-<u>ฟาวน์</u>-ลี",
+                example: "This technology has profoundly changed the way we communicate.",
+                example_thai: "เทคโนโลยีนี้ได้เปลี่ยนแปลงวิธีที่เราสื่อสารกันอย่างลึกซึ้ง"
+            },
+            ingrained: {
+                meaning: "(of a habit, belief, or attitude) firmly fixed or established; difficult to change.",
+                pronunciation: "อิน-<u>เกรนด์</u>",
+                example: "These viewing habits have become deeply ingrained in the younger generation.",
+                example_thai: "พฤติกรรมการรับชมเหล่านี้ได้ฝังรากลึกในกลุ่มคนรุ่นใหม่"
+            },
+            dopamine_reward_system: {
+                meaning: "A neural pathway in the brain that, when stimulated, produces feelings of pleasure and reward.",
+                pronunciation: "<u>โด</u>-พะ-มีน รี-<u>วอร์ด</u> <u>ซิส</u>-เทิม",
+                example: "Short videos activate the brain's dopamine reward system, making them highly engaging.",
+                example_thai: "วิดีโอสั้นกระตุ้นระบบการให้รางวัลของสมองด้วยโดพามีน ทำให้มันน่าดึงดูดใจอย่างยิ่ง"
+            },
+            intermittent_reinforcement: {
+                meaning: "a conditioning schedule in which a reward is not administered every time the desired response is performed.",
+                pronunciation: "อิน-เทอร์-<u>มิท</u>-เทินท์ รี-อิน-<u>ฟอร์ส</u>-เมินท์",
+                example: "The unpredictable nature of the video feed provides intermittent reinforcement, which is highly addictive.",
+                example_thai: "ธรรมชาติที่คาดเดาไม่ได้ของฟีดวิดีโอเป็นการเสริมแรงเป็นครั้งคราว ซึ่งทำให้เสพติดได้ง่าย"
+            },
+            cognitive_load: {
+                meaning: "the amount of mental effort being used in the working memory.",
+                pronunciation: "<u>คอก</u>-นิ-ทีฟ โหลด",
+                example: "Because short videos have a low cognitive load, people can watch them passively for hours.",
+                example_thai: "เนื่องจากวิดีโอสั้นมีภาระการรับรู้ต่ำ ผู้คนจึงสามารถดูแบบไม่ตั้งใจได้นานหลายชั่วโมง"
+            },
+            social_proof: {
+                meaning: "a psychological and social phenomenon where people assume the actions of others in an attempt to reflect correct behavior for a given situation.",
+                pronunciation: "<u>โซ</u>-เชียล พรูฟ",
+                example: "Seeing thousands of likes on a product video serves as powerful social proof.",
+                example_thai: "การเห็นยอดไลค์หลายพันครั้งบนวิดีโอสินค้าถือเป็นเครื่องพิสูจน์ทางสังคมที่ทรงพลัง"
+            },
+            accelerated: {
+                meaning: "beginning to move more quickly; increased in rate, extent, or amount.",
+                pronunciation: "แอค-<u>เซล</u>-เลอ-เร-เทด",
+                example: "Short-form video has led to accelerated trend cycles in fashion and music.",
+                example_thai: "วิดีโอสั้นได้นำไปสู่วงจรเทรนด์ที่รวดเร็วยิ่งขึ้นในวงการแฟชั่นและดนตรี"
+            },
+            hyper_personalized: {
+                meaning: "extremely personalized; tailored to a very specific individual's needs or preferences.",
+                pronunciation: "<u>ไฮ</u>-เปอร์-<u>เพอ</u>-เซิน-นะ-ไลซ์ดฺ",
+                example: "The algorithm delivers a hyper-personalized feed to each user.",
+                example_thai: "อัลกอริทึมจะนำเสนอฟีดที่ปรับให้เหมาะกับแต่ละบุคคลอย่างยิ่งยวด"
+            },
+            blurring_the_lines: {
+                meaning: "making it difficult to see the difference between two separate things.",
+                pronunciation: "<u>เบลอ</u>-ริง เดอะ ไลน์สฺ",
+                example: "Shoppertainment is blurring the lines between watching content and shopping.",
+                example_thai: "Shoppertainment กำลังทำให้เส้นแบ่งระหว่างการดูเนื้อหาและการช็อปปิ้งไม่ชัดเจน"
+            }
+        };
+
+        // --- JavaScript for interactivity ---
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get all necessary elements from the DOM
+            const basicBtn = document.getElementById('btn-basic');
+            const advancedBtn = document.getElementById('btn-advanced');
+            const basicContent = document.getElementById('basic-content');
+            const advancedContent = document.getElementById('advanced-content');
+            
+            const modal = document.getElementById('vocab-modal');
+            const closeModalBtn = document.querySelector('.close-button');
+            const vocabTerms = document.querySelectorAll('.vocab-term');
+
+            // --- Function to switch content view ---
+            function switchContent(showBasic) {
+                if (showBasic) {
+                    basicBtn.classList.add('active');
+                    advancedBtn.classList.remove('active');
+                    basicContent.classList.add('active');
+                    advancedContent.classList.remove('active');
+                } else {
+                    basicBtn.classList.remove('active');
+                    advancedBtn.classList.add('active');
+                    basicContent.classList.remove('active');
+                    advancedContent.classList.add('active');
+                }
+            }
+
+            // --- Event listeners for toggle buttons ---
+            basicBtn.addEventListener('click', () => switchContent(true));
+            advancedBtn.addEventListener('click', () => switchContent(false));
+
+            // --- Function to open the modal with data ---
+            function openModal(termKey) {
+                const data = vocabData[termKey];
+                if (data) {
+                    document.getElementById('modal-term').innerHTML = termKey.replace(/_/g, ' ');
+                    document.getElementById('modal-meaning').textContent = data.meaning;
+                    document.getElementById('modal-pronunciation').innerHTML = data.pronunciation;
+                    document.getElementById('modal-example').textContent = data.example;
+                    document.getElementById('modal-example-thai').textContent = `(คำแปล: ${data.example_thai})`;
+                    modal.style.display = 'flex'; // Use flex for vertical centering
+                }
+            }
+            
+            // --- Function to close the modal ---
+            function closeModal() {
+                modal.style.display = 'none';
+            }
+
+            // --- Event listener for all vocab terms ---
+            vocabTerms.forEach(term => {
+                term.addEventListener('click', (event) => {
+                    const termKey = event.target.dataset.term;
+                    openModal(termKey);
+                });
+            });
+
+            // --- Event listeners for closing the modal ---
+            closeModalBtn.addEventListener('click', closeModal);
+            window.addEventListener('click', (event) => {
+                if (event.target == modal) {
+                    closeModal();
+                }
+            });
+            
+            // Close modal with Escape key
+            window.addEventListener('keydown', (event) => {
+                if (event.key === 'Escape') {
+                    closeModal();
+                }
+            });
+
+        });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mr. Vocab - The A-Z Verb Vault (ฉบับสมบูรณ์)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'IBM Plex Sans Thai', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        }
+        .font-poppins {
+            font-family: 'Poppins', sans-serif;
+        }
+        .tab-btn {
+            transition: all 0.3s ease;
+        }
+        .tab-btn.active {
+            background-color: #4f46e5;
+            color: white;
+            box-shadow: 0 4px 14px 0 rgb(0 0 0 / 10%);
+        }
+        .verb-btn {
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px 0 rgb(0 0 0 / 8%);
+        }
+        .verb-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px 0 rgb(0 0 0 / 15%);
+        }
+        #modal {
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+        #modal.hidden {
+            opacity: 0;
+            transform: scale(0.95);
+            pointer-events: none;
+        }
+        .modal-content {
+            transition: transform 0.3s ease;
+        }
+    </style>
+</head>
+<body class="antialiased text-gray-800">
+
+    <div class="container mx-auto p-4 md:p-8 max-w-5xl">
+
+        <header class="text-center mb-8">
+            <h1 class="text-4xl md:text-5xl font-bold font-poppins text-indigo-700">The A-Z Verb Vault</h1>
+            <p class="text-lg text-gray-600 mt-2">คลังคำกริยาที่ใช้บ่อยที่สุดในชีวิตประจำวัน (ฉบับสมบูรณ์) by Mr. Vocab</p>
+        </header>
+
+        <nav class="flex flex-wrap justify-center gap-2 mb-8" id="tab-navigation">
+            </nav>
+
+        <main id="tab-content">
+            </main>
+
+    </div>
+
+    <div id="modal" class="fixed inset-0 bg-black bg-opacity-60 flex justify-center items-center p-4 z-50 hidden">
+        <div id="modal-content" class="bg-white rounded-2xl shadow-2xl w-full max-w-lg mx-auto overflow-hidden transform">
+            <div class="p-6 md:p-8">
+                <div class="flex justify-between items-start mb-4">
+                    <h2 id="modal-verb" class="text-3xl font-bold font-poppins text-indigo-600">Verb</h2>
+                    <button id="modal-close-btn" class="text-gray-400 hover:text-gray-700 transition text-3xl leading-none">&times;</button>
+                </div>
+                
+                <div>
+                    <div class="mb-5">
+                        <h3 class="font-bold text-lg text-gray-700 mb-2 border-b-2 border-indigo-200 pb-1">ความหมาย</h3>
+                        <p id="modal-meaning" class="text-gray-600"></p>
+                    </div>
+                    
+                    <div class="mb-5">
+                        <h3 class="font-bold text-lg text-gray-700 mb-2 border-b-2 border-indigo-200 pb-1">โครงสร้างที่ใช้บ่อย (Common Structures)</h3>
+                        <div id="modal-structure" class="text-gray-600 space-y-1"></div>
+                    </div>
+
+                    <div>
+                        <h3 class="font-bold text-lg text-gray-700 mb-2 border-b-2 border-indigo-200 pb-1">ประโยคตัวอย่าง (Examples)</h3>
+                        <div id="modal-examples" class="text-gray-600 space-y-2"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        // --- DATA SOURCE (COMPLETE A-Z) ---
+        const verbData = {
+            'A': [
+                { verb: 'Accept', meaning: 'ยอมรับ', structure: ['accept + something'], examples: [['They accepted our invitation.', 'พวกเขายอมรับคำเชิญของเรา'], ['Please accept my apology.', 'โปรดยอมรับคำขอโทษของฉันด้วย']] },
+                { verb: 'Achieve', meaning: 'บรรลุ, ทำให้สำเร็จ', structure: ['achieve + something'], examples: [['She finally achieved her goal.', 'ในที่สุดเธอก็บรรลุเป้าหมายของเธอ']] },
+                { verb: 'Act', meaning: 'แสดง, กระทำ', structure: ['act + like/as...'], examples: [['He acted as if he didn\'t know anything.', 'เขาทำตัวเหมือนไม่รู้อะไรเลย']] },
+                { verb: 'Add', meaning: 'เพิ่ม, บวก', structure: ['add + something + to + something'], examples: [['Add more sugar to your coffee.', 'เติมน้ำตาลลงในกาแฟของคุณอีก']] },
+                { verb: 'Advise', meaning: 'แนะนำ', structure: ['advise + someone + to do something'], examples: [['I advise you to see a doctor.', 'ฉันแนะนำให้คุณไปหาหมอ']] },
+                { verb: 'Agree', meaning: 'เห็นด้วย', structure: ['agree + with + someone', 'agree + to do something'], examples: [['I agree with you.', 'ฉันเห็นด้วยกับคุณ'], ['He agreed to help us.', 'เขาตกลงที่จะช่วยเรา']] },
+                { verb: 'Allow', meaning: 'อนุญาต', structure: ['allow + someone + to do something'], examples: [['My parents don\'t allow me to stay out late.', 'พ่อแม่ของฉันไม่อนุญาตให้อยู่ดึก']] },
+                { verb: 'Answer', meaning: 'ตอบ', structure: ['answer + someone/something'], examples: [['Can you answer the phone?', 'คุณช่วยรับโทรศัพท์ได้ไหม?']] },
+                { verb: 'Appear', meaning: 'ปรากฏ, ดูเหมือน', structure: ['appear + to be...'], examples: [['He appears to be tired.', 'เขาดูเหมือนจะเหนื่อย']] },
+                { verb: 'Apply', meaning: 'สมัคร, ใช้', structure: ['apply + for + something', 'apply + something + to + something'], examples: [['I want to apply for this job.', 'ฉันต้องการสมัครงานนี้'], ['Apply the cream to your face.', 'ทาครีมลงบนใบหน้าของคุณ']] },
+                { verb: 'Argue', meaning: 'โต้เถียง', structure: ['argue + with + someone + about + something'], examples: [['Don\'t argue with me about money.', 'อย่าเถียงกับฉันเรื่องเงิน']] },
+                { verb: 'Arrive', meaning: 'มาถึง', structure: ['arrive + at/in + a place'], examples: [['We arrived at the airport at 6 AM.', 'เรามาถึงสนามบินตอน 6 โมงเช้า']] },
+                { verb: 'Ask', meaning: 'ถาม, ขอ', structure: ['ask + (someone) + a question', 'ask + for + something'], examples: [['Can I ask you a question?', 'ฉันขอถามอะไรคุณหน่อยได้ไหม?'], ['He asked for a glass of water.', 'เขาขอน้ำหนึ่งแก้ว']] },
+                { verb: 'Attack', meaning: 'โจมตี', structure: ['attack + someone/something'], examples: [['The lion attacked the zebra.', 'สิงโตโจมตีม้าลาย']] },
+                { verb: 'Avoid', meaning: 'หลีกเลี่ยง', structure: ['avoid + doing + something'], examples: [['You should avoid eating fatty food.', 'คุณควรหลีกเลี่ยงการกินอาหารมันๆ']] },
+                { verb: 'Admit', meaning: 'ยอมรับ (ความจริง, ความผิด)', structure: ['admit + (that)...', 'admit + doing + something'], examples: [['He admitted that he made a mistake.', 'เขายอมรับว่าเขาทำผิดพลาด'], ['She admitted stealing the money.', 'เธอยอมรับว่าขโมยเงินไป']] },
+                { verb: 'Affect', meaning: 'ส่งผลกระทบ', structure: ['affect + someone/something'], examples: [['The lack of sleep affected her performance.', 'การนอนไม่พอส่งผลกระทบต่อประสิทธิภาพการทำงานของเธอ']] },
+            ],
+            'B': [
+                { verb: 'Be', meaning: 'เป็น, อยู่, คือ', structure: ['Subject + be + complement'], examples: [['I am a teacher.', 'ฉันเป็นครู'], ['She is happy.', 'เธอมีความสุข']] },
+                { verb: 'Become', meaning: 'กลายเป็น', structure: ['become + noun/adjective'], examples: [['He became a doctor.', 'เขากลายเป็นหมอ']] },
+                { verb: 'Begin', meaning: 'เริ่มต้น', structure: ['begin + to do/doing + something'], examples: [['The show will begin at 7 PM.', 'การแสดงจะเริ่มเวลา 19.00 น.']] },
+                { verb: 'Believe', meaning: 'เชื่อ', structure: ['believe + in + someone/something', 'believe + (that)...'], examples: [['I believe in you.', 'ฉันเชื่อในตัวคุณ'], ['I believe that everything will be fine.', 'ฉันเชื่อว่าทุกอย่างจะโอเค']] },
+                { verb: 'Break', meaning: 'ทำลาย, แตก, หัก', structure: ['break + something'], examples: [['Be careful not to break the glass.', 'ระวังอย่าทำแก้วแตก']] },
+                { verb: 'Bring', meaning: 'นำมา, พามา', structure: ['bring + something/someone + to + a place'], examples: [['Please bring your book tomorrow.', 'กรุณานำหนังสือของคุณมาในวันพรุ่งนี้']] },
+                { verb: 'Build', meaning: 'สร้าง', structure: ['build + something'], examples: [['They are building a new house.', 'พวกเขากำลังสร้างบ้านใหม่']] },
+                { verb: 'Buy', meaning: 'ซื้อ', structure: ['buy + something + (for someone)'], examples: [['I need to buy some groceries.', 'ฉันต้องซื้อของชำ']] },
+                { verb: 'Borrow', meaning: 'ยืม', structure: ['borrow + something + from + someone'], examples: [['Can I borrow your pen?', 'ฉันขอยืมปากกาของคุณได้ไหม?']] },
+                { verb: 'Breathe', meaning: 'หายใจ', structure: ['breathe + in/out'], examples: [['Just relax and breathe deeply.', 'แค่ผ่อนคลายและหายใจลึกๆ']] },
+                { verb: 'Bake', meaning: 'อบ (ขนม, เค้ก)', structure: ['bake + something'], examples: [['I love to bake cookies on weekends.', 'ฉันชอบอบคุกกี้ในวันหยุดสุดสัปดาห์']] },
+                { verb: 'Boil', meaning: 'ต้ม', structure: ['boil + something'], examples: [['Could you boil some water for tea?', 'คุณช่วยต้มน้ำสำหรับชงชาได้ไหม?']] },
+                { verb: 'Book', meaning: 'จอง', structure: ['book + something'], examples: [['I need to book a flight to Japan.', 'ฉันต้องจองตั๋วเครื่องบินไปญี่ปุ่น']] },
+                { verb: 'Burn', meaning: 'เผา, ไหม้', structure: ['burn + something'], examples: [['I accidentally burned the toast.', 'ฉันเผลอทำขนมปังปิ้งไหม้']] },
+            ],
+            'C': [
+                { verb: 'Call', meaning: 'โทร, เรียก', structure: ['call + someone'], examples: [['I will call you later.', 'ฉันจะโทรหาคุณทีหลัง']] },
+                { verb: 'Cancel', meaning: 'ยกเลิก', structure: ['cancel + something'], examples: [['They had to cancel the meeting.', 'พวกเขาต้องยกเลิกการประชุม']] },
+                { verb: 'Care', meaning: 'ใส่ใจ, ดูแล', structure: ['care + about/for + someone/something'], examples: [['She cares for her elderly mother.', 'เธอเอาใจใส่ดูแลแม่ที่แก่ชราของเธอ']] },
+                { verb: 'Carry', meaning: 'ถือ, แบก', structure: ['carry + something'], examples: [['Can you help me carry this bag?', 'คุณช่วยฉันถือกระเป๋าใบนี้ได้ไหม?']] },
+                { verb: 'Catch', meaning: 'จับ', structure: ['catch + someone/something'], examples: [['Throw the ball and I\'ll catch it.', 'โยนบอลมาสิ เดี๋ยวฉันจะรับเอง']] },
+                { verb: 'Change', meaning: 'เปลี่ยน', structure: ['change + something'], examples: [['I need to change my clothes.', 'ฉันต้องเปลี่ยนเสื้อผ้า']] },
+                { verb: 'Check', meaning: 'ตรวจสอบ', structure: ['check + something'], examples: [['Please check your email.', 'กรุณาตรวจสอบอีเมลของคุณ']] },
+                { verb: 'Choose', meaning: 'เลือก', structure: ['choose + something/someone'], examples: [['You have to choose between these two options.', 'คุณต้องเลือกระหว่างสองตัวเลือกนี้']] },
+                { verb: 'Clean', meaning: 'ทำความสะอาด', structure: ['clean + something'], examples: [['It\'s your turn to clean the room.', 'ถึงตาคุณทำความสะอาดห้องแล้วนะ']] },
+                { verb: 'Close', meaning: 'ปิด', structure: ['close + something'], examples: [['Please close the door.', 'กรุณาปิดประตูด้วย']] },
+                { verb: 'Come', meaning: 'มา', structure: ['come + to + a place'], examples: [['Are you coming to the party tonight?', 'คืนนี้คุณจะมางานปาร์ตี้ไหม?']] },
+                { verb: 'Cook', meaning: 'ทำอาหาร', structure: ['cook + something'], examples: [['My father loves to cook.', 'พ่อของฉันชอบทำอาหาร']] },
+                { verb: 'Cost', meaning: 'มีราคา', structure: ['It + cost + (amount of money)'], examples: [['How much does this cost?', 'อันนี้ราคาเท่าไหร่?']] },
+                { verb: 'Count', meaning: 'นับ', structure: ['count + from... to...'], examples: [['Can you count to ten in English?', 'คุณนับเลขหนึ่งถึงสิบเป็นภาษาอังกฤษได้ไหม?']] },
+                { verb: 'Cut', meaning: 'ตัด', structure: ['cut + something'], examples: [['She cut the paper with scissors.', 'เธอใช้กรรไกรตัดกระดาษ']] },
+            ],
+            'D': [
+                { verb: 'Dance', meaning: 'เต้น', structure: ['dance + with + someone'], examples: [['I love to dance.', 'ฉันชอบเต้นรำ']] },
+                { verb: 'Decide', meaning: 'ตัดสินใจ', structure: ['decide + to do + something'], examples: [['He decided to quit his job.', 'เขาตัดสินใจที่จะลาออกจากงาน']] },
+                { verb: 'Describe', meaning: 'บรรยาย', structure: ['describe + someone/something'], examples: [['Can you describe the man you saw?', 'คุณช่วยบรรยายลักษณะผู้ชายที่คุณเห็นได้ไหม?']] },
+                { verb: 'Develop', meaning: 'พัฒนา', structure: ['develop + something'], examples: [['The city is developing rapidly.', 'เมืองกำลังพัฒนาอย่างรวดเร็ว']] },
+                { verb: 'Discuss', meaning: ' thảo luận', structure: ['discuss + something + with + someone'], examples: [['Let\'s discuss this matter later.', 'เรามาคุยเรื่องนี้กันทีหลังนะ']] },
+                { verb: 'Do', meaning: 'ทำ', structure: ['do + something'], examples: [['What are you doing?', 'คุณกำลังทำอะไรอยู่?'], ['I have a lot of work to do.', 'ฉันมีงานต้องทำเยอะมาก']] },
+                { verb: 'Draw', meaning: 'วาดรูป', structure: ['draw + a picture'], examples: [['My daughter loves to draw.', 'ลูกสาวของฉันชอบวาดรูป']] },
+                { verb: 'Dream', meaning: 'ฝัน', structure: ['dream + about + someone/something'], examples: [['I had a strange dream last night.', 'เมื่อคืนฉันฝันแปลกๆ']] },
+                { verb: 'Drink', meaning: 'ดื่ม', structure: ['drink + something'], examples: [['It\'s important to drink enough water.', 'การดื่มน้ำให้เพียงพอเป็นสิ่งสำคัญ']] },
+                { verb: 'Drive', meaning: 'ขับรถ', structure: ['drive + a car'], examples: [['I am learning to drive.', 'ฉันกำลังเรียนขับรถ']] },
+                { verb: 'Drop', meaning: 'ทำตก, หล่น', structure: ['drop + something'], examples: [['Be careful not to drop the plate.', 'ระวังอย่าทำจานตก']] },
+            ],
+            'E': [
+                { verb: 'Eat', meaning: 'กิน', structure: ['eat + something'], examples: [['What do you want to eat for dinner?', 'คุณอยากกินอะไรเป็นอาหารเย็น?']] },
+                { verb: 'Earn', meaning: 'ได้รับ (เงิน), หาได้', structure: ['earn + money'], examples: [['How much do you earn a month?', 'คุณมีรายได้เดือนละเท่าไหร่?']] },
+                { verb: 'Encourage', meaning: 'ให้กำลังใจ', structure: ['encourage + someone + to do + something'], examples: [['My parents always encourage me to try new things.', 'พ่อแม่ของฉันให้กำลังใจฉันให้ลองทำสิ่งใหม่ๆ เสมอ']] },
+                { verb: 'End', meaning: 'จบ', structure: ['The movie ends at 10.', 'หนังจบตอนสี่ทุ่ม'], examples: [['The meeting will end soon.', 'การประชุมจะจบลงในไม่ช้า']] },
+                { verb: 'Enjoy', meaning: 'สนุก, เพลิดเพลิน', structure: ['enjoy + doing + something'], examples: [['I enjoy listening to music.', 'ฉันเพลินกับการฟังเพลง']] },
+                { verb: 'Explain', meaning: 'อธิบาย', structure: ['explain + something + to + someone'], examples: [['Can you explain this grammar rule to me?', 'คุณช่วยอธิบายกฎไวยากรณ์นี้ให้ฉันได้ไหม?']] },
+                { verb: 'Exercise', meaning: 'ออกกำลังกาย', structure: ['exercise + regularly'], examples: [['I try to exercise three times a week.', 'ฉันพยายามออกกำลังกายสามครั้งต่อสัปดาห์']] },
+                { verb: 'Explore', meaning: 'สำรวจ', structure: ['explore + a place'], examples: [['We want to explore the old city.', 'เราต้องการสำรวจเมืองเก่า']] },
+            ],
+            'F': [
+                { verb: 'Face', meaning: 'เผชิญหน้า', structure: ['face + a problem/challenge'], examples: [['You have to face your fears.', 'คุณต้องเผชิญหน้ากับความกลัวของคุณ']] },
+                { verb: 'Fail', meaning: 'ล้มเหลว, สอบตก', structure: ['fail + an exam/test'], examples: [['He failed his driving test again.', 'เขาสอบใบขับขี่ตกอีกแล้ว']] },
+                { verb: 'Fall', meaning: 'ตก, ร่วง, ล้ม', structure: ['fall + down/off'], examples: [['The leaves fall from the trees in autumn.', 'ใบไม้ร่วงจากต้นไม้ในฤดูใบไม้ร่วง']] },
+                { verb: 'Feel', meaning: 'รู้สึก', structure: ['feel + adjective'], examples: [['How are you feeling today?', 'วันนี้คุณรู้สึกอย่างไร?']] },
+                { verb: 'Fight', meaning: 'ต่อสู้', structure: ['fight + with/against + someone'], examples: [['The soldiers fought bravely for their country.', 'ทหารต่อสู้อย่างกล้าหาญเพื่อประเทศของพวกเขา']] },
+                { verb: 'Fill', meaning: 'เติม', structure: ['fill + something + with + something'], examples: [['Please fill this bottle with water.', 'กรุณาเติมน้ำให้เต็มขวดนี้']] },
+                { verb: 'Find', meaning: 'หา, พบ', structure: ['find + something/someone'], examples: [['I can\'t find my keys.', 'ฉันหากุญแจไม่เจอ']] },
+                { verb: 'Finish', meaning: 'เสร็จ', structure: ['finish + doing + something'], examples: [['Have you finished your homework?', 'คุณทำการบ้านเสร็จหรือยัง?']] },
+                { verb: 'Fix', meaning: 'ซ่อม', structure: ['fix + something'], examples: [['Can you fix my computer?', 'คุณซ่อมคอมพิวเตอร์ของฉันได้ไหม?']] },
+                { verb: 'Fly', meaning: 'บิน', structure: ['fly + to + a place'], examples: [['I have never flown in a helicopter.', 'ฉันไม่เคยบินด้วยเฮลิคอปเตอร์']] },
+                { verb: 'Follow', meaning: 'ติดตาม', structure: ['follow + someone/instructions'], examples: [['Follow me, I know the way.', 'ตามฉันมา ฉันรู้ทาง']] },
+                { verb: 'Forget', meaning: 'ลืม', structure: ['forget + to do/doing + something'], examples: [['Don\'t forget to lock the door.', 'อย่าลืมล็อคประตูนะ']] },
+                { verb: 'Forgive', meaning: 'ให้อภัย', structure: ['forgive + someone + for + something'], examples: [['I will never forgive you for what you did.', 'ฉันจะไม่มีวันให้อภัยคุณสำหรับสิ่งที่คุณทำ']] },
+            ],
+            'G': [
+                { verb: 'Gain', meaning: 'ได้รับเพิ่ม', structure: ['gain + weight/experience'], examples: [['I think I\'ve gained some weight.', 'ฉันคิดว่าน้ำหนักฉันขึ้นนะ']]},
+                { verb: 'Get', meaning: 'ได้รับ, ไปถึง, กลายเป็น', structure: ['get + something', 'get + to + a place', 'get + adjective'], examples: [['I need to get some sleep.', 'ฉันต้องนอนพักผ่อน'], ['What time did you get home?', 'คุณกลับถึงบ้านกี่โมง?']]},
+                { verb: 'Give', meaning: 'ให้', structure: ['give + someone + something'], examples: [['Can you give me a hand?', 'คุณช่วยฉันหน่อยได้ไหม?']]},
+                { verb: 'Go', meaning: 'ไป', structure: ['go + to + a place'], examples: [['I go to work by bus.', 'ฉันไปทำงานโดยรถบัส']]},
+                { verb: 'Grow', meaning: 'เติบโต, ปลูก', structure: ['grow + up', 'grow + plants'], examples: [['Children grow up so fast.', 'เด็กๆ โตเร็วมาก'], ['My grandmother grows roses in her garden.', 'คุณย่าของฉันปลูกกุหลาบในสวนของท่าน']]},
+                { verb: 'Guess', meaning: 'เดา', structure: ['guess + what/who/how...'], examples: [['Guess what I bought for you!', 'เดาสิว่าฉันซื้ออะไรมาให้!']]},
+                { verb: 'Guide', meaning: 'นำทาง', structure: ['guide + someone'], examples: [['The tour guide will guide us through the museum.', 'ไกด์ทัวร์จะนำทางเราในพิพิธภัณฑ์']]},
+                { verb: 'Grab', meaning: 'คว้า, ฉวย', structure: ['grab + something'], examples: [['Grab your coat, it\'s cold outside.', 'คว้าเสื้อโค้ทของคุณไป อากาศข้างนอกหนาว']]},
+                { verb: 'Greet', meaning: 'ทักทาย', structure: ['greet + someone'], examples: [['She greeted me with a warm smile.', 'เธอทักทายฉันด้วยรอยยิ้มที่อบอุ่น']]},
+            ],
+            'H': [
+                { verb: 'Have', meaning: 'มี', structure: ['have + something'], examples: [['I have a cat.', 'ฉันมีแมวหนึ่งตัว']]},
+                { verb: 'Hear', meaning: 'ได้ยิน', structure: ['hear + a noise/sound'], examples: [['Did you hear that noise?', 'คุณได้ยินเสียงนั้นไหม?']]},
+                { verb: 'Help', meaning: 'ช่วย', structure: ['help + someone + (to) do something'], examples: [['Can you help me with my homework?', 'คุณช่วยฉันทำการบ้านได้ไหม?']]},
+                { verb: 'Hide', meaning: 'ซ่อน', structure: ['hide + something/someone'], examples: [['He hid the money under the bed.', 'เขาซ่อนเงินไว้ใต้เตียง']]},
+                { verb: 'Hit', meaning: 'ตี', structure: ['hit + someone/something'], examples: [['The car hit a tree.', 'รถชนต้นไม้']]},
+                { verb: 'Hold', meaning: 'ถือ, จัด (งาน)', structure: ['hold + something'], examples: [['Please hold my bag for a moment.', 'กรุณาถือกระเป๋าให้ฉันสักครู่']]},
+                { verb: 'Hope', meaning: 'หวัง', structure: ['hope + (that)...', 'hope + to do something'], examples: [['I hope you feel better soon.', 'ฉันหวังว่าคุณจะรู้สึกดีขึ้นเร็วๆ นี้']]},
+                { verb: 'Hurt', meaning: 'ทำให้เจ็บ', structure: ['hurt + someone/oneself'], examples: [['Be careful not to hurt yourself.', 'ระวังอย่าทำให้ตัวเองเจ็บ']]},
+                { verb: 'Happen', meaning: 'เกิดขึ้น', structure: ['something + happens'], examples: [['What happened here?', 'เกิดอะไรขึ้นที่นี่?']]},
+                { verb: 'Hate', meaning: 'เกลียด', structure: ['hate + doing something'], examples: [['I hate getting up early.', 'ฉันเกลียดการตื่นเช้า']]},
+                { verb: 'Hire', meaning: 'จ้าง', structure: ['hire + someone'], examples: [['The company plans to hire more staff.', 'บริษัทวางแผนที่จะจ้างพนักงานเพิ่ม']]},
+                { verb: 'Hug', meaning: 'กอด', structure: ['hug + someone'], examples: [['She gave her mom a big hug.', 'เธอกอดแม่ของเธอแน่น']]},
+                { verb: 'Hurry', meaning: 'รีบ', structure: ['hurry + up'], examples: [['Hurry up, or we\'ll be late!', 'รีบหน่อย เดี๋ยวเราจะสาย!']]},
+                { verb: 'Hang', meaning: 'แขวน', structure: ['hang + something'], examples: [['Please hang your coat on the hook.', 'กรุณาแขวนเสื้อโค้ทของคุณไว้บนตะขอ']]},
+            ],
+            'I': [
+                { verb: 'Imagine', meaning: 'จินตนาการ', structure: ['imagine + (that)...', 'imagine + doing something'], examples: [['Imagine you won the lottery.', 'จินตนาการว่าคุณถูกลอตเตอรี่']] },
+                { verb: 'Improve', meaning: 'ปรับปรุง, ทำให้ดีขึ้น', structure: ['improve + something'], examples: [['I want to improve my English skills.', 'ฉันต้องการพัฒนาทักษะภาษาอังกฤษของฉัน']] },
+                { verb: 'Include', meaning: 'รวมถึง', structure: ['include + something'], examples: [['The price includes breakfast.', 'ราคานี้รวมอาหารเช้าแล้ว']] },
+                { verb: 'Inform', meaning: 'แจ้งให้ทราบ', structure: ['inform + someone + about/of + something'], examples: [['Please inform us of any changes.', 'โปรดแจ้งให้เราทราบหากมีการเปลี่ยนแปลงใดๆ']] },
+                { verb: 'Install', meaning: 'ติดตั้ง', structure: ['install + software/equipment'], examples: [['I need to install a new app on my phone.', 'ฉันต้องติดตั้งแอปใหม่ในโทรศัพท์']] },
+                { verb: 'Introduce', meaning: 'แนะนำ', structure: ['introduce + someone + to + someone'], examples: [['Let me introduce you to my friend.', 'ให้ฉันแนะนำคุณให้รู้จักกับเพื่อนของฉันนะ']] },
+                { verb: 'Invent', meaning: 'ประดิษฐ์', structure: ['invent + something'], examples: [['Who invented the telephone?', 'ใครเป็นผู้ประดิษฐ์โทรศัพท์?']] },
+                { verb: 'Invite', meaning: 'เชิญ', structure: ['invite + someone + to + an event'], examples: [['She invited me to her birthday party.', 'เธอเชิญฉันไปงานวันเกิดของเธอ']] },
+                { verb: 'Iron', meaning: 'รีดผ้า', structure: ['iron + clothes'], examples: [['I have to iron my shirt.', 'ฉันต้องรีดเสื้อเชิ้ต']] },
+                { verb: 'Ignore', meaning: 'เพิกเฉย', structure: ['ignore + someone/something'], examples: [['She ignored my advice.', 'เธอเพิกเฉยต่อคำแนะนำของฉัน']] },
+                { verb: 'Impress', meaning: 'ทำให้ประทับใจ', structure: ['impress + someone'], examples: [['He tried to impress her with his knowledge.', 'เขาพยายามทำให้เธอประทับใจด้วยความรู้ของเขา']] },
+            ],
+            'J': [
+                { verb: 'Jog', meaning: 'วิ่งเหยาะๆ', structure: ['go jogging'], examples: [['I jog in the park every morning.', 'ฉันวิ่งเหยาะๆ ในสวนสาธารณะทุกเช้า']] },
+                { verb: 'Join', meaning: 'เข้าร่วม', structure: ['join + a club/team'], examples: [['Would you like to join us for dinner?', 'คุณอยากจะร่วมทานอาหารเย็นกับเราไหม?']] },
+                { verb: 'Joke', meaning: 'ล้อเล่น', structure: ['joke + about + something'], examples: [['He was just joking.', 'เขาแค่ล้อเล่นน่ะ']] },
+                { verb: 'Judge', meaning: 'ตัดสิน', structure: ['judge + someone/something'], examples: [['Don\'t judge a book by its cover.', 'อย่าตัดสินหนังสือจากหน้าปก']] },
+                { verb: 'Jump', meaning: 'กระโดด', structure: ['jump + over + something'], examples: [['The cat jumped onto the table.', 'แมวกระโดดขึ้นไปบนโต๊ะ']] },
+            ],
+            'K': [
+                { verb: 'Keep', meaning: 'เก็บ, รักษา, ทำต่อไป', structure: ['keep + something', 'keep + doing something'], examples: [['You can keep the change.', 'คุณเก็บเงินทอนไปได้เลย'], ['Keep trying, don\'t give up.', 'พยายามต่อไป อย่าเพิ่งยอมแพ้']] },
+                { verb: 'Kick', meaning: 'เตะ', structure: ['kick + a ball'], examples: [['He kicked the ball into the goal.', 'เขาเตะบอลเข้าประตู']] },
+                { verb: 'Kill', meaning: 'ฆ่า', structure: ['kill + someone/something'], examples: [['Smoking can kill you.', 'การสูบบุหรี่สามารถฆ่าคุณได้']] },
+                { verb: 'Kiss', meaning: 'จูบ', structure: ['kiss + someone'], examples: [['She kissed her baby on the forehead.', 'เธอจูบลูกของเธอที่หน้าผาก']] },
+                { verb: 'Kneel', meaning: 'คุกเข่า', structure: ['kneel + down'], examples: [['He knelt down to pray.', 'เขาคุกเข่าลงเพื่อสวดมนต์']] },
+                { verb: 'Knit', meaning: 'ถัก', structure: ['knit + a sweater'], examples: [['My grandmother taught me how to knit.', 'คุณย่าสอนฉันถักนิตติ้ง']] },
+                { verb: 'Knock', meaning: 'เคาะ', structure: ['knock + on + the door'], examples: [['Someone is knocking at the door.', 'มีคนกำลังเคาะประตู']] },
+                { verb: 'Know', meaning: 'รู้, รู้จัก', structure: ['know + someone/something'], examples: [['Do you know his name?', 'คุณรู้ชื่อเขาไหม?']] },
+            ],
+            'L': [
+                { verb: 'Laugh', meaning: 'หัวเราะ', structure: ['laugh + at + something'], examples: [['We laughed a lot at his jokes.', 'เราหัวเราะกับเรื่องตลกของเขามาก']] },
+                { verb: 'Lead', meaning: 'นำ', structure: ['lead + to + a place/result'], examples: [['This road leads to the city center.', 'ถนนสายนี้มุ่งหน้าสู่ใจกลางเมือง']] },
+                { verb: 'Learn', meaning: 'เรียนรู้', structure: ['learn + to do something', 'learn + about something'], examples: [['I am learning to play the guitar.', 'ฉันกำลังเรียนเล่นกีตาร์']] },
+                { verb: 'Leave', meaning: 'ออกจาก, ทิ้งไว้', structure: ['leave + a place', 'leave + something'], examples: [['What time do you leave for work?', 'คุณออกจากบ้านไปทำงานกี่โมง?'], ['I think I left my wallet at home.', 'ฉันคิดว่าฉันทิ้งกระเป๋าเงินไว้ที่บ้าน']] },
+                { verb: 'Lend', meaning: 'ให้ยืม', structure: ['lend + someone + something'], examples: [['Could you lend me some money?', 'คุณพอจะให้ฉันยืมเงินหน่อยได้ไหม?']] },
+                { verb: 'Let', meaning: 'อนุญาต, ปล่อยให้', structure: ['let + someone + do something'], examples: [['Let me help you.', 'ให้ฉันช่วยคุณนะ']] },
+                { verb: 'Lie', meaning: 'โกหก, นอนลง', structure: ['lie + to + someone', 'lie + down'], examples: [['Don\'t lie to me.', 'อย่าโกหกฉันนะ'], ['I\'m tired. I\'m going to lie down.', 'ฉันเหนื่อย ฉันจะไปนอนพัก']] },
+                { verb: 'Lift', meaning: 'ยก', structure: ['lift + something'], examples: [['This box is too heavy to lift.', 'กล่องนี้หนักเกินกว่าจะยกไหว']] },
+                { verb: 'Like', meaning: 'ชอบ', structure: ['like + doing something'], examples: [['I like watching movies.', 'ฉันชอบดูหนัง']] },
+                { verb: 'Listen', meaning: 'ฟัง', structure: ['listen + to + someone/something'], examples: [['Listen carefully to the instructions.', 'ฟังคำแนะนำอย่างตั้งใจ']] },
+                { verb: 'Live', meaning: 'อาศัยอยู่', structure: ['live + in + a place'], examples: [['I live in Bangkok.', 'ฉันอาศัยอยู่ในกรุงเทพฯ']] },
+                { verb: 'Lock', meaning: 'ล็อค', structure: ['lock + the door'], examples: [['Did you remember to lock the door?', 'คุณจำได้ไหมว่าต้องล็อคประตู']] },
+                { verb: 'Look', meaning: 'ดู, มอง', structure: ['look + at + someone/something'], examples: [['Look at that beautiful sunset!', 'ดูพระอาทิตย์ตกที่สวยงามนั่นสิ!']] },
+                { verb: 'Lose', meaning: 'ทำหาย, แพ้', structure: ['lose + something', 'lose + a game'], examples: [['I always lose my keys.', 'ฉันทำกุญแจหายตลอดเลย'], ['Our team lost the game.', 'ทีมของเราแพ้การแข่งขัน']] },
+            ],
+            'M': [
+                { verb: 'Make', meaning: 'ทำ, สร้าง', structure: ['make + something'], examples: [['I\'ll make some coffee.', 'เดี๋ยวฉันจะชงกาแฟให้']] },
+                { verb: 'Manage', meaning: 'จัดการ', structure: ['manage + to do something'], examples: [['How do you manage to stay so calm?', 'คุณจัดการให้ตัวเองใจเย็นขนาดนี้ได้อย่างไร?']] },
+                { verb: 'Marry', meaning: 'แต่งงาน', structure: ['marry + someone'], examples: [['He is going to marry his high school sweetheart.', 'เขากำลังจะแต่งงานกับแฟนสมัยมัธยม']] },
+                { verb: 'Mean', meaning: 'หมายถึง', structure: ['What does this word mean?'], examples: [['What do you mean?', 'คุณหมายความว่าอย่างไร?']] },
+                { verb: 'Meet', meaning: 'พบ', structure: ['meet + someone'], examples: [['Nice to meet you.', 'ยินดีที่ได้รู้จัก']] },
+                { verb: 'Mention', meaning: 'กล่าวถึง', structure: ['mention + something'], examples: [['Did he mention my name?', 'เขากล่าวถึงชื่อฉันไหม?']] },
+                { verb: 'Mind', meaning: 'รังเกียจ, ใส่ใจ', structure: ['Do you mind if...?'], examples: [['Do you mind if I open the window?', 'คุณจะว่าอะไรไหมถ้าฉันจะเปิดหน้าต่าง?']] },
+                { verb: 'Miss', meaning: 'คิดถึง, พลาด', structure: ['miss + someone/something'], examples: [['I miss my family.', 'ฉันคิดถึงครอบครัว'], ['Hurry up, or you\'ll miss the train.', 'รีบหน่อย เดี๋ยวคุณจะพลาดรถไฟ']] },
+                { verb: 'Mix', meaning: 'ผสม', structure: ['mix + A + with + B'], examples: [['Mix the flour with the eggs.', 'ผสมแป้งกับไข่']] },
+                { verb: 'Move', meaning: 'ย้าย, เคลื่อนไหว', structure: ['move + to + a new place'], examples: [['We are moving to a new house next month.', 'เราจะย้ายไปบ้านใหม่เดือนหน้า']] },
+            ],
+            'N': [
+                { verb: 'Need', meaning: 'ต้องการ', structure: ['need + to do something', 'need + something'], examples: [['I need to go to the supermarket.', 'ฉันต้องไปซูเปอร์มาร์เก็ต']] },
+                { verb: 'Nap', meaning: 'งีบหลับ', structure: ['take a nap'], examples: [['I usually take a short nap after lunch.', 'ฉันมักจะงีบหลับสั้นๆ หลังอาหารกลางวัน']] },
+                { verb: 'Negotiate', meaning: 'เจรจาต่อรอง', structure: ['negotiate + with someone + for something'], examples: [['They are trying to negotiate a peace treaty.', 'พวกเขากำลังพยายามเจรจาสนธิสัญญาสันติภาพ']] },
+                { verb: 'Nod', meaning: 'พยักหน้า', structure: ['nod + your head'], examples: [['She nodded in agreement.', 'เธอพยักหน้าเห็นด้วย']] },
+                { verb: 'Notice', meaning: 'สังเกตเห็น', structure: ['notice + someone/something'], examples: [['Did you notice her new haircut?', 'คุณสังเกตเห็นทรงผมใหม่ของเธอไหม?']] },
+                { verb: 'Notify', meaning: 'แจ้งให้ทราบ', structure: ['notify + someone + of something'], examples: [['Please notify the police immediately.', 'กรุณาแจ้งตำรวจทันที']] },
+            ],
+            'O': [
+                { verb: 'Obey', meaning: 'เชื่อฟัง', structure: ['obey + rules/orders'], examples: [['You must obey the law.', 'คุณต้องเชื่อฟังกฎหมาย']] },
+                { verb: 'Observe', meaning: 'สังเกต', structure: ['observe + something'], examples: [['Scientists observe the behavior of animals.', 'นักวิทยาศาสตร์สังเกตพฤติกรรมของสัตว์']] },
+                { verb: 'Offer', meaning: 'เสนอ', structure: ['offer + someone + something'], examples: [['He offered me a job.', 'เขาเสนองานให้ฉัน']] },
+                { verb: 'Open', meaning: 'เปิด', structure: ['open + something'], examples: [['Can you open the window, please?', 'คุณช่วยเปิดหน้าต่างหน่อยได้ไหม?']] },
+                { verb: 'Order', meaning: 'สั่ง', structure: ['order + food/drinks'], examples: [['Are you ready to order?', 'คุณพร้อมที่จะสั่งอาหารหรือยัง?']] },
+                { verb: 'Organize', meaning: 'จัดระเบียบ, จัดงาน', structure: ['organize + something'], examples: [['She organized a party for her friend.', 'เธอจัดงานปาร์ตี้ให้เพื่อนของเธอ']] },
+                { verb: 'Owe', meaning: 'เป็นหนี้', structure: ['owe + someone + money'], examples: [['I owe you 100 baht.', 'ฉันเป็นหนี้คุณ 100 บาท']] },
+                { verb: 'Own', meaning: 'เป็นเจ้าของ', structure: ['own + something'], examples: [['Do you own a car?', 'คุณมีรถยนต์เป็นของตัวเองไหม?']] },
+            ],
+            'P': [
+                { verb: 'Pack', meaning: 'จัดกระเป๋า', structure: ['pack + a suitcase'], examples: [['I need to pack for my trip.', 'ฉันต้องจัดกระเป๋าสำหรับการเดินทาง']] },
+                { verb: 'Paint', meaning: 'ทาสี, วาดภาพสี', structure: ['paint + a picture/a wall'], examples: [['We need to paint the living room.', 'เราต้องทาสีห้องนั่งเล่น']] },
+                { verb: 'Pass', meaning: 'ผ่าน, ส่ง', structure: ['pass + an exam', 'pass + something + to someone'], examples: [['I hope I pass the exam.', 'ฉันหวังว่าจะสอบผ่าน'], ['Could you pass the salt, please?', 'คุณช่วยส่งเกลือให้หน่อยได้ไหม?']] },
+                { verb: 'Pay', meaning: 'จ่าย', structure: ['pay + for + something'], examples: [['How would you like to pay?', 'คุณต้องการชำระเงินอย่างไร?']] },
+                { verb: 'Perform', meaning: 'แสดง', structure: ['perform + on stage'], examples: [['The band will perform tonight.', 'วงดนตรีจะแสดงคืนนี้']] },
+                { verb: 'Pick', meaning: 'เลือก, หยิบ', structure: ['pick + something'], examples: [['Pick a card, any card.', 'เลือกไพ่มาหนึ่งใบ, ใบไหนก็ได้']] },
+                { verb: 'Plan', meaning: 'วางแผน', structure: ['plan + to do something'], examples: [['What are you planning to do this weekend?', 'คุณวางแผนจะทำอะไรสุดสัปดาห์นี้?']] },
+                { verb: 'Play', meaning: 'เล่น', structure: ['play + a game/sport/instrument'], examples: [['The children are playing in the park.', 'เด็กๆ กำลังเล่นอยู่ในสวน']] },
+                { verb: 'Pray', meaning: 'สวดมนต์, ภาวนา', structure: ['pray + for + someone/something'], examples: [['Let us pray for peace.', 'ให้เราภาวนาเพื่อสันติภาพ']] },
+                { verb: 'Prepare', meaning: 'เตรียม', structure: ['prepare + for + something'], examples: [['I need to prepare for my presentation.', 'ฉันต้องเตรียมตัวสำหรับการนำเสนอของฉัน']] },
+                { verb: 'Press', meaning: 'กด', structure: ['press + a button'], examples: [['Press this button to start.', 'กดปุ่มนี้เพื่อเริ่มต้น']] },
+                { verb: 'Pretend', meaning: 'แสร้งทำ', structure: ['pretend + to be/do something'], examples: [['He pretended to be sick so he didn\'t have to go to school.', 'เขาแกล้งป่วยเพื่อจะได้ไม่ต้องไปโรงเรียน']] },
+                { verb: 'Prevent', meaning: 'ป้องกัน', structure: ['prevent + someone + from doing something'], examples: [['The rain prevented us from going out.', 'ฝนทำให้เราออกไปข้างนอกไม่ได้']] },
+                { verb: 'Promise', meaning: 'สัญญา', structure: ['promise + to do something'], examples: [['I promise I will call you.', 'ฉันสัญญาว่าจะโทรหาคุณ']] },
+                { verb: 'Protect', meaning: 'ปกป้อง', structure: ['protect + someone/something + from something'], examples: [['This cream protects your skin from the sun.', 'ครีมนี้ปกป้องผิวของคุณจากแสงแดด']] },
+                { verb: 'Provide', meaning: 'จัดหาให้', structure: ['provide + someone + with something'], examples: [['The hotel provides free breakfast.', 'โรงแรมมีอาหารเช้าให้ฟรี']] },
+                { verb: 'Pull', meaning: 'ดึง', structure: ['pull + something'], examples: [['Pull the door to open it.', 'ดึงประตูเพื่อเปิด']] },
+                { verb: 'Push', meaning: 'ผลัก, ดัน', structure: ['push + something'], examples: [['You need to push the door, not pull.', 'คุณต้องผลักประตู ไม่ใช่ดึง']] },
+                { verb: 'Put', meaning: 'วาง', structure: ['put + something + somewhere'], examples: [['Put the book on the table.', 'วางหนังสือบนโต๊ะ']] },
+            ],
+            'Q': [
+                { verb: 'Qualify', meaning: 'มีคุณสมบัติ', structure: ['qualify + for + something'], examples: [['She qualified for the final round.', 'เธอมีคุณสมบัติผ่านเข้ารอบสุดท้าย']] },
+                { verb: 'Question', meaning: 'ตั้งคำถาม', structure: ['question + someone + about something'], examples: [['The police questioned him for two hours.', 'ตำรวจสอบสวนเขาเป็นเวลาสองชั่วโมง']] },
+                { verb: 'Quit', meaning: 'เลิก', structure: ['quit + a job/doing something'], examples: [['He decided to quit his job.', 'เขาตัดสินใจลาออกจากงาน']] },
+                { verb: 'Quote', meaning: 'อ้างคำพูด', structure: ['quote + someone'], examples: [['Can I quote you on that?', 'ฉันขออ้างคำพูดของคุณได้ไหม?']] },
+                { verb: 'Quarrel', meaning: 'ทะเลาะ', structure: ['quarrel + with + someone'], examples: [['They always quarrel about money.', 'พวกเขาทะเลาะกันเรื่องเงินเสมอ']] },
+            ],
+            'R': [
+                { verb: 'Race', meaning: 'แข่งขัน (ความเร็ว)', structure: ['race + against + someone'], examples: [['I\'ll race you to the corner!', 'ฉันจะแข่งวิ่งกับเธอไปที่หัวมุม!']] },
+                { verb: 'Read', meaning: 'อ่าน', structure: ['read + a book/newspaper'], examples: [['I love to read books.', 'ฉันชอบอ่านหนังสือ']] },
+                { verb: 'Realize', meaning: 'ตระหนัก, รู้ตัว', structure: ['realize + (that)...'], examples: [['I just realized I forgot her birthday.', 'ฉันเพิ่งนึกออกว่าลืมวันเกิดเธอ']] },
+                { verb: 'Receive', meaning: 'ได้รับ', structure: ['receive + something'], examples: [['Did you receive my email?', 'คุณได้รับอีเมลของฉันหรือยัง?']] },
+                { verb: 'Recommend', meaning: 'แนะนำ', structure: ['recommend + something/doing something'], examples: [['What would you recommend?', 'คุณจะแนะนำอะไร?']] },
+                { verb: 'Relax', meaning: 'ผ่อนคลาย', structure: ['relax + at home'], examples: [['I just want to relax this weekend.', 'ฉันแค่อยากจะพักผ่อนสุดสัปดาห์นี้']] },
+                { verb: 'Remember', meaning: 'จำได้', structure: ['remember + to do/doing something'], examples: [['Remember to buy milk.', 'อย่าลืมซื้อนมนะ']] },
+                { verb: 'Remind', meaning: 'เตือน', structure: ['remind + someone + to do something'], examples: [['Can you remind me to call him?', 'คุณช่วยเตือนฉันให้โทรหาเขาหน่อยได้ไหม?']] },
+                { verb: 'Repair', meaning: 'ซ่อมแซม', structure: ['repair + something'], examples: [['I need to repair my car.', 'ฉันต้องซ่อมรถของฉัน']] },
+                { verb: 'Reply', meaning: 'ตอบกลับ', structure: ['reply + to + an email/a message'], examples: [['Please reply to this email as soon as possible.', 'กรุณาตอบกลับอีเมลนี้โดยเร็วที่สุด']] },
+                { verb: 'Request', meaning: 'ร้องขอ', structure: ['request + something'], examples: [['I would like to request a day off.', 'ฉันอยากจะขอลางานหนึ่งวัน']] },
+                { verb: 'Return', meaning: 'กลับ, คืน', structure: ['return + to a place', 'return + something'], examples: [['When will you return?', 'คุณจะกลับมาเมื่อไหร่?'], ['I need to return this book to the library.', 'ฉันต้องคืนหนังสือเล่มนี้ที่ห้องสมุด']] },
+                { verb: 'Ride', meaning: 'ขี่', structure: ['ride + a bike/a horse'], examples: [['I learned to ride a bike when I was five.', 'ฉันเรียนขี่จักรยานตอนอายุห้าขวบ']] },
+                { verb: 'Ring', meaning: 'โทรศัพท์, (กระดิ่ง)ดัง', structure: ['ring + someone', 'the bell + rings'], examples: [['I\'ll ring you later.', 'เดี๋ยวฉันจะโทรหาคุณทีหลัง'], ['The phone is ringing.', 'โทรศัพท์กำลังดัง']] },
+                { verb: 'Run', meaning: 'วิ่ง', structure: ['run + in the park'], examples: [['I run every morning.', 'ฉันวิ่งทุกเช้า']] },
+            ],
+            'S': [
+                { verb: 'Save', meaning: 'บันทึก, เก็บ, ประหยัด, ช่วยชีวิต', structure: ['save + a file', 'save + money', 'save + someone\'s life'], examples: [['Don\'t forget to save your work.', 'อย่าลืมบันทึกงานของคุณ'], ['He saved the boy from drowning.', 'เขาช่วยเด็กชายจากการจมน้ำ']] },
+                { verb: 'Say', meaning: 'พูด', structure: ['say + something'], examples: [['What did you say?', 'คุณพูดว่าอะไรนะ?']] },
+                { verb: 'See', meaning: 'เห็น, พบ, ดู', structure: ['see + someone/something'], examples: [['I can\'t see anything.', 'ฉันมองไม่เห็นอะไรเลย'], ['See you tomorrow.', 'แล้วเจอกันพรุ่งนี้']] },
+                { verb: 'Sell', meaning: 'ขาย', structure: ['sell + something + to someone'], examples: [['I want to sell my old car.', 'ฉันต้องการขายรถคันเก่าของฉัน']] },
+                { verb: 'Send', meaning: 'ส่ง', structure: ['send + someone + something'], examples: [['I will send you an email.', 'ฉันจะส่งอีเมลหาคุณ']] },
+                { verb: 'Serve', meaning: 'บริการ, เสิร์ฟ', structure: ['serve + customers/food'], examples: [['Breakfast is served from 7 to 10 AM.', 'อาหารเช้าเสิร์ฟตั้งแต่ 7 โมงถึง 10 โมงเช้า']] },
+                { verb: 'Set', meaning: 'ตั้งค่า, จัด', structure: ['set + an alarm', 'set + the table'], examples: [['I set my alarm for 6 AM.', 'ฉันตั้งนาฬิกาปลุกไว้ตอน 6 โมงเช้า']] },
+                { verb: 'Share', meaning: 'แบ่งปัน', structure: ['share + something + with someone'], examples: [['Would you like to share your pizza with me?', 'คุณอยากจะแบ่งพิซซ่ากับฉันไหม?']] },
+                { verb: 'Shout', meaning: 'ตะโกน', structure: ['shout + at + someone'], examples: [['There\'s no need to shout.', 'ไม่จำเป็นต้องตะโกน']] },
+                { verb: 'Show', meaning: 'แสดงให้ดู', structure: ['show + someone + something'], examples: [['Can you show me the way?', 'คุณช่วยบอกทางฉันหน่อยได้ไหม?']] },
+                { verb: 'Sing', meaning: 'ร้องเพลง', structure: ['sing + a song'], examples: [['She loves to sing in the shower.', 'เธอชอบร้องเพลงตอนอาบน้ำ']] },
+                { verb: 'Sit', meaning: 'นั่ง', structure: ['sit + down'], examples: [['Please sit down.', 'กรุณานั่งลง']] },
+                { verb: 'Sleep', meaning: 'นอน', structure: ['go to sleep'], examples: [['I need to sleep early tonight.', 'คืนนี้ฉันต้องนอนเร็ว']] },
+                { verb: 'Speak', meaning: 'พูด', structure: ['speak + a language', 'speak + to someone'], examples: [['Do you speak English?', 'คุณพูดภาษาอังกฤษได้ไหม?']] },
+                { verb: 'Spend', meaning: 'ใช้ (เงิน, เวลา)', structure: ['spend + money/time + on something'], examples: [['I spent too much money yesterday.', 'เมื่อวานฉันใช้เงินมากเกินไป']] },
+                { verb: 'Start', meaning: 'เริ่มต้น', structure: ['start + to do/doing something'], examples: [['The movie starts at 8 PM.', 'หนังเริ่มตอนสองทุ่ม']] },
+                { verb: 'Stay', meaning: 'อยู่, พัก', structure: ['stay + at a hotel/home'], examples: [['I will stay at home tonight.', 'คืนนี้ฉันจะอยู่บ้าน']] },
+                { verb: 'Stop', meaning: 'หยุด', structure: ['stop + doing something'], examples: [['Please stop making that noise.', 'กรุณาหยุดทำเสียงนั้น']] },
+                { verb: 'Study', meaning: 'เรียน', structure: ['study + a subject'], examples: [['I have to study for my exam.', 'ฉันต้องอ่านหนังสือสอบ']] },
+                { verb: 'Suggest', meaning: 'แนะนำ', structure: ['suggest + doing something'], examples: [['I suggest going to the new Italian restaurant.', 'ฉันแนะนำให้ไปร้านอาหารอิตาเลียนร้านใหม่']] },
+                { verb: 'Swim', meaning: 'ว่ายน้ำ', structure: ['swim + in the pool/sea'], examples: [['I like to swim in the sea.', 'ฉันชอบว่ายน้ำในทะเล']] },
+            ],
+            'T': [
+                { verb: 'Take', meaning: 'เอาไป, พาไป, ใช้(เวลา)', structure: ['take + something', 'take + someone + somewhere', 'It + takes + time'], examples: [['Don\'t forget to take your umbrella.', 'อย่าลืมพกร่มไปด้วยนะ'], ['It takes 20 minutes to get there.', 'ใช้เวลา 20 นาทีในการไปถึงที่นั่น']] },
+                { verb: 'Talk', meaning: 'คุย', structure: ['talk + to/with + someone + about something'], examples: [['I need to talk to you.', 'ฉันต้องคุยกับคุณ']] },
+                { verb: 'Taste', meaning: 'ชิม, มีรสชาติ', structure: ['taste + something', 'It + tastes + adjective'], examples: [['Taste this soup and tell me if it needs more salt.', 'ชิมซุปนี้แล้วบอกฉันว่าต้องใส่เกลือเพิ่มไหม'], ['This cake tastes delicious.', 'เค้กนี้รสชาติอร่อย']] },
+                { verb: 'Teach', meaning: 'สอน', structure: ['teach + someone + something'], examples: [['He teaches English at a high school.', 'เขาสอนภาษาอังกฤษที่โรงเรียนมัธยม']] },
+                { verb: 'Tell', meaning: 'บอก', structure: ['tell + someone + something'], examples: [['Can you tell me the time?', 'คุณช่วยบอกเวลาฉันหน่อยได้ไหม?']] },
+                { verb: 'Test', meaning: 'ทดสอบ', structure: ['test + something'], examples: [['We need to test the new software.', 'เราต้องทดสอบซอฟต์แวร์ใหม่']] },
+                { verb: 'Thank', meaning: 'ขอบคุณ', structure: ['thank + someone + for something'], examples: [['Thank you for your help.', 'ขอบคุณสำหรับความช่วยเหลือของคุณ']] },
+                { verb: 'Think', meaning: 'คิด', structure: ['think + about something', 'think + (that)...'], examples: [['What are you thinking about?', 'คุณกำลังคิดอะไรอยู่?']] },
+                { verb: 'Throw', meaning: 'ขว้าง', structure: ['throw + something + to someone'], examples: [['Throw the ball to me!', 'ขว้างบอลมาให้ฉัน!']] },
+                { verb: 'Touch', meaning: 'สัมผัส, แตะ', structure: ['touch + something'], examples: [['Don\'t touch the painting.', 'ห้ามแตะภาพวาด']] },
+                { verb: 'Travel', meaning: 'ท่องเที่ยว, เดินทาง', structure: ['travel + to a place'], examples: [['I love to travel.', 'ฉันรักการเดินทาง']] },
+                { verb: 'Try', meaning: 'พยายาม, ลอง', structure: ['try + to do something', 'try + something'], examples: [['You should try to get more sleep.', 'คุณควรพยายามนอนให้มากขึ้น'], ['Have you ever tried Thai food?', 'คุณเคยลองอาหารไทยไหม?']] },
+                { verb: 'Turn', meaning: 'หมุน, เลี้ยว, เปิด/ปิด', structure: ['turn + left/right', 'turn + on/off something'], examples: [['Turn left at the next corner.', 'เลี้ยวซ้ายที่มุมถัดไป'], ['Can you turn on the light?', 'คุณช่วยเปิดไฟหน่อยได้ไหม?']] },
+                { verb: 'Type', meaning: 'พิมพ์', structure: ['type + something'], examples: [['I can type very fast.', 'ฉันสามารถพิมพ์ได้เร็วมาก']] },
+            ],
+            'U': [
+                { verb: 'Underline', meaning: 'ขีดเส้นใต้', structure: ['underline + a word'], examples: [['Please underline the important words.', 'กรุณาขีดเส้นใต้คำที่สำคัญ']] },
+                { verb: 'Understand', meaning: 'เข้าใจ', structure: ['understand + something'], examples: [['Do you understand the question?', 'คุณเข้าใจคำถามไหม?']] },
+                { verb: 'Undo', meaning: 'ยกเลิกการกระทำ', structure: ['undo + a change'], examples: [['You can click here to undo your last action.', 'คุณสามารถคลิกที่นี่เพื่อยกเลิกการกระทำล่าสุดของคุณ']] },
+                { verb: 'Unite', meaning: 'รวมกันเป็นหนึ่ง', structure: ['unite + against something'], examples: [['We must unite to solve this problem.', 'เราต้องรวมพลังกันเพื่อแก้ปัญหานี้']] },
+                { verb: 'Unlock', meaning: 'ปลดล็อค', structure: ['unlock + a door/phone'], examples: [['I can\'t unlock my phone; I forgot the password.', 'ฉันปลดล็อคโทรศัพท์ไม่ได้ ฉันลืมรหัสผ่าน']] },
+                { verb: 'Unpack', meaning: 'แกะของออกจากกระเป๋า', structure: ['unpack + your suitcase'], examples: [['The first thing I do when I get to a hotel is unpack.', 'สิ่งแรกที่ฉันทำเมื่อไปถึงโรงแรมคือการแกะของออกจากกระเป๋า']] },
+                { verb: 'Update', meaning: 'อัปเดต, ทำให้เป็นปัจจุบัน', structure: ['update + software/information'], examples: [['You need to update your computer\'s software.', 'คุณต้องอัปเดตซอฟต์แวร์คอมพิวเตอร์ของคุณ']] },
+                { verb: 'Upload', meaning: 'อัปโหลด', structure: ['upload + a photo/file'], examples: [['I\'m going to upload my vacation photos to Facebook.', 'ฉันจะอัปโหลดรูปถ่ายวันหยุดของฉันลงใน Facebook']] },
+                { verb: 'Use', meaning: 'ใช้', structure: ['use + something'], examples: [['Can I use your pen?', 'ฉันขอใช้ปากกาของคุณได้ไหม?']] },
+                { verb: 'Urge', meaning: 'กระตุ้น, เร่งเร้า', structure: ['urge + someone + to do something'], examples: [['I urge you to reconsider your decision.', 'ฉันขอร้องให้คุณพิจารณาการตัดสินใจของคุณใหม่']] },
+            ],
+            'V': [
+                { verb: 'Vacuum', meaning: 'ดูดฝุ่น', structure: ['vacuum + the floor'], examples: [['I need to vacuum the carpet.', 'ฉันต้องดูดฝุ่นพรม']] },
+                { verb: 'Value', meaning: 'ให้คุณค่า', structure: ['value + something'], examples: [['I value your friendship.', 'ฉันให้คุณค่ากับมิตรภาพของเรา']] },
+                { verb: 'Vanish', meaning: 'หายตัวไป', structure: ['vanish + without a trace'], examples: [['The magician vanished in a puff of smoke.', 'นักมายากลหายตัวไปในกลุ่มควัน']] },
+                { verb: 'Vary', meaning: 'แตกต่างกันไป', structure: ['prices + vary'], examples: [['The prices vary depending on the season.', 'ราคาจะแตกต่างกันไปขึ้นอยู่กับฤดูกาล']] },
+                { verb: 'Verify', meaning: 'ตรวจสอบความถูกต้อง', structure: ['verify + information'], examples: [['Please verify your email address.', 'กรุณายืนยันที่อยู่อีเมลของคุณ']] },
+                { verb: 'Visit', meaning: 'เยี่ยม', structure: ['visit + someone/a place'], examples: [['I\'m going to visit my grandparents this weekend.', 'ฉันจะไปเยี่ยมปู่ย่าตายายของฉันสุดสัปดาห์นี้']] },
+                { verb: 'Volunteer', meaning: 'อาสา', structure: ['volunteer + to do something'], examples: [['She volunteered to help at the animal shelter.', 'เธออาสาไปช่วยที่ศูนย์พักพิงสัตว์']] },
+                { verb: 'Vote', meaning: 'ลงคะแนน', structure: ['vote + for + someone'], examples: [['Who are you going to vote for?', 'คุณจะลงคะแนนให้ใคร?']] },
+                { verb: 'Vomit', meaning: 'อาเจียน', structure: ['feel like vomiting'], examples: [['I felt like I was going to vomit.', 'ฉันรู้สึกเหมือนจะอาเจียน']] },
+            ],
+            'W': [
+                { verb: 'Wait', meaning: 'รอ', structure: ['wait + for + someone/something'], examples: [['Please wait for me.', 'กรุณารอฉันด้วย']] },
+                { verb: 'Wake', meaning: 'ตื่น', structure: ['wake + up'], examples: [['What time do you usually wake up?', 'ปกติคุณตื่นนอนกี่โมง?']] },
+                { verb: 'Walk', meaning: 'เดิน', structure: ['walk + to a place'], examples: [['I walk to work every day.', 'ฉันเดินไปทำงานทุกวัน']] },
+                { verb: 'Want', meaning: 'ต้องการ', structure: ['want + to do something', 'want + something'], examples: [['What do you want to eat?', 'คุณอยากกินอะไร?']] },
+                { verb: 'Warn', meaning: 'เตือน', structure: ['warn + someone + about something'], examples: [['I warned you not to do that.', 'ฉันเตือนคุณแล้วว่าอย่าทำอย่างนั้น']] },
+                { verb: 'Wash', meaning: 'ล้าง', structure: ['wash + your hands/dishes'], examples: [['You should wash your hands before eating.', 'คุณควรล้างมือก่อนรับประทานอาหาร']] },
+                { verb: 'Watch', meaning: 'ดู', structure: ['watch + TV/a movie'], examples: [['Let\'s watch a movie tonight.', 'คืนนี้เรามาดูหนังกันเถอะ']] },
+                { verb: 'Wear', meaning: 'สวมใส่', structure: ['wear + clothes'], examples: [['What are you wearing to the party?', 'คุณจะใส่อะไรไปงานปาร์ตี้?']] },
+                { verb: 'Weigh', meaning: 'ชั่งน้ำหนัก, มีน้ำหนัก', structure: ['weigh + something'], examples: [['How much do you weigh?', 'คุณหนักเท่าไหร่?']] },
+                { verb: 'Welcome', meaning: 'ต้อนรับ', structure: ['welcome + someone'], examples: [['We would like to welcome you to our team.', 'เราขอต้อนรับคุณสู่ทีมของเรา']] },
+                { verb: 'Win', meaning: 'ชนะ', structure: ['win + a game/a prize'], examples: [['I hope our team wins.', 'ฉันหวังว่าทีมของเราจะชนะ']] },
+                { verb: 'Wish', meaning: 'ปรารถนา, อวยพร', structure: ['wish + for something', 'wish + someone + something'], examples: [['I wish I could fly.', 'ฉันหวังว่าฉันจะบินได้'], ['I wish you a happy birthday.', 'ฉันขอให้คุณมีความสุขในวันเกิด']] },
+                { verb: 'Wonder', meaning: 'สงสัย', structure: ['wonder + if/what/why...'], examples: [['I wonder what will happen next.', 'ฉันสงสัยว่าจะเกิดอะไรขึ้นต่อไป']] },
+                { verb: 'Work', meaning: 'ทำงาน', structure: ['work + at a place', 'work + on something'], examples: [['Where do you work?', 'คุณทำงานที่ไหน?']] },
+                { verb: 'Worry', meaning: 'กังวล', structure: ['worry + about + something'], examples: [['Don\'t worry, be happy.', 'อย่ากังวลไปเลย มีความสุขเถอะ']] },
+                { verb: 'Wrap', meaning: 'ห่อ', structure: ['wrap + a gift'], examples: [['Can you help me wrap this present?', 'คุณช่วยฉันห่อของขวัญชิ้นนี้ได้ไหม?']] },
+                { verb: 'Write', meaning: 'เขียน', structure: ['write + a letter/an email'], examples: [['I need to write an email to my boss.', 'ฉันต้องเขียนอีเมลถึงเจ้านายของฉัน']] },
+            ],
+            'X': [
+                { verb: 'X-ray', meaning: 'เอ็กซ์เรย์', structure: ['x-ray + a part of the body'], examples: [['The doctor decided to x-ray my chest.', 'คุณหมอตัดสินใจที่จะเอ็กซ์เรย์หน้าอกของฉัน']] },
+                { verb: 'Xerox', meaning: 'ถ่ายเอกสาร', structure: ['xerox + a document'], examples: [['Could you xerox this report for me?', 'คุณช่วยถ่ายเอกสารรายงานนี้ให้ฉันหน่อยได้ไหม?']] },
+            ],
+            'Y': [
+                { verb: 'Yawn', meaning: 'หาว', structure: ['yawn'], examples: [['I can\'t stop yawning. I must be tired.', 'ฉันหยุดหาวไม่ได้เลย ฉันต้องเหนื่อยแน่ๆ']] },
+                { verb: 'Yell', meaning: 'ตะโกน, ตะคอก', structure: ['yell + at + someone'], examples: [['Please don\'t yell at me.', 'กรุณาอย่าตะคอกใส่ฉัน']] },
+                { verb: 'Yield', meaning: 'ยอม, ให้ผลผลิต', structure: ['yield + to someone/something', 'yield + a result'], examples: [['He refused to yield to their demands.', 'เขาปฏิเสธที่จะยอมทำตามข้อเรียกร้องของพวกเขา']] },
+                { verb: 'Yearn', meaning: 'โหยหา, ปรารถนาอย่างแรงกล้า', structure: ['yearn + for something'], examples: [['She yearns for a quiet life in the countryside.', 'เธอโหยหาชีวิตที่เงียบสงบในชนบท']] },
+            ],
+            'Z': [
+                { verb: 'Zap', meaning: 'เปลี่ยนช่องทีวีเร็วๆ, กำจัด', structure: ['zap + through channels', 'zap + something'], examples: [['He zapped through the channels to find a movie.', 'เขาเปลี่ยนช่องทีวีอย่างรวดเร็วเพื่อหาหนังดู']] },
+                { verb: 'Zip', meaning: 'รูดซิป', structure: ['zip + up + something'], examples: [['Could you zip up my dress?', 'คุณช่วยรูดซิปชุดของฉันให้หน่อยได้ไหม?']] },
+                { verb: 'Zoom', meaning: 'ซูมเข้า/ออก', structure: ['zoom + in/out'], examples: [['You can zoom in to see the details.', 'คุณสามารถซูมเข้าไปดูรายละเอียดได้']] },
+            ],
+        };
+
+        // --- APPLICATION LOGIC ---
+        document.addEventListener('DOMContentLoaded', function() {
+            const tabNavigation = document.getElementById('tab-navigation');
+            const tabContent = document.getElementById('tab-content');
+            const modal = document.getElementById('modal');
+            const modalCloseBtn = document.getElementById('modal-close-btn');
+            const modalVerb = document.getElementById('modal-verb');
+            const modalMeaning = document.getElementById('modal-meaning');
+            const modalStructure = document.getElementById('modal-structure');
+            const modalExamples = document.getElementById('modal-examples');
+            
+            const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split('');
+            let firstTab = true;
+
+            // 1. Generate Tabs and Content Panels
+            alphabet.forEach(letter => {
+                const verbs = verbData[letter];
+
+                // Only create a tab if there is data for that letter
+                if (verbs && verbs.length > 0) {
+                    // Create Tab Button
+                    const tabBtn = document.createElement('button');
+                    tabBtn.className = `tab-btn font-bold font-poppins py-2 px-4 rounded-full text-sm md:text-base ${firstTab ? 'active' : 'bg-white text-gray-600'}`;
+                    tabBtn.textContent = letter;
+                    tabBtn.dataset.target = `panel-${letter}`;
+                    tabNavigation.appendChild(tabBtn);
+
+                    // Create Content Panel
+                    const panel = document.createElement('div');
+                    panel.id = `panel-${letter}`;
+                    panel.className = `verb-panel ${firstTab ? '' : 'hidden'}`;
+                    
+                    const grid = document.createElement('div');
+                    grid.className = 'grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 md:gap-4';
+                    
+                    verbs.forEach(verbInfo => {
+                        const verbBtn = document.createElement('button');
+                        verbBtn.className = 'verb-btn bg-white p-4 rounded-xl text-indigo-700 font-semibold text-center';
+                        verbBtn.textContent = verbInfo.verb;
+                        
+                        verbBtn.dataset.verb = verbInfo.verb;
+                        verbBtn.dataset.meaning = verbInfo.meaning;
+                        verbBtn.dataset.structure = JSON.stringify(verbInfo.structure);
+                        verbBtn.dataset.examples = JSON.stringify(verbInfo.examples);
+
+                        grid.appendChild(verbBtn);
+                    });
+
+                    panel.appendChild(grid);
+                    tabContent.appendChild(panel);
+
+                    firstTab = false; 
+                }
+            });
+
+            // 2. Tab Switching Logic
+            tabNavigation.addEventListener('click', (e) => {
+                if (e.target.matches('.tab-btn')) {
+                    document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+                    document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.add('bg-white', 'text-gray-600'));
+                    
+                    document.querySelectorAll('.verb-panel').forEach(panel => panel.classList.add('hidden'));
+
+                    e.target.classList.add('active');
+                    e.target.classList.remove('bg-white', 'text-gray-600');
+                    
+                    const targetPanelId = e.target.dataset.target;
+                    document.getElementById(targetPanelId).classList.remove('hidden');
+                }
+            });
+
+            // 3. Modal Opening Logic
+            tabContent.addEventListener('click', (e) => {
+                if (e.target.matches('.verb-btn')) {
+                    const buttonData = e.target.dataset;
+                    
+                    modalVerb.textContent = buttonData.verb;
+                    modalMeaning.textContent = buttonData.meaning;
+                    
+                    modalStructure.innerHTML = '';
+                    modalExamples.innerHTML = '';
+
+                    const structures = JSON.parse(buttonData.structure);
+                    structures.forEach(s => {
+                        const p = document.createElement('p');
+                        p.className = 'font-mono bg-gray-100 p-2 rounded-md text-sm text-fuchsia-800';
+                        p.textContent = s;
+                        modalStructure.appendChild(p);
+                    });
+
+                    const examples = JSON.parse(buttonData.examples);
+                    examples.forEach(ex => {
+                        const p = document.createElement('p');
+                        p.innerHTML = `<span class="font-semibold">${ex[0]}</span><br><span class="text-sm text-gray-500">${ex[1]}</span>`;
+                        modalExamples.appendChild(p);
+                    });
+
+                    modal.classList.remove('hidden');
+                    document.body.style.overflow = 'hidden'; 
+                }
+            });
+
+            // 4. Modal Closing Logic
+            function closeModal() {
+                modal.classList.add('hidden');
+                document.body.style.overflow = '';
+            }
+
+            modalCloseBtn.addEventListener('click', closeModal);
+            modal.addEventListener('click', (e) => {
+                if (e.target.id === 'modal') {
+                    closeModal();
+                }
+            });
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
+                    closeModal();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mr. Vocab - Suffix Magic Box (Adjectives)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'IBM Plex Sans Thai', sans-serif;
+            background: linear-gradient(120deg, #f6d365 0%, #fda085 100%);
+        }
+        .font-poppins {
+            font-family: 'Poppins', sans-serif;
+        }
+        .word-btn {
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px 0 rgb(0 0 0 / 8%);
+        }
+        .word-btn:hover {
+            transform: translateY(-3px) scale(1.03);
+            box-shadow: 0 4px 12px 0 rgb(0 0 0 / 15%);
+            background-color: #d97706; /* Amber-600 */
+            color: white;
+        }
+        #modal {
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+        #modal.hidden {
+            opacity: 0;
+            transform: scale(0.95);
+            pointer-events: none;
+        }
+        .modal-content {
+            transition: transform 0.3s ease;
+        }
+    </style>
+</head>
+<body class="antialiased text-gray-800">
+
+    <div class="container mx-auto p-4 md:p-8 max-w-6xl">
+
+        <header class="text-center mb-10">
+            <h1 class="text-4xl md:text-5xl font-bold font-poppins text-white text-shadow">Suffix Magic Box</h1>
+            <p class="text-lg text-white/90 mt-2">จอมเวทแปลงร่างคำให้เป็นคำคุณศัพท์ (Adjective)</p>
+        </header>
+
+        <div id="suffix-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+            <div class="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg p-6">
+                <h2 class="text-3xl font-bold font-poppins text-amber-700">-able / -ible</h2>
+                <p class="text-gray-600 mb-6">เปลี่ยน Verb เป็น Adjective หมายถึง "สามารถที่จะ...ได้"</p>
+                <div class="grid grid-cols-2 gap-3">
+                    <button class="word-btn bg-white p-3 rounded-lg font-semibold text-amber-600" data-word="Comfortable" data-pronounce="<u>คัม</u>-เฟอร์-ทะ-เบิล" data-en-sentence="This chair is very comfortable." data-th-sentence="เก้าอี้ตัวนี้สบายมาก">Comfortable</button>
+                    <button class="word-btn bg-white p-3 rounded-lg font-semibold text-amber-600" data-word="Readable" data-pronounce="<u>รี</u>-ดะ-เบิล" data-en-sentence="The handwriting is not very readable." data-th-sentence="ลายมือนั้นอ่านไม่ค่อยออก">Readable</button>
+                    <button class="word-btn bg-white p-3 rounded-lg font-semibold text-amber-600" data-word="Washable" data-pronounce="<u>วอ</u>-ชะ-เบิล" data-en-sentence="Is this jacket washable?" data-th-sentence="เสื้อแจ็คเก็ตตัวนี้ซักได้ไหม?">Washable</button>
+                    <button class="word-btn bg-white p-3 rounded-lg font-semibold text-amber-600" data-word="Believable" data-pronounce="บิ-<u>ลี</u>-ฝะ-เบิล" data-en-sentence="His story was not believable." data-th-sentence="เรื่องราวของเขาไม่น่าเชื่อถือ">Believable</button>
+                    <button class="word-btn bg-white p-3 rounded-lg font-semibold text-amber-600" data-word="Visible" data-pronounce="<u>วิ</u>-สิ-เบิล" data-en-sentence="The mountains are visible from here." data-th-sentence="ภูเขาสามารถมองเห็นได้จากที่นี่">Visible</button>
+                    <button class="word-btn bg-white p-3 rounded-lg font-semibold text-amber-600" data-word="Responsible" data-pronounce="รี-<u>สปอน</u>-สิ-เบิล" data-en-sentence="He is responsible for the team." data-th-sentence="เขารับผิดชอบทีมนี้">Responsible</button>
+                    <button class="word-btn bg-white p-3 rounded-lg font-semibold text-amber-600" data-word="Flexible" data-pronounce="<u>เฟล็ก</u>-สิ-เบิล" data-en-sentence="My schedule is flexible." data-th-sentence="ตารางเวลาของฉันยืดหยุ่นได้">Flexible</button>
+                    <button class="word-btn bg-white p-3 rounded-lg font-semibold text-amber-600" data-word="Adorable" data-pronounce="อะ-<u>ดอ</u>-ระ-เบิล" data-en-sentence="That puppy is absolutely adorable." data-th-sentence="ลูกสุนัขตัวนั้นน่ารักมากๆ เลย">Adorable</button>
+                    <button class="word-btn bg-white p-3 rounded-lg font-semibold text-amber-600" data-word="Edible" data-pronounce="<u>เอ</u>-ดิ-เบิล" data-en-sentence="Are these berries edible?" data-th-sentence="ผลเบอร์รี่พวกนี้กินได้ไหม?">Edible</button>
+                    <button class="word-btn bg-white p-3 rounded-lg font-semibold text-amber-600" data-word="Terrible" data-pronounce="<u>เท</u>-ริ-เบิล" data-en-sentence="The weather was terrible yesterday." data-th-sentence="เมื่อวานอากาศแย่มาก">Terrible</button>
+                </div>
+            </div>
+
+            <div class="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg p-6">
+                <h2 class="text-3xl font-bold font-poppins text-amber-700">-ful</h2>
+                <p class="text-gray-600 mb-6">เปลี่ยน Noun เป็น Adjective หมายถึง "เต็มไปด้วย..."</p>
+                <div class="grid grid-cols-2 gap-3">
+                    <button class="word-btn bg-white p-3 rounded-lg font-semibold text-amber-600" data-word="Beautiful" data-pronounce="<u>บิว</u>-ทิ-ฟูล" data-en-sentence="What a beautiful painting!" data-th-sentence="เป็นภาพวาดที่สวยอะไรอย่างนี้!">Beautiful</button>
+                    <button class="word-btn bg-white p-3 rounded-lg font-semibold text-amber-600" data-word="Careful" data-pronounce="<u>แคร์</u>-ฟูล" data-en-sentence="Please be careful with the glass." data-th-sentence="โปรดระวังแก้วด้วย">Careful</button>
+                    <button class="word-btn bg-white p-3 rounded-lg font-semibold text-amber-600" data-word="Helpful" data-pronounce="<u>เฮลพฺ</u>-ฟูล" data-en-sentence="Thank you, you've been very helpful." data-th-sentence="ขอบคุณมาก คุณช่วยเหลือได้ดีมาก">Helpful</button>
+                    <button class="word-btn bg-white p-3 rounded-lg font-semibold text-amber-600" data-word="Wonderful" data-pronounce="<u>วัน</u>-เดอร์-ฟูล" data-en-sentence="We had a wonderful time." data-th-sentence="เรามีช่วงเวลาที่วิเศษมาก">Wonderful</button>
+                    <button class="word-btn bg-white p-3 rounded-lg font-semibold text-amber-600" data-word="Powerful" data-pronounce="<u>พาว</u>-เออร์-ฟูล" data-en-sentence="The king is a powerful ruler." data-th-sentence="พระราชาเป็นผู้ปกครองที่ทรงอำนาจ">Powerful</button>
+                    <button class="word-btn bg-white p-3 rounded-lg font-semibold text-amber-600" data-word="Successful" data-pronounce="ซัค-<u>เซส</u>-ฟูล" data-en-sentence="She is a successful businesswoman." data-th-sentence="เธอเป็นนักธุรกิจหญิงที่ประสบความสำเร็จ">Successful</button>
+                    <button class="word-btn bg-white p-3 rounded-lg font-semibold text-amber-600" data-word="Painful" data-pronounce="<u>เพน</u>-ฟูล" data-en-sentence="The memory is too painful for him." data-th-sentence="ความทรงจำนั้นเจ็บปวดเกินไปสำหรับเขา">Painful</button>
+                    <button class="word-btn bg-white p-3 rounded-lg font-semibold text-amber-600" data-word="Hopeful" data-pronounce="<u>โฮพ</u>-ฟูล" data-en-sentence="I am hopeful that things will get better." data-th-sentence="ฉันมีความหวังว่าสิ่งต่างๆ จะดีขึ้น">Hopeful</button>
+                    <button class="word-btn bg-white p-3 rounded-lg font-semibold text-amber-600" data-word="Colorful" data-pronounce="<u>คัล</u>-เลอร์-ฟูล" data-en-sentence="She wore a colorful dress." data-th-sentence="เธอสวมชุดที่มีสีสันสดใส">Colorful</button>
+                    <button class="word-btn bg-white p-3 rounded-lg font-semibold text-amber-600" data-word="Thoughtful" data-pronounce="<u>ธอท</u>-ฟูล" data-en-sentence="It was very thoughtful of you to ask." data-th-sentence="เป็นการช่างคิดของคุณมากที่ถาม">Thoughtful</button>
+                </div>
+            </div>
+
+            <div class="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg p-6">
+                <h2 class="text-3xl font-bold font-poppins text-amber-700">-less</h2>
+                <p class="text-gray-600 mb-6">เปลี่ยน Noun เป็น Adjective หมายถึง "ปราศจาก..." หรือ "ไม่มี..."</p>
+                <div class="grid grid-cols-2 gap-3">
+                    <button class="word-btn bg-white p-3 rounded-lg font-semibold text-amber-600" data-word="Careless" data-pronounce="<u>แคร์</u>-เลส" data-en-sentence="He made a careless mistake." data-th-sentence="เขาทำผิดพลาดอย่างสะเพร่า">Careless</button>
+                    <button class="word-btn bg-white p-3 rounded-lg font-semibold text-amber-600" data-word="Homeless" data-pronounce="<u>โฮม</u>-เลส" data-en-sentence="The charity helps homeless people." data-th-sentence="องค์กรการกุศลช่วยเหลือคนไร้บ้าน">Homeless</button>
+                    <button class="word-btn bg-white p-3 rounded-lg font-semibold text-amber-600" data-word="Useless" data-pronounce="<u>ยูส</u>-เลส" data-en-sentence="This broken key is useless." data-th-sentence="กุญแจที่หักอันนี้ไร้ประโยชน์">Useless</button>
+                    <button class="word-btn bg-white p-3 rounded-lg font-semibold text-amber-600" data-word="Endless" data-pronounce="<u>เอนดฺ</u>-เลส" data-en-sentence="The journey seemed endless." data-th-sentence="การเดินทางดูเหมือนไม่มีที่สิ้นสุด">Endless</button>
+                    <button class="word-btn bg-white p-3 rounded-lg font-semibold text-amber-600" data-word="Hopeless" data-pronounce="<u>โฮพ</u>-เลส" data-en-sentence="The situation is not hopeless." data-th-sentence="สถานการณ์ยังไม่สิ้นหวัง">Hopeless</button>
+                    <button class="word-btn bg-white p-3 rounded-lg font-semibold text-amber-600" data-word="Fearless" data-pronounce="<u>เฟียร์</u>-เลส" data-en-sentence="She is a fearless leader." data-th-sentence="เธอเป็นผู้นำที่กล้าหาญ">Fearless</button>
+                    <button class="word-btn bg-white p-3 rounded-lg font-semibold text-amber-600" data-word="Painless" data-pronounce="<u>เพน</u>-เลส" data-en-sentence="The procedure was quick and painless." data-th-sentence="ขั้นตอนนั้นรวดเร็วและไม่เจ็บปวด">Painless</button>
+                    <button class="word-btn bg-white p-3 rounded-lg font-semibold text-amber-600" data-word="Speechless" data-pronounce="<u>สปีช</u>-เลส" data-en-sentence="I was speechless with surprise." data-th-sentence="ฉันพูดไม่ออกด้วยความประหลาดใจ">Speechless</button>
+                    <button class="word-btn bg-white p-3 rounded-lg font-semibold text-amber-600" data-word="Harmless" data-pronounce="<u>ฮาร์ม</u>-เลส" data-en-sentence="Don't worry, the snake is harmless." data-th-sentence="ไม่ต้องกังวล งูตัวนี้ไม่มีพิษมีภัย">Harmless</button>
+                    <button class="word-btn bg-white p-3 rounded-lg font-semibold text-amber-600" data-word="Powerless" data-pronounce="<u>พาว</u>-เออร์-เลส" data-en-sentence="I felt powerless to help." data-th-sentence="ฉันรู้สึกหมดหนทางที่จะช่วย">Powerless</button>
+                </div>
+            </div>
+            
+            <div class="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg p-6">
+                <h2 class="text-3xl font-bold font-poppins text-amber-700">-al</h2>
+                <p class="text-gray-600 mb-6">เปลี่ยน Noun เป็น Adjective หมายถึง "เกี่ยวกับ..." หรือ "ในทาง..."</p>
+                <div class="grid grid-cols-2 gap-3">
+                    <button class="word-btn bg-white p-3 rounded-lg font-semibold text-amber-600" data-word="Natural" data-pronounce="<u>แน</u>-ชเริล" data-en-sentence="This product is made from natural ingredients." data-th-sentence="ผลิตภัณฑ์นี้ทำจากส่วนผสมจากธรรมชาติ">Natural</button>
+                    <button class="word-btn bg-white p-3 rounded-lg font-semibold text-amber-600" data-word="Personal" data-pronounce="<u>เพอร์</u>-เซิน-เนิล" data-en-sentence="This is my personal opinion." data-th-sentence="นี่เป็นความเห็นส่วนตัวของฉัน">Personal</button>
+                    <button class="word-btn bg-white p-3 rounded-lg font-semibold text-amber-600" data-word="National" data-pronounce="<u>แน</u>-เชิน-เนิล" data-en-sentence="This is a matter of national importance." data-th-sentence="นี่เป็นเรื่องที่มีความสำคัญระดับชาติ">National</button>
+                    <button class="word-btn bg-white p-3 rounded-lg font-semibold text-amber-600" data-word="Financial" data-pronounce="ไฟ-<u>แนน</u>-เชียล" data-en-sentence="She needs some financial advice." data-th-sentence="เธอต้องการคำแนะนำทางการเงิน">Financial</button>
+                    <button class="word-btn bg-white p-3 rounded-lg font-semibold text-amber-600" data-word="Musical" data-pronounce="<u>มิว</u>-สิ-เคิล" data-en-sentence="He has a lot of musical talent." data-th-sentence="เขามีพรสวรรค์ทางดนตรีมากมาย">Musical</button>
+                    <button class="word-btn bg-white p-3 rounded-lg font-semibold text-amber-600" data-word="Traditional" data-pronounce="ทระ-<u>ดิ</u>-เชิน-เนิล" data-en-sentence="We ate a traditional Thai meal." data-th-sentence="เราทานอาหารไทยแบบดั้งเดิม">Traditional</button>
+                    <button class="word-btn bg-white p-3 rounded-lg font-semibold text-amber-600" data-word="Global" data-pronounce="<u>โกล</u>-เบิล" data-en-sentence="Climate change is a global issue." data-th-sentence="การเปลี่ยนแปลงสภาพภูมิอากาศเป็นปัญหาระดับโลก">Global</button>
+                    <button class="word-btn bg-white p-3 rounded-lg font-semibold text-amber-600" data-word="Cultural" data-pronounce="<u>คัล</u>-เชอ-เริล" data-en-sentence="There are many cultural differences between them." data-th-sentence="มีความแตกต่างทางวัฒนธรรมมากมายระหว่างพวกเขา">Cultural</button>
+                    <button class="word-btn bg-white p-3 rounded-lg font-semibold text-amber-600" data-word="Political" data-pronounce="โพ-<u>ลิ</u>-ทิ-เคิล" data-en-sentence="He has strong political beliefs." data-th-sentence="เขามีความเชื่อทางการเมืองที่แข็งแกร่ง">Political</button>
+                    <button class="word-btn bg-white p-3 rounded-lg font-semibold text-amber-600" data-word="Historical" data-pronounce="ฮิส-<u>ทอ</u>-ริ-เคิล" data-en-sentence="This is an important historical document." data-th-sentence="นี่เป็นเอกสารทางประวัติศาสตร์ที่สำคัญ">Historical</button>
+                </div>
+            </div>
+
+            <div class="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg p-6">
+                <h2 class="text-3xl font-bold font-poppins text-amber-700">-ous</h2>
+                <p class="text-gray-600 mb-6">เปลี่ยน Noun เป็น Adjective หมายถึง "มีลักษณะ..." หรือ "เต็มไปด้วย..."</p>
+                <div class="grid grid-cols-2 gap-3">
+                    <button class="word-btn bg-white p-3 rounded-lg font-semibold text-amber-600" data-word="Dangerous" data-pronounce="<u>เดน</u>-เจอะ-เริส" data-en-sentence="It's a dangerous road at night." data-th-sentence="มันเป็นถนนที่อันตรายในเวลากลางคืน">Dangerous</button>
+                    <button class="word-btn bg-white p-3 rounded-lg font-semibold text-amber-600" data-word="Famous" data-pronounce="<u>เฟ</u>-เมิส" data-en-sentence="This city is famous for its food." data-th-sentence="เมืองนี้มีชื่อเสียงด้านอาหาร">Famous</button>
+                    <button class="word-btn bg-white p-3 rounded-lg font-semibold text-amber-600" data-word="Mysterious" data-pronounce="มิส-<u>เทีย</u>-เรียส" data-en-sentence="A mysterious package arrived this morning." data-th-sentence="มีพัสดุลึกลับมาถึงเมื่อเช้านี้">Mysterious</button>
+                    <button class="word-btn bg-white p-3 rounded-lg font-semibold text-amber-600" data-word="Nervous" data-pronounce="<u>เนอร์</u>-เฝิส" data-en-sentence="I feel nervous before an exam." data-th-sentence="ฉันรู้สึกประหม่าก่อนสอบ">Nervous</button>
+                    <button class="word-btn bg-white p-3 rounded-lg font-semibold text-amber-600" data-word="Generous" data-pronounce="<u>เจน</u>-เนอ-เริส" data-en-sentence="He is a very generous person." data-th-sentence="เขาเป็นคนใจกว้างมาก">Generous</button>
+                    <button class="word-btn bg-white p-3 rounded-lg font-semibold text-amber-600" data-word="Courageous" data-pronounce="เคอ-<u>เร</u>-เจิส" data-en-sentence="She made a courageous decision." data-th-sentence="เธอตัดสินใจอย่างกล้าหาญ">Courageous</button>
+                    <button class="word-btn bg-white p-3 rounded-lg font-semibold text-amber-600" data-word="Poisonous" data-pronounce="<u>พอย</u>-เซิน-เนิส" data-en-sentence="Be careful of poisonous snakes." data-th-sentence="ระวังสัตว์มีพิษ">Poisonous</button>
+                    <button class="word-btn bg-white p-3 rounded-lg font-semibold text-amber-600" data-word="Humorous" data-pronounce="<u>ฮิว</u>-เมอ-เริส" data-en-sentence="He told a humorous story." data-th-sentence="เขาเล่าเรื่องตลกขบขัน">Humorous</button>
+                    <button class="word-btn bg-white p-3 rounded-lg font-semibold text-amber-600" data-word="Furious" data-pronounce="<u>ฟิว</u>-เรียส" data-en-sentence="She was furious when she heard the news." data-th-sentence="เธอโกรธมากเมื่อได้ยินข่าว">Furious</button>
+                    <button class="word-btn bg-white p-3 rounded-lg font-semibold text-amber-600" data-word="Gorgeous" data-pronounce="<u>กอร์</u>-เจิส" data-en-sentence="You look gorgeous in that dress." data-th-sentence="คุณดูสวยสง่ามากในชุดนั้น">Gorgeous</button>
+                </div>
+            </div>
+
+            <div class="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg p-6">
+                <h2 class="text-3xl font-bold font-poppins text-amber-700">-ive</h2>
+                <p class="text-gray-600 mb-6">เปลี่ยน Noun/Verb เป็น Adjective หมายถึง "มีแนวโน้มที่จะ..." หรือ "มีลักษณะ..."</p>
+                <div class="grid grid-cols-2 gap-3">
+                    <button class="word-btn bg-white p-3 rounded-lg font-semibold text-amber-600" data-word="Creative" data-pronounce="ครี-<u>เอ</u>-ทิฟว" data-en-sentence="She has a very creative mind." data-th-sentence="เธอมีความคิดที่สร้างสรรค์มาก">Creative</button>
+                    <button class="word-btn bg-white p-3 rounded-lg font-semibold text-amber-600" data-word="Active" data-pronounce="<u>แอค</u>-ทิฟว" data-en-sentence="It's important to stay active." data-th-sentence="การกระตือรือร้นอยู่เสมอเป็นสิ่งสำคัญ">Active</button>
+                    <button class="word-btn bg-white p-3 rounded-lg font-semibold text-amber-600" data-word="Talkative" data-pronounce="<u>ทอ</u>-คะ-ทิฟว" data-en-sentence="My sister is very talkative." data-th-sentence="น้องสาวของฉันเป็นคนช่างพูดมาก">Talkative</button>
+                    <button class="word-btn bg-white p-3 rounded-lg font-semibold text-amber-600" data-word="Attractive" data-pronounce="อะ-<u>แทรค</u>-ทิฟว" data-en-sentence="The city has many attractive tourist spots." data-th-sentence="เมืองนี้มีสถานที่ท่องเที่ยวที่น่าสนใจมากมาย">Attractive</button>
+                    <button class="word-btn bg-white p-3 rounded-lg font-semibold text-amber-600" data-word="Expensive" data-pronounce="อิค-<u>สเปน</u>-สิฟว" data-en-sentence="This watch is too expensive." data-th-sentence="นาฬิกาเรือนนี้แพงเกินไป">Expensive</button>
+                    <button class="word-btn bg-white p-3 rounded-lg font-semibold text-amber-600" data-word="Effective" data-pronounce="อิ-<u>เฟค</u>-ทิฟว" data-en-sentence="This is a very effective medicine." data-th-sentence="นี่เป็นยาที่มีประสิทธิภาพมาก">Effective</button>
+                    <button class="word-btn bg-white p-3 rounded-lg font-semibold text-amber-600" data-word="Positive" data-pronounce="<u>พอ</u>-สิ-ทิฟว" data-en-sentence="Try to have a positive attitude." data-th-sentence="พยายามมีทัศนคติเชิงบวก">Positive</button>
+                    <button class="word-btn bg-white p-3 rounded-lg font-semibold text-amber-600" data-word="Supportive" data-pronounce="ซัพ-<u>พอร์</u>-ทิฟว" data-en-sentence="My parents are very supportive of my career." data-th-sentence="พ่อแม่ของฉันสนับสนุนอาชีพของฉันมาก">Supportive</button>
+                    <button class="word-btn bg-white p-3 rounded-lg font-semibold text-amber-600" data-word="Impressive" data-pronounce="อิม-<u>เพรส</u>-สิฟว" data-en-sentence="His presentation was very impressive." data-th-sentence="การนำเสนอของเขาน่าประทับใจมาก">Impressive</button>
+                    <button class="word-btn bg-white p-3 rounded-lg font-semibold text-amber-600" data-word="Sensitive" data-pronounce="<u>เซน</u>-สิ-ทิฟว" data-en-sentence="Be careful what you say; she's very sensitive." data-th-sentence="ระวังสิ่งที่คุณพูด เธอเป็นคนอ่อนไหวง่ายมาก">Sensitive</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div id="modal" class="fixed inset-0 bg-black bg-opacity-60 flex justify-center items-center p-4 z-50 hidden">
+        <div id="modal-content" class="bg-white rounded-2xl shadow-2xl w-full max-w-md mx-auto overflow-hidden transform">
+            <div class="p-6 md:p-8">
+                <div class="flex justify-between items-start mb-4">
+                    <h2 id="modal-word" class="text-3xl font-bold font-poppins text-amber-600">Word</h2>
+                    <button id="modal-close-btn" class="text-gray-400 hover:text-gray-700 transition text-3xl leading-none">&times;</button>
+                </div>
+                
+                <div>
+                    <div class="mb-5">
+                        <h3 class="font-bold text-lg text-gray-700 mb-2 border-b-2 border-amber-200 pb-1">คำอ่านภาษาไทย</h3>
+                        <p id="modal-pronounce" class="text-gray-600 text-xl"></p>
+                    </div>
+
+                    <div>
+                        <h3 class="font-bold text-lg text-gray-700 mb-2 border-b-2 border-amber-200 pb-1">ตัวอย่างประโยค</h3>
+                        <div id="modal-examples" class="text-gray-600 space-y-2">
+                           <p id="modal-en-sentence" class="font-semibold"></p>
+                           <p id="modal-th-sentence" class="text-sm text-gray-500"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get all necessary elements
+            const wordButtons = document.querySelectorAll('.word-btn');
+            const modal = document.getElementById('modal');
+            const modalCloseBtn = document.getElementById('modal-close-btn');
+            
+            const modalWord = document.getElementById('modal-word');
+            const modalPronounce = document.getElementById('modal-pronounce');
+            const modalEnSentence = document.getElementById('modal-en-sentence');
+            const modalThSentence = document.getElementById('modal-th-sentence');
+
+            // Function to open the modal
+            function openModal(e) {
+                const button = e.currentTarget;
+                const data = button.dataset;
+
+                // Populate modal with data from the button
+                modalWord.textContent = data.word;
+                modalPronounce.innerHTML = data.pronounce; // Use innerHTML to render the <u> tag
+                modalEnSentence.textContent = data.enSentence;
+                modalThSentence.textContent = data.thSentence;
+
+                // Show the modal
+                modal.classList.remove('hidden');
+                document.body.style.overflow = 'hidden'; // Prevent background scrolling
+            }
+
+            // Function to close the modal
+            function closeModal() {
+                modal.classList.add('hidden');
+                document.body.style.overflow = ''; // Restore scrolling
+            }
+
+            // Add event listeners
+            wordButtons.forEach(button => {
+                button.addEventListener('click', openModal);
+            });
+
+            modalCloseBtn.addEventListener('click', closeModal);
+
+            // Close modal if clicking on the background overlay
+            modal.addEventListener('click', (e) => {
+                if (e.target.id === 'modal') {
+                    closeModal();
+                }
+            });
+
+            // Close modal with the Escape key
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
+                    closeModal();
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>

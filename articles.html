@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mr. Vocab - The Article Academy</title>
+    <title>Mr. Vocab - ED Pronunciation Lab & Quiz</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -11,7 +11,7 @@
     <style>
         body {
             font-family: 'IBM Plex Sans Thai', sans-serif;
-            background: linear-gradient(to top, #accbee 0%, #e7f0fd 100%);
+            background: linear-gradient(to top, #cfd9df 0%, #e2ebf0 100%);
         }
         .font-poppins {
             font-family: 'Poppins', sans-serif;
@@ -20,16 +20,23 @@
             transition: all 0.3s ease;
         }
         .main-tab.active {
-            background-color: #0369a1; /* sky-700 */
+            background-color: #475569; /* slate-600 */
             color: white;
         }
-        .rule-card {
-            background-color: rgba(255, 255, 255, 0.7);
-            backdrop-filter: blur(10px);
-            border-left-width: 8px;
-            border-radius: 1rem;
-            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+        .word-btn {
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px 0 rgb(0 0 0 / 8%);
         }
+        .word-btn:hover {
+            transform: translateY(-3px) scale(1.03);
+            box-shadow: 0 4px 12px 0 rgb(0 0 0 / 15%);
+            color: white;
+        }
+        .t-sound-hover:hover { background-color: #3b82f6; /* blue-500 */ }
+        .d-sound-hover:hover { background-color: #16a34a; /* green-600 */ }
+        .id-sound-hover:hover { background-color: #c026d3; /* fuchsia-600 */ }
+        #modal { transition: opacity 0.3s ease, transform 0.3s ease; }
+        #modal.hidden { opacity: 0; transform: scale(0.95); pointer-events: none; }
         .quiz-choice-btn {
             transition: all 0.2s ease-in-out;
         }
@@ -55,142 +62,167 @@
     <div class="container mx-auto p-4 md:p-8 max-w-6xl">
 
         <header class="text-center mb-8">
-            <h1 class="text-4xl md:text-5xl font-bold font-poppins text-sky-800">The Article Academy</h1>
-            <p class="text-lg text-sky-700 mt-2">โรงเรียนสอนการใช้ A, An, The ฉบับสมบูรณ์!</p>
+            <h1 class="text-4xl md:text-5xl font-bold font-poppins text-slate-700">ED Pronunciation Lab & Quiz</h1>
+            <p class="text-lg text-slate-600 mt-2">เรียนรู้และทดสอบความเข้าใจเรื่องการออกเสียง -ed</p>
         </header>
 
-        <nav class="flex flex-wrap justify-center bg-sky-200 rounded-full p-1 mb-8 max-w-md mx-auto">
-            <button data-target="panel-a-an" class="main-tab active w-1/4 py-2 px-2 rounded-full font-semibold text-sm">A / An</button>
-            <button data-target="panel-the" class="main-tab w-1/4 py-2 px-2 rounded-full font-semibold text-sm">The</button>
-            <button data-target="panel-zero" class="main-tab w-1/4 py-2 px-2 rounded-full font-semibold text-sm">No Article</button>
-            <button data-target="panel-quiz" class="main-tab w-1/4 py-2 px-2 rounded-full font-semibold text-sm">แบบฝึกหัด</button>
+        <nav class="flex justify-center bg-slate-200 rounded-full p-1 mb-8 max-w-sm mx-auto">
+            <button id="tab-lesson" class="main-tab active w-1/2 py-2 px-4 rounded-full font-semibold">บทเรียน</button>
+            <button id="tab-quiz" class="main-tab w-1/2 py-2 px-4 rounded-full font-semibold">แบบทดสอบ</button>
         </nav>
 
         <main>
-            <div id="panel-a-an" class="content-panel space-y-6">
-                <div class="rule-card border-cyan-500 p-6">
-                    <h2 class="text-2xl font-bold font-poppins text-cyan-800 mb-3">หลักการใช้ A / An (Indefinite Articles)</h2>
-                    <p class="text-slate-700">ใช้กับคำนามนับได้เอกพจน์ (singular countable noun) ที่ **ไม่ชี้เฉพาะเจาะจง** หรือ **กล่าวถึงครั้งแรก** แปลว่า "หนึ่งอัน/คน/สิ่ง"</p>
-                </div>
-                <div class="grid md:grid-cols-2 gap-6">
-                    <div class="rule-card border-sky-500 p-6">
-                        <h3 class="text-xl font-bold text-sky-800 mb-3">การใช้ "A"</h3>
-                        <p class="text-slate-700 mb-4">ใช้นำหน้าคำที่ขึ้นต้นด้วย **เสียงพยัญชนะ** (Consonant Sound)</p>
-                        <ul class="list-disc list-inside space-y-2 text-slate-600">
-                            <li>a <strong>c</strong>at (เสียง /k/)</li>
-                            <li>a <strong>d</strong>og (เสียง /d/)</li>
-                            <li>a <strong>b</strong>oy (เสียง /b/)</li>
-                            <li class="font-bold">a <strong>u</strong>niversity (เสียง /j/ หรือ ย)</li>
-                            <li class="font-bold">a <strong>E</strong>uropean (เสียง /j/ หรือ ย)</li>
-                        </ul>
+            <div id="panel-lesson">
+                <div class="space-y-8">
+                    <div class="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg p-6 border-l-8 border-blue-500">
+                         <h2 class="text-3xl font-bold font-poppins text-blue-600">Rule 1: เสียง /t/ (ทฺ)</h2>
+                        <p class="text-gray-600 mb-6">เมื่อคำกริยาลงท้ายด้วยเสียง **ไม่สั่น (Voiceless)** เช่น /p/, /k/, /s/, /f/, /ʃ/ (sh), /tʃ/ (ch)</p>
+                        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
+                           <button class="word-btn t-sound-hover bg-white p-3 rounded-lg font-semibold text-blue-600" data-word="helped" data-pronounce="เฮลพฺทฺ" data-rule="เสียง /t/ เพราะ help ลงท้ายด้วยเสียง /p/ (voiceless)" data-en-sentence="He helped me carry the boxes." data-th-sentence="เขาช่วยฉันถือกล่อง">helped</button>
+                            <button class="word-btn t-sound-hover bg-white p-3 rounded-lg font-semibold text-blue-600" data-word="looked" data-pronounce="ลุคทฺ" data-rule="เสียง /t/ เพราะ look ลงท้ายด้วยเสียง /k/ (voiceless)" data-en-sentence="She looked at the beautiful sky." data-th-sentence="เธอมองไปที่ท้องฟ้าที่สวยงาม">looked</button>
+                            <button class="word-btn t-sound-hover bg-white p-3 rounded-lg font-semibold text-blue-600" data-word="watched" data-pronounce="วอชทฺ" data-rule="เสียง /t/ เพราะ watch ลงท้ายด้วยเสียง /tʃ/ (voiceless)" data-en-sentence="We watched a movie last night." data-th-sentence="เราดูหนังเมื่อคืนนี้">watched</button>
+                            <button class="word-btn t-sound-hover bg-white p-3 rounded-lg font-semibold text-blue-600" data-word="laughed" data-pronounce="ลาฟทฺ" data-rule="เสียง /t/ เพราะ laugh ลงท้ายด้วยเสียง /f/ (voiceless)" data-en-sentence="They laughed at his joke." data-th-sentence="พวกเขาหัวเราะกับเรื่องตลกของเขา">laughed</button>
+                            <button class="word-btn t-sound-hover bg-white p-3 rounded-lg font-semibold text-blue-600" data-word="danced" data-pronounce="ดานซฺทฺ" data-rule="เสียง /t/ เพราะ dance ลงท้ายด้วยเสียง /s/ (voiceless)" data-en-sentence="We danced all night." data-th-sentence="เราเต้นกันทั้งคืน">danced</button>
+                        </div>
                     </div>
-                    <div class="rule-card border-sky-500 p-6">
-                        <h3 class="text-xl font-bold text-sky-800 mb-3">การใช้ "An"</h3>
-                        <p class="text-slate-700 mb-4">ใช้นำหน้าคำที่ขึ้นต้นด้วย **เสียงสระ** (Vowel Sound: a, e, i, o, u)</p>
-                        <ul class="list-disc list-inside space-y-2 text-slate-600">
-                            <li>an <strong>a</strong>pple (เสียง /æ/)</li>
-                            <li>an <strong>e</strong>lephant (เสียง /e/)</li>
-                            <li>an <strong>i</strong>gloo (เสียง /ɪ/)</li>
-                            <li class="font-bold">an <strong>h</strong>our (h ไม่ออกเสียง เริ่มด้วยเสียง /aʊ/)</li>
-                             <li class="font-bold">an <strong>M</strong>BA (M ออกเสียงว่า 'เอ็ม' ขึ้นด้วยเสียง /e/)</li>
-                        </ul>
+
+                    <div class="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg p-6 border-l-8 border-green-600">
+                        <h2 class="text-3xl font-bold font-poppins text-green-700">Rule 2: เสียง /d/ (ดฺ)</h2>
+                        <p class="text-gray-600 mb-6">เมื่อคำกริยาลงท้ายด้วยเสียง **สั่น (Voiced)** เช่น /b/, /g/, /v/, /l/, /m/, /n/, /z/ หรือ **เสียงสระ**</p>
+                        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
+                           <button class="word-btn d-sound-hover bg-white p-3 rounded-lg font-semibold text-green-600" data-word="played" data-pronounce="เพลดฺ" data-rule="เสียง /d/ เพราะ play ลงท้ายด้วยเสียงสระ (voiced)" data-en-sentence="The kids played in the park." data-th-sentence="เด็กๆ เล่นกันในสนามเด็กเล่น">played</button>
+                            <button class="word-btn d-sound-hover bg-white p-3 rounded-lg font-semibold text-green-600" data-word="loved" data-pronounce="เลิฟดฺ" data-rule="เสียง /d/ เพราะ love ลงท้ายด้วยเสียง /v/ (voiced)" data-en-sentence="She loved the gift." data-th-sentence="เธอชอบของขวัญชิ้นนั้นมาก">loved</button>
+                            <button class="word-btn d-sound-hover bg-white p-3 rounded-lg font-semibold text-green-600" data-word="called" data-pronounce="คอลดฺ" data-rule="เสียง /d/ เพราะ call ลงท้ายด้วยเสียง /l/ (voiced)" data-en-sentence="He called me yesterday." data-th-sentence="เขาโทรหาฉันเมื่อวานนี้">called</button>
+                            <button class="word-btn d-sound-hover bg-white p-3 rounded-lg font-semibold text-green-600" data-word="cleaned" data-pronounce="คลีนดฺ" data-rule="เสียง /d/ เพราะ clean ลงท้ายด้วยเสียง /n/ (voiced)" data-en-sentence="I cleaned my room." data-th-sentence="ฉันทำความสะอาดห้องของฉัน">cleaned</button>
+                            <button class="word-btn d-sound-hover bg-white p-3 rounded-lg font-semibold text-green-600" data-word="smiled" data-pronounce="สไมลดฺ" data-rule="เสียง /d/ เพราะ smile ลงท้ายด้วยเสียง /l/ (voiced)" data-en-sentence="She smiled at me." data-th-sentence="เธอยิ้มให้ฉัน">smiled</button>
+                        </div>
+                    </div>
+
+                    <div class="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg p-6 border-l-8 border-fuchsia-600">
+                       <h2 class="text-3xl font-bold font-poppins text-fuchsia-700">Rule 3: เสียง /ɪd/ (เอ็ด)</h2>
+                        <p class="text-gray-600 mb-6">เมื่อคำกริยาลงท้ายด้วยเสียง **/t/ หรือ /d/** เท่านั้น! (จะมีการเพิ่มพยางค์)</p>
+                        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
+                            <button class="word-btn id-sound-hover bg-white p-3 rounded-lg font-semibold text-fuchsia-600" data-word="wanted" data-pronounce="<u>วอน</u>-เท็ด" data-rule="เสียง /ɪd/ เพราะ want ลงท้ายด้วยเสียง /t/" data-en-sentence="I wanted to go, but I was too busy." data-th-sentence="ฉันอยากจะไป แต่ฉันยุ่งเกินไป">wanted</button>
+                            <button class="word-btn id-sound-hover bg-white p-3 rounded-lg font-semibold text-fuchsia-600" data-word="needed" data-pronounce="<u>นี</u>-เด็ด" data-rule="เสียง /ɪd/ เพราะ need ลงท้ายด้วยเสียง /d/" data-en-sentence="She needed some help." data-th-sentence="เธอต้องการความช่วยเหลือ">needed</button>
+                            <button class="word-btn id-sound-hover bg-white p-3 rounded-lg font-semibold text-fuchsia-600" data-word="started" data-pronounce="<u>สตาร์ท</u>-เท็ด" data-rule="เสียง /ɪd/ เพราะ start ลงท้ายด้วยเสียง /t/" data-en-sentence="The race started on time." data-th-sentence="การแข่งขันเริ่มตรงเวลา">started</button>
+                            <button class="word-btn id-sound-hover bg-white p-3 rounded-lg font-semibold text-fuchsia-600" data-word="ended" data-pronounce="<u>เอน</u>-เด็ด" data-rule="เสียง /ɪd/ เพราะ end ลงท้ายด้วยเสียง /d/" data-en-sentence="The movie ended happily." data-th-sentence="หนังจบอย่างมีความสุข">ended</button>
+                            <button class="word-btn id-sound-hover bg-white p-3 rounded-lg font-semibold text-fuchsia-600" data-word="decided" data-pronounce="ดิ-<u>ไซ</u>-เด็ด" data-rule="เสียง /ɪd/ เพราะ decide ลงท้ายด้วยเสียง /d/" data-en-sentence="We decided to stay home." data-th-sentence="เราตัดสินใจที่จะอยู่บ้าน">decided</button>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <div id="panel-the" class="content-panel hidden space-y-6">
-                 <div class="rule-card border-indigo-500 p-6">
-                    <h2 class="text-2xl font-bold font-poppins text-indigo-800 mb-3">หลักการใช้ The (Definite Article)</h2>
-                    <p class="text-slate-700">ใช้กับคำนามที่ **ชี้เฉพาะเจาะจง** ซึ่งทั้งผู้พูดและผู้ฟังเข้าใจตรงกันว่าหมายถึงสิ่งไหน</p>
-                    <ul class="list-disc list-inside space-y-3 mt-4 text-slate-700">
-                        <li><strong>กล่าวถึงเป็นครั้งที่ 2:</strong><br><span class="text-slate-500 ml-4">I saw <strong>a</strong> cat. <strong>The</strong> cat was black.</span></li>
-                        <li><strong>มีสิ่งเดียวในโลก หรือในบริบทนั้น:</strong><br><span class="text-slate-500 ml-4"><strong>The</strong> Sun, <strong>the</strong> Moon, <strong>the</strong> sky, <strong>the</strong> CEO</span></li>
-                        <li><strong>ขั้นสูงสุด (Superlatives):</strong><br><span class="text-slate-500 ml-4"><strong>The</strong> best student, <strong>the</strong> most beautiful flower</span></li>
-                        <li><strong>ชื่อเฉพาะทางภูมิศาสตร์ (ส่วนใหญ่):</strong><br><span class="text-slate-500 ml-4"><strong>The</strong> Pacific Ocean, <strong>the</strong> Alps, <strong>the</strong> Nile River</span></li>
-                        <li><strong>เครื่องดนตรี:</strong><br><span class="text-slate-500 ml-4">She plays <strong>the</strong> piano.</span></li>
-                    </ul>
-                </div>
-            </div>
-
-            <div id="panel-zero" class="content-panel hidden space-y-6">
-                 <div class="rule-card border-teal-500 p-6">
-                    <h2 class="text-2xl font-bold font-poppins text-teal-800 mb-3">เมื่อไหร่ที่ไม่ต้องใช้ Article (Zero Article)</h2>
-                    <p class="text-slate-700">มีหลายกรณีที่เราจะไม่ใช้ a, an, หรือ the นำหน้าคำนาม</p>
-                    <ul class="list-disc list-inside space-y-3 mt-4 text-slate-700">
-                        <li><strong>คำนามนับไม่ได้ หรือนามพหูพจน์ที่พูดถึงแบบทั่วไป ไม่ชี้เฉพาะเจาะจง:</strong><br><span class="text-slate-500 ml-4">I like <strong>music</strong>. / <strong>Dogs</strong> are friendly.</span></li>
-                        <li><strong>ชื่อเฉพาะส่วนใหญ่:</strong><br><span class="text-slate-500 ml-4">ชื่อคน (<strong>John</strong>), ชื่อประเทศส่วนใหญ่ (<strong>Thailand</strong>), เมือง (<strong>Bangkok</strong>), ทวีป (<strong>Asia</strong>)</span></li>
-                        <li><strong>มื้ออาหาร:</strong><br><span class="text-slate-500 ml-4">I have <strong>breakfast</strong> at 7 AM.</span></li>
-                        <li><strong>ภาษา และ กีฬา:</strong><br><span class="text-slate-500 ml-4">She speaks <strong>Japanese</strong>. / He plays <strong>football</strong>.</span></li>
-                    </ul>
-                </div>
-            </div>
-
-            <div id="panel-quiz" class="content-panel hidden">
-                 <div id="quiz-container" class="bg-white/70 backdrop-blur-sm rounded-2xl shadow-lg p-6 md:p-8 text-center max-w-2xl mx-auto">
+            <div id="panel-quiz" class="hidden">
+                 <div id="quiz-container" class="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg p-6 md:p-8 text-center max-w-2xl mx-auto">
                     <div id="quiz-start">
-                        <h2 class="text-2xl font-bold text-slate-700 mb-4">มาทดสอบความเข้าใจกัน!</h2>
-                        <p class="text-slate-600 mb-6">เลือก a, an, the, หรือ -- (ไม่ต้องเติม) ให้ถูกต้อง</p>
-                        <button id="start-quiz-btn" class="bg-sky-600 text-white font-bold py-3 px-8 rounded-full hover:bg-sky-700 transition transform hover:scale-105">เริ่มเลย!</button>
+                        <h2 class="text-2xl font-bold text-slate-700 mb-4">พร้อมประลองความแม่นยำรึยัง?</h2>
+                        <p class="text-slate-600 mb-6">ทดสอบความเข้าใจเรื่องการออกเสียง -ed ทั้ง 10 ข้อ!</p>
+                        <button id="start-quiz-btn" class="bg-slate-600 text-white font-bold py-3 px-8 rounded-full hover:bg-slate-700 transition transform hover:scale-105">เริ่มทำแบบทดสอบ!</button>
                     </div>
 
                     <div id="quiz-main" class="hidden">
                         <p id="quiz-progress" class="text-sm text-slate-500 mb-2">คำถามที่ 1/10</p>
-                        <div class="bg-slate-100 p-6 rounded-lg mb-6">
-                             <h2 class="text-2xl md:text-3xl font-semibold text-slate-800" id="question-sentence"></h2>
-                        </div>
-                        <div id="choices-container" class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
-                            <button data-choice="a" class="quiz-choice-btn border-2 border-slate-400 text-slate-600 font-bold py-3 rounded-lg text-xl hover:bg-slate-500 hover:text-white">a</button>
-                            <button data-choice="an" class="quiz-choice-btn border-2 border-slate-400 text-slate-600 font-bold py-3 rounded-lg text-xl hover:bg-slate-500 hover:text-white">an</button>
-                            <button data-choice="the" class="quiz-choice-btn border-2 border-slate-400 text-slate-600 font-bold py-3 rounded-lg text-xl hover:bg-slate-500 hover:text-white">the</button>
-                            <button data-choice="no_article" class="quiz-choice-btn border-2 border-slate-400 text-slate-600 font-bold py-3 rounded-lg text-xl hover:bg-slate-500 hover:text-white">-- <small>(no article)</small></button>
+                        <h2 class="text-5xl md:text-6xl font-bold font-poppins text-slate-800 mb-8" id="question-word"></h2>
+                        <p class="text-slate-600 mb-6 font-semibold">คำนี้ออกเสียง -ed แบบไหน?</p>
+                        <div id="choices-container" class="grid grid-cols-3 gap-4 mb-6">
+                            <button data-choice="/t/" class="quiz-choice-btn border-2 border-blue-400 text-blue-500 font-bold py-4 rounded-lg text-2xl hover:bg-blue-500 hover:text-white">/t/ <span class="hidden sm:inline">(ทฺ)</span></button>
+                            <button data-choice="/d/" class="quiz-choice-btn border-2 border-green-500 text-green-600 font-bold py-4 rounded-lg text-2xl hover:bg-green-600 hover:text-white">/d/ <span class="hidden sm:inline">(ดฺ)</span></button>
+                            <button data-choice="/id/" class="quiz-choice-btn border-2 border-fuchsia-500 text-fuchsia-600 font-bold py-4 rounded-lg text-2xl hover:bg-fuchsia-600 hover:text-white">/ɪd/ <span class="hidden sm:inline">(เอ็ด)</span></button>
                         </div>
                         <p id="feedback" class="h-6 text-lg font-bold mb-4"></p>
-                        <button id="next-question-btn" class="bg-sky-600 text-white font-bold py-2 px-6 rounded-full hover:bg-sky-700 transition hidden">ข้อถัดไป</button>
+                        <button id="next-question-btn" class="bg-slate-600 text-white font-bold py-2 px-6 rounded-full hover:bg-slate-700 transition hidden">คำถามถัดไป</button>
                     </div>
 
                     <div id="quiz-end" class="hidden">
                         <h2 class="text-2xl font-bold text-slate-700 mb-4">ทำแบบทดสอบเสร็จแล้ว!</h2>
-                        <p class="text-slate-600 mb-2">คะแนนรวม:</p>
-                        <p id="final-score" class="text-6xl font-bold font-poppins text-sky-800 mb-6"></p>
+                        <p class="text-slate-600 mb-2">คะแนนของคุณคือ:</p>
+                        <p id="final-score" class="text-6xl font-bold font-poppins text-slate-800 mb-6"></p>
                         <p id="score-message" class="text-lg mb-6"></p>
-                        <button id="restart-quiz-btn" class="bg-sky-600 text-white font-bold py-3 px-8 rounded-full hover:bg-sky-700 transition transform hover:scale-105">ทำอีกครั้ง</button>
+                        <button id="restart-quiz-btn" class="bg-slate-600 text-white font-bold py-3 px-8 rounded-full hover:bg-slate-700 transition transform hover:scale-105">ลองอีกครั้ง</button>
                     </div>
                 </div>
             </div>
         </main>
     </div>
 
+    <div id="modal" class="fixed inset-0 bg-black bg-opacity-60 flex justify-center items-center p-4 z-50 hidden">
+        <div id="modal-content" class="bg-white rounded-2xl shadow-2xl w-full max-w-md mx-auto overflow-hidden transform">
+            <div class="p-6 md:p-8">
+                <div class="flex justify-between items-start mb-4">
+                    <h2 id="modal-word" class="text-3xl font-bold font-poppins text-slate-700">Word</h2>
+                    <button id="modal-close-btn" class="text-gray-400 hover:text-gray-700 transition text-3xl leading-none">&times;</button>
+                </div>
+                <div>
+                    <div class="mb-5"><h3 class="font-bold text-lg text-gray-700 mb-2 border-b-2 border-slate-200 pb-1">หลักการออกเสียง</h3><p id="modal-rule" class="text-gray-600 text-md"></p></div>
+                    <div class="mb-5"><h3 class="font-bold text-lg text-gray-700 mb-2 border-b-2 border-slate-200 pb-1">คำอ่านภาษาไทย</h3><p id="modal-pronounce" class="text-gray-600 text-xl"></p></div>
+                    <div><h3 class="font-bold text-lg text-gray-700 mb-2 border-b-2 border-slate-200 pb-1">ตัวอย่างประโยค</h3><div id="modal-examples" class="text-gray-600 space-y-2"><p id="modal-en-sentence" class="font-semibold"></p><p id="modal-th-sentence" class="text-sm text-gray-500"></p></div></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            // --- Universal Elements ---
+            const tabLesson = document.getElementById('tab-lesson');
+            const tabQuiz = document.getElementById('tab-quiz');
+            const panelLesson = document.getElementById('panel-lesson');
+            const panelQuiz = document.getElementById('panel-quiz');
+
             // --- Tab Switching Logic ---
-            const tabs = document.querySelectorAll('.main-tab');
-            const panels = document.querySelectorAll('.content-panel');
-
-            tabs.forEach(tab => {
-                tab.addEventListener('click', () => {
-                    // Deactivate all tabs and panels
-                    tabs.forEach(t => t.classList.remove('active'));
-                    panels.forEach(p => p.classList.add('hidden'));
-
-                    // Activate clicked tab and its panel
-                    tab.classList.add('active');
-                    const targetPanelId = tab.dataset.target;
-                    document.getElementById(targetPanelId).classList.remove('hidden');
-                });
+            tabLesson.addEventListener('click', () => {
+                tabLesson.classList.add('active');
+                tabQuiz.classList.remove('active');
+                panelLesson.classList.remove('hidden');
+                panelQuiz.classList.add('hidden');
             });
+
+            tabQuiz.addEventListener('click', () => {
+                tabQuiz.classList.add('active');
+                tabLesson.classList.remove('active');
+                panelQuiz.classList.remove('hidden');
+                panelLesson.classList.add('hidden');
+            });
+            
+            // --- Lesson Modal Logic ---
+            const wordButtons = document.querySelectorAll('.word-btn');
+            const modal = document.getElementById('modal');
+            const modalCloseBtn = document.getElementById('modal-close-btn');
+            const modalWord = document.getElementById('modal-word');
+            const modalRule = document.getElementById('modal-rule');
+            const modalPronounce = document.getElementById('modal-pronounce');
+            const modalEnSentence = document.getElementById('modal-en-sentence');
+            const modalThSentence = document.getElementById('modal-th-sentence');
+
+            function openModal(e) {
+                const button = e.currentTarget;
+                const data = button.dataset;
+                modalWord.textContent = data.word;
+                modalRule.textContent = data.rule;
+                modalPronounce.innerHTML = data.pronounce;
+                modalEnSentence.textContent = data.enSentence;
+                modalThSentence.textContent = data.thSentence;
+                modal.classList.remove('hidden');
+                document.body.style.overflow = 'hidden';
+            }
+
+            function closeModal() {
+                modal.classList.add('hidden');
+                document.body.style.overflow = '';
+            }
+
+            wordButtons.forEach(button => button.addEventListener('click', openModal));
+            modalCloseBtn.addEventListener('click', closeModal);
+            modal.addEventListener('click', (e) => { if (e.target.id === 'modal') closeModal(); });
+            document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !modal.classList.contains('hidden')) closeModal(); });
 
             // --- Quiz Logic ---
             const quizQuestions = [
-                { question: "She is ___ amazing singer.", answer: "an" },
-                { question: "I need to buy ___ new car.", answer: "a" },
-                { question: "Could you pass me ___ salt, please?", answer: "the" },
-                { question: "He is studying at ___ university in London.", answer: "a" },
-                { question: "My appointment is in ___ hour.", answer: "an" },
-                { question: "I love listening to ___ music.", answer: "no_article" },
-                { question: "___ sun is very bright today.", answer: "the" },
-                { question: "She wants to be ___ engineer.", answer: "an" },
-                { question: "We are going to ___ beach this weekend.", answer: "the" },
-                { question: "They play ___ basketball after school.", answer: "no_article" }
+                { word: 'stopped', answer: '/t/' }, { word: 'planned', answer: '/d/' },
+                { word: 'waited', answer: '/id/' }, { word: 'washed', answer: '/t/' },
+                { word: 'smiled', answer: '/d/' }, { word: 'asked', answer: '/t/' },
+                { word: 'decided', answer: '/id/' }, { word: 'loved', answer: '/d/' },
+                { word: 'missed', answer: '/t/' }, { word: 'needed', answer: '/id/' }
             ];
             let shuffledQuestions = [];
             let currentQuestionIndex = 0;
@@ -202,7 +234,7 @@
             const startQuizBtn = document.getElementById('start-quiz-btn');
             const restartQuizBtn = document.getElementById('restart-quiz-btn');
             const nextQuestionBtn = document.getElementById('next-question-btn');
-            const questionSentence = document.getElementById('question-sentence');
+            const questionWord = document.getElementById('question-word');
             const choicesContainer = document.getElementById('choices-container');
             const choiceBtns = choicesContainer.querySelectorAll('.quiz-choice-btn');
             const quizProgress = document.getElementById('quiz-progress');
@@ -224,7 +256,7 @@
             function showQuestion() {
                 resetState();
                 const question = shuffledQuestions[currentQuestionIndex];
-                questionSentence.innerHTML = question.question.replace('___', '<span class="font-bold text-sky-600">___</span>');
+                questionWord.textContent = question.word;
                 quizProgress.textContent = `คำถามที่ ${currentQuestionIndex + 1}/${shuffledQuestions.length}`;
             }
             
@@ -243,13 +275,14 @@
                 
                 if(correct) {
                     score++;
-                    feedback.textContent = 'ถูกต้อง!';
+                    feedback.textContent = 'ถูกต้องครับ!';
                     feedback.className = 'h-6 text-lg font-bold mb-4 text-green-600';
                     e.target.classList.add('correct');
                 } else {
-                    feedback.textContent = 'ยังไม่ถูกนะ!';
+                    feedback.textContent = 'ยังไม่ถูกนะครับ';
                     feedback.className = 'h-6 text-lg font-bold mb-4 text-red-600';
                     e.target.classList.add('incorrect');
+                    // Show the correct answer
                     const correctBtn = Array.from(choiceBtns).find(btn => btn.dataset.choice === shuffledQuestions[currentQuestionIndex].answer);
                     correctBtn.classList.add('correct');
                 }
@@ -257,7 +290,7 @@
                 choiceBtns.forEach(btn => btn.disabled = true);
                 
                 if (currentQuestionIndex < shuffledQuestions.length - 1) {
-                    nextQuestionBtn.textContent = 'ข้อถัดไป';
+                    nextQuestionBtn.textContent = 'คำถามถัดไป';
                 } else {
                     nextQuestionBtn.textContent = 'ดูผลคะแนน';
                 }
@@ -276,14 +309,14 @@
             function showEndScreen() {
                 quizMain.classList.add('hidden');
                 quizEnd.classList.remove('hidden');
-                finalScore.textContent = `${score} / ${shuffledQuestions.length}`;
+                finalScore.textContent = `${score}/${shuffledQuestions.length}`;
                 
                 let message = '';
                 const percentage = (score / shuffledQuestions.length) * 100;
-                if (percentage === 100) message = 'ยอดเยี่ยม! คุณคือเจ้าแห่ง Articles!';
-                else if (percentage >= 80) message = 'เก่งมาก! เข้าใจหลักการได้ดีเยี่ยม!';
-                else if (percentage >= 50) message = 'ทำได้ดี! ทบทวนอีกนิดหน่อยก็สมบูรณ์แบบแล้ว!';
-                else message = 'สู้ๆ นะ! ลองทบทวนในหน้าบทเรียนแล้วมาลองใหม่กัน!';
+                if (percentage === 100) message = 'สุดยอด! คุณคือเจ้าแห่งการออกเสียง -ed!';
+                else if (percentage >= 70) message = 'เก่งมาก! ความเข้าใจแม่นยำมากครับ!';
+                else if (percentage >= 50) message = 'เยี่ยมเลย! ลองทบทวนอีกนิดจะเพอร์เฟคเลยครับ!';
+                else message = 'ไม่เป็นไรนะ! ลองทบทวนในหน้าบทเรียนแล้วมาลองใหม่กัน!';
                 scoreMessage.textContent = message;
             }
             

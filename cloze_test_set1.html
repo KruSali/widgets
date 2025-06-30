@@ -1,0 +1,1673 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cloze Test Challenge</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8; /* Light blue-gray background */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        #app-container {
+            background-color: #ffffff;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            max-width: 900px;
+            width: 100%;
+            padding: 30px;
+            overflow: hidden;
+            position: relative;
+            box-sizing: border-box;
+        }
+        .text-section {
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .reading-passage {
+            background-color: #e0f2f7; /* Light cyan */
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            font-size: 1.1em;
+            line-height: 1.6;
+        }
+        .question-card {
+            background-color: #fef08a; /* Light yellow for questions */
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 15px;
+            border: 1px solid #fde047; /* Yellow border */
+        }
+        .question-card:nth-child(even) {
+            background-color: #d1fae5; /* Light green for alternating questions */
+            border: 1px solid #6ee7b7; /* Green border */
+        }
+        .option-button {
+            display: block;
+            width: 100%;
+            text-align: left;
+            padding: 12px 15px;
+            margin-top: 10px;
+            border-radius: 10px;
+            background-color: #93c5fd; /* Light blue for options */
+            color: #1e3a8a; /* Dark blue text */
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border: none;
+            cursor: pointer;
+        }
+        .option-button:hover {
+            background-color: #60a5fa; /* Slightly darker blue on hover */
+            transform: translateY(-2px);
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+        }
+        .navigation-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+        .nav-button {
+            background-color: #3b82f6; /* Blue */
+            color: white;
+            padding: 12px 25px;
+            border-radius: 10px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border: none;
+        }
+        .nav-button:hover {
+            background-color: #2563eb; /* Darker blue on hover */
+        }
+        .nav-button:disabled {
+            background-color: #9ca3af; /* Gray when disabled */
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+
+        /* Popup styles */
+        #popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+        #popup-overlay.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+        #popup-box {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            position: relative;
+            transform: translateY(20px);
+            opacity: 0;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+        #popup-overlay.visible #popup-box {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        #popup-title {
+            font-size: 1.8em;
+            font-weight: 700;
+            color: #3b82f6; /* Blue */
+            margin-bottom: 15px;
+        }
+        #popup-meaning {
+            font-size: 1.2em;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        #popup-synonyms {
+            font-size: 1em;
+            color: #666;
+            margin-bottom: 20px;
+        }
+        #popup-close-button {
+            background-color: #ef4444; /* Red */
+            color: white;
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-weight: 700;
+            cursor: pointer;
+            border: none;
+            transition: background-color 0.3s ease;
+        }
+        #popup-close-button:hover {
+            background-color: #dc2626; /* Darker red on hover */
+        }
+
+        /* Answer explanation styles */
+        details {
+            background-color: #f3f4f6; /* Light gray */
+            border: 1px solid #d1d5db; /* Gray border */
+            border-radius: 10px;
+            padding: 10px 15px;
+            margin-top: 15px;
+            font-size: 0.95em;
+            line-height: 1.5;
+            transition: background-color 0.3s ease;
+        }
+        details[open] {
+            background-color: #e5e7eb; /* Slightly darker gray when open */
+        }
+        summary {
+            font-weight: 700;
+            color: #4b5563; /* Dark gray */
+            cursor: pointer;
+            outline: none;
+            padding: 5px 0;
+        }
+        summary:hover {
+            color: #1f2937; /* Even darker gray on hover */
+        }
+        details p {
+            margin-top: 10px;
+            color: #374151; /* Medium gray text */
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            #app-container {
+                padding: 20px;
+            }
+            .nav-button {
+                padding: 10px 15px;
+                font-size: 0.9em;
+            }
+            #popup-title {
+                font-size: 1.5em;
+            }
+            #popup-meaning {
+                font-size: 1.1em;
+            }
+            .question-card {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="app-container">
+        <h1 id="app-title" class="text-4xl font-extrabold text-center mb-6 text-purple-700"></h1>
+        <div id="page-content">
+            <!-- Content will be dynamically loaded here -->
+        </div>
+
+        <div id="loading-indicator" class="hidden text-center text-lg text-gray-500 mt-4">
+            กำลังโหลด... 🔄
+        </div>
+
+        <div id="popup-overlay">
+            <div id="popup-box">
+                <h3 id="popup-title"></h3>
+                <p id="popup-meaning"></p>
+                <p id="popup-synonyms" class="italic"></p>
+                <button id="popup-close-button">ปิด</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const clozeData = [
+            {
+                type: "introduction",
+                title: "English Master: Cloze Test Challenge! 🚀",
+                content: `
+                    <div class="text-section bg-blue-100 text-blue-800">
+                        <p class="text-lg mb-4">ยินดีต้อนรับเข้าสู่เกม <span class="font-bold">English Master: Cloze Test Challenge!</span></p>
+                        <p class="mb-4">เกมนี้จะพาคุณไปสำรวจเรื่องราวที่น่าสนใจและทันสมัยในหลากหลายด้าน ทั้งวิทยาศาสตร์ 💡 ประวัติศาสตร์ 🏛️ จิตวิทยา 🧠 สิ่งแวดล้อม 🌎 ธุรกิจ 💼 และอีกมากมาย!</p>
+                        <p class="mb-4">เป้าหมายของคุณคือการเลือกคำศัพท์ที่ถูกต้องที่สุดเพื่อเติมลงในช่องว่างในแต่ละประโยค และเมื่อคุณกดเลือกคำตอบ จะมีกล่องป๊อปอัป ✨ เด้งขึ้นมาบอกความหมายภาษาไทย พร้อมคำที่มีความหมายเหมือนกัน เพื่อช่วยให้คุณเข้าใจคำศัพท์ได้ลึกซึ้งยิ่งขึ้น!</p>
+                        <p class="text-xl font-bold mt-6">มาลับคมทักษะภาษาอังกฤษของคุณไปด้วยกัน! 💪</p>
+                    </div>
+                `,
+                buttonText: "เริ่มต้น ➡️"
+            },
+            // Reading passages for Cloze Test Set 1
+            {
+                type: "reading",
+                id: "reading1",
+                title: "Reading 1: The Rise of AI and Human Creativity 🤖🎨",
+                passage: "ปัญญาประดิษฐ์ (AI) กำลังเข้ามามีบทบาทในชีวิตเรามากขึ้นเรื่อยๆ ไม่เว้นแม้แต่ในด้านศิลปะและความคิดสร้างสรรค์ เรามาดูกันว่า AI จะเข้ามาเปลี่ยนแปลงโลกของเราอย่างไรบ้าง",
+                questions: [
+                    {
+                        question: "Artificial Intelligence (AI) is rapidly transforming various aspects of our lives, from automating repetitive tasks to assisting in complex problem-solving. However, one area where its impact is particularly ____ is in the realm of creativity and art.",
+                        options: [
+                            { text: "negligible", meaning: "เล็กน้อยมากจนไม่สำคัญ", synonyms: ["insignificant", "trivial"] },
+                            { text: "profound", meaning: "ลึกซึ้ง, ซึ่งมีผลกระทบมาก", synonyms: ["deep", "significant", "far-reaching"] },
+                            { text: "superficial", meaning: "ผิวเผิน", synonyms: ["shallow", "cursory"] },
+                            { text: "redundant", meaning: "ซ้ำซ้อน, ไม่จำเป็น", synonyms: ["unnecessary", "superfluous"] },
+                        ],
+                        answer: "profound",
+                        explanation: "**profound** (adj.) หมายถึง ลึกซึ้ง, ซึ่งมีผลกระทบมาก คำนี้เหมาะสมที่สุดเพราะ AI กำลังส่งผลกระทบอย่างมากต่อความสร้างสรรค์และศิลปะ\n* **negligible** (adj.) หมายถึง เล็กน้อยมากจนไม่สำคัญ\n* **superficial** (adj.) หมายถึง ผิวเผิน\n* **redundant** (adj.) หมายถึง ซ้ำซ้อน, ไม่จำเป็น",
+                    },
+                    {
+                        question: "While some artists ____ the idea of machines generating art, others embrace AI as a powerful tool that can expand their artistic horizons and offer new forms of expression.",
+                        options: [
+                            { text: "embrace", meaning: "โอบกอด, ยอมรับ", synonyms: ["adopt", "accept"] },
+                            { text: "applaud", meaning: "ปรบมือ, ชื่นชม", synonyms: ["praise", "commend"] },
+                            { text: "disregard", "ไม่สนใจ, เพิกเฉย": ["ignore", "neglect"] },
+                            { text: "question", meaning: "ตั้งคำถาม, สงสัย", synonyms: ["doubt", "challenge"] },
+                        ],
+                        answer: "question",
+                        explanation: "**question** (v.) หมายถึง ตั้งคำถาม, สงสัย คำนี้เข้ากันได้ดีกับบริบทที่ศิลปินบางคนอาจไม่เห็นด้วยกับการใช้ AI สร้างงานศิลปะ\n* **embrace** (v.) หมายถึง โอบกอด, ยอมรับ (เป็นคำตรงข้าม)\n* **applaud** (v.) หมายถึง ปรบมือ, ชื่นชม\n* **disregard** (v.) หมายถึง ไม่สนใจ, เพิกเฉย",
+                    },
+                    {
+                        question: "The debate often centers on whether AI-generated art can truly be considered \"art\" if it lacks human ____ and emotion.",
+                        options: [
+                            { text: "intuition", meaning: "สัญชาตญาณ, การหยั่งรู้", synonyms: ["instinct", "hunch"] },
+                            { text: "algorithm", meaning: "ชุดคำสั่งที่ใช้ในการแก้ปัญหา", synonyms: ["procedure", "formula"] },
+                            { text: "database", meaning: "ฐานข้อมูล", synonyms: ["data store", "repository"] },
+                            { text: "logic", meaning: "ตรรกะ, เหตุผล", synonyms: ["reason", "rationale"] },
+                        ],
+                        answer: "intuition",
+                        explanation: "**intuition** (n.) หมายถึง สัญชาตญาณ, การหยั่งรู้ คำนี้สื่อถึงคุณสมบัติเฉพาะของมนุษย์ที่ AI อาจยังขาดไปในการสร้างสรรค์งานศิลปะ\n* **algorithm** (n.) หมายถึง ชุดคำสั่งที่ใช้ในการแก้ปัญหา\n* **database** (n.) หมายถึง ฐานข้อมูล\n* **logic** (n.) หมายถึง ตรรกะ, เหตุผล",
+                    },
+                    {
+                        question: "Despite these philosophical ____, AI tools are increasingly being used for tasks like generating music, designing graphics, and even writing poetry.",
+                        options: [
+                            { text: "resolutions", meaning: "การตัดสินใจ, ข้อสรุป", synonyms: ["decisions", "solutions"] },
+                            { text: "conclusions", meaning: "ข้อสรุป", synonyms: ["findings", "outcomes"] },
+                            { text: "dilemmas", meaning: "ภาวะกลืนไม่เข้าคายไม่ออก, ปัญหาที่ยากจะตัดสินใจ", synonyms: ["predicaments", "quandaries"] },
+                            { text: "solutions", meaning: "ทางออก, การแก้ไขปัญหา", synonyms: ["answers", "resolves"] },
+                        ],
+                        answer: "dilemmas",
+                        explanation: "**dilemmas** (n.) หมายถึง ภาวะกลืนไม่เข้าคายไม่ออก, ปัญหาที่ยากจะตัดสินใจ คำนี้เหมาะสมกับบริบทของข้อถกเถียงทางปรัชญา\n* **resolutions** (n.) หมายถึง การตัดสินใจ, ข้อสรุป\n* **conclusions** (n.) หมายถึง ข้อสรุป\n* **solutions** (n.) หมายถึง ทางออก, การแก้ไขปัญหา",
+                    },
+                    {
+                        question: "Ultimately, the future of AI and creativity may lie in a ____ where humans and machines collaborate, each bringing their unique strengths to the artistic process.",
+                        options: [
+                            { text: "conflict", meaning: "ความขัดแย้ง", synonyms: ["dispute", "clash"] },
+                            { text: "synergy", meaning: "การทำงานร่วมกันเพื่อให้เกิดผลลัพธ์ที่ดียิ่งขึ้น (พลังเสริม)", synonyms: ["cooperation", "collaboration"] },
+                            { text: "separation", meaning: "การแยกจากกัน", synonyms: ["division", "detachment"] },
+                            { text: "competition", meaning: "การแข่งขัน", synonyms: ["rivalry", "contest"] },
+                        ],
+                        answer: "synergy",
+                        explanation: "**synergy** (n.) หมายถึง การทำงานร่วมกันเพื่อให้เกิดผลลัพธ์ที่ดียิ่งขึ้น (พลังเสริม) คำนี้สื่อถึงการทำงานร่วมกันระหว่างมนุษย์และ AI เพื่อสร้างสรรค์ผลงาน\n* **conflict** (n.) หมายถึง ความขัดแย้ง\n* **separation** (n.) หมายถึง การแยกจากกัน\n* **competition** (n.) หมายถึง การแข่งขัน",
+                    },
+                ]
+            },
+            {
+                type: "reading",
+                id: "reading2",
+                title: "Reading 2: Climate Change and Sustainable Living 🌳♻️",
+                passage: "การเปลี่ยนแปลงสภาพภูมิอากาศเป็นประเด็นสำคัญที่ทุกคนควรตระหนัก และการใช้ชีวิตอย่างยั่งยืนคือหนทางที่เราจะช่วยโลกของเราได้",
+                questions: [
+                    {
+                        question: "Climate change remains one of the most pressing global challenges of our time, with scientists increasingly ____ about its potential long-term impacts.",
+                        options: [
+                            { text: "optimistic", meaning: "มองโลกในแง่ดี", synonyms: ["hopeful", "positive"] },
+                            { text: "skeptical", meaning: "ไม่เชื่อ, สงสัย", synonyms: ["doubtful", "dubious"] },
+                            { text: "concerned", meaning: "เป็นห่วง, กังวล", synonyms: ["worried", "anxious"] },
+                            { text: "indifferent", meaning: "ไม่แยแส, ไม่สนใจ", synonyms: ["apathetic", "unconcerned"] },
+                        ],
+                        answer: "concerned",
+                        explanation: "**concerned** (adj.) หมายถึง เป็นห่วง, กังวล คำนี้แสดงถึงทัศนคติของนักวิทยาศาสตร์ต่อผลกระทบของการเปลี่ยนแปลงสภาพภูมิอากาศ\n* **optimistic** (adj.) หมายถึง มองโลกในแง่ดี\n* **skeptical** (adj.) หมายถึง ไม่เชื่อ, สงสัย\n* **indifferent** (adj.) หมายถึง ไม่แยแส, ไม่สนใจ",
+                    },
+                    {
+                        question: "Rising global temperatures are leading to more frequent and intense extreme weather events, such as heatwaves, droughts, and ____ floods.",
+                        options: [
+                            { text: "sporadic", meaning: "เป็นครั้งคราว, ประปราย", synonyms: ["intermittent", "occasional"] },
+                            { text: "catastrophic", meaning: "ซึ่งเป็นหายนะ, ซึ่งก่อให้เกิดความเสียหายใหญ่หลวง", synonyms: ["disastrous", "devastating"] },
+                            { text: "minimal", meaning: "น้อยที่สุด", synonyms: ["slight", "negligible"] },
+                            { text: "localized", meaning: "อยู่ในท้องถิ่น, ไม่แพร่หลาย", synonyms: ["restricted", "confined"] },
+                        ],
+                        answer: "catastrophic",
+                        explanation: "**catastrophic** (adj.) หมายถึง ซึ่งเป็นหายนะ, ซึ่งก่อให้เกิดความเสียหายใหญ่หลวง คำนี้เหมาะสมกับบริบทของน้ำท่วมที่รุนแรง\n* **sporadic** (adj.) หมายถึง เป็นครั้งคราว, ประปราย\n* **minimal** (adj.) หมายถึง น้อยที่สุด\n* **localized** (adj.) หมายถึง อยู่ในท้องถิ่น, ไม่แพร่หลาย",
+                    },
+                    {
+                        question: "To mitigate these effects, there's a growing emphasis on adopting sustainable living ____ and reducing our carbon footprint.",
+                        options: [
+                            { text: "fallacies", meaning: "ความคิดผิดๆ, ตรรกะวิบัติ", synonyms: ["misconceptions", "errors"] },
+                            { text: "paradigms", meaning: "กระบวนทัศน์, แบบแผนหรือกรอบความคิด", synonyms: ["models", "frameworks"] },
+                            { text: "deviations", meaning: "การเบี่ยงเบน", synonyms: ["departures", "anomalies"] },
+                            { text: "exceptions", meaning: "ข้อยกเว้น", synonyms: ["exclusions", "peculiarities"] },
+                        ],
+                        answer: "paradigms",
+                        explanation: "**paradigms** (n.) หมายถึง กระบวนทัศน์, แบบแผนหรือกรอบความคิด คำนี้สื่อถึงแนวคิดและรูปแบบการใช้ชีวิตที่ยั่งยืน\n* **fallacies** (n.) หมายถึง ความคิดผิดๆ, ตรรกะวิบัติ\n* **deviations** (n.) หมายถึง การเบี่ยงเบน\n* **exceptions** (n.) หมายถึง ข้อยกเว้น",
+                    },
+                    {
+                        question: "This includes transitioning to renewable energy sources, promoting public transportation, and embracing a circular ____ where waste is minimized.",
+                        options: [
+                            { text: "recession", meaning: "ภาวะเศรษฐกิจถดถอย", synonyms: ["downturn", "slump"] },
+                            { text: "economy", meaning: "เศรษฐกิจ", synonyms: ["financial system", "fiscal structure"] },
+                            { text: "inflation", meaning: "ภาวะเงินเฟ้อ", synonyms: ["price increase", "cost surge"] },
+                            { text: "deficit", meaning: "การขาดดุล", synonyms: ["shortfall", "loss"] },
+                        ],
+                        answer: "economy",
+                        explanation: "**economy** (n.) หมายถึง เศรษฐกิจ ในที่นี้คือ \"circular economy\" หรือเศรษฐกิจหมุนเวียน ซึ่งเป็นแนวคิดการลดของเสีย\n* **recession** (n.) หมายถึง ภาวะเศรษฐกิจถดถอย\n* **inflation** (n.) หมายถึง ภาวะเงินเฟ้อ\n* **deficit** (n.) หมายถึง การขาดดุล",
+                    },
+                    {
+                        question: "Individual actions, though seemingly small, collectively contribute to a larger movement towards environmental ____ and a healthier planet for future generations.",
+                        options: [
+                            { text: "degradation", meaning: "การเสื่อมโทรม", synonyms: ["deterioration", "decay"] },
+                            { text: "apathy", meaning: "ความไม่แยแส, การไร้อารมณ์", synonyms: ["indifference", "lack of interest"] },
+                            { text: "stewardship", meaning: "การดูแล, การจัดการทรัพยากร (ในที่นี้คือสิ่งแวดล้อม)", synonyms: ["guardianship", "supervision"] },
+                            { text: "exploitation", meaning: "การหาประโยชน์โดยมิชอบ, การเอาเปรียบ", synonyms: ["abuse", "misuse"] },
+                        ],
+                        answer: "stewardship",
+                        explanation: "**stewardship** (n.) หมายถึง การดูแล, การจัดการทรัพยากร (ในที่นี้คือสิ่งแวดล้อม) คำนี้สื่อถึงความรับผิดชอบในการดูแลโลก\n* **degradation** (n.) หมายถึง การเสื่อมโทรม\n* **apathy** (n.) หมายถึง ความไม่แยแส, การไร้อารมณ์\n* **exploitation** (n.) หมายถึง การหาประโยชน์โดยมิชอบ, การเอาเปรียบ",
+                    },
+                ]
+            },
+            {
+                type: "reading",
+                id: "reading3",
+                title: "Reading 3: The Psychology of Social Media Influence 📱💬",
+                passage: "โซเชียลมีเดียมีอิทธิพลต่อความคิดและพฤติกรรมของเราอย่างมาก เรามาทำความเข้าใจกับจิตวิทยาเบื้องหลังปรากฏการณ์นี้กัน",
+                questions: [
+                    {
+                        question: "Social media platforms have become an integral part of modern life, profoundly ____ our communication, relationships, and even our self-perception.",
+                        options: [
+                            { text: "isolating", meaning: "ทำให้โดดเดี่ยว", synonyms: ["segregating", "separating"] },
+                            { text: "ignoring", meaning: "ไม่สนใจ", synonyms: ["disregarding", "neglecting"] },
+                            { text: "shaping", meaning: "กำหนดรูปร่าง, สร้าง", synonyms: ["forming", "influencing"] },
+                            { text: "deteriorating", meaning: "ทำให้ทรุดโทรมลง", synonyms: ["worsening", "decaying"] },
+                        ],
+                        answer: "shaping",
+                        explanation: "**shaping** (v.) หมายถึง กำหนดรูปร่าง, สร้าง คำนี้เหมาะสมที่สุดเพราะโซเชียลมีเดียมีอิทธิพลในการกำหนดรูปแบบการสื่อสารและความสัมพันธ์ของเรา\n* **isolating** (v.) หมายถึง ทำให้โดดเดี่ยว\n* **ignoring** (v.) หมายถึง ไม่สนใจ\n* **deteriorating** (v.) หมายถึง ทำให้ทรุดโทรมลง",
+                    },
+                    {
+                        question: "The constant stream of curated content and the pursuit of \"likes\" and followers can often lead to a phenomenon known as social ____.",
+                        options: [
+                            { text: "cohesion", meaning: "การรวมกัน, การเกาะติดกัน", synonyms: ["unity", "bond"] },
+                            { text: "comparison", meaning: "การเปรียบเทียบ", synonyms: ["contrast", "equivalence"] },
+                            { text: "confrontation", meaning: "การเผชิญหน้า", synonyms: ["clash", "conflict"] },
+                            { text: "collaboration", meaning: "การทำงานร่วมกัน", synonyms: ["cooperation", "partnership"] },
+                        ],
+                        answer: "comparison",
+                        explanation: "**comparison** (n.) หมายถึง การเปรียบเทียบ คำนี้เข้ากับบริบทของการเปรียบเทียบตนเองกับผู้อื่นบนโซเชียลมีเดีย\n* **cohesion** (n.) หมายถึง การรวมกัน, การเกาะติดกัน\n* **confrontation** (n.) หมายถึง การเผชิญหน้า\n* **collaboration** (n.) หมายถึง การทำงานร่วมกัน",
+                    },
+                    {
+                        question: "This innate human tendency to compare ourselves to others is ____ by the idealized and often unrealistic portrayals of life on social platforms.",
+                        options: [
+                            { text: "alleviated", meaning: "บรรเทา", synonyms: ["eased", "relieved"] },
+                            { text: "exacerbated", meaning: "ทำให้แย่ลง, ทำให้รุนแรงขึ้น", synonyms: ["aggravated", "worsened"] },
+                            { text: "mitigated", meaning: "บรรเทา, ทำให้ลดน้อยลง", synonyms: ["reduced", "softened"] },
+                            { text: "diminished", meaning: "ลดลง, ทำให้เล็กลง", synonyms: ["decreased", "lessened"] },
+                        ],
+                        answer: "exacerbated",
+                        explanation: "**exacerbated** (v.) หมายถึง ทำให้แย่ลง, ทำให้รุนแรงขึ้น คำนี้เหมาะสมกับบริบทที่โซเชียลมีเดียทำให้การเปรียบเทียบแย่ลง\n* **alleviated** (v.) หมายถึง บรรเทา\n* **mitigated** (v.) หมายถึง บรรเทา, ทำให้ลดน้อยลง\n* **diminished** (v.) หมายถึง ลดลง, ทำให้เล็กลง",
+                    },
+                    {
+                        question: "Moreover, the fear of missing out (FOMO) can drive individuals to constantly check their feeds, leading to increased anxiety and a sense of ____.",
+                        options: [
+                            { text: "fulfillment", meaning: "ความสมหวัง, การเติมเต็ม", synonyms: ["satisfaction", "achievement"] },
+                            { text: "contentment", meaning: "ความพอใจ", synonyms: ["satisfaction", "happiness"] },
+                            { text: "isolation", meaning: "ความโดดเดี่ยว, การแยกตัว", synonyms: ["loneliness", "solitude"] },
+                            { text: "connection", meaning: "การเชื่อมต่อ, ความผูกพัน", synonyms: ["bond", "relationship"] },
+                        ],
+                        answer: "isolation",
+                        explanation: "**isolation** (n.) หมายถึง ความโดดเดี่ยว, การแยกตัว คำนี้เข้ากับบริบทของความวิตกกังวลและการรู้สึกโดดเดี่ยวที่เกิดจาก FOMO\n* **fulfillment** (n.) หมายถึง ความสมหวัง, การเติมเต็ม\n* **contentment** (n.) หมายถึง ความพอใจ\n* **connection** (n.) หมายถึง การเชื่อมต่อ, ความผูกพัน",
+                    },
+                    {
+                        question: "Understanding these psychological ____ is crucial for promoting healthier social media habits and fostering a more authentic digital presence.",
+                        options: [
+                            { text: "simplifications", meaning: "การทำให้ง่ายขึ้น", synonyms: ["reductions", "clarifications"] },
+                            { text: "nuances", meaning: "ความแตกต่างเล็กน้อย, รายละเอียดปลีกย่อย", synonyms: ["subtleties", "shades"] },
+                            { text: "superficialities", meaning: "ความผิวเผิน", synonyms: ["trivialities", "shallowness"] },
+                            { text: "distractions", meaning: "สิ่งรบกวน", synonyms: ["diversions", "interruptions"] },
+                        ],
+                        answer: "nuances",
+                        explanation: "**nuances** (n.) หมายถึง ความแตกต่างเล็กน้อย, รายละเอียดปลีกย่อย คำนี้เหมาะสมที่สุดเพราะหมายถึงรายละเอียดทางจิตวิทยาที่ซับซ้อนของอิทธิพลโซเชียลมีเดีย\n* **simplifications** (n.) หมายถึง การทำให้ง่ายขึ้น\n* **superficialities** (n.) หมายถึง ความผิวเผิน\n* **distractions** (n.) หมายถึง สิ่งรบกวน",
+                    },
+                ]
+            },
+            {
+                type: "reading",
+                id: "reading4",
+                title: "Reading 4: The Digital Transformation of Historical Archives 📜💻",
+                passage: "การเปลี่ยนแปลงทางดิจิทัลไม่ได้ส่งผลกระทบแค่ปัจจุบัน แต่ยังรวมถึงการเก็บรักษาประวัติศาสตร์ด้วย เรามาดูกันว่าเทคโนโลยีดิจิทัลเข้ามาช่วยงานด้านประวัติศาสตร์อย่างไร",
+                questions: [
+                    {
+                        question: "Historically, accessing ancient texts and historical documents often required extensive travel and ____ research in physical archives.",
+                        options: [
+                            { text: "cursory", meaning: "คร่าวๆ, หยาบๆ", synonyms: ["hasty", "superficial"] },
+                            { text: "rigorous", meaning: "เคร่งครัด, เข้มงวด, ละเอียดถี่ถ้วน", synonyms: ["thorough", "meticulous"] },
+                            { text: "haphazard", meaning: "ตามอำเภอใจ, ไม่มีระเบียบ", synonyms: ["random", "disorganized"] },
+                            { text: "superficial", meaning: "ผิวเผิน", synonyms: ["shallow", "cursory"] },
+                        ],
+                        answer: "rigorous",
+                        explanation: "**rigorous** (adj.) หมายถึง เคร่งครัด, เข้มงวด, ละเอียดถี่ถ้วน คำนี้สื่อถึงการวิจัยที่ต้องใช้ความพยายามสูง\n* **cursory** (adj.) หมายถึง คร่าวๆ, หยาบๆ\n* **haphazard** (adj.) หมายถึง ตามอำเภอใจ, ไม่มีระเบียบ\n* **superficial** (adj.) หมายถึง ผิวเผิน",
+                    },
+                    {
+                        question: "However, the advent of digital technology has profoundly ____ the way we preserve, access, and interact with historical archives.",
+                        options: [
+                            { text: "hindered", meaning: "กีดขวาง", synonyms: ["impeded", "obstructed"] },
+                            { text: "revolutionized", meaning: "ปฏิวัติ, พลิกโฉม", synonyms: ["transformed", "reshaped"] },
+                            { text: "stabilized", meaning: "ทำให้คงที่", synonyms: ["balanced", "fixed"] },
+                            { text: "complicated", meaning: "ทำให้ซับซ้อน", synonyms: ["complexified", "intricated"] },
+                        ],
+                        answer: "revolutionized",
+                        explanation: "**revolutionized** (v.) หมายถึง ปฏิวัติ, พลิกโฉม คำนี้เหมาะสมที่สุดเพราะเทคโนโลยีดิจิทัลได้เปลี่ยนแปลงวิธีการจัดการเอกสารทางประวัติศาสตร์อย่างสิ้นเชิง\n* **hindered** (v.) หมายถึง กีดขวาง\n* **stabilized** (v.) หมายถึง ทำให้คงที่\n* **complicated** (v.) หมายถึง ทำให้ซับซ้อน",
+                    },
+                    {
+                        question: "Libraries and museums worldwide are actively engaged in the ____ of their vast collections, making them accessible to a global audience online.",
+                        options: [
+                            { text: "destruction", meaning: "การทำลาย", synonyms: ["demolition", "ruin"] },
+                            { text: "digitization", meaning: "การทำให้เป็นระบบดิจิทัล", synonyms: ["digital conversion", "scanning"] },
+                            { text: "obliteration", meaning: "การลบออกจนหมดสิ้น", synonyms: ["eradication", "effacement"] },
+                            { text: "segregation", meaning: "การแยกออกจากกัน", synonyms: ["separation", "division"] },
+                        ],
+                        answer: "digitization",
+                        explanation: "**digitization** (n.) หมายถึง การทำให้เป็นระบบดิจิทัล คำนี้ตรงกับบริบทของการแปลงเอกสารให้อยู่ในรูปแบบดิจิทัล\n* **destruction** (n.) หมายถึง การทำลาย\n* **obliteration** (n.) หมายถึง การลบออกจนหมดสิ้น\n* **segregation** (n.) หมายถึง การแยกออกจากกัน",
+                    },
+                    {
+                        question: "This digital transformation not only ensures the long-term ____ of fragile documents but also democratizes access to knowledge.",
+                        options: [
+                            { text: "deterioration", meaning: "การเสื่อมสภาพ", synonyms: ["decline", "degradation"] },
+                            { text: "preservation", meaning: "การสงวน, การรักษา", synonyms: ["conservation", "maintenance"] },
+                            { text: "vulnerability", meaning: "ความเปราะบาง", synonyms: ["susceptibility", "fragility"] },
+                            { text: "obsolescence", meaning: "การล้าสมัย", synonyms: ["antiquity", "outdatedness"] },
+                        ],
+                        answer: "preservation",
+                        explanation: "**preservation** (n.) หมายถึง การสงวน, การรักษา คำนี้เหมาะสมที่สุดเพราะการแปลงเป็นดิจิทัลช่วยให้เอกสารเปราะบางถูกเก็บรักษาได้นานขึ้น\n* **deterioration** (n.) หมายถึง การเสื่อมสภาพ\n* **vulnerability** (n.) หมายถึง ความเปราะบาง\n* **obsolescence** (n.) หมายถึง การล้าสมัย",
+                    },
+                    {
+                        question: "Researchers can now browse millions of pages, compare sources, and uncover new insights with unprecedented ____, fostering a more dynamic understanding of history.",
+                        options: [
+                            { text: "difficulty", meaning: "ความยากลำบาก", synonyms: ["hardship", "trouble"] },
+                            { text: "efficiency", meaning: "ประสิทธิภาพ", synonyms: ["effectiveness", "productivity"] },
+                            { text: "hesitation", meaning: "ความลังเล", synonyms: ["reluctance", "uncertainty"] },
+                            { text: "limitations", meaning: "ข้อจำกัด", synonyms: ["restrictions", "constraints"] },
+                        ],
+                        answer: "efficiency",
+                        explanation: "**efficiency** (n.) หมายถึง ประสิทธิภาพ คำนี้หมายถึงความสามารถในการทำงานให้สำเร็จอย่างรวดเร็วและประหยัดเวลา\n* **difficulty** (n.) หมายถึง ความยากลำบาก\n* **hesitation** (n.) หมายถึง ความลังเล\n* **limitations** (n.) หมายถึง ข้อจำกัด",
+                    },
+                ]
+            },
+            {
+                type: "reading",
+                id: "reading5",
+                title: "Reading 5: The Evolving Landscape of Remote Work 🏠💻",
+                passage: "การทำงานทางไกลกลายเป็นบรรทัดฐานใหม่สำหรับหลายๆ องค์กร เรามาสำรวจข้อดีและข้อเสีย รวมถึงอนาคตของการทำงานรูปแบบนี้",
+                questions: [
+                    {
+                        question: "The COVID-19 pandemic dramatically accelerated the adoption of remote work, transforming it from a niche ____ into a mainstream practice for many organizations worldwide.",
+                        options: [
+                            { text: "anomaly", meaning: "สิ่งผิดปกติ", synonyms: ["abnormality", "deviation"] },
+                            { text: "trend", meaning: "แนวโน้ม, กระแส", synonyms: ["tendency", "direction"] },
+                            { text: "setback", meaning: "อุปสรรค, ความล่าช้า", synonyms: ["hiccup", "complication"] },
+                            { text: "burden", meaning: "ภาระ", synonyms: ["load", "responsibility"] },
+                        ],
+                        answer: "trend",
+                        explanation: "**trend** (n.) หมายถึง แนวโน้ม, กระแส คำนี้เหมาะสมที่สุดเพราะการทำงานทางไกลกลายเป็นแนวโน้มหลัก\n* **anomaly** (n.) หมายถึง สิ่งผิดปกติ\n* **setback** (n.) หมายถึง อุปสรรค, ความล่าช้า\n* **burden** (n.) หมายถึง ภาระ",
+                    },
+                    {
+                        question: "This shift has brought numerous benefits, including increased flexibility for employees, reduced commuting times, and the potential for companies to tap into a wider talent ____ regardless of geographical location.",
+                        options: [
+                            { text: "shortage", meaning: "การขาดแคลน", synonyms: ["deficiency", "scarcity"] },
+                            { text: "pool", meaning: "กลุ่ม, แหล่งรวม (ในที่นี้คือ talent pool = แหล่งรวมผู้มีความสามารถ)", synonyms: ["reserve", "collective"] },
+                            { text: "barrier", meaning: "อุปสรรค", synonyms: ["obstacle", "hindrance"] },
+                            { text: "limitation", meaning: "ข้อจำกัด", synonyms: ["restriction", "constraint"] },
+                        ],
+                        answer: "pool",
+                        explanation: "**pool** (n.) หมายถึง กลุ่ม, แหล่งรวม (ในที่นี้คือ talent pool = แหล่งรวมผู้มีความสามารถ) คำนี้สื่อถึงการเข้าถึงบุคลากรได้กว้างขึ้น\n* **shortage** (n.) หมายถึง การขาดแคลน\n* **barrier** (n.) หมายถึง อุปสรรค\n* **limitation** (n.) หมายถึง ข้อจำกัด",
+                    },
+                    {
+                        question: "However, remote work also presents challenges, such as maintaining team ____, fostering a strong company culture, and ensuring clear communication without in-person interactions.",
+                        options: [
+                            { text: "fragmentation", meaning: "การแตกออกเป็นชิ้นเล็กชิ้นน้อย", synonyms: ["breakup", "disintegration"] },
+                            { text: "cohesion", meaning: "การยึดเกาะกัน, ความสามัคคี", synonyms: ["unity", "solidarity"] },
+                            { text: "dissolution", meaning: "การสลายตัว, การยุบเลิก", synonyms: ["breakdown", "termination"] },
+                            { text: "disruption", meaning: "การขัดขวาง, การหยุดชะงัก", synonyms: ["interruption", "disturbance"] },
+                        ],
+                        answer: "cohesion",
+                        explanation: "**cohesion** (n.) หมายถึง การยึดเกาะกัน, ความสามัคคี คำนี้เหมาะสมกับบริบทของการรักษาความเป็นอันหนึ่งอันเดียวกันของทีม\n* **fragmentation** (n.) หมายถึง การแตกออกเป็นชิ้นเล็กชิ้นน้อย\n* **dissolution** (n.) หมายถึง การสลายตัว, การยุบเลิก\n* **disruption** (n.) หมายถึง การขัดขวาง, การหยุดชะงัก",
+                    },
+                    {
+                        question: "Companies are experimenting with hybrid models that combine remote and office-based work, aiming to strike a balance between autonomy and ____ collaboration.",
+                        options: [
+                            { text: "isolated", meaning: "โดดเดี่ยว", synonyms: ["separated", "alone"] },
+                            { text: "spontaneous", meaning: "เกิดขึ้นเองโดยธรรมชาติ, โดยฉับพลัน", synonyms: ["unplanned", "impromptu"] },
+                            { text: "rigid", meaning: "แข็งทื่อ, ไม่ยืดหยุ่น", synonyms: ["inflexible", "strict"] },
+                            { text: "structured", meaning: "ซึ่งมีโครงสร้าง", synonyms: ["organized", "systematic"] },
+                        ],
+                        answer: "spontaneous",
+                        explanation: "**spontaneous** (adj.) หมายถึง เกิดขึ้นเองโดยธรรมชาติ, โดยฉับพลัน คำนี้เหมาะสมกับบริบทของการทำงานร่วมกันที่เกิดขึ้นเองโดยไม่จำเป็นต้องวางแผนล่วงหน้า\n* **isolated** (adj.) หมายถึง โดดเดี่ยว\n* **rigid** (adj.) หมายถึง แข็งทื่อ, ไม่ยืดหยุ่น\n* **structured** (adj.) หมายถึง ซึ่งมีโครงสร้าง",
+                    },
+                    {
+                        question: "The long-term ____ of remote work on productivity, employee well-being, and urban development are still being studied, shaping the future of how we work.",
+                        options: [
+                            { text: "detriments", meaning: "ความเสียหาย, ข้อเสีย", synonyms: ["harms", "disadvantages"] },
+                            { text: "implications", meaning: "ผลกระทบที่อาจเกิดขึ้น, ความเกี่ยวพัน", synonyms: ["consequences", "ramifications"] },
+                            { text: "obstacles", meaning: "อุปสรรค", synonyms: ["hindrances", "barriers"] },
+                            { text: "shortcomings", meaning: "ข้อบกพร่อง, ข้อด้อย", synonyms: ["flaws", "deficiencies"] },
+                        ],
+                        answer: "implications",
+                        explanation: "**implications** (n.) หมายถึง ผลกระทบที่อาจเกิดขึ้น, ความเกี่ยวพัน คำนี้เหมาะสมที่สุดเพราะหมายถึงผลกระทบระยะยาวของการทำงานทางไกล\n* **detriments** (n.) หมายถึง ความเสียหาย, ข้อเสีย\n* **obstacles** (n.) หมายถึง อุปสรรค\n* **shortcomings** (n.) หมายถึง ข้อบกพร่อง, ข้อด้อย",
+                    },
+                ]
+            },
+            {
+                type: "reading",
+                id: "reading6",
+                title: "Reading 6: The Importance of Mental Well-being in a Fast-Paced World 🧘‍♀️🌟",
+                passage: "ในโลกที่หมุนไปอย่างรวดเร็ว การดูแลสุขภาพจิตจึงเป็นสิ่งสำคัญ เรามาดูกันว่าเราจะดูแลสุขภาพใจของเราได้อย่างไร",
+                questions: [
+                    {
+                        question: "In our increasingly fast-paced and interconnected world, the importance of mental well-being has gained significant ____.",
+                        options: [
+                            { text: "irrelevance", meaning: "ความไม่เกี่ยวข้อง", synonyms: ["insignificance", "unimportance"] },
+                            { text: "prominence", meaning: "ความโดดเด่น, ความสำคัญ", synonyms: ["salience", "importance"] },
+                            { text: "obscurity", meaning: "ความคลุมเครือ, การไม่มีชื่อเสียง", synonyms: ["anonymity", "unknownness"] },
+                            { text: "contempt", meaning: "การดูถูก, การดูหมิ่น", synonyms: ["disdain", "scorn"] },
+                        ],
+                        answer: "prominence",
+                        explanation: "**prominence** (n.) หมายถึง ความโดดเด่น, ความสำคัญ คำนี้เหมาะสมที่สุดเพราะความสำคัญของสุขภาพจิตกำลังเป็นที่รู้จักมากขึ้น\n* **irrelevance** (n.) หมายถึง ความไม่เกี่ยวข้อง\n* **obscurity** (n.) หมายถึง ความคลุมเครือ, การไม่มีชื่อเสียง\n* **contempt** (n.) หมายถึง การดูถูก, การดูหมิ่น",
+                    },
+                    {
+                        question: "The constant pressures of work, social media, and personal life can often lead to stress, anxiety, and even more severe mental health ____.",
+                        options: [
+                            { text: "advancements", meaning: "ความก้าวหน้า", synonyms: ["progress", "improvements"] },
+                            { text: "breakthroughs", meaning: "การพัฒนาที่สำคัญ", synonyms: ["discoveries", "innovations"] },
+                            { text: "ailments", meaning: "ความเจ็บป่วย, ความไม่สบาย", synonyms: ["illnesses", "maladies"] },
+                            { text: "enhancements", meaning: "การปรับปรุงให้ดีขึ้น", synonyms: ["improvements", "upgrades"] },
+                        ],
+                        answer: "ailments",
+                        explanation: "**ailments** (n.) หมายถึง ความเจ็บป่วย, ความไม่สบาย คำนี้เหมาะสมกับบริบทของปัญหาสุขภาพจิต\n* **advancements** (n.) หมายถึง ความก้าวหน้า\n* **breakthroughs** (n.) หมายถึง การพัฒนาที่สำคัญ\n* **enhancements** (n.) หมายถึง การปรับปรุงให้ดีขึ้น",
+                    },
+                    {
+                        question: "Practicing mindfulness, engaging in regular physical activity, and nurturing meaningful relationships are just a few strategies to ____ mental resilience.",
+                        options: [
+                            { text: "erode", meaning: "กัดกร่อน, เสื่อมสภาพ", synonyms: ["wear away", "corrode"] },
+                            { text: "undermine", meaning: "บ่อนทำลาย", synonyms: ["weaken", "sabotage"] },
+                            { text: "cultivate", meaning: "เพาะปลูก, พัฒนา (ในที่นี้คือพัฒนาความยืดหยุ่นทางจิตใจ)", synonyms: ["foster", "develop"] },
+                            { text: "diminish", meaning: "ลดลง", synonyms: ["lessen", "reduce"] },
+                        ],
+                        answer: "cultivate",
+                        explanation: "**cultivate** (v.) หมายถึง เพาะปลูก, พัฒนา (ในที่นี้คือพัฒนาความยืดหยุ่นทางจิตใจ) คำนี้สื่อถึงการสร้างเสริมความเข้มแข็งทางจิตใจ\n* **erode** (v.) หมายถึง กัดกร่อน, เสื่อมสภาพ\n* **undermine** (v.) หมายถึง บ่อนทำลาย\n* **diminish** (v.) หมายถึง ลดลง",
+                    },
+                    {
+                        question: "Breaking the ____ surrounding mental health issues is also vital, encouraging open conversations and seeking professional help when needed.",
+                        options: [
+                            { text: "transparency", meaning: "ความโปร่งใส", synonyms: ["clarity", "openness"] },
+                            { text: "stigma", meaning: "ตราหน้า, ความอัปยศ", synonyms: ["disgrace", "shame"] },
+                            { text: "clarity", meaning: "ความชัดเจน", synonyms: ["lucidity", "precision"] },
+                            { text: "acceptance", meaning: "การยอมรับ", synonyms: ["approval", "recognition"] },
+                        ],
+                        answer: "stigma",
+                        explanation: "**stigma** (n.) หมายถึง ตราหน้า, ความอัปยศ คำนี้เหมาะสมที่สุดเพราะสังคมมักมีทัศนคติในแง่ลบต่อผู้ป่วยทางจิตเวช\n* **transparency** (n.) หมายถึง ความโปร่งใส\n* **clarity** (n.) หมายถึง ความชัดเจน\n* **acceptance** (n.) หมายถึง การยอมรับ",
+                    },
+                    {
+                        question: "Prioritizing mental well-being is not a luxury but a ____ for a fulfilling and productive life, enabling individuals to navigate challenges with greater strength.",
+                        options: [
+                            { text: "hindrance", meaning: "อุปสรรค", synonyms: ["obstacle", "impediment"] },
+                            { text: "prerequisite", meaning: "สิ่งที่ต้องมีก่อน, ข้อกำหนดเบื้องต้น", synonyms: ["requirement", "necessity"] },
+                            { text: "option", meaning: "ทางเลือก", synonyms: ["choice", "alternative"] },
+                            { text: "burden", meaning: "ภาระ", synonyms: ["load", "responsibility"] },
+                        ],
+                        answer: "prerequisite",
+                        explanation: "**prerequisite** (n.) หมายถึง สิ่งที่ต้องมีก่อน, ข้อกำหนดเบื้องต้น คำนี้หมายถึงสิ่งที่จำเป็นอย่างยิ่งต่อการมีชีวิตที่ดี\n* **hindrance** (n.) หมายถึง อุปสรรค\n* **option** (n.) หมายถึง ทางเลือก\n* **burden** (n.) หมายถึง ภาระ",
+                    },
+                ]
+            },
+            {
+                type: "reading",
+                id: "reading7",
+                title: "Reading 7: The Gig Economy and the Future of Work 🚀💼",
+                passage: "Gig Economy หรือเศรษฐกิจแบบแบ่งปันงาน กำลังเข้ามาเปลี่ยนรูปแบบการทำงานและอาชีพของเรา เรามาดูกันว่ามันคืออะไรและมีผลอย่างไรบ้าง",
+                questions: [
+                    {
+                        question: "The \"gig economy,\" characterized by short-term contracts and freelance work, has seen a rapid ____ in recent years, reshaping the traditional employment landscape.",
+                        options: [
+                            { text: "decline", meaning: "การลดลง", synonyms: ["decrease", "reduction"] },
+                            { text: "stagnation", meaning: "ความซบเซา", synonyms: ["slump", "downturn"] },
+                            { text: "proliferation", meaning: "การแพร่ขยายอย่างรวดเร็ว, การเพิ่มจำนวนอย่างรวดเร็ว", synonyms: ["increase", "expansion"] },
+                            { text: "diminution", meaning: "การลดลง", synonyms: ["reduction", "decrease"] },
+                        ],
+                        answer: "proliferation",
+                        explanation: "**proliferation** (n.) หมายถึง การแพร่ขยายอย่างรวดเร็ว, การเพิ่มจำนวนอย่างรวดเร็ว คำนี้เหมาะสมที่สุดเพราะหมายถึงการขยายตัวอย่างรวดเร็วของ gig economy\n* **decline** (n.) หมายถึง การลดลง\n* **stagnation** (n.) หมายถึง ความซบเซา\n* **diminution** (n.) หมายถึง การลดลง",
+                    },
+                    {
+                        question: "This model offers workers greater flexibility and autonomy, allowing them to choose when and where they work, and to pursue multiple income ____.",
+                        options: [
+                            { text: "constraints", meaning: "ข้อจำกัด", synonyms: ["restrictions", "limitations"] },
+                            { text: "sources", meaning: "แหล่งที่มา (ในที่นี้คือแหล่งรายได้)", synonyms: ["origins", "resources"] },
+                            { text: "obstacles", meaning: "อุปสรรค", synonyms: ["barriers", "hindrances"] },
+                            { text: "limitations", meaning: "ข้อจำกัด", synonyms: ["restrictions", "constraints"] },
+                        ],
+                        answer: "sources",
+                        explanation: "**sources** (n.) หมายถึง แหล่งที่มา (ในที่นี้คือแหล่งรายได้) คำนี้เหมาะสมกับบริบทของการมีรายได้หลายทาง\n* **constraints** (n.) หมายถึง ข้อจำกัด\n* **obstacles** (n.) หมายถึง อุปสรรค\n* **limitations** (n.) หมายถึง ข้อจำกัด",
+                    },
+                    {
+                        question: "For businesses, the gig economy provides access to a flexible workforce, reduced overhead costs, and the ability to scale operations up or down with relative ____.",
+                        options: [
+                            { text: "difficulty", meaning: "ความยากลำบาก", synonyms: ["hardship", "trouble"] },
+                            { text: "inefficiency", meaning: "ความไม่มีประสิทธิภาพ", synonyms: ["wastefulness", "unproductiveness"] },
+                            { text: "ease", meaning: "ความง่ายดาย", synonyms: ["simplicity", "effortlessness"] },
+                            { text: "complexity", meaning: "ความซับซ้อน", synonyms: ["intricacy", "complication"] },
+                        ],
+                        answer: "ease",
+                        explanation: "**ease** (n.) หมายถึง ความง่ายดาย คำนี้เหมาะสมกับบริบทที่บริษัทสามารถปรับขนาดการดำเนินงานได้ง่ายขึ้น\n* **difficulty** (n.) หมายถึง ความยากลำบาก\n* **inefficiency** (n.) หมายถึง ความไม่มีประสิทธิภาพ\n* **complexity** (n.) หมายถึง ความซับซ้อน",
+                    },
+                    {
+                        question: "However, critics point to the lack of traditional employee benefits, such as health insurance and retirement plans, and the potential for wage ____ in certain sectors.",
+                        options: [
+                            { text: "inflation", meaning: "ภาวะเงินเฟ้อ", synonyms: ["price increase", "cost surge"] },
+                            { text: "growth", meaning: "การเติบโต", synonyms: ["development", "expansion"] },
+                            { text: "stagnation", meaning: "ความซบเซา, การหยุดนิ่ง (ในที่นี้คือค่าจ้างไม่เพิ่มขึ้น)", synonyms: ["plateau", "inactivity"] },
+                            { text: "bonuses", meaning: "เงินพิเศษ, โบนัส", synonyms: ["rewards", "perks"] },
+                        ],
+                        answer: "stagnation",
+                        explanation: "**stagnation** (n.) หมายถึง ความซบเซา, การหยุดนิ่ง (ในที่นี้คือค่าจ้างไม่เพิ่มขึ้น) คำนี้เหมาะสมกับบริบทของปัญหาค่าจ้างที่อาจเกิดขึ้นใน gig economy\n* **inflation** (n.) หมายถึง ภาวะเงินเฟ้อ\n* **growth** (n.) หมายถึง การเติบโต\n* **bonuses** (n.) หมายถึง เงินพิเศษ, โบนัส",
+                    },
+                    {
+                        question: "As the gig economy continues to evolve, policymakers and companies are grappling with how to ensure fair labor practices and provide adequate social ____ for this growing workforce.",
+                        options: [
+                            { text: "isolation", meaning: "ความโดดเดี่ยว", synonyms: ["separation", "solitude"] },
+                            { text: "support", meaning: "การสนับสนุน (ในที่นี้คือ social support = การสนับสนุนทางสังคม)", synonyms: ["assistance", "aid"] },
+                            { text: "fragmentation", meaning: "การแตกออกเป็นส่วนๆ", synonyms: ["disintegration", "breakdown"] },
+                            { text: "neglect", meaning: "การละเลย", synonyms: ["disregard", "omission"] },
+                        ],
+                        answer: "support",
+                        explanation: "**support** (n.) หมายถึง การสนับสนุน (ในที่นี้คือ social support = การสนับสนุนทางสังคม) คำนี้หมายถึงการจัดหาสวัสดิการและคุ้มครองทางสังคม\n* **isolation** (n.) หมายถึง ความโดดเดี่ยว\n* **fragmentation** (n.) หมายถึง การแตกออกเป็นส่วนๆ\n* **neglect** (n.) หมายถึง การละเลย",
+                    },
+                ]
+            },
+            {
+                type: "reading",
+                id: "reading8",
+                title: "Reading 8: Breakthroughs in Biotechnology and Medicine 🧬💊",
+                passage: "โลกของเทคโนโลยีชีวภาพและการแพทย์กำลังก้าวหน้าอย่างรวดเร็ว เรามาสำรวจความก้าวหน้าล่าสุดและผลกระทบของมันกัน",
+                questions: [
+                    {
+                        question: "Biotechnology is a rapidly advancing field that is revolutionizing medicine, agriculture, and environmental ____.",
+                        options: [
+                            { text: "deterioration", meaning: "การเสื่อมสภาพ", synonyms: ["decline", "decay"] },
+                            { text: "degradation", meaning: "การเสื่อมโทรม", synonyms: ["decline", "deterioration"] },
+                            { text: "stagnation", meaning: "ความซบเซา", synonyms: ["inertia", "inactivity"] },
+                            { text: "stewardship", meaning: "การดูแล, การจัดการทรัพยากร", synonyms: ["guardianship", "custodianship"] },
+                        ],
+                        answer: "stewardship",
+                        explanation: "**stewardship** (n.) หมายถึง การดูแล, การจัดการทรัพยากร คำนี้เหมาะสมกับบริบทของการนำเทคโนโลยีชีวภาพมาใช้ในการดูแลสิ่งแวดล้อม\n* **deterioration** (n.) หมายถึง การเสื่อมสภาพ\n* **degradation** (n.) หมายถึง การเสื่อมโทรม\n* **stagnation** (n.) หมายถึง ความซบเซา",
+                    },
+                    {
+                        question: "Recent breakthroughs, particularly in gene editing technologies like CRISPR, have opened up unprecedented opportunities for treating genetic ____ and preventing diseases.",
+                        options: [
+                            { text: "immunities", meaning: "ภูมิคุ้มกัน", synonyms: ["resistances", "defenses"] },
+                            { text: "resiliencies", meaning: "ความยืดหยุ่น, ความสามารถในการฟื้นตัว", synonyms: ["flexibilities", "adaptabilities"] },
+                            { text: "disorders", meaning: "ความผิดปกติ, โรค", synonyms: ["ailments", "conditions"] },
+                            { text: "adaptations", meaning: "การปรับตัว", synonyms: ["adjustments", "modifications"] },
+                        ],
+                        answer: "disorders",
+                        explanation: "**disorders** (n.) หมายถึง ความผิดปกติ, โรค คำนี้เหมาะสมกับบริบทของโรคทางพันธุกรรม\n* **immunities** (n.) หมายถึง ภูมิคุ้มกัน\n* **resiliencies** (n.) หมายถึง ความยืดหยุ่น, ความสามารถในการฟื้นตัว\n* **adaptations** (n.) หมายถึง การปรับตัว",
+                    },
+                    {
+                        question: "Beyond human health, biotechnology is also transforming agriculture, leading to the development of crops that are more ____ to pests and extreme weather conditions.",
+                        options: [
+                            { text: "susceptible", meaning: "อ่อนแอต่อ, ไวต่อ", synonyms: ["vulnerable", "prone"] },
+                            { text: "vulnerable", meaning: "เปราะบาง, เสี่ยง", synonyms: ["exposed", "fragile"] },
+                            { text: "resistant", meaning: "ซึ่งต้านทาน, ซึ่งต่อต้าน", synonyms: ["immune", "impervious"] },
+                            { text: "fragile", meaning: "บอบบาง, แตกง่าย", synonyms: ["delicate", "brittle"] },
+                        ],
+                        answer: "resistant",
+                        explanation: "**resistant** (adj.) หมายถึง ซึ่งต้านทาน, ซึ่งต่อต้าน คำนี้เหมาะสมกับบริบทของพืชที่สามารถทนทานต่อศัตรูพืชและสภาพอากาศได้ดีขึ้น\n* **susceptible** (adj.) (adj.) หมายถึง อ่อนแอต่อ, ไวต่อ\n* **vulnerable** (adj.) หมายถึง เปราะบาง, เสี่ยง\n* **fragile** (adj.) หมายถึง บอบบาง, แตกง่าย",
+                    },
+                    {
+                        question: "Ethical ____ surrounding genetic modification and the equitable distribution of these new technologies remain a critical area of discussion.",
+                        options: [
+                            { text: "certainties", meaning: "ความแน่นอน", synonyms: ["sureties", "absolutes"] },
+                            { text: "considerations", meaning: "การพิจารณา, ข้อคิด", synonyms: ["factors", "aspects"] },
+                            { text: "ignorance", meaning: "ความไม่รู้, การเพิกเฉย", synonyms: ["unawareness", "obliviousness"] },
+                            { text: "negligence", meaning: "ความประมาท, การละเลย", synonyms: ["carelessness", "dereliction"] },
+                        ],
+                        answer: "considerations",
+                        explanation: "**considerations** (n.) หมายถึง การพิจารณา, ข้อคิด คำนี้เหมาะสมกับบริบทของการถกเถียงประเด็นทางจริยธรรม\n* **certainties** (n.) หมายถึง ความแน่นอน\n* **ignorance** (n.) หมายถึง ความไม่รู้, การเพิกเฉย\n* **negligence** (n.) หมายถึง ความประมาท, การละเลย",
+                    },
+                    {
+                        question: "As scientific knowledge expands, biotechnology holds immense ____ for addressing some of humanity's most pressing challenges, from disease to food security.",
+                        options: [
+                            { text: "limitations", meaning: "ข้อจำกัด", synonyms: ["restrictions", "constraints"] },
+                            { text: "obstacles", meaning: "อุปสรรค", synonyms: ["hindrances", "barriers"] },
+                            { text: "promise", meaning: "อนาคตที่สดใส, แนวโน้มที่ดี", synonyms: ["potential", "hope"] },
+                            { text: "threats", meaning: "ภัยคุกคาม", synonyms: ["dangers", "menaces"] },
+                        ],
+                        answer: "promise",
+                        explanation: "**promise** (n.) หมายถึง อนาคตที่สดใส, แนวโน้มที่ดี คำนี้เหมาะสมที่สุดเพราะหมายถึงศักยภาพอันยิ่งใหญ่ของเทคโนโลยีชีวภาพ\n* **limitations** (n.) หมายถึง ข้อจำกัด\n* **obstacles** (n.) หมายถึง อุปสรรค\n* **threats** (n.) หมายถึง ภัยคุกคาม",
+                    },
+                ]
+            },
+            {
+                type: "reading",
+                id: "reading9",
+                title: "Reading 9: The Metaverse and Virtual Realities 🌐✨",
+                passage: "Metaverse และโลกเสมือนจริงกำลังเข้ามาสร้างประสบการณ์ใหม่ๆ ให้กับเรา เรามาทำความเข้าใจกับโลกดิจิทัลเหล่านี้กัน",
+                questions: [
+                    {
+                        question: "The concept of the metaverse, a persistent and immersive virtual world, is rapidly moving from science fiction to a tangible ____.",
+                        options: [
+                            { text: "illusion", meaning: "ภาพลวงตา", synonyms: ["delusion", "deception"] },
+                            { text: "fantasy", meaning: "จินตนาการ", synonyms: ["imagination", "dream"] },
+                            { text: "reality", meaning: "ความเป็นจริง", synonyms: ["actuality", "existence"] },
+                            { text: "nightmare", meaning: "ฝันร้าย", synonyms: ["bad dream", "ordeal"] },
+                        ],
+                        answer: "reality",
+                        explanation: "**reality** (n.) หมายถึง ความเป็นจริง คำนี้เหมาะสมที่สุดเพราะ metaverse กำลังกลายเป็นสิ่งที่เป็นจริง\n* **illusion** (n.) หมายถึง ภาพลวงตา\n* **fantasy** (n.) หมายถึง จินตนาการ\n* **nightmare** (n.) หมายถึง ฝันร้าย",
+                    },
+                    {
+                        question: "Powered by virtual reality (VR), augmented reality (AR), and blockchain technology, the metaverse promises to create new ways for people to interact, work, and ____.",
+                        options: [
+                            { text: "isolate", meaning: "ทำให้โดดเดี่ยว", synonyms: ["separate", "seclude"] },
+                            { text: "segregate", meaning: "แยกออก", synonyms: ["divide", "partition"] },
+                            { text: "converge", meaning: "บรรจบกัน", synonyms: ["meet", "intersect"] },
+                            { text: "engage", meaning: "มีส่วนร่วม, เข้าไปเกี่ยวข้อง", synonyms: ["participate", "interact"] },
+                        ],
+                        answer: "engage",
+                        explanation: "**engage** (v.) หมายถึง มีส่วนร่วม, เข้าไปเกี่ยวข้อง คำนี้เหมาะสมกับบริบทของการมีปฏิสัมพันธ์และการทำกิจกรรมต่างๆ ในโลกเสมือนจริง\n* **isolate** (v.) หมายถึง ทำให้โดดเดี่ยว\n* **segregate** (v.) หมายถึง แยกออก\n* **converge** (v.) หมายถึง บรรจบกัน",
+                    },
+                    {
+                        question: "From virtual concerts and digital fashion shows to remote work meetings and online education, the potential applications of the metaverse are ____.",
+                        options: [
+                            { text: "limited", meaning: "จำกัด", synonyms: ["restricted", "confined"] },
+                            { text: "finite", meaning: "จำกัด", synonyms: ["limited", "bounded"] },
+                            { text: "boundless", meaning: "ไร้ขีดจำกัด, ไม่มีที่สิ้นสุด", synonyms: ["unlimited", "endless"] },
+                            { text: "restricted", meaning: "ถูกจำกัด", synonyms: ["limited", "confined"] },
+                        ],
+                        answer: "boundless",
+                        explanation: "**boundless** (adj.) หมายถึง ไร้ขีดจำกัด, ไม่มีที่สิ้นสุด คำนี้เหมาะสมที่สุดเพราะการใช้งาน metaverse มีศักยภาพที่ไร้ขีดจำกัด\n* **limited** (adj.) หมายถึง จำกัด\n* **finite** (adj.) หมายถึง จำกัด\n* **restricted** (adj.) หมายถึง ถูกจำกัด",
+                    },
+                    {
+                        question: "However, the development of the metaverse also raises concerns about data privacy, digital ____, and the potential for addiction.",
+                        options: [
+                            { text: "equality", meaning: "ความเท่าเทียม", synonyms: ["fairness", "equity"] },
+                            { text: "security", meaning: "ความปลอดภัย (ในที่นี้คือ digital security = ความปลอดภัยทางดิจิทัล)", synonyms: ["safety", "protection"] },
+                            { text: "transparency", meaning: "ความโปร่งใส", synonyms: ["clarity", "openness"] },
+                            { text: "identity", meaning: "อัตลักษณ์, ตัวตน", synonyms: ["self", "individuality"] },
+                        ],
+                        answer: "security",
+                        explanation: "**security** (n.) หมายถึง ความปลอดภัย (ในที่นี้คือ digital security = ความปลอดภัยทางดิจิทัล) คำนี้เข้ากับบริบทของข้อกังวลด้านความปลอดภัยของข้อมูล\n* **equality** (n.) หมายถึง ความเท่าเทียม\n* **transparency** (n.) หมายถึง ความโปร่งใส\n* **identity** (n.) หมายถึง อัตลักษณ์, ตัวตน",
+                    },
+                    {
+                        question: "As companies invest heavily in building this new digital frontier, understanding the ethical and societal ____ is crucial for ensuring a responsible and inclusive metaverse.",
+                        options: [
+                            { text: "advantages", meaning: "ข้อดี", synonyms: ["benefits", "pros"] },
+                            { text: "implications", meaning: "ผลกระทบที่อาจเกิดขึ้น, ความเกี่ยวพัน", synonyms: ["consequences", "ramifications"] },
+                            { text: "benefits", meaning: "ผลประโยชน์", synonyms: ["advantages", "gains"] },
+                            { text: "conveniences", meaning: "ความสะดวกสบาย", synonyms: ["comforts", "amenities"] },
+                        ],
+                        answer: "implications",
+                        explanation: "**implications** (n.) หมายถึง ผลกระทบที่อาจเกิดขึ้น, ความเกี่ยวพัน คำนี้เหมาะสมที่สุดเพราะหมายถึงผลกระทบทางจริยธรรมและสังคมของ metaverse\n* **advantages** (n.) หมายถึง ข้อดี\n* **benefits** (n.) หมายถึง ผลประโยชน์\n* **conveniences** (n.) หมายถึง ความสะดวกสบาย",
+                    },
+                ]
+            },
+            {
+                type: "reading",
+                id: "reading10",
+                title: "Reading 10: Critical Thinking in the Age of Information Overload 🤔📰",
+                passage: "ในยุคที่เรามีข้อมูลล้นหลาม การคิดวิเคราะห์จึงเป็นทักษะที่สำคัญมาก เราจะฝึกฝนทักษะนี้ได้อย่างไร",
+                questions: [
+                    {
+                        question: "In an era of unprecedented information overload, the ability to engage in critical thinking has become more ____ than ever.",
+                        options: [
+                            { text: "superficial", meaning: "ผิวเผิน", synonyms: ["shallow", "cursory"] },
+                            { text: "irrelevant", meaning: "ไม่เกี่ยวข้อง", synonyms: ["unimportant", "unrelated"] },
+                            { text: "crucial", meaning: "สำคัญมาก, ชี้ขาด", synonyms: ["vital", "essential"] },
+                            { text: "optional", meaning: "ซึ่งเป็นทางเลือก", synonyms: ["voluntary", "non-compulsory"] },
+                        ],
+                        answer: "crucial",
+                        explanation: "**crucial** (adj.) หมายถึง สำคัญมาก, ชี้ขาด คำนี้เหมาะสมที่สุดเพราะการคิดเชิงวิพากษ์เป็นสิ่งสำคัญอย่างยิ่งในยุคข้อมูลข่าวสาร\n* **superficial** (adj.) หมายถึง ผิวเผิน\n* **irrelevant** (adj.) หมายถึง ไม่เกี่ยวข้อง\n* **optional** (adj.) หมายถึง ซึ่งเป็นทางเลือก",
+                    },
+                    {
+                        question: "We are constantly bombarded with news, opinions, and data from various sources, making it challenging to ____ fact from fiction.",
+                        options: [
+                            { text: "conflate", meaning: "รวมเข้าด้วยกัน", synonyms: ["combine", "mix"] },
+                            { text: "distinguish", meaning: "แยกแยะ, ทำให้เห็นความแตกต่าง", synonyms: ["differentiate", "discern"] },
+                            { text: "blend", meaning: "ผสมผสาน", synonyms: ["mix", "merge"] },
+                            { text: "confuse", meaning: "ทำให้สับสน", synonyms: ["bewilder", "perplex"] },
+                        ],
+                        answer: "distinguish",
+                        explanation: "**distinguish** (v.) หมายถึง แยกแยะ, ทำให้เห็นความแตกต่าง คำนี้เหมาะสมที่สุดเพราะหมายถึงความสามารถในการแยกแยะข้อเท็จจริงออกจากสิ่งที่ไม่จริง\n* **conflate** (v.) หมายถึง รวมเข้าด้วยกัน\n* **blend** (v.) หมายถึง ผสมผสาน\n* **confuse** (v.) หมายถึง ทำให้สับสน",
+                    },
+                    {
+                        question: "Critical thinking involves actively questioning assumptions, evaluating evidence, and considering multiple ____ before forming conclusions.",
+                        options: [
+                            { text: "biases", meaning: "อคติ", synonyms: ["prejudices", "slant"] },
+                            { text: "perspectives", meaning: "มุมมอง, ทัศนคติ", synonyms: ["viewpoints", "angles"] },
+                            { text: "prejudices", meaning: "อคติ", synonyms: ["bias", "discrimination"] },
+                            { text: "fallacies", meaning: "ความคิดผิดๆ, ตรรกะวิบัติ", synonyms: ["errors", "misconceptions"] },
+                        ],
+                        answer: "perspectives",
+                        explanation: "**perspectives** (n.) หมายถึง มุมมอง, ทัศนคติ คำนี้เหมาะสมกับบริบทของการพิจารณามุมมองที่หลากหลายในการคิดเชิงวิพากษ์\n* **biases** (n.) หมายถึง อคติ\n* **prejudices** (n.) หมายถึง อคติ\n* **fallacies** (n.) หมายถึง ความคิดผิดๆ, ตรรกะวิบัติ",
+                    },
+                    {
+                        question: "Developing this skill helps individuals make more informed decisions, resist manipulation, and engage in more ____ discussions.",
+                        options: [
+                            { text: "superficial", meaning: "ผิวเผิน", synonyms: ["shallow", "cursory"] },
+                            { text: "productive", meaning: "ที่ก่อให้เกิดประโยชน์, มีประสิทธิภาพ", synonyms: ["fruitful", "effective"] },
+                            { text: "divisive", meaning: "ซึ่งก่อให้เกิดความแตกแยก", synonyms: ["disuniting", "polarizing"] },
+                            { text: "trivial", meaning: "ไม่สำคัญ, เล็กน้อย", synonyms: ["insignificant", "minor"] },
+                        ],
+                        answer: "productive",
+                        explanation: "**productive** (adj.) หมายถึง ที่ก่อให้เกิดประโยชน์, มีประสิทธิภาพ คำนี้เหมาะสมกับบริบทของการสนทนาที่มีประโยชน์และสร้างสรรค์\n* **superficial** (adj.) หมายถึง ผิวเผิน\n* **divisive** (adj.) หมายถึง ซึ่งก่อให้เกิดความแตกแยก\n* **trivial** (adj.) หมายถึง ไม่สำคัญ, เล็กน้อย",
+                    },
+                    {
+                        question: "In a world saturated with information, cultivating critical thinking is not just an academic ____ but a fundamental life skill for navigating complexity and misinformation.",
+                        options: [
+                            { text: "diversion", meaning: "การเบี่ยงเบนความสนใจ, สิ่งบันเทิง", synonyms: ["distraction", "amusement"] },
+                            { text: "burden", meaning: "ภาระ", synonyms: ["load", "responsibility"] },
+                            { text: "exercise", meaning: "การออกกำลังกาย, การฝึกฝน", synonyms: ["practice", "training"] },
+                            { text: "necessity", meaning: "ความจำเป็น", synonyms: ["requirement", "essential"] },
+                        ],
+                        answer: "necessity",
+                        explanation: "**necessity** (n.) หมายถึง ความจำเป็น คำนี้เหมาะสมที่สุดเพราะการคิดเชิงวิพากษ์เป็นสิ่งจำเป็นในชีวิตจริง\n* **diversion** (n.) หมายถึง การเบี่ยงเบนความสนใจ, สิ่งบันเทิง\n* **burden** (n.) หมายถึง ภาระ\n* **exercise** (n.) หมายถึง การออกกำลังกาย, การฝึกฝน",
+                    },
+                ]
+            },
+            // Reading passages for Cloze Test Set 5 - NEW CONTENT
+            {
+                type: "reading",
+                id: "set5_reading1",
+                title: "Reading 1: AI in Healthcare: Diagnosis and Drug Discovery 🏥💊",
+                passage: "ปัญญาประดิษฐ์ (AI) กำลังปฏิวัติวงการดูแลสุขภาพ ตั้งแต่การวินิจฉัยโรคไปจนถึงการพัฒนายา เรามาสำรวจบทบาทของ AI ในสาขานี้กัน",
+                questions: [
+                    {
+                        question: "Artificial Intelligence (AI) is rapidly transforming the healthcare landscape, offering unprecedented opportunities to improve patient care, streamline operations, and accelerate medical ____.",
+                        options: [
+                            { text: "stagnation", meaning: "ความซบเซา", synonyms: ["inertia", "inactivity"] },
+                            { text: "decline", meaning: "การลดลง", synonyms: ["decrease", "reduction"] },
+                            { text: "innovation", meaning: "นวัตกรรม", synonyms: ["novelty", "breakthrough"] },
+                            { text: "regression", meaning: "การถอยหลัง", synonyms: ["decline", "deterioration"] },
+                        ],
+                        answer: "innovation",
+                        explanation: "**innovation** (n.) หมายถึง นวัตกรรม AI กำลังปฏิวัติวงการดูแลสุขภาพโดยนำนวัตกรรมทางการแพทย์มาใช้\n* **stagnation** (n.) หมายถึง ความซบเซา\n* **decline** (n.) หมายถึง การลดลง\n* **regression** (n.) หมายถึง การถอยหลัง",
+                    },
+                    {
+                        question: "In diagnosis, AI algorithms can analyze vast amounts of medical images, patient data, and genomic information with remarkable ____, often detecting patterns that might be missed by the human eye.",
+                        options: [
+                            { text: "inefficiency", meaning: "ความไม่มีประสิทธิภาพ", synonyms: ["wastefulness", "unproductiveness"] },
+                            { text: "imprecision", meaning: "ความไม่แม่นยำ", synonyms: ["inaccuracy", "vagueness"] },
+                            { text: "accuracy", meaning: "ความแม่นยำ", synonyms: ["precision", "correctness"] },
+                            { text: "ambiguity", meaning: "ความกำกวม", synonyms: ["vagueness", "uncertainty"] },
+                        ],
+                        answer: "accuracy",
+                        explanation: "**accuracy** (n.) หมายถึง ความแม่นยำ AI สามารถวิเคราะห์ข้อมูลทางการแพทย์ด้วยความแม่นยำที่น่าทึ่ง\n* **inefficiency** (n.) หมายถึง ความไม่มีประสิทธิภาพ\n* **imprecision** (n.) หมายถึง ความไม่แม่นยำ\n* **ambiguity** (n.) หมายถึง ความกำกวม",
+                    },
+                    {
+                        question: "This enhances early disease detection, leading to more timely ____ and potentially better patient outcomes.",
+                        options: [
+                            { text: "delays", meaning: "ความล่าช้า", synonyms: ["postponements", "procrastination"] },
+                            { text: "complications", meaning: "ภาวะแทรกซ้อน", synonyms: ["difficulties", "intricacies"] },
+                            { text: "interventions", meaning: "การแทรกแซง, การบำบัด", synonyms: ["treatments", "actions"] },
+                            { text: "misdiagnoses", meaning: "การวินิจฉัยผิด", synonyms: ["errors", "mistakes"] },
+                        ],
+                        answer: "interventions",
+                        explanation: "**interventions** (n.) หมายถึง การแทรกแซง, การบำบัด สิ่งนี้ช่วยเพิ่มการตรวจจับโรคตั้งแต่เนิ่นๆ นำไปสู่การแทรกแซงที่ทันท่วงที\n* **delays** (n.) หมายถึง ความล่าช้า\n* **complications** (n.) หมายถึง ภาวะแทรกซ้อน\n* **misdiagnoses** (n.) หมายถึง การวินิจฉัยผิด",
+                    },
+                    {
+                        question: "In drug discovery, AI can rapidly screen millions of compounds, predict their effectiveness, and identify potential drug targets, significantly accelerating the research and development ____.",
+                        options: [
+                            { text: "stagnation", meaning: "ความซบเซา", synonyms: ["inertia", "inactivity"] },
+                            { text: "slump", meaning: "การตกต่ำ", synonyms: ["decline", "recession"] },
+                            { text: "process", meaning: "กระบวนการ", synonyms: ["method", "procedure"] },
+                            { text: "barrier", meaning: "อุปสรรค", synonyms: ["obstacle", "hindrance"] },
+                        ],
+                        answer: "process",
+                        explanation: "**process** (n.) หมายถึง กระบวนการ ในการพัฒนายา AI สามารถเร่งกระบวนการวิจัยและพัฒนาได้อย่างมาก\n* **stagnation** (n.) หมายถึง ความซบเซา\n* **slump** (n.) หมายถึง การตกต่ำ\n* **barrier** (n.) หมายถึง อุปสรรค",
+                    },
+                    {
+                        question: "Despite its immense potential, ethical considerations regarding data privacy, algorithmic bias, and the human element in patient care remain crucial ____ for AI's responsible integration into healthcare.",
+                        options: [
+                            { text: "benefits", meaning: "ผลประโยชน์", synonyms: ["advantages", "gains"] },
+                            { text: "opportunities", meaning: "โอกาส", synonyms: ["chances", "prospects"] },
+                            { text: "challenges", meaning: "ความท้าทาย, ปัญหา", synonyms: ["difficulties", "obstacles"] },
+                            { text: "solutions", meaning: "ทางออก", synonyms: ["answers", "resolves"] },
+                        ],
+                        answer: "challenges",
+                        explanation: "**challenges** (n.) หมายถึง ความท้าทาย, ปัญหา แม้จะมีศักยภาพมหาศาล แต่ข้อพิจารณาทางจริยธรรมยังคงเป็นความท้าทายที่สำคัญสำหรับการรวม AI เข้ากับการดูแลสุขภาพอย่างมีความรับผิดชอบ\n* **benefits** (n.) หมายถึง ผลประโยชน์\n* **opportunities** (n.) หมายถึง โอกาส\n* **solutions** (n.) หมายถึง ทางออก",
+                    },
+                ]
+            },
+            {
+                type: "reading",
+                id: "set5_reading2",
+                title: "Reading 2: The Psychology of Minimalism: Living with Less 🧘‍♀️🏡",
+                passage: "Minimalism หรือการใช้ชีวิตแบบเรียบง่ายกำลังได้รับความนิยมมากขึ้นเรื่อยๆ เรามาสำรวจว่าแนวคิดนี้ส่งผลดีต่อจิตใจของเราอย่างไร",
+                questions: [
+                    {
+                        question: "Minimalism, a lifestyle that advocates intentional living with less, is gaining ____ in a consumer-driven world, promising psychological and emotional benefits.",
+                        options: [
+                            { text: "obscurity", meaning: "ความคลุมเครือ", synonyms: ["anonymity", "unknownness"] },
+                            { text: "prominence", meaning: "ความโดดเด่น, ความสำคัญ", synonyms: ["salience", "importance"] },
+                            { text: "irrelevance", meaning: "ความไม่เกี่ยวข้อง", synonyms: ["insignificance", "unimportance"] },
+                            { text: "contempt", meaning: "การดูถูก", synonyms: ["disdain", "scorn"] },
+                        ],
+                        answer: "prominence",
+                        explanation: "**prominence** (n.) หมายถึง ความโดดเด่น, ความสำคัญ Minimalism กำลังได้รับความโดดเด่นในโลกที่ขับเคลื่อนด้วยผู้บริโภค\n* **obscurity** (n.) หมายถึง ความคลุมเครือ\n* **irrelevance** (n.) หมายถึง ความไม่เกี่ยวข้อง\n* **contempt** (n.) หมายถึง การดูถูก",
+                    },
+                    {
+                        question: "Beyond decluttering physical spaces, minimalism encourages a mindful approach to consumption, focusing on experiences and relationships rather than material ____.",
+                        options: [
+                            { text: "burdens", meaning: "ภาระ", synonyms: ["loads", "responsibilities"] },
+                            { text: "possessions", meaning: "ทรัพย์สิน", synonyms: ["belongings", "assets"] },
+                            { text: "problems", meaning: "ปัญหา", synonyms: ["difficulties", "issues"] },
+                            { text: "constraints", meaning: "ข้อจำกัด", synonyms: ["restrictions", "limitations"] },
+                        ],
+                        answer: "possessions",
+                        explanation: "**possessions** (n.) หมายถึง ทรัพย์สิน Minimalism ส่งเสริมแนวทางการบริโภคอย่างมีสติ โดยเน้นที่ประสบการณ์และความสัมพันธ์มากกว่าทรัพย์สินที่เป็นวัตถุ\n* **burdens** (n.) หมายถึง ภาระ\n* **problems** (n.) หมายถึง ปัญหา\n* **constraints** (n.) หมายถึง ข้อจำกัด",
+                    },
+                    {
+                        question: "Psychologically, studies suggest that adopting a minimalist lifestyle can reduce stress and anxiety, improve focus, and foster a greater sense of freedom and ____.",
+                        options: [
+                            { text: "entrapment", meaning: "การถูกจับ, การถูกกักขัง", synonyms: ["confinement", "imprisonment"] },
+                            { text: "burden", meaning: "ภาระ", synonyms: ["load", "responsibility"] },
+                            { text: "well-being", meaning: "ความเป็นอยู่ที่ดี, สุขภาพจิตที่ดี", synonyms: ["health", "welfare"] },
+                            { text: "discontent", meaning: "ความไม่พอใจ", synonyms: ["dissatisfaction", "unhappiness"] },
+                        ],
+                        answer: "well-being",
+                        explanation: "**well-being** (n.) หมายถึง ความเป็นอยู่ที่ดี, สุขภาพจิตที่ดี การใช้ชีวิตแบบ minimalist สามารถลดความเครียดและความวิตกกังวล ปรับปรุงสมาธิ และส่งเสริมความรู้สึกอิสระและสุขภาวะที่ดีขึ้น\n* **entrapment** (n.) หมายถึง การถูกจับ\n* **burden** (n.) หมายถึง ภาระ\n* **discontent** (n.) หมายถึง ความไม่พอใจ",
+                    },
+                    {
+                        question: "By consciously choosing what to keep and what to let go, individuals gain a sense of control over their environment, leading to increased clarity and a reduction in mental ____.",
+                        options: [
+                            { text: "focus", meaning: "สมาธิ", synonyms: ["concentration", "attention"] },
+                            { text: "productivity", meaning: "ประสิทธิภาพ", synonyms: ["effectiveness", "output"] },
+                            { text: "clutter", meaning: "ความยุ่งเหยิง, ความสับสน", synonyms: ["mess", "disorder"] },
+                            { text: "efficiency", meaning: "ประสิทธิภาพ", synonyms: ["effectiveness", "productivity"] },
+                        ],
+                        answer: "clutter",
+                        explanation: "**clutter** (n.) หมายถึง ความยุ่งเหยิง, ความสับสน การเลือกอย่างมีสติว่าจะเก็บอะไรและปล่อยอะไรไป จะทำให้บุคคลรู้สึกควบคุมสภาพแวดล้อมได้ นำไปสู่ความชัดเจนที่เพิ่มขึ้นและการลดความยุ่งเหยิงทางจิตใจ\n* **focus** (n.) หมายถึง สมาธิ\n* **productivity** (n.) หมายถึง ประสิทธิภาพ\n* **efficiency** (n.) หมายถึง ประสิทธิภาพ",
+                    },
+                    {
+                        question: "Ultimately, minimalism is not just an aesthetic choice but a psychological ____ that can lead to a more purposeful, peaceful, and satisfying life.",
+                        options: [
+                            { text: "hindrance", meaning: "อุปสรรค", synonyms: ["obstacle", "impediment"] },
+                            { text: "fad", meaning: "แฟชั่นชั่วคราว", synonyms: ["craze", "vogue"] },
+                            { text: "philosophy", meaning: "ปรัชญา", synonyms: ["ideology", "belief system"] },
+                            { text: "problem", meaning: "ปัญหา", synonyms: ["difficulty", "issue"] },
+                        ],
+                        answer: "philosophy",
+                        explanation: "**philosophy** (n.) หมายถึง ปรัชญา Minimalism ไม่ใช่แค่ทางเลือกด้านสุนทรียศาสตร์ แต่เป็นปรัชญาทางจิตวิทยาที่สามารถนำไปสู่ชีวิตที่มีความหมาย สงบสุข และน่าพึงพอใจมากขึ้น\n* **hindrance** (n.) หมายถึง อุปสรรค\n* **fad** (n.) หมายถึง แฟชั่นชั่วคราว\n* **problem** (n.) หมายถึง ปัญหา",
+                    },
+                ]
+            },
+            {
+                type: "reading",
+                id: "set5_reading3",
+                title: "Reading 3: The History and Evolution of the Olympic Games 🏛️🏅",
+                passage: "โอลิมปิกเกมส์เป็นสัญลักษณ์ของความเป็นเลิศทางกีฬาและสันติภาพโลก เรามาสำรวจประวัติศาสตร์อันยาวนานและการเปลี่ยนแปลงของมันกัน",
+                questions: [
+                    {
+                        question: "Dating back to ancient Greece, the Olympic Games have evolved from religious festivals into the world's foremost sporting ____, uniting athletes and spectators from across the globe.",
+                        options: [
+                            { text: "conflict", meaning: "ความขัดแย้ง", synonyms: ["dispute", "clash"] },
+                            { text: "spectacle", meaning: "การแสดงอันน่าตื่นตาตื่นใจ", synonyms: ["display", "event"] },
+                            { text: "competition", meaning: "การแข่งขัน", synonyms: ["rivalry", "contest"] },
+                            { text: "arena", meaning: "สนามประลอง", synonyms: ["stadium", "venue"] },
+                        ],
+                        answer: "spectacle",
+                        explanation: "**spectacle** (n.) หมายถึง การแสดงอันน่าตื่นตาตื่นใจ โอลิมปิกเกมส์ได้พัฒนาจากการเฉลิมฉลองทางศาสนาไปสู่การแสดงกีฬาชั้นนำของโลก\n* **conflict** (n.) หมายถึง ความขัดแย้ง\n* **competition** (n.) หมายถึง การแข่งขัน\n* **arena** (n.) หมายถึง สนามประลอง",
+                    },
+                    {
+                        question: "The ancient Games, held in Olympia, were a series of athletic competitions and religious rituals, emphasizing physical prowess and the pursuit of ____ through fair play.",
+                        options: [
+                            { text: "dishonor", meaning: "ความอัปยศ", synonyms: ["disgrace", "shame"] },
+                            { text: "defeat", meaning: "ความพ่ายแพ้", synonyms: ["loss", "failure"] },
+                            { text: "excellence", meaning: "ความเป็นเลิศ", synonyms: ["superiority", "distinction"] },
+                            { text: "mediocrity", meaning: "ความปานกลาง", synonyms: ["averageness", "ordinariness"] },
+                        ],
+                        answer: "excellence",
+                        explanation: "**excellence** (n.) หมายถึง ความเป็นเลิศ เกมโบราณเน้นความสามารถทางกายและแสวงหาความเป็นเลิศผ่านการเล่นที่ยุติธรรม\n* **dishonor** (n.) หมายถึง ความอัปยศ\n* **defeat** (n.) หมายถึง ความพ่ายแพ้\n* **mediocrity** (n.) หมายถึง ความปานกลาง",
+                    },
+                    {
+                        question: "Revived in their modern form in 1896 by Pierre de Coubertin, the Games have grown into a massive international event, adapting to changing global dynamics while retaining their core ____ of peace and sportsmanship.",
+                        options: [
+                            { text: "conflicts", meaning: "ความขัดแยง", synonyms: ["disputes", "clashes"] },
+                            { text: "divisions", meaning: "การแบ่งแยก", synonyms: ["splits", "separations"] },
+                            { text: "principles", meaning: "หลักการ", synonyms: ["fundamentals", "tenets"] },
+                            { text: "obstacles", meaning: "อุปสรรค", synonyms: ["hindrances", "barriers"] },
+                        ],
+                        answer: "principles",
+                        explanation: "**principles** (n.) หมายถึง หลักการ เกมต่างๆ ได้ปรับตัวให้เข้ากับพลวัตของโลกที่เปลี่ยนแปลงไป ในขณะที่ยังคงรักษาหลักการสำคัญของสันติภาพและน้ำใจนักกีฬาไว้\n* **conflicts** (n.) หมายถึง ความขัดแยง\n* **divisions** (n.) หมายถึง การแบ่งแยก\n* **obstacles** (n.) หมายถึง อุปสรรค",
+                    },
+                    {
+                        question: "Over the decades, the Olympics have faced numerous challenges, including political boycotts, financial controversies, and concerns about doping and the environmental ____ of hosting the Games.",
+                        options: [
+                            { text: "benefits", meaning: "ผลประโยชน์", synonyms: ["advantages", "gains"] },
+                            { text: "advantages", meaning: "ข้อดี", synonyms: ["benefits", "pros"] },
+                            { text: "impact", meaning: "ผลกระทบ", synonyms: ["effects", "consequences"] },
+                            { text: "solutions", meaning: "ทางออก", synonyms: ["answers", "resolves"] },
+                        ],
+                        answer: "impact",
+                        explanation: "**impact** (n.) หมายถึง ผลกระทบ โอลิมปิกต้องเผชิญกับความท้าทายมากมาย รวมถึงข้อกังวลเกี่ยวกับการใช้สารกระตุ้นและผลกระทบต่อสิ่งแวดล้อมจากการเป็นเจ้าภาพการแข่งขัน\n* **benefits** (n.) หมายถึง ผลประโยชน์\n* **advantages** (n.) หมายถึง ข้อดี\n* **solutions** (n.) หมายถึง ทางออก",
+                    },
+                    {
+                        question: "Despite these hurdles, the Olympic Games continue to be a powerful symbol of unity and human ____, inspiring millions worldwide through athletic achievement and the spirit of competition.",
+                        options: [
+                            { text: "vulnerability", meaning: "ความเปราะบาง", synonyms: ["weakness", "fragility"] },
+                            { text: "limitation", meaning: "ข้อจำกัด", synonyms: ["restriction", "constraint"] },
+                            { text: "resilience", meaning: "ความยืดหยุ่น, ความสามารถในการฟื้นตัว", synonyms: ["adaptability", "sturdiness"] },
+                            { text: "stagnation", meaning: "ความซบเซา", synonyms: ["inertia", "inactivity"] },
+                        ],
+                        answer: "resilience",
+                        explanation: "**resilience** (n.) หมายถึง ความยืดหยุ่น, ความสามารถในการฟื้นตัว โอลิมปิกเกมส์ยังคงเป็นสัญลักษณ์ที่ทรงพลังของความสามัคคีและความยืดหยุ่นของมนุษย์\n* **vulnerability** (n.) หมายถึง ความเปราะบาง\n* **limitation** (n.) หมายถึง ข้อจำกัด\n* **stagnation** (n.) หมายถึง ความซบเซา",
+                    },
+                ]
+            },
+            {
+                type: "reading",
+                id: "set5_reading4",
+                title: "Reading 4: Biodiversity Conservation: Protecting Earth's Web of Life 🦋🌳",
+                passage: "ความหลากหลายทางชีวภาพเป็นสิ่งจำเป็นต่อสุขภาพของโลก แต่ก็กำลังเผชิญกับภัยคุกคามมากมาย เรามาสำรวจความพยายามในการอนุรักษ์กัน",
+                questions: [
+                    {
+                        question: "Biodiversity, the variety of life on Earth, is fundamental to the health and stability of ecosystems, providing essential services like clean air and water, and supporting human ____.",
+                        options: [
+                            { text: "destruction", meaning: "การทำลาย", synonyms: ["demolition", "ruin"] },
+                            { text: "survival", meaning: "การอยู่รอด", synonyms: ["existence", "preservation"] },
+                            { text: "exploitation", meaning: "การหาประโยชน์โดยมิชอบ", synonyms: ["abuse", "misuse"] },
+                            { text: "negligence", meaning: "ความประมาท", synonyms: ["carelessness", "dereliction"] },
+                        ],
+                        answer: "survival",
+                        explanation: "**survival** (n.) หมายถึง การอยู่รอด ความหลากหลายทางชีวภาพเป็นสิ่งสำคัญต่อสุขภาพและความมั่นคงของระบบนิเวศ และสนับสนุนการอยู่รอดของมนุษย์\n* **destruction** (n.) หมายถึง การทำลาย\n* **exploitation** (n.) หมายถึง การหาประโยชน์โดยมิชอบ\n* **negligence** (n.) หมายถึง ความประมาท",
+                    },
+                    {
+                        question: "However, human activities such as habitat destruction, pollution, climate change, and overexploitation of resources are leading to a rapid ____ of species worldwide.",
+                        options: [
+                            { text: "increase", meaning: "การเพิ่มขึ้น", synonyms: ["growth", "expansion"] },
+                            { text: "proliferation", meaning: "การแพร่ขยายอย่างรวดเร็ว", synonyms: ["surge", "explosion"] },
+                            { text: "decline", meaning: "การลดลง", synonyms: ["decrease", "reduction"] },
+                            { text: "stability", meaning: "ความเสถียร", synonyms: ["steadiness", "firmness"] },
+                        ],
+                        answer: "decline",
+                        explanation: "**decline** (n.) หมายถึง การลดลง กิจกรรมของมนุษย์กำลังนำไปสู่การลดลงอย่างรวดเร็วของสิ่งมีชีวิตทั่วโลก\n* **increase** (n.) หมายถึง การเพิ่มขึ้น\n* **proliferation** (n.) หมายถึง การแพร่ขยายอย่างรวดเร็ว\n* **stability** (n.) หมายถึง ความเสถียร",
+                    },
+                    {
+                        question: "Biodiversity conservation efforts involve establishing protected areas, restoring degraded ecosystems, combating illegal wildlife trade, and promoting sustainable land and resource ____.",
+                        options: [
+                            { text: "mismanagement", meaning: "การจัดการที่ผิดพลาด", synonyms: ["misconduct", "inefficiency"] },
+                            { text: "destruction", meaning: "การทำลาย", synonyms: ["demolition", "ruin"] },
+                            { text: "management", meaning: "การจัดการ", synonyms: ["stewardship", "supervision"] },
+                            { text: "exploitation", meaning: "การหาประโยชน์โดยมิชอบ", synonyms: ["abuse", "misuse"] },
+                        ],
+                        answer: "management",
+                        explanation: "**management** (n.) หมายถึง การจัดการ ความพยายามในการอนุรักษ์ความหลากหลายทางชีวภาพเกี่ยวข้องกับการส่งเสริมการจัดการที่ดินและทรัพยากรอย่างยั่งยืน\n* **mismanagement** (n.) หมายถึง การจัดการที่ผิดพลาด\n* **destruction** (n.) หมายถึง การทำลาย\n* **exploitation** (n.) หมายถึง การหาประโยชน์โดยมิชอบ",
+                    },
+                    {
+                        question: "International cooperation and public awareness campaigns are crucial for addressing the global nature of biodiversity loss and fostering a collective ____ to protect Earth's precious natural heritage.",
+                        options: [
+                            { text: "indifference", meaning: "ความไม่แยแส", synonyms: ["apathy", "unconcern"] },
+                            { text: "reluctance", meaning: "ความไม่เต็มใจ", synonyms: ["hesitation", "unwillingness"] },
+                            { text: "commitment", meaning: "ความมุ่งมั่น, พันธสัญญา", synonyms: ["dedication", "pledge"] },
+                            { text: "ignorance", meaning: "ความไม่รู้", synonyms: ["unawareness", "obliviousness"] },
+                        ],
+                        answer: "commitment",
+                        explanation: "**commitment** (n.) หมายถึง ความมุ่งมั่น, พันธสัญญา ความร่วมมือระหว่างประเทศและการรณรงค์เพื่อสร้างความตระหนักรู้ของสาธารณะเป็นสิ่งสำคัญในการจัดการกับการสูญเสียความหลากหลายทางชีวภาพและส่งเสริมความมุ่งมั่นร่วมกันในการปกป้องมรดกทางธรรมชาติอันล้ำค่าของโลก\n* **indifference** (n.) หมายถึง ความไม่แยแส\n* **reluctance** (n.) หมายถึง ความไม่เต็มใจ\n* **ignorance** (n.) หมายถึง ความไม่รู้",
+                    },
+                    {
+                        question: "Ultimately, safeguarding biodiversity is not just an environmental imperative but a fundamental ____ for human well-being and the long-term sustainability of our planet.",
+                        options: [
+                            { text: "luxury", meaning: "ความฟุ่มเฟือย", synonyms: ["extravagance", "indulgence"] },
+                            { text: "burden", meaning: "ภาระ", synonyms: ["load", "responsibility"] },
+                            { text: "necessity", meaning: "ความจำเป็น", synonyms: ["requirement", "essential"] },
+                            { text: "option", meaning: "ทางเลือก", synonyms: ["choice", "alternative"] },
+                        ],
+                        answer: "necessity",
+                        explanation: "**necessity** (n.) หมายถึง ความจำเป็น การปกป้องความหลากหลายทางชีวภาพไม่เพียงแต่เป็นสิ่งจำเป็นต่อสิ่งแวดล้อมเท่านั้น แต่ยังเป็นความจำเป็นพื้นฐานสำหรับความเป็นอยู่ที่ดีของมนุษย์และความยั่งยืนในระยะยาวของโลกของเรา\n* **luxury** (n.) หมายถึง ความฟุ่มเฟือย\n* **burden** (n.) หมายถึง ภาระ\n* **option** (n.) หมายถึง ทางเลือก",
+                    },
+                ]
+            },
+            {
+                type: "reading",
+                id: "set5_reading5",
+                title: "Reading 5: The Future of Work: Automation and Upskilling 🤖📈",
+                passage: "การทำงานในอนาคตกำลังถูกขับเคลื่อนด้วยเทคโนโลยีอัตโนมัติ ทำให้เราต้องพัฒนาทักษะใหม่ๆ เพื่อความอยู่รอดในตลาดแรงงานที่เปลี่ยนแปลงไป",
+                questions: [
+                    {
+                        question: "The accelerating pace of technological advancement, particularly in automation and Artificial Intelligence (AI), is profoundly ____ the future of work.",
+                        options: [
+                            { text: "preserving", meaning: "รักษา", synonyms: ["conserving", "maintaining"] },
+                            { text: "hindering", meaning: "กีดขวาง", synonyms: ["impeding", "obstructing"] },
+                            { text: "reshaping", meaning: "เปลี่ยนแปลง, กำหนดใหม่", synonyms: ["transforming", "remodeling"] },
+                            { text: "stagnating", meaning: "ทำให้ซบเซา", synonyms: ["halting", "slowing"] },
+                        ],
+                        answer: "reshaping",
+                        explanation: "**reshaping** (v.) หมายถึง เปลี่ยนแปลง, กำหนดใหม่ ความก้าวหน้าทางเทคโนโลยีที่เร่งตัวขึ้น โดยเฉพาะอย่างยิ่งในด้านระบบอัตโนมัติและปัญญาประดิษฐ์ (AI) กำลังกำหนดอนาคตของการทำงานอย่างลึกซึ้ง\n* **preserving** (v.) หมายถึง รักษา\n* **hindering** (v.) หมายถึง กีดขวาง\n* **stagnating** (v.) หมายถึง ทำให้ซบเซา",
+                    },
+                    {
+                        question: "While automation promises increased efficiency and productivity, it also raises concerns about job displacement, as machines take over routine and repetitive ____.",
+                        options: [
+                            { text: "creative tasks", meaning: "งานสร้างสรรค์", synonyms: ["innovative assignments", "artistic projects"] },
+                            { text: "complex problems", meaning: "ปัญหาที่ซับซ้อน", synonyms: ["intricate issues", "difficult challenges"] },
+                            { text: "manual labor", meaning: "แรงงานใช้มือ", synonyms: ["physical work", "unskilled tasks"] },
+                            { text: "tasks", meaning: "งาน", synonyms: ["duties", "responsibilities"] },
+                        ],
+                        answer: "tasks",
+                        explanation: "**tasks** (n.) หมายถึง งาน แม้ว่าระบบอัตโนมัติจะสัญญาว่าจะเพิ่มประสิทธิภาพและผลผลิต แต่ก็ทำให้เกิดความกังวลเกี่ยวกับการแทนที่งาน เนื่องจากเครื่องจักรเข้ามาทำงานประจำและทำซ้ำๆ\n* **creative tasks** (n.) หมายถึง งานสร้างสรรค์\n* **complex problems** (n.) หมายถึง ปัญหาที่ซับซ้อน\n* **manual labor** (n.) หมายถึง แรงงานใช้มือ",
+                    },
+                    {
+                        question: "This necessitates a significant focus on 'upskilling' and 'reskilling' the workforce, equipping individuals with new competencies that are complementary to AI and automation, such as critical thinking, creativity, and emotional ____.",
+                        options: [
+                            { text: "detachment", meaning: "การไม่ผูกพัน", synonyms: ["aloofness", "indifference"] },
+                            { text: "rigidity", meaning: "ความแข็งทื่อ", synonyms: ["inflexibility", "strictness"] },
+                            { text: "intelligence", meaning: "สติปัญญา", synonyms: ["intellect", "acumen"] },
+                            { text: "apathy", meaning: "ความไม่แยแส", synonyms: ["unconcern", "boredom"] },
+                        ],
+                        answer: "intelligence",
+                        explanation: "**intelligence** (n.) หมายถึง สติปัญญา สิ่งนี้ทำให้ต้องมุ่งเน้นที่การเพิ่มทักษะและปรับทักษะใหม่ให้กับพนักงาน โดยให้บุคคลมีความสามารถใหม่ๆ ที่เสริมกับ AI และระบบอัตโนมัติ เช่น การคิดเชิงวิพากษ์ ความคิดสร้างสรรค์ และสติปัญญาทางอารมณ์\n* **detachment** (n.) หมายถึง การไม่ผูกพัน\n* **rigidity** (n.) หมายถึง ความแข็งทื่อ\n* **apathy** (n.) หมายถึง ความไม่แยแส",
+                    },
+                    {
+                        question: "Governments, educational institutions, and businesses must collaborate to create robust lifelong learning ____ that enable workers to adapt to the evolving demands of the job market.",
+                        options: [
+                            { text: "obstacles", meaning: "อุปสรรค", synonyms: ["hindrances", "barriers"] },
+                            { text: "problems", meaning: "ปัญหา", synonyms: ["difficulties", "issues"] },
+                            { text: "frameworks", meaning: "กรอบ, โครงสร้าง", synonyms: ["structures", "systems"] },
+                            { text: "limitations", meaning: "ข้อจำกัด", synonyms: ["restrictions", "constraints"] },
+                        ],
+                        answer: "frameworks",
+                        explanation: "**frameworks** (n.) หมายถึง กรอบ, โครงสร้าง รัฐบาล สถาบันการศึกษา และธุรกิจต้องร่วมมือกันเพื่อสร้างกรอบการเรียนรู้ตลอดชีวิตที่แข็งแกร่ง\n* **obstacles** (n.) หมายถึง อุปสรรค\n* **problems** (n.) หมายถึง ปัญหา\n* **limitations** (n.) หมายถึง ข้อจำกัด",
+                    },
+                    {
+                        question: "Ultimately, the future of work is not about humans versus machines but about how humans and machines can ____, leveraging each other's strengths to create new opportunities and drive economic growth.",
+                        options: [
+                            { text: "compete", meaning: "แข่งขัน", synonyms: ["rival", "contend"] },
+                            { text: "isolate", meaning: "แยกตัวออก", synonyms: ["segregate", "seclude"] },
+                            { text: "collaborate", meaning: "ทำงานร่วมกัน", synonyms: ["cooperate", "team up"] },
+                            { text: "conflict", meaning: "ขัดแย้ง", synonyms: ["clash", "disagree"] },
+                        ],
+                        answer: "collaborate",
+                        explanation: "**collaborate** (v.) หมายถึง ทำงานร่วมกัน อนาคตของการทำงานไม่ใช่เรื่องของมนุษย์ปะทะเครื่องจักร แต่เป็นเรื่องของวิธีที่มนุษย์และเครื่องจักรสามารถทำงานร่วมกันได้\n* **compete** (v.) หมายถึง แข่งขัน\n* **isolate** (v.) หมายถึง แยกตัวออก\n* **conflict** (v.) หมายถึง ขัดแย้ง",
+                    },
+                ]
+            },
+            {
+                type: "reading",
+                id: "set5_reading6",
+                title: "Reading 6: The Neuroscience of Music and the Brain 🎶🧠",
+                passage: "ดนตรีมีความสามารถพิเศษในการกระตุ้นอารมณ์และความจำ เรามาสำรวจว่าดนตรีมีผลต่อสมองของเราอย่างไรในเชิงวิทยาศาสตร์",
+                questions: [
+                    {
+                        question: "Music, a universal human phenomenon, possesses a unique ability to evoke emotions, trigger memories, and even influence our physical ____. Neuroscience is shedding light on how music impacts the brain.",
+                        options: [
+                            { text: "deterioration", meaning: "การเสื่อมสภาพ", synonyms: ["decline", "decay"] },
+                            { text: "stagnation", meaning: "ความซบเซา", synonyms: ["inertia", "inactivity"] },
+                            { text: "responses", meaning: "การตอบสนอง", synonyms: ["reactions", "replies"] },
+                            { text: "problems", meaning: "ปัญหา", synonyms: ["difficulties", "issues"] },
+                        ],
+                        answer: "responses",
+                        explanation: "**responses** (n.) หมายถึง การตอบสนอง ดนตรีมีความสามารถพิเศษในการกระตุ้นอารมณ์ กระตุ้นความทรงจำ และแม้กระทั่งมีอิทธิพลต่อการตอบสนองทางกายภาพของเรา\n* **deterioration** (n.) หมายถึง การเสื่อมสภาพ\n* **stagnation** (n.) หมายถึง ความซบเซา\n* **problems** (n.) หมายถึง ปัญหา",
+                    },
+                    {
+                        question: "Studies show that listening to music activates multiple brain regions, including those involved in reward, emotion, memory, and motor ____, creating a rich neural experience.",
+                        options: [
+                            { text: "disruption", meaning: "การหยุดชะงัก", synonyms: ["interruption", "disturbance"] },
+                            { text: "inactivity", meaning: "ความเฉื่อยชา", synonyms: ["laziness", "idleness"] },
+                            { text: "control", meaning: "การควบคุม", synonyms: ["command", "mastery"] },
+                            { text: "confusion", meaning: "ความสับสน", synonyms: ["bewilderment", "perplexity"] },
+                        ],
+                        answer: "control",
+                        explanation: "**control** (n.) หมายถึง การควบคุม การฟังเพลงจะกระตุ้นสมองหลายส่วน รวมถึงส่วนที่เกี่ยวข้องกับรางวัล อารมณ์ ความจำ และการควบคุมการเคลื่อนไหว\n* **disruption** (n.) หมายถึง การหยุดชะงัก\n* **inactivity** (n.) หมายถึง ความเฉื่อยชา\n* **confusion** (n.) หมายถึง ความสับสน",
+                    },
+                    {
+                        question: "Music therapy, leveraging these neural connections, is increasingly used to treat a range of neurological and mental health ____, from Parkinson's disease to depression.",
+                        options: [
+                            { text: "enhancements", meaning: "การปรับปรุงให้ดีขึ้น", synonyms: ["improvements", "upgrades"] },
+                            { text: "benefits", meaning: "ผลประโยชน์", synonyms: ["advantages", "gains"] },
+                            { text: "disorders", meaning: "ความผิดปกติ, โรค", synonyms: ["ailments", "conditions"] },
+                            { text: "solutions", meaning: "ทางออก", synonyms: ["answers", "resolves"] },
+                        ],
+                        answer: "disorders",
+                        explanation: "**disorders** (n.) หมายถึง ความผิดปกติ, โรค ดนตรีบำบัดกำลังถูกนำมาใช้รักษาความผิดปกติทางระบบประสาทและสุขภาพจิตหลายประเภท\n* **enhancements** (n.) หมายถึง การปรับปรุงให้ดีขึ้น\n* **benefits** (n.) หมายถึง ผลประโยชน์\n* **solutions** (n.) หมายถึง ทางออก",
+                    },
+                    {
+                        question: "The 'earworm' phenomenon, where a catchy melody gets stuck in your head, is a testament to music's powerful hold on our cognitive ____, even when we're not actively listening.",
+                        options: [
+                            { text: "weaknesses", meaning: "จุดอ่อน", synonyms: ["flaws", "deficiencies"] },
+                            { text: "limitations", meaning: "ข้อจำกัด", synonyms: ["restrictions", "constraints"] },
+                            { text: "processes", meaning: "กระบวนการ", synonyms: ["mechanisms", "functions"] },
+                            { text: "ignorance", meaning: "ความไม่รู้", synonyms: ["unawareness", "obliviousness"] },
+                        ],
+                        answer: "processes",
+                        explanation: "**processes** (n.) หมายถึง กระบวนการ ปรากฏการณ์ \"earworm\" เป็นเครื่องพิสูจน์ถึงการยึดเกาะที่ทรงพลังของดนตรีที่มีต่อกระบวนการทางความคิดของเรา\n* **weaknesses** (n.) หมายถึง จุดอ่อน\n* **limitations** (n.) หมายถึง ข้อจำกัด\n* **ignorance** (n.) หมายถึง ความไม่รู้",
+                    },
+                    {
+                        question: "As neuroscience continues to unravel the mysteries of the brain, understanding the profound impact of music offers new ____ into human cognition, emotion, and therapeutic possibilities.",
+                        options: [
+                            { text: "obstacles", meaning: "อุปสรรค", synonyms: ["hindrances", "barriers"] },
+                            { text: "problems", meaning: "ปัญหา", synonyms: ["difficulties", "issues"] },
+                            { text: "insights", meaning: "ความเข้าใจเชิงลึก", synonyms: ["perceptions", "understandings"] },
+                            { text: "complications", meaning: "ความซับซ้อน", synonyms: ["intricacies", "difficulties"] },
+                        ],
+                        answer: "insights",
+                        explanation: "**insights** (n.) หมายถึง ความเข้าใจเชิงลึก การทำความเข้าใจผลกระทบอย่างลึกซึ้งของดนตรีให้ข้อมูลเชิงลึกใหม่ๆ เกี่ยวกับการรับรู้ของมนุษย์ อารมณ์ และความเป็นไปได้ในการบำบัด\n* **obstacles** (n.) หมายถึง อุปสรรค\n* **problems** (n.) หมายถึง ปัญหา\n* **complications** (n.) หมายถึง ความซับซ้อน",
+                    },
+                ]
+            },
+            {
+                type: "reading",
+                id: "set5_reading7",
+                title: "Reading 7: Ethical Tourism: Responsible Travel Practices 🌍🎒",
+                passage: "การท่องเที่ยวอย่างมีจริยธรรมกำลังเป็นแนวโน้มสำคัญที่ส่งเสริมการเดินทางที่รับผิดชอบและยั่งยืน เรามาสำรวจหลักการของมันกัน",
+                questions: [
+                    {
+                        question: "Ethical tourism, a growing global ____, encourages travelers to make responsible choices that minimize negative impacts and maximize positive contributions to local communities and environments.",
+                        options: [
+                            { text: "fad", meaning: "แฟชั่นชั่วคราว", synonyms: ["craze", "vogue"] },
+                            { text: "trend", meaning: "แนวโน้ม, กระแส", synonyms: ["movement", "phenomenon"] },
+                            { text: "anomaly", meaning: "สิ่งผิดปกติ", synonyms: ["abnormality", "deviation"] },
+                            { text: "stagnation", meaning: "ความซบเซา", synonyms: ["inertia", "inactivity"] },
+                        ],
+                        answer: "trend",
+                        explanation: "**trend** (n.) หมายถึง แนวโน้ม, กระแส การท่องเที่ยวอย่างมีจริยธรรมเป็นแนวโน้มระดับโลกที่กำลังเติบโต\n* **fad** (n.) หมายถึง แฟชั่นชั่วคราว\n* **anomaly** (n.) หมายถึง สิ่งผิดปกติ\n* **stagnation** (n.) หมายถึง ความซบเซา",
+                    },
+                    {
+                        question: "This involves choosing eco-friendly accommodations, supporting local businesses, respecting cultural ____, and engaging in activities that directly benefit conservation efforts.",
+                        options: [
+                            { text: "violations", meaning: "การละเมิด", synonyms: ["infringements", "breaches"] },
+                            { text: "insensitivities", meaning: "ความไม่รู้สึก", synonyms: ["apathy", "indifference"] },
+                            { text: "norms", meaning: "บรรทัดฐาน, มาตรฐาน", synonyms: ["customs", "traditions"] },
+                            { text: "destruction", meaning: "การทำลาย", synonyms: ["demolition", "ruin"] },
+                        ],
+                        answer: "norms",
+                        explanation: "**norms** (n.) หมายถึง บรรทัดฐาน, มาตรฐาน การท่องเที่ยวอย่างมีจริยธรรมเกี่ยวข้องกับการเคารพบรรทัดฐานทางวัฒนธรรม\n* **violations** (n.) หมายถึง การละเมิด\n* **insensitivities** (n.) หมายถึง ความไม่รู้สึก\n* **destruction** (n.) หมายถึง การทำลาย",
+                    },
+                    {
+                        question: "The goal is to shift from mass tourism, which can often lead to environmental degradation and overtourism, to a more mindful and ____ approach that values quality over quantity.",
+                        options: [
+                            { text: "irresponsible", meaning: "ไม่รับผิดชอบ", synonyms: ["negligent", "reckless"] },
+                            { text: "exploitative", meaning: "ซึ่งหาประโยชน์โดยมิชอบ", synonyms: ["abusive", "unscrupulous"] },
+                            { text: "sustainable", meaning: "ยั่งยืน", synonyms: ["eco-friendly", "viable"] },
+                            { text: "destructive", meaning: "ซึ่งทำลาย", synonyms: ["damaging", "ruinous"] },
+                        ],
+                        answer: "sustainable",
+                        explanation: "**sustainable** (adj.) หมายถึง ยั่งยืน เป้าหมายคือการเปลี่ยนจากการท่องเที่ยวจำนวนมากไปสู่แนวทางที่มีสติและยั่งยืนมากขึ้น\n* **irresponsible** (adj.) หมายถึง ไม่รับผิดชอบ\n* **exploitative** (adj.) หมายถึง ซึ่งหาประโยชน์โดยมิชอบ\n* **destructive** (adj.) หมายถึง ซึ่งทำลาย",
+                    },
+                    {
+                        question: "By making conscious travel choices, individuals can contribute to the preservation of natural habitats, support local economies, and foster cultural ____ rather than commodification.",
+                        options: [
+                            { text: "homogenization", meaning: "การทำให้เป็นเนื้อเดียวกัน", synonyms: ["uniformity", "standardization"] },
+                            { text: "appreciation", meaning: "การชื่นชม, การเห็นคุณค่า", synonyms: ["admiration", "recognition"] },
+                            { text: "dilution", meaning: "การเจือจาง", synonyms: ["weakening", "attenuation"] },
+                            { text: "erosion", meaning: "การสึกกร่อน", synonyms: ["deterioration", "corrosion"] },
+                        ],
+                        answer: "appreciation",
+                        explanation: "**appreciation** (n.) หมายถึง การชื่นชม, การเห็นคุณค่า โดยการเลือกเดินทางอย่างมีสติ บุคคลสามารถมีส่วนร่วมในการอนุรักษ์ถิ่นที่อยู่ตามธรรมชาติ สนับสนุนเศรษฐกิจท้องถิ่น และส่งเสริมการชื่นชมวัฒนธรรมแทนที่จะเป็นการทำให้เป็นสินค้า\n* **homogenization** (n.) หมายถึง การทำให้เป็นเนื้อเดียวกัน\n* **dilution** (n.) หมายถึง การเจือจาง\n* **erosion** (n.) หมายถึง การสึกกร่อน",
+                    },
+                    {
+                        question: "Ultimately, ethical tourism is not just a niche market but a vital ____ for ensuring the long-term viability of the tourism industry and protecting the planet's diverse treasures for future generations.",
+                        options: [
+                            { text: "detriment", meaning: "ความเสียหาย", synonyms: ["harm", "disadvantage"] },
+                            { text: "burden", meaning: "ภาระ", synonyms: ["load", "responsibility"] },
+                            { text: "imperative", meaning: "สิ่งจำเป็น, คำสั่ง", synonyms: ["necessity", "command"] },
+                            { text: "option", meaning: "ทางเลือก", synonyms: ["choice", "alternative"] },
+                        ],
+                        answer: "imperative",
+                        explanation: "**imperative** (n.) หมายถึง สิ่งจำเป็น, คำสั่ง การท่องเที่ยวอย่างมีจริยธรรมเป็นสิ่งจำเป็นที่สำคัญเพื่อให้แน่ใจว่าอุตสาหกรรมการท่องเที่ยวมีความยั่งยืนในระยะยาว\n* **detriment** (n.) หมายถึง ความเสียหาย\n* **burden** (n.) หมายถึง ภาระ\n* **option** (n.) หมายถึง ทางเลือก",
+                    },
+                ]
+            },
+            {
+                type: "reading",
+                id: "set5_reading8",
+                title: "Reading 8: Private Sector in Space Exploration: A New Era 🚀🌌",
+                passage: "บริษัทเอกชนกำลังมีบทบาทสำคัญในการสำรวจอวกาศ ทำให้เกิดยุคใหม่ของการเดินทางสู่อวกาศ เรามาสำรวจความร่วมมือนี้กัน",
+                questions: [
+                    {
+                        question: "Historically the exclusive ____ of government agencies, space exploration is now witnessing a significant shift with the increasing involvement of private sector companies.",
+                        options: [
+                            { text: "domain", meaning: "อาณาเขต, ขอบเขต (ในที่นี้คือความรับผิดชอบ)", synonyms: ["sphere", "realm"] },
+                            { text: "obstacle", meaning: "อุปสรรค", synonyms: ["hindrance", "barrier"] },
+                            { text: "problem", meaning: "ปัญหา", synonyms: ["difficulty", "issue"] },
+                            { text: "luxury", meaning: "ความฟุ่มเฟือย", synonyms: ["extravagance", "indulgence"] },
+                        ],
+                        answer: "domain",
+                        explanation: "**domain** (n.) หมายถึง อาณาเขต, ขอบเขต การสำรวจอวกาศกำลังเห็นการเปลี่ยนแปลงที่สำคัญด้วยการมีส่วนร่วมที่เพิ่มขึ้นของบริษัทเอกชน ซึ่งในอดีตเป็นอาณาเขตเฉพาะของหน่วยงานรัฐบาล\n* **obstacle** (n.) หมายถึง อุปสรรค\n* **problem** (n.) หมายถึง ปัญหา\n* **luxury** (n.) หมายถึง ความฟุ่มเฟือย",
+                    },
+                    {
+                        question: "Companies like SpaceX, Blue Origin, and Virgin Galactic are leading this new era, developing reusable rockets, advanced spacecraft, and even plans for space ____ and tourism.",
+                        options: [
+                            { text: "destruction", meaning: "การทำลาย", synonyms: ["demolition", "ruin"] },
+                            { text: "stagnation", meaning: "ความซบเซา", synonyms: ["inertia", "inactivity"] },
+                            { text: "colonization", meaning: "การตั้งอาณานิคม", synonyms: ["settlement", "establishment"] },
+                            { text: "isolation", meaning: "ความโดดเดี่ยว", synonyms: ["solitude", "aloneness"] },
+                        ],
+                        answer: "colonization",
+                        explanation: "**colonization** (n.) หมายถึง การตั้งอาณานิคม บริษัทเหล่านี้กำลังนำยุคใหม่นี้ โดยพัฒนาจรวดที่ใช้ซ้ำได้ ยานอวกาศขั้นสูง และแม้แต่แผนสำหรับการตั้งอาณานิคมและการท่องเที่ยวในอวกาศ\n* **destruction** (n.) หมายถึง การทำลาย\n* **stagnation** (n.) หมายถึง ความซบเซา\n* **isolation** (n.) หมายถึง ความโดดเดี่ยว",
+                    },
+                    {
+                        question: "This privatization is driven by the potential for commercial opportunities, reduced costs through innovation, and the ambitious ____ to push the boundaries of human exploration.",
+                        options: [
+                            { text: "reluctance", meaning: "ความไม่เต็มใจ", synonyms: ["hesitation", "unwillingness"] },
+                            { text: "apathy", meaning: "ความไม่แยแส", synonyms: ["indifference", "unconcern"] },
+                            { text: "desire", meaning: "ความปรารถนา", synonyms: ["ambition", "longing"] },
+                            { text: "fear", meaning: "ความกลัว", synonyms: ["dread", "terror"] },
+                        ],
+                        answer: "desire",
+                        explanation: "**desire** (n.) หมายถึง ความปรารถนา การแปรรูปนี้ขับเคลื่อนโดยศักยภาพสำหรับโอกาสทางการค้า การลดต้นทุนผ่านนวัตกรรม และความปรารถนาอันทะเยอทะยานที่จะผลักดันขอบเขตของการสำรวจของมนุษย์\n* **reluctance** (n.) หมายถึง ความไม่เต็มใจ\n* **apathy** (n.) หมายถึง ความไม่แยแส\n* **fear** (n.) หมายถึง ความกลัว",
+                    },
+                    {
+                        question: "However, it also raises concerns about space debris, the ethical ____ of commercializing space, and ensuring equitable access to these new frontiers.",
+                        options: [
+                            { text: "benefits", meaning: "ผลประโยชน์", synonyms: ["advantages", "gains"] },
+                            { text: "opportunities", meaning: "โอกาส", synonyms: ["chances", "prospects"] },
+                            { text: "implications", meaning: "ผลกระทบที่อาจเกิดขึ้น, ความเกี่ยวพัน", synonyms: ["consequences", "ramifications"] },
+                            { text: "solutions", meaning: "ทางออก", synonyms: ["answers", "resolves"] },
+                        ],
+                        answer: "implications",
+                        explanation: "**implications** (n.) หมายถึง ผลกระทบที่อาจเกิดขึ้น, ความเกี่ยวพัน อย่างไรก็ตาม มันยังก่อให้เกิดความกังวลเกี่ยวกับเศษขยะอวกาศ ผลกระทบทางจริยธรรมของการทำให้พื้นที่เป็นเชิงพาณิชย์ และการรับรองการเข้าถึงที่เท่าเทียมกันในพรมแดนใหม่เหล่านี้\n* **benefits** (n.) หมายถึง ผลประโยชน์\n* **opportunities** (n.) หมายถึง โอกาส\n* **solutions** (n.) หมายถึง ทางออก",
+                    },
+                    {
+                        question: "The collaboration between public and private sectors is defining a new chapter in space exploration, promising to accelerate scientific discovery and expand human ____ beyond Earth.",
+                        options: [
+                            { text: "limitations", meaning: "ข้อจำกัด", synonyms: ["restrictions", "constraints"] },
+                            { text: "vulnerability", meaning: "ความเปราะบาง", synonyms: ["weakness", "fragility"] },
+                            { text: "presence", meaning: "การปรากฏตัว, การมีอยู่", synonyms: ["existence", "occurrence"] },
+                            { text: "absence", meaning: "การไม่มีอยู่", synonyms: ["lack", "non-existence"] },
+                        ],
+                        answer: "presence",
+                        explanation: "**presence** (n.) หมายถึง การปรากฏตัว, การมีอยู่ ความร่วมมือระหว่างภาครัฐและเอกชนกำลังกำหนดบทใหม่ในการสำรวจอวกาศ ซึ่งสัญญาว่าจะเร่งการค้นพบทางวิทยาศาสตร์และขยายการปรากฏตัวของมนุษย์นอกโลก\n* **limitations** (n.) หมายถึง ข้อจำกัด\n* **vulnerability** (n.) หมายถึง ความเปราะบาง\n* **absence** (n.) หมายถึง การไม่มีอยู่",
+                    },
+                ]
+            },
+            {
+                type: "reading",
+                id: "set5_reading9",
+                title: "Reading 9: Mental Resilience: Building Strength in Adversity 💪 resilient",
+                passage: "ความยืดหยุ่นทางจิตใจคือความสามารถในการฟื้นตัวจากความยากลำบาก ซึ่งเป็นทักษะสำคัญในการเผชิญหน้ากับความท้าทายของชีวิต เรามาสำรวจวิธีการสร้างความเข้มแข็งนี้กัน",
+                questions: [
+                    {
+                        question: "Mental resilience, the ability to bounce back from adversity and adapt to challenging circumstances, is a crucial ____ for navigating the complexities of modern life.",
+                        options: [
+                            { text: "weakness", meaning: "จุดอ่อน", synonyms: ["flaw", "deficiency"] },
+                            { text: "burden", meaning: "ภาระ", synonyms: ["load", "responsibility"] },
+                            { text: "skill", meaning: "ทักษะ", synonyms: ["ability", "competence"] },
+                            { text: "hindrance", meaning: "อุปสรรค", synonyms: ["obstacle", "impediment"] },
+                        ],
+                        answer: "skill",
+                        explanation: "**skill** (n.) หมายถึง ทักษะ ความยืดหยุ่นทางจิตใจเป็นทักษะที่สำคัญในการรับมือกับความซับซ้อนของชีวิตสมัยใหม่\n* **weakness** (n.) หมายถึง จุดอ่อน\n* **burden** (n.) หมายถึง ภาระ\n* **hindrance** (n.) หมายถึง อุปสรรค",
+                    },
+                    {
+                        question: "It involves a combination of positive coping strategies, a strong sense of self-____, and the capacity to learn from both successes and failures.",
+                        options: [
+                            { text: "doubt", meaning: "ความสงสัย", synonyms: ["uncertainty", "skepticism"] },
+                            { text: "criticism", meaning: "การวิพากษ์วิจารณ์", synonyms: ["fault-finding", "censure"] },
+                            { text: "efficacy", meaning: "ประสิทธิภาพ (ในที่นี้คือ self-efficacy = ความเชื่อมั่นในความสามารถของตนเอง)", synonyms: ["effectiveness", "competence"] },
+                            { text: "pity", meaning: "ความสงสาร", synonyms: ["sympathy", "compassion"] },
+                        ],
+                        answer: "efficacy",
+                        explanation: "**efficacy** (n.) หมายถึง ประสิทธิภาพ (ในที่นี้คือ self-efficacy = ความเชื่อมั่นในความสามารถของตนเอง) ความยืดหยุ่นทางจิตใจเกี่ยวข้องกับการรวมกันของกลยุทธ์การรับมือเชิงบวก ความเชื่อมั่นในความสามารถของตนเอง และความสามารถในการเรียนรู้จากความสำเร็จและความล้มเหลว\n* **doubt** (n.) หมายถึง ความสงสัย\n* **criticism** (n.) หมายถึง การวิพากษ์วิจารณ์\n* **pity** (n.) หมายถึง ความสงสาร",
+                    },
+                    {
+                        question: "Individuals with high mental resilience are better equipped to navigate stress, overcome setbacks, and maintain emotional well-being even in the face of significant ____.",
+                        options: [
+                            { text: "comforts", meaning: "ความสะดวกสบาย", synonyms: ["amenities", "luxuries"] },
+                            { text: "advantages", meaning: "ข้อดี", synonyms: ["benefits", "pros"] },
+                            { text: "adversity", meaning: "ความยากลำบาก, เคราะห์กรรม", synonyms: ["hardship", "misfortune"] },
+                            { text: "opportunities", meaning: "โอกาส", synonyms: ["chances", "prospects"] },
+                        ],
+                        answer: "adversity",
+                        explanation: "**adversity** (n.) หมายถึง ความยากลำบาก, เคราะห์กรรม บุคคลที่มีความยืดหยุ่นทางจิตใจสูงสามารถรับมือกับความเครียด เอาชนะความล้มเหลว และรักษาสุขภาพทางอารมณ์ได้ดีขึ้นแม้เผชิญกับความยากลำบากที่สำคัญ\n* **comforts** (n.) หมายถึง ความสะดวกสบาย\n* **advantages** (n.) หมายถึง ข้อดี\n* **opportunities** (n.) หมายถึง โอกาส",
+                    },
+                    {
+                        question: "Practices such as mindfulness, gratitude, regular physical activity, and nurturing strong social connections can all contribute to building and strengthening mental ____.",
+                        options: [
+                            { text: "vulnerability", meaning: "ความเปราะบาง", synonyms: ["weakness", "fragility"] },
+                            { text: "deterioration", meaning: "การเสื่อมสภาพ", synonyms: ["decline", "decay"] },
+                            { text: "resilience", meaning: "ความยืดหยุ่น, ความสามารถในการฟื้นตัว", synonyms: ["adaptability", "sturdiness"] },
+                            { text: "fragility", meaning: "ความเปราะบาง", synonyms: ["delicacy", "weakness"] },
+                        ],
+                        answer: "resilience",
+                        explanation: "**resilience** (n.) หมายถึง ความยืดหยุ่น, ความสามารถในการฟื้นตัว การฝึกสติ ความกตัญญู การออกกำลังกายเป็นประจำ และการบ่มเพาะความสัมพันธ์ทางสังคมที่แข็งแกร่ง ล้วนสามารถช่วยสร้างและเสริมสร้างความยืดหยุ่นทางจิตใจได้\n* **vulnerability** (n.) หมายถึง ความเปราะบาง\n* **deterioration** (n.) หมายถึง การเสื่อมสภาพ\n* **fragility** (n.) หมายถึง ความเปราะบาง",
+                    },
+                    {
+                        question: "Ultimately, cultivating mental resilience is not just about coping with challenges but about thriving in the face of them, leading to a more fulfilling and purposeful ____.",
+                        options: [
+                            { text: "suffering", meaning: "ความทุกข์ทรมาน", synonyms: ["pain", "distress"] },
+                            { text: "existence", meaning: "การมีอยู่, ชีวิต", synonyms: ["life", "being"] },
+                            { text: "burden", meaning: "ภาระ", synonyms: ["load", "responsibility"] },
+                            { text: "stagnation", meaning: "ความซบเซา", synonyms: ["inertia", "inactivity"] },
+                        ],
+                        answer: "existence",
+                        explanation: "**existence** (n.) หมายถึง การมีอยู่, ชีวิต การบ่มเพาะความยืดหยุ่นทางจิตใจไม่เพียงแต่เกี่ยวกับการรับมือกับความท้าทายเท่านั้น แต่ยังเกี่ยวกับการเจริญเติบโตเมื่อเผชิญกับความท้าทาย ซึ่งนำไปสู่การดำรงชีวิตที่มีความหมายและมีเป้าหมายมากขึ้น\n* **suffering** (n.) หมายถึง ความทุกข์ทรมาน\n* **burden** (n.) หมายถึง ภาระ\n* **stagnation** (n.) หมายถึง ความซบเซา",
+                    },
+                ]
+            },
+            {
+                type: "reading",
+                id: "set5_reading10",
+                title: "Reading 10: Circular Economy: New Business Models for Sustainability ♻️💰",
+                passage: "หลักการของเศรษฐกิจหมุนเวียนกำลังนำไปสู่การพัฒนารูปแบบธุรกิจใหม่ๆ ที่มุ่งเน้นความยั่งยืน เรามาสำรวจตัวอย่างและผลกระทบของมันกัน",
+                questions: [
+                    {
+                        question: "The shift towards a circular economy is not just an environmental imperative but a catalyst for business ____, driving companies to rethink their production and consumption models.",
+                        options: [
+                            { text: "stagnation", meaning: "ความซบเซา", synonyms: ["inertia", "inactivity"] },
+                            { text: "decline", meaning: "การลดลง", synonyms: ["decrease", "reduction"] },
+                            { text: "innovation", meaning: "นวัตกรรม", synonyms: ["novelty", "breakthrough"] },
+                            { text: "regression", meaning: "การถอยหลัง", synonyms: ["decline", "deterioration"] },
+                        ],
+                        answer: "innovation",
+                        explanation: "**innovation** (n.) หมายถึง นวัตกรรม การเปลี่ยนไปสู่เศรษฐกิจหมุนเวียนเป็นตัวเร่งให้นวัตกรรมทางธุรกิจเกิดขึ้น\n* **stagnation** (n.) หมายถึง ความซบเซา\n* **decline** (n.) หมายถึง การลดลง\n* **regression** (n.) หมายถึง การถอยหลัง",
+                    },
+                    {
+                        question: "New business models are emerging that prioritize durability, reuse, repair, and recycling over the traditional 'take-make-dispose' linear ____.",
+                        options: [
+                            { text: "system", meaning: "ระบบ", synonyms: ["methodology", "framework"] },
+                            { text: "chaos", meaning: "ความสับสนวุ่นวาย", synonyms: ["disorder", "anarchy"] },
+                            { text: "randomness", meaning: "ความสุ่ม", synonyms: ["chance", "arbitrariness"] },
+                            { text: "hindrance", meaning: "อุปสรรค", synonyms: ["obstacle", "barrier"] },
+                        ],
+                        answer: "system",
+                        explanation: "**system** (n.) หมายถึง ระบบ รูปแบบธุรกิจใหม่ๆ กำลังเกิดขึ้นที่ให้ความสำคัญกับความทนทาน การนำกลับมาใช้ใหม่ การซ่อมแซม และการรีไซเคิลเหนือระบบเส้นตรงแบบ 'take-make-dispose' แบบดั้งเดิม\n* **chaos** (n.) หมายถึง ความสับสนวุ่นวาย\n* **randomness** (n.) หมายถึง ความสุ่ม\n* **hindrance** (n.) หมายถึง อุปสรรค",
+                    },
+                    {
+                        question: "Companies are adopting 'product-as-a-service' models, where consumers pay for the use of a product rather than its ownership, incentivizing manufacturers to design products for longevity and easy ____.",
+                        options: [
+                            { text: "destruction", meaning: "การทำลาย", synonyms: ["demolition", "ruin"] },
+                            { text: "disposal", meaning: "การกำจัด", synonyms: ["waste", "discard"] },
+                            { text: "maintenance", meaning: "การบำรุงรักษา", synonyms: ["upkeep", "servicing"] },
+                            { text: "deterioration", meaning: "การเสื่อมสภาพ", synonyms: ["decline", "decay"] },
+                        ],
+                        answer: "maintenance",
+                        explanation: "**maintenance** (n.) หมายถึง การบำรุงรักษา บริษัทต่างๆ กำลังนำรูปแบบ 'product-as-a-service' มาใช้ ซึ่งกระตุ้นให้ผู้ผลิตออกแบบผลิตภัณฑ์เพื่ออายุการใช้งานที่ยาวนานและการบำรุงรักษาที่ง่ายดาย\n* **destruction** (n.) หมายถึง การทำลาย\n* **disposal** (n.) หมายถึง การกำจัด\n* **deterioration** (n.) หมายถึง การเสื่อมสภาพ",
+                    },
+                    {
+                        question: "Waste-to-resource initiatives are transforming what was once considered 'trash' into valuable raw materials, fostering new supply chains and reducing reliance on virgin ____.",
+                        options: [
+                            { text: "pollution", meaning: "มลพิษ", synonyms: ["contamination", "filth"] },
+                            { text: "byproducts", meaning: "ผลพลอยได้", synonyms: ["outputs", "residues"] },
+                            { text: "resources", meaning: "ทรัพยากร", synonyms: ["materials", "assets"] },
+                            { text: "problems", meaning: "ปัญหา", synonyms: ["difficulties", "issues"] },
+                        ],
+                        answer: "resources",
+                        explanation: "**resources** (n.) หมายถึง ทรัพยากร โครงการจากขยะสู่ทรัพยากรกำลังเปลี่ยนสิ่งที่เคยถือว่าเป็น \"ขยะ\" ให้เป็นวัตถุดิบที่มีค่า สร้างห่วงโซ่อุปทานใหม่ๆ และลดการพึ่งพาทรัพยากรใหม่ๆ\n* **pollution** (n.) หมายถึง มลพิษ\n* **byproducts** (n.) หมายถึง ผลพลอยได้\n* **problems** (n.) หมายถึง ปัญหา",
+                    },
+                    {
+                        question: "These circular business models not only contribute to environmental sustainability but also offer economic ____, such as cost savings, enhanced brand reputation, and new market opportunities.",
+                        options: [
+                            { text: "detriments", meaning: "ความเสียหาย", synonyms: ["harms", "disadvantages"] },
+                            { text: "obstacles", meaning: "อุปสรรค", synonyms: ["hindrances", "barriers"] },
+                            { text: "benefits", meaning: "ผลประโยชน์", synonyms: ["advantages", "gains"] },
+                            { text: "challenges", meaning: "ความท้าทาย", synonyms: ["difficulties", "problems"] },
+                        ],
+                        answer: "benefits",
+                        explanation: "**benefits** (n.) หมายถึง ผลประโยชน์ รูปแบบธุรกิจหมุนเวียนเหล่านี้ไม่เพียงแต่สนับสนุนความยั่งยืนด้านสิ่งแวดล้อมเท่านั้น แต่ยังให้ผลประโยชน์ทางเศรษฐกิจอีกด้วย\n* **detriments** (n.) หมายถึง ความเสียหาย\n* **obstacles** (n.) หมายถึง อุปสรรค\n* **challenges** (n.) หมายถึง ความท้าทาย",
+                    },
+                ]
+            },
+            {
+                type: "conclusion",
+                title: "สิ้นสุดการท้าทาย 🎉",
+                content: `
+                    <div class="text-section bg-green-100 text-green-800">
+                        <p class="text-lg mb-4">ขอแสดงความยินดีที่คุณทำ Cloze Test Challenge ครบทุกข้อแล้ว! 🥳</p>
+                        <p class="mb-4">หวังว่าคุณจะได้รับความรู้และคำศัพท์ใหม่ๆ ไปใช้ประโยชน์ในการเรียนการสอนนะครับ</p>
+                        <p class="text-xl font-bold mt-6">อย่าลืมนำ App Box นี้ไปปรับใช้กับการสอนบน TikTok, Facebook และ YouTube ให้เข้ากับสไตล์ของคุณนะครับ! หากมีข้อเสนอแนะเพิ่มเติม หรือต้องการ Cloze Test ในหัวข้ออื่นๆ อีก ผมยินดีช่วยเหลือเสมอครับ! 😊</p>
+                    </div>
+                `,
+                buttonText: "กลับไปหน้าแรก 🏠"
+            }
+        ];
+
+        let currentPageIndex = 0;
+        const appTitleElement = document.getElementById('app-title');
+        const pageContentElement = document.getElementById('page-content');
+        const popupOverlay = document.getElementById('popup-overlay');
+        const popupBox = document.getElementById('popup-box');
+        const popupTitle = document.getElementById('popup-title');
+        const popupMeaning = document.getElementById('popup-meaning');
+        const popupSynonyms = document.getElementById('popup-synonyms');
+        const popupCloseButton = document.getElementById('popup-close-button');
+        const loadingIndicator = document.getElementById('loading-indicator');
+
+        // Function to show loading indicator
+        function showLoading() {
+            pageContentElement.innerHTML = ''; // Clear content
+            loadingIndicator.classList.remove('hidden');
+        }
+
+        // Function to hide loading indicator
+        function hideLoading() {
+            loadingIndicator.classList.add('hidden');
+        }
+
+        // Function to render the current page
+        function renderPage() {
+            showLoading(); // Show loading indicator
+            setTimeout(() => { // Simulate a small delay for content loading
+                hideLoading(); // Hide loading indicator
+                const currentPageData = clozeData[currentPageIndex];
+                appTitleElement.textContent = currentPageData.title;
+                let contentHTML = '';
+
+                if (currentPageData.type === "introduction" || currentPageData.type === "conclusion") {
+                    contentHTML = currentPageData.content;
+                    contentHTML += `
+                        <div class="navigation-buttons">
+                            ${currentPageIndex > 0 && currentPageData.type !== "introduction" ? `<button id="prev-button" class="nav-button">⬅️ ก่อนหน้า</button>` : `<button class="nav-button opacity-0 cursor-default" disabled></button>`}
+                            ${currentPageIndex < clozeData.length - 1 ? `<button id="next-button" class="nav-button">${currentPageData.buttonText}</button>` : `<button id="reset-button" class="nav-button">${currentPageData.buttonText}</button>`}
+                        </div>
+                    `;
+                } else if (currentPageData.type === "reading") {
+                    contentHTML = `<div class="reading-passage mb-6 text-gray-700">${currentPageData.passage}</div>`;
+                    currentPageData.questions.forEach((q, qIndex) => {
+                        // Calculate global question number
+                        let globalQuestionNumber = 0;
+                        for (let i = 0; i < currentPageIndex; i++) {
+                            if (clozeData[i].type === "reading") {
+                                globalQuestionNumber += clozeData[i].questions.length;
+                            }
+                        }
+                        globalQuestionNumber += (qIndex + 1);
+
+                        contentHTML += `
+                            <div class="question-card">
+                                <p class="text-lg font-semibold mb-4 text-gray-800">${globalQuestionNumber}. ${q.question}</p>
+                                <div class="options-container">
+                                    ${q.options.map((option, optIndex) => `
+                                        <button class="option-button" data-question-index="${qIndex}" data-option-index="${optIndex}">
+                                            ${String.fromCharCode(65 + optIndex)}. ${option.text}
+                                        </button>
+                                    `).join('')}
+                                </div>
+                                <details class="mt-4">
+                                    <summary>เฉลยและคำอธิบาย</summary>
+                                    <p class="text-gray-700">${q.explanation.replace(/\n/g, '<br>')}</p>
+                                </details>
+                            </div>
+                        `;
+                    });
+                    contentHTML += `
+                        <div class="navigation-buttons">
+                            <button id="prev-button" class="nav-button">⬅️ ก่อนหน้า</button>
+                            <button id="next-button" class="nav-button">ถัดไป ➡️</button>
+                        </div>
+                    `;
+                }
+
+                pageContentElement.innerHTML = contentHTML;
+                attachEventListeners();
+            }, 100); // Small delay
+        }
+
+        // Function to attach event listeners to dynamically created elements
+        function attachEventListeners() {
+            // Option buttons
+            document.querySelectorAll('.option-button').forEach(button => {
+                button.addEventListener('click', (event) => {
+                    const qIndex = parseInt(event.target.dataset.questionIndex);
+                    const optIndex = parseInt(event.target.dataset.optionIndex);
+                    const selectedOption = clozeData[currentPageIndex].questions[qIndex].options[optIndex];
+
+                    popupTitle.textContent = selectedOption.text;
+                    popupMeaning.textContent = `ความหมาย: ${selectedOption.meaning}`;
+                    popupSynonyms.textContent = `คำที่มีความหมายเหมือนกัน: ${selectedOption.synonyms.join(', ')}`;
+                    
+                    popupOverlay.classList.add('visible');
+                });
+            });
+
+            // Navigation buttons
+            const prevButton = document.getElementById('prev-button');
+            const nextButton = document.getElementById('next-button');
+            const resetButton = document.getElementById('reset-button'); // For the conclusion page
+
+            if (prevButton) {
+                prevButton.addEventListener('click', () => {
+                    currentPageIndex = Math.max(0, currentPageIndex - 1);
+                    renderPage();
+                });
+            }
+
+            if (nextButton) {
+                nextButton.addEventListener('click', () => {
+                    currentPageIndex = Math.min(clozeData.length - 1, currentPageIndex + 1);
+                    renderPage();
+                });
+            }
+
+            if (resetButton) {
+                resetButton.addEventListener('click', () => {
+                    currentPageIndex = 0;
+                    renderPage();
+                });
+            }
+        }
+
+        // Popup close button
+        popupCloseButton.addEventListener('click', () => {
+            popupOverlay.classList.remove('visible');
+        });
+
+        // Close popup if clicked outside (optional, but good for UX)
+        popupOverlay.addEventListener('click', (event) => {
+            if (event.target === popupOverlay) {
+                popupOverlay.classList.remove('visible');
+            }
+        });
+
+        // Initial page render
+        document.addEventListener('DOMContentLoaded', renderPage);
+    </script>
+</body>
+</html>

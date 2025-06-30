@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>App Box: โครงสร้าง I'm looking forward to + (noun/gerund)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Kanit', sans-serif;
+            /* === NEW BACKGROUND === */
+            background: linear-gradient(to right top, #e0f2fe, #bae6fd, #7dd3fc, #38bdf8, #0ea5e9);
+        }
+        .app-box {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.7));
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .main-title {
+            background: linear-gradient(45deg, #075985, #0284c7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 700;
+        }
+        .sentence-item {
+            transition: all 0.2s ease-in-out;
+            background-color: rgba(255, 255, 255, 0.7);
+        }
+        .sentence-item:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 8px 20px rgba(2, 132, 199, 0.15);
+            background-color: rgba(255, 255, 255, 1);
+        }
+        /* Modal styles */
+        .modal {
+            transition: opacity 0.3s ease;
+        }
+        .modal.pointer-events-none {
+            transition: opacity 0.3s ease, visibility 0s 0.3s;
+        }
+        .modal-content {
+            transition: transform 0.3s ease;
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center min-h-screen p-4">
+
+    <!-- Main App Box Container -->
+    <div id="app-container" class="app-box w-full max-w-4xl mx-auto p-6 md:p-10">
+        <!-- Header -->
+        <header class="text-center mb-8">
+            <h1 class="main-title text-4xl md:text-5xl font-bold mb-3">โครงสร้าง: "I'm looking forward to..."</h1>
+            <p class="text-gray-700 text-lg">
+                ใช้เพื่อแสดงความคาดหวังหรือความตื่นเต้นเกี่ยวกับอนาคต "to" ในที่นี้เป็นคำบุพบท จึงต้องตามด้วยคำนาม (noun) หรือ gerund (-ing)
+            </p>
+        </header>
+
+        <!-- Sentences List -->
+        <div id="sentences-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <!-- Sentences will be injected here by JavaScript -->
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div id="sentence-modal" class="modal fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center p-4 opacity-0 pointer-events-none invisible">
+        <div id="modal-content" class="modal-content bg-white rounded-xl shadow-2xl w-full max-w-lg p-6 relative transform scale-95">
+            <!-- Modal Header -->
+            <div class="border-b pb-3 mb-4">
+                 <h3 id="modal-sentence" class="text-xl font-bold text-sky-700"></h3>
+                 <p id="modal-translation" class="text-gray-500"></p>
+            </div>
+           
+            <!-- Modal Body -->
+            <div>
+                <div class="mb-4">
+                    <h4 class="font-semibold text-lg text-gray-800 mb-2">ตัวอย่างการใช้งานในสถานการณ์ต่างๆ:</h4>
+                    <ul id="modal-usage" class="list-disc list-inside text-gray-700 space-y-2">
+                        <!-- Usage examples will be injected here -->
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold text-lg text-gray-800 mb-2">คำที่มักใช้ร่วมกัน (Collocations):</h4>
+                    <div id="modal-collocations" class="flex flex-wrap gap-2">
+                        <!-- Collocation tags will be injected here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Close Button -->
+            <button id="close-modal-btn" class="absolute top-4 right-4 text-gray-400 hover:text-gray-800 transition">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+        </div>
+    </div>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // --- DATA ---
+            const sentencesData = [
+                { eng: "I'm looking forward to the weekend.", thai: "ฉันตั้งตารอคอยวันหยุดสุดสัปดาห์ (noun)", usage: ["**เมื่อคุยกับเพื่อนร่วมงานวันศุกร์:** 'It's been a long week. I'm really looking forward to the weekend.'"], collocations: ["the weekend", "a long week", "relax and unwind"] },
+                { eng: "I'm looking forward to meeting you.", thai: "ฉันตั้งตารอคอยที่จะได้พบคุณ (gerund)", usage: ["**ในอีเมลธุรกิจก่อนการนัดพบ:** 'Thank you for scheduling the meeting. I'm looking forward to meeting you on Tuesday.'"], collocations: ["meeting you", "in person", "our appointment"] },
+                { eng: "I'm looking forward to my vacation.", thai: "ฉันตั้งตารอคอยวันหยุดพักร้อนของฉัน (noun)", usage: ["**เมื่อรู้สึกเหนื่อยจากงาน:** 'I just need a break. I'm looking forward to my vacation next month.'"], collocations: ["my vacation", "need a break", "counting the days"] },
+                { eng: "I'm looking forward to seeing the new movie.", thai: "ฉันตั้งตารอที่จะได้ดูหนังเรื่องใหม่ (gerund)", usage: ["**เมื่อตัวอย่างหนังเรื่องใหม่ออก:** 'The trailer looks incredible! I'm looking forward to seeing the new movie.'"], collocations: ["seeing the movie", "opening night", "heard great things"] },
+                { eng: "I'm looking forward to your party.", thai: "ฉันตั้งตารอปาร์ตี้ของคุณนะ (noun)", usage: ["**เมื่อตอบรับคำเชิญ:** 'Thanks for the invitation! I'm looking forward to your party.'"], collocations: ["your party", "thanks for the invite", "it's going to be fun"] },
+                { eng: "I'm looking forward to hearing from you soon.", thai: "ฉันหวังว่าจะได้รับการติดต่อจากคุณเร็วๆ นี้ (gerund)", usage: ["**ตอนท้ายของอีเมลสมัครงาน:** 'I believe my skills are a great fit. I'm looking forward to hearing from you soon.'"], collocations: ["hearing from you", "awaiting your reply", "best regards"] },
+                { eng: "I'm looking forward to our trip to Japan.", thai: "ฉันตั้งตารอทริปญี่ปุ่นของเรา (noun)", usage: ["**เมื่อกำลังวางแผนเที่ยวกับเพื่อน:** 'I've already started packing! I'm so looking forward to our trip to Japan.'"], collocations: ["our trip", "itinerary", "so excited"] },
+                { eng: "I'm looking forward to starting my new job.", thai: "ฉันตั้งตารอที่จะเริ่มงานใหม่ (gerund)", usage: ["**ก่อนวันเริ่มงานวันแรก:** 'I'm a bit nervous but mostly just looking forward to starting my new job.'"], collocations: ["starting my job", "a new challenge", "a fresh start"] },
+                { eng: "I'm looking forward to the concert tonight.", thai: "ฉันตั้งตารอคอนเสิร์ตคืนนี้ (noun)", usage: ["**เมื่อส่งข้อความหาเพื่อนก่อนไปคอนเสิร์ต:** 'Are you ready? I'm looking forward to the concert tonight!'"], collocations: ["the concert", "favorite band", "see you at the venue"] },
+                { eng: "I'm looking forward to learning how to ski.", thai: "ฉันตั้งตารอที่จะเรียนสกี (gerund)", usage: ["**ก่อนไปทริปสกีครั้งแรก:** 'I hope I don't fall too much! I'm looking forward to learning how to ski.'"], collocations: ["learning how to", "first time skiing", "hit the slopes"] },
+                { eng: "I'm looking forward to your visit.", thai: "ฉันตั้งตารอการมาเยือนของคุณนะ (noun)", usage: ["**เมื่อพ่อแม่จะมาเยี่ยม:** 'The guest room is all ready. I'm looking forward to your visit.'"], collocations: ["your visit", "it's been too long", "can't wait to have you"] },
+                { eng: "I'm looking forward to trying that new restaurant.", thai: "ฉันตั้งตารอที่จะได้ลองร้านอาหารเปิดใหม่ร้านนั้น (gerund)", usage: ["**เมื่อวางแผนไปทานอาหารเย็น:** 'I've heard the food is amazing. I'm looking forward to trying that new restaurant.'"], collocations: ["trying the restaurant", "check it out", "make a reservation"] },
+                { eng: "I'm looking forward to the summer holidays.", thai: "ฉันตั้งตารอวันหยุดฤดูร้อน (noun)", usage: ["**เมื่อใกล้ปิดเทอม:** 'No more exams! I'm looking forward to the summer holidays.'"], collocations: ["summer holidays", "school's out", "summer break"] },
+                { eng: "I'm looking forward to working with you.", thai: "ฉันตั้งตารอที่จะได้ร่วมงานกับคุณ (gerund)", usage: ["**เมื่อเริ่มโปรเจกต์ใหม่กับเพื่อนร่วมทีม:** 'I think our skills complement each other well. I'm looking forward to working with you.'"], collocations: ["working with you", "a great team", "achieve great things"] },
+                { eng: "I'm looking forward to his arrival.", thai: "ฉันตั้งตารอการมาถึงของเขา (noun)", usage: ["**เมื่อไปรอรับคนที่สนามบิน:** 'His flight should be landing any minute. I'm looking forward to his arrival.'"], collocations: ["his arrival", "airport pickup", "welcome home"] },
+                { eng: "I'm looking forward to celebrating your graduation.", thai: "ฉันตั้งตารอที่จะได้ฉลองการรับปริญญาของคุณ (gerund)", usage: ["**ในการ์ดแสดงความยินดี:** 'All your hard work has paid off! I'm looking forward to celebrating your graduation.'"], collocations: ["celebrating your graduation", "so proud of you", "big achievement"] },
+                { eng: "I'm looking forward to a relaxing evening.", thai: "ฉันตั้งตารอคอยยามเย็นที่ผ่อนคลาย (noun)", usage: ["**หลังจากวันที่วุ่นวาย:** 'I just want a quiet night in. I'm looking forward to a relaxing evening.'"], collocations: ["a relaxing evening", "unwind", "put my feet up"] },
+                { eng: "I'm looking forward to moving into our new house.", thai: "เราตั้งตารอที่จะได้ย้ายเข้าบ้านใหม่ของเรา (gerund)", usage: ["**หลังจากได้กุญแจบ้าน:** 'We can finally start unpacking! I'm looking forward to moving into our new house.'"], collocations: ["moving into", "our new home", "making it our own"] },
+                { eng: "I'm looking forward to Christmas.", thai: "ฉันตั้งตารอวันคริสต์มาส (noun)", usage: ["**เมื่อเริ่มเข้าสู่เดือนธันวาคม:** 'I love the festive spirit. I'm really looking forward to Christmas this year.'"], collocations: ["Christmas", "holiday season", "family time"] },
+                { eng: "I'm looking forward to visiting my family.", thai: "ฉันตั้งตารอที่จะได้ไปเยี่ยมครอบครัว (gerund)", usage: ["**เมื่อไม่ได้เจอกันนาน:** 'It's been six months. I'm looking forward to visiting my family.'"], collocations: ["visiting my family", "going back home", "can't wait to see them"] },
+                { eng: "I'm looking forward to your reply.", thai: "ฉันตั้งตารอคำตอบของคุณ (noun)", usage: ["**ตอนท้ายอีเมลที่ต้องการคำตอบ:** 'Please review the proposal at your convenience. I look forward to your reply.'"], collocations: ["your reply", "your feedback", "get back to me"] },
+                { eng: "I'm looking forward to having more free time.", thai: "ฉันตั้งตารอที่จะได้มีเวลาว่างมากขึ้น (gerund)", usage: ["**เมื่อโปรเจกต์ใหญ่ใกล้เสร็จ:** 'After this is done, my schedule will clear up. I'm looking forward to having more free time.'"], collocations: ["having free time", "less work", "time for hobbies"] },
+                { eng: "I'm looking forward to the new season of my favorite show.", thai: "ฉันตั้งตารอซีซั่นใหม่ของรายการโปรด (noun)", usage: ["**เมื่อมีประกาศวันฉาย:** 'Finally! I'm looking forward to the new season of Stranger Things.'"], collocations: ["the new season", "favorite show", "binge-watch"] },
+                { eng: "I'm looking forward to getting my driver's license.", thai: "ฉันตั้งตารอที่จะได้รับใบขับขี่ (gerund)", usage: ["**หลังจากสอบผ่าน:** 'No more taking the bus for me! I'm looking forward to getting my driver's license.'"], collocations: ["getting my license", "freedom", "first car"] },
+                { eng: "I'm looking forward to a change of scenery.", thai: "ฉันตั้งตารอคอยการเปลี่ยนบรรยากาศ (noun)", usage: ["**เมื่อรู้สึกจำเจ:** 'I've been stuck in the office all week. I'm looking forward to a change of scenery this weekend.'"], collocations: ["a change of scenery", "get away", "something different"] },
+                { eng: "I'm looking forward to joining the book club.", thai: "ฉันตั้งตารอที่จะได้เข้าร่วมชมรมหนังสือ (gerund)", usage: ["**หลังจากสมัครชมรม:** 'The first meeting is next week. I'm looking forward to joining the book club.'"], collocations: ["joining the club", "meet new people", "discuss books"] },
+                { eng: "I'm looking forward to our next meeting.", thai: "ผมตั้งตารอการประชุมครั้งต่อไปของเรา (noun)", usage: ["**เมื่อจบการประชุม:** 'This was a productive meeting. I'm looking forward to our next meeting.'"], collocations: ["our next meeting", "follow up", "see you next time"] },
+                { eng: "I'm looking forward to hearing all about your trip.", thai: "ฉันตั้งตารอที่จะได้ฟังเรื่องราวทั้งหมดเกี่ยวกับทริปของเธอ (gerund)", usage: ["**เมื่อเพื่อนกลับจากเที่ยว:** 'Welcome back! I'm looking forward to hearing all about your trip.'"], collocations: ["hearing all about", "welcome back", "show me pictures"] },
+                { eng: "I'm looking forward to a fresh start.", thai: "ฉันตั้งตารอคอยการเริ่มต้นใหม่ (noun)", usage: ["**เมื่อย้ายไปเมืองใหม่:** 'New city, new job, new life. I'm looking forward to a fresh start.'"], collocations: ["a fresh start", "a new beginning", "a clean slate"] },
+                { eng: "I'm looking forward to becoming a father.", thai: "ผมตั้งตารอที่จะได้เป็นพ่อคน (gerund)", usage: ["**เมื่อภรรยาตั้งครรภ์:** 'I'm reading all the books and preparing the nursery. I'm so looking forward to becoming a father.'"], collocations: ["becoming a father", "expecting a baby", "start a family"] },
+            ];
+
+
+            // --- ELEMENTS ---
+            const sentencesGrid = document.getElementById('sentences-grid');
+            const modal = document.getElementById('sentence-modal');
+            const modalContent = document.getElementById('modal-content');
+            
+            const modalSentence = document.getElementById('modal-sentence');
+            const modalTranslation = document.getElementById('modal-translation');
+            const modalUsage = document.getElementById('modal-usage');
+            const modalCollocations = document.getElementById('modal-collocations');
+
+            // --- FUNCTIONS ---
+            
+            function displaySentences() {
+                sentencesGrid.innerHTML = ''; 
+                sentencesData.forEach((data, index) => {
+                    const item = document.createElement('div');
+                    item.className = 'sentence-item cursor-pointer p-4 rounded-lg shadow-sm border border-gray-200';
+                    item.dataset.index = index;
+                    
+                    const engText = document.createElement('p');
+                    engText.className = 'font-semibold text-sky-800 pointer-events-none';
+                    engText.textContent = data.eng;
+                    
+                    const thaiText = document.createElement('p');
+                    thaiText.className = 'text-gray-600 text-sm pointer-events-none';
+                    thaiText.textContent = `(${data.thai})`;
+                    
+                    item.appendChild(engText);
+                    item.appendChild(thaiText);
+                    
+                    sentencesGrid.appendChild(item);
+                });
+            }
+
+            function openModal(index) {
+                const data = sentencesData[index];
+                
+                modalSentence.textContent = data.eng;
+                modalTranslation.textContent = data.thai;
+
+                modalUsage.innerHTML = '';
+                data.usage.forEach(use => {
+                    const li = document.createElement('li');
+                    li.innerHTML = use.replace(/\*\*(.*?)\*\*/g, '<strong class="font-semibold text-gray-800">$1</strong>');
+                    modalUsage.appendChild(li);
+                });
+
+                modalCollocations.innerHTML = '';
+                data.collocations.forEach(collocation => {
+                    const tag = document.createElement('span');
+                    tag.className = 'bg-sky-100 text-sky-800 text-sm font-medium px-3 py-1 rounded-full';
+                    tag.textContent = collocation;
+                    modalCollocations.appendChild(tag);
+                });
+                
+                modal.classList.remove('opacity-0', 'pointer-events-none', 'invisible');
+                modalContent.classList.remove('scale-95');
+                modalContent.classList.add('scale-100');
+            }
+
+            function closeModal() {
+                modal.classList.add('opacity-0');
+                modalContent.classList.add('scale-95');
+                setTimeout(() => {
+                    modal.classList.add('pointer-events-none', 'invisible');
+                }, 300); 
+            }
+
+            // --- REBUILT EVENT LISTENERS ---
+
+            document.body.addEventListener('click', (e) => {
+                const sentenceItem = e.target.closest('.sentence-item');
+                const closeButton = e.target.closest('#close-modal-btn');
+                const modalContentArea = e.target.closest('#modal-content');
+                const modalIsVisible = !modal.classList.contains('invisible');
+
+                if (sentenceItem) {
+                    const index = sentenceItem.dataset.index;
+                    openModal(index);
+                    return;
+                }
+
+                if (closeButton) {
+                    closeModal();
+                    return;
+                }
+
+                if (modalIsVisible && !modalContentArea) {
+                    closeModal();
+                    return;
+                }
+            });
+
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape' && !modal.classList.contains('invisible')) {
+                    closeModal();
+                }
+            });
+
+            // --- INITIALIZATION ---
+            displaySentences();
+        });
+    </script>
+
+</body>
+</html>

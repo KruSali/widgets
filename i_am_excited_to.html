@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>App Box: โครงสร้าง I'm excited to + (verb)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Kanit', sans-serif;
+            /* === NEW BACKGROUND === */
+            background: linear-gradient(to right top, #fdf2f8, #fce7f3, #fbcfe8, #f9a8d4, #f472b6);
+        }
+        .app-box {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.7));
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .main-title {
+            /* === EDITED: Changed from gradient to solid color for clarity === */
+            color: #c026d3;
+            font-weight: 700;
+        }
+        .sentence-item {
+            transition: all 0.2s ease-in-out;
+            background-color: rgba(255, 255, 255, 0.7);
+        }
+        .sentence-item:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 8px 20px rgba(192, 38, 211, 0.15);
+            background-color: rgba(255, 255, 255, 1);
+        }
+        /* Modal styles */
+        .modal {
+            transition: opacity 0.3s ease;
+        }
+        .modal.pointer-events-none {
+            transition: opacity 0.3s ease, visibility 0s 0.3s;
+        }
+        .modal-content {
+            transition: transform 0.3s ease;
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center min-h-screen p-4">
+
+    <!-- Main App Box Container -->
+    <div id="app-container" class="app-box w-full max-w-4xl mx-auto p-6 md:p-10">
+        <!-- Header -->
+        <header class="text-center mb-8">
+            <h1 class="main-title text-4xl md:text-5xl font-bold mb-3">โครงสร้าง: "I'm excited to..."</h1>
+            <p class="text-gray-700 text-lg">
+                ใช้เพื่อแสดงความกระตือรือร้นหรือความคาดหวังเกี่ยวกับบางสิ่งที่จะเกิดขึ้นในอนาคต สื่อถึงความรู้สึกกระตือรือร้นและความคาดหวังในเชิงบวก
+            </p>
+        </header>
+
+        <!-- Sentences List -->
+        <div id="sentences-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <!-- Sentences will be injected here by JavaScript -->
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div id="sentence-modal" class="modal fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center p-4 opacity-0 pointer-events-none invisible">
+        <div id="modal-content" class="modal-content bg-white rounded-xl shadow-2xl w-full max-w-lg p-6 relative transform scale-95">
+            <!-- Modal Header -->
+            <div class="border-b pb-3 mb-4">
+                 <h3 id="modal-sentence" class="text-xl font-bold text-fuchsia-700"></h3>
+                 <p id="modal-translation" class="text-gray-500"></p>
+            </div>
+           
+            <!-- Modal Body -->
+            <div>
+                <div class="mb-4">
+                    <h4 class="font-semibold text-lg text-gray-800 mb-2">ตัวอย่างการใช้งานในสถานการณ์ต่างๆ:</h4>
+                    <ul id="modal-usage" class="list-disc list-inside text-gray-700 space-y-2">
+                        <!-- Usage examples will be injected here -->
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold text-lg text-gray-800 mb-2">คำที่มักใช้ร่วมกัน (Collocations):</h4>
+                    <div id="modal-collocations" class="flex flex-wrap gap-2">
+                        <!-- Collocation tags will be injected here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Close Button -->
+            <button id="close-modal-btn" class="absolute top-4 right-4 text-gray-400 hover:text-gray-800 transition">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+        </div>
+    </div>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // --- DATA ---
+            const sentencesData = [
+                { eng: "I'm excited to start my new job.", thai: "ฉันตื่นเต้นที่จะเริ่มงานใหม่ของฉัน", usage: ["**เมื่อคุยกับเพื่อน:** 'I can't wait for Monday! I'm so excited to start my new job.'"], collocations: ["start a new job", "a new chapter", "looking forward to"] },
+                { eng: "I'm excited to see you next week.", thai: "ฉันตื่นเต้นที่จะได้เจอคุณในสัปดาห์หน้า", usage: ["**ตอนวางสาย:** 'Okay, see you then. I'm excited to see you next week!'"], collocations: ["excited to see you", "can't wait to see you", "counting down the days"] },
+                { eng: "I'm excited to travel to Japan.", thai: "ฉันตื่นเต้นที่จะได้เดินทางไปญี่ปุ่น", usage: ["**เมื่อแผนการเดินทางได้รับการยืนยัน:** 'I just booked the tickets! I'm so excited to travel to Japan.'"], collocations: ["travel to", "go on a trip", "a dream destination"] },
+                { eng: "I'm excited to learn something new.", thai: "ฉันตื่นเต้นที่จะได้เรียนรู้สิ่งใหม่ๆ", usage: ["**เมื่อลงทะเบียนเรียนคอร์สใหม่:** 'The class starts tomorrow. I'm excited to learn something new.'"], collocations: ["learn something new", "a new skill", "expand my knowledge"] },
+                { eng: "I'm excited to meet your family.", thai: "ฉันตื่นเต้นที่จะได้พบครอบครัวของคุณ", usage: ["**เมื่อคนรักจะพาไปเจอครอบครัว:** 'A little nervous, but mostly, I'm excited to meet your family.'"], collocations: ["meet the family", "a big step", "make a good impression"] },
+                { eng: "I'm excited to watch the final match.", thai: "ฉันตื่นเต้นที่จะได้ดูการแข่งขันรอบชิงชนะเลิศ", usage: ["**เมื่อทีมโปรดเข้ารอบชิง:** 'It's going to be an intense game. I'm excited to watch the final match.'"], collocations: ["the final match", "championship game", "rooting for my team"] },
+                { eng: "I'm excited to hear your presentation.", thai: "ฉันตื่นเต้นที่จะได้ฟังการนำเสนอของคุณ", usage: ["**เมื่อให้กำลังใจเพื่อนร่วมงาน:** 'You've worked so hard on this. I'm excited to hear your presentation.'"], collocations: ["hear your presentation", "see your work", "I'm sure you'll do great"] },
+                { eng: "I'm excited to work with you on this project.", thai: "ฉันตื่นเต้นที่จะได้ร่วมงานกับคุณในโครงการนี้", usage: ["**เมื่อเริ่มต้นโปรเจกต์ใหม่:** 'I think we'll make a great team. I'm excited to work with you.'"], collocations: ["work with you", "collaborate on", "a great partnership"] },
+                { eng: "I'm excited to try the new restaurant.", thai: "ฉันตื่นเต้นที่จะได้ลองร้านอาหารเปิดใหม่", usage: ["**เมื่อวางแผนไปกินข้าว:** 'Have you seen the reviews? I'm excited to try that new restaurant downtown.'"], collocations: ["try a new restaurant", "check out a place", "heard good things"] },
+                { eng: "I'm excited to move into my new apartment.", thai: "ฉันตื่นเต้นที่จะได้ย้ายเข้าอพาร์ตเมนต์ใหม่ของฉัน", usage: ["**เมื่อได้รับกุญแจห้อง:** 'It's finally happening! I'm so excited to move into my new apartment this weekend.'"], collocations: ["move into a new place", "my own space", "unpacking"] },
+                { eng: "I'm excited to celebrate your birthday.", thai: "ฉันตื่นเต้นที่จะได้ฉลองวันเกิดของคุณ", usage: ["**เมื่อได้รับเชิญไปงานวันเกิด:** 'Of course I'll be there! I'm excited to celebrate your birthday with you.'"], collocations: ["celebrate your birthday", "birthday party", "many happy returns"] },
+                { eng: "I'm excited to go to the concert.", thai: "ฉันตื่นเต้นที่จะได้ไปคอนเสิร์ต", usage: ["**เมื่อมีตั๋วในมือ:** 'I've been waiting for this for months. I'm so excited to go to the concert!'"], collocations: ["go to a concert", "see them live", "front row seats"] },
+                { eng: "I'm excited to find out what happens next.", thai: "ฉันตื่นเต้นที่จะได้รู้ว่าจะเกิดอะไรขึ้นต่อไป", usage: ["**เมื่อดูซีรีส์ตอนจบแบบทิ้งปม:** 'What a cliffhanger! I'm excited to find out what happens next season.'"], collocations: ["what happens next", "the next chapter", "on the edge of my seat"] },
+                { eng: "I'm excited to announce our new product.", thai: "เราตื่นเต้นที่จะได้ประกาศผลิตภัณฑ์ใหม่ของเรา", usage: ["**ในการเปิดตัวผลิตภัณฑ์:** 'After years of development, we are incredibly excited to announce our new product.'"], collocations: ["announce a new product", "product launch", "unveil our latest"] },
+                { eng: "I'm excited to begin this new chapter of my life.", thai: "ฉันตื่นเต้นที่จะได้เริ่มต้นบทใหม่ของชีวิต", usage: ["**หลังเรียนจบหรือเปลี่ยนงาน:** 'It's a little scary, but I'm excited to begin this new chapter of my life.'"], collocations: ["a new chapter", "a fresh start", "the next phase"] },
+                { eng: "I'm excited to visit the museum.", thai: "ฉันตื่นเต้นที่จะได้ไปพิพิธภัณฑ์", usage: ["**เมื่อวางแผนเที่ยวชมเมือง:** 'There's a special exhibition on. I'm excited to visit the museum.'"], collocations: ["visit the museum", "see the exhibits", "a cultural trip"] },
+                { eng: "I'm excited to join the club.", thai: "ฉันตื่นเต้นที่จะได้เข้าร่วมชมรม", usage: ["**หลังจากสมัครชมรม:** 'My application was accepted! I'm excited to join the book club.'"], collocations: ["join a club", "become a member", "meet new people"] },
+                { eng: "I'm excited to read the next book in the series.", thai: "ฉันตื่นเต้นที่จะได้อ่านหนังสือเล่มต่อไปในชุดนี้", usage: ["**เมื่อเพิ่งอ่านเล่มล่าสุดจบ:** 'That ending was amazing! I'm so excited to read the next book.'"], collocations: ["the next book", "a book series", "can't put it down"] },
+                { eng: "I'm excited to show you what I've been working on.", thai: "ฉันตื่นเต้นที่จะได้แสดงให้คุณเห็นสิ่งที่ฉันทำอยู่", usage: ["**เมื่อทำโปรเจกต์ส่วนตัวเสร็จ:** 'It's finally ready. I'm excited to show you what I've been working on.'"], collocations: ["show you what I've made", "reveal the project", "get your feedback"] },
+                { eng: "I'm excited to have you as a guest.", thai: "เราตื่นเต้นที่จะได้มีคุณเป็นแขก", usage: ["**เมื่อต้อนรับเพื่อนมาที่บ้าน:** 'Make yourself at home. We're so excited to have you as a guest.'"], collocations: ["have you as a guest", "welcome you", "our guest"] },
+                { eng: "I'm excited to see how this turns out.", thai: "ฉันตื่นเต้นที่จะได้เห็นว่าผลลัพธ์จะเป็นอย่างไร", usage: ["**เมื่อเริ่มทดลองอะไรใหม่ๆ:** 'It's a bold experiment. I'm excited to see how this turns out.'"], collocations: ["see how it turns out", "the end result", "fingers crossed"] },
+                { eng: "I'm excited to use my new camera.", thai: "ฉันตื่นเต้นที่จะได้ใช้กล้องตัวใหม่ของฉัน", usage: ["**หลังจากเพิ่งซื้อกล้อง:** 'The image quality is supposed to be amazing. I'm excited to use my new camera.'"], collocations: ["use my new camera", "try it out", "take some shots"] },
+                { eng: "I'm excited to go on vacation.", thai: "ฉันตื่นเต้นที่จะได้ไปเที่ยวพักร้อน", usage: ["**วันสุดท้ายของการทำงานก่อนหยุดยาว:** 'Just a few more hours! I'm so excited to go on vacation.'"], collocations: ["go on vacation", "take a break", "holiday mode"] },
+                { eng: "I'm excited to collaborate with your company.", thai: "เราตื่นเต้นที่จะได้ร่วมมือกับบริษัทของคุณ", usage: ["**ในการประชุมทางธุรกิจ:** 'We believe this partnership will be very fruitful. We're excited to collaborate with your company.'"], collocations: ["collaborate with", "work together", "a new partnership"] },
+                { eng: "I'm excited to taste your cooking.", thai: "ฉันตื่นเต้นที่จะได้ชิมฝีมือทำอาหารของคุณ", usage: ["**เมื่อได้รับเชิญไปทานอาหารเย็น:** 'It smells delicious! I'm excited to taste your cooking.'"], collocations: ["taste your cooking", "smells amazing", "can't wait to eat"] },
+                { eng: "I'm excited to perform on stage.", thai: "ฉันตื่นเต้นที่จะได้แสดงบนเวที", usage: ["**ก่อนการแสดง:** 'The audience is huge tonight! I'm a bit nervous, but so excited to perform on stage.'"], collocations: ["perform on stage", "the show", "stage fright"] },
+                { eng: "I'm excited to welcome our new team members.", thai: "เราตื่นเต้นที่จะได้ต้อนรับสมาชิกทีมใหม่ของเรา", usage: ["**ในการประชุมทีม:** 'This week, we have two new starters. We're excited to welcome our new team members.'"], collocations: ["welcome new members", "join the team", "a warm welcome"] },
+                { eng: "I'm excited to attend the workshop.", thai: "ฉันตื่นเต้นที่จะได้เข้าร่วมเวิร์กช็อป", usage: ["**เมื่อลงทะเบียนเรียนรู้ทักษะใหม่:** 'The topic is exactly what I need. I'm excited to attend the workshop.'"], collocations: ["attend a workshop", "a training session", "learn new things"] },
+                { eng: "I'm excited to redecorate my home.", thai: "ฉันตื่นเต้นที่จะได้ตกแต่งบ้านใหม่", usage: ["**เมื่อมีแผนจะปรับปรุงบ้าน:** 'I've been saving up for this. I'm excited to redecorate my home.'"], collocations: ["redecorate my home", "home makeover", "new look"] },
+                { eng: "I'm excited to share some good news with you.", thai: "ฉันตื่นเต้นที่จะได้แบ่งปันข่าวดีกับคุณ", usage: ["**เมื่อต้องการประกาศข่าวดี:** 'Are you sitting down? I'm excited to share some good news with you!'"], collocations: ["share good news", "I've got news", "you won't believe this"] },
+            ];
+
+
+            // --- ELEMENTS ---
+            const sentencesGrid = document.getElementById('sentences-grid');
+            const modal = document.getElementById('sentence-modal');
+            const modalContent = document.getElementById('modal-content');
+            
+            const modalSentence = document.getElementById('modal-sentence');
+            const modalTranslation = document.getElementById('modal-translation');
+            const modalUsage = document.getElementById('modal-usage');
+            const modalCollocations = document.getElementById('modal-collocations');
+
+            // --- FUNCTIONS ---
+            
+            function displaySentences() {
+                sentencesGrid.innerHTML = ''; 
+                sentencesData.forEach((data, index) => {
+                    const item = document.createElement('div');
+                    item.className = 'sentence-item cursor-pointer p-4 rounded-lg shadow-sm border border-gray-200';
+                    item.dataset.index = index;
+                    
+                    const engText = document.createElement('p');
+                    engText.className = 'font-semibold text-fuchsia-800 pointer-events-none';
+                    engText.textContent = data.eng;
+                    
+                    const thaiText = document.createElement('p');
+                    thaiText.className = 'text-gray-600 text-sm pointer-events-none';
+                    thaiText.textContent = `(${data.thai})`;
+                    
+                    item.appendChild(engText);
+                    item.appendChild(thaiText);
+                    
+                    sentencesGrid.appendChild(item);
+                });
+            }
+
+            function openModal(index) {
+                const data = sentencesData[index];
+                
+                modalSentence.textContent = data.eng;
+                modalTranslation.textContent = data.thai;
+
+                modalUsage.innerHTML = '';
+                data.usage.forEach(use => {
+                    const li = document.createElement('li');
+                    li.innerHTML = use.replace(/\*\*(.*?)\*\*/g, '<strong class="font-semibold text-gray-800">$1</strong>');
+                    modalUsage.appendChild(li);
+                });
+
+                modalCollocations.innerHTML = '';
+                data.collocations.forEach(collocation => {
+                    const tag = document.createElement('span');
+                    tag.className = 'bg-fuchsia-100 text-fuchsia-800 text-sm font-medium px-3 py-1 rounded-full';
+                    tag.textContent = collocation;
+                    modalCollocations.appendChild(tag);
+                });
+                
+                modal.classList.remove('opacity-0', 'pointer-events-none', 'invisible');
+                modalContent.classList.remove('scale-95');
+                modalContent.classList.add('scale-100');
+            }
+
+            function closeModal() {
+                modal.classList.add('opacity-0');
+                modalContent.classList.add('scale-95');
+                setTimeout(() => {
+                    modal.classList.add('pointer-events-none', 'invisible');
+                }, 300); 
+            }
+
+            // --- REBUILT EVENT LISTENERS ---
+
+            document.body.addEventListener('click', (e) => {
+                const sentenceItem = e.target.closest('.sentence-item');
+                const closeButton = e.target.closest('#close-modal-btn');
+                const modalContentArea = e.target.closest('#modal-content');
+                const modalIsVisible = !modal.classList.contains('invisible');
+
+                if (sentenceItem) {
+                    const index = sentenceItem.dataset.index;
+                    openModal(index);
+                    return;
+                }
+
+                if (closeButton) {
+                    closeModal();
+                    return;
+                }
+
+                if (modalIsVisible && !modalContentArea) {
+                    closeModal();
+                    return;
+                }
+            });
+
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape' && !modal.classList.contains('invisible')) {
+                    closeModal();
+                }
+            });
+
+            // --- INITIALIZATION ---
+            displaySentences();
+        });
+    </script>
+
+</body>
+</html>

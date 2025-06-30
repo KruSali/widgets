@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mr. Vocab - The Article Academy v2</title>
+    <title>Mr. Vocab - The Article Academy (ฉบับละเอียด)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -34,13 +34,13 @@
             transition: all 0.2s ease-in-out;
         }
         .quiz-choice-btn.correct {
-            background-color: #22c55e; /* green-500 */
+            background-color: #22c55e;
             color: white;
             transform: scale(1.05);
             border-color: #16a34a;
         }
         .quiz-choice-btn.incorrect {
-            background-color: #ef4444; /* red-500 */
+            background-color: #ef4444;
             color: white;
             border-color: #dc2626;
         }
@@ -56,6 +56,9 @@
             transform: scale(0.95);
             pointer-events: none;
         }
+        li > span {
+            display: block;
+        }
     </style>
 </head>
 <body class="antialiased text-gray-800">
@@ -64,7 +67,7 @@
 
         <header class="text-center mb-8">
             <h1 class="text-4xl md:text-5xl font-bold font-poppins text-sky-800">The Article Academy</h1>
-            <p class="text-lg text-sky-700 mt-2">โรงเรียนสอนการใช้ A, An, The (พร้อมเฉลยอธิบาย)</p>
+            <p class="text-lg text-sky-700 mt-2">โรงเรียนสอนการใช้ A, An, The (ฉบับละเอียดพิเศษ)</p>
         </header>
 
         <nav class="flex flex-wrap justify-center bg-sky-200 rounded-full p-1 mb-8 max-w-md mx-auto">
@@ -77,49 +80,93 @@
         <main>
             <div id="panel-a-an" class="content-panel space-y-6">
                 <div class="rule-card border-cyan-500 p-6">
-                    <h2 class="text-2xl font-bold font-poppins text-cyan-800 mb-3">หลักการใช้ A / An</h2>
-                    <p class="text-slate-700">ใช้กับคำนามนับได้เอกพจน์ (singular countable noun) ที่ **ไม่ชี้เฉพาะเจาะจง** หรือ **กล่าวถึงครั้งแรก**</p>
+                    <h2 class="text-2xl font-bold font-poppins text-cyan-800 mb-3">หลักการใช้ A / An (Indefinite Articles)</h2>
+                    <p class="text-slate-700">ใช้กับคำนามนับได้เอกพจน์ (singular countable noun) ที่ **ไม่ชี้เฉพาะเจาะจง** หรือ **กล่าวถึงครั้งแรก** โดยหัวใจสำคัญคือการดู **"เสียง"** แรกของคำที่ตามมา ไม่ใช่ "รูปตัวอักษร"</p>
                 </div>
                 <div class="grid md:grid-cols-2 gap-6">
                     <div class="rule-card border-sky-500 p-6">
-                        <h3 class="text-xl font-bold text-sky-800 mb-3">การใช้ "A" (เสียงพยัญชนะ)</h3>
-                        <p class="text-slate-700 mb-4">ใช้นำหน้าคำที่ขึ้นต้นด้วย **เสียงพยัญชนะ** (Consonant Sound) **ย้ำว่า "เสียง" ไม่ใช่ "รูป"**</p>
+                        <h3 class="text-xl font-bold text-sky-800 mb-3">การใช้ "A" + เสียงพยัญชนะ</h3>
+                        <p class="text-slate-700 mb-4">ใช้นำหน้าคำที่ขึ้นต้นด้วย **เสียงพยัญชนะ** (Consonant Sound)</p>
                         <ul class="list-disc list-inside space-y-2 text-slate-600">
                             <li>a <strong>c</strong>at (เสียง /k/)</li>
-                            <li class="font-bold">a <strong>u</strong>niversity (เสียง /j/ หรือ ย)</li>
+                            <li>a <strong>d</strong>og (เสียง /d/)</li>
+                            <li class="font-bold bg-sky-100 p-2 rounded-md">a <strong>u</strong>niversity (เสียง /j/ หรือ ย.ยักษ์)</li>
+                            <li class="font-bold bg-sky-100 p-2 rounded-md">a <strong>E</strong>uropean (เสียง /j/ หรือ ย.ยักษ์)</li>
                         </ul>
                     </div>
                     <div class="rule-card border-sky-500 p-6">
-                        <h3 class="text-xl font-bold text-sky-800 mb-3">การใช้ "An" (เสียงสระ)</h3>
+                        <h3 class="text-xl font-bold text-sky-800 mb-3">การใช้ "An" + เสียงสระ</h3>
                         <p class="text-slate-700 mb-4">ใช้นำหน้าคำที่ขึ้นต้นด้วย **เสียงสระ** (Vowel Sound: a, e, i, o, u)</p>
                         <ul class="list-disc list-inside space-y-2 text-slate-600">
                             <li>an <strong>a</strong>pple (เสียง /æ/)</li>
-                            <li class="font-bold">an <strong>h</strong>our (h ไม่ออกเสียง เริ่มด้วยเสียง /aʊ/)</li>
+                            <li>an <strong>e</strong>lephant (เสียง /e/)</li>
+                            <li class="font-bold bg-sky-100 p-2 rounded-md">an <strong>h</strong>our (h ไม่ออกเสียง เริ่มด้วยเสียง /aʊ/ อ.อ่าง)</li>
+                             <li class="font-bold bg-sky-100 p-2 rounded-md">an <strong>M</strong>BA (M ออกเสียงว่า 'เอ็ม' ขึ้นด้วยเสียง /e/)</li>
                         </ul>
                     </div>
+                </div>
+                 <div class="rule-card border-cyan-500 p-6">
+                    <h2 class="text-xl font-bold font-poppins text-cyan-800 mb-3">การใช้งานในกรณีอื่นๆ</h2>
+                    <ul class="list-disc list-inside space-y-3 mt-4 text-slate-700">
+                        <li><strong>ใช้นำหน้าอาชีพ:</strong><br><span class="text-slate-500 ml-4">She is <strong>a doctor</strong>. He wants to be <strong>an engineer</strong>.</span></li>
+                        <li><strong>ใช้ในสำนวนบอกปริมาณ/ความถี่:</strong><br><span class="text-slate-500 ml-4"><strong>a dozen</strong> eggs, <strong>a couple</strong> of days, once <strong>a week</strong></span></li>
+                        <li><strong>ใช้ในประโยคอุทาน (Exclamation):</strong><br><span class="text-slate-500 ml-4">What <strong>a lovely</strong> day! / Such <strong>a pity</strong>!</span></li>
+                    </ul>
                 </div>
             </div>
 
             <div id="panel-the" class="content-panel hidden space-y-6">
                  <div class="rule-card border-indigo-500 p-6">
-                    <h2 class="text-2xl font-bold font-poppins text-indigo-800 mb-3">หลักการใช้ The</h2>
-                    <p class="text-slate-700">ใช้กับคำนามที่ **ชี้เฉพาะเจาะจง** ซึ่งทั้งผู้พูดและผู้ฟังเข้าใจตรงกันว่าหมายถึงสิ่งไหน</p>
+                    <h2 class="text-2xl font-bold font-poppins text-indigo-800 mb-3">หลักการใช้ The (Definite Article)</h2>
+                    <p class="text-slate-700">ใช้กับคำนามที่ **ชี้เฉพาะเจาะจง** ซึ่งทั้งผู้พูดและผู้ฟังเข้าใจตรงกันว่าหมายถึงสิ่งไหน หรือเป็นที่รู้จักกันดีอยู่แล้ว</p>
                     <ul class="list-disc list-inside space-y-3 mt-4 text-slate-700">
-                        <li><strong>กล่าวถึงเป็นครั้งที่ 2:</strong><br><span class="text-slate-500 ml-4">I saw <strong>a</strong> cat. <strong>The</strong> cat was black.</span></li>
-                        <li><strong>มีสิ่งเดียวในโลก:</strong><br><span class="text-slate-500 ml-4"><strong>The</strong> Sun, <strong>the</strong> Moon, <strong>the</strong> sky</span></li>
-                        <li><strong>ขั้นสูงสุด (Superlatives):</strong><br><span class="text-slate-500 ml-4"><strong>The</strong> best student, <strong>the</strong> tallest building</span></li>
+                        <li><strong>กล่าวถึงเป็นครั้งที่ 2:</strong><br><span class="text-slate-500 ml-4">I saw <strong>a</strong> dog. <strong>The</strong> dog was barking loudly.</span></li>
+                        <li><strong>มีสิ่งเดียวในโลก หรือในบริบทนั้น:</strong><br><span class="text-slate-500 ml-4"><strong>The</strong> Sun, <strong>the</strong> Moon, <strong>the</strong> internet, <strong>the</strong> CEO of this company</span></li>
+                        <li><strong>ขั้นสูงสุด (Superlatives):</strong><br><span class="text-slate-500 ml-4">This is <strong>the</strong> best coffee I've ever had.</span></li>
+                        <li><strong>เครื่องดนตรี (เมื่อพูดถึงการเล่น):</strong><br><span class="text-slate-500 ml-4">She plays <strong>the</strong> piano beautifully.</span></li>
+                        <li><strong>กลุ่มคนในสังคม หรือคนสัญชาติ:</strong><br><span class="text-slate-500 ml-4"><strong>The</strong> rich should help <strong>the</strong> poor. / <strong>The</strong> French are known for their cuisine.</span></li>
+                        <li><strong>ชื่อเฉพาะบางประเภท:</strong><br><span class="text-slate-500 ml-4">ชื่อครอบครัว (<strong>the</strong> Simpsons), ทศวรรษ (<strong>the</strong> 1980s), หนังสือพิมพ์ (<strong>the</strong> Guardian), โรงแรม/พิพิธภัณฑ์ (<strong>the</strong> Hilton, <strong>the</strong> Louvre)</span></li>
                     </ul>
+                </div>
+                 <div class="rule-card border-indigo-500 p-6">
+                    <h2 class="text-xl font-bold font-poppins text-indigo-800 mb-3">การใช้ The กับชื่อทางภูมิศาสตร์</h2>
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div>
+                            <p class="font-semibold text-green-700">ใช้ The:</p>
+                            <ul class="list-disc list-inside space-y-1 text-slate-600">
+                                <li>มหาสมุทร: <strong>the</strong> Pacific Ocean</li>
+                                <li>แม่น้ำ: <strong>the</strong> Chao Phraya River</li>
+                                <li>ทะเลทราย: <strong>the</strong> Sahara</li>
+                                <li>กลุ่มเกาะ: <strong>the</strong> Philippines</li>
+                                <li>เทือกเขา: <strong>the</strong> Alps</li>
+                            </ul>
+                        </div>
+                         <div>
+                            <p class="font-semibold text-red-700">ไม่ใช้ The:</p>
+                            <ul class="list-disc list-inside space-y-1 text-slate-600">
+                                <li>ทวีป: Asia, Europe</li>
+                                <li>ประเทศส่วนใหญ่: Thailand</li>
+                                <li>เมือง: Bangkok, London</li>
+                                <li>เกาะเดี่ยว: Phuket</li>
+                                <li>ภูเขาเดี่ยว: Mount Everest</li>
+                                <li>ทะเลสาบ: Lake Superior</li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
             </div>
 
             <div id="panel-zero" class="content-panel hidden space-y-6">
                  <div class="rule-card border-teal-500 p-6">
                     <h2 class="text-2xl font-bold font-poppins text-teal-800 mb-3">เมื่อไหร่ที่ไม่ต้องใช้ Article (Zero Article)</h2>
-                    <p class="text-slate-700">มีหลายกรณีที่เราจะไม่ใช้ a, an, หรือ the นำหน้าคำนาม</p>
-                     <ul class="list-disc list-inside space-y-3 mt-4 text-slate-700">
-                        <li><strong>นามพหูพจน์ หรือ นามนับไม่ได้ (ที่พูดแบบทั่วไป):</strong><br><span class="text-slate-500 ml-4">I like <strong>music</strong>. / <strong>Dogs</strong> are friendly.</span></li>
-                        <li><strong>ชื่อเฉพาะส่วนใหญ่:</strong><br><span class="text-slate-500 ml-4"><strong>John</strong>, <strong>Thailand</strong>, <strong>Bangkok</strong></span></li>
-                        <li><strong>มื้ออาหาร, ภาษา, กีฬา:</strong><br><span class="text-slate-500 ml-4">have <strong>breakfast</strong> / speak <strong>Japanese</strong> / play <strong>football</strong></span></li>
+                    <p class="text-slate-700">มีหลายกรณีที่เราจะไม่ใช้ a, an, หรือ the นำหน้าคำนาม โดยเฉพาะเมื่อพูดถึงสิ่งต่างๆ ในความหมายกว้างๆ ทั่วไป</p>
+                    <ul class="list-disc list-inside space-y-3 mt-4 text-slate-700">
+                        <li><strong>นามพหูพจน์ หรือ นามนับไม่ได้ (ที่พูดแบบทั่วไป):</strong><br><span class="text-slate-500 ml-4">I believe <strong>education</strong> is important. / <strong>Tigers</strong> are dangerous animals.</span></li>
+                        <li><strong>ชื่อเฉพาะส่วนใหญ่:</strong><br><span class="text-slate-500 ml-4">ชื่อคน (<strong>John</strong>), ชื่อบริษัท (<strong>Microsoft</strong>), ชื่อประเทศส่วนใหญ่ (<strong>Japan</strong>), เมือง (<strong>Paris</strong>)</span></li>
+                        <li><strong>มื้ออาหาร, วัน, เดือน, เทศกาล:</strong><br><span class="text-slate-500 ml-4">I have <strong>breakfast</strong> at 8. / See you on <strong>Monday</strong>. / I was born in <strong>April</strong>.</span></li>
+                        <li><strong>ภาษา, กีฬา, และวิชาเรียน:</strong><br><span class="text-slate-500 ml-4">She speaks <strong>Japanese</strong>. / He plays <strong>football</strong>. / I'm studying <strong>history</strong>.</span></li>
+                         <li><strong>การเดินทาง (พูดถึงวิธีโดยรวม):</strong><br><span class="text-slate-500 ml-4">I go to work <strong>by train</strong>. (แต่ถ้าจะระบุเจาะจง: I took <strong>the</strong> 8:30 train.)</span></li>
+                        <li><strong>สถาบัน (เมื่อพูดถึงจุดประสงค์หลัก):</strong><br><span class="text-slate-500 ml-4">Children go to <strong>school</strong>. / He is in <strong>hospital</strong>. (แต่ถ้าไปเยี่ยม: I went to <strong>the</strong> hospital to see him.)</span></li>
                     </ul>
                 </div>
             </div>
@@ -151,7 +198,7 @@
                         <p id="score-message" class="text-lg mb-6"></p>
                         <button id="restart-quiz-btn" class="bg-sky-600 text-white font-bold py-3 px-8 rounded-full hover:bg-sky-700 transition transform hover:scale-105">ทำอีกครั้ง</button>
                     </div>
-                </div>
+                 </div>
             </div>
         </main>
     </div>
@@ -216,7 +263,6 @@
             const feedback = document.getElementById('feedback');
             const finalScore = document.getElementById('final-score');
             const scoreMessage = document.getElementById('score-message');
-
             const showExplanationBtn = document.getElementById('show-explanation-btn');
             const explanationModal = document.getElementById('explanation-modal');
             const explanationCloseBtn = document.getElementById('explanation-close-btn');
@@ -267,7 +313,7 @@
                     e.target.classList.add('incorrect');
                     const correctBtn = Array.from(choiceBtns).find(btn => btn.dataset.choice === shuffledQuestions[currentQuestionIndex].answer);
                     correctBtn.classList.add('correct');
-                    showExplanationBtn.classList.remove('hidden'); // Show explanation button only on incorrect answers
+                    showExplanationBtn.classList.remove('hidden');
                 }
                 
                 choiceBtns.forEach(btn => btn.disabled = true);

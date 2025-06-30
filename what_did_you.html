@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mr. Vocab - Structure #54 (Full 40 Sentences)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Mitr:wght@300;400;500;600&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Mitr', sans-serif;
+            background-color: #f7f8fc;
+        }
+        .font-poppins {
+            font-family: 'Poppins', sans-serif;
+        }
+        .sentence-btn {
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e2e8f0;
+        }
+        .sentence-btn:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.2);
+            border-color: #a3bffa;
+        }
+        #modal {
+            transition: opacity 0.3s ease;
+        }
+        .modal-content-container {
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            opacity: 0;
+            transform: translateY(20px) scale(0.95);
+        }
+        #modal.active .modal-content-container {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+    </style>
+</head>
+<body class="bg-slate-50">
+
+    <div class="container mx-auto p-4 sm:p-6 lg:p-8">
+
+        <header class="text-center mb-8">
+            <h1 class="text-4xl sm:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 to-sky-500 font-poppins">Structure #54</h1>
+            <h2 class="text-2xl sm:text-3xl font-bold text-slate-800 mt-2 font-poppins">"What did you + (verb)...?" (ฉบับสมบูรณ์)</h2>
+            <p class="text-slate-600 mt-4 max-w-2xl mx-auto text-lg">
+                คลังประโยคฉบับสมบูรณ์! คลิกเพื่อดูข้อมูลเชิงลึกครบทั้ง 40 ประโยคได้เลยครับ!
+            </p>
+        </header>
+
+        <main id="sentences-grid" class="grid grid-cols-1 md:grid-cols-2 gap-5">
+            </main>
+
+        <footer class="text-center mt-10">
+            <p class="text-slate-700 font-medium">✨ สร้างสรรค์โดย Mr. Vocab (เวอร์ชันเต็ม!) ✨</p>
+        </footer>
+
+    </div>
+
+    <div id="modal" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center p-4 z-50 opacity-0 pointer-events-none">
+        <div class="modal-content-container w-full max-w-2xl max-h-[90vh] overflow-y-auto bg-white rounded-2xl shadow-2xl">
+            <div class="p-6 sm:p-8">
+                <div class="text-center mb-6">
+                    <p id="modal-english" class="font-poppins font-bold text-2xl text-indigo-600"></p>
+                    <p id="modal-thai" class="text-xl text-slate-700 mt-2"></p>
+                </div>
+                
+                <div id="modal-details" class="space-y-5">
+                    </div>
+
+                <div class="text-center mt-8">
+                    <button id="close-modal-btn" class="bg-indigo-500 hover:bg-indigo-600 text-white font-bold py-2 px-8 rounded-full shadow-lg transform hover:scale-105 transition-transform duration-300">
+                        ปิด
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const allSentences = [
+            // --- Basic Level ---
+            {
+                eng: "What did you eat for lunch?", th: "คุณกินอะไรเป็นมื้อกลางวัน?",
+                context: "เป็นคำถามทั่วไปที่ใช้ถามไถ่สารทุกข์สุกดิบเรื่องอาหารการกิน มักใช้กับเพื่อนหรือเพื่อนร่วมงาน",
+                dialogue: { a: "I'm starving. What did you eat for lunch?", b: "I had some Pad Thai. It was delicious!" },
+                alternatives: "<strong>What did you have for lunch?</strong> (ใช้ 'have' แทน 'eat' เป็นธรรมชาติมาก)<br><strong>What did you get for lunch?</strong> (ใช้ 'get' ในความหมายว่าไปซื้อ/ไปหาอะไรมากิน)"
+            },
+            {
+                eng: "What did you do yesterday?", th: "เมื่อวานนี้คุณทำอะไร?",
+                context: "คำถามปลายเปิดสุดคลาสสิก ใช้ถามถึงกิจกรรมที่ทำในวันที่ผ่านมา เพื่อชวนคุยทั่วไป",
+                dialogue: { a: "How was your Sunday? What did you do yesterday?", b: "Not much, I just stayed home and watched Netflix." },
+                alternatives: "<strong>What did you get up to yesterday?</strong> (สำนวนไม่เป็นทางการ แปลว่า 'คุณไปทำอะไรมาบ้าง')<br><strong>How did you spend your day yesterday?</strong> (คุณใช้เวลาเมื่อวานไปกับอะไร)"
+            },
+            {
+                eng: "What did you say?", th: "คุณพูดว่าอะไรนะ?",
+                context: "ใช้เมื่อเราไม่ได้ยินสิ่งที่อีกฝ่ายพูด หรือต้องการให้เขาพูดซ้ำให้ชัดเจนขึ้น",
+                dialogue: { a: "I'm thinking of moving to Alaska.", b: "I'm sorry, what did you say? You're moving where?" },
+                alternatives: "<strong>Could you repeat that, please?</strong> (สุภาพและเป็นทางการกว่า)<br><strong>Come again?</strong> (ไม่เป็นทางการ ใช้กับเพื่อน)<br><strong>I didn't catch that.</strong> (ฉันฟังไม่ทัน)"
+            },
+            {
+                eng: "What did you see at the zoo?", th: "คุณเห็นอะไรที่สวนสัตว์บ้าง?",
+                context: "ใช้ถามเด็กๆ หรือใครก็ตามที่เพิ่งกลับมาจากเที่ยวสวนสัตว์ เพื่อให้เขาเล่าประสบการณ์ที่น่าตื่นเต้น",
+                dialogue: { a: "Welcome back! How was the zoo trip? What did you see?", b: "I saw a huge lion and some funny monkeys!" },
+                alternatives: "<strong>Which animals did you see?</strong> (คุณเห็นสัตว์อะไรบ้าง?)<br><strong>What was the coolest thing you saw?</strong> (อะไรเจ๋งที่สุดที่คุณเห็น?)"
+            },
+            {
+                eng: "What did you buy at the market?", th: "คุณซื้ออะไรที่ตลาด?",
+                context: "ใช้ถามเมื่อเห็นเพื่อนหรือคนในครอบครัวกลับมาจากการไปจ่ายตลาดหรือชอปปิง",
+                dialogue: { a: "Those bags look heavy. What did you buy at the market?", b: "I got some fresh vegetables for dinner tonight." },
+                alternatives: "<strong>What did you get from the market?</strong> (คุณได้อะไรมาจากตลาด?)<br><strong>Did you find anything good?</strong> (เจอของดีๆ บ้างไหม?)"
+            },
+            {
+                eng: "What did you watch on TV last night?", th: "เมื่อคืนคุณดูอะไรในทีวี?",
+                context: "ใช้ชวนคุยเรื่องรายการทีวีหรือหนังในเช้าวันถัดไป เป็นวิธีหาเรื่องคุยที่ง่ายและเป็นที่นิยม",
+                dialogue: { a: "I'm so tired today. Stayed up late.", b: "Oh? What did you watch on TV last night?" },
+                alternatives: "<strong>Did you watch anything interesting last night?</strong> (เมื่อคืนได้ดูอะไรน่าสนใจไหม?)<br><strong>What show were you watching?</strong> (คุณกำลังดูรายการอะไรอยู่?)"
+            },
+            {
+                eng: "What did you learn in class today?", th: "วันนี้คุณเรียนอะไรในห้องเรียน?",
+                context: "ผู้ปกครองมักใช้ถามลูกๆ หลังกลับจากโรงเรียน หรือถามเพื่อนเกี่ยวกับวิชาที่เพิ่งเรียนไป",
+                dialogue: { a: "How was school today? What did you learn in class?", b: "We learned about the solar system in science class. It was cool!" },
+                alternatives: "<strong>What did they teach you today?</strong> (วันนี้เขาสอนอะไรเธอ?)<br><strong>What was your lesson about?</strong> (บทเรียนของเธอเกี่ยวกับอะไร?)"
+            },
+            {
+                eng: "What did you play with your friends?", th: "คุณเล่นอะไรกับเพื่อนๆ?",
+                context: "ใช้ถามเด็กๆ เกี่ยวกับกิจกรรมการเล่นกับเพื่อน เพื่อแสดงความสนใจในชีวิตประจำวันของเขา",
+                dialogue: { a: "You look happy! What did you play with your friends at the park?", b: "We played hide-and-seek!" },
+                alternatives: "<strong>What game did you play?</strong> (คุณเล่นเกมอะไร?)<br><strong>Did you have fun with your friends? What did you do?</strong> (สนุกกับเพื่อนไหม? ไปทำอะไรมา?)"
+            },
+            {
+                eng: "What did you draw in your book?", th: "คุณวาดรูปอะไรในสมุด?",
+                context: "ใช้ชวนคุยกับเด็กหรือคนที่ชอบวาดรูป เพื่อให้เขาอธิบายผลงานศิลปะของตัวเอง",
+                dialogue: { a: "Let me see your drawing. What did you draw in your book?", b: "It's a dragon! See its wings?" },
+                alternatives: "<strong>Can you tell me about your drawing?</strong> (เล่าเรื่องรูปวาดให้ฟังหน่อยได้ไหม?)<br><strong>What is this a picture of?</strong> (นี่คือรูปอะไร?)"
+            },
+            {
+                eng: "What did you read before bed?", th: "คุณอ่านอะไรก่อนนอน?",
+                context: "ใช้ถามคนที่มีนิสัยชอบอ่านหนังสือก่อนนอน เพื่อพูดคุยเกี่ยวกับหนังสือที่กำลังอ่านอยู่",
+                dialogue: { a: "I saw your light on late last night. What did you read before bed?", b: "I was finishing a chapter of a mystery novel." },
+                alternatives: "<strong>What book are you reading at the moment?</strong> (ตอนนี้คุณกำลังอ่านหนังสืออะไรอยู่?)<br><strong>Reading anything good lately?</strong> (ช่วงนี้อ่านอะไรดีๆ อยู่ไหม?)"
+            },
+            // --- Intermediate Level ---
+            {
+                eng: "What did you think about the movie?", th: "คุณคิดอย่างไรเกี่ยวกับหนังเรื่องนั้น?",
+                context: "ใช้ถามความคิดเห็นหรือความรู้สึกหลังจากที่ใครสักคนได้ดูหนังจบไป เหมาะกับการเปิดประเด็นวิจารณ์",
+                dialogue: { a: "We just watched 'Inception'. What did you think about the movie?", b: "Wow, it was mind-blowing!" },
+                alternatives: "<strong>How did you find the movie?</strong> (เป็นวิธีถามความเห็นที่เป็นธรรมชาติ)<br><strong>What was your take on the movie?</strong> (มุมมอง/ความคิดเห็นของคุณคืออะไร)"
+            },
+            {
+                eng: "What did you get for your birthday?", th: "คุณได้อะไรเป็นของขวัญวันเกิด?",
+                context: "คำถามน่ารักๆ ที่ใช้ถามเพื่อนหรือคนใกล้ชิดหลังจากวันเกิดของพวกเขาผ่านไปแล้ว",
+                dialogue: { a: "Happy belated birthday! What did you get for your birthday?", b: "My parents got me a new camera!" },
+                alternatives: "<strong>Did you get any nice presents?</strong> (ได้ของขวัญดีๆ บ้างไหม?)<br><strong>What kind of gifts did you receive?</strong> (คุณได้รับของขวัญประเภทไหน?)"
+            },
+            {
+                eng: "What did you talk about with him?", th: "คุณคุยเรื่องอะไรกับเขา?",
+                context: "ใช้ถามเมื่ออยากรู้หัวข้อของบทสนทนาระหว่างอีกคนกับบุคคลที่สาม อาจจะด้วยความอยากรู้หรือความเป็นห่วง",
+                dialogue: { a: "You were on the phone for an hour. What did you talk about with him?", b: "Oh, just catching up on old times." },
+                alternatives: "<strong>What was your conversation about?</strong> (บทสนทนาของคุณเกี่ยวกับเรื่องอะไร?)<br><strong>What did you guys discuss?</strong> (พวกคุณคุยเรื่องอะไรกัน?)"
+            },
+            {
+                eng: "What did you decide to do?", th: "คุณตัดสินใจที่จะทำอะไร?",
+                context: "ใช้ถามถึงผลลัพธ์ของการตัดสินใจ หลังจากที่ใครสักคนกำลังลังเลหรือมีหลายทางเลือก",
+                dialogue: { a: "So, about the job offers, what did you decide to do?", b: "I decided to accept the offer from Company A." },
+                alternatives: "<strong>What was your final decision?</strong> (การตัดสินใจสุดท้ายของคุณคืออะไร?)<br><strong>Which option did you choose?</strong> (คุณเลือกทางไหน?)"
+            },
+            {
+                eng: "What did you order for dinner?", th: "คุณสั่งอะไรสำหรับมื้อค่ำ?",
+                context: "ใช้ถามเพื่อนหรือแฟนเมื่อไปร้านอาหาร หรือเมื่อสั่งอาหารเดลิเวอรีมาทานที่บ้าน",
+                dialogue: { a: "The food smells amazing. What did you order for dinner?", b: "I got us a large pizza and some garlic bread." },
+                alternatives: "<strong>What did you get to eat?</strong> (คุณสั่งอะไรกิน?)<br><strong>What are we having for dinner?</strong> (ถ้ายังไม่ได้กิน ถามว่า 'เราจะกินอะไรกัน?')"
+            },
+            {
+                eng: "What did you find in the old box?", th: "คุณเจออะไรในกล่องเก่าใบนั้น?",
+                context: "ใช้ถามเมื่อเห็นใครกำลังรื้อของเก่าๆ หรือสำรวจของในห้องเก็บของ เต็มไปด้วยความรู้สึกอยากรู้อยากเห็น",
+                dialogue: { a: "You've been in the attic all day. What did you find in that old box?", b: "I found my old photo albums from when I was a kid!" },
+                alternatives: "<strong>Did you find anything interesting?</strong> (เจออะไรน่าสนใจไหม?)<br><strong>What was inside the box?</strong> (มีอะไรอยู่ในกล่อง?)"
+            },
+            {
+                eng: "What did you hear about the new project?", th: "คุณได้ยินอะไรเกี่ยวกับโปรเจกต์ใหม่มาบ้าง?",
+                context: "ในที่ทำงาน ใช้ถามเพื่อนร่วมงานเพื่ออัปเดตข่าวสารหรือข่าวลือเกี่ยวกับโปรเจกต์ที่กำลังจะเกิดขึ้น",
+                dialogue: { a: "Everyone's whispering about something. What did you hear about the new project?", b: "I heard it's a huge collaboration with a client from Japan." },
+                alternatives: "<strong>What's the latest on the new project?</strong> (ข่าวล่าสุดเกี่ยวกับโปรเจกต์ใหม่คืออะไร?)<br><strong>Any news about the new project?</strong> (มีข่าวอะไรเกี่ยวกับโปรเจกต์ใหม่ไหม?)"
+            },
+            {
+                eng: "What did you wear to the party?", th: "คุณใส่ชุดอะไรไปงานปาร์ตี้?",
+                context: "ใช้ถามเกี่ยวกับการแต่งกายในงานอีเวนต์ที่ผ่านมา มักใช้ในบทสนทนาที่เกี่ยวกับแฟชั่น",
+                dialogue: { a: "I saw your photos from the wedding. What did you wear to the party?", b: "I wore a long blue dress." },
+                alternatives: "<strong>What was your outfit for the party?</strong> ('Outfit' หมายถึงชุดที่จัดเต็มทั้งเสื้อผ้าหน้าผม)"
+            },
+            {
+                eng: "What did you tell your parents?", th: "คุณบอกอะไรกับพ่อแม่ของคุณ?",
+                context: "ใช้ถามเพื่อนหรือคนใกล้ชิดเกี่ยวกับเรื่องสำคัญที่เขาต้องไปบอกครอบครัว เช่น เรื่องผลการเรียน เรื่องงาน",
+                dialogue: { a: "So you finally had the talk with them. What did you tell your parents?", b: "I told them I wanted to take a gap year before college." },
+                alternatives: "<strong>How did they react to what you said?</strong> (พวกเขาว่ายังไงบ้างกับสิ่งที่เธอพูด? - ถามต่อเนื่อง)"
+            },
+            {
+                eng: "What did you cook for the guests?", th: "คุณทำอาหารอะไรให้แขกทาน?",
+                context: "ใช้ถามเพื่อนที่เพิ่งจัดงานเลี้ยงที่บ้าน เพื่อชื่นชมหรืออยากรู้เมนูอาหารที่เขาเตรียมไว้",
+                dialogue: { a: "The dinner party looked amazing! What did you cook for the guests?", b: "I made my special lasagna and a big salad." },
+                alternatives: "<strong>What was on the menu?</strong> (มีเมนูอะไรบ้าง?)<br><strong>What did you serve?</strong> (คุณเสิร์ฟอะไร?)"
+            },
+            {
+                eng: "What did you study at university?", th: "คุณเรียนอะไรที่มหาวิทยาลัย?",
+                context: "เป็นคำถามพื้นฐานในการทำความรู้จักคนใหม่ๆ เพื่อถามเกี่ยวกับพื้นฐานการศึกษาของเขา",
+                dialogue: { a: "Your background in data analysis is impressive. What did you study at university?", b: "I studied statistics and computer science." },
+                alternatives: "<strong>What was your major in college?</strong> ('Major' คือวิชาเอก)<br><strong>What's your degree in?</strong> (คุณจบปริญญาด้านไหน?)"
+            },
+            {
+                eng: "What did you discuss in the meeting?", th: "คุณคุยเรื่องอะไรกันในที่ประชุม?",
+                context: "ใช้ถามเพื่อนร่วมงานเพื่อติดตามประเด็นสำคัญที่เกิดขึ้นในการประชุมที่เราไม่ได้เข้าร่วม",
+                dialogue: { a: "I missed the morning sync. What did you discuss in the meeting?", b: "We went over the new project timeline." },
+                alternatives: "<strong>What topics were covered?</strong> (ครอบคลุมประเด็นไหนบ้าง?)<br><strong>What were the main points?</strong> (ประเด็นหลักๆ คืออะไร?)"
+            },
+            {
+                eng: "What did you choose for the main course?", th: "คุณเลือกอะไรสำหรับอาหารจานหลัก?",
+                context: "ใช้ถามในร้านอาหาร เมื่อถึงเวลาต้องเลือกเมนูอาหารจานหลัก (Main Course)",
+                dialogue: { a: "Everything looks so good. I can't decide. What did you choose for the main course?", b: "I chose the grilled salmon." },
+                alternatives: "<strong>What did you go for?</strong> (คุณเลือกอะไร? - ไม่เป็นทางการ)<br><strong>What are you having for your main?</strong> (คุณจะทานอะไรเป็นจานหลัก?)"
+            },
+            {
+                eng: "What did you write in the email?", th: "คุณเขียนอะไรในอีเมล?",
+                context: "ใช้ถามเพื่อนร่วมงานหรือเพื่อน เพื่อตรวจสอบเนื้อหาหรือความถูกต้องของอีเมลที่เพิ่งส่งไป",
+                dialogue: { a: "I'm about to reply to the client. To be sure we're on the same page, what did you write in the email you sent?", b: "I confirmed the project deadline and attached the invoice." },
+                alternatives: "<strong>What points did you mention in the email?</strong> (คุณพูดถึงประเด็นไหนบ้างในอีเมล?)<br><strong>Could you forward me the email you wrote?</strong> (ช่วยส่งต่ออีเมลที่เขียนให้หน่อยได้ไหม?)"
+            },
+            {
+                eng: "What did you lose on the train?", th: "คุณทำอะไรหายบนรถไฟ?",
+                context: "ใช้ถามด้วยความเป็นห่วง เมื่อรู้ว่าเพื่อนหรือใครสักคนทำของหายระหว่างการเดินทาง",
+                dialogue: { a: "You look so upset. What happened?", b: "I think I left my bag on the train..." },
+                alternatives: "<strong>Did you leave something on the train?</strong> (คุณลืมอะไรไว้บนรถไฟหรือเปล่า?)<br><strong>Is anything missing?</strong> (มีอะไรหายไปไหม?)"
+            },
+            // --- Advanced Level ---
+            {
+                eng: "What did you hope to achieve?", th: "คุณหวังว่าจะบรรลุผลอะไร?",
+                context: "ใช้ถามถึงเป้าหมายหรือความคาดหวังของโปรเจกต์หรือการกระทำบางอย่าง เป็นคำถามที่ลึกซึ้งกว่า 'What did you do?'",
+                dialogue: { a: "You spent a lot of time on that proposal. What did you hope to achieve with it?", b: "I hoped to secure funding for the next two years." },
+                alternatives: "<strong>What was your main goal?</strong> (เป้าหมายหลักของคุณคืออะไร?)<br><strong>What was the intended outcome?</strong> (ผลลัพธ์ที่ตั้งใจไว้คืออะไร?)"
+            },
+            {
+                eng: "What did you realize after the conversation?", th: "คุณตระหนักถึงอะไรหลังจากการสนทนานั้น?",
+                context: "ใช้ถามถึง 'การตกผลึก' หรือความคิดที่เปลี่ยนไปหลังจากได้พูดคุยหรือได้รับข้อมูลบางอย่างมา",
+                dialogue: { a: "After talking to the mentor, I feel different.", b: "Really? What did you realize after the conversation?" },
+                alternatives: "<strong>What new perspective did you gain?</strong> (คุณได้มุมมองใหม่อะไรบ้าง?)<br><strong>What was your main takeaway?</strong> ('Takeaway' คือบทเรียนหรือข้อสรุปสำคัญ)"
+            },
+            {
+                eng: "What did you discover during your research?", th: "คุณค้นพบอะไรระหว่างการทำวิจัย?",
+                context: "ใช้ถามนักวิจัย, นักเรียน, หรือใครก็ตามที่กำลังศึกษาค้นคว้าข้อมูลในเรื่องใดเรื่องหนึ่งอย่างจริงจัง",
+                dialogue: { a: "Your research paper is fascinating. What did you discover during your research?", b: "We discovered a strong correlation between sleep and memory retention." },
+                alternatives: "<strong>What were your key findings?</strong> ('Key findings' คือผลการวิจัยที่สำคัญ)<br><strong>Did you find out anything surprising?</strong> (คุณเจออะไรที่น่าประหลาดใจไหม?)"
+            },
+            {
+                eng: "What did you suggest to the management team?", th: "คุณเสนอแนะอะไรกับทีมผู้บริหาร?",
+                context: "ใช้ในบริบทของการทำงาน เพื่อถามถึงข้อเสนอแนะที่ถูกนำเสนอในที่ประชุมระดับสูง",
+                dialogue: { a: "The meeting with the board just ended. What did you suggest to the management team?", b: "I suggested we should invest more in employee training." },
+                alternatives: "<strong>What ideas did you propose?</strong> ('Propose' มีความเป็นทางการกว่า)<br><strong>What did you recommend?</strong> (คุณแนะนำอะไร?)"
+            },
+            {
+                eng: "What did you perceive from his reaction?", th: "คุณสัมผัสได้ถึงอะไรจากปฏิกิริยาของเขา?",
+                context: "คำถามเชิงวิเคราะห์ความรู้สึก ใช้เมื่อต้องการให้อีกฝ่ายตีความ 'ภาษากาย' หรือ 'น้ำเสียง' ที่ไม่ได้ถูกพูดออกมาตรงๆ",
+                dialogue: { a: "He said he was fine, but I'm not sure.", b: "I agree. What did you perceive from his reaction?" },
+                alternatives: "<strong>How did you read his reaction?</strong> ('Read' ในที่นี้หมายถึงตีความ)<br><strong>What vibe did you get from him?</strong> ('Vibe' คือความรู้สึกหรือบรรยากาศที่สัมผัสได้)"
+            },
+            {
+                eng: "What did you accomplish last quarter?", th: "ไตรมาสที่แล้วคุณทำอะไรสำเร็จบ้าง?",
+                context: "คำถามเชิงธุรกิจที่ใช้ในการประเมินผลงาน (Performance Review) เพื่อทบทวนความสำเร็จในช่วง 3 เดือนที่ผ่านมา",
+                dialogue: { a: "Let's review your performance. What did you accomplish last quarter?", b: "I successfully launched the new marketing campaign and increased user engagement by 15%." },
+                alternatives: "<strong>What were your main achievements last quarter?</strong> (ความสำเร็จหลักๆ ของคุณในไตรมาสที่แล้วคืออะไร?)<br><strong>What milestones did you hit?</strong> ('Milestone' คือหมุดหมายสำคัญ)"
+            },
+            {
+                eng: "What did you infer from the data?", th: "คุณอนุมานอะไรได้จากข้อมูล?",
+                context: "เป็นคำถามระดับสูงสำหรับนักวิเคราะห์หรือนักกลยุทธ์ ใช้เมื่อต้องการให้ตีความหรือสรุปสิ่งที่ข้อมูลบ่งชี้โดยนัย",
+                dialogue: { a: "Looking at these sales numbers, what's the story?", b: "What did you infer from the data?" },
+                alternatives: "<strong>What did you conclude from the data?</strong> (คุณสรุปอะไรได้จากข้อมูล?)<br><strong>What does the data suggest?</strong> (ข้อมูลนี้ชี้ให้เห็นถึงอะไร?)"
+            },
+            {
+                eng: "What did you feel when you heard the news?", th: "คุณรู้สึกอย่างไรตอนที่ได้ยินข่าวนั้น?",
+                context: "ใช้ถามถึงความรู้สึกทางอารมณ์อย่างลึกซึ้ง เมื่อเกิดเหตุการณ์สำคัญขึ้น (ทั้งดีและไม่ดี)",
+                dialogue: { a: "I can't believe she won the award.", b: "I know! What did you feel when you heard the news?" },
+                alternatives: "<strong>How did you react to the news?</strong> (คุณมีปฏิกิริยาอย่างไรกับข่าว?)<br><strong>What was your initial thought?</strong> (ความคิดแรกของคุณคืออะไร?)"
+            },
+            {
+                eng: "What did you mean by that comment?", th: "คุณหมายความว่าอย่างไรกับความคิดเห็นนั้น?",
+                context: "ใช้เพื่อขอคำอธิบายเพิ่มเติมเมื่อเราไม่เข้าใจความหมายที่แท้จริง หรือเมื่อรู้สึกว่าคำพูดนั้นอาจมีความหมายแฝง",
+                dialogue: { a: "You said my plan was 'interesting'. What did you mean by that comment?", b: "I meant it's a unique approach I hadn't considered." },
+                alternatives: "<strong>What exactly are you trying to say?</strong> (ตกลงแล้วคุณพยายามจะพูดอะไร?)<br><strong>Could you elaborate on that?</strong> (คุณช่วยขยายความหน่อยได้ไหม?)"
+            },
+            {
+                eng: "What did you prepare for the presentation?", th: "คุณเตรียมอะไรสำหรับการนำเสนองาน?",
+                context: "ใช้ถามเพื่อนร่วมงานก่อนการพรีเซนต์งาน เพื่อตรวจสอบความพร้อมหรือช่วยเหลือกัน",
+                dialogue: { a: "The big presentation is tomorrow. Are you ready? What did you prepare?", b: "I've prepared the slides, a handout, and a short demo video." },
+                alternatives: "<strong>How did you prepare for the presentation?</strong> (คุณเตรียมตัวสำหรับพรีเซนต์อย่างไร?)<br><strong>What materials do you have for the presentation?</strong> (คุณมีเอกสาร/อุปกรณ์อะไรบ้าง?)"
+            },
+            {
+                eng: "What did you forget to mention?", th: "คุณลืมพูดถึงเรื่องอะไรไป?",
+                context: "ใช้ถามหลังจากจบการสนทนาหรือการประชุม เมื่อรู้สึกว่าอาจจะมีบางประเด็นที่ถูกลืมพูดไป",
+                dialogue: { a: "I think we covered everything.", b: "Are you sure? What did you forget to mention last time?" },
+                alternatives: "<strong>Is there anything you forgot to add?</strong> (มีอะไรที่คุณลืมเพิ่มเข้าไปไหม?)<br><strong>Did we miss anything?</strong> (เราพลาดอะไรไปหรือเปล่า?)"
+            },
+            {
+                eng: "What did you bring to the potluck?", th: "คุณเอาอะไรไปร่วมงานเลี้ยง (พอตลัก)?",
+                context: "ใช้ถามในงานเลี้ยงแบบ Potluck ซึ่งแต่ละคนจะนำอาหารมาเอง เพื่อชวนคุยและดูว่าใครเอาอะไรมาบ้าง",
+                dialogue: { a: "Wow, the food table looks incredible! What did you bring to the potluck?", b: "I brought some homemade spring rolls." },
+                alternatives: "<strong>What dish did you make?</strong> (คุณทำเมนูอะไรมา?)<br><strong>Which one is yours?</strong> (อันไหนของคุณ? - ขณะที่ยืนอยู่หน้าโต๊ะอาหาร)"
+            },
+            {
+                eng: "What did you contribute to the team's success?", th: "คุณมีส่วนช่วยในความสำเร็จของทีมอย่างไร?",
+                context: "เป็นคำถามในการสัมภาษณ์งานหรือประเมินผลงาน เพื่อให้ผู้ตอบอธิบายบทบาทและผลงานของตนเองที่มีต่อทีม",
+                dialogue: { a: "The project was a huge success. In your view, what did you contribute to that success?", b: "I developed the core algorithm that improved our system's efficiency." },
+                alternatives: "<strong>What was your role in the project?</strong> (บทบาทของคุณในโปรเจกต์คืออะไร?)<br><strong>How did you help the team?</strong> (คุณช่วยทีมอย่างไร?)"
+            },
+            {
+                eng: "What did you notice about her new hairstyle?", th: "คุณสังเกตเห็นอะไรเกี่ยวกับทรงผมใหม่ของเธอ?",
+                context: "ใช้ชวนเพื่อนอีกคนคุย (ซุบซิบเล็กน้อย) เกี่ยวกับการเปลี่ยนแปลงของบุคคลที่สาม เป็นการแลกเปลี่ยนข้อสังเกต",
+                dialogue: { a: "Did you see Jane today?", b: "Yes! What did you notice about her new hairstyle?" },
+                alternatives: "<strong>Did you see her new hair? What do you think?</strong> (เห็นผมใหม่ของเธอไหม? คิดว่าไง?)<br><strong>Doesn't she look different?</strong> (เธอดูเปลี่ยนไปไหม?)"
+            },
+            {
+                eng: "What did you assume would happen?", th: "คุณทึกทักเอาว่าอะไรจะเกิดขึ้น?",
+                context: "ใช้ถามถึงความคาดหวังหรือข้อสันนิษฐานเดิม ก่อนที่ผลลัพธ์จริงจะปรากฏ เพื่อเปรียบเทียบความคาดหวังกับความเป็นจริง",
+                dialogue: { a: "The result was completely unexpected.", b: "I know. What did you assume would happen?" },
+                alternatives: "<strong>What did you expect to happen?</strong> (คุณคาดว่าอะไรจะเกิดขึ้น?)<br><strong>What was your initial guess?</strong> (ตอนแรกคุณเดาว่าอย่างไร?)"
+            }
+        ];
+
+        const grid = document.getElementById('sentences-grid');
+        const modal = document.getElementById('modal');
+        const modalEnglish = document.getElementById('modal-english');
+        const modalThai = document.getElementById('modal-thai');
+        const modalDetails = document.getElementById('modal-details');
+        const closeModalBtn = document.getElementById('close-modal-btn');
+
+        allSentences.forEach(sentence => {
+            const button = document.createElement('button');
+            button.className = 'sentence-btn p-5 bg-white rounded-lg text-left font-poppins text-slate-700 hover:bg-white hover:text-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-400';
+            button.innerHTML = `<span class="font-semibold">${sentence.eng}</span>`;
+            button.addEventListener('click', () => openModal(sentence));
+            grid.appendChild(button);
+        });
+
+        function openModal(sentence) {
+            modalEnglish.textContent = sentence.eng;
+            modalThai.textContent = sentence.th;
+
+            modalDetails.innerHTML = `
+                <div class="p-4 bg-slate-100 rounded-lg">
+                    <h4 class="font-semibold text-lg text-slate-800 mb-2">💡 บริบทการใช้งาน (Context)</h4>
+                    <p class="text-slate-600">${sentence.context}</p>
+                </div>
+                <div class="p-4 bg-slate-100 rounded-lg">
+                    <h4 class="font-semibold text-lg text-slate-800 mb-2">💬 ตัวอย่างบทสนทนา (Dialogue)</h4>
+                    <div class="space-y-1 text-slate-600">
+                        <p><strong>A:</strong> ${sentence.dialogue.a}</p>
+                        <p><strong>B:</strong> ${sentence.dialogue.b}</p>
+                    </div>
+                </div>
+                <div class="p-4 bg-slate-100 rounded-lg">
+                    <h4 class="font-semibold text-lg text-slate-800 mb-2">🔄 คำที่เกี่ยวข้อง / ใช้แทนได้ (Alternatives)</h4>
+                    <div class="text-slate-600">${sentence.alternatives}</div>
+                </div>
+            `;
+
+            modal.classList.add('active');
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            modal.classList.add('opacity-0', 'pointer-events-none');
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        closeModalBtn.addEventListener('click', closeModal);
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>

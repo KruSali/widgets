@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mr. Vocab - The Article Academy</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'IBM Plex Sans Thai', sans-serif;
+            background: linear-gradient(to top, #accbee 0%, #e7f0fd 100%);
+        }
+        .font-poppins {
+            font-family: 'Poppins', sans-serif;
+        }
+        .main-tab {
+            transition: all 0.3s ease;
+        }
+        .main-tab.active {
+            background-color: #0369a1; /* sky-700 */
+            color: white;
+        }
+        .rule-card {
+            background-color: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border-left-width: 8px;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+        }
+        .quiz-choice-btn {
+            transition: all 0.2s ease-in-out;
+        }
+        .quiz-choice-btn.correct {
+            background-color: #22c55e; /* green-500 */
+            color: white;
+            transform: scale(1.05);
+            border-color: #16a34a;
+        }
+        .quiz-choice-btn.incorrect {
+            background-color: #ef4444; /* red-500 */
+            color: white;
+            border-color: #dc2626;
+        }
+        .quiz-choice-btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body class="antialiased text-gray-800">
+
+    <div class="container mx-auto p-4 md:p-8 max-w-6xl">
+
+        <header class="text-center mb-8">
+            <h1 class="text-4xl md:text-5xl font-bold font-poppins text-sky-800">The Article Academy</h1>
+            <p class="text-lg text-sky-700 mt-2">โรงเรียนสอนการใช้ A, An, The ฉบับสมบูรณ์!</p>
+        </header>
+
+        <nav class="flex flex-wrap justify-center bg-sky-200 rounded-full p-1 mb-8 max-w-md mx-auto">
+            <button data-target="panel-a-an" class="main-tab active w-1/4 py-2 px-2 rounded-full font-semibold text-sm">A / An</button>
+            <button data-target="panel-the" class="main-tab w-1/4 py-2 px-2 rounded-full font-semibold text-sm">The</button>
+            <button data-target="panel-zero" class="main-tab w-1/4 py-2 px-2 rounded-full font-semibold text-sm">No Article</button>
+            <button data-target="panel-quiz" class="main-tab w-1/4 py-2 px-2 rounded-full font-semibold text-sm">แบบฝึกหัด</button>
+        </nav>
+
+        <main>
+            <div id="panel-a-an" class="content-panel space-y-6">
+                <div class="rule-card border-cyan-500 p-6">
+                    <h2 class="text-2xl font-bold font-poppins text-cyan-800 mb-3">หลักการใช้ A / An (Indefinite Articles)</h2>
+                    <p class="text-slate-700">ใช้กับคำนามนับได้เอกพจน์ (singular countable noun) ที่ **ไม่ชี้เฉพาะเจาะจง** หรือ **กล่าวถึงครั้งแรก** แปลว่า "หนึ่งอัน/คน/สิ่ง"</p>
+                </div>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="rule-card border-sky-500 p-6">
+                        <h3 class="text-xl font-bold text-sky-800 mb-3">การใช้ "A"</h3>
+                        <p class="text-slate-700 mb-4">ใช้นำหน้าคำที่ขึ้นต้นด้วย **เสียงพยัญชนะ** (Consonant Sound)</p>
+                        <ul class="list-disc list-inside space-y-2 text-slate-600">
+                            <li>a <strong>c</strong>at (เสียง /k/)</li>
+                            <li>a <strong>d</strong>og (เสียง /d/)</li>
+                            <li>a <strong>b</strong>oy (เสียง /b/)</li>
+                            <li class="font-bold">a <strong>u</strong>niversity (เสียง /j/ หรือ ย)</li>
+                            <li class="font-bold">a <strong>E</strong>uropean (เสียง /j/ หรือ ย)</li>
+                        </ul>
+                    </div>
+                    <div class="rule-card border-sky-500 p-6">
+                        <h3 class="text-xl font-bold text-sky-800 mb-3">การใช้ "An"</h3>
+                        <p class="text-slate-700 mb-4">ใช้นำหน้าคำที่ขึ้นต้นด้วย **เสียงสระ** (Vowel Sound: a, e, i, o, u)</p>
+                        <ul class="list-disc list-inside space-y-2 text-slate-600">
+                            <li>an <strong>a</strong>pple (เสียง /æ/)</li>
+                            <li>an <strong>e</strong>lephant (เสียง /e/)</li>
+                            <li>an <strong>i</strong>gloo (เสียง /ɪ/)</li>
+                            <li class="font-bold">an <strong>h</strong>our (h ไม่ออกเสียง เริ่มด้วยเสียง /aʊ/)</li>
+                             <li class="font-bold">an <strong>M</strong>BA (M ออกเสียงว่า 'เอ็ม' ขึ้นด้วยเสียง /e/)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div id="panel-the" class="content-panel hidden space-y-6">
+                 <div class="rule-card border-indigo-500 p-6">
+                    <h2 class="text-2xl font-bold font-poppins text-indigo-800 mb-3">หลักการใช้ The (Definite Article)</h2>
+                    <p class="text-slate-700">ใช้กับคำนามที่ **ชี้เฉพาะเจาะจง** ซึ่งทั้งผู้พูดและผู้ฟังเข้าใจตรงกันว่าหมายถึงสิ่งไหน</p>
+                    <ul class="list-disc list-inside space-y-3 mt-4 text-slate-700">
+                        <li><strong>กล่าวถึงเป็นครั้งที่ 2:</strong><br><span class="text-slate-500 ml-4">I saw <strong>a</strong> cat. <strong>The</strong> cat was black.</span></li>
+                        <li><strong>มีสิ่งเดียวในโลก หรือในบริบทนั้น:</strong><br><span class="text-slate-500 ml-4"><strong>The</strong> Sun, <strong>the</strong> Moon, <strong>the</strong> sky, <strong>the</strong> CEO</span></li>
+                        <li><strong>ขั้นสูงสุด (Superlatives):</strong><br><span class="text-slate-500 ml-4"><strong>The</strong> best student, <strong>the</strong> most beautiful flower</span></li>
+                        <li><strong>ชื่อเฉพาะทางภูมิศาสตร์ (ส่วนใหญ่):</strong><br><span class="text-slate-500 ml-4"><strong>The</strong> Pacific Ocean, <strong>the</strong> Alps, <strong>the</strong> Nile River</span></li>
+                        <li><strong>เครื่องดนตรี:</strong><br><span class="text-slate-500 ml-4">She plays <strong>the</strong> piano.</span></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div id="panel-zero" class="content-panel hidden space-y-6">
+                 <div class="rule-card border-teal-500 p-6">
+                    <h2 class="text-2xl font-bold font-poppins text-teal-800 mb-3">เมื่อไหร่ที่ไม่ต้องใช้ Article (Zero Article)</h2>
+                    <p class="text-slate-700">มีหลายกรณีที่เราจะไม่ใช้ a, an, หรือ the นำหน้าคำนาม</p>
+                    <ul class="list-disc list-inside space-y-3 mt-4 text-slate-700">
+                        <li><strong>คำนามนับไม่ได้ หรือนามพหูพจน์ที่พูดถึงแบบทั่วไป ไม่ชี้เฉพาะเจาะจง:</strong><br><span class="text-slate-500 ml-4">I like <strong>music</strong>. / <strong>Dogs</strong> are friendly.</span></li>
+                        <li><strong>ชื่อเฉพาะส่วนใหญ่:</strong><br><span class="text-slate-500 ml-4">ชื่อคน (<strong>John</strong>), ชื่อประเทศส่วนใหญ่ (<strong>Thailand</strong>), เมือง (<strong>Bangkok</strong>), ทวีป (<strong>Asia</strong>)</span></li>
+                        <li><strong>มื้ออาหาร:</strong><br><span class="text-slate-500 ml-4">I have <strong>breakfast</strong> at 7 AM.</span></li>
+                        <li><strong>ภาษา และ กีฬา:</strong><br><span class="text-slate-500 ml-4">She speaks <strong>Japanese</strong>. / He plays <strong>football</strong>.</span></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div id="panel-quiz" class="content-panel hidden">
+                 <div id="quiz-container" class="bg-white/70 backdrop-blur-sm rounded-2xl shadow-lg p-6 md:p-8 text-center max-w-2xl mx-auto">
+                    <div id="quiz-start">
+                        <h2 class="text-2xl font-bold text-slate-700 mb-4">มาทดสอบความเข้าใจกัน!</h2>
+                        <p class="text-slate-600 mb-6">เลือก a, an, the, หรือ -- (ไม่ต้องเติม) ให้ถูกต้อง</p>
+                        <button id="start-quiz-btn" class="bg-sky-600 text-white font-bold py-3 px-8 rounded-full hover:bg-sky-700 transition transform hover:scale-105">เริ่มเลย!</button>
+                    </div>
+
+                    <div id="quiz-main" class="hidden">
+                        <p id="quiz-progress" class="text-sm text-slate-500 mb-2">คำถามที่ 1/10</p>
+                        <div class="bg-slate-100 p-6 rounded-lg mb-6">
+                             <h2 class="text-2xl md:text-3xl font-semibold text-slate-800" id="question-sentence"></h2>
+                        </div>
+                        <div id="choices-container" class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
+                            <button data-choice="a" class="quiz-choice-btn border-2 border-slate-400 text-slate-600 font-bold py-3 rounded-lg text-xl hover:bg-slate-500 hover:text-white">a</button>
+                            <button data-choice="an" class="quiz-choice-btn border-2 border-slate-400 text-slate-600 font-bold py-3 rounded-lg text-xl hover:bg-slate-500 hover:text-white">an</button>
+                            <button data-choice="the" class="quiz-choice-btn border-2 border-slate-400 text-slate-600 font-bold py-3 rounded-lg text-xl hover:bg-slate-500 hover:text-white">the</button>
+                            <button data-choice="no_article" class="quiz-choice-btn border-2 border-slate-400 text-slate-600 font-bold py-3 rounded-lg text-xl hover:bg-slate-500 hover:text-white">-- <small>(no article)</small></button>
+                        </div>
+                        <p id="feedback" class="h-6 text-lg font-bold mb-4"></p>
+                        <button id="next-question-btn" class="bg-sky-600 text-white font-bold py-2 px-6 rounded-full hover:bg-sky-700 transition hidden">ข้อถัดไป</button>
+                    </div>
+
+                    <div id="quiz-end" class="hidden">
+                        <h2 class="text-2xl font-bold text-slate-700 mb-4">ทำแบบทดสอบเสร็จแล้ว!</h2>
+                        <p class="text-slate-600 mb-2">คะแนนรวม:</p>
+                        <p id="final-score" class="text-6xl font-bold font-poppins text-sky-800 mb-6"></p>
+                        <p id="score-message" class="text-lg mb-6"></p>
+                        <button id="restart-quiz-btn" class="bg-sky-600 text-white font-bold py-3 px-8 rounded-full hover:bg-sky-700 transition transform hover:scale-105">ทำอีกครั้ง</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // --- Tab Switching Logic ---
+            const tabs = document.querySelectorAll('.main-tab');
+            const panels = document.querySelectorAll('.content-panel');
+
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    // Deactivate all tabs and panels
+                    tabs.forEach(t => t.classList.remove('active'));
+                    panels.forEach(p => p.classList.add('hidden'));
+
+                    // Activate clicked tab and its panel
+                    tab.classList.add('active');
+                    const targetPanelId = tab.dataset.target;
+                    document.getElementById(targetPanelId).classList.remove('hidden');
+                });
+            });
+
+            // --- Quiz Logic ---
+            const quizQuestions = [
+                { question: "She is ___ amazing singer.", answer: "an" },
+                { question: "I need to buy ___ new car.", answer: "a" },
+                { question: "Could you pass me ___ salt, please?", answer: "the" },
+                { question: "He is studying at ___ university in London.", answer: "a" },
+                { question: "My appointment is in ___ hour.", answer: "an" },
+                { question: "I love listening to ___ music.", answer: "no_article" },
+                { question: "___ sun is very bright today.", answer: "the" },
+                { question: "She wants to be ___ engineer.", answer: "an" },
+                { question: "We are going to ___ beach this weekend.", answer: "the" },
+                { question: "They play ___ basketball after school.", answer: "no_article" }
+            ];
+            let shuffledQuestions = [];
+            let currentQuestionIndex = 0;
+            let score = 0;
+
+            const quizStart = document.getElementById('quiz-start');
+            const quizMain = document.getElementById('quiz-main');
+            const quizEnd = document.getElementById('quiz-end');
+            const startQuizBtn = document.getElementById('start-quiz-btn');
+            const restartQuizBtn = document.getElementById('restart-quiz-btn');
+            const nextQuestionBtn = document.getElementById('next-question-btn');
+            const questionSentence = document.getElementById('question-sentence');
+            const choicesContainer = document.getElementById('choices-container');
+            const choiceBtns = choicesContainer.querySelectorAll('.quiz-choice-btn');
+            const quizProgress = document.getElementById('quiz-progress');
+            const feedback = document.getElementById('feedback');
+            const finalScore = document.getElementById('final-score');
+            const scoreMessage = document.getElementById('score-message');
+            
+            function startQuiz() {
+                shuffledQuestions = [...quizQuestions].sort(() => Math.random() - 0.5);
+                currentQuestionIndex = 0;
+                score = 0;
+                quizStart.classList.add('hidden');
+                quizEnd.classList.add('hidden');
+                quizMain.classList.remove('hidden');
+                nextQuestionBtn.classList.add('hidden');
+                showQuestion();
+            }
+
+            function showQuestion() {
+                resetState();
+                const question = shuffledQuestions[currentQuestionIndex];
+                questionSentence.innerHTML = question.question.replace('___', '<span class="font-bold text-sky-600">___</span>');
+                quizProgress.textContent = `คำถามที่ ${currentQuestionIndex + 1}/${shuffledQuestions.length}`;
+            }
+            
+            function resetState() {
+                choiceBtns.forEach(btn => {
+                    btn.classList.remove('correct', 'incorrect');
+                    btn.disabled = false;
+                });
+                feedback.textContent = '';
+                nextQuestionBtn.classList.add('hidden');
+            }
+
+            function selectAnswer(e) {
+                const selectedChoice = e.target.dataset.choice;
+                const correct = selectedChoice === shuffledQuestions[currentQuestionIndex].answer;
+                
+                if(correct) {
+                    score++;
+                    feedback.textContent = 'ถูกต้อง!';
+                    feedback.className = 'h-6 text-lg font-bold mb-4 text-green-600';
+                    e.target.classList.add('correct');
+                } else {
+                    feedback.textContent = 'ยังไม่ถูกนะ!';
+                    feedback.className = 'h-6 text-lg font-bold mb-4 text-red-600';
+                    e.target.classList.add('incorrect');
+                    const correctBtn = Array.from(choiceBtns).find(btn => btn.dataset.choice === shuffledQuestions[currentQuestionIndex].answer);
+                    correctBtn.classList.add('correct');
+                }
+                
+                choiceBtns.forEach(btn => btn.disabled = true);
+                
+                if (currentQuestionIndex < shuffledQuestions.length - 1) {
+                    nextQuestionBtn.textContent = 'ข้อถัดไป';
+                } else {
+                    nextQuestionBtn.textContent = 'ดูผลคะแนน';
+                }
+                nextQuestionBtn.classList.remove('hidden');
+            }
+
+            function handleNextQuestion() {
+                currentQuestionIndex++;
+                if (currentQuestionIndex < shuffledQuestions.length) {
+                    showQuestion();
+                } else {
+                    showEndScreen();
+                }
+            }
+            
+            function showEndScreen() {
+                quizMain.classList.add('hidden');
+                quizEnd.classList.remove('hidden');
+                finalScore.textContent = `${score} / ${shuffledQuestions.length}`;
+                
+                let message = '';
+                const percentage = (score / shuffledQuestions.length) * 100;
+                if (percentage === 100) message = 'ยอดเยี่ยม! คุณคือเจ้าแห่ง Articles!';
+                else if (percentage >= 80) message = 'เก่งมาก! เข้าใจหลักการได้ดีเยี่ยม!';
+                else if (percentage >= 50) message = 'ทำได้ดี! ทบทวนอีกนิดหน่อยก็สมบูรณ์แบบแล้ว!';
+                else message = 'สู้ๆ นะ! ลองทบทวนในหน้าบทเรียนแล้วมาลองใหม่กัน!';
+                scoreMessage.textContent = message;
+            }
+            
+            startQuizBtn.addEventListener('click', startQuiz);
+            restartQuizBtn.addEventListener('click', startQuiz);
+            nextQuestionBtn.addEventListener('click', handleNextQuestion);
+            choiceBtns.forEach(btn => btn.addEventListener('click', selectAnswer));
+        });
+    </script>
+
+</body>
+</html>

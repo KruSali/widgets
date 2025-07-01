@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Structure #3 - I'm getting + (adjective)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Mitr:wght@300;400;500;600&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Mitr', sans-serif;
+        }
+        .font-poppins {
+            font-family: 'Poppins', sans-serif;
+        }
+        .sentence-btn {
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.07);
+            border: 2px solid transparent;
+        }
+        .sentence-btn:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+        }
+        #modal {
+            transition: opacity 0.3s ease;
+        }
+        .modal-content-container {
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            opacity: 0;
+            transform: translateY(20px) scale(0.95);
+        }
+        #modal.active .modal-content-container {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-green-100 via-teal-100 to-lime-200 min-h-screen">
+
+    <div class="container mx-auto p-4 sm:p-6 lg:p-8">
+
+        <header class="text-center mb-10">
+            <h1 class="text-4xl sm:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-green-600 to-lime-500 font-poppins">Structure #3</h1>
+            <h2 class="text-2xl sm:text-3xl font-bold text-slate-800 mt-2 font-poppins">"I'm getting + (adjective)"</h2>
+            <p class="text-slate-600 mt-4 max-w-2xl mx-auto text-lg">
+                ใช้บอกถึง <strong class="text-green-700">"การเปลี่ยนแปลง"</strong> หรือการเปลี่ยนผ่านไปสู่สภาวะใหม่ มีความหมายว่า "ฉันเริ่มที่จะ...แล้ว" หรือ "กำลังจะ...ขึ้นเรื่อยๆ"
+            </p>
+        </header>
+
+        <main id="sentences-grid" class="grid grid-cols-1 md:grid-cols-2 gap-5">
+            </main>
+
+        <footer class="text-center mt-12">
+            <p class="text-slate-700 font-medium">อังกฤษฉบับคนเรียนไม่รู้เรื่อง โดยครูสาลี่</p>
+        </footer>
+
+    </div>
+
+    <div id="modal" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center p-4 z-50 opacity-0 pointer-events-none">
+        <div class="modal-content-container w-full max-w-2xl max-h-[90vh] overflow-y-auto bg-white rounded-2xl shadow-2xl">
+            <div id="modal-header" class="p-6 sm:p-8 rounded-t-2xl bg-gradient-to-r from-green-600 to-lime-500">
+                <p id="modal-english" class="font-poppins font-bold text-2xl text-white text-center"></p>
+                <p id="modal-thai" class="text-xl text-white text-center mt-2 opacity-90"></p>
+            </div>
+            <div class="p-6 sm:p-8">
+                <div id="modal-details" class="space-y-5">
+                    </div>
+                <div class="text-center mt-8">
+                    <button id="close-modal-btn" class="bg-slate-600 hover:bg-slate-700 text-white font-bold py-2 px-8 rounded-full shadow-lg transform hover:scale-105 transition-transform duration-300">
+                        ปิด
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const sentences = [
+            {
+                eng: "I'm getting tired.", th: "ฉันเริ่มเหนื่อยแล้ว",
+                context: "บอกสภาวะร่างกายที่กำลังเปลี่ยนจาก 'ยังไหว' ไปสู่ 'เหนื่อย' เป็นสัญญาณว่าต้องการพักผ่อน",
+                dialogue: { a: "Do you want to watch another episode?", b: "I can't. It's late and I'm getting tired." },
+                alternatives: "<strong>I'm starting to feel tired.</strong> (ฉันเริ่มรู้สึกเหนื่อย)<br><strong>My energy is running low.</strong> (พลังงานของฉันเริ่มจะหมดแล้ว)"
+            },
+            {
+                eng: "I'm getting hungry.", th: "ฉันเริ่มหิวแล้ว",
+                context: "ใช้บอกร่างกายที่กำลังเปลี่ยนจาก 'ไม่หิว' ไปสู่ 'หิว' เป็นสัญญาณว่าถึงเวลาหาอะไรกิน",
+                dialogue: { a: "Should we finish this report first?", b: "Let's take a break. I'm getting hungry." },
+                alternatives: "<strong>I'm starting to feel hungry.</strong> (ฉันเริ่มรู้สึกหิว)<br><strong>My stomach is starting to rumble.</strong> (ท้องฉันเริ่มร้องแล้ว)"
+            },
+            {
+                eng: "I'm getting excited.", th: "ฉันเริ่มตื่นเต้นแล้ว",
+                context: "บอกความรู้สึกที่กำลังเพิ่มขึ้นเรื่อยๆ เมื่อมีเหตุการณ์ดีๆ หรือน่าสนุกกำลังจะมาถึง",
+                dialogue: { a: "Our trip to Korea is next week!", b: "I know! I'm getting excited just thinking about it." },
+                alternatives: "<strong>I'm starting to get excited.</strong><br><strong>I can't wait!</strong> (ฉันรอไม่ไหวแล้ว!)"
+            },
+            {
+                eng: "I'm getting better.", th: "ฉันเริ่มดีขึ้นแล้ว (อาการป่วย)",
+                context: "ใช้บอกว่าอาการป่วยหรือบาดเจ็บกำลังทุเลาลง อยู่ในกระบวนการฟื้นตัว",
+                dialogue: { a: "How are you feeling today?", b: "Much better, thanks. I'm getting better each day." },
+                alternatives: "<strong>I'm feeling better now.</strong><br><strong>I'm on the road to recovery.</strong> (ฉันกำลังอยู่ในช่วงพักฟื้น)"
+            },
+            {
+                eng: "It's getting late.", th: "มันเริ่มจะดึกแล้ว",
+                context: "ใช้ 'It's getting...' เพื่อบอกการเปลี่ยนแปลงของเวลาหรือสภาพอากาศ เป็นสัญญาณว่าควรกลับบ้านหรือเข้านอน",
+                dialogue: { a: "Look at the time! It's getting late.", b: "You're right. We should probably head home." },
+                alternatives: "<strong>The hour is getting late.</strong>"
+            },
+            {
+                eng: "I'm getting ready for the party.", th: "ฉันกำลังเตรียมตัวไปงานปาร์ตี้",
+                context: "บอกกระบวนการเตรียมความพร้อมสำหรับเหตุการณ์บางอย่าง เช่น แต่งตัว, แต่งหน้า",
+                dialogue: { a: "What are you doing?", b: "I'm getting ready for the party. I need to choose a dress." },
+                alternatives: "<strong>I'm preparing for the party.</strong><br><strong>I'm in the process of getting ready.</strong>"
+            },
+            {
+                eng: "I'm getting confused.", th: "ฉันเริ่มสับสนแล้ว",
+                context: "บอกสภาวะทางความคิดที่กำลังเปลี่ยนจาก 'เข้าใจ' ไปสู่ 'ไม่เข้าใจ' เพราะข้อมูลที่ซับซ้อนหรือขัดแย้งกัน",
+                dialogue: { a: "So first you do this, then you do that, but not before you do this...", b: "Wait, slow down. I'm getting confused." },
+                alternatives: "<strong>This is starting to confuse me.</strong><br><strong>I'm losing track.</strong> (ฉันเริ่มตามไม่ทันแล้ว)"
+            },
+            {
+                eng: "I'm getting worried.", th: "ฉันเริ่มเป็นห่วงแล้ว",
+                context: "ใช้แสดงความกังวลที่กำลังก่อตัวขึ้น เมื่อสถานการณ์ดูไม่ปกติหรือไม่เป็นไปตามที่คาด",
+                dialogue: { a: "She was supposed to be here an hour ago.", b: "I know. I'm getting worried." },
+                alternatives: "<strong>I'm starting to worry.</strong><br><strong>This is making me nervous.</strong>"
+            },
+            {
+                eng: "This is getting interesting.", th: "นี่มันเริ่มจะน่าสนใจขึ้นแล้ว",
+                context: "ใช้ 'This is getting...' เพื่อบรรยายสถานการณ์ที่กำลังพัฒนาไปในทางที่น่าติดตามหรือคาดไม่ถึง",
+                dialogue: { a: "I thought they were enemies, but now they are working together.", b: "Oh, this is getting interesting." },
+                alternatives: "<strong>The plot thickens.</strong> (สำนวนแปลว่า 'เรื่องราวกำลังเข้มข้นขึ้น')"
+            },
+            {
+                eng: "I'm getting good at this.", th: "ฉันเริ่มจะเก่งเรื่องนี้แล้ว",
+                context: "ใช้บอกถึงทักษะที่กำลังพัฒนาขึ้นเรื่อยๆ จากการฝึกฝน จากที่เคยทำไม่ได้จนตอนนี้เริ่มทำได้ดี",
+                dialogue: { a: "Wow, you baked a perfect cake!", b: "Thanks! After so many tries, I think I'm getting good at this." },
+                alternatives: "<strong>I'm starting to get the hang of it.</strong> (สำนวนแปลว่า 'ฉันเริ่มจะจับทางได้แล้ว')<br><strong>My skills are improving.</strong>"
+            },
+            {
+                eng: "I'm getting old.", th: "ฉันเริ่มแก่แล้ว",
+                context: "ใช้พูดแบบติดตลกหรือยอมรับความจริง เมื่อเริ่มรู้สึกว่าร่างกายไม่เหมือนเดิม เช่น ปวดหลังง่าย หรือลืมของบ่อย",
+                dialogue: { a: "My back hurts from just sitting down.", b: "I know the feeling. I'm getting old." },
+                alternatives: "<strong>I'm not as young as I used to be.</strong> (ฉันไม่หนุ่ม/สาวเหมือนเคยแล้ว)"
+            },
+            {
+                eng: "It's getting dark outside.", th: "ข้างนอกเริ่มมืดแล้ว",
+                context: "ใช้บอกการเปลี่ยนแปลงของแสงธรรมชาติ เป็นสัญญาณของเวลาเย็นหรือค่ำ",
+                dialogue: { a: "We should turn on the lights.", b: "Good idea. It's getting dark outside." },
+                alternatives: "<strong>The sun is going down.</strong> (พระอาทิตย์กำลังจะตก)"
+            },
+            {
+                eng: "I'm getting nervous.", th: "ฉันเริ่มประหม่า/กังวลแล้ว",
+                context: "บอกความรู้สึกที่กำลังก่อตัวขึ้นก่อนเหตุการณ์สำคัญ เช่น การสอบ, การสัมภาษณ์, การพูดในที่สาธารณะ",
+                dialogue: { a: "You're next to go on stage.", b: "Oh, my hands are sweating. I'm getting nervous." },
+                alternatives: "<strong>I'm starting to feel nervous.</strong><br><strong>I have butterflies in my stomach.</strong> (สำนวนแปลว่า 'รู้สึกประหม่า/ตื่นเต้น')"
+            },
+            {
+                eng: "The situation is getting worse.", th: "สถานการณ์กำลังแย่ลง",
+                context: "ใช้ 'The situation is getting...' เพื่อบรรยายเหตุการณ์ที่กำลังพัฒนาไปในทางลบ",
+                dialogue: { a: "Did the rain stop?", b: "No, in fact, the situation is getting worse. The wind is picking up." },
+                alternatives: "<strong>Things are going from bad to worse.</strong><br><strong>It's deteriorating.</strong> (มันกำลังเสื่อมถอยลง)"
+            },
+            {
+                eng: "I'm getting used to the new system.", th: "ฉันเริ่มชินกับระบบใหม่แล้ว",
+                context: "ใช้บอกกระบวนการปรับตัวเข้ากับสิ่งใหม่ๆ จากที่ไม่คุ้นเคยจนเริ่มคุ้นเคยมากขึ้น",
+                dialogue: { a: "How's the new software?", b: "It was confusing at first, but I'm getting used to it now." },
+                alternatives: "<strong>I'm becoming accustomed to the new system.</strong><br><strong>I'm starting to feel comfortable with it.</strong>"
+            },
+            {
+                eng: "My coffee is getting cold.", th: "กาแฟของฉันเริ่มเย็นแล้ว",
+                context: "ใช้บอกการเปลี่ยนแปลงของอุณหภูมิของสิ่งของ เป็นสัญญาณว่าควรรีบดื่มหรือกิน",
+                dialogue: { a: "Stop checking your phone and drink your coffee.", b: "You're right. My coffee is getting cold." },
+                alternatives: "<strong>My coffee is cooling down.</strong>"
+            },
+            {
+                eng: "I'm getting bored.", th: "ฉันเริ่มเบื่อแล้ว",
+                context: "บอกความรู้สึกที่เปลี่ยนจาก 'ยังโอเค' ไปสู่ 'เบื่อ' เมื่อต้องทำอะไรซ้ำๆ หรือฟังอะไรที่ไม่น่าสนใจ",
+                dialogue: { a: "The movie has been on for three hours.", b: "I know. To be honest, I'm getting bored." },
+                alternatives: "<strong>I'm starting to lose interest.</strong> (ฉันเริ่มจะหมดความสนใจแล้ว)<br><strong>This is dragging on.</strong> (เรื่องนี้มันยืดเยื้อน่าเบื่อ)"
+            },
+            {
+                eng: "I'm getting closer to my goal.", th: "ฉันกำลังเข้าใกล้เป้าหมายของฉันมากขึ้น",
+                context: "ใช้บอกความคืบหน้าที่กำลังขยับเข้าใกล้เป้าหมายที่ตั้งไว้",
+                dialogue: { a: "You've saved a lot of money.", b: "Yes! I'm getting closer to my goal of buying a house." },
+                alternatives: "<strong>I'm nearing my goal.</strong><br><strong>I'm almost there.</strong> (ฉันเกือบจะถึงแล้ว)"
+            },
+            {
+                eng: "He's getting angry.", th: "เขาเริ่มโมโหแล้ว",
+                context: "ใช้บรรยายการเปลี่ยนแปลงทางอารมณ์ของบุคคลที่สามที่เราสังเกตเห็น",
+                dialogue: { a: "We should probably stop teasing him.", b: "I agree. Look at his face. He's getting angry." },
+                alternatives: "<strong>He's starting to lose his temper.</strong> (เขาเริ่มจะควบคุมอารมณ์ไม่อยู่แล้ว)<br><strong>He looks mad.</strong> (เขาดูโกรธ)"
+            },
+            {
+                eng: "I'm getting married!", th: "ฉันกำลังจะแต่งงาน!",
+                context: "ใช้ประกาศข่าวดีที่แสดงถึงการเปลี่ยนแปลงสถานะครั้งใหญ่ในชีวิต จาก 'โสด' ไปสู่ 'แต่งงาน'",
+                dialogue: { a: "Why are you smiling so much?", b: "I have big news... I'm getting married!" },
+                alternatives: "<strong>We've decided to get married.</strong><br><strong>I'm tying the knot!</strong> (สำนวน แปลว่า 'ฉันกำลังจะแต่งงาน')"
+            }
+        ];
+        
+        const buttonColors = [
+            'bg-lime-200 hover:border-lime-500 text-lime-900',
+            'bg-green-200 hover:border-green-500 text-green-900',
+            'bg-emerald-200 hover:border-emerald-500 text-emerald-900',
+            'bg-teal-200 hover:border-teal-500 text-teal-900',
+        ];
+        
+        const grid = document.getElementById('sentences-grid');
+        const modal = document.getElementById('modal');
+        const modalHeader = document.getElementById('modal-header');
+        const modalEnglish = document.getElementById('modal-english');
+        const modalThai = document.getElementById('modal-thai');
+        const modalDetails = document.getElementById('modal-details');
+        const closeModalBtn = document.getElementById('close-modal-btn');
+
+        sentences.forEach((sentence, index) => {
+            const button = document.createElement('button');
+            const colorClass = buttonColors[index % buttonColors.length];
+            button.className = `sentence-btn p-5 rounded-xl text-left font-poppins ${colorClass}`;
+            button.innerHTML = `<span class="font-semibold">${sentence.eng}</span>`;
+            button.addEventListener('click', () => openModal(sentence));
+            grid.appendChild(button);
+        });
+
+        function openModal(sentence) {
+            modalEnglish.textContent = sentence.eng;
+            modalThai.textContent = sentence.th;
+
+            modalDetails.innerHTML = `
+                <div class="p-4 bg-slate-50 rounded-lg">
+                    <h4 class="font-semibold text-lg text-slate-800 mb-2">💡 บริบทการใช้งาน (Context)</h4>
+                    <p class="text-slate-600">${sentence.context}</p>
+                </div>
+                <div class="p-4 bg-slate-50 rounded-lg">
+                    <h4 class="font-semibold text-lg text-slate-800 mb-2">💬 ตัวอย่างบทสนทนา (Dialogue)</h4>
+                    <div class="space-y-1 text-slate-600">
+                        <p><strong>A:</strong> ${sentence.dialogue.a}</p>
+                        <p><strong>B:</strong> ${sentence.dialogue.b}</p>
+                    </div>
+                </div>
+                <div class="p-4 bg-slate-50 rounded-lg">
+                    <h4 class="font-semibold text-lg text-slate-800 mb-2">🔄 คำที่เกี่ยวข้อง / ใช้แทนได้ (Alternatives)</h4>
+                    <div class="text-slate-600">${sentence.alternatives}</div>
+                </div>
+            `;
+
+            modal.classList.add('active');
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            modal.classList.add('opacity-0', 'pointer-events-none');
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        closeModalBtn.addEventListener('click', closeModal);
+        modal.addEventListener('click', (e) => {
+            if (e.target.id === 'modal') {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Structure #30 - I'm satisfied with...</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Mitr:wght@300;400;500;600&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Mitr', sans-serif;
+        }
+        .font-poppins {
+            font-family: 'Poppins', sans-serif;
+        }
+        .sentence-btn {
+            transition: all 0.2s ease-in-out;
+        }
+        #modal {
+            transition: opacity 0.3s ease;
+        }
+        .modal-content-container {
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            opacity: 0;
+            transform: translateY(20px) scale(0.95);
+        }
+        #modal.active .modal-content-container {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+
+    <div class="container mx-auto p-4 sm:p-6 lg:p-8">
+
+        <header class="text-center mb-10">
+            <h1 class="text-4xl sm:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-sky-500 via-emerald-500 to-rose-500 font-poppins">Structure #30</h1>
+            <h2 class="text-2xl sm:text-3xl font-bold text-slate-800 mt-2 font-poppins">"I'm satisfied with + (noun)"</h2>
+            <p class="text-slate-600 mt-4 max-w-2xl mx-auto text-lg">
+                ใช้เพื่อแสดง <strong class="text-gray-700">"ความพึงพอใจ"</strong> หมายความว่าสิ่งนั้นๆ เป็นไปตามความคาดหวังหรือผ่านมาตรฐานที่ตั้งไว้ เป็นความรู้สึก "โอเค, ดีพอแล้ว"
+            </p>
+        </header>
+
+        <main id="sentences-grid" class="grid grid-cols-1 md:grid-cols-2 gap-5">
+            </main>
+
+        <footer class="text-center mt-12">
+            <p class="text-slate-700 font-medium">อังกฤษฉบับคนเรียนไม่รู้เรื่อง โดยครูสาลี่</p>
+        </footer>
+
+    </div>
+
+    <div id="modal" class="fixed inset-0 bg-black bg-opacity-60 flex justify-center items-center p-4 z-50 opacity-0 pointer-events-none">
+        <div class="modal-content-container w-full max-w-2xl max-h-[90vh] overflow-y-auto bg-slate-50 rounded-2xl shadow-2xl">
+            <div id="modal-header" class="p-6 sm:p-8 rounded-t-2xl bg-gradient-to-r from-sky-500 via-emerald-500 to-rose-500">
+                <p id="modal-english" class="font-poppins font-bold text-2xl text-white text-center"></p>
+                <p id="modal-thai" class="text-xl text-white text-center mt-2 opacity-90"></p>
+            </div>
+            <div class="p-6 sm:p-8">
+                <div id="modal-details" class="space-y-5">
+                    </div>
+                <div class="text-center mt-8">
+                    <button id="close-modal-btn" class="bg-slate-600 hover:bg-slate-700 text-white font-bold py-2 px-8 rounded-full shadow-lg transform hover:scale-105 transition-transform duration-300">
+                        ปิด
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const sentences = [
+            {
+                eng: "I'm satisfied with the results.", th: "ฉันพอใจกับผลลัพธ์",
+                context: "ใช้ในบริบทการทำงานหรือโปรเจกต์ เพื่อบอกว่าผลลัพธ์ที่ออกมานั้นเป็นไปตามเป้าหมายหรือมาตรฐานที่คาดหวังไว้",
+                dialogue: { a: "We didn't exceed the sales target, but we met it.", b: "That's good enough for now. I'm satisfied with the results." },
+                alternatives: "<strong>The results are satisfactory.</strong> (ผลลัพธ์เป็นที่น่าพอใจ)<br><strong>The results meet my expectations.</strong> (ผลลัพธ์เป็นไปตามความคาดหวังของฉัน)"
+            },
+            {
+                eng: "I'm satisfied with your performance.", th: "ฉันพอใจกับผลงานของคุณ",
+                context: "หัวหน้าใช้พูดกับลูกน้องในการประเมินงาน เพื่อบอกว่าผลงานของเขาอยู่ในเกณฑ์ที่ดีและเป็นไปตามมาตรฐาน",
+                dialogue: { a: "Here is my quarterly review.", b: "Thank you. Overall, I'm satisfied with your performance this quarter." },
+                alternatives: "<strong>Your performance meets expectations.</strong><br><strong>You did a good job.</strong>"
+            },
+            {
+                eng: "I'm satisfied with my purchase.", th: "ฉันพอใจกับของที่ซื้อมา",
+                context: "ใช้หลังจากซื้อสินค้ามาแล้วและพบว่าสินค้ามีคุณภาพและใช้งานได้ดีตามที่คาดหวัง",
+                dialogue: { a: "How do you like your new phone?", b: "It's great. The battery lasts all day. I'm satisfied with my purchase." },
+                alternatives: "<strong>I'm happy with my purchase.</strong><br><strong>It was a good buy.</strong>"
+            },
+            {
+                eng: "I'm satisfied with the service.", th: "ฉันพอใจกับการบริการ",
+                context: "ใช้ในการรีวิวหรือให้ฟีดแบ็กกับร้านอาหาร, โรงแรม, หรือร้านค้า ว่าการบริการอยู่ในระดับที่น่าพอใจ",
+                dialogue: { a: "How was everything, sir?", b: "It was good. I'm satisfied with the service. Thank you." },
+                alternatives: "<strong>The service was good.</strong><br><strong>I have no complaints about the service.</strong>"
+            },
+            {
+                eng: "I'm satisfied with the final decision.", th: "ฉันพอใจกับการตัดสินใจสุดท้าย",
+                context: "ใช้เมื่อผลการตัดสินของกลุ่มหรือคณะกรรมการออกมาเป็นที่น่าพอใจสำหรับเรา",
+                dialogue: { a: "The committee has chosen the new design.", b: "I've seen it. It's not my top choice, but I'm satisfied with the final decision." },
+                alternatives: "<strong>I can accept that decision.</strong><br><strong>The final decision is acceptable.</strong>"
+            },
+            {
+                eng: "I'm satisfied with my current situation.", th: "ฉันพอใจกับสถานการณ์ปัจจุบันของฉัน",
+                context: "ใช้เมื่อพูดถึงชีวิตโดยรวม ว่าเรารู้สึกพอใจและมีความสุขกับสิ่งที่เป็นอยู่ ไม่ได้ต้องการการเปลี่ยนแปลงอะไรมาก",
+                dialogue: { a: "Do you ever think about moving abroad?", b: "Not really. I have a good job and great friends here. I'm satisfied with my current situation." },
+                alternatives: "<strong>I'm content with my life.</strong> (ฉันพอใจกับชีวิตของฉัน)<br><strong>I'm happy with where I am in life.</strong>"
+            },
+            {
+                eng: "I'm satisfied with the explanation.", th: "ฉันพอใจกับคำอธิบาย",
+                context: "ใช้หลังจากได้รับคำอธิบายที่ช่วยให้เราเข้าใจเรื่องราวได้ชัดเจนและหายสงสัย",
+                dialogue: { a: "So that's why the project was delayed.", b: "Yes. Does that make sense?", a: "It does. Thank you. I'm satisfied with the explanation." },
+                alternatives: "<strong>That makes sense now.</strong><br><strong>Thank you for clarifying.</strong>"
+            },
+            {
+                eng: "I'm satisfied with what I have.", th: "ฉันพอใจกับสิ่งที่ฉันมี",
+                context: "แสดงถึงทัศนคติที่รู้จักพอ ไม่โลภ และมีความสุขกับสิ่งที่เรามีอยู่แล้ว",
+                dialogue: { a: "Don't you want a bigger house or a fancier car?", b: "Not really. I'm satisfied with what I have." },
+                alternatives: "<strong>I'm grateful for what I have.</strong><br><strong>I don't need anything more.</strong>"
+            },
+            {
+                eng: "I'm satisfied with the progress we've made.", th: "ฉันพอใจกับความคืบหน้าที่เราทำได้",
+                context: "ใช้ในโปรเจกต์หรือการทำงานกลุ่ม เพื่อบอกว่าความคืบหน้าของงานเป็นไปตามแผนที่วางไว้",
+                dialogue: { a: "We're halfway through the project.", b: "Yes, and we're on schedule. I'm satisfied with the progress we've made so far." },
+                alternatives: "<strong>We're making good progress.</strong><br><strong>The progress is satisfactory.</strong>"
+            },
+            {
+                eng: "Are you satisfied with your meal?", th: "คุณพอใจกับอาหารของคุณไหม",
+                context: "เป็นคำถามที่พนักงานร้านอาหารมักจะใช้ถามลูกค้าเพื่อตรวจสอบความพึงพอใจ",
+                dialogue: { a: "(Waiter comes to the table) Is everything okay? Are you satisfied with your meal?", b: "Yes, it's delicious. Thank you." },
+                alternatives: "<strong>How is everything?</strong><br><strong>Are you enjoying your meal?</strong>"
+            },
+            {
+                eng: "I'm satisfied with the agreement.", th: "ฉันพอใจกับข้อตกลงนี้",
+                context: "ใช้ในการเจรจาทางธุรกิจ เพื่อยืนยันว่าเรายอมรับและพอใจกับข้อตกลงที่ได้ทำร่วมกัน",
+                dialogue: { a: "So we'll handle marketing, and you'll handle distribution.", b: "That sounds fair. I'm satisfied with the agreement." },
+                alternatives: "<strong>I'm happy with these terms.</strong><br><strong>The agreement is acceptable to me.</strong>"
+            },
+            {
+                eng: "I'm never satisfied with my own work.", th: "ฉันไม่เคยพอใจกับผลงานของตัวเองเลย",
+                context: "ใช้เพื่ออธิบายนิสัยของคนที่เป็น Perfectionist (สมบูรณ์แบบนิยม) ซึ่งมักจะรู้สึกว่างานของตัวเองดีไม่พอเสมอ",
+                dialogue: { a: "This painting is amazing!", b: "Thank you, but I don't know... I'm never satisfied with my own work." },
+                alternatives: "<strong>I'm my own worst critic.</strong> (ฉันคือคนที่วิจารณ์ตัวเองหนักที่สุด)"
+            },
+            {
+                eng: "I'm satisfied with the outcome.", th: "ฉันพอใจกับผลลัพธ์ที่ออกมา",
+                context: "ใช้พูดถึงผลลัพธ์สุดท้ายของสถานการณ์หรือการแข่งขัน ว่าเป็นที่น่าพอใจ",
+                dialogue: { a: "We didn't win, but we got third place.", b: "Considering the competition, I'm satisfied with the outcome." },
+                alternatives: "<strong>I'm content with the outcome.</strong><br><strong>The outcome was acceptable.</strong>"
+            },
+            {
+                eng: "I'm not satisfied with your excuse.", th: "ฉันไม่พอใจกับข้อแก้ตัวของคุณ",
+                context: "ใช้ในรูปปฏิเสธเพื่อบอกอย่างชัดเจนว่าเหตุผลหรือข้อแก้ตัวของอีกฝ่ายนั้นฟังไม่ขึ้น",
+                dialogue: { a: "I'm late because my dog ate my homework.", b: "That's the oldest excuse in the book. I'm not satisfied with your excuse." },
+                alternatives: "<strong>That's a poor excuse.</strong><br><strong>I expect a better explanation.</strong>"
+            },
+            {
+                eng: "He seems satisfied with his life.", th: "เขาดูเหมือนจะพอใจกับชีวิตของเขา",
+                context: "ใช้เพื่อบรรยายความรู้สึกของบุคคลที่สามที่เราสังเกตเห็น",
+                dialogue: { a: "He doesn't have much, but he's always smiling.", b: "Yes, he seems satisfied with his life." },
+                alternatives: "<strong>He seems content with his life.</strong>"
+            },
+            {
+                eng: "I'm perfectly satisfied with this.", th: "ฉันพอใจกับสิ่งนี้อย่างสมบูรณ์แบบ",
+                context: "ใช้ 'perfectly' เพื่อเน้นย้ำว่าเรารู้สึกพอใจอย่างมากและไม่มีข้อติเลย",
+                dialogue: { a: "Is the hotel room okay?", b: "It's more than okay, it's beautiful. I'm perfectly satisfied with this." },
+                alternatives: "<strong>I couldn't be more satisfied.</strong><br><strong>This is perfect, thank you.</strong>"
+            },
+            {
+                eng: "I'm satisfied with my score.", th: "ฉันพอใจกับคะแนนของฉัน",
+                context: "ใช้พูดถึงผลคะแนนสอบที่อาจจะไม่ใช่คะแนนที่ดีที่สุด แต่ก็อยู่ในระดับที่เรายอมรับได้",
+                dialogue: { a: "How did you do on the test?", b: "I got a B. It's not an A, but I'm satisfied with my score." },
+                alternatives: "<strong>I'm happy with my score.</strong>"
+            },
+            {
+                eng: "I'm satisfied with the compensation.", th: "ฉันพอใจกับค่าชดเชย",
+                context: "ใช้ในการเจรจาต่อรอง เมื่อได้รับข้อเสนอค่าชดเชยที่เหมาะสมและเป็นที่ยอมรับ",
+                dialogue: { a: "The airline offered us a voucher for the cancelled flight.", b: "I think that's fair. I'm satisfied with the compensation." },
+                alternatives: "<strong>The compensation is acceptable.</strong>"
+            },
+            {
+                eng: "I will not be satisfied until I get an apology.", th: "ฉันจะไม่พอใจจนกว่าจะได้รับคำขอโทษ",
+                context: "ใช้เพื่อแสดงจุดยืนที่หนักแน่นว่าเราต้องการการขอโทษสำหรับสิ่งที่เกิดขึ้น",
+                dialogue: { a: "He offered to pay for the damage.", b: "That's not enough. I will not be satisfied until I get a proper apology." },
+                alternatives: "<strong>I demand an apology.</strong>"
+            },
+            {
+                eng: "If you're not satisfied with the product, you can return it.", th: "หากคุณไม่พอใจในสินค้า คุณสามารถส่งคืนได้",
+                context: "เป็นประโยคที่ใช้บ่อยในนโยบายการรับประกันสินค้าของร้านค้า",
+                dialogue: { a: "What if I don't like it?", b: "If you're not satisfied with the product for any reason, you can return it for a full refund." },
+                alternatives: "<strong>We have a satisfaction guarantee.</strong>"
+            }
+        ];
+        
+        const grid = document.getElementById('sentences-grid');
+        const modal = document.getElementById('modal');
+        const modalHeader = document.getElementById('modal-header');
+        const modalEnglish = document.getElementById('modal-english');
+        const modalThai = document.getElementById('modal-thai');
+        const modalDetails = document.getElementById('modal-details');
+        const closeModalBtn = document.getElementById('close-modal-btn');
+
+        const buttonColors = [
+            { bg: 'bg-sky-500', hover: 'hover:bg-sky-600' },
+            { bg: 'bg-amber-500', hover: 'hover:bg-amber-600' },
+            { bg: 'bg-emerald-500', hover: 'hover:bg-emerald-600' },
+            { bg: 'bg-rose-500', hover: 'hover:bg-rose-600' },
+        ];
+
+        sentences.forEach((sentence, index) => {
+            const button = document.createElement('button');
+            const colorTheme = buttonColors[index % buttonColors.length];
+
+            button.className = `group sentence-btn p-5 rounded-lg text-left text-white shadow-md transform hover:-translate-y-1 ${colorTheme.bg} ${colorTheme.hover}`;
+            
+            button.innerHTML = `
+                <span class="font-poppins font-semibold transition-colors duration-200">${sentence.eng}</span>
+                <span class="block text-sm text-white/80 font-normal mt-1 transition-colors duration-200">${sentence.th}</span>
+            `;
+
+            button.addEventListener('click', () => openModal(sentence));
+            grid.appendChild(button);
+        });
+
+        function openModal(sentence) {
+            modalEnglish.textContent = sentence.eng;
+            modalThai.textContent = sentence.th;
+
+            modalDetails.innerHTML = `
+                <div class="p-4 bg-slate-100 rounded-lg">
+                    <h4 class="font-semibold text-lg text-slate-800 mb-2">💡 บริบทการใช้งาน (Context)</h4>
+                    <p class="text-slate-600">${sentence.context}</p>
+                </div>
+                <div class="p-4 bg-slate-100 rounded-lg">
+                    <h4 class="font-semibold text-lg text-slate-800 mb-2">💬 ตัวอย่างบทสนทนา (Dialogue)</h4>
+                    <div class="space-y-1 text-slate-600">
+                        <p><strong>A:</strong> ${sentence.dialogue.a}</p>
+                        <p><strong>B:</strong> ${sentence.dialogue.b}</p>
+                    </div>
+                </div>
+                <div class="p-4 bg-slate-100 rounded-lg">
+                    <h4 class="font-semibold text-lg text-slate-800 mb-2">🔄 คำที่เกี่ยวข้อง / ใช้แทนได้ (Alternatives)</h4>
+                    <div class="text-slate-600">${sentence.alternatives}</div>
+                </div>
+            `;
+
+            modal.classList.add('active');
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            modal.classList.add('opacity-0', 'pointer-events-none');
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        closeModalBtn.addEventListener('click', closeModal);
+        modal.addEventListener('click', (e) => {
+            if (e.target.id === 'modal') {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>

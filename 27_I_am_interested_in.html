@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Structure #27 - I'm interested in...</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Mitr:wght@300;400;500;600&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Mitr', sans-serif;
+        }
+        .font-poppins {
+            font-family: 'Poppins', sans-serif;
+        }
+        .sentence-btn {
+            transition: all 0.2s ease-in-out;
+        }
+        #modal {
+            transition: opacity 0.3s ease;
+        }
+        .modal-content-container {
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            opacity: 0;
+            transform: translateY(20px) scale(0.95);
+        }
+        #modal.active .modal-content-container {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+    </style>
+</head>
+<body class="bg-slate-100">
+
+    <div class="container mx-auto p-4 sm:p-6 lg:p-8">
+
+        <header class="text-center mb-10">
+            <h1 class="text-4xl sm:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 to-blue-600 font-poppins">Structure #27</h1>
+            <h2 class="text-2xl sm:text-3xl font-bold text-slate-800 mt-2 font-poppins">"I'm interested in + (noun/gerund)"</h2>
+            <p class="text-slate-600 mt-4 max-w-2xl mx-auto text-lg">
+                ใช้เพื่อแสดง <strong class="text-indigo-600">"ความสนใจ"</strong> หรือ <strong class="text-blue-600">"ความอยากรู้อยากเห็น"</strong> เกี่ยวกับเรื่องใดเรื่องหนึ่ง<br>
+                <strong class="text-red-600">กฎสำคัญที่ต้องจำ:</strong> หลัง 'in' ต้องตามด้วย <strong class="text-indigo-600">คำนาม (Noun)</strong> หรือ <strong class="text-blue-600">กริยาเติม -ing (Gerund)</strong> เสมอ!
+            </p>
+        </header>
+
+        <main id="sentences-grid" class="grid grid-cols-1 md:grid-cols-2 gap-5">
+            </main>
+
+        <footer class="text-center mt-12">
+            <p class="text-slate-700 font-medium">อังกฤษฉบับคนเรียนไม่รู้เรื่อง โดยครูสาลี่</p>
+        </footer>
+
+    </div>
+
+    <div id="modal" class="fixed inset-0 bg-black bg-opacity-60 flex justify-center items-center p-4 z-50 opacity-0 pointer-events-none">
+        <div class="modal-content-container w-full max-w-2xl max-h-[90vh] overflow-y-auto bg-slate-50 rounded-2xl shadow-2xl">
+            <div id="modal-header" class="p-6 sm:p-8 rounded-t-2xl bg-gradient-to-r from-indigo-500 to-blue-600">
+                <p id="modal-english" class="font-poppins font-bold text-2xl text-white text-center"></p>
+                <p id="modal-thai" class="text-xl text-white text-center mt-2 opacity-90"></p>
+            </div>
+            <div class="p-6 sm:p-8">
+                <div id="modal-details" class="space-y-5">
+                    </div>
+                <div class="text-center mt-8">
+                    <button id="close-modal-btn" class="bg-slate-600 hover:bg-slate-700 text-white font-bold py-2 px-8 rounded-full shadow-lg transform hover:scale-105 transition-transform duration-300">
+                        ปิด
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const sentences = [
+            // --- Followed by Gerund (-ing) ---
+            {
+                eng: "I'm interested in learning Japanese.", th: "ฉันสนใจในการเรียนภาษาญี่ปุ่น",
+                context: "ใช้เพื่อแสดงความสนใจในการเรียนรู้ทักษะหรือภาษาใหม่ๆ",
+                dialogue: { a: "You have a lot of books about Japan.", b: "Yes, I'm interested in learning Japanese." },
+                alternatives: "<strong>I want to learn Japanese.</strong><br><strong>I'd like to learn Japanese.</strong> (สุภาพกว่า)<br><strong>Learning Japanese sounds interesting to me.</strong>"
+            },
+            {
+                eng: "I'm interested in applying for the job.", th: "ฉันสนใจที่จะสมัครงานตำแหน่งนี้",
+                context: "เป็นประโยคเกริ่นนำที่สุภาพและเป็นทางการในการสมัครงาน แสดงความสนใจในตำแหน่งที่เปิดรับ",
+                dialogue: { a: "Hello, I saw your advertisement online.", b: "Yes, how can I help you?", a: "I'm interested in applying for the marketing position." },
+                alternatives: "<strong>I would like to apply for the job.</strong><br><strong>I'm writing to express my interest in the job.</strong> (ใช้ในอีเมล)"
+            },
+            {
+                eng: "I'm interested in joining your club.", th: "ฉันสนใจที่จะเข้าร่วมชมรมของคุณ",
+                context: "ใช้เมื่อต้องการสมัครเป็นสมาชิกของกลุ่มหรือชมรมที่เรามีความสนใจเหมือนกัน",
+                dialogue: { a: "Is this the photography club?", b: "Yes, it is.", a: "Great. I'm interested in joining your club." },
+                alternatives: "<strong>I'd like to join your club.</strong><br><strong>How can I become a member?</strong>"
+            },
+            {
+                eng: "I'm interested in hearing more.", th: "ฉันสนใจที่จะฟังเพิ่มเติม",
+                context: "ใช้เมื่ออีกฝ่ายเล่าเรื่องที่น่าสนใจ และเราต้องการให้เขาเล่ารายละเอียดต่อ",
+                dialogue: { a: "I just got back from a trip to Egypt.", b: "Wow! That sounds amazing. I'm interested in hearing more." },
+                alternatives: "<strong>Tell me more!</strong> (เล่าให้ฉันฟังอีกสิ!)<br><strong>That sounds fascinating, please continue.</strong>"
+            },
+            {
+                eng: "I'm interested in working together.", th: "ฉันสนใจที่จะทำงานร่วมกัน",
+                context: "ใช้ในเชิงธุรกิจเพื่อแสดงความสนใจในการสร้างความร่วมมือหรือเป็นพาร์ทเนอร์กัน",
+                dialogue: { a: "Your company's vision aligns with ours.", b: "I agree. I'm interested in working together on a future project." },
+                alternatives: "<strong>I'm interested in a potential partnership.</strong><br><strong>I think we could collaborate well together.</strong>"
+            },
+            {
+                eng: "I'm interested in finding out what happened.", th: "ฉันสนใจที่จะค้นหาว่าเกิดอะไรขึ้น",
+                context: "ใช้เมื่อมีเหตุการณ์ลึกลับหรือน่าสงสัยเกิดขึ้น และเราต้องการสืบหาความจริง",
+                dialogue: { a: "The files on my computer just disappeared.", b: "That's strange. I'm interested in finding out what happened." },
+                alternatives: "<strong>I want to get to the bottom of this.</strong> (ฉันอยากจะสืบให้ถึงต้นตอ)<br><strong>We need to investigate this.</strong>"
+            },
+            {
+                eng: "I'm interested in seeing your new collection.", th: "ฉันสนใจที่จะชมคอลเลคชั่นใหม่ของคุณ",
+                context: "ใช้ในบริบทของแฟชั่น, ศิลปะ, หรือสินค้า เพื่อแสดงความสนใจในผลงานใหม่ๆ",
+                dialogue: { a: "We're launching our new collection next week.", b: "I'm a big fan of your brand. I'm interested in seeing your new collection." },
+                alternatives: "<strong>I can't wait to see your new collection.</strong><br><strong>I'm looking forward to seeing your new collection.</strong>"
+            },
+             // --- Followed by Noun ---
+            {
+                eng: "I'm interested in history.", th: "ฉันสนใจในประวัติศาสตร์",
+                context: "ใช้เพื่อบอกถึงวิชา, หัวข้อ, หรืองานอดิเรกที่เรามีความสนใจเป็นพิเศษ",
+                dialogue: { a: "What's your favorite subject in school?", b: "I'm interested in history, especially ancient Rome." },
+                alternatives: "<strong>I find history fascinating.</strong><br><strong>History is a passion of mine.</strong>"
+            },
+            {
+                eng: "I'm interested in this product.", th: "ฉันสนใจในผลิตภัณฑ์ชิ้นนี้",
+                context: "ใช้บอกพนักงานขายว่าเราสนใจสินค้าชิ้นนี้และอาจต้องการข้อมูลเพิ่มเติมหรือต้องการซื้อ",
+                dialogue: { a: "May I help you?", b: "Yes, please. I'm interested in this product. Could you tell me more about it?" },
+                alternatives: "<strong>I'd like to know more about this product.</strong><br><strong>This product caught my eye.</strong>"
+            },
+            {
+                eng: "I'm interested in your opinion.", th: "ฉันสนใจในความคิดเห็นของคุณ",
+                context: "เป็นวิธีสุภาพในการขอความคิดเห็นจากอีกฝ่าย แสดงว่าเราให้ความสำคัญกับมุมมองของเขา",
+                dialogue: { a: "I've drafted the proposal.", b: "Can I see it? I'm interested in your opinion before I submit it." },
+                alternatives: "<strong>I'd like to get your opinion.</strong><br><strong>What do you think about this?</strong>"
+            },
+            {
+                eng: "I'm interested in the role of project manager.", th: "ฉันสนใจในตำแหน่งผู้จัดการโครงการ",
+                context: "ใช้ในการสัมภาษณ์งานหรือการพูดคุยเรื่องการพัฒนาอาชีพ เพื่อระบุตำแหน่งที่เราสนใจ",
+                dialogue: { a: "Why did you apply to our company?", b: "I'm interested in the role of project manager. I have 5 years of experience in this field." },
+                alternatives: "<strong>I'm applying for the project manager role.</strong>"
+            },
+            {
+                eng: "I'm interested in a car with good gas mileage.", th: "ฉันสนใจรถที่ประหยัดน้ำมัน",
+                context: "ใช้บอกเซลส์ขายรถยนต์ถึงคุณสมบัติของสินค้าที่เรากำลังมองหา",
+                dialogue: { a: "What are you looking for in a car?", b: "I'm interested in a car with good gas mileage." },
+                alternatives: "<strong>I'm looking for a fuel-efficient car.</strong>"
+            },
+            {
+                eng: "I'm interested in politics.", th: "ฉันสนใจเรื่องการเมือง",
+                context: "ใช้บอกถึงหัวข้อที่เราติดตามและให้ความสนใจเป็นพิเศษ",
+                dialogue: { a: "You seem to know a lot about the election.", b: "Yes, I'm very interested in politics." },
+                alternatives: "<strong>I follow politics closely.</strong>"
+            },
+            {
+                eng: "I'm interested in a different perspective.", th: "ฉันสนใจในมุมมองที่แตกต่างออกไป",
+                context: "ใช้ในการสนทนาหรือถกเถียง เพื่อแสดงความเปิดกว้างที่จะรับฟังความคิดเห็นที่ต่างจากเรา",
+                dialogue: { a: "I know we disagree, but I'm interested in a different perspective. Please explain your side." },
+                alternatives: "<strong>I'd like to hear another point of view.</strong>"
+            },
+            {
+                eng: "I'm interested in any opportunities you may have.", th: "ฉันสนใจในทุกโอกาสที่คุณอาจจะมี",
+                context: "ใช้ในการสร้างเครือข่าย (networking) หรือหางาน เพื่อแสดงความเปิดกว้างต่อโอกาสต่างๆ",
+                dialogue: { a: "I'm graduating soon and looking for a job.", b: "Send me your resume. I'm interested in any opportunities you may have at your company." },
+                alternatives: "<strong>I'm open to any relevant opportunities.</strong>"
+            },
+            {
+                eng: "I'm interested in the story behind the painting.", th: "ฉันสนใจในเรื่องราวเบื้องหลังภาพวาดนี้",
+                context: "ใช้เมื่อเราต้องการทราบประวัติความเป็นมาหรือเรื่องราวที่ซ่อนอยู่เบื้องหลังสิ่งใดสิ่งหนึ่ง",
+                dialogue: { a: "This painting is beautiful.", b: "Thank you. I'm interested in the story behind the painting. What inspired it?" },
+                alternatives: "<strong>What's the story behind this painting?</strong>"
+            },
+            {
+                eng: "I'm not interested in gossip.", th: "ฉันไม่สนใจเรื่องซุบซิบนินทา",
+                context: "ใช้รูปปฏิเสธเพื่อแสดงจุดยืนว่าเราไม่ต้องการมีส่วนร่วมในเรื่องที่ไม่สร้างสรรค์",
+                dialogue: { a: "Did you hear about what happened between Sarah and Tom?", b: "No, and I'm not interested in gossip." },
+                alternatives: "<strong>I don't care for gossip.</strong><br><strong>I'd rather not talk about other people.</strong>"
+            },
+            {
+                eng: "He's interested in you.", th: "เขาสนใจในตัวคุณนะ",
+                context: "ใช้โครงสร้างนี้เพื่อบอกบุคคลที่สามว่ามีคนสนใจในตัวเขา (มักจะในเชิงชู้สาว)",
+                dialogue: { a: "That guy over there keeps looking at you.", b: "Really? Do you think he's interested in me?" },
+                alternatives: "<strong>I think he likes you.</strong>"
+            },
+            {
+                eng: "Are you interested in a game of chess?", th: "คุณสนใจเล่นหมากรุกสักเกมไหม",
+                context: "ใช้โครงสร้างนี้เป็นคำถามเพื่อเชิญชวนอีกฝ่ายทำกิจกรรมบางอย่าง",
+                dialogue: { a: "I'm bored. Are you interested in a game of chess?", b: "Sure, why not? You're on!" },
+                alternatives: "<strong>Do you want to play a game of chess?</strong><br><strong>How about a game of chess?</strong>"
+            },
+            {
+                eng: "I'm interested in anything related to space.", th: "ฉันสนใจทุกอย่างที่เกี่ยวกับอวกาศ",
+                context: "ใช้เพื่อบอกขอบเขตความสนใจที่กว้างขวางในหัวข้อใดหัวข้อหนึ่ง",
+                dialogue: { a: "What kind of documentaries do you like?", b: "Honestly, I'm interested in anything related to space." },
+                alternatives: "<strong>I'm a space enthusiast.</strong> (ฉันเป็นแฟนตัวยงเรื่องอวกาศ)"
+            }
+        ];
+        
+        const grid = document.getElementById('sentences-grid');
+        const modal = document.getElementById('modal');
+        const modalHeader = document.getElementById('modal-header');
+        const modalEnglish = document.getElementById('modal-english');
+        const modalThai = document.getElementById('modal-thai');
+        const modalDetails = document.getElementById('modal-details');
+        const closeModalBtn = document.getElementById('close-modal-btn');
+
+        sentences.forEach((sentence, index) => {
+            const button = document.createElement('button');
+            const colorClasses = [
+                'border-indigo-500 bg-indigo-50 hover:bg-indigo-100',
+                'border-sky-500 bg-sky-50 hover:bg-sky-100',
+                'border-blue-500 bg-blue-50 hover:bg-blue-100',
+                'border-teal-500 bg-teal-50 hover:bg-teal-100',
+            ];
+            const textClasses = [
+                'text-indigo-800',
+                'text-sky-800',
+                'text-blue-800',
+                'text-teal-800',
+            ];
+            const colorClass = colorClasses[index % colorClasses.length];
+            const textClass = textClasses[index % textClasses.length];
+
+            button.className = `group sentence-btn p-4 text-left border-l-4 ${colorClass}`;
+            
+            button.innerHTML = `
+                <span class="font-poppins font-semibold ${textClass}">${sentence.eng}</span>
+                <span class="block text-sm ${textClass}/80 font-normal mt-1">${sentence.th}</span>
+            `;
+
+            button.addEventListener('click', () => openModal(sentence));
+            grid.appendChild(button);
+        });
+
+        function openModal(sentence) {
+            modalEnglish.textContent = sentence.eng;
+            modalThai.textContent = sentence.th;
+
+            modalDetails.innerHTML = `
+                <div class="p-4 bg-slate-100 rounded-lg">
+                    <h4 class="font-semibold text-lg text-slate-800 mb-2">💡 บริบทการใช้งาน (Context)</h4>
+                    <p class="text-slate-600">${sentence.context}</p>
+                </div>
+                <div class="p-4 bg-slate-100 rounded-lg">
+                    <h4 class="font-semibold text-lg text-slate-800 mb-2">💬 ตัวอย่างบทสนทนา (Dialogue)</h4>
+                    <div class="space-y-1 text-slate-600">
+                        <p><strong>A:</strong> ${sentence.dialogue.a}</p>
+                        <p><strong>B:</strong> ${sentence.dialogue.b}</p>
+                    </div>
+                </div>
+                <div class="p-4 bg-slate-100 rounded-lg">
+                    <h4 class="font-semibold text-lg text-slate-800 mb-2">🔄 คำที่เกี่ยวข้อง / ใช้แทนได้ (Alternatives)</h4>
+                    <div class="text-slate-600">${sentence.alternatives}</div>
+                </div>
+            `;
+
+            modal.classList.add('active');
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            modal.classList.add('opacity-0', 'pointer-events-none');
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        closeModalBtn.addEventListener('click', closeModal);
+        modal.addEventListener('click', (e) => {
+            if (e.target.id === 'modal') {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>

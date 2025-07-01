@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mr. Vocab - The A-Z Verb Vault (ฉบับสมบูรณ์)</title>
+    <title>Mr. Vocab's Verb-ipedia (Upgraded G-K)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -11,545 +11,586 @@
     <style>
         body {
             font-family: 'IBM Plex Sans Thai', sans-serif;
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            background: linear-gradient(135deg, #fdfcfb 0%, #e2d1c3 100%);
         }
         .font-poppins {
             font-family: 'Poppins', sans-serif;
         }
-        .tab-btn {
-            transition: all 0.3s ease;
+        #modal-content::-webkit-scrollbar { width: 8px; }
+        #modal-content::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 10px; }
+        #modal-content::-webkit-scrollbar-thumb { background: #888; border-radius: 10px; }
+        #modal-content::-webkit-scrollbar-thumb:hover { background: #555; }
+        .modal-enter { animation: fadeIn 0.3s ease-out; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
         }
-        .tab-btn.active {
-            background-color: #4f46e5;
+        .letter-btn.active {
+            background-color: #7c2d12; /* amber-800 */
             color: white;
-            box-shadow: 0 4px 14px 0 rgb(0 0 0 / 10%);
-        }
-        .verb-btn {
-            transition: all 0.3s ease;
-            box-shadow: 0 2px 8px 0 rgb(0 0 0 / 8%);
-        }
-        .verb-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 4px 12px 0 rgb(0 0 0 / 15%);
-        }
-        #modal {
-            transition: opacity 0.3s ease, transform 0.3s ease;
-        }
-        #modal.hidden {
-            opacity: 0;
-            transform: scale(0.95);
-            pointer-events: none;
-        }
-        .modal-content {
-            transition: transform 0.3s ease;
+            transform: scale(1.1);
+            box-shadow: 0 4px 14px 0 rgb(124 45 18 / 39%);
         }
     </style>
 </head>
-<body class="antialiased text-gray-800">
+<body class="min-h-screen flex items-center justify-center p-2 sm:p-4">
 
-    <div class="container mx-auto p-4 md:p-8 max-w-5xl">
-
-        <header class="text-center mb-8">
-            <h1 class="text-4xl md:text-5xl font-bold font-poppins text-indigo-700">The A-Z Verb Vault</h1>
-            <p class="text-lg text-gray-600 mt-2">คลังคำกริยาที่ใช้บ่อยที่สุดในชีวิตประจำวัน (ฉบับสมบูรณ์) by Mr. Vocab</p>
+    <main class="w-full max-w-6xl bg-white/70 backdrop-blur-sm rounded-2xl shadow-2xl p-4 md:p-8">
+        
+        <header class="text-center mb-6">
+            <h1 class="font-poppins text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-amber-700 to-orange-500">Verb-ipedia</h1>
+            <p class="text-lg text-gray-600 mt-2">คลังคำกริยา A-Z ฉบับสมบูรณ์ by Mr. Vocab</p>
         </header>
 
-        <nav class="flex flex-wrap justify-center gap-2 mb-8" id="tab-navigation">
-            </nav>
-
-        <main id="tab-content">
-            </main>
-
-    </div>
-
-    <div id="modal" class="fixed inset-0 bg-black bg-opacity-60 flex justify-center items-center p-4 z-50 hidden">
-        <div id="modal-content" class="bg-white rounded-2xl shadow-2xl w-full max-w-lg mx-auto overflow-hidden transform">
-            <div class="p-6 md:p-8">
-                <div class="flex justify-between items-start mb-4">
-                    <h2 id="modal-verb" class="text-3xl font-bold font-poppins text-indigo-600">Verb</h2>
-                    <button id="modal-close-btn" class="text-gray-400 hover:text-gray-700 transition text-3xl leading-none">&times;</button>
+        <section>
+            <h2 class="text-xl font-bold text-gray-700 mb-4 text-center">เลือกหมวดหมู่ตัวอักษร</h2>
+            <div id="letter-selector" class="flex flex-wrap justify-center gap-1.5 sm:gap-2 md:gap-3 mb-8">
                 </div>
-                
-                <div>
-                    <div class="mb-5">
-                        <h3 class="font-bold text-lg text-gray-700 mb-2 border-b-2 border-indigo-200 pb-1">ความหมาย</h3>
-                        <p id="modal-meaning" class="text-gray-600"></p>
+            
+            <div class="flex items-center gap-4 mb-6">
+                <div id="current-letter-display" class="w-16 h-16 bg-gradient-to-br flex items-center justify-center rounded-xl shadow-lg transition-all duration-300">
+                    <span id="current-letter-text" class="font-poppins text-5xl font-bold text-white">A</span>
+                </div>
+                <h2 id="current-letter-title" class="text-2xl md:text-3xl font-bold text-gray-700">คำกริยาหมวด A</h2>
+            </div>
+            
+            <div id="vocab-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 min-h-[200px]">
+                </div>
+        </section>
+
+    </main>
+
+    <div id="vocab-modal" class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center p-4 z-50 hidden">
+        <div id="modal-box" class="bg-white rounded-2xl shadow-xl w-full max-w-md mx-auto relative modal-enter">
+            <button id="close-modal" class="absolute -top-3 -right-3 bg-red-500 hover:bg-red-600 text-white w-9 h-9 rounded-full flex items-center justify-center text-xl font-bold transition transform hover:scale-110 z-10">&times;</button>
+            <div id="modal-content" class="p-6 md:p-8 max-h-[80vh] overflow-y-auto">
+                <h3 id="modal-word" class="font-poppins text-4xl font-bold text-center text-transparent bg-clip-text bg-gradient-to-r from-amber-600 to-yellow-500 mb-4">Word</h3>
+                <div class="space-y-5">
+                    
+                    <div>
+                        <h4 class="font-bold text-gray-700 text-lg">การผันกริยา (Verb Forms)</h4>
+                        <div class="grid grid-cols-2 gap-2 mt-2 text-center">
+                            <div class="bg-green-50 rounded-lg p-2"><p class="text-sm text-green-700 font-semibold">V.1 (Base)</p><p id="modal-v1" class="font-poppins text-green-900 font-bold text-lg"></p></div>
+                            <div class="bg-yellow-50 rounded-lg p-2"><p class="text-sm text-yellow-700 font-semibold">V.2 (Past)</p><p id="modal-v2" class="font-poppins text-yellow-900 font-bold text-lg"></p></div>
+                            <div class="bg-blue-50 rounded-lg p-2"><p class="text-sm text-blue-700 font-semibold">V.3 (Participle)</p><p id="modal-v3" class="font-poppins text-blue-900 font-bold text-lg"></p></div>
+                            <div class="bg-purple-50 rounded-lg p-2"><p class="text-sm text-purple-700 font-semibold">V.ing</p><p id="modal-ving" class="font-poppins text-purple-900 font-bold text-lg"></p></div>
+                        </div>
                     </div>
                     
-                    <div class="mb-5">
-                        <h3 class="font-bold text-lg text-gray-700 mb-2 border-b-2 border-indigo-200 pb-1">โครงสร้างที่ใช้บ่อย (Common Structures)</h3>
-                        <div id="modal-structure" class="text-gray-600 space-y-1"></div>
-                    </div>
-
-                    <div>
-                        <h3 class="font-bold text-lg text-gray-700 mb-2 border-b-2 border-indigo-200 pb-1">ประโยคตัวอย่าง (Examples)</h3>
-                        <div id="modal-examples" class="text-gray-600 space-y-2"></div>
-                    </div>
+                    <div><h4 class="font-bold text-gray-700 text-lg">คำอ่าน (Pronunciation)</h4><p id="modal-pronunciation" class="text-gray-600 bg-gray-100 p-3 rounded-lg"></p></div>
+                    <div><h4 class="font-bold text-gray-700 text-lg">ความหมาย (Meaning)</h4><p id="modal-meaning" class="text-gray-600"></p></div>
+                    <div><h4 class="font-bold text-gray-700 text-lg">ตัวอย่างประโยค (Example)</h4><div class="border-l-4 border-amber-400 pl-4"><p id="modal-example-en" class="text-gray-800 italic"></p><p id="modal-example-th" class="text-gray-500 text-sm"></p></div></div>
+                    <div><h4 class="font-bold text-gray-700 text-lg">คำที่มักใช้ร่วมกัน (Collocations)</h4><ul id="modal-collocations" class="list-none space-y-2 mt-2"></ul></div>
                 </div>
             </div>
         </div>
     </div>
 
-
     <script>
-        // --- DATA SOURCE (COMPLETE A-Z) ---
-        const verbData = {
-            'A': [
-                { verb: 'Accept', meaning: 'ยอมรับ', structure: ['accept + something'], examples: [['They accepted our invitation.', 'พวกเขายอมรับคำเชิญของเรา'], ['Please accept my apology.', 'โปรดยอมรับคำขอโทษของฉันด้วย']] },
-                { verb: 'Achieve', meaning: 'บรรลุ, ทำให้สำเร็จ', structure: ['achieve + something'], examples: [['She finally achieved her goal.', 'ในที่สุดเธอก็บรรลุเป้าหมายของเธอ']] },
-                { verb: 'Act', meaning: 'แสดง, กระทำ', structure: ['act + like/as...'], examples: [['He acted as if he didn\'t know anything.', 'เขาทำตัวเหมือนไม่รู้อะไรเลย']] },
-                { verb: 'Add', meaning: 'เพิ่ม, บวก', structure: ['add + something + to + something'], examples: [['Add more sugar to your coffee.', 'เติมน้ำตาลลงในกาแฟของคุณอีก']] },
-                { verb: 'Advise', meaning: 'แนะนำ', structure: ['advise + someone + to do something'], examples: [['I advise you to see a doctor.', 'ฉันแนะนำให้คุณไปหาหมอ']] },
-                { verb: 'Agree', meaning: 'เห็นด้วย', structure: ['agree + with + someone', 'agree + to do something'], examples: [['I agree with you.', 'ฉันเห็นด้วยกับคุณ'], ['He agreed to help us.', 'เขาตกลงที่จะช่วยเรา']] },
-                { verb: 'Allow', meaning: 'อนุญาต', structure: ['allow + someone + to do something'], examples: [['My parents don\'t allow me to stay out late.', 'พ่อแม่ของฉันไม่อนุญาตให้อยู่ดึก']] },
-                { verb: 'Answer', meaning: 'ตอบ', structure: ['answer + someone/something'], examples: [['Can you answer the phone?', 'คุณช่วยรับโทรศัพท์ได้ไหม?']] },
-                { verb: 'Appear', meaning: 'ปรากฏ, ดูเหมือน', structure: ['appear + to be...'], examples: [['He appears to be tired.', 'เขาดูเหมือนจะเหนื่อย']] },
-                { verb: 'Apply', meaning: 'สมัคร, ใช้', structure: ['apply + for + something', 'apply + something + to + something'], examples: [['I want to apply for this job.', 'ฉันต้องการสมัครงานนี้'], ['Apply the cream to your face.', 'ทาครีมลงบนใบหน้าของคุณ']] },
-                { verb: 'Argue', meaning: 'โต้เถียง', structure: ['argue + with + someone + about + something'], examples: [['Don\'t argue with me about money.', 'อย่าเถียงกับฉันเรื่องเงิน']] },
-                { verb: 'Arrive', meaning: 'มาถึง', structure: ['arrive + at/in + a place'], examples: [['We arrived at the airport at 6 AM.', 'เรามาถึงสนามบินตอน 6 โมงเช้า']] },
-                { verb: 'Ask', meaning: 'ถาม, ขอ', structure: ['ask + (someone) + a question', 'ask + for + something'], examples: [['Can I ask you a question?', 'ฉันขอถามอะไรคุณหน่อยได้ไหม?'], ['He asked for a glass of water.', 'เขาขอน้ำหนึ่งแก้ว']] },
-                { verb: 'Attack', meaning: 'โจมตี', structure: ['attack + someone/something'], examples: [['The lion attacked the zebra.', 'สิงโตโจมตีม้าลาย']] },
-                { verb: 'Avoid', meaning: 'หลีกเลี่ยง', structure: ['avoid + doing + something'], examples: [['You should avoid eating fatty food.', 'คุณควรหลีกเลี่ยงการกินอาหารมันๆ']] },
-                { verb: 'Admit', meaning: 'ยอมรับ (ความจริง, ความผิด)', structure: ['admit + (that)...', 'admit + doing + something'], examples: [['He admitted that he made a mistake.', 'เขายอมรับว่าเขาทำผิดพลาด'], ['She admitted stealing the money.', 'เธอยอมรับว่าขโมยเงินไป']] },
-                { verb: 'Affect', meaning: 'ส่งผลกระทบ', structure: ['affect + someone/something'], examples: [['The lack of sleep affected her performance.', 'การนอนไม่พอส่งผลกระทบต่อประสิทธิภาพการทำงานของเธอ']] },
-            ],
-            'B': [
-                { verb: 'Be', meaning: 'เป็น, อยู่, คือ', structure: ['Subject + be + complement'], examples: [['I am a teacher.', 'ฉันเป็นครู'], ['She is happy.', 'เธอมีความสุข']] },
-                { verb: 'Become', meaning: 'กลายเป็น', structure: ['become + noun/adjective'], examples: [['He became a doctor.', 'เขากลายเป็นหมอ']] },
-                { verb: 'Begin', meaning: 'เริ่มต้น', structure: ['begin + to do/doing + something'], examples: [['The show will begin at 7 PM.', 'การแสดงจะเริ่มเวลา 19.00 น.']] },
-                { verb: 'Believe', meaning: 'เชื่อ', structure: ['believe + in + someone/something', 'believe + (that)...'], examples: [['I believe in you.', 'ฉันเชื่อในตัวคุณ'], ['I believe that everything will be fine.', 'ฉันเชื่อว่าทุกอย่างจะโอเค']] },
-                { verb: 'Break', meaning: 'ทำลาย, แตก, หัก', structure: ['break + something'], examples: [['Be careful not to break the glass.', 'ระวังอย่าทำแก้วแตก']] },
-                { verb: 'Bring', meaning: 'นำมา, พามา', structure: ['bring + something/someone + to + a place'], examples: [['Please bring your book tomorrow.', 'กรุณานำหนังสือของคุณมาในวันพรุ่งนี้']] },
-                { verb: 'Build', meaning: 'สร้าง', structure: ['build + something'], examples: [['They are building a new house.', 'พวกเขากำลังสร้างบ้านใหม่']] },
-                { verb: 'Buy', meaning: 'ซื้อ', structure: ['buy + something + (for someone)'], examples: [['I need to buy some groceries.', 'ฉันต้องซื้อของชำ']] },
-                { verb: 'Borrow', meaning: 'ยืม', structure: ['borrow + something + from + someone'], examples: [['Can I borrow your pen?', 'ฉันขอยืมปากกาของคุณได้ไหม?']] },
-                { verb: 'Breathe', meaning: 'หายใจ', structure: ['breathe + in/out'], examples: [['Just relax and breathe deeply.', 'แค่ผ่อนคลายและหายใจลึกๆ']] },
-                { verb: 'Bake', meaning: 'อบ (ขนม, เค้ก)', structure: ['bake + something'], examples: [['I love to bake cookies on weekends.', 'ฉันชอบอบคุกกี้ในวันหยุดสุดสัปดาห์']] },
-                { verb: 'Boil', meaning: 'ต้ม', structure: ['boil + something'], examples: [['Could you boil some water for tea?', 'คุณช่วยต้มน้ำสำหรับชงชาได้ไหม?']] },
-                { verb: 'Book', meaning: 'จอง', structure: ['book + something'], examples: [['I need to book a flight to Japan.', 'ฉันต้องจองตั๋วเครื่องบินไปญี่ปุ่น']] },
-                { verb: 'Burn', meaning: 'เผา, ไหม้', structure: ['burn + something'], examples: [['I accidentally burned the toast.', 'ฉันเผลอทำขนมปังปิ้งไหม้']] },
-            ],
-            'C': [
-                { verb: 'Call', meaning: 'โทร, เรียก', structure: ['call + someone'], examples: [['I will call you later.', 'ฉันจะโทรหาคุณทีหลัง']] },
-                { verb: 'Cancel', meaning: 'ยกเลิก', structure: ['cancel + something'], examples: [['They had to cancel the meeting.', 'พวกเขาต้องยกเลิกการประชุม']] },
-                { verb: 'Care', meaning: 'ใส่ใจ, ดูแล', structure: ['care + about/for + someone/something'], examples: [['She cares for her elderly mother.', 'เธอเอาใจใส่ดูแลแม่ที่แก่ชราของเธอ']] },
-                { verb: 'Carry', meaning: 'ถือ, แบก', structure: ['carry + something'], examples: [['Can you help me carry this bag?', 'คุณช่วยฉันถือกระเป๋าใบนี้ได้ไหม?']] },
-                { verb: 'Catch', meaning: 'จับ', structure: ['catch + someone/something'], examples: [['Throw the ball and I\'ll catch it.', 'โยนบอลมาสิ เดี๋ยวฉันจะรับเอง']] },
-                { verb: 'Change', meaning: 'เปลี่ยน', structure: ['change + something'], examples: [['I need to change my clothes.', 'ฉันต้องเปลี่ยนเสื้อผ้า']] },
-                { verb: 'Check', meaning: 'ตรวจสอบ', structure: ['check + something'], examples: [['Please check your email.', 'กรุณาตรวจสอบอีเมลของคุณ']] },
-                { verb: 'Choose', meaning: 'เลือก', structure: ['choose + something/someone'], examples: [['You have to choose between these two options.', 'คุณต้องเลือกระหว่างสองตัวเลือกนี้']] },
-                { verb: 'Clean', meaning: 'ทำความสะอาด', structure: ['clean + something'], examples: [['It\'s your turn to clean the room.', 'ถึงตาคุณทำความสะอาดห้องแล้วนะ']] },
-                { verb: 'Close', meaning: 'ปิด', structure: ['close + something'], examples: [['Please close the door.', 'กรุณาปิดประตูด้วย']] },
-                { verb: 'Come', meaning: 'มา', structure: ['come + to + a place'], examples: [['Are you coming to the party tonight?', 'คืนนี้คุณจะมางานปาร์ตี้ไหม?']] },
-                { verb: 'Cook', meaning: 'ทำอาหาร', structure: ['cook + something'], examples: [['My father loves to cook.', 'พ่อของฉันชอบทำอาหาร']] },
-                { verb: 'Cost', meaning: 'มีราคา', structure: ['It + cost + (amount of money)'], examples: [['How much does this cost?', 'อันนี้ราคาเท่าไหร่?']] },
-                { verb: 'Count', meaning: 'นับ', structure: ['count + from... to...'], examples: [['Can you count to ten in English?', 'คุณนับเลขหนึ่งถึงสิบเป็นภาษาอังกฤษได้ไหม?']] },
-                { verb: 'Cut', meaning: 'ตัด', structure: ['cut + something'], examples: [['She cut the paper with scissors.', 'เธอใช้กรรไกรตัดกระดาษ']] },
-            ],
-            'D': [
-                { verb: 'Dance', meaning: 'เต้น', structure: ['dance + with + someone'], examples: [['I love to dance.', 'ฉันชอบเต้นรำ']] },
-                { verb: 'Decide', meaning: 'ตัดสินใจ', structure: ['decide + to do + something'], examples: [['He decided to quit his job.', 'เขาตัดสินใจที่จะลาออกจากงาน']] },
-                { verb: 'Describe', meaning: 'บรรยาย', structure: ['describe + someone/something'], examples: [['Can you describe the man you saw?', 'คุณช่วยบรรยายลักษณะผู้ชายที่คุณเห็นได้ไหม?']] },
-                { verb: 'Develop', meaning: 'พัฒนา', structure: ['develop + something'], examples: [['The city is developing rapidly.', 'เมืองกำลังพัฒนาอย่างรวดเร็ว']] },
-                { verb: 'Discuss', meaning: ' thảo luận', structure: ['discuss + something + with + someone'], examples: [['Let\'s discuss this matter later.', 'เรามาคุยเรื่องนี้กันทีหลังนะ']] },
-                { verb: 'Do', meaning: 'ทำ', structure: ['do + something'], examples: [['What are you doing?', 'คุณกำลังทำอะไรอยู่?'], ['I have a lot of work to do.', 'ฉันมีงานต้องทำเยอะมาก']] },
-                { verb: 'Draw', meaning: 'วาดรูป', structure: ['draw + a picture'], examples: [['My daughter loves to draw.', 'ลูกสาวของฉันชอบวาดรูป']] },
-                { verb: 'Dream', meaning: 'ฝัน', structure: ['dream + about + someone/something'], examples: [['I had a strange dream last night.', 'เมื่อคืนฉันฝันแปลกๆ']] },
-                { verb: 'Drink', meaning: 'ดื่ม', structure: ['drink + something'], examples: [['It\'s important to drink enough water.', 'การดื่มน้ำให้เพียงพอเป็นสิ่งสำคัญ']] },
-                { verb: 'Drive', meaning: 'ขับรถ', structure: ['drive + a car'], examples: [['I am learning to drive.', 'ฉันกำลังเรียนขับรถ']] },
-                { verb: 'Drop', meaning: 'ทำตก, หล่น', structure: ['drop + something'], examples: [['Be careful not to drop the plate.', 'ระวังอย่าทำจานตก']] },
-            ],
-            'E': [
-                { verb: 'Eat', meaning: 'กิน', structure: ['eat + something'], examples: [['What do you want to eat for dinner?', 'คุณอยากกินอะไรเป็นอาหารเย็น?']] },
-                { verb: 'Earn', meaning: 'ได้รับ (เงิน), หาได้', structure: ['earn + money'], examples: [['How much do you earn a month?', 'คุณมีรายได้เดือนละเท่าไหร่?']] },
-                { verb: 'Encourage', meaning: 'ให้กำลังใจ', structure: ['encourage + someone + to do + something'], examples: [['My parents always encourage me to try new things.', 'พ่อแม่ของฉันให้กำลังใจฉันให้ลองทำสิ่งใหม่ๆ เสมอ']] },
-                { verb: 'End', meaning: 'จบ', structure: ['The movie ends at 10.', 'หนังจบตอนสี่ทุ่ม'], examples: [['The meeting will end soon.', 'การประชุมจะจบลงในไม่ช้า']] },
-                { verb: 'Enjoy', meaning: 'สนุก, เพลิดเพลิน', structure: ['enjoy + doing + something'], examples: [['I enjoy listening to music.', 'ฉันเพลินกับการฟังเพลง']] },
-                { verb: 'Explain', meaning: 'อธิบาย', structure: ['explain + something + to + someone'], examples: [['Can you explain this grammar rule to me?', 'คุณช่วยอธิบายกฎไวยากรณ์นี้ให้ฉันได้ไหม?']] },
-                { verb: 'Exercise', meaning: 'ออกกำลังกาย', structure: ['exercise + regularly'], examples: [['I try to exercise three times a week.', 'ฉันพยายามออกกำลังกายสามครั้งต่อสัปดาห์']] },
-                { verb: 'Explore', meaning: 'สำรวจ', structure: ['explore + a place'], examples: [['We want to explore the old city.', 'เราต้องการสำรวจเมืองเก่า']] },
-            ],
-            'F': [
-                { verb: 'Face', meaning: 'เผชิญหน้า', structure: ['face + a problem/challenge'], examples: [['You have to face your fears.', 'คุณต้องเผชิญหน้ากับความกลัวของคุณ']] },
-                { verb: 'Fail', meaning: 'ล้มเหลว, สอบตก', structure: ['fail + an exam/test'], examples: [['He failed his driving test again.', 'เขาสอบใบขับขี่ตกอีกแล้ว']] },
-                { verb: 'Fall', meaning: 'ตก, ร่วง, ล้ม', structure: ['fall + down/off'], examples: [['The leaves fall from the trees in autumn.', 'ใบไม้ร่วงจากต้นไม้ในฤดูใบไม้ร่วง']] },
-                { verb: 'Feel', meaning: 'รู้สึก', structure: ['feel + adjective'], examples: [['How are you feeling today?', 'วันนี้คุณรู้สึกอย่างไร?']] },
-                { verb: 'Fight', meaning: 'ต่อสู้', structure: ['fight + with/against + someone'], examples: [['The soldiers fought bravely for their country.', 'ทหารต่อสู้อย่างกล้าหาญเพื่อประเทศของพวกเขา']] },
-                { verb: 'Fill', meaning: 'เติม', structure: ['fill + something + with + something'], examples: [['Please fill this bottle with water.', 'กรุณาเติมน้ำให้เต็มขวดนี้']] },
-                { verb: 'Find', meaning: 'หา, พบ', structure: ['find + something/someone'], examples: [['I can\'t find my keys.', 'ฉันหากุญแจไม่เจอ']] },
-                { verb: 'Finish', meaning: 'เสร็จ', structure: ['finish + doing + something'], examples: [['Have you finished your homework?', 'คุณทำการบ้านเสร็จหรือยัง?']] },
-                { verb: 'Fix', meaning: 'ซ่อม', structure: ['fix + something'], examples: [['Can you fix my computer?', 'คุณซ่อมคอมพิวเตอร์ของฉันได้ไหม?']] },
-                { verb: 'Fly', meaning: 'บิน', structure: ['fly + to + a place'], examples: [['I have never flown in a helicopter.', 'ฉันไม่เคยบินด้วยเฮลิคอปเตอร์']] },
-                { verb: 'Follow', meaning: 'ติดตาม', structure: ['follow + someone/instructions'], examples: [['Follow me, I know the way.', 'ตามฉันมา ฉันรู้ทาง']] },
-                { verb: 'Forget', meaning: 'ลืม', structure: ['forget + to do/doing + something'], examples: [['Don\'t forget to lock the door.', 'อย่าลืมล็อคประตูนะ']] },
-                { verb: 'Forgive', meaning: 'ให้อภัย', structure: ['forgive + someone + for + something'], examples: [['I will never forgive you for what you did.', 'ฉันจะไม่มีวันให้อภัยคุณสำหรับสิ่งที่คุณทำ']] },
-            ],
-            'G': [
-                { verb: 'Gain', meaning: 'ได้รับเพิ่ม', structure: ['gain + weight/experience'], examples: [['I think I\'ve gained some weight.', 'ฉันคิดว่าน้ำหนักฉันขึ้นนะ']]},
-                { verb: 'Get', meaning: 'ได้รับ, ไปถึง, กลายเป็น', structure: ['get + something', 'get + to + a place', 'get + adjective'], examples: [['I need to get some sleep.', 'ฉันต้องนอนพักผ่อน'], ['What time did you get home?', 'คุณกลับถึงบ้านกี่โมง?']]},
-                { verb: 'Give', meaning: 'ให้', structure: ['give + someone + something'], examples: [['Can you give me a hand?', 'คุณช่วยฉันหน่อยได้ไหม?']]},
-                { verb: 'Go', meaning: 'ไป', structure: ['go + to + a place'], examples: [['I go to work by bus.', 'ฉันไปทำงานโดยรถบัส']]},
-                { verb: 'Grow', meaning: 'เติบโต, ปลูก', structure: ['grow + up', 'grow + plants'], examples: [['Children grow up so fast.', 'เด็กๆ โตเร็วมาก'], ['My grandmother grows roses in her garden.', 'คุณย่าของฉันปลูกกุหลาบในสวนของท่าน']]},
-                { verb: 'Guess', meaning: 'เดา', structure: ['guess + what/who/how...'], examples: [['Guess what I bought for you!', 'เดาสิว่าฉันซื้ออะไรมาให้!']]},
-                { verb: 'Guide', meaning: 'นำทาง', structure: ['guide + someone'], examples: [['The tour guide will guide us through the museum.', 'ไกด์ทัวร์จะนำทางเราในพิพิธภัณฑ์']]},
-                { verb: 'Grab', meaning: 'คว้า, ฉวย', structure: ['grab + something'], examples: [['Grab your coat, it\'s cold outside.', 'คว้าเสื้อโค้ทของคุณไป อากาศข้างนอกหนาว']]},
-                { verb: 'Greet', meaning: 'ทักทาย', structure: ['greet + someone'], examples: [['She greeted me with a warm smile.', 'เธอทักทายฉันด้วยรอยยิ้มที่อบอุ่น']]},
-            ],
-            'H': [
-                { verb: 'Have', meaning: 'มี', structure: ['have + something'], examples: [['I have a cat.', 'ฉันมีแมวหนึ่งตัว']]},
-                { verb: 'Hear', meaning: 'ได้ยิน', structure: ['hear + a noise/sound'], examples: [['Did you hear that noise?', 'คุณได้ยินเสียงนั้นไหม?']]},
-                { verb: 'Help', meaning: 'ช่วย', structure: ['help + someone + (to) do something'], examples: [['Can you help me with my homework?', 'คุณช่วยฉันทำการบ้านได้ไหม?']]},
-                { verb: 'Hide', meaning: 'ซ่อน', structure: ['hide + something/someone'], examples: [['He hid the money under the bed.', 'เขาซ่อนเงินไว้ใต้เตียง']]},
-                { verb: 'Hit', meaning: 'ตี', structure: ['hit + someone/something'], examples: [['The car hit a tree.', 'รถชนต้นไม้']]},
-                { verb: 'Hold', meaning: 'ถือ, จัด (งาน)', structure: ['hold + something'], examples: [['Please hold my bag for a moment.', 'กรุณาถือกระเป๋าให้ฉันสักครู่']]},
-                { verb: 'Hope', meaning: 'หวัง', structure: ['hope + (that)...', 'hope + to do something'], examples: [['I hope you feel better soon.', 'ฉันหวังว่าคุณจะรู้สึกดีขึ้นเร็วๆ นี้']]},
-                { verb: 'Hurt', meaning: 'ทำให้เจ็บ', structure: ['hurt + someone/oneself'], examples: [['Be careful not to hurt yourself.', 'ระวังอย่าทำให้ตัวเองเจ็บ']]},
-                { verb: 'Happen', meaning: 'เกิดขึ้น', structure: ['something + happens'], examples: [['What happened here?', 'เกิดอะไรขึ้นที่นี่?']]},
-                { verb: 'Hate', meaning: 'เกลียด', structure: ['hate + doing something'], examples: [['I hate getting up early.', 'ฉันเกลียดการตื่นเช้า']]},
-                { verb: 'Hire', meaning: 'จ้าง', structure: ['hire + someone'], examples: [['The company plans to hire more staff.', 'บริษัทวางแผนที่จะจ้างพนักงานเพิ่ม']]},
-                { verb: 'Hug', meaning: 'กอด', structure: ['hug + someone'], examples: [['She gave her mom a big hug.', 'เธอกอดแม่ของเธอแน่น']]},
-                { verb: 'Hurry', meaning: 'รีบ', structure: ['hurry + up'], examples: [['Hurry up, or we\'ll be late!', 'รีบหน่อย เดี๋ยวเราจะสาย!']]},
-                { verb: 'Hang', meaning: 'แขวน', structure: ['hang + something'], examples: [['Please hang your coat on the hook.', 'กรุณาแขวนเสื้อโค้ทของคุณไว้บนตะขอ']]},
-            ],
-            'I': [
-                { verb: 'Imagine', meaning: 'จินตนาการ', structure: ['imagine + (that)...', 'imagine + doing something'], examples: [['Imagine you won the lottery.', 'จินตนาการว่าคุณถูกลอตเตอรี่']] },
-                { verb: 'Improve', meaning: 'ปรับปรุง, ทำให้ดีขึ้น', structure: ['improve + something'], examples: [['I want to improve my English skills.', 'ฉันต้องการพัฒนาทักษะภาษาอังกฤษของฉัน']] },
-                { verb: 'Include', meaning: 'รวมถึง', structure: ['include + something'], examples: [['The price includes breakfast.', 'ราคานี้รวมอาหารเช้าแล้ว']] },
-                { verb: 'Inform', meaning: 'แจ้งให้ทราบ', structure: ['inform + someone + about/of + something'], examples: [['Please inform us of any changes.', 'โปรดแจ้งให้เราทราบหากมีการเปลี่ยนแปลงใดๆ']] },
-                { verb: 'Install', meaning: 'ติดตั้ง', structure: ['install + software/equipment'], examples: [['I need to install a new app on my phone.', 'ฉันต้องติดตั้งแอปใหม่ในโทรศัพท์']] },
-                { verb: 'Introduce', meaning: 'แนะนำ', structure: ['introduce + someone + to + someone'], examples: [['Let me introduce you to my friend.', 'ให้ฉันแนะนำคุณให้รู้จักกับเพื่อนของฉันนะ']] },
-                { verb: 'Invent', meaning: 'ประดิษฐ์', structure: ['invent + something'], examples: [['Who invented the telephone?', 'ใครเป็นผู้ประดิษฐ์โทรศัพท์?']] },
-                { verb: 'Invite', meaning: 'เชิญ', structure: ['invite + someone + to + an event'], examples: [['She invited me to her birthday party.', 'เธอเชิญฉันไปงานวันเกิดของเธอ']] },
-                { verb: 'Iron', meaning: 'รีดผ้า', structure: ['iron + clothes'], examples: [['I have to iron my shirt.', 'ฉันต้องรีดเสื้อเชิ้ต']] },
-                { verb: 'Ignore', meaning: 'เพิกเฉย', structure: ['ignore + someone/something'], examples: [['She ignored my advice.', 'เธอเพิกเฉยต่อคำแนะนำของฉัน']] },
-                { verb: 'Impress', meaning: 'ทำให้ประทับใจ', structure: ['impress + someone'], examples: [['He tried to impress her with his knowledge.', 'เขาพยายามทำให้เธอประทับใจด้วยความรู้ของเขา']] },
-            ],
-            'J': [
-                { verb: 'Jog', meaning: 'วิ่งเหยาะๆ', structure: ['go jogging'], examples: [['I jog in the park every morning.', 'ฉันวิ่งเหยาะๆ ในสวนสาธารณะทุกเช้า']] },
-                { verb: 'Join', meaning: 'เข้าร่วม', structure: ['join + a club/team'], examples: [['Would you like to join us for dinner?', 'คุณอยากจะร่วมทานอาหารเย็นกับเราไหม?']] },
-                { verb: 'Joke', meaning: 'ล้อเล่น', structure: ['joke + about + something'], examples: [['He was just joking.', 'เขาแค่ล้อเล่นน่ะ']] },
-                { verb: 'Judge', meaning: 'ตัดสิน', structure: ['judge + someone/something'], examples: [['Don\'t judge a book by its cover.', 'อย่าตัดสินหนังสือจากหน้าปก']] },
-                { verb: 'Jump', meaning: 'กระโดด', structure: ['jump + over + something'], examples: [['The cat jumped onto the table.', 'แมวกระโดดขึ้นไปบนโต๊ะ']] },
-            ],
-            'K': [
-                { verb: 'Keep', meaning: 'เก็บ, รักษา, ทำต่อไป', structure: ['keep + something', 'keep + doing something'], examples: [['You can keep the change.', 'คุณเก็บเงินทอนไปได้เลย'], ['Keep trying, don\'t give up.', 'พยายามต่อไป อย่าเพิ่งยอมแพ้']] },
-                { verb: 'Kick', meaning: 'เตะ', structure: ['kick + a ball'], examples: [['He kicked the ball into the goal.', 'เขาเตะบอลเข้าประตู']] },
-                { verb: 'Kill', meaning: 'ฆ่า', structure: ['kill + someone/something'], examples: [['Smoking can kill you.', 'การสูบบุหรี่สามารถฆ่าคุณได้']] },
-                { verb: 'Kiss', meaning: 'จูบ', structure: ['kiss + someone'], examples: [['She kissed her baby on the forehead.', 'เธอจูบลูกของเธอที่หน้าผาก']] },
-                { verb: 'Kneel', meaning: 'คุกเข่า', structure: ['kneel + down'], examples: [['He knelt down to pray.', 'เขาคุกเข่าลงเพื่อสวดมนต์']] },
-                { verb: 'Knit', meaning: 'ถัก', structure: ['knit + a sweater'], examples: [['My grandmother taught me how to knit.', 'คุณย่าสอนฉันถักนิตติ้ง']] },
-                { verb: 'Knock', meaning: 'เคาะ', structure: ['knock + on + the door'], examples: [['Someone is knocking at the door.', 'มีคนกำลังเคาะประตู']] },
-                { verb: 'Know', meaning: 'รู้, รู้จัก', structure: ['know + someone/something'], examples: [['Do you know his name?', 'คุณรู้ชื่อเขาไหม?']] },
-            ],
-            'L': [
-                { verb: 'Laugh', meaning: 'หัวเราะ', structure: ['laugh + at + something'], examples: [['We laughed a lot at his jokes.', 'เราหัวเราะกับเรื่องตลกของเขามาก']] },
-                { verb: 'Lead', meaning: 'นำ', structure: ['lead + to + a place/result'], examples: [['This road leads to the city center.', 'ถนนสายนี้มุ่งหน้าสู่ใจกลางเมือง']] },
-                { verb: 'Learn', meaning: 'เรียนรู้', structure: ['learn + to do something', 'learn + about something'], examples: [['I am learning to play the guitar.', 'ฉันกำลังเรียนเล่นกีตาร์']] },
-                { verb: 'Leave', meaning: 'ออกจาก, ทิ้งไว้', structure: ['leave + a place', 'leave + something'], examples: [['What time do you leave for work?', 'คุณออกจากบ้านไปทำงานกี่โมง?'], ['I think I left my wallet at home.', 'ฉันคิดว่าฉันทิ้งกระเป๋าเงินไว้ที่บ้าน']] },
-                { verb: 'Lend', meaning: 'ให้ยืม', structure: ['lend + someone + something'], examples: [['Could you lend me some money?', 'คุณพอจะให้ฉันยืมเงินหน่อยได้ไหม?']] },
-                { verb: 'Let', meaning: 'อนุญาต, ปล่อยให้', structure: ['let + someone + do something'], examples: [['Let me help you.', 'ให้ฉันช่วยคุณนะ']] },
-                { verb: 'Lie', meaning: 'โกหก, นอนลง', structure: ['lie + to + someone', 'lie + down'], examples: [['Don\'t lie to me.', 'อย่าโกหกฉันนะ'], ['I\'m tired. I\'m going to lie down.', 'ฉันเหนื่อย ฉันจะไปนอนพัก']] },
-                { verb: 'Lift', meaning: 'ยก', structure: ['lift + something'], examples: [['This box is too heavy to lift.', 'กล่องนี้หนักเกินกว่าจะยกไหว']] },
-                { verb: 'Like', meaning: 'ชอบ', structure: ['like + doing something'], examples: [['I like watching movies.', 'ฉันชอบดูหนัง']] },
-                { verb: 'Listen', meaning: 'ฟัง', structure: ['listen + to + someone/something'], examples: [['Listen carefully to the instructions.', 'ฟังคำแนะนำอย่างตั้งใจ']] },
-                { verb: 'Live', meaning: 'อาศัยอยู่', structure: ['live + in + a place'], examples: [['I live in Bangkok.', 'ฉันอาศัยอยู่ในกรุงเทพฯ']] },
-                { verb: 'Lock', meaning: 'ล็อค', structure: ['lock + the door'], examples: [['Did you remember to lock the door?', 'คุณจำได้ไหมว่าต้องล็อคประตู']] },
-                { verb: 'Look', meaning: 'ดู, มอง', structure: ['look + at + someone/something'], examples: [['Look at that beautiful sunset!', 'ดูพระอาทิตย์ตกที่สวยงามนั่นสิ!']] },
-                { verb: 'Lose', meaning: 'ทำหาย, แพ้', structure: ['lose + something', 'lose + a game'], examples: [['I always lose my keys.', 'ฉันทำกุญแจหายตลอดเลย'], ['Our team lost the game.', 'ทีมของเราแพ้การแข่งขัน']] },
-            ],
-            'M': [
-                { verb: 'Make', meaning: 'ทำ, สร้าง', structure: ['make + something'], examples: [['I\'ll make some coffee.', 'เดี๋ยวฉันจะชงกาแฟให้']] },
-                { verb: 'Manage', meaning: 'จัดการ', structure: ['manage + to do something'], examples: [['How do you manage to stay so calm?', 'คุณจัดการให้ตัวเองใจเย็นขนาดนี้ได้อย่างไร?']] },
-                { verb: 'Marry', meaning: 'แต่งงาน', structure: ['marry + someone'], examples: [['He is going to marry his high school sweetheart.', 'เขากำลังจะแต่งงานกับแฟนสมัยมัธยม']] },
-                { verb: 'Mean', meaning: 'หมายถึง', structure: ['What does this word mean?'], examples: [['What do you mean?', 'คุณหมายความว่าอย่างไร?']] },
-                { verb: 'Meet', meaning: 'พบ', structure: ['meet + someone'], examples: [['Nice to meet you.', 'ยินดีที่ได้รู้จัก']] },
-                { verb: 'Mention', meaning: 'กล่าวถึง', structure: ['mention + something'], examples: [['Did he mention my name?', 'เขากล่าวถึงชื่อฉันไหม?']] },
-                { verb: 'Mind', meaning: 'รังเกียจ, ใส่ใจ', structure: ['Do you mind if...?'], examples: [['Do you mind if I open the window?', 'คุณจะว่าอะไรไหมถ้าฉันจะเปิดหน้าต่าง?']] },
-                { verb: 'Miss', meaning: 'คิดถึง, พลาด', structure: ['miss + someone/something'], examples: [['I miss my family.', 'ฉันคิดถึงครอบครัว'], ['Hurry up, or you\'ll miss the train.', 'รีบหน่อย เดี๋ยวคุณจะพลาดรถไฟ']] },
-                { verb: 'Mix', meaning: 'ผสม', structure: ['mix + A + with + B'], examples: [['Mix the flour with the eggs.', 'ผสมแป้งกับไข่']] },
-                { verb: 'Move', meaning: 'ย้าย, เคลื่อนไหว', structure: ['move + to + a new place'], examples: [['We are moving to a new house next month.', 'เราจะย้ายไปบ้านใหม่เดือนหน้า']] },
-            ],
-            'N': [
-                { verb: 'Need', meaning: 'ต้องการ', structure: ['need + to do something', 'need + something'], examples: [['I need to go to the supermarket.', 'ฉันต้องไปซูเปอร์มาร์เก็ต']] },
-                { verb: 'Nap', meaning: 'งีบหลับ', structure: ['take a nap'], examples: [['I usually take a short nap after lunch.', 'ฉันมักจะงีบหลับสั้นๆ หลังอาหารกลางวัน']] },
-                { verb: 'Negotiate', meaning: 'เจรจาต่อรอง', structure: ['negotiate + with someone + for something'], examples: [['They are trying to negotiate a peace treaty.', 'พวกเขากำลังพยายามเจรจาสนธิสัญญาสันติภาพ']] },
-                { verb: 'Nod', meaning: 'พยักหน้า', structure: ['nod + your head'], examples: [['She nodded in agreement.', 'เธอพยักหน้าเห็นด้วย']] },
-                { verb: 'Notice', meaning: 'สังเกตเห็น', structure: ['notice + someone/something'], examples: [['Did you notice her new haircut?', 'คุณสังเกตเห็นทรงผมใหม่ของเธอไหม?']] },
-                { verb: 'Notify', meaning: 'แจ้งให้ทราบ', structure: ['notify + someone + of something'], examples: [['Please notify the police immediately.', 'กรุณาแจ้งตำรวจทันที']] },
-            ],
-            'O': [
-                { verb: 'Obey', meaning: 'เชื่อฟัง', structure: ['obey + rules/orders'], examples: [['You must obey the law.', 'คุณต้องเชื่อฟังกฎหมาย']] },
-                { verb: 'Observe', meaning: 'สังเกต', structure: ['observe + something'], examples: [['Scientists observe the behavior of animals.', 'นักวิทยาศาสตร์สังเกตพฤติกรรมของสัตว์']] },
-                { verb: 'Offer', meaning: 'เสนอ', structure: ['offer + someone + something'], examples: [['He offered me a job.', 'เขาเสนองานให้ฉัน']] },
-                { verb: 'Open', meaning: 'เปิด', structure: ['open + something'], examples: [['Can you open the window, please?', 'คุณช่วยเปิดหน้าต่างหน่อยได้ไหม?']] },
-                { verb: 'Order', meaning: 'สั่ง', structure: ['order + food/drinks'], examples: [['Are you ready to order?', 'คุณพร้อมที่จะสั่งอาหารหรือยัง?']] },
-                { verb: 'Organize', meaning: 'จัดระเบียบ, จัดงาน', structure: ['organize + something'], examples: [['She organized a party for her friend.', 'เธอจัดงานปาร์ตี้ให้เพื่อนของเธอ']] },
-                { verb: 'Owe', meaning: 'เป็นหนี้', structure: ['owe + someone + money'], examples: [['I owe you 100 baht.', 'ฉันเป็นหนี้คุณ 100 บาท']] },
-                { verb: 'Own', meaning: 'เป็นเจ้าของ', structure: ['own + something'], examples: [['Do you own a car?', 'คุณมีรถยนต์เป็นของตัวเองไหม?']] },
-            ],
-            'P': [
-                { verb: 'Pack', meaning: 'จัดกระเป๋า', structure: ['pack + a suitcase'], examples: [['I need to pack for my trip.', 'ฉันต้องจัดกระเป๋าสำหรับการเดินทาง']] },
-                { verb: 'Paint', meaning: 'ทาสี, วาดภาพสี', structure: ['paint + a picture/a wall'], examples: [['We need to paint the living room.', 'เราต้องทาสีห้องนั่งเล่น']] },
-                { verb: 'Pass', meaning: 'ผ่าน, ส่ง', structure: ['pass + an exam', 'pass + something + to someone'], examples: [['I hope I pass the exam.', 'ฉันหวังว่าจะสอบผ่าน'], ['Could you pass the salt, please?', 'คุณช่วยส่งเกลือให้หน่อยได้ไหม?']] },
-                { verb: 'Pay', meaning: 'จ่าย', structure: ['pay + for + something'], examples: [['How would you like to pay?', 'คุณต้องการชำระเงินอย่างไร?']] },
-                { verb: 'Perform', meaning: 'แสดง', structure: ['perform + on stage'], examples: [['The band will perform tonight.', 'วงดนตรีจะแสดงคืนนี้']] },
-                { verb: 'Pick', meaning: 'เลือก, หยิบ', structure: ['pick + something'], examples: [['Pick a card, any card.', 'เลือกไพ่มาหนึ่งใบ, ใบไหนก็ได้']] },
-                { verb: 'Plan', meaning: 'วางแผน', structure: ['plan + to do something'], examples: [['What are you planning to do this weekend?', 'คุณวางแผนจะทำอะไรสุดสัปดาห์นี้?']] },
-                { verb: 'Play', meaning: 'เล่น', structure: ['play + a game/sport/instrument'], examples: [['The children are playing in the park.', 'เด็กๆ กำลังเล่นอยู่ในสวน']] },
-                { verb: 'Pray', meaning: 'สวดมนต์, ภาวนา', structure: ['pray + for + someone/something'], examples: [['Let us pray for peace.', 'ให้เราภาวนาเพื่อสันติภาพ']] },
-                { verb: 'Prepare', meaning: 'เตรียม', structure: ['prepare + for + something'], examples: [['I need to prepare for my presentation.', 'ฉันต้องเตรียมตัวสำหรับการนำเสนอของฉัน']] },
-                { verb: 'Press', meaning: 'กด', structure: ['press + a button'], examples: [['Press this button to start.', 'กดปุ่มนี้เพื่อเริ่มต้น']] },
-                { verb: 'Pretend', meaning: 'แสร้งทำ', structure: ['pretend + to be/do something'], examples: [['He pretended to be sick so he didn\'t have to go to school.', 'เขาแกล้งป่วยเพื่อจะได้ไม่ต้องไปโรงเรียน']] },
-                { verb: 'Prevent', meaning: 'ป้องกัน', structure: ['prevent + someone + from doing something'], examples: [['The rain prevented us from going out.', 'ฝนทำให้เราออกไปข้างนอกไม่ได้']] },
-                { verb: 'Promise', meaning: 'สัญญา', structure: ['promise + to do something'], examples: [['I promise I will call you.', 'ฉันสัญญาว่าจะโทรหาคุณ']] },
-                { verb: 'Protect', meaning: 'ปกป้อง', structure: ['protect + someone/something + from something'], examples: [['This cream protects your skin from the sun.', 'ครีมนี้ปกป้องผิวของคุณจากแสงแดด']] },
-                { verb: 'Provide', meaning: 'จัดหาให้', structure: ['provide + someone + with something'], examples: [['The hotel provides free breakfast.', 'โรงแรมมีอาหารเช้าให้ฟรี']] },
-                { verb: 'Pull', meaning: 'ดึง', structure: ['pull + something'], examples: [['Pull the door to open it.', 'ดึงประตูเพื่อเปิด']] },
-                { verb: 'Push', meaning: 'ผลัก, ดัน', structure: ['push + something'], examples: [['You need to push the door, not pull.', 'คุณต้องผลักประตู ไม่ใช่ดึง']] },
-                { verb: 'Put', meaning: 'วาง', structure: ['put + something + somewhere'], examples: [['Put the book on the table.', 'วางหนังสือบนโต๊ะ']] },
-            ],
-            'Q': [
-                { verb: 'Qualify', meaning: 'มีคุณสมบัติ', structure: ['qualify + for + something'], examples: [['She qualified for the final round.', 'เธอมีคุณสมบัติผ่านเข้ารอบสุดท้าย']] },
-                { verb: 'Question', meaning: 'ตั้งคำถาม', structure: ['question + someone + about something'], examples: [['The police questioned him for two hours.', 'ตำรวจสอบสวนเขาเป็นเวลาสองชั่วโมง']] },
-                { verb: 'Quit', meaning: 'เลิก', structure: ['quit + a job/doing something'], examples: [['He decided to quit his job.', 'เขาตัดสินใจลาออกจากงาน']] },
-                { verb: 'Quote', meaning: 'อ้างคำพูด', structure: ['quote + someone'], examples: [['Can I quote you on that?', 'ฉันขออ้างคำพูดของคุณได้ไหม?']] },
-                { verb: 'Quarrel', meaning: 'ทะเลาะ', structure: ['quarrel + with + someone'], examples: [['They always quarrel about money.', 'พวกเขาทะเลาะกันเรื่องเงินเสมอ']] },
-            ],
-            'R': [
-                { verb: 'Race', meaning: 'แข่งขัน (ความเร็ว)', structure: ['race + against + someone'], examples: [['I\'ll race you to the corner!', 'ฉันจะแข่งวิ่งกับเธอไปที่หัวมุม!']] },
-                { verb: 'Read', meaning: 'อ่าน', structure: ['read + a book/newspaper'], examples: [['I love to read books.', 'ฉันชอบอ่านหนังสือ']] },
-                { verb: 'Realize', meaning: 'ตระหนัก, รู้ตัว', structure: ['realize + (that)...'], examples: [['I just realized I forgot her birthday.', 'ฉันเพิ่งนึกออกว่าลืมวันเกิดเธอ']] },
-                { verb: 'Receive', meaning: 'ได้รับ', structure: ['receive + something'], examples: [['Did you receive my email?', 'คุณได้รับอีเมลของฉันหรือยัง?']] },
-                { verb: 'Recommend', meaning: 'แนะนำ', structure: ['recommend + something/doing something'], examples: [['What would you recommend?', 'คุณจะแนะนำอะไร?']] },
-                { verb: 'Relax', meaning: 'ผ่อนคลาย', structure: ['relax + at home'], examples: [['I just want to relax this weekend.', 'ฉันแค่อยากจะพักผ่อนสุดสัปดาห์นี้']] },
-                { verb: 'Remember', meaning: 'จำได้', structure: ['remember + to do/doing something'], examples: [['Remember to buy milk.', 'อย่าลืมซื้อนมนะ']] },
-                { verb: 'Remind', meaning: 'เตือน', structure: ['remind + someone + to do something'], examples: [['Can you remind me to call him?', 'คุณช่วยเตือนฉันให้โทรหาเขาหน่อยได้ไหม?']] },
-                { verb: 'Repair', meaning: 'ซ่อมแซม', structure: ['repair + something'], examples: [['I need to repair my car.', 'ฉันต้องซ่อมรถของฉัน']] },
-                { verb: 'Reply', meaning: 'ตอบกลับ', structure: ['reply + to + an email/a message'], examples: [['Please reply to this email as soon as possible.', 'กรุณาตอบกลับอีเมลนี้โดยเร็วที่สุด']] },
-                { verb: 'Request', meaning: 'ร้องขอ', structure: ['request + something'], examples: [['I would like to request a day off.', 'ฉันอยากจะขอลางานหนึ่งวัน']] },
-                { verb: 'Return', meaning: 'กลับ, คืน', structure: ['return + to a place', 'return + something'], examples: [['When will you return?', 'คุณจะกลับมาเมื่อไหร่?'], ['I need to return this book to the library.', 'ฉันต้องคืนหนังสือเล่มนี้ที่ห้องสมุด']] },
-                { verb: 'Ride', meaning: 'ขี่', structure: ['ride + a bike/a horse'], examples: [['I learned to ride a bike when I was five.', 'ฉันเรียนขี่จักรยานตอนอายุห้าขวบ']] },
-                { verb: 'Ring', meaning: 'โทรศัพท์, (กระดิ่ง)ดัง', structure: ['ring + someone', 'the bell + rings'], examples: [['I\'ll ring you later.', 'เดี๋ยวฉันจะโทรหาคุณทีหลัง'], ['The phone is ringing.', 'โทรศัพท์กำลังดัง']] },
-                { verb: 'Run', meaning: 'วิ่ง', structure: ['run + in the park'], examples: [['I run every morning.', 'ฉันวิ่งทุกเช้า']] },
-            ],
-            'S': [
-                { verb: 'Save', meaning: 'บันทึก, เก็บ, ประหยัด, ช่วยชีวิต', structure: ['save + a file', 'save + money', 'save + someone\'s life'], examples: [['Don\'t forget to save your work.', 'อย่าลืมบันทึกงานของคุณ'], ['He saved the boy from drowning.', 'เขาช่วยเด็กชายจากการจมน้ำ']] },
-                { verb: 'Say', meaning: 'พูด', structure: ['say + something'], examples: [['What did you say?', 'คุณพูดว่าอะไรนะ?']] },
-                { verb: 'See', meaning: 'เห็น, พบ, ดู', structure: ['see + someone/something'], examples: [['I can\'t see anything.', 'ฉันมองไม่เห็นอะไรเลย'], ['See you tomorrow.', 'แล้วเจอกันพรุ่งนี้']] },
-                { verb: 'Sell', meaning: 'ขาย', structure: ['sell + something + to someone'], examples: [['I want to sell my old car.', 'ฉันต้องการขายรถคันเก่าของฉัน']] },
-                { verb: 'Send', meaning: 'ส่ง', structure: ['send + someone + something'], examples: [['I will send you an email.', 'ฉันจะส่งอีเมลหาคุณ']] },
-                { verb: 'Serve', meaning: 'บริการ, เสิร์ฟ', structure: ['serve + customers/food'], examples: [['Breakfast is served from 7 to 10 AM.', 'อาหารเช้าเสิร์ฟตั้งแต่ 7 โมงถึง 10 โมงเช้า']] },
-                { verb: 'Set', meaning: 'ตั้งค่า, จัด', structure: ['set + an alarm', 'set + the table'], examples: [['I set my alarm for 6 AM.', 'ฉันตั้งนาฬิกาปลุกไว้ตอน 6 โมงเช้า']] },
-                { verb: 'Share', meaning: 'แบ่งปัน', structure: ['share + something + with someone'], examples: [['Would you like to share your pizza with me?', 'คุณอยากจะแบ่งพิซซ่ากับฉันไหม?']] },
-                { verb: 'Shout', meaning: 'ตะโกน', structure: ['shout + at + someone'], examples: [['There\'s no need to shout.', 'ไม่จำเป็นต้องตะโกน']] },
-                { verb: 'Show', meaning: 'แสดงให้ดู', structure: ['show + someone + something'], examples: [['Can you show me the way?', 'คุณช่วยบอกทางฉันหน่อยได้ไหม?']] },
-                { verb: 'Sing', meaning: 'ร้องเพลง', structure: ['sing + a song'], examples: [['She loves to sing in the shower.', 'เธอชอบร้องเพลงตอนอาบน้ำ']] },
-                { verb: 'Sit', meaning: 'นั่ง', structure: ['sit + down'], examples: [['Please sit down.', 'กรุณานั่งลง']] },
-                { verb: 'Sleep', meaning: 'นอน', structure: ['go to sleep'], examples: [['I need to sleep early tonight.', 'คืนนี้ฉันต้องนอนเร็ว']] },
-                { verb: 'Speak', meaning: 'พูด', structure: ['speak + a language', 'speak + to someone'], examples: [['Do you speak English?', 'คุณพูดภาษาอังกฤษได้ไหม?']] },
-                { verb: 'Spend', meaning: 'ใช้ (เงิน, เวลา)', structure: ['spend + money/time + on something'], examples: [['I spent too much money yesterday.', 'เมื่อวานฉันใช้เงินมากเกินไป']] },
-                { verb: 'Start', meaning: 'เริ่มต้น', structure: ['start + to do/doing something'], examples: [['The movie starts at 8 PM.', 'หนังเริ่มตอนสองทุ่ม']] },
-                { verb: 'Stay', meaning: 'อยู่, พัก', structure: ['stay + at a hotel/home'], examples: [['I will stay at home tonight.', 'คืนนี้ฉันจะอยู่บ้าน']] },
-                { verb: 'Stop', meaning: 'หยุด', structure: ['stop + doing something'], examples: [['Please stop making that noise.', 'กรุณาหยุดทำเสียงนั้น']] },
-                { verb: 'Study', meaning: 'เรียน', structure: ['study + a subject'], examples: [['I have to study for my exam.', 'ฉันต้องอ่านหนังสือสอบ']] },
-                { verb: 'Suggest', meaning: 'แนะนำ', structure: ['suggest + doing something'], examples: [['I suggest going to the new Italian restaurant.', 'ฉันแนะนำให้ไปร้านอาหารอิตาเลียนร้านใหม่']] },
-                { verb: 'Swim', meaning: 'ว่ายน้ำ', structure: ['swim + in the pool/sea'], examples: [['I like to swim in the sea.', 'ฉันชอบว่ายน้ำในทะเล']] },
-            ],
-            'T': [
-                { verb: 'Take', meaning: 'เอาไป, พาไป, ใช้(เวลา)', structure: ['take + something', 'take + someone + somewhere', 'It + takes + time'], examples: [['Don\'t forget to take your umbrella.', 'อย่าลืมพกร่มไปด้วยนะ'], ['It takes 20 minutes to get there.', 'ใช้เวลา 20 นาทีในการไปถึงที่นั่น']] },
-                { verb: 'Talk', meaning: 'คุย', structure: ['talk + to/with + someone + about something'], examples: [['I need to talk to you.', 'ฉันต้องคุยกับคุณ']] },
-                { verb: 'Taste', meaning: 'ชิม, มีรสชาติ', structure: ['taste + something', 'It + tastes + adjective'], examples: [['Taste this soup and tell me if it needs more salt.', 'ชิมซุปนี้แล้วบอกฉันว่าต้องใส่เกลือเพิ่มไหม'], ['This cake tastes delicious.', 'เค้กนี้รสชาติอร่อย']] },
-                { verb: 'Teach', meaning: 'สอน', structure: ['teach + someone + something'], examples: [['He teaches English at a high school.', 'เขาสอนภาษาอังกฤษที่โรงเรียนมัธยม']] },
-                { verb: 'Tell', meaning: 'บอก', structure: ['tell + someone + something'], examples: [['Can you tell me the time?', 'คุณช่วยบอกเวลาฉันหน่อยได้ไหม?']] },
-                { verb: 'Test', meaning: 'ทดสอบ', structure: ['test + something'], examples: [['We need to test the new software.', 'เราต้องทดสอบซอฟต์แวร์ใหม่']] },
-                { verb: 'Thank', meaning: 'ขอบคุณ', structure: ['thank + someone + for something'], examples: [['Thank you for your help.', 'ขอบคุณสำหรับความช่วยเหลือของคุณ']] },
-                { verb: 'Think', meaning: 'คิด', structure: ['think + about something', 'think + (that)...'], examples: [['What are you thinking about?', 'คุณกำลังคิดอะไรอยู่?']] },
-                { verb: 'Throw', meaning: 'ขว้าง', structure: ['throw + something + to someone'], examples: [['Throw the ball to me!', 'ขว้างบอลมาให้ฉัน!']] },
-                { verb: 'Touch', meaning: 'สัมผัส, แตะ', structure: ['touch + something'], examples: [['Don\'t touch the painting.', 'ห้ามแตะภาพวาด']] },
-                { verb: 'Travel', meaning: 'ท่องเที่ยว, เดินทาง', structure: ['travel + to a place'], examples: [['I love to travel.', 'ฉันรักการเดินทาง']] },
-                { verb: 'Try', meaning: 'พยายาม, ลอง', structure: ['try + to do something', 'try + something'], examples: [['You should try to get more sleep.', 'คุณควรพยายามนอนให้มากขึ้น'], ['Have you ever tried Thai food?', 'คุณเคยลองอาหารไทยไหม?']] },
-                { verb: 'Turn', meaning: 'หมุน, เลี้ยว, เปิด/ปิด', structure: ['turn + left/right', 'turn + on/off something'], examples: [['Turn left at the next corner.', 'เลี้ยวซ้ายที่มุมถัดไป'], ['Can you turn on the light?', 'คุณช่วยเปิดไฟหน่อยได้ไหม?']] },
-                { verb: 'Type', meaning: 'พิมพ์', structure: ['type + something'], examples: [['I can type very fast.', 'ฉันสามารถพิมพ์ได้เร็วมาก']] },
-            ],
-            'U': [
-                { verb: 'Underline', meaning: 'ขีดเส้นใต้', structure: ['underline + a word'], examples: [['Please underline the important words.', 'กรุณาขีดเส้นใต้คำที่สำคัญ']] },
-                { verb: 'Understand', meaning: 'เข้าใจ', structure: ['understand + something'], examples: [['Do you understand the question?', 'คุณเข้าใจคำถามไหม?']] },
-                { verb: 'Undo', meaning: 'ยกเลิกการกระทำ', structure: ['undo + a change'], examples: [['You can click here to undo your last action.', 'คุณสามารถคลิกที่นี่เพื่อยกเลิกการกระทำล่าสุดของคุณ']] },
-                { verb: 'Unite', meaning: 'รวมกันเป็นหนึ่ง', structure: ['unite + against something'], examples: [['We must unite to solve this problem.', 'เราต้องรวมพลังกันเพื่อแก้ปัญหานี้']] },
-                { verb: 'Unlock', meaning: 'ปลดล็อค', structure: ['unlock + a door/phone'], examples: [['I can\'t unlock my phone; I forgot the password.', 'ฉันปลดล็อคโทรศัพท์ไม่ได้ ฉันลืมรหัสผ่าน']] },
-                { verb: 'Unpack', meaning: 'แกะของออกจากกระเป๋า', structure: ['unpack + your suitcase'], examples: [['The first thing I do when I get to a hotel is unpack.', 'สิ่งแรกที่ฉันทำเมื่อไปถึงโรงแรมคือการแกะของออกจากกระเป๋า']] },
-                { verb: 'Update', meaning: 'อัปเดต, ทำให้เป็นปัจจุบัน', structure: ['update + software/information'], examples: [['You need to update your computer\'s software.', 'คุณต้องอัปเดตซอฟต์แวร์คอมพิวเตอร์ของคุณ']] },
-                { verb: 'Upload', meaning: 'อัปโหลด', structure: ['upload + a photo/file'], examples: [['I\'m going to upload my vacation photos to Facebook.', 'ฉันจะอัปโหลดรูปถ่ายวันหยุดของฉันลงใน Facebook']] },
-                { verb: 'Use', meaning: 'ใช้', structure: ['use + something'], examples: [['Can I use your pen?', 'ฉันขอใช้ปากกาของคุณได้ไหม?']] },
-                { verb: 'Urge', meaning: 'กระตุ้น, เร่งเร้า', structure: ['urge + someone + to do something'], examples: [['I urge you to reconsider your decision.', 'ฉันขอร้องให้คุณพิจารณาการตัดสินใจของคุณใหม่']] },
-            ],
-            'V': [
-                { verb: 'Vacuum', meaning: 'ดูดฝุ่น', structure: ['vacuum + the floor'], examples: [['I need to vacuum the carpet.', 'ฉันต้องดูดฝุ่นพรม']] },
-                { verb: 'Value', meaning: 'ให้คุณค่า', structure: ['value + something'], examples: [['I value your friendship.', 'ฉันให้คุณค่ากับมิตรภาพของเรา']] },
-                { verb: 'Vanish', meaning: 'หายตัวไป', structure: ['vanish + without a trace'], examples: [['The magician vanished in a puff of smoke.', 'นักมายากลหายตัวไปในกลุ่มควัน']] },
-                { verb: 'Vary', meaning: 'แตกต่างกันไป', structure: ['prices + vary'], examples: [['The prices vary depending on the season.', 'ราคาจะแตกต่างกันไปขึ้นอยู่กับฤดูกาล']] },
-                { verb: 'Verify', meaning: 'ตรวจสอบความถูกต้อง', structure: ['verify + information'], examples: [['Please verify your email address.', 'กรุณายืนยันที่อยู่อีเมลของคุณ']] },
-                { verb: 'Visit', meaning: 'เยี่ยม', structure: ['visit + someone/a place'], examples: [['I\'m going to visit my grandparents this weekend.', 'ฉันจะไปเยี่ยมปู่ย่าตายายของฉันสุดสัปดาห์นี้']] },
-                { verb: 'Volunteer', meaning: 'อาสา', structure: ['volunteer + to do something'], examples: [['She volunteered to help at the animal shelter.', 'เธออาสาไปช่วยที่ศูนย์พักพิงสัตว์']] },
-                { verb: 'Vote', meaning: 'ลงคะแนน', structure: ['vote + for + someone'], examples: [['Who are you going to vote for?', 'คุณจะลงคะแนนให้ใคร?']] },
-                { verb: 'Vomit', meaning: 'อาเจียน', structure: ['feel like vomiting'], examples: [['I felt like I was going to vomit.', 'ฉันรู้สึกเหมือนจะอาเจียน']] },
-            ],
-            'W': [
-                { verb: 'Wait', meaning: 'รอ', structure: ['wait + for + someone/something'], examples: [['Please wait for me.', 'กรุณารอฉันด้วย']] },
-                { verb: 'Wake', meaning: 'ตื่น', structure: ['wake + up'], examples: [['What time do you usually wake up?', 'ปกติคุณตื่นนอนกี่โมง?']] },
-                { verb: 'Walk', meaning: 'เดิน', structure: ['walk + to a place'], examples: [['I walk to work every day.', 'ฉันเดินไปทำงานทุกวัน']] },
-                { verb: 'Want', meaning: 'ต้องการ', structure: ['want + to do something', 'want + something'], examples: [['What do you want to eat?', 'คุณอยากกินอะไร?']] },
-                { verb: 'Warn', meaning: 'เตือน', structure: ['warn + someone + about something'], examples: [['I warned you not to do that.', 'ฉันเตือนคุณแล้วว่าอย่าทำอย่างนั้น']] },
-                { verb: 'Wash', meaning: 'ล้าง', structure: ['wash + your hands/dishes'], examples: [['You should wash your hands before eating.', 'คุณควรล้างมือก่อนรับประทานอาหาร']] },
-                { verb: 'Watch', meaning: 'ดู', structure: ['watch + TV/a movie'], examples: [['Let\'s watch a movie tonight.', 'คืนนี้เรามาดูหนังกันเถอะ']] },
-                { verb: 'Wear', meaning: 'สวมใส่', structure: ['wear + clothes'], examples: [['What are you wearing to the party?', 'คุณจะใส่อะไรไปงานปาร์ตี้?']] },
-                { verb: 'Weigh', meaning: 'ชั่งน้ำหนัก, มีน้ำหนัก', structure: ['weigh + something'], examples: [['How much do you weigh?', 'คุณหนักเท่าไหร่?']] },
-                { verb: 'Welcome', meaning: 'ต้อนรับ', structure: ['welcome + someone'], examples: [['We would like to welcome you to our team.', 'เราขอต้อนรับคุณสู่ทีมของเรา']] },
-                { verb: 'Win', meaning: 'ชนะ', structure: ['win + a game/a prize'], examples: [['I hope our team wins.', 'ฉันหวังว่าทีมของเราจะชนะ']] },
-                { verb: 'Wish', meaning: 'ปรารถนา, อวยพร', structure: ['wish + for something', 'wish + someone + something'], examples: [['I wish I could fly.', 'ฉันหวังว่าฉันจะบินได้'], ['I wish you a happy birthday.', 'ฉันขอให้คุณมีความสุขในวันเกิด']] },
-                { verb: 'Wonder', meaning: 'สงสัย', structure: ['wonder + if/what/why...'], examples: [['I wonder what will happen next.', 'ฉันสงสัยว่าจะเกิดอะไรขึ้นต่อไป']] },
-                { verb: 'Work', meaning: 'ทำงาน', structure: ['work + at a place', 'work + on something'], examples: [['Where do you work?', 'คุณทำงานที่ไหน?']] },
-                { verb: 'Worry', meaning: 'กังวล', structure: ['worry + about + something'], examples: [['Don\'t worry, be happy.', 'อย่ากังวลไปเลย มีความสุขเถอะ']] },
-                { verb: 'Wrap', meaning: 'ห่อ', structure: ['wrap + a gift'], examples: [['Can you help me wrap this present?', 'คุณช่วยฉันห่อของขวัญชิ้นนี้ได้ไหม?']] },
-                { verb: 'Write', meaning: 'เขียน', structure: ['write + a letter/an email'], examples: [['I need to write an email to my boss.', 'ฉันต้องเขียนอีเมลถึงเจ้านายของฉัน']] },
-            ],
-            'X': [
-                { verb: 'X-ray', meaning: 'เอ็กซ์เรย์', structure: ['x-ray + a part of the body'], examples: [['The doctor decided to x-ray my chest.', 'คุณหมอตัดสินใจที่จะเอ็กซ์เรย์หน้าอกของฉัน']] },
-                { verb: 'Xerox', meaning: 'ถ่ายเอกสาร', structure: ['xerox + a document'], examples: [['Could you xerox this report for me?', 'คุณช่วยถ่ายเอกสารรายงานนี้ให้ฉันหน่อยได้ไหม?']] },
-            ],
-            'Y': [
-                { verb: 'Yawn', meaning: 'หาว', structure: ['yawn'], examples: [['I can\'t stop yawning. I must be tired.', 'ฉันหยุดหาวไม่ได้เลย ฉันต้องเหนื่อยแน่ๆ']] },
-                { verb: 'Yell', meaning: 'ตะโกน, ตะคอก', structure: ['yell + at + someone'], examples: [['Please don\'t yell at me.', 'กรุณาอย่าตะคอกใส่ฉัน']] },
-                { verb: 'Yield', meaning: 'ยอม, ให้ผลผลิต', structure: ['yield + to someone/something', 'yield + a result'], examples: [['He refused to yield to their demands.', 'เขาปฏิเสธที่จะยอมทำตามข้อเรียกร้องของพวกเขา']] },
-                { verb: 'Yearn', meaning: 'โหยหา, ปรารถนาอย่างแรงกล้า', structure: ['yearn + for something'], examples: [['She yearns for a quiet life in the countryside.', 'เธอโหยหาชีวิตที่เงียบสงบในชนบท']] },
-            ],
-            'Z': [
-                { verb: 'Zap', meaning: 'เปลี่ยนช่องทีวีเร็วๆ, กำจัด', structure: ['zap + through channels', 'zap + something'], examples: [['He zapped through the channels to find a movie.', 'เขาเปลี่ยนช่องทีวีอย่างรวดเร็วเพื่อหาหนังดู']] },
-                { verb: 'Zip', meaning: 'รูดซิป', structure: ['zip + up + something'], examples: [['Could you zip up my dress?', 'คุณช่วยรูดซิปชุดของฉันให้หน่อยได้ไหม?']] },
-                { verb: 'Zoom', meaning: 'ซูมเข้า/ออก', structure: ['zoom + in/out'], examples: [['You can zoom in to see the details.', 'คุณสามารถซูมเข้าไปดูรายละเอียดได้']] },
-            ],
+    // --- DATA SOURCE (Verbs A-Z, Upgraded G-K) ---
+    const vocabData = {
+        'A': [
+            { word: 'Accept', forms: { v1: 'Accept', v2: 'Accepted', v3: 'Accepted', ving: 'Accepting' }, pronunciation: 'แอค-<u>เซพท์</u>', meaning: 'ยอมรับ', example_en: 'She decided to accept the job offer.', example_th: 'เธอตัดสินใจที่จะยอมรับข้อเสนองาน', collocations: ['accept an apology', 'accept responsibility', 'accept a challenge'] },
+            { word: 'Achieve', forms: { v1: 'Achieve', v2: 'Achieved', v3: 'Achieved', ving: 'Achieving' }, pronunciation: 'เอ-<u>ชีฟว</u>', meaning: 'บรรลุ, ทำให้สำเร็จ', example_en: 'You can achieve anything if you work hard.', example_th: 'คุณสามารถทำทุกสิ่งให้สำเร็จได้ถ้าคุณทำงานหนัก', collocations: ['achieve a goal', 'achieve success', 'achieve results'] },
+            { word: 'Act', forms: { v1: 'Act', v2: 'Acted', v3: 'Acted', ving: 'Acting' }, pronunciation: 'แอ็คท์', meaning: 'กระทำ, แสดง', example_en: 'We must act now before it\'s too late.', example_th: 'เราต้องลงมือทำตอนนี้ก่อนที่จะสายเกินไป', collocations: ['act quickly', 'act like a child', 'act in a movie'] },
+            { word: 'Add', forms: { v1: 'Add', v2: 'Added', v3: 'Added', ving: 'Adding' }, pronunciation: 'แอด', meaning: 'เพิ่ม', example_en: 'Please add some sugar to my coffee.', example_th: 'กรุณาเติมน้ำตาลลงในกาแฟของฉันหน่อย', collocations: ['add value', 'add information', 'add to the list'] },
+            { word: 'Admire', forms: { v1: 'Admire', v2: 'Admired', v3: 'Admired', ving: 'Admiring' }, pronunciation: 'แอด-<u>ไม</u>-เออะ', meaning: 'ชื่นชม', example_en: 'I really admire your courage.', example_th: 'ฉันชื่นชมความกล้าหาญของคุณจริงๆ', collocations: ['greatly admire', 'admire the view', 'secretly admire'] },
+            { word: 'Advise', forms: { v1: 'Advise', v2: 'Advised', v3: 'Advised', ving: 'Advising' }, pronunciation: 'แอด-<u>ไวซ</u>', meaning: 'แนะนำ', example_en: 'I would advise you to see a doctor.', example_th: 'ฉันขอแนะนำให้คุณไปพบแพทย์', collocations: ['strongly advise', 'advise against', 'advise someone to do sth'] },
+            { word: 'Agree', forms: { v1: 'Agree', v2: 'Agreed', v3: 'Agreed', ving: 'Agreeing' }, pronunciation: 'เอ-<u>กรี</u>', meaning: 'เห็นด้วย', example_en: 'I agree with you completely.', example_th: 'ฉันเห็นด้วยกับคุณอย่างยิ่ง', collocations: ['agree with someone', 'agree to do sth', 'agree on a price'] },
+            { word: 'Allow', forms: { v1: 'Allow', v2: 'Allowed', v3: 'Allowed', ving: 'Allowing' }, pronunciation: 'เอ-<u>ลาว</u>', meaning: 'อนุญาต', example_en: 'My parents don\'t allow me to stay out late.', example_th: 'พ่อแม่ของฉันไม่อนุญาตให้ฉันอยู่ข้างนอกดึก', collocations: ['allow someone to do sth', 'allow access', 'not allow'] },
+            { word: 'Announce', forms: { v1: 'Announce', v2: 'Announced', v3: 'Announced', ving: 'Announcing' }, pronunciation: 'เอ-<u>นาวน์ซ</u>', meaning: 'ประกาศ', example_en: 'They will announce the winner tomorrow.', example_th: 'พวกเขาจะประกาศผู้ชนะในวันพรุ่งนี้', collocations: ['officially announce', 'announce a decision', 'proudly announce'] },
+            { word: 'Answer', forms: { v1: 'Answer', v2: 'Answered', v3: 'Answered', ving: 'Answering' }, pronunciation: '<u>อาน</u>-เซ่อะ', meaning: 'ตอบ', example_en: 'Can you answer the phone, please?', example_th: 'คุณช่วยรับโทรศัพท์หน่อยได้ไหม', collocations: ['answer the phone', 'answer a question', 'answer an email'] },
+            { word: 'Appear', forms: { v1: 'Appear', v2: 'Appeared', v3: 'Appeared', ving: 'Appearing' }, pronunciation: 'เอ-<u>เพียร์</u>', meaning: 'ปรากฏ', example_en: 'A beautiful rainbow appeared in the sky.', example_th: 'รุ้งที่สวยงามปรากฏขึ้นบนท้องฟ้า', collocations: ['appear on TV', 'suddenly appear', 'appear to be'] },
+            { word: 'Apply', forms: { v1: 'Apply', v2: 'Applied', v3: 'Applied', ving: 'Applying' }, pronunciation: 'เอ-<u>ไพล</u>', meaning: 'สมัคร,นำไปใช้', example_en: 'He decided to apply for the job.', example_th: 'เขาตัดสินใจที่จะสมัครงานนี้', collocations: ['apply for a job', 'apply sunscreen', 'apply a rule'] },
+            { word: 'Appreciate', forms: { v1: 'Appreciate', v2: 'Appreciated', v3: 'Appreciated', ving: 'Appreciating' }, pronunciation: 'เอ-<u>พรี</u>-ชิ-เอท', meaning: 'ซาบซึ้ง, ชื่นชม', example_en: 'I really appreciate your help.', example_th: 'ฉันซาบซึ้งในความช่วยเหลือของคุณจริงๆ', collocations: ['really appreciate', 'appreciate the little things', 'fully appreciate'] },
+            { word: 'Argue', forms: { v1: 'Argue', v2: 'Argued', v3: 'Argued', ving: 'Arguing' }, pronunciation: '<u>อาร์</u>-กิว', meaning: 'โต้เถียง', example_en: 'I don\'t want to argue with you.', example_th: 'ฉันไม่อยากโต้เถียงกับคุณ', collocations: ['argue with someone', 'argue about something', 'argue a point'] },
+            { word: 'Arrange', forms: { v1: 'Arrange', v2: 'Arranged', v3: 'Arranged', ving: 'Arranging' }, pronunciation: 'เอ-<u>เรนจ์</u>', meaning: 'จัดเตรียม', example_en: 'She arranged a meeting with the client.', example_th: 'เธอได้จัดเตรียมการประชุมกับลูกค้า', collocations: ['arrange a meeting', 'arrange flowers', 'pre-arranged'] },
+            { word: 'Arrive', forms: { v1: 'Arrive', v2: 'Arrived', v3: 'Arrived', ving: 'Arriving' }, pronunciation: 'เอ-<u>ไรฟว</u>', meaning: 'มาถึง', example_en: 'What time did you arrive?', example_th: 'คุณมาถึงกี่โมง', collocations: ['arrive on time', 'arrive late', 'arrive at a destination'] },
+            { word: 'Ask', forms: { v1: 'Ask', v2: 'Asked', v3: 'Asked', ving: 'Asking' }, pronunciation: 'อาสค', meaning: 'ถาม, ขอ', example_en: 'Can I ask you a question?', example_th: 'ฉันขอถามคำถามคุณได้ไหม', collocations: ['ask a question', 'ask for help', 'ask for permission'] },
+            { word: 'Attack', forms: { v1: 'Attack', v2: 'Attacked', v3: 'Attacked', ving: 'Attacking' }, pronunciation: 'เอ-<u>แท็ค</u>', meaning: 'โจมตี', example_en: 'The army prepared to attack the city.', example_th: 'กองทัพเตรียมพร้อมที่จะโจมตีเมือง', collocations: ['launch an attack', 'under attack', 'a heart attack'] },
+            { word: 'Attend', forms: { v1: 'Attend', v2: 'Attended', v3: 'Attended', ving: 'Attending' }, pronunciation: 'เอ-<u>เท็นด์</u>', meaning: 'เข้าร่วม', example_en: 'Are you going to attend the conference?', example_th: 'คุณจะเข้าร่วมการประชุมหรือไม่', collocations: ['attend a meeting', 'attend a wedding', 'well-attended'] },
+            { word: 'Avoid', forms: { v1: 'Avoid', v2: 'Avoided', v3: 'Avoided', ving: 'Avoiding' }, pronunciation: 'เอ-<u>วอยด์</u>', meaning: 'หลีกเลี่ยง', example_en: 'You should avoid eating fatty foods.', example_th: 'คุณควรหลีกเลี่ยงการกินอาหารที่มีไขมันสูง', collocations: ['avoid someone', 'avoid a problem', 'avoid eye contact'] },
+        ],
+        'B': [
+            { word: 'Bake', forms: { v1: 'Bake', v2: 'Baked', v3: 'Baked', ving: 'Baking' }, pronunciation: 'เบค', meaning: 'อบ (ขนม)', example_en: 'I love to bake cookies.', example_th: 'ฉันชอบอบคุกกี้', collocations: ['bake a cake', 'freshly baked', 'bake in the oven'] },
+            { word: 'Balance', forms: { v1: 'Balance', v2: 'Balanced', v3: 'Balanced', ving: 'Balancing' }, pronunciation: '<u>แบ</u>-เลินซ์', meaning: 'ทำให้สมดุล', example_en: 'It\'s hard to balance work and family life.', example_th: 'มันยากที่จะทำให้ชีวิตการทำงานและครอบครัวสมดุลกัน', collocations: ['a balanced diet', 'balance the budget', 'work-life balance'] },
+            { word: 'Bathe', forms: { v1: 'Bathe', v2: 'Bathed', v3: 'Bathed', ving: 'Bathing' }, pronunciation: 'เบธ', meaning: 'อาบน้ำ', example_en: 'I bathe every morning.', example_th: 'ฉันอาบน้ำทุกเช้า', collocations: ['bathe the baby', 'sunbathe', 'a bloodbath'] },
+            { word: 'Beat', forms: { v1: 'Beat', v2: 'Beat', v3: 'Beaten', ving: 'Beating' }, pronunciation: 'บีท', meaning: 'ตี, เอาชนะ', example_en: 'Our team beat them 3-0.', example_th: 'ทีมของเราเอาชนะพวกเขา 3-0', collocations: ['beat the drum', 'heartbeat', 'beat around the bush'] },
+            { word: 'Become', forms: { v1: 'Become', v2: 'Became', v3: 'Become', ving: 'Becoming' }, pronunciation: 'บิ-<u>คัม</u>', meaning: 'กลายเป็น', example_en: 'He wants to become a doctor.', example_th: 'เขาอยากเป็นหมอ', collocations: ['become famous', 'become a member', 'become aware of'] },
+            { word: 'Begin', forms: { v1: 'Begin', v2: 'Began', v3: 'Begun', ving: 'Beginning' }, pronunciation: 'บิ-<u>กิน</u>', meaning: 'เริ่มต้น', example_en: 'Let\'s begin the meeting.', example_th: 'มาเริ่มการประชุมกันเถอะ', collocations: ['begin to do sth', 'a new beginning', 'from beginning to end'] },
+            { word: 'Behave', forms: { v1: 'Behave', v2: 'Behaved', v3: 'Behaved', ving: 'Behaving' }, pronunciation: 'บิ-<u>เฮฟว</u>', meaning: 'ประพฤติตัว', example_en: 'The children behaved very well.', example_th: 'เด็กๆ ประพฤติตัวดีมาก', collocations: ['behave yourself', 'well-behaved', 'behave badly'] },
+            { word: 'Believe', forms: { v1: 'Believe', v2: 'Believed', v3: 'Believed', ving: 'Believing' }, pronunciation: 'บิ-<u>ลีฟว</u>', meaning: 'เชื่อ', example_en: 'I believe you can do it.', example_th: 'ฉันเชื่อว่าคุณทำได้', collocations: ['believe in yourself', 'hard to believe', 'make believe'] },
+            { word: 'Belong', forms: { v1: 'Belong', v2: 'Belonged', v3: 'Belonged', ving: 'Belonging' }, pronunciation: 'บิ-<u>ลอง</u>', meaning: 'เป็นของ', example_en: 'This book belongs to me.', example_th: 'หนังสือเล่มนี้เป็นของฉัน', collocations: ['belong to', 'a sense of belonging', 'personal belongings'] },
+            { word: 'Bite', forms: { v1: 'Bite', v2: 'Bit', v3: 'Bitten', ving: 'Biting' }, pronunciation: 'ไบท์', meaning: 'กัด', example_en: 'Be careful, the dog might bite you.', example_th: 'ระวังนะ สุนัขอาจจะกัดคุณ', collocations: ['a mosquito bite', 'bite your nails', 'grab a bite'] },
+            { word: 'Blame', forms: { v1: 'Blame', v2: 'Blamed', v3: 'Blamed', ving: 'Blaming' }, pronunciation: 'เบลม', meaning: 'ตำหนิ, กล่าวโทษ', example_en: 'Don\'t blame me for your mistake.', example_th: 'อย่าโทษฉันสำหรับความผิดพลาดของคุณ', collocations: ['blame someone for sth', 'take the blame', 'put the blame on'] },
+            { word: 'Blow', forms: { v1: 'Blow', v2: 'Blew', v3: 'Blown', ving: 'Blowing' }, pronunciation: 'โบลว', meaning: 'เป่า', example_en: 'Blow out the candles on your birthday cake.', example_th: 'เป่าเทียนบนเค้กวันเกิดของคุณ', collocations: ['blow a kiss', 'blow your nose', 'blow your mind'] },
+            { word: 'Boil', forms: { v1: 'Boil', v2: 'Boiled', v3: 'Boiled', ving: 'Boiling' }, pronunciation: 'บอยล์', meaning: 'ต้ม', example_en: 'Please boil some water for tea.', example_th: 'กรุณาต้มน้ำสำหรับชงชาหน่อย', collocations: ['boil an egg', 'boil water', 'it boils down to'] },
+            { word: 'Borrow', forms: { v1: 'Borrow', v2: 'Borrowed', v3: 'Borrowed', ving: 'Borrowing' }, pronunciation: '<u>บอ</u>-โร่', meaning: 'ยืม', example_en: 'Can I borrow your pen?', example_th: 'ฉันขอยืมปากกาของคุณได้ไหม', collocations: ['borrow money', 'borrow a book', 'on borrowed time'] },
+            { word: 'Break', forms: { v1: 'Break', v2: 'Broke', v3: 'Broken', ving: 'Breaking' }, pronunciation: 'เบรค', meaning: 'ทำลาย, แตก, หยุดพัก', example_en: 'Be careful not to break the glass.', example_th: 'ระวังอย่าทำแก้วแตก', collocations: ['break a promise', 'take a break', 'break the law'] },
+            { word: 'Breathe', forms: { v1: 'Breathe', v2: 'Breathed', v3: 'Breathed', ving: 'Breathing' }, pronunciation: 'บรีธ', meaning: 'หายใจ', example_en: 'Just relax and breathe deeply.', example_th: 'แค่ผ่อนคลายและหายใจลึกๆ', collocations: ['breathe in/out', 'take a deep breath', 'hard to breathe'] },
+            { word: 'Bring', forms: { v1: 'Bring', v2: 'Brought', v3: 'Brought', ving: 'Bringing' }, pronunciation: 'บริง', meaning: 'นำมา', example_en: 'Please bring your book to class.', example_th: 'กรุณานำหนังสือของคุณมาที่ชั้นเรียนด้วย', collocations: ['bring someone sth', 'bring back memories', 'bring to light'] },
+            { word: 'Brush', forms: { v1: 'Brush', v2: 'Brushed', v3: 'Brushed', ving: 'Brushing' }, pronunciation: 'บรัช', meaning: 'แปรง', example_en: 'You should brush your teeth twice a day.', example_th: 'คุณควรแปรงฟันวันละสองครั้ง', collocations: ['brush your teeth', 'brush your hair', 'a brush with death'] },
+            { word: 'Build', forms: { v1: 'Build', v2: 'Built', v3: 'Built', ving: 'Building' }, pronunciation: 'บิลด์', meaning: 'สร้าง', example_en: 'They plan to build a new house.', example_th: 'พวกเขาวางแผนที่จะสร้างบ้านใหม่', collocations: ['build a house', 'build a relationship', 'build confidence'] },
+            { word: 'Buy', forms: { v1: 'Buy', v2: 'Bought', v3: 'Bought', ving: 'Buying' }, pronunciation: 'บาย', meaning: 'ซื้อ', example_en: 'I need to buy some groceries.', example_th: 'ฉันต้องไปซื้อของชำ', collocations: ['buy a ticket', 'buy a gift', 'buy online'] },
+        ],
+        'C': [
+            { word: 'Calculate', forms: { v1: 'Calculate', v2: 'Calculated', v3: 'Calculated', ving: 'Calculating' }, pronunciation: '<u>แคล</u>-คิว-เลท', meaning: 'คำนวณ', example_en: 'Can you calculate the total cost?', example_th: 'คุณช่วยคำนวณค่าใช้จ่ายทั้งหมดได้ไหม', collocations: ['calculate the cost', 'a calculated risk', 'roughly calculate'] },
+            { word: 'Call', forms: { v1: 'Call', v2: 'Called', v3: 'Called', ving: 'Calling' }, pronunciation: 'คอล', meaning: 'เรียก, โทรหา', example_en: 'I will call you later.', example_th: 'เดี๋ยวฉันจะโทรหาคุณทีหลัง', collocations: ['call someone', 'make a phone call', 'a close call'] },
+            { word: 'Cancel', forms: { v1: 'Cancel', v2: 'Cancelled', v3: 'Cancelled', ving: 'Cancelling' }, pronunciation: '<u>แคน</u>-เซิล', meaning: 'ยกเลิก', example_en: 'They had to cancel the meeting.', example_th: 'พวกเขาต้องยกเลิกการประชุม', collocations: ['cancel a flight', 'cancel a subscription', 'a last-minute cancellation'] },
+            { word: 'Care', forms: { v1: 'Care', v2: 'Cared', v3: 'Cared', ving: 'Caring' }, pronunciation: 'แคร์', meaning: 'ดูแล, ใส่ใจ', example_en: 'I don\'t care what other people think.', example_th: 'ฉันไม่สนใจว่าคนอื่นจะคิดอย่างไร', collocations: ['take care of', 'care about', 'health care'] },
+            { word: 'Carry', forms: { v1: 'Carry', v2: 'Carried', v3: 'Carried', ving: 'Carrying' }, pronunciation: '<u>แค</u>-รี่', meaning: 'ถือ, แบก', example_en: 'Can you help me carry these bags?', example_th: 'คุณช่วยฉันถือกระเป๋าเหล่านี้ได้ไหม', collocations: ['carry a bag', 'carry on', 'get carried away'] },
+            { word: 'Catch', forms: { v1: 'Catch', v2: 'Caught', v3: 'Caught', ving: 'Catching' }, pronunciation: 'แคทช์', meaning: 'จับ', example_en: 'Let\'s play catch with a ball.', example_th: 'มาเล่นโยนรับลูกบอลกันเถอะ', collocations: ['catch a ball', 'catch a cold', 'catch a bus'] },
+            { word: 'Cause', forms: { v1: 'Cause', v2: 'Caused', v3: 'Caused', ving: 'Causing' }, pronunciation: 'คอซ', meaning: 'เป็นสาเหตุให้เกิด', example_en: 'The accident was caused by human error.', example_th: 'อุบัติเหตุเกิดจากความผิดพลาดของมนุษย์', collocations: ['cause a problem', 'the root cause', 'a lost cause'] },
+            { word: 'Change', forms: { v1: 'Change', v2: 'Changed', v3: 'Changed', ving: 'Changing' }, pronunciation: 'เชนจ์', meaning: 'เปลี่ยน', example_en: 'I need to change my clothes.', example_th: 'ฉันต้องเปลี่ยนเสื้อผ้า', collocations: ['change your mind', 'get changed', 'a big change'] },
+            { word: 'Check', forms: { v1: 'Check', v2: 'Checked', v3: 'Checked', ving: 'Checking' }, pronunciation: 'เช็ค', meaning: 'ตรวจสอบ', example_en: 'Please check your work before you submit it.', example_th: 'กรุณาตรวจสอบงานของคุณก่อนส่ง', collocations: ['check your email', 'double-check', 'check in'] },
+            { word: 'Choose', forms: { v1: 'Choose', v2: 'Chose', v3: 'Chosen', ving: 'Choosing' }, pronunciation: 'ชูส', meaning: 'เลือก', example_en: 'You have to choose between these two options.', example_th: 'คุณต้องเลือกระหว่างสองตัวเลือกนี้', collocations: ['choose wisely', 'have to choose', 'pick and choose'] },
+            { word: 'Clean', forms: { v1: 'Clean', v2: 'Cleaned', v3: 'Cleaned', ving: 'Cleaning' }, pronunciation: 'คลีน', meaning: 'ทำความสะอาด', example_en: 'I need to clean my room.', example_th: 'ฉันต้องทำความสะอาดห้องของฉัน', collocations: ['clean your room', 'clean up', 'squeaky clean'] },
+            { word: 'Close', forms: { v1: 'Close', v2: 'Closed', v3: 'Closed', ving: 'Closing' }, pronunciation: 'โคลส', meaning: 'ปิด', example_en: 'Please close the door.', example_th: 'กรุณาปิดประตูด้วย', collocations: ['close the door', 'close your eyes', 'a close friend'] },
+            { word: 'Collect', forms: { v1: 'Collect', v2: 'Collected', v3: 'Collected', ving: 'Collecting' }, pronunciation: 'เคอ-<u>เล็คท์</u>', meaning: 'สะสม, รวบรวม', example_en: 'He collects old stamps.', example_th: 'เขาสะสมแสตมป์เก่า', collocations: ['collect data', 'collect dust', 'a stamp collection'] },
+            { word: 'Come', forms: { v1: 'Come', v2: 'Came', v3: 'Come', ving: 'Coming' }, pronunciation: 'คัม', meaning: 'มา', example_en: 'Are you coming to the party?', example_th: 'คุณจะมางานปาร์ตี้ไหม', collocations: ['come here', 'come in', 'how come?'] },
+            { word: 'Compare', forms: { v1: 'Compare', v2: 'Compared', v3: 'Compared', ving: 'Comparing' }, pronunciation: 'คอม-<u>แพร์</u>', meaning: 'เปรียบเทียบ', example_en: 'Don\'t compare yourself to others.', example_th: 'อย่าเปรียบเทียบตัวเองกับคนอื่น', collocations: ['compare prices', 'compare with/to', 'beyond compare'] },
+            { word: 'Complain', forms: { v1: 'Complain', v2: 'Complained', v3: 'Complained', ving: 'Complaining' }, pronunciation: 'คอม-<u>เพลน</u>', meaning: 'บ่น', example_en: 'He is always complaining about the weather.', example_th: 'เขาบ่นเรื่องอากาศอยู่เสมอ', collocations: ['complain about', 'a letter of complaint', 'no reason to complain'] },
+            { word: 'Complete', forms: { v1: 'Complete', v2: 'Completed', v3: 'Completed', ving: 'Completing' }, pronunciation: 'คอม-<u>พลีท</u>', meaning: 'ทำให้สมบูรณ์, ทำให้เสร็จ', example_en: 'You need to complete this form.', example_th: 'คุณต้องกรอกแบบฟอร์มนี้ให้สมบูรณ์', collocations: ['complete a task', 'a complete disaster', 'the complete opposite'] },
+            { word: 'Continue', forms: { v1: 'Continue', v2: 'Continued', v3: 'Continued', ving: 'Continuing' }, pronunciation: 'คอน-<u>ทิ</u>-นิว', meaning: 'ทำต่อไป', example_en: 'Please continue with your work.', example_th: 'กรุณาทำงานของคุณต่อไป', collocations: ['to be continued', 'continue to do sth', 'a continuing story'] },
+            { word: 'Cook', forms: { v1: 'Cook', v2: 'Cooked', v3: 'Cooked', ving: 'Cooking' }, pronunciation: 'คุ๊ก', meaning: 'ทำอาหาร', example_en: 'My father loves to cook.', example_th: 'พ่อของฉันชอบทำอาหาร', collocations: ['cook dinner', 'a good cook', 'cook the books'] },
+            { word: 'Copy', forms: { v1: 'Copy', v2: 'Copied', v3: 'Copied', ving: 'Copying' }, pronunciation: '<u>คอ</u>-ปี้', meaning: 'คัดลอก', example_en: 'Please don\'t copy my homework.', example_th: 'กรุณาอย่าลอกการบ้านของฉัน', collocations: ['make a copy', 'copy and paste', 'a copycat'] },
+        ],
+        'D': [
+            { word: 'Dance', forms: { v1: 'Dance', v2: 'Danced', v3: 'Danced', ving: 'Dancing' }, pronunciation: 'แดนซ์', meaning: 'เต้นรำ', example_en: 'She loves to dance.', example_th: 'เธอรักการเต้นรำ', collocations: ['dance music', 'a slow dance', 'learn to dance'] },
+            { word: 'Dare', forms: { v1: 'Dare', v2: 'Dared', v3: 'Dared', ving: 'Daring' }, pronunciation: 'แดร์', meaning: 'กล้า', example_en: 'I dare you to jump.', example_th: 'ฉันท้าให้คุณกระโดด', collocations: ['how dare you', 'I dare say', 'a daring escape'] },
+            { word: 'Deal', forms: { v1: 'Deal', v2: 'Dealt', v3: 'Dealt', ving: 'Dealing' }, pronunciation: 'ดีล', meaning: 'จัดการ, ข้อตกลง', example_en: 'How do you deal with stress?', example_th: 'คุณจัดการกับความเครียดอย่างไร', collocations: ['a good deal', 'deal with a problem', 'make a deal'] },
+            { word: 'Debate', forms: { v1: 'Debate', v2: 'Debated', v3: 'Debated', ving: 'Debating' }, pronunciation: 'ดิ-<u>เบท</u>', meaning: 'โต้แย้ง, โต้วาที', example_en: 'They debated the issue for hours.', example_th: 'พวกเขาโต้แย้งประเด็นนี้เป็นเวลาหลายชั่วโมง', collocations: ['a heated debate', 'open to debate', 'debate with someone'] },
+            { word: 'Decide', forms: { v1: 'Decide', v2: 'Decided', v3: 'Decided', ving: 'Deciding' }, pronunciation: 'ดิ-<u>ไซด์</u>', meaning: 'ตัดสินใจ', example_en: 'I can\'t decide what to wear.', example_th: 'ฉันตัดสินใจไม่ได้ว่าจะใส่อะไรดี', collocations: ['decide to do sth', 'a difficult decision', 'decide against'] },
+            { word: 'Deliver', forms: { v1: 'Deliver', v2: 'Delivered', v3: 'Delivered', ving: 'Delivering' }, pronunciation: 'ดิ-<u>ลิ</u>-เว่อะ', meaning: 'ส่ง', example_en: 'The package was delivered this morning.', example_th: 'พัสดุถูกส่งเมื่อเช้านี้', collocations: ['deliver a speech', 'home delivery', 'deliver on a promise'] },
+            { word: 'Deny', forms: { v1: 'Deny', v2: 'Denied', v3: 'Denied', ving: 'Denying' }, pronunciation: 'ดิ-<u>นาย</u>', meaning: 'ปฏิเสธ', example_en: 'He denied any involvement in the crime.', example_th: 'เขาปฏิเสธความเกี่ยวข้องใดๆ ในอาชญากรรม', collocations: ['deny access', 'deny a request', 'there is no denying'] },
+            { word: 'Depend', forms: { v1: 'Depend', v2: 'Depended', v3: 'Depended', ving: 'Depending' }, pronunciation: 'ดิ-<u>เพ็นด์</u>', meaning: 'ขึ้นอยู่กับ', example_en: 'It depends on the weather.', example_th: 'มันขึ้นอยู่กับสภาพอากาศ', collocations: ['depend on', 'it all depends', 'a dependable person'] },
+            { word: 'Describe', forms: { v1: 'Describe', v2: 'Described', v3: 'Described', ving: 'Describing' }, pronunciation: 'ดิ-<u>สไครบ์</u>', meaning: 'บรรยาย', example_en: 'Can you describe the man you saw?', example_th: 'คุณช่วยบรรยายลักษณะของผู้ชายที่คุณเห็นได้ไหม', collocations: ['describe in detail', 'best describes', 'describe a scene'] },
+            { word: 'Design', forms: { v1: 'Design', v2: 'Designed', v3: 'Designed', ving: 'Designing' }, pronunciation: 'ดิ-<u>ไซน์</u>', meaning: 'ออกแบบ', example_en: 'She designed her own wedding dress.', example_th: 'เธอออกแบบชุดแต่งงานของเธอเอง', collocations: ['well-designed', 'graphic design', 'design a website'] },
+            { word: 'Destroy', forms: { v1: 'Destroy', v2: 'Destroyed', v3: 'Destroyed', ving: 'Destroying' }, pronunciation: 'ดิ-<u>สทรอย</u>', meaning: 'ทำลาย', example_en: 'The fire destroyed the entire building.', example_th: 'ไฟได้ทำลายอาคารทั้งหลัง', collocations: ['completely destroy', 'destroy evidence', 'self-destructive'] },
+            { word: 'Develop', forms: { v1: 'Develop', v2: 'Developed', v3: 'Developed', ving: 'Developing' }, pronunciation: 'ดิ-<u>เว</u>-ลอป', meaning: 'พัฒนา', example_en: 'We need to develop a new plan.', example_th: 'เราต้องพัฒนาแผนใหม่', collocations: ['develop a skill', 'develop a new product', 'develop a habit'] },
+            { word: 'Die', forms: { v1: 'Die', v2: 'Died', v3: 'Died', ving: 'Dying' }, pronunciation: 'ดาย', meaning: 'ตาย', example_en: 'My grandfather died last year.', example_th: 'คุณปู่ของฉันเสียชีวิตเมื่อปีที่แล้ว', collocations: ['die of a disease', 'die from injuries', 'never say die'] },
+            { word: 'Dig', forms: { v1: 'Dig', v2: 'Dug', v3: 'Dug', ving: 'Digging' }, pronunciation: 'ดิก', meaning: 'ขุด', example_en: 'The dog is digging a hole in the garden.', example_th: 'สุนัขกำลังขุดหลุมในสวน', collocations: ['dig a hole', 'dig deeper', 'dig your own grave'] },
+            { word: 'Disagree', forms: { v1: 'Disagree', v2: 'Disagreed', v3: 'Disagreed', ving: 'Disagreeing' }, pronunciation: 'ดิส-เอ-<u>กรี</u>', meaning: 'ไม่เห็นด้วย', example_en: 'I have to disagree with you on this point.', example_th: 'ฉันต้องไม่เห็นด้วยกับคุณในประเด็นนี้', collocations: ['strongly disagree', 'disagree with', 'agree to disagree'] },
+            { word: 'Discover', forms: { v1: 'Discover', v2: 'Discovered', v3: 'Discovered', ving: 'Discovering' }, pronunciation: 'ดิส-<u>คัฟ</u>-เว่อะ', meaning: 'ค้นพบ', example_en: 'They discovered a new species of frog.', example_th: 'พวกเขาค้นพบกบสายพันธุ์ใหม่', collocations: ['discover the truth', 'a new discovery', 'shocking discovery'] },
+            { word: 'Discuss', forms: { v1: 'Discuss', v2: 'Discussed', v3: 'Discussed', ving: 'Discussing' }, pronunciation: 'ดิส-<u>คัส</u>', meaning: 'อภิปราย', example_en: 'Let\'s discuss this matter later.', example_th: 'เรามาอภิปรายเรื่องนี้กันทีหลัง', collocations: ['discuss a problem', 'discuss with someone', 'a group discussion'] },
+            { word: 'Do', forms: { v1: 'Do', v2: 'Did', v3: 'Done', ving: 'Doing' }, pronunciation: 'ดู', meaning: 'ทำ', example_en: 'What are you doing?', example_th: 'คุณกำลังทำอะไรอยู่', collocations: ['do homework', 'do business', 'do your best'] },
+            { word: 'Draw', forms: { v1: 'Draw', v2: 'Drew', v3: 'Drawn', ving: 'Drawing' }, pronunciation: 'ดรอว์', meaning: 'วาดรูป', example_en: 'He can draw very well.', example_th: 'เขาวาดรูปเก่งมาก', collocations: ['draw a picture', 'draw a conclusion', 'draw attention to'] },
+            { word: 'Dream', forms: { v1: 'Dream', v2: 'Dreamt/Dreamed', v3: 'Dreamt/Dreamed', ving: 'Dreaming' }, pronunciation: 'ดรีม', meaning: 'ฝัน', example_en: 'I had a wonderful dream last night.', example_th: 'เมื่อคืนฉันฝันดีมาก', collocations: ['dream about', 'dream job', 'follow your dream'] },
+        ],
+        'E': [
+            { word: 'Earn', forms: { v1: 'Earn', v2: 'Earned', v3: 'Earned', ving: 'Earning' }, pronunciation: 'เอิร์น', meaning: 'ได้รับ (เงิน), หาเลี้ยง', example_en: 'How much do you earn a month?', example_th: 'คุณมีรายได้เดือนละเท่าไหร่', collocations: ['earn a living', 'earn respect', 'earn money'] },
+            { word: 'Eat', forms: { v1: 'Eat', v2: 'Ate', v3: 'Eaten', ving: 'Eating' }, pronunciation: 'อีท', meaning: 'กิน', example_en: 'What do you want to eat for dinner?', example_th: 'คุณอยากกินอะไรเป็นอาหารเย็น', collocations: ['eat breakfast', 'eat out', 'a bite to eat'] },
+            { word: 'Educate', forms: { v1: 'Educate', v2: 'Educated', v3: 'Educated', ving: 'Educating' }, pronunciation: '<u>เอ็ด</u>-จู-เคท', meaning: 'ให้การศึกษา', example_en: 'It\'s important to educate children about the environment.', example_th: 'การให้ความรู้แก่เด็กๆ เกี่ยวกับสิ่งแวดล้อมเป็นสิ่งสำคัญ', collocations: ['educate the public', 'a well-educated person', 'higher education'] },
+            { word: 'Embarrass', forms: { v1: 'Embarrass', v2: 'Embarrassed', v3: 'Embarrassed', ving: 'Embarrassing' }, pronunciation: 'เอ็ม-<u>แบ</u>-เริส', meaning: 'ทำให้ลำบากใจ, ทำให้อาย', example_en: 'Please don\'t embarrass me in front of my friends.', example_th: 'ได้โปรดอย่าทำให้ฉันอายต่อหน้าเพื่อนๆ เลย', collocations: ['deeply embarrassed', 'an embarrassing moment', 'feel embarrassed'] },
+            { word: 'Employ', forms: { v1: 'Employ', v2: 'Employed', v3: 'Employed', ving: 'Employing' }, pronunciation: 'เอ็ม-<u>พลอย</u>', meaning: 'จ้างงาน', example_en: 'The company employs over 200 people.', example_th: 'บริษัทจ้างพนักงานกว่า 200 คน', collocations: ['self-employed', 'a full-time employee', 'an employer'] },
+            { word: 'Encourage', forms: { v1: 'Encourage', v2: 'Encouraged', v3: 'Encouraged', ving: 'Encouraging' }, pronunciation: 'เอ็น-<u>เคอ</u>-ริจ', meaning: 'ให้กำลังใจ', example_en: 'My parents always encourage me to do my best.', example_th: 'พ่อแม่ของฉันให้กำลังใจฉันให้ทำให้ดีที่สุดเสมอ', collocations: ['encourage someone to do sth', 'words of encouragement', 'strongly encourage'] },
+            { word: 'End', forms: { v1: 'End', v2: 'Ended', v3: 'Ended', ving: 'Ending' }, pronunciation: 'เอ็นด์', meaning: 'จบ', example_en: 'The movie ends happily.', example_th: 'ภาพยนตร์จบลงอย่างมีความสุข', collocations: ['come to an end', 'in the end', 'the end of the road'] },
+            { word: 'Enjoy', forms: { v1: 'Enjoy', v2: 'Enjoyed', v3: 'Enjoyed', ving: 'Enjoying' }, pronunciation: 'เอ็น-<u>จอย</u>', meaning: 'สนุก, เพลิดเพลิน', example_en: 'I really enjoy reading books.', example_th: 'ฉันสนุกกับการอ่านหนังสือมาก', collocations: ['enjoy yourself', 'enjoy the moment', 'thoroughly enjoy'] },
+            { word: 'Enter', forms: { v1: 'Enter', v2: 'Entered', v3: 'Entered', ving: 'Entering' }, pronunciation: '<u>เอ็น</u>-เท่อะ', meaning: 'เข้า', example_en: 'Please enter the room quietly.', example_th: 'กรุณาเข้าห้องอย่างเงียบๆ', collocations: ['enter a competition', 'enter your password', 'do not enter'] },
+            { word: 'Escape', forms: { v1: 'Escape', v2: 'Escaped', v3: 'Escaped', ving: 'Escaping' }, pronunciation: 'เอส-<u>เคพ</u>', meaning: 'หลบหนี', example_en: 'The prisoner tried to escape.', example_th: 'นักโทษพยายามหลบหนี', collocations: ['escape from prison', 'a narrow escape', 'escape reality'] },
+            { word: 'Estimate', forms: { v1: 'Estimate', v2: 'Estimated', v3: 'Estimated', ving: 'Estimating' }, pronunciation: '<u>เอส</u>-ทิ-เมท', meaning: 'ประมาณ', example_en: 'Can you estimate the cost?', example_th: 'คุณช่วยประมาณค่าใช้จ่ายได้ไหม', collocations: ['a rough estimate', 'an estimated cost', 'it is estimated that'] },
+            { word: 'Evaluate', forms: { v1: 'Evaluate', v2: 'Evaluated', v3: 'Evaluated', ving: 'Evaluating' }, pronunciation: 'อิ-<u>แว</u>-ลู-เอท', meaning: 'ประเมิน', example_en: 'We need to evaluate the results.', example_th: 'เราต้องประเมินผลลัพธ์', collocations: ['evaluate the performance', 'a critical evaluation', 'self-evaluation'] },
+            { word: 'Examine', forms: { v1: 'Examine', v2: 'Examined', v3: 'Examined', ving: 'Examining' }, pronunciation: 'เอ็ก-<u>แซ</u>-มิน', meaning: 'ตรวจสอบ', example_en: 'The doctor will examine you now.', example_th: 'คุณหมอจะตรวจคุณตอนนี้', collocations: ['closely examine', 'examine the evidence', 'cross-examine'] },
+            { word: 'Excite', forms: { v1: 'Excite', v2: 'Excited', v3: 'Excited', ving: 'Exciting' }, pronunciation: 'เอ็ก-<u>ไซท์</u>', meaning: 'ทำให้ตื่นเต้น', example_en: 'The news will excite everyone.', example_th: 'ข่าวนี้จะทำให้ทุกคนตื่นเต้น', collocations: ['get excited about', 'an exciting adventure', 'don\'t get too excited'] },
+            { word: 'Exist', forms: { v1: 'Exist', v2: 'Existed', v3: 'Existed', ving: 'Existing' }, pronunciation: 'เอ็ก-<u>ซิสท์</u>', meaning: 'มีอยู่จริง', example_en: 'Do you believe that ghosts exist?', example_th: 'คุณเชื่อว่าผีมีอยู่จริงไหม', collocations: ['cease to exist', 'the right to exist', 'an existing problem'] },
+            { word: 'Expect', forms: { v1: 'Expect', v2: 'Expected', v3: 'Expected', ving: 'Expecting' }, pronunciation: 'เอ็ก-<u>สเป็คท์</u>', meaning: 'คาดหวัง', example_en: 'What do you expect to happen?', example_th: 'คุณคาดหวังว่าจะเกิดอะไรขึ้น', collocations: ['expect the unexpected', 'as expected', 'expect a baby'] },
+            { word: 'Explain', forms: { v1: 'Explain', v2: 'Explained', v3: 'Explained', ving: 'Explaining' }, pronunciation: 'เอ็กซ์-<u>เพลน</u>', meaning: 'อธิบาย', example_en: 'Can you explain this to me?', example_th: 'คุณช่วยอธิบายเรื่องนี้ให้ฉันฟังได้ไหม', collocations: ['explain something to someone', 'explain clearly', 'explain the reason'] },
+            { word: 'Express', forms: { v1: 'Express', v2: 'Expressed', v3: 'Expressed', ving: 'Expressing' }, pronunciation: 'เอ็กซ์-<u>เพรส</u>', meaning: 'แสดงออก', example_en: 'She finds it hard to express her feelings.', example_th: 'เธอรู้สึกว่ามันยากที่จะแสดงความรู้สึกของเธอ', collocations: ['express an opinion', 'express yourself', 'express concern'] },
+            { word: 'Extend', forms: { v1: 'Extend', v2: 'Extended', v3: 'Extended', ving: 'Extending' }, pronunciation: 'เอ็กซ์-<u>เท็นด์</u>', meaning: 'ยืด, ขยาย', example_en: 'Can we extend the deadline?', example_th: 'เราสามารถขยายกำหนดเวลาได้ไหม', collocations: ['extend a deadline', 'an extended family', 'extend an invitation'] },
+            { word: 'Edit', forms: { v1: 'Edit', v2: 'Edited', v3: 'Edited', ving: 'Editing' }, pronunciation: '<u>เอ</u>-ดิท', meaning: 'แก้ไข, บรรณาธิกร', example_en: 'I need to edit this document.', example_th: 'ฉันต้องแก้ไขเอกสารนี้', collocations: ['edit a video', 'an edited version', 'copy-edit'] }
+        ],
+        'F': [
+            { word: 'Face', forms: { v1: 'Face', v2: 'Faced', v3: 'Faced', ving: 'Facing' }, pronunciation: 'เฟส', meaning: 'เผชิญหน้า', example_en: 'You have to face your fears.', example_th: 'คุณต้องเผชิญหน้ากับความกลัวของคุณ', collocations: ['face a problem', 'face the facts', 'face to face'] },
+            { word: 'Fail', forms: { v1: 'Fail', v2: 'Failed', v3: 'Failed', ving: 'Failing' }, pronunciation: 'เฟล', meaning: 'ล้มเหลว, สอบตก', example_en: 'He failed his driving test.', example_th: 'เขาสอบใบขับขี่ไม่ผ่าน', collocations: ['fail an exam', 'without fail', 'a failed attempt'] },
+            { word: 'Fall', forms: { v1: 'Fall', v2: 'Fell', v3: 'Fallen', ving: 'Falling' }, pronunciation: 'ฟอลล์', meaning: 'ตก, ร่วง, ล้ม', example_en: 'The leaves fall from the trees in autumn.', example_th: 'ใบไม้ร่วงจากต้นไม้ในฤดูใบไม้ร่วง', collocations: ['fall in love', 'fall asleep', 'fall down'] },
+            { word: 'Fasten', forms: { v1: 'Fasten', v2: 'Fastened', v3: 'Fastened', ving: 'Fastening' }, pronunciation: '<u>ฟา</u>-เซิ่น', meaning: 'รัด, คาด', example_en: 'Please fasten your seatbelt.', example_th: 'กรุณารัดเข็มขัดนิรภัยของคุณ', collocations: ['fasten your seatbelt', 'fasten a button', 'fasten together'] },
+            { word: 'Fear', forms: { v1: 'Fear', v2: 'Feared', v3: 'Feared', ving: 'Fearing' }, pronunciation: 'เฟียร์', meaning: 'กลัว', example_en: 'There is nothing to fear.', example_th: 'ไม่มีอะไรต้องกลัว', collocations: ['fear for your life', 'in fear of', 'face your fears'] },
+            { word: 'Feed', forms: { v1: 'Feed', v2: 'Fed', v3: 'Fed', ving: 'Feeding' }, pronunciation: 'ฟีด', meaning: 'ให้อาหาร', example_en: 'It\'s time to feed the dog.', example_th: 'ได้เวลาให้อาหารสุนัขแล้ว', collocations: ['feed the baby', 'feed on', 'breastfeed'] },
+            { word: 'Feel', forms: { v1: 'Feel', v2: 'Felt', v3: 'Felt', ving: 'Feeling' }, pronunciation: 'ฟีล', meaning: 'รู้สึก', example_en: 'How are you feeling today?', example_th: 'วันนี้คุณรู้สึกอย่างไร', collocations: ['feel happy', 'feel sick', 'get a feel for'] },
+            { word: 'Fetch', forms: { v1: 'Fetch', v2: 'Fetched', v3: 'Fetched', ving: 'Fetching' }, pronunciation: 'เฟ็ทช์', meaning: 'ไปเอามา', example_en: 'Could you fetch me a glass of water?', example_th: 'คุณช่วยไปเอาน้ำมาให้ฉันแก้วหนึ่งได้ไหม', collocations: ['go and fetch', 'play fetch', 'fetch a high price'] },
+            { word: 'Fight', forms: { v1: 'Fight', v2: 'Fought', v3: 'Fought', ving: 'Fighting' }, pronunciation: 'ไฟท์', meaning: 'ต่อสู้', example_en: 'They fought for their country.', example_th: 'พวกเขาต่อสู้เพื่อประเทศของตน', collocations: ['fight for something', 'fight against', 'a fair fight'] },
+            { word: 'Fill', forms: { v1: 'Fill', v2: 'Filled', v3: 'Filled', ving: 'Filling' }, pronunciation: 'ฟิล', meaning: 'เติม', example_en: 'Please fill this bottle with water.', example_th: 'กรุณาเติมน้ำใส่ขวดนี้', collocations: ['fill in a form', 'fill up', 'eat your fill'] },
+            { word: 'Find', forms: { v1: 'Find', v2: 'Found', v3: 'Found', ving: 'Finding' }, pronunciation: 'ไฟนด์', meaning: 'หา, พบ', example_en: 'I can\'t find my keys.', example_th: 'ฉันหากุญแจไม่เจอ', collocations: ['find out', 'hard to find', 'find a solution'] },
+            { word: 'Finish', forms: { v1: 'Finish', v2: 'Finished', v3: 'Finished', ving: 'Finishing' }, pronunciation: '<u>ฟิ</u>-นิช', meaning: 'ทำให้เสร็จ', example_en: 'Have you finished your homework?', example_th: 'คุณทำการบ้านเสร็จหรือยัง', collocations: ['finish line', 'finish a task', 'a photo finish'] },
+            { word: 'Fire', forms: { v1: 'Fire', v2: 'Fired', v3: 'Fired', ving: 'Firing' }, pronunciation: 'ไฟ-เออะ', meaning: 'ไล่ออก, ยิง', example_en: 'The company had to fire some employees.', example_th: 'บริษัทต้องไล่พนักงานบางคนออก', collocations: ['fire someone from a job', 'fire a gun', 'under fire'] },
+            { word: 'Fix', forms: { v1: 'Fix', v2: 'Fixed', v3: 'Fixed', ving: 'Fixing' }, pronunciation: 'ฟิกซ์', meaning: 'ซ่อม', example_en: 'Can you fix my computer?', example_th: 'คุณช่วยซ่อมคอมพิวเตอร์ของฉันได้ไหม', collocations: ['fix a problem', 'fix a meal', 'in a fix'] },
+            { word: 'Fly', forms: { v1: 'Fly', v2: 'Flew', v3: 'Flown', ving: 'Flying' }, pronunciation: 'ฟลาย', meaning: 'บิน', example_en: 'Birds can fly high in the sky.', example_th: 'นกสามารถบินสูงบนท้องฟ้าได้', collocations: ['fly a kite', 'time flies', 'fly a plane'] },
+            { word: 'Follow', forms: { v1: 'Follow', v2: 'Followed', v3: 'Followed', ving: 'Following' }, pronunciation: '<u>ฟอ</u>-โล่', meaning: 'ติดตาม', example_en: 'Please follow me.', example_th: 'กรุณาตามฉันมา', collocations: ['follow instructions', 'follow a rule', 'follow on social media'] },
+            { word: 'Forget', forms: { v1: 'Forget', v2: 'Forgot', v3: 'Forgotten', ving: 'Forgetting' }, pronunciation: 'ฟอร์-<u>เก็ต</u>', meaning: 'ลืม', example_en: 'Don\'t forget to lock the door.', example_th: 'อย่าลืมล็อคประตูนะ', collocations: ['forget to do sth', 'never forget', 'forget about it'] },
+            { word: 'Forgive', forms: { v1: 'Forgive', v2: 'Forgave', v3: 'Forgiven', ving: 'Forgiving' }, pronunciation: 'ฟอร์-<u>กีฟว</u>', meaning: 'ให้อภัย', example_en: 'Please forgive me.', example_th: 'ได้โปรดให้อภัยฉันด้วย', collocations: ['forgive and forget', 'forgive someone for sth', 'ask for forgiveness'] },
+            { word: 'Form', forms: { v1: 'Form', v2: 'Formed', v3: 'Formed', ving: 'Forming' }, pronunciation: 'ฟอร์ม', meaning: 'ก่อตัว, สร้าง', example_en: 'The children formed a circle.', example_th: 'เด็กๆ ก่อตัวเป็นวงกลม', collocations: ['form a team', 'in the form of', 'a life form'] },
+            { word: 'Fry', forms: { v1: 'Fry', v2: 'Fried', v3: 'Fried', ving: 'Frying' }, pronunciation: 'ฟราย', meaning: 'ทอด', example_en: 'I will fry some eggs for breakfast.', example_th: 'ฉันจะทอดไข่สำหรับอาหารเช้า', collocations: ['french fries', 'stir-fry', 'deep-fry'] },
+        ],
+        'G': [
+            { word: 'Gain', forms: { v1: 'Gain', v2: 'Gained', v3: 'Gained', ving: 'Gaining' }, pronunciation: 'เกน', meaning: 'ได้รับ', example_en: 'You will gain experience from this job.', example_th: 'คุณจะได้รับประสบการณ์จากงานนี้', collocations: ['gain experience', 'gain weight', 'no pain, no gain'] },
+            { word: 'Gamble', forms: { v1: 'Gamble', v2: 'Gambled', v3: 'Gambled', ving: 'Gambling' }, pronunciation: '<u>แกม</u>-เบิ้ล', meaning: 'เล่นการพนัน', example_en: 'He lost all his money gambling.', example_th: 'เขาสูญเสียเงินทั้งหมดไปกับการพนัน', collocations: ['take a gamble', 'a big gamble', 'gambling addiction'] },
+            { word: 'Gather', forms: { v1: 'Gather', v2: 'Gathered', v3: 'Gathered', ving: 'Gathering' }, pronunciation: '<u>แก</u>-เธ่อะ', meaning: 'รวบรวม', example_en: 'Let\'s gather some firewood.', example_th: 'ไปรวบรวมฟืนกันเถอะ', collocations: ['gather information', 'gather around', 'a family gathering'] },
+            { word: 'Gaze', forms: { v1: 'Gaze', v2: 'Gazed', v3: 'Gazed', ving: 'Gazing' }, pronunciation: 'เกซ', meaning: 'จ้องมอง', example_en: 'She gazed at the stars.', example_th: 'เธอจ้องมองไปที่ดวงดาว', collocations: ['gaze into someone\'s eyes', 'a steady gaze', 'gaze in wonder'] },
+            { word: 'Generate', forms: { v1: 'Generate', v2: 'Generated', v3: 'Generated', ving: 'Generating' }, pronunciation: '<u>เจ็น</u>-เนอ-เรท', meaning: 'สร้าง', example_en: 'The machine can generate electricity.', example_th: 'เครื่องจักรสามารถสร้างกระแสไฟฟ้าได้', collocations: ['generate income', 'generate ideas', 'generate a report'] },
+            { word: 'Get', forms: { v1: 'Get', v2: 'Got', v3: 'Got/Gotten', ving: 'Getting' }, pronunciation: 'เก็ท', meaning: 'ได้รับ', example_en: 'What did you get for your birthday?', example_th: 'คุณได้อะไรเป็นของขวัญวันเกิด', collocations: ['get a job', 'get married', 'get up'] },
+            { word: 'Give', forms: { v1: 'Give', v2: 'Gave', v3: 'Given', ving: 'Giving' }, pronunciation: 'กีฟว', meaning: 'ให้', example_en: 'Can you give me that book?', example_th: 'คุณช่วยส่งหนังสือเล่มนั้นให้ฉันหน่อยได้ไหม', collocations: ['give a gift', 'give up', 'give a hand'] },
+            { word: 'Giggle', forms: { v1: 'Giggle', v2: 'Giggled', v3: 'Giggled', ving: 'Giggling' }, pronunciation: '<u>กิ๊ก</u>-เกิ้ล', meaning: 'หัวเราะคิกคัก', example_en: 'The children giggled at the funny clown.', example_th: 'เด็กๆ หัวเราะคิกคักกับตัวตลกที่ตลก', collocations: ['a nervous giggle', 'a fit of giggles', 'giggle uncontrollably'] },
+            { word: 'Glow', forms: { v1: 'Glow', v2: 'Glowed', v3: 'Glowed', ving: 'Glowing' }, pronunciation: 'โกลว์', meaning: 'เปล่งแสง', example_en: 'The embers glowed in the dark.', example_th: 'ถ่านที่คุอยู่เปล่งแสงในความมืด', collocations: ['a warm glow', 'a glowing report', 'glow with pride'] },
+            { word: 'Go', forms: { v1: 'Go', v2: 'Went', v3: 'Gone', ving: 'Going' }, pronunciation: 'โก', meaning: 'ไป', example_en: 'Where are you going?', example_th: 'คุณกำลังจะไปไหน', collocations: ['go home', 'go to school', 'let\'s go'] },
+            { word: 'Govern', forms: { v1: 'Govern', v2: 'Governed', v3: 'Governed', ving: 'Governing' }, pronunciation: '<u>กัฟ</u>-เวิร์น', meaning: 'ปกครอง', example_en: 'Who governs this country?', example_th: 'ใครเป็นผู้ปกครองประเทศนี้', collocations: ['govern a country', 'the governing body', 'the laws that govern'] },
+            { word: 'Grab', forms: { v1: 'Grab', v2: 'Grabbed', v3: 'Grabbed', ving: 'Grabbing' }, pronunciation: 'แกรบ', meaning: 'คว้า', example_en: 'Let\'s grab a coffee.', example_th: 'ไปหากาแฟดื่มกันเถอะ', collocations: ['grab a bite', 'grab a seat', 'up for grabs'] },
+            { word: 'Grant', forms: { v1: 'Grant', v2: 'Granted', v3: 'Granted', ving: 'Granting' }, pronunciation: 'แกรนท์', meaning: 'อนุญาต, มอบให้', example_en: 'The judge granted his request.', example_th: 'ผู้พิพากษาอนุญาตตามคำขอของเขา', collocations: ['grant permission', 'take for granted', 'grant a wish'] },
+            { word: 'Greet', forms: { v1: 'Greet', v2: 'Greeted', v3: 'Greeted', ving: 'Greeting' }, pronunciation: 'กรีท', meaning: 'ทักทาย', example_en: 'She greeted me with a warm smile.', example_th: 'เธอทักทายฉันด้วยรอยยิ้มที่อบอุ่น', collocations: ['greet someone warmly', 'a greeting card', 'meet and greet'] },
+            { word: 'Grind', forms: { v1: 'Grind', v2: 'Ground', v3: 'Ground', ving: 'Grinding' }, pronunciation: 'ไกรนด์', meaning: 'บด', example_en: 'I need to grind some coffee beans.', example_th: 'ฉันต้องบดเมล็ดกาแฟ', collocations: ['grind to a halt', 'daily grind', 'an axe to grind'] },
+            { word: 'Grip', forms: { v1: 'Grip', v2: 'Gripped', v3: 'Gripped', ving: 'Gripping' }, pronunciation: 'กริพ', meaning: 'จับแน่น', example_en: 'He gripped the steering wheel tightly.', example_th: 'เขาจับพวงมาลัยอย่างแน่นหนา', collocations: ['a firm grip', 'lose your grip', 'a gripping story'] },
+            { word: 'Grow', forms: { v1: 'Grow', v2: 'Grew', v3: 'Grown', ving: 'Growing' }, pronunciation: 'โกรว์', meaning: 'เติบโต, ปลูก', example_en: 'Children grow up so fast.', example_th: 'เด็กๆ โตเร็วมาก', collocations: ['grow up', 'grow a plant', 'a growing concern'] },
+            { word: 'Guarantee', forms: { v1: 'Guarantee', v2: 'Guaranteed', v3: 'Guaranteed', ving: 'Guaranteeing' }, pronunciation: 'แก-รัน-<u>ที</u>', meaning: 'รับประกัน', example_en: 'I can\'t guarantee that you will get the job.', example_th: 'ฉันไม่สามารถรับประกันได้ว่าคุณจะได้งาน', collocations: ['a money-back guarantee', 'no guarantee of success', 'I guarantee it'] },
+            { word: 'Guess', forms: { v1: 'Guess', v2: 'Guessed', v3: 'Guessed', ving: 'Guessing' }, pronunciation: 'เกส', meaning: 'เดา', example_en: 'Can you guess my age?', example_th: 'คุณเดาอายุฉันได้ไหม', collocations: ['take a guess', 'I guess so', 'your guess is as good as mine'] },
+            { word: 'Guide', forms: { v1: 'Guide', v2: 'Guided', v3: 'Guided', ving: 'Guiding' }, pronunciation: 'ไกด์', meaning: 'นำทาง', example_en: 'The map will guide you.', example_th: 'แผนที่จะนำทางคุณไป', collocations: ['a tour guide', 'guide someone through', 'a guiding light'] },
+        ],
+        'H': [
+            { word: 'Hand', forms: { v1: 'Hand', v2: 'Handed', v3: 'Handed', ving: 'Handing' }, pronunciation: 'แฮนด์', meaning: 'ส่งให้', example_en: 'Can you hand me that book?', example_th: 'คุณช่วยส่งหนังสือเล่มนั้นให้ฉันหน่อยได้ไหม', collocations: ['hand in', 'hand out', 'on the other hand'] },
+            { word: 'Handle', forms: { v1: 'Handle', v2: 'Handled', v3: 'Handled', ving: 'Handling' }, pronunciation: '<u>แฮน</u>-เดิ้ล', meaning: 'จัดการ', example_en: 'I think I can handle this situation.', example_th: 'ฉันคิดว่าฉันสามารถจัดการสถานการณ์นี้ได้', collocations: ['handle with care', 'easy to handle', 'handle a problem'] },
+            { word: 'Hang', forms: { v1: 'Hang', v2: 'Hung', v3: 'Hung', ving: 'Hanging' }, pronunciation: 'แฮง', meaning: 'แขวน', example_en: 'Let\'s hang the picture on the wall.', example_th: 'มาแขวนรูปภาพบนผนังกันเถอะ', collocations: ['hang out', 'hang on', 'get the hang of it'] },
+            { word: 'Happen', forms: { v1: 'Happen', v2: 'Happened', v3: 'Happened', ving: 'Happening' }, pronunciation: '<u>แฮ็พ</u>-เพ็น', meaning: 'เกิดขึ้น', example_en: 'What happened?', example_th: 'เกิดอะไรขึ้น', collocations: ['make it happen', 'accidents happen', 'as it happens'] },
+            { word: 'Harm', forms: { v1: 'Harm', v2: 'Harmed', v3: 'Harmed', ving: 'Harming' }, pronunciation: 'ฮาร์ม', meaning: 'ทำอันตราย', example_en: 'The chemical could harm the environment.', example_th: 'สารเคมีอาจเป็นอันตรายต่อสิ่งแวดล้อม', collocations: ['do more harm than good', 'cause harm', 'no harm done'] },
+            { word: 'Hate', forms: { v1: 'Hate', v2: 'Hated', v3: 'Hated', ving: 'Hating' }, pronunciation: 'เฮท', meaning: 'เกลียด', example_en: 'I hate spiders.', example_th: 'ฉันเกลียดแมงมุม', collocations: ['love-hate relationship', 'hate to say it', 'pet hate'] },
+            { word: 'Have', forms: { v1: 'Have', v2: 'Had', v3: 'Had', ving: 'Having' }, pronunciation: 'แฮฟว', meaning: 'มี', example_en: 'I have a dog.', example_th: 'ฉันมีสุนัขหนึ่งตัว', collocations: ['have a good time', 'have to', 'have breakfast'] },
+            { word: 'Head', forms: { v1: 'Head', v2: 'Headed', v3: 'Headed', ving: 'Heading' }, pronunciation: 'เฮด', meaning: 'มุ่งหน้าไป', example_en: 'Where are you heading?', example_th: 'คุณกำลังมุ่งหน้าไปที่ไหน', collocations: ['head to', 'head home', 'head over heels'] },
+            { word: 'Heal', forms: { v1: 'Heal', v2: 'Healed', v3: 'Healed', ving: 'Healing' }, pronunciation: 'ฮีล', meaning: 'รักษา', example_en: 'Time will heal your sorrow.', example_th: 'เวลาจะเยียวยาความโศกเศร้าของคุณ', collocations: ['heal a wound', 'a healing process', 'time heals all wounds'] },
+            { word: 'Hear', forms: { v1: 'Hear', v2: 'Heard', v3: 'Heard', ving: 'Hearing' }, pronunciation: 'เฮียร์', meaning: 'ได้ยิน', example_en: 'Can you hear me?', example_th: 'คุณได้ยินฉันไหม', collocations: ['hear a noise', 'nice to hear from you', 'hear about'] },
+            { word: 'Help', forms: { v1: 'Help', v2: 'Helped', v3: 'Helped', ving: 'Helping' }, pronunciation: 'เฮลพ์', meaning: 'ช่วย', example_en: 'Can you help me with my homework?', example_th: 'คุณช่วยฉันทำการบ้านได้ไหม', collocations: ['ask for help', 'a helping hand', 'can\'t help it'] },
+            { word: 'Hesitate', forms: { v1: 'Hesitate', v2: 'Hesitated', v3: 'Hesitated', ving: 'Hesitating' }, pronunciation: '<u>เฮ</u>-สิ-เทท', meaning: 'ลังเล', example_en: 'Don\'t hesitate to ask for help.', example_th: 'อย่าลังเลที่จะขอความช่วยเหลือ', collocations: ['don\'t hesitate to', 'without hesitation', 'hesitate for a moment'] },
+            { word: 'Hide', forms: { v1: 'Hide', v2: 'Hid', v3: 'Hidden', ving: 'Hiding' }, pronunciation: 'ไฮด์', meaning: 'ซ่อน', example_en: 'The cat is hiding under the bed.', example_th: 'แมวกำลังซ่อนอยู่ใต้เตียง', collocations: ['hide and seek', 'a hidden talent', 'nothing to hide'] },
+            { word: 'Hire', forms: { v1: 'Hire', v2: 'Hired', v3: 'Hired', ving: 'Hiring' }, pronunciation: 'ไฮ-เออะ', meaning: 'จ้าง', example_en: 'They decided to hire a new assistant.', example_th: 'พวกเขาตัดสินใจจ้างผู้ช่วยคนใหม่', collocations: ['hire a car', 'for hire', 'a new hire'] },
+            { word: 'Hit', forms: { v1: 'Hit', v2: 'Hit', v3: 'Hit', ving: 'Hitting' }, pronunciation: 'ฮิท', meaning: 'ตี', example_en: 'He hit the ball with a bat.', example_th: 'เขาตีลูกบอลด้วยไม้เบสบอล', collocations: ['hit the road', 'hit the gym', 'a big hit'] },
+            { word: 'Hold', forms: { v1: 'Hold', v2: 'Held', v3: 'Held', ving: 'Holding' }, pronunciation: 'โฮลด์', meaning: 'ถือ', example_en: 'Please hold my hand.', example_th: 'ได้โปรดจับมือฉันไว้', collocations: ['hold a meeting', 'hold on', 'get a hold of'] },
+            { word: 'Hope', forms: { v1: 'Hope', v2: 'Hoped', v3: 'Hoped', ving: 'Hoping' }, pronunciation: 'โฮพ', meaning: 'หวัง', example_en: 'I hope you feel better soon.', example_th: 'ฉันหวังว่าคุณจะดีขึ้นเร็วๆ นี้', collocations: ['hope for the best', 'I hope so', 'a glimmer of hope'] },
+            { word: 'Hurry', forms: { v1: 'Hurry', v2: 'Hurried', v3: 'Hurried', ving: 'Hurrying' }, pronunciation: '<u>เฮอ</u>-รี่', meaning: 'รีบ', example_en: 'Hurry up, we\'re late!', example_th: 'เร็วเข้า เราสายแล้ว!', collocations: ['in a hurry', 'hurry up', 'no hurry'] },
+            { word: 'Hurt', forms: { v1: 'Hurt', v2: 'Hurt', v3: 'Hurt', ving: 'Hurting' }, pronunciation: 'เฮิร์ท', meaning: 'เจ็บ', example_en: 'Did you hurt yourself?', example_th: 'คุณทำตัวเองเจ็บหรือเปล่า', collocations: ['it hurts', 'hurt someone\'s feelings', 'doesn\'t hurt to ask'] },
+            { word: 'Haunt', forms: { v1: 'Haunt', v2: 'Haunted', v3: 'Haunted', ving: 'Haunting' }, pronunciation: 'ฮอนท์', meaning: 'หลอกหลอน', example_en: 'The memory of the accident still haunts him.', example_th: 'ความทรงจำเกี่ยวกับอุบัติเหตุยังคงหลอกหลอนเขา', collocations: ['a haunted house', 'haunting melody', 'come back to haunt you'] },
+        ],
+        'I': [
+            { word: 'Identify', forms: { v1: 'Identify', v2: 'Identified', v3: 'Identified', ving: 'Identifying' }, pronunciation: 'ไอ-<u>เด็น</u>-ทิ-ฟาย', meaning: 'ระบุ', example_en: 'Can you identify the person in the photo?', example_th: 'คุณสามารถระบุบุคคลในภาพถ่ายได้หรือไม่', collocations: ['identify a problem', 'identify with someone', 'positively identify'] },
+            { word: 'Ignore', forms: { v1: 'Ignore', v2: 'Ignored', v3: 'Ignored', ving: 'Ignoring' }, pronunciation: 'อิก-<u>นอร์</u>', meaning: 'เพิกเฉย', example_en: 'He ignored my advice.', example_th: 'เขาเพิกเฉยต่อคำแนะนำของฉัน', collocations: ['ignore the rules', 'completely ignore', 'hard to ignore'] },
+            { word: 'Illustrate', forms: { v1: 'Illustrate', v2: 'Illustrated', v3: 'Illustrated', ving: 'Illustrating' }, pronunciation: '<u>อิ</u>-ลัส-เทรท', meaning: 'แสดงให้เห็นภาพ', example_en: 'Let me give an example to illustrate the point.', example_th: 'ให้ฉันยกตัวอย่างเพื่อแสดงให้เห็นประเด็น', collocations: ['illustrate a point', 'beautifully illustrated', 'an illustrated book'] },
+            { word: 'Imagine', forms: { v1: 'Imagine', v2: 'Imagined', v3: 'Imagined', ving: 'Imagining' }, pronunciation: 'อิ-<u>แม</u>-จิน', meaning: 'จินตนาการ', example_en: 'Can you imagine a world without music?', example_th: 'คุณจินตนาการถึงโลกที่ไม่มีดนตรีออกไหม', collocations: ['I can imagine', 'just imagine', 'use your imagination'] },
+            { word: 'Impress', forms: { v1: 'Impress', v2: 'Impressed', v3: 'Impressed', ving: 'Impressing' }, pronunciation: 'อิม-<u>เพรส</u>', meaning: 'ทำให้ประทับใจ', example_en: 'He tried to impress her with his knowledge.', example_th: 'เขาพยายามทำให้เธอประทับใจด้วยความรู้ของเขา', collocations: ['deeply impressed', 'dress to impress', 'make a good impression'] },
+            { word: 'Improve', forms: { v1: 'Improve', v2: 'Improved', v3: 'Improved', ving: 'Improving' }, pronunciation: 'อิม-<u>พรูฟว</u>', meaning: 'ปรับปรุง', example_en: 'I want to improve my English skills.', example_th: 'ฉันต้องการพัฒนาทักษะภาษาอังกฤษของฉัน', collocations: ['improve your skills', 'room for improvement', 'a big improvement'] },
+            { word: 'Include', forms: { v1: 'Include', v2: 'Included', v3: 'Included', ving: 'Including' }, pronunciation: 'อิน-<u>คลูด</u>', meaning: 'รวมถึง', example_en: 'The price includes tax.', example_th: 'ราคานี้รวมภาษีแล้ว', collocations: ['including me', 'not included', 'include a variety of'] },
+            { word: 'Increase', forms: { v1: 'Increase', v2: 'Increased', v3: 'Increased', ving: 'Increasing' }, pronunciation: 'อิน-<u>ครีส</u>', meaning: 'เพิ่มขึ้น', example_en: 'The population has increased dramatically.', example_th: 'ประชากรเพิ่มขึ้นอย่างมาก', collocations: ['a sharp increase', 'on the increase', 'increase the risk'] },
+            { word: 'Indicate', forms: { v1: 'Indicate', v2: 'Indicated', v3: 'Indicated', ving: 'Indicating' }, pronunciation: '<u>อิน</u>-ดิ-เคท', meaning: 'บ่งชี้', example_en: 'The results indicate a positive trend.', example_th: 'ผลลัพธ์บ่งชี้ถึงแนวโน้มในเชิงบวก', collocations: ['research indicates', 'clearly indicate', 'an indicator of'] },
+            { word: 'Influence', forms: { v1: 'Influence', v2: 'Influenced', v3: 'Influenced', ving: 'Influencing' }, pronunciation: '<u>อิน</u>-ฟลู-เอินซ์', meaning: 'มีอิทธิพล', example_en: 'Don\'t let others influence your decision.', example_th: 'อย่าปล่อยให้คนอื่นมีอิทธิพลต่อการตัดสินใจของคุณ', collocations: ['a major influence', 'under the influence', 'a positive influence'] },
+            { word: 'Inform', forms: { v1: 'Inform', v2: 'Informed', v3: 'Informed', ving: 'Informing' }, pronunciation: 'อิน-<u>ฟอร์ม</u>', meaning: 'แจ้งให้ทราบ', example_en: 'Please inform us of any changes.', example_th: 'กรุณาแจ้งให้เราทราบหากมีการเปลี่ยนแปลงใดๆ', collocations: ['keep someone informed', 'inform a decision', 'well-informed'] },
+            { word: 'Injure', forms: { v1: 'Injure', v2: 'Injured', v3: 'Injured', ving: 'Injuring' }, pronunciation: '<u>อิน</u>-เจอร์', meaning: 'ทำให้บาดเจ็บ', example_en: 'He was seriously injured in the accident.', example_th: 'เขาได้รับบาดเจ็บสาหัสในอุบัติเหตุ', collocations: ['seriously injured', 'an injured player', 'add insult to injury'] },
+            { word: 'Insert', forms: { v1: 'Insert', v2: 'Inserted', v3: 'Inserted', ving: 'Inserting' }, pronunciation: 'อิน-<u>เซิร์ท</u>', meaning: 'ใส่', example_en: 'Insert your card here.', example_th: 'กรุณาใส่บัตรของคุณที่นี่', collocations: ['insert a key', 'insert a coin', 'a newspaper insert'] },
+            { word: 'Insist', forms: { v1: 'Insist', v2: 'Insisted', v3: 'Insisted', ving: 'Insisting' }, pronunciation: 'อิน-<u>ซิสท์</u>', meaning: 'ยืนกราน', example_en: 'She insisted on paying for dinner.', example_th: 'เธอยืนกรานที่จะจ่ายค่าอาหารเย็น', collocations: ['insist on', 'if you insist', 'insist that'] },
+            { word: 'Inspect', forms: { v1: 'Inspect', v2: 'Inspected', v3: 'Inspected', ving: 'Inspecting' }, pronunciation: 'อิน-<u>สเป็คท์</u>', meaning: 'ตรวจสอบ', example_en: 'The mechanic inspected the car for any faults.', example_th: 'ช่างยนต์ตรวจสอบรถเพื่อหาข้อบกพร่อง', collocations: ['closely inspect', 'a health inspector', 'inspect the damage'] },
+            { word: 'Install', forms: { v1: 'Install', v2: 'Installed', v3: 'Installed', ving: 'Installing' }, pronunciation: 'อิน-<u>สตอล</u>', meaning: 'ติดตั้ง', example_en: 'We need to install new software.', example_th: 'เราต้องติดตั้งซอฟต์แวร์ใหม่', collocations: ['install an application', 'easy to install', 'installation fee'] },
+            { word: 'Introduce', forms: { v1: 'Introduce', v2: 'Introduced', v3: 'Introduced', ving: 'Introducing' }, pronunciation: 'อิน-โทร-<u>ดิวซ์</u>', meaning: 'แนะนำ', example_en: 'Let me introduce myself.', example_th: 'ให้ฉันแนะนำตัวเองนะ', collocations: ['introduce someone to', 'introduce a new product', 'a brief introduction'] },
+            { word: 'Invent', forms: { v1: 'Invent', v2: 'Invented', v3: 'Invented', ving: 'Inventing' }, pronunciation: 'อิน-<u>เว็นท์</u>', meaning: 'ประดิษฐ์', example_en: 'Who invented the telephone?', example_th: 'ใครเป็นผู้ประดิษฐ์โทรศัพท์', collocations: ['invent a story', 'invent a machine', 'mother of invention'] },
+            { word: 'Invite', forms: { v1: 'Invite', v2: 'Invited', v3: 'Invited', ving: 'Inviting' }, pronunciation: 'อิน-<u>ไวท์</u>', meaning: 'เชิญ', example_en: 'She invited me to her party.', example_th: 'เธอเชิญฉันไปงานเลี้ยงของเธอ', collocations: ['invite someone to', 'a wedding invitation', 'an open invitation'] },
+            { word: 'Iron', forms: { v1: 'Iron', v2: 'Ironed', v3: 'Ironed', ving: 'Ironing' }, pronunciation: '<u>ไอ</u>-เอิร์น', meaning: 'รีด (ผ้า)', example_en: 'I need to iron my shirt.', example_th: 'ฉันต้องรีดเสื้อเชิ้ต', collocations: ['iron a shirt', 'an ironing board', 'iron out the details'] },
+        ],
+        'J': [
+            { word: 'Jab', forms: { v1: 'Jab', v2: 'Jabbed', v3: 'Jabbed', ving: 'Jabbing' }, pronunciation: 'แจ็บ', meaning: 'กระทุ้ง, แย็บ', example_en: 'He jabbed his finger at the map.', example_th: 'เขากระทุ้งนิ้วไปที่แผนที่', collocations: ['a quick jab', 'jab someone in the ribs', 'a flu jab'] },
+            { word: 'Jail', forms: { v1: 'Jail', v2: 'Jailed', v3: 'Jailed', ving: 'Jailing' }, pronunciation: 'เจล', meaning: 'จำคุก', example_en: 'He was jailed for ten years.', example_th: 'เขาถูกจำคุกเป็นเวลาสิบปี', collocations: ['go to jail', 'sent to jail', 'a jail sentence'] },
+            { word: 'Jeopardize', forms: { v1: 'Jeopardize', v2: 'Jeopardized', v3: 'Jeopardized', ving: 'Jeopardizing' }, pronunciation: '<u>เจ็พ</u>-เพอ-ไดซ์', meaning: 'เป็นอันตรายต่อ', example_en: 'This could jeopardize the whole project.', example_th: 'สิ่งนี้อาจเป็นอันตรายต่อโครงการทั้งหมด', collocations: ['jeopardize your career', 'jeopardize safety', 'put in jeopardy'] },
+            { word: 'Jiggle', forms: { v1: 'Jiggle', v2: 'Jiggled', v3: 'Jiggled', ving: 'Jiggling' }, pronunciation: '<u>จิ๊ก</u>-เกิ้ล', meaning: 'เขย่าเบาๆ', example_en: 'She jiggled the key in the lock.', example_th: 'เธอเขย่ากุญแจในรูกุญแจเบาๆ', collocations: ['give it a jiggle', 'jiggle a handle', 'jiggle with laughter'] },
+            { word: 'Jog', forms: { v1: 'Jog', v2: 'Jogged', v3: 'Jogged', ving: 'Jogging' }, pronunciation: 'จ็อก', meaning: 'วิ่งเหยาะๆ', example_en: 'I jog in the park every morning.', example_th: 'ฉันวิ่งเหยาะๆ ในสวนทุกเช้า', collocations: ['go for a jog', 'a morning jog', 'jog someone\'s memory'] },
+            { word: 'Join', forms: { v1: 'Join', v2: 'Joined', v3: 'Joined', ving: 'Joining' }, pronunciation: 'จอย', meaning: 'เข้าร่วม', example_en: 'Would you like to join us for dinner?', example_th: 'คุณอยากจะร่วมทานอาหารเย็นกับเราไหม', collocations: ['join a club', 'join the army', 'join forces'] },
+            { word: 'Joke', forms: { v1: 'Joke', v2: 'Joked', v3: 'Joked', ving: 'Joking' }, pronunciation: 'โจ๊ก', meaning: 'ล้อเล่น', example_en: 'I was only joking.', example_th: 'ฉันแค่ล้อเล่นน่ะ', collocations: ['tell a joke', 'can\'t take a joke', 'just joking'] },
+            { word: 'Jot', forms: { v1: 'Jot', v2: 'Jotted', v3: 'Jotted', ving: 'Jotting' }, pronunciation: 'จ็อท', meaning: 'จดอย่างรวดเร็ว', example_en: 'Let me jot down your number.', example_th: 'ให้ฉันจดเบอร์ของคุณไว้หน่อย', collocations: ['jot down', 'make a jotting', 'not a jot'] },
+            { word: 'Judge', forms: { v1: 'Judge', v2: 'Judged', v3: 'Judged', ving: 'Judging' }, pronunciation: 'จัดจ์', meaning: 'ตัดสิน', example_en: 'Don\'t judge a book by its cover.', example_th: 'อย่าตัดสินหนังสือจากปกของมัน', collocations: ['judge someone harshly', 'a good judge of character', 'judge a competition'] },
+            { word: 'Juggle', forms: { v1: 'Juggle', v2: 'Juggled', v3: 'Juggled', ving: 'Juggling' }, pronunciation: '<u>จัก</u>-เกิ้ล', meaning: 'เล่นกล, จัดสรร', example_en: 'She has to juggle a job with her family.', example_th: 'เธอต้องจัดสรรงานกับครอบครัวของเธอ', collocations: ['juggle work and family', 'a juggling act', 'juggle the figures'] },
+            { word: 'Jump', forms: { v1: 'Jump', v2: 'Jumped', v3: 'Jumped', ving: 'Jumping' }, pronunciation: 'จัมพ์', meaning: 'กระโดด', example_en: 'The cat jumped onto the table.', example_th: 'แมวกระโดดขึ้นไปบนโต๊ะ', collocations: ['jump for joy', 'jump to conclusions', 'a big jump'] },
+        ],
+        'K': [
+            { word: 'Keep', forms: { v1: 'Keep', v2: 'Kept', v3: 'Kept', ving: 'Keeping' }, pronunciation: 'คีพ', meaning: 'เก็บ, รักษา', example_en: 'You can keep the change.', example_th: 'คุณเก็บเงินทอนไว้ได้เลย', collocations: ['keep a secret', 'keep in touch', 'keep going'] },
+            { word: 'Kick', forms: { v1: 'Kick', v2: 'Kicked', v3: 'Kicked', ving: 'Kicking' }, pronunciation: 'คิก', meaning: 'เตะ', example_en: 'He kicked the ball into the goal.', example_th: 'เขาเตะลูกบอลเข้าประตู', collocations: ['kick a ball', 'kick a habit', 'kick off'] },
+            { word: 'Kid', forms: { v1: 'Kid', v2: 'Kidded', v3: 'Kidded', ving: 'Kidding' }, pronunciation: 'คิด', meaning: 'ล้อเล่น', example_en: 'Are you kidding me?', example_th: 'คุณล้อฉันเล่นหรือเปล่า', collocations: ['just kidding', 'no kidding', 'stop kidding around'] },
+            { word: 'Kill', forms: { v1: 'Kill', v2: 'Killed', v3: 'Killed', ving: 'Killing' }, pronunciation: 'คิล', meaning: 'ฆ่า', example_en: 'Smoking can kill you.', example_th: 'การสูบบุหรี่สามารถฆ่าคุณได้', collocations: ['kill time', 'kill two birds with one stone', 'dressed to kill'] },
+            { word: 'Kiss', forms: { v1: 'Kiss', v2: 'Kissed', v3: 'Kissed', ving: 'Kissing' }, pronunciation: 'คิส', meaning: 'จูบ', example_en: 'She kissed her baby on the cheek.', example_th: 'เธอจูบแก้มลูกน้อยของเธอ', collocations: ['a goodnight kiss', 'blow a kiss', 'kiss and make up'] },
+            { word: 'Kneel', forms: { v1: 'Kneel', v2: 'Knelt/Kneeled', v3: 'Knelt/Kneeled', ving: 'Kneeling' }, pronunciation: 'นีล', meaning: 'คุกเข่า', example_en: 'He knelt down to pray.', example_th: 'เขาคุกเข่าลงเพื่อสวดมนต์', collocations: ['kneel down', 'on bended knee', 'kneel before someone'] },
+            { word: 'Knit', forms: { v1: 'Knit', v2: 'Knit/Knitted', v3: 'Knit/Knitted', ving: 'Knitting' }, pronunciation: 'นิท', meaning: 'ถัก', example_en: 'My grandmother taught me how to knit.', example_th: 'คุณย่าของฉันสอนวิธีถักนิตติ้งให้ฉัน', collocations: ['knit a sweater', 'a close-knit community', 'knitting needles'] },
+            { word: 'Knock', forms: { v1: 'Knock', v2: 'Knocked', v3: 'Knocked', ving: 'Knocking' }, pronunciation: 'น็อค', meaning: 'เคาะ', example_en: 'Someone is knocking on the door.', example_th: 'มีคนกำลังเคาะประตู', collocations: ['knock on the door', 'knock over', 'knock it off'] },
+            { word: 'Know', forms: { v1: 'Know', v2: 'Knew', v3: 'Known', ving: 'Knowing' }, pronunciation: 'โนว์', meaning: 'รู้', example_en: 'Do you know the answer?', example_th: 'คุณรู้คำตอบไหม', collocations: ['let me know', 'good to know', 'you know what I mean'] },
+        ],
+        'L': [
+            { word: 'Laugh', forms: { v1: 'Laugh', v2: 'Laughed', v3: 'Laughed', ving: 'Laughing' }, pronunciation: 'ลาฟ', meaning: 'หัวเราะ', example_en: 'You make me laugh.', example_th: 'คุณทำให้ฉันหัวเราะ', collocations: ['laugh out loud (LOL)', 'have a good laugh', 'burst out laughing'] },
+            { word: 'Launch', forms: { v1: 'Launch', v2: 'Launched', v3: 'Launched', ving: 'Launching' }, pronunciation: 'ลอนช์', meaning: 'ปล่อย, เริ่ม', example_en: 'They will launch a new product next month.', example_th: 'พวกเขาจะเปิดตัวผลิตภัณฑ์ใหม่ในเดือนหน้า', collocations: ['launch a product', 'launch a campaign', 'a rocket launch'] },
+            { word: 'Lay', forms: { v1: 'Lay', v2: 'Laid', v3: 'Laid', ving: 'Laying' }, pronunciation: 'เลย์', meaning: 'วาง', example_en: 'She laid the baby in the crib.', example_th: 'เธอวางทารกลงในเปล', collocations: ['lay the table', 'lay an egg', 'lay off'] },
+            { word: 'Lead', forms: { v1: 'Lead', v2: 'Led', v3: 'Led', ving: 'Leading' }, pronunciation: 'ลีด', meaning: 'นำ', example_en: 'She will lead the team.', example_th: 'เธอจะนำทีม', collocations: ['lead the way', 'take the lead', 'a leading role'] },
+            { word: 'Lean', forms: { v1: 'Lean', v2: 'Leant/Leaned', v3: 'Leant/Leaned', ving: 'Leaning' }, pronunciation: 'ลีน', meaning: 'พิง', example_en: 'Don\'t lean against the wall.', example_th: 'อย่าพิงกำแพง', collocations: ['lean against', 'a shoulder to lean on', 'a lean period'] },
+            { word: 'Learn', forms: { v1: 'Learn', v2: 'Learnt/Learned', v3: 'Learnt/Learned', ving: 'Learning' }, pronunciation: 'เลิร์น', meaning: 'เรียนรู้', example_en: 'I want to learn a new language.', example_th: 'ฉันต้องการเรียนรู้ภาษาใหม่', collocations: ['learn a lesson', 'learn by heart', 'live and learn'] },
+            { word: 'Leave', forms: { v1: 'Leave', v2: 'Left', v3: 'Left', ving: 'Leaving' }, pronunciation: 'ลีฟว', meaning: 'ออกจาก, ทิ้งไว้', example_en: 'What time do you leave for work?', example_th: 'คุณออกจากบ้านไปทำงานกี่โมง', collocations: ['leave home', 'leave a message', 'take it or leave it'] },
+            { word: 'Let', forms: { v1: 'Let', v2: 'Let', v3: 'Let', ving: 'Letting' }, pronunciation: 'เล็ท', meaning: 'อนุญาต, ปล่อย', example_en: 'Let me help you.', example_th: 'ให้ฉันช่วยคุณนะ', collocations: ['let me know', 'let it go', 'let\'s go'] },
+            { word: 'Lie', forms: { v1: 'Lie', v2: 'Lied', v3: 'Lied', ving: 'Lying' }, pronunciation: 'ลาย', meaning: 'โกหก', example_en: 'You should never lie to your parents.', example_th: 'คุณไม่ควรโกหกพ่อแม่ของคุณ', collocations: ['tell a lie', 'a white lie', 'detect a lie'] },
+            { word: 'Lift', forms: { v1: 'Lift', v2: 'Lifted', v3: 'Lifted', ving: 'Lifting' }, pronunciation: 'ลิฟท์', meaning: 'ยก', example_en: 'Can you help me lift this box?', example_th: 'คุณช่วยฉันยกกล่องนี้หน่อยได้ไหม', collocations: ['lift weights', 'give someone a lift', 'lift a ban'] },
+            { word: 'Like', forms: { v1: 'Like', v2: 'Liked', v3: 'Liked', ving: 'Liking' }, pronunciation: 'ไลค์', meaning: 'ชอบ', example_en: 'I like your new haircut.', example_th: 'ฉันชอบทรงผมใหม่ของคุณ', collocations: ['I like it', 'feel like doing sth', 'would like to'] },
+            { word: 'Listen', forms: { v1: 'Listen', v2: 'Listened', v3: 'Listened', ving: 'Listening' }, pronunciation: '<u>ลิส</u>-เซิ่น', meaning: 'ฟัง', example_en: 'Please listen carefully.', example_th: 'กรุณาตั้งใจฟัง', collocations: ['listen to music', 'listen to someone', 'listen carefully'] },
+            { word: 'Live', forms: { v1: 'Live', v2: 'Lived', v3: 'Lived', ving: 'Living' }, pronunciation: 'ลิฟว', meaning: 'อาศัยอยู่', example_en: 'Where do you live?', example_th: 'คุณอาศัยอยู่ที่ไหน', collocations: ['live in a city', 'live alone', 'live and learn'] },
+            { word: 'Look', forms: { v1: 'Look', v2: 'Looked', v3: 'Looked', ving: 'Looking' }, pronunciation: 'ลุค', meaning: 'มอง, ดู', example_en: 'Look at that beautiful sunset!', example_th: 'ดูพระอาทิตย์ตกที่สวยงามนั่นสิ!', collocations: ['look at', 'look for', 'look like'] },
+            { word: 'Lose', forms: { v1: 'Lose', v2: 'Lost', v3: 'Lost', ving: 'Losing' }, pronunciation: 'ลูส', meaning: 'ทำหาย, แพ้', example_en: 'I don\'t want to lose this game.', example_th: 'ฉันไม่อยากแพ้เกมนี้', collocations: ['lose weight', 'lose your keys', 'get lost'] },
+            { word: 'Love', forms: { v1: 'Love', v2: 'Loved', v3: 'Loved', ving: 'Loving' }, pronunciation: 'เลิฟ', meaning: 'รัก', example_en: 'I love my family.', example_th: 'ฉันรักครอบครัวของฉัน', collocations: ['fall in love', 'I love you', 'would love to'] },
+        ],
+        'M': [
+            { word: 'Make', forms: { v1: 'Make', v2: 'Made', v3: 'Made', ving: 'Making' }, pronunciation: 'เมค', meaning: 'ทำ, สร้าง', example_en: 'Can you make a cup of coffee for me?', example_th: 'คุณช่วยชงกาแฟให้ฉันสักแก้วได้ไหม', collocations: ['make a mistake', 'make a decision', 'make sense'] },
+            { word: 'Manage', forms: { v1: 'Manage', v2: 'Managed', v3: 'Managed', ving: 'Managing' }, pronunciation: '<u>แม</u>-เนจ', meaning: 'จัดการ', example_en: 'How do you manage your time?', example_th: 'คุณจัดการเวลาของคุณอย่างไร', collocations: ['manage to do sth', 'manage a team', 'time management'] },
+            { word: 'Mean', forms: { v1: 'Mean', v2: 'Meant', v3: 'Meant', ving: 'Meaning' }, pronunciation: 'มีน', meaning: 'หมายถึง', example_en: 'What does this word mean?', example_th: 'คำนี้หมายความว่าอย่างไร', collocations: ['what do you mean?', 'I mean it', 'by no means'] },
+            { word: 'Meet', forms: { v1: 'Meet', v2: 'Met', v3: 'Met', ving: 'Meeting' }, pronunciation: 'มีท', meaning: 'พบ', example_en: 'Nice to meet you.', example_th: 'ยินดีที่ได้รู้จัก', collocations: ['meet someone for the first time', 'meet a friend', 'meet a deadline'] },
+            { word: 'Mention', forms: { v1: 'Mention', v2: 'Mentioned', v3: 'Mentioned', ving: 'Mentioning' }, pronunciation: '<u>เม็น</u>-ชั่น', meaning: 'กล่าวถึง', example_en: 'Did he mention my name?', example_th: 'เขากล่าวถึงชื่อฉันไหม', collocations: ['don\'t mention it', 'worth mentioning', 'briefly mention'] },
+            { word: 'Mind', forms: { v1: 'Mind', v2: 'Minded', v3: 'Minded', ving: 'Minding' }, pronunciation: 'ไมนด์', meaning: 'รังเกียจ, ใส่ใจ', example_en: 'Do you mind if I open the window?', example_th: 'คุณจะรังเกียจไหมถ้าฉันจะเปิดหน้าต่าง', collocations: ['never mind', 'if you don\'t mind', 'bear in mind'] },
+            { word: 'Miss', forms: { v1: 'Miss', v2: 'Missed', v3: 'Missed', ving: 'Missing' }, pronunciation: 'มิส', meaning: 'คิดถึง, พลาด', example_en: 'I miss my family.', example_th: 'ฉันคิดถึงครอบครัวของฉัน', collocations: ['miss you', 'miss the bus', 'a near miss'] },
+            { word: 'Mix', forms: { v1: 'Mix', v2: 'Mixed', v3: 'Mixed', ving: 'Mixing' }, pronunciation: 'มิกซ์', meaning: 'ผสม', example_en: 'Mix the flour and sugar together.', example_th: 'ผสมแป้งกับน้ำตาลเข้าด้วยกัน', collocations: ['mix well', 'a mixed feeling', 'mix up'] },
+            { word: 'Move', forms: { v1: 'Move', v2: 'Moved', v3: 'Moved', ving: 'Moving' }, pronunciation: 'มูฟว', meaning: 'เคลื่อนไหว, ย้าย', example_en: 'Can you move your car?', example_th: 'คุณช่วยเลื่อนรถของคุณหน่อยได้ไหม', collocations: ['move to a new house', 'get a move on', 'a moving story'] },
+            { word: 'Must', forms: { v1: 'Must', v2: '(modal)', v3: '(modal)', ving: '(modal)' }, pronunciation: 'มัสท์', meaning: 'ต้อง', example_en: 'You must finish your homework.', example_th: 'คุณต้องทำการบ้านให้เสร็จ', collocations: ['a must-see movie', 'must-have item', 'if you must'] },
+        ],
+        'N': [
+            { word: 'Need', forms: { v1: 'Need', v2: 'Needed', v3: 'Needed', ving: 'Needing' }, pronunciation: 'นีด', meaning: 'ต้องการ', example_en: 'I need some help.', example_th: 'ฉันต้องการความช่วยเหลือ', collocations: ['in need', 'need to do sth', 'all you need'] },
+            { word: 'Notice', forms: { v1: 'Notice', v2: 'Noticed', v3: 'Noticed', ving: 'Noticing' }, pronunciation: '<u>โน</u>-ทิส', meaning: 'สังเกตเห็น', example_en: 'Did you notice his new car?', example_th: 'คุณสังเกตเห็นรถคันใหม่ของเขาไหม', collocations: ['take notice of', 'at short notice', 'until further notice'] },
+            { word: 'Navigate', forms: { v1: 'Navigate', v2: 'Navigated', v3: 'Navigated', ving: 'Navigating' }, pronunciation: '<u>แน</u>-วิ-เกท', meaning: 'นำทาง', example_en: 'He navigated the ship through the storm.', example_th: 'เขานำทางเรือฝ่าพายุ', collocations: ['navigate the website', 'easy to navigate', 'navigate a complex situation'] },
+            { word: 'Negotiate', forms: { v1: 'Negotiate', v2: 'Negotiated', v3: 'Negotiated', ving: 'Negotiating' }, pronunciation: 'นิ-<u>โก</u>-ชิ-เอท', meaning: 'เจรจาต่อรอง', example_en: 'They are trying to negotiate a peace treaty.', example_th: 'พวกเขากำลังพยายามเจรจาสนธิสัญญาสันติภาพ', collocations: ['negotiate a deal', 'negotiate with', 'open to negotiation'] },
+        ],
+        'O': [
+            { word: 'Obey', forms: { v1: 'Obey', v2: 'Obeyed', v3: 'Obeyed', ving: 'Obeying' }, pronunciation: 'โอ-<u>เบย์</u>', meaning: 'เชื่อฟัง', example_en: 'You must obey the law.', example_th: 'คุณต้องเชื่อฟังกฎหมาย', collocations: ['obey the rules', 'obey an order', 'blindly obey'] },
+            { word: 'Occur', forms: { v1: 'Occur', v2: 'Occurred', v3: 'Occurred', ving: 'Occurring' }, pronunciation: 'เออ-<u>เคอร์</u>', meaning: 'เกิดขึ้น', example_en: 'The accident occurred at 5 p.m.', example_th: 'อุบัติเหตุเกิดขึ้นเมื่อเวลา 17.00 น.', collocations: ['it never occurred to me', 'likely to occur', 'if the problem occurs again'] },
+            { word: 'Offer', forms: { v1: 'Offer', v2: 'Offered', v3: 'Offered', ving: 'Offering' }, pronunciation: '<u>ออฟ</u>-เฟ่อะ', meaning: 'เสนอ', example_en: 'He offered me a job.', example_th: 'เขาเสนองานให้ฉัน', collocations: ['a special offer', 'offer help', 'accept an offer'] },
+            { word: 'Open', forms: { v1: 'Open', v2: 'Opened', v3: 'Opened', ving: 'Opening' }, pronunciation: '<u>โอ</u>-เพ็น', meaning: 'เปิด', example_en: 'Could you open the window, please?', example_th: 'คุณช่วยเปิดหน้าต่างหน่อยได้ไหม', collocations: ['open the door', 'an open mind', 'in the open'] },
+            { word: 'Order', forms: { v1: 'Order', v2: 'Ordered', v3: 'Ordered', ving: 'Ordering' }, pronunciation: '<u>ออร์</u>-เดอร์', meaning: 'สั่ง', example_en: 'Are you ready to order?', example_th: 'คุณพร้อมที่จะสั่งอาหารหรือยัง', collocations: ['place an order', 'out of order', 'in order to'] },
+            { word: 'Organize', forms: { v1: 'Organize', v2: 'Organized', v3: 'Organized', ving: 'Organizing' }, pronunciation: '<u>ออร์</u>-แก-ไนซ์', meaning: 'จัดระเบียบ', example_en: 'She helped to organize the party.', example_th: 'เธอช่วยจัดงานปาร์ตี้', collocations: ['organize an event', 'get organized', 'a well-organized person'] },
+            { word: 'Own', forms: { v1: 'Own', v2: 'Owned', v3: 'Owned', ving: 'Owning' }, pronunciation: 'โอน', meaning: 'เป็นเจ้าของ', example_en: 'I own a small coffee shop.', example_th: 'ฉันเป็นเจ้าของร้านกาแฟเล็กๆ', collocations: ['on your own', 'your own business', 'come into its own'] },
+            { word: 'Overcome', forms: { v1: 'Overcome', v2: 'Overcame', v3: 'Overcome', ving: 'Overcoming' }, pronunciation: 'โอ-เว่อะ-<u>คัม</u>', meaning: 'เอาชนะ', example_en: 'She had to overcome many difficulties.', example_th: 'เธอต้องเอาชนะความยากลำบากมากมาย', collocations: ['overcome a fear', 'overcome an obstacle', 'overcome with emotion'] },
+        ],
+        'P': [
+            { word: 'Paint', forms: { v1: 'Paint', v2: 'Painted', v3: 'Painted', ving: 'Painting' }, pronunciation: 'เพนท์', meaning: 'ทาสี, วาดภาพ', example_en: 'We need to paint the walls.', example_th: 'เราต้องทาสีผนัง', collocations: ['paint a picture', 'a coat of paint', 'watch paint dry'] },
+            { word: 'Pass', forms: { v1: 'Pass', v2: 'Passed', v3: 'Passed', ving: 'Passing' }, pronunciation: 'พาส', meaning: 'ผ่าน', example_en: 'She passed her exam with flying colors.', example_th: 'เธอสอบผ่านฉลุย', collocations: ['pass an exam', 'pass the time', 'come to pass'] },
+            { word: 'Pay', forms: { v1: 'Pay', v2: 'Paid', v3: 'Paid', ving: 'Paying' }, pronunciation: 'เพย์', meaning: 'จ่าย', example_en: 'I have to pay the bills.', example_th: 'ฉันต้องจ่ายบิล', collocations: ['pay attention', 'pay a visit', 'pay by credit card'] },
+            { word: 'Perform', forms: { v1: 'Perform', v2: 'Performed', v3: 'Performed', ving: 'Performing' }, pronunciation: 'เพอ-<u>ฟอร์ม</u>', meaning: 'แสดง', example_en: 'The band will perform live tonight.', example_th: 'วงดนตรีจะแสดงสดคืนนี้', collocations: ['perform a task', 'perform on stage', 'a live performance'] },
+            { word: 'Pick', forms: { v1: 'Pick', v2: 'Picked', v3: 'Picked', ving: 'Picking' }, pronunciation: 'พิค', meaning: 'เลือก, หยิบ', example_en: 'Pick a card, any card.', example_th: 'เลือกการ์ดมาใบหนึ่ง ใบไหนก็ได้', collocations: ['pick up', 'pick a fight', 'take your pick'] },
+            { word: 'Plan', forms: { v1: 'Plan', v2: 'Planned', v3: 'Planned', ving: 'Planning' }, pronunciation: 'แพลน', meaning: 'วางแผน', example_en: 'What are you planning to do?', example_th: 'คุณกำลังวางแผนจะทำอะไร', collocations: ['plan a trip', 'a business plan', 'game plan'] },
+            { word: 'Play', forms: { v1: 'Play', v2: 'Played', v3: 'Played', ving: 'Playing' }, pronunciation: 'เพลย์', meaning: 'เล่น', example_en: 'The children are playing in the park.', example_th: 'เด็กๆ กำลังเล่นอยู่ในสวน', collocations: ['play a game', 'play the guitar', 'a play on words'] },
+            { word: 'Point', forms: { v1: 'Point', v2: 'Pointed', v3: 'Pointed', ving: 'Pointing' }, pronunciation: 'พอยท์', meaning: 'ชี้', example_en: 'He pointed at the building.', example_th: 'เขาชี้ไปที่อาคาร', collocations: ['point out', 'point of view', 'at this point'] },
+            { word: 'Prefer', forms: { v1: 'Prefer', v2: 'Preferred', v3: 'Preferred', ving: 'Preferring' }, pronunciation: 'พรี-<u>เฟอร์</u>', meaning: 'ชอบมากกว่า', example_en: 'I prefer tea to coffee.', example_th: 'ฉันชอบชามากกว่ากาแฟ', collocations: ['would prefer', 'prefer to do sth', 'prefer A to B'] },
+            { word: 'Prepare', forms: { v1: 'Prepare', v2: 'Prepared', v3: 'Prepared', ving: 'Preparing' }, pronunciation: 'พรี-<u>แพร์</u>', meaning: 'เตรียม', example_en: 'I need to prepare for my exam.', example_th: 'ฉันต้องเตรียมตัวสอบ', collocations: ['prepare for', 'prepare a meal', 'be prepared'] },
+            { word: 'Promise', forms: { v1: 'Promise', v2: 'Promised', v3: 'Promised', ving: 'Promising' }, pronunciation: '<u>พรอม</u>-มิส', meaning: 'สัญญา', example_en: 'I promise I will call you.', example_th: 'ฉันสัญญาว่าจะโทรหาคุณ', collocations: ['make a promise', 'keep a promise', 'I promise'] },
+            { word: 'Protect', forms: { v1: 'Protect', v2: 'Protected', v3: 'Protected', ving: 'Protecting' }, pronunciation: 'โพร์-<u>เท็คท์</u>', meaning: 'ปกป้อง', example_en: 'You should wear a helmet to protect your head.', example_th: 'คุณควรสวมหมวกกันน็อคเพื่อป้องกันศีรษะ', collocations: ['protect from', 'protect the environment', 'under protection'] },
+            { word: 'Provide', forms: { v1: 'Provide', v2: 'Provided', v3: 'Provided', ving: 'Providing' }, pronunciation: 'โพร-<u>ไวด์</u>', meaning: 'จัดหาให้', example_en: 'This hotel provides free Wi-Fi.', example_th: 'โรงแรมนี้มี Wi-Fi ให้บริการฟรี', collocations: ['provide information', 'provide support', 'provide someone with sth'] },
+            { word: 'Pull', forms: { v1: 'Pull', v2: 'Pulled', v3: 'Pulled', ving: 'Pulling' }, pronunciation: 'พูล', meaning: 'ดึง', example_en: 'You need to pull the door to open it.', example_th: 'คุณต้องดึงประตูเพื่อเปิด', collocations: ['pull over', 'pull together', 'pull a face'] },
+            { word: 'Push', forms: { v1: 'Push', v2: 'Pushed', v3: 'Pushed', ving: 'Pushing' }, pronunciation: 'พุช', meaning: 'ผลัก', example_en: 'Don\'t push me.', example_th: 'อย่าผลักฉัน', collocations: ['push the button', 'push your luck', 'when push comes to shove'] },
+            { word: 'Put', forms: { v1: 'Put', v2: 'Put', v3: 'Put', ving: 'Putting' }, pronunciation: 'พุท', meaning: 'วาง', example_en: 'Please put the book on the table.', example_th: 'กรุณาวางหนังสือบนโต๊ะ', collocations: ['put on', 'put away', 'put off'] },
+        ],
+        'Q': [
+            { word: 'Qualify', forms: { v1: 'Qualify', v2: 'Qualified', v3: 'Qualified', ving: 'Qualifying' }, pronunciation: '<u>ควอ</u>-ลิ-ฟาย', meaning: 'มีคุณสมบัติ', example_en: 'She is qualified for the job.', example_th: 'เธอมีคุณสมบัติเหมาะสมกับงานนี้', collocations: ['qualify for', 'a qualified teacher', 'a qualifying round'] },
+            { word: 'Question', forms: { v1: 'Question', v2: 'Questioned', v3: 'Questioned', ving: 'Questioning' }, pronunciation: '<u>เควส</u>-ชั่น', meaning: 'ตั้งคำถาม', example_en: 'The police questioned the suspect.', example_th: 'ตำรวจสอบสวนผู้ต้องสงสัย', collocations: ['question a decision', 'beyond question', 'without question'] },
+            { word: 'Quit', forms: { v1: 'Quit', v2: 'Quit', v3: 'Quit', ving: 'Quitting' }, pronunciation: 'ควิท', meaning: 'เลิก', example_en: 'He decided to quit his job.', example_th: 'เขาตัดสินใจลาออกจากงาน', collocations: ['quit smoking', 'never quit', 'call it quits'] },
+            { word: 'Quote', forms: { v1: 'Quote', v2: 'Quoted', v3: 'Quoted', ving: 'Quoting' }, pronunciation: 'โควท', meaning: 'อ้างอิงคำพูด', example_en: 'Can I quote you on that?', example_th: 'ฉันขออ้างอิงคำพูดของคุณได้ไหม', collocations: ['quote a price', 'a direct quote', 'quote someone as saying'] },
+        ],
+        'R': [
+            { word: 'Raise', forms: { v1: 'Raise', v2: 'Raised', v3: 'Raised', ving: 'Raising' }, pronunciation: 'เรส', meaning: 'ยก, เลี้ยงดู', example_en: 'Please raise your hand if you have a question.', example_th: 'กรุณายกมือขึ้นหากคุณมีคำถาม', collocations: ['raise your hand', 'raise money', 'raise children'] },
+            { word: 'Reach', forms: { v1: 'Reach', v2: 'Reached', v3: 'Reached', ving: 'Reaching' }, pronunciation: 'รีช', meaning: 'ไปถึง, เอื้อม', example_en: 'We will reach our destination soon.', example_th: 'เราจะถึงที่หมายของเราในไม่ช้า', collocations: ['reach a goal', 'out of reach', 'reach an agreement'] },
+            { word: 'Read', forms: { v1: 'Read', v2: 'Read', v3: 'Read', ving: 'Reading' }, pronunciation: 'รีด', meaning: 'อ่าน', example_en: 'I like to read books.', example_th: 'ฉันชอบอ่านหนังสือ', collocations: ['read a book', 'read aloud', 'read between the lines'] },
+            { word: 'Realize', forms: { v1: 'Realize', v2: 'Realized', v3: 'Realized', ving: 'Realizing' }, pronunciation: '<u>รี</u>-เอ-ไลซ์', meaning: 'ตระหนัก', example_en: 'I didn\'t realize it was so late.', example_th: 'ฉันไม่รู้ตัวเลยว่ามันสายขนาดนี้แล้ว', collocations: ['come to realize', 'realize a dream', 'fully realize'] },
+            { word: 'Receive', forms: { v1: 'Receive', v2: 'Received', v3: 'Received', ving: 'Receiving' }, pronunciation: 'รี-<u>ซีฟว</u>', meaning: 'ได้รับ', example_en: 'Did you receive my email?', example_th: 'คุณได้รับอีเมลของฉันหรือไม่', collocations: ['receive a gift', 'receive an award', 'on the receiving end'] },
+            { word: 'Recognize', forms: { v1: 'Recognize', v2: 'Recognized', v3: 'Recognized', ving: 'Recognizing' }, pronunciation: '<u>เร</u>-คอก-ไนซ์', meaning: 'จำได้', example_en: 'I didn\'t recognize you with your new haircut.', example_th: 'ฉันจำคุณไม่ได้กับทรงผมใหม่ของคุณ', collocations: ['widely recognized', 'recognize the importance of', 'beyond recognition'] },
+            { word: 'Remember', forms: { v1: 'Remember', v2: 'Remembered', v3: 'Remembered', ving: 'Remembering' }, pronunciation: 'รี-<u>เม็ม</u>-เบ่อะ', meaning: 'จำ', example_en: 'Do you remember me?', example_th: 'คุณจำฉันได้ไหม', collocations: ['remember to do sth', 'if I remember correctly', 'remember the good times'] },
+            { word: 'Remind', forms: { v1: 'Remind', v2: 'Reminded', v3: 'Reminded', ving: 'Reminding' }, pronunciation: 'รี-<u>ไมนด์</u>', meaning: 'เตือน', example_en: 'Please remind me to call him.', example_th: 'กรุณาเตือนฉันให้โทรหาเขาด้วย', collocations: ['remind someone of something', 'a gentle reminder', 'remind me'] },
+            { word: 'Remove', forms: { v1: 'Remove', v2: 'Removed', v3: 'Removed', ving: 'Removing' }, pronunciation: 'รี-<u>มูฟว</u>', meaning: 'เอาออก', example_en: 'Please remove your shoes before entering.', example_th: 'กรุณาถอดรองเท้าก่อนเข้า', collocations: ['remove from', 'remove stains', 'surgically remove'] },
+            { word: 'Reply', forms: { v1: 'Reply', v2: 'Replied', v3: 'Replied', ving: 'Replying' }, pronunciation: 'รี-<u>พลาย</u>', meaning: 'ตอบกลับ', example_en: 'Please reply to my email as soon as possible.', example_th: 'กรุณาตอบกลับอีเมลของฉันโดยเร็วที่สุด', collocations: ['reply to an email', 'a quick reply', 'no reply'] },
+            { word: 'Run', forms: { v1: 'Run', v2: 'Ran', v3: 'Run', ving: 'Running' }, pronunciation: 'รัน', meaning: 'วิ่ง', example_en: 'I run every morning.', example_th: 'ฉันวิ่งทุกเช้า', collocations: ['run a business', 'run out of', 'in the long run'] },
+            { word: 'Ride', forms: { v1: 'Ride', v2: 'Rode', v3: 'Ridden', ving: 'Riding' }, pronunciation: 'ไรด์', meaning: 'ขี่', example_en: 'I learned to ride a bike when I was five.', example_th: 'ฉันเรียนขี่จักรยานตอนอายุห้าขวบ', collocations: ['ride a bike', 'ride a horse', 'go for a ride'] },
+        ],
+        'S': [
+            { word: 'Save', forms: { v1: 'Save', v2: 'Saved', v3: 'Saved', ving: 'Saving' }, pronunciation: 'เซฟว', meaning: 'บันทึก, ประหยัด, ช่วย', example_en: 'Remember to save your work.', example_th: 'อย่าลืมบันทึกงานของคุณ', collocations: ['save money', 'save time', 'save a life'] },
+            { word: 'Say', forms: { v1: 'Say', v2: 'Said', v3: 'Said', ving: 'Saying' }, pronunciation: 'เซย์', meaning: 'พูด', example_en: 'What did you say?', example_th: 'คุณพูดว่าอะไรนะ', collocations: [' needless to say', 'have a say', 'easier said than done'] },
+            { word: 'See', forms: { v1: 'See', v2: 'Saw', v3: 'Seen', ving: 'Seeing' }, pronunciation: 'ซี', meaning: 'เห็น', example_en: 'I can see a bird in the tree.', example_th: 'ฉันเห็นนกอยู่บนต้นไม้', collocations: ['see you later', 'let me see', 'I see'] },
+            { word: 'Seem', forms: { v1: 'Seem', v2: 'Seemed', v3: 'Seemed', ving: 'Seeming' }, pronunciation: 'ซีม', meaning: 'ดูเหมือน', example_en: 'You seem happy today.', example_th: 'วันนี้คุณดูมีความสุขนะ', collocations: ['it seems that', 'seem to be', 'things are not always as they seem'] },
+            { word: 'Sell', forms: { v1: 'Sell', v2: 'Sold', v3: 'Sold', ving: 'Selling' }, pronunciation: 'เซล', meaning: 'ขาย', example_en: 'They sell fresh fruit at the market.', example_th: 'พวกเขาขายผลไม้สดที่ตลาด', collocations: ['for sale', 'sell out', 'best-seller'] },
+            { word: 'Send', forms: { v1: 'Send', v2: 'Sent', v3: 'Sent', ving: 'Sending' }, pronunciation: 'เซ็นด์', meaning: 'ส่ง', example_en: 'I will send you an email.', example_th: 'ฉันจะส่งอีเมลไปให้คุณ', collocations: ['send an email', 'send a message', 'send a gift'] },
+            { word: 'Share', forms: { v1: 'Share', v2: 'Shared', v3: 'Shared', ving: 'Sharing' }, pronunciation: 'แชร์', meaning: 'แบ่งปัน', example_en: 'It\'s good to share.', example_th: 'การแบ่งปันเป็นสิ่งที่ดี', collocations: ['share with someone', 'share an idea', 'market share'] },
+            { word: 'Shine', forms: { v1: 'Shine', v2: 'Shone', v3: 'Shone', ving: 'Shining' }, pronunciation: 'ไชน์', meaning: 'ส่องแสง', example_en: 'The sun is shining brightly.', example_th: 'พระอาทิตย์กำลังส่องแสงเจิดจ้า', collocations: ['rise and shine', 'shine a light on', 'a shining example'] },
+            { word: 'Show', forms: { v1: 'Show', v2: 'Showed', v3: 'Shown/Showed', ving: 'Showing' }, pronunciation: 'โชว์', meaning: 'แสดง', example_en: 'Can you show me the way?', example_th: 'คุณช่วยบอกทางฉันหน่อยได้ไหม', collocations: ['show me', 'a TV show', 'show up'] },
+            { word: 'Sing', forms: { v1: 'Sing', v2: 'Sang', v3: 'Sung', ving: 'Singing' }, pronunciation: 'ซิง', meaning: 'ร้องเพลง', example_en: 'She loves to sing.', example_th: 'เธอรักการร้องเพลง', collocations: ['sing a song', 'sing along', 'sing out loud'] },
+            { word: 'Sit', forms: { v1: 'Sit', v2: 'Sat', v3: 'Sat', ving: 'Sitting' }, pronunciation: 'ซิท', meaning: 'นั่ง', example_en: 'Please sit down.', example_th: 'กรุณานั่งลง', collocations: ['sit down', 'sit still', 'babysit'] },
+            { word: 'Sleep', forms: { v1: 'Sleep', v2: 'Slept', v3: 'Slept', ving: 'Sleeping' }, pronunciation: 'สลีพ', meaning: 'นอน', example_en: 'I need to sleep.', example_th: 'ฉันต้องนอนแล้ว', collocations: ['go to sleep', 'sleep well', 'fall asleep'] },
+            { word: 'Speak', forms: { v1: 'Speak', v2: 'Spoke', v3: 'Spoken', ving: 'Speaking' }, pronunciation: 'สปีค', meaning: 'พูด', example_en: 'Can you speak English?', example_th: 'คุณพูดภาษาอังกฤษได้ไหม', collocations: ['speak to someone', 'generally speaking', 'speak up'] },
+            { word: 'Spell', forms: { v1: 'Spell', v2: 'Spelt/Spelled', v3: 'Spelt/Spelled', ving: 'Spelling' }, pronunciation: 'สเปล', meaning: 'สะกด', example_en: 'How do you spell your name?', example_th: 'คุณสะกดชื่อของคุณอย่างไร', collocations: ['spell it out', 'a magic spell', 'a spelling bee'] },
+            { word: 'Spend', forms: { v1: 'Spend', v2: 'Spent', v3: 'Spent', ving: 'Spending' }, pronunciation: 'สเปนด', meaning: 'ใช้ (เงิน, เวลา)', example_en: 'How do you spend your free time?', example_th: 'คุณใช้เวลาว่างของคุณอย่างไร', collocations: ['spend money', 'spend time', 'spending habit'] },
+            { word: 'Stand', forms: { v1: 'Stand', v2: 'Stood', v3: 'Stood', ving: 'Standing' }, pronunciation: 'สแตนด์', meaning: 'ยืน', example_en: 'Please stand up.', example_th: 'กรุณายืนขึ้น', collocations: ['can\'t stand', 'stand still', 'stand for'] },
+            { word: 'Start', forms: { v1: 'Start', v2: 'Started', v3: 'Started', ving: 'Starting' }, pronunciation: 'สตาร์ท', meaning: 'เริ่ม', example_en: 'The class starts at 9 AM.', example_th: 'ชั้นเรียนเริ่มเวลา 9 โมงเช้า', collocations: ['start over', 'for a start', 'a fresh start'] },
+            { word: 'Stay', forms: { v1: 'Stay', v2: 'Stayed', v3: 'Stayed', ving: 'Staying' }, pronunciation: 'สเตย์', meaning: 'อยู่', example_en: 'I\'m going to stay at home tonight.', example_th: 'คืนนี้ฉันจะอยู่บ้าน', collocations: ['stay in touch', 'stay safe', 'stay up late'] },
+            { word: 'Steal', forms: { v1: 'Steal', v2: 'Stole', v3: 'Stolen', ving: 'Stealing' }, pronunciation: 'สตีล', meaning: 'ขโมย', example_en: 'Someone stole my wallet.', example_th: 'มีคนขโมยกระเป๋าเงินของฉัน', collocations: ['steal something from', 'steal the show', 'a real steal'] },
+            { word: 'Stop', forms: { v1: 'Stop', v2: 'Stopped', v3: 'Stopped', ving: 'Stopping' }, pronunciation: 'สต็อป', meaning: 'หยุด', example_en: 'Please stop talking.', example_th: 'กรุณาหยุดพูด', collocations: ['stop doing sth', 'full stop', 'never stop'] },
+        ],
+        'T': [
+            { word: 'Take', forms: { v1: 'Take', v2: 'Took', v3: 'Taken', ving: 'Taking' }, pronunciation: 'เทค', meaning: 'เอาไป, พาไป', example_en: 'Don\'t forget to take your umbrella.', example_th: 'อย่าลืมเอาร่มของคุณไปด้วย', collocations: ['take a break', 'take a picture', 'take care'] },
+            { word: 'Talk', forms: { v1: 'Talk', v2: 'Talked', v3: 'Talked', ving: 'Talking' }, pronunciation: 'ทอล์ค', meaning: 'คุย', example_en: 'Can we talk?', example_th: 'เราคุยกันหน่อยได้ไหม', collocations: ['talk to someone', 'talk about', 'small talk'] },
+            { word: 'Teach', forms: { v1: 'Teach', v2: 'Taught', v3: 'Taught', ving: 'Teaching' }, pronunciation: 'ทีช', meaning: 'สอน', example_en: 'She teaches English at a high school.', example_th: 'เธอสอนภาษาอังกฤษที่โรงเรียนมัธยม', collocations: ['teach a lesson', 'teach someone to do sth', 'practice what you preach'] },
+            { word: 'Tell', forms: { v1: 'Tell', v2: 'Told', v3: 'Told', ving: 'Telling' }, pronunciation: 'เทล', meaning: 'บอก', example_en: 'Can you tell me a story?', example_th: 'คุณช่วยเล่านิทานให้ฉันฟังหน่อยได้ไหม', collocations: ['tell a story', 'tell the truth', 'time will tell'] },
+            { word: 'Thank', forms: { v1: 'Thank', v2: 'Thanked', v3: 'Thanked', ving: 'Thanking' }, pronunciation: 'แธงค์', meaning: 'ขอบคุณ', example_en: 'I want to thank you for your help.', example_th: 'ฉันต้องการขอบคุณสำหรับความช่วยเหลือของคุณ', collocations: ['thank you', 'no thanks', 'thanks to'] },
+            { word: 'Think', forms: { v1: 'Think', v2: 'Thought', v3: 'Thought', ving: 'Thinking' }, pronunciation: 'ธิงค์', meaning: 'คิด', example_en: 'What do you think?', example_th: 'คุณคิดว่าอย่างไร', collocations: ['think about', 'I think so', 'think outside the box'] },
+            { word: 'Throw', forms: { v1: 'Throw', v2: 'Threw', v3: 'Thrown', ving: 'Throwing' }, pronunciation: 'โธรว์', meaning: 'ขว้าง', example_en: 'Throw the ball to me.', example_th: 'ขว้างลูกบอลมาให้ฉัน', collocations: ['throw away', 'throw a party', 'a stone\'s throw away'] },
+            { word: 'Touch', forms: { v1: 'Touch', v2: 'Touched', v3: 'Touched', ving: 'Touching' }, pronunciation: 'ทัช', meaning: 'สัมผัส', example_en: 'Please do not touch the exhibits.', example_th: 'กรุณาอย่าสัมผัสสิ่งของที่จัดแสดง', collocations: ['keep in touch', 'a finishing touch', 'touch base'] },
+            { word: 'Travel', forms: { v1: 'Travel', v2: 'Travelled', v3: 'Travelled', ving: 'Travelling' }, pronunciation: '<u>แทร</u>-เวิล', meaning: 'ท่องเที่ยว', example_en: 'I love to travel.', example_th: 'ฉันรักการท่องเที่ยว', collocations: ['travel around the world', 'a travel agency', 'light travel'] },
+            { word: 'Try', forms: { v1: 'Try', v2: 'Tried', v3: 'Tried', ving: 'Trying' }, pronunciation: 'ไทร', meaning: 'พยายาม, ลอง', example_en: 'You should try this cake.', example_th: 'คุณควรลองเค้กชิ้นนี้', collocations: ['try your best', 'try on', 'give it a try'] },
+            { word: 'Turn', forms: { v1: 'Turn', v2: 'Turned', v3: 'Turned', ving: 'Turning' }, pronunciation: 'เทิร์น', meaning: 'หมุน, เลี้ยว', example_en: 'Turn left at the next corner.', example_th: 'เลี้ยวซ้ายที่หัวมุมถัดไป', collocations: ['turn on/off', 'take turns', 'in turn'] },
+            { word: 'Type', forms: { v1: 'Type', v2: 'Typed', v3: 'Typed', ving: 'Typing' }, pronunciation: 'ไทพ์', meaning: 'พิมพ์', example_en: 'She can type very fast.', example_th: 'เธอสามารถพิมพ์ได้เร็วมาก', collocations: ['type a letter', 'a typo', 'blood type'] },
+        ],
+        'U': [
+            { word: 'Understand', forms: { v1: 'Understand', v2: 'Understood', v3: 'Understood', ving: 'Understanding' }, pronunciation: 'อัน-เดอ-<u>สแตนด์</u>', meaning: 'เข้าใจ', example_en: 'Do you understand the question?', example_th: 'คุณเข้าใจคำถามไหม', collocations: ['make myself understood', 'a better understanding', 'mutual understanding'] },
+            { word: 'Use', forms: { v1: 'Use', v2: 'Used', v3: 'Used', ving: 'Using' }, pronunciation: 'ยูส', meaning: 'ใช้', example_en: 'Can I use your phone?', example_th: 'ฉันขอใช้โทรศัพท์ของคุณได้ไหม', collocations: ['use a computer', 'what\'s the use?', 'used to'] },
+            { word: 'Update', forms: { v1: 'Update', v2: 'Updated', v3: 'Updated', ving: 'Updating' }, pronunciation: '<u>อัพ</u>-เดท', meaning: 'ทำให้เป็นปัจจุบัน', example_en: 'You need to update your software.', example_th: 'คุณต้องอัปเดตซอฟต์แวร์ของคุณ', collocations: ['an update on', 'a status update', 'keep someone updated'] },
+            { word: 'Urge', forms: { v1: 'Urge', v2: 'Urged', v3: 'Urged', ving: 'Urging' }, pronunciation: 'เอิจ', meaning: 'กระตุ้น, ผลักดัน', example_en: 'I urge you to reconsider your decision.', example_th: 'ฉันขอร้องให้คุณทบทวนการตัดสินใจของคุณใหม่', collocations: ['urge someone to do sth', 'a strong urge', 'resist the urge'] },
+            { word: 'Unite', forms: { v1: 'Unite', v2: 'United', v3: 'United', ving: 'Uniting' }, pronunciation: 'ยู-<u>ไนท์</u>', meaning: 'รวมกัน', example_en: 'We must unite to fight for our rights.', example_th: 'เราต้องรวมตัวกันเพื่อต่อสู้เพื่อสิทธิของเรา', collocations: ['unite against', 'unite for a cause', 'United Kingdom'] },
+        ],
+        'V': [
+            { word: 'Visit', forms: { v1: 'Visit', v2: 'Visited', v3: 'Visited', ving: 'Visiting' }, pronunciation: '<u>วิ</u>-สิท', meaning: 'เยี่ยม', example_en: 'I am going to visit my grandparents.', example_th: 'ฉันกำลังจะไปเยี่ยมคุณปู่คุณย่า', collocations: ['pay a visit', 'a short visit', 'a return visit'] },
+            { word: 'Value', forms: { v1: 'Value', v2: 'Valued', v3: 'Valued', ving: 'Valuing' }, pronunciation: '<u>แว</u>-ลิว', meaning: 'ให้คุณค่า', example_en: 'I value your friendship.', example_th: 'ฉันให้คุณค่ากับมิตรภาพของเรา', collocations: ['good value for money', 'a core value', 'of great value'] },
+            { word: 'Vanish', forms: { v1: 'Vanish', v2: 'Vanished', v3: 'Vanished', ving: 'Vanishing' }, pronunciation: '<u>แว</u>-นิช', meaning: 'หายไป', example_en: 'The magician made the rabbit vanish.', example_th: 'นักมายากลทำให้กระต่ายหายตัวไป', collocations: ['vanish into thin air', 'suddenly vanish', 'a vanishing species'] },
+            { word: 'Vary', forms: { v1: 'Vary', v2: 'Varied', v3: 'Varied', ving: 'Varying' }, pronunciation: '<u>แว</u>-รี่', meaning: 'แตกต่างกันไป', example_en: 'Prices vary depending on the season.', example_th: 'ราคาจะแตกต่างกันไปขึ้นอยู่กับฤดูกาล', collocations: ['vary widely', 'a varied diet', 'opinions vary'] },
+            { word: 'Volunteer', forms: { v1: 'Volunteer', v2: 'Volunteered', v3: 'Volunteered', ving: 'Volunteering' }, pronunciation: 'วอ-ลัน-<u>เทียร์</u>', meaning: 'อาสา', example_en: 'She volunteered to help at the shelter.', example_th: 'เธออาสาไปช่วยที่ศูนย์พักพิง', collocations: ['volunteer work', 'volunteer for', 'a team of volunteers'] },
+            { word: 'Vote', forms: { v1: 'Vote', v2: 'Voted', v3: 'Voted', ving: 'Voting' }, pronunciation: 'โหวต', meaning: 'ลงคะแนน', example_en: 'Who did you vote for in the election?', example_th: 'คุณลงคะแนนให้ใครในการเลือกตั้ง', collocations: ['vote for/against', 'cast a vote', 'the right to vote'] },
+        ],
+        'W': [
+            { word: 'Wait', forms: { v1: 'Wait', v2: 'Waited', v3: 'Waited', ving: 'Waiting' }, pronunciation: 'เวท', meaning: 'รอ', example_en: 'Please wait for me.', example_th: 'กรุณารอฉันด้วย', collocations: ['wait for', 'can\'t wait', 'wait and see'] },
+            { word: 'Wake', forms: { v1: 'Wake', v2: 'Woke', v3: 'Woken', ving: 'Waking' }, pronunciation: 'เวค', meaning: 'ปลุก, ตื่น', example_en: 'Wake up! It\'s morning.', example_th: 'ตื่นได้แล้ว! เช้าแล้ว', collocations: ['wake up', 'a rude awakening', 'wake-up call'] },
+            { word: 'Walk', forms: { v1: 'Walk', v2: 'Walked', v3: 'Walked', ving: 'Walking' }, pronunciation: 'วอล์ค', meaning: 'เดิน', example_en: 'I walk to school every day.', example_th: 'ฉันเดินไปโรงเรียนทุกวัน', collocations: ['go for a walk', 'walk the dog', 'a cakewalk'] },
+            { word: 'Want', forms: { v1: 'Want', v2: 'Wanted', v3: 'Wanted', ving: 'Wanting' }, pronunciation: 'วอนท์', meaning: 'ต้องการ', example_en: 'What do you want to do?', example_th: 'คุณต้องการทำอะไร', collocations: ['I want to', 'if you want', 'a wanted man'] },
+            { word: 'Warn', forms: { v1: 'Warn', v2: 'Warned', v3: 'Warned', ving: 'Warning' }, pronunciation: 'วอร์น', meaning: 'เตือน', example_en: 'I must warn you about the danger.', example_th: 'ฉันต้องเตือนคุณเกี่ยวกับอันตราย', collocations: ['warn someone about', 'a warning sign', 'without warning'] },
+            { word: 'Wash', forms: { v1: 'Wash', v2: 'Washed', v3: 'Washed', ving: 'Washing' }, pronunciation: 'วอช', meaning: 'ล้าง', example_en: 'You need to wash your hands.', example_th: 'คุณต้องล้างมือนะ', collocations: ['wash your hands', 'wash the dishes', 'car wash'] },
+            { word: 'Watch', forms: { v1: 'Watch', v2: 'Watched', v3: 'Watched', ving: 'Watching' }, pronunciation: 'วอทช์', meaning: 'ดู', example_en: 'I like to watch movies.', example_th: 'ฉันชอบดูหนัง', collocations: ['watch TV', 'watch out', 'on my watch'] },
+            { word: 'Wear', forms: { v1: 'Wear', v2: 'Wore', v3: 'Worn', ving: 'Wearing' }, pronunciation: 'แวร์', meaning: 'สวมใส่', example_en: 'What are you wearing to the party?', example_th: 'คุณจะใส่อะไรไปงานปาร์ตี้', collocations: ['wear clothes', 'wear out', 'wear and tear'] },
+            { word: 'Weigh', forms: { v1: 'Weigh', v2: 'Weighed', v3: 'Weighed', ving: 'Weighing' }, pronunciation: 'เวย์', meaning: 'ชั่งน้ำหนัก', example_en: 'How much do you weigh?', example_th: 'คุณหนักเท่าไหร่', collocations: ['weigh the pros and cons', 'weigh on your mind', 'weigh your words'] },
+            { word: 'Welcome', forms: { v1: 'Welcome', v2: 'Welcomed', v3: 'Welcomed', ving: 'Welcoming' }, pronunciation: '<u>เวล</u>-คัม', meaning: 'ต้อนรับ', example_en: 'We are here to welcome you.', example_th: 'เราอยู่ที่นี่เพื่อต้อนรับคุณ', collocations: ['you\'re welcome', 'a warm welcome', 'welcome someone with open arms'] },
+            { word: 'Win', forms: { v1: 'Win', v2: 'Won', v3: 'Won', ving: 'Winning' }, pronunciation: 'วิน', meaning: 'ชนะ', example_en: 'I hope our team will win.', example_th: 'ฉันหวังว่าทีมของเราจะชนะ', collocations: ['win a prize', 'a win-win situation', 'you can\'t win them all'] },
+            { word: 'Wish', forms: { v1: 'Wish', v2: 'Wished', v3: 'Wished', ving: 'Wishing' }, pronunciation: 'วิช', meaning: 'หวัง, ปรารถนา', example_en: 'I wish I could fly.', example_th: 'ฉันหวังว่าฉันจะบินได้', collocations: ['make a wish', 'best wishes', 'wish you were here'] },
+            { word: 'Work', forms: { v1: 'Work', v2: 'Worked', v3: 'Worked', ving: 'Working' }, pronunciation: 'เวิร์ค', meaning: 'ทำงาน', example_en: 'I have to work late tonight.', example_th: 'คืนนี้ฉันต้องทำงานดึก', collocations: ['go to work', 'hard work', 'work out'] },
+            { word: 'Worry', forms: { v1: 'Worry', v2: 'Worried', v3: 'Worried', ving: 'Worrying' }, pronunciation: '<u>เวอ</u>-รี่', meaning: 'กังวล', example_en: 'Don\'t worry, be happy.', example_th: 'อย่ากังวลเลย มีความสุขเถอะ', collocations: ['don\'t worry', 'worry about', 'no worries'] },
+            { word: 'Write', forms: { v1: 'Write', v2: 'Wrote', v3: 'Written', ving: 'Writing' }, pronunciation: 'ไรท์', meaning: 'เขียน', example_en: 'Please write your name here.', example_th: 'กรุณาเขียนชื่อของคุณที่นี่', collocations: ['write a letter', 'write down', 'in writing'] },
+        ],
+        'X': [
+            { word: 'Xerox', forms: { v1: 'Xerox', v2: 'Xeroxed', v3: 'Xeroxed', ving: 'Xeroxing' }, pronunciation: '<u>ซี</u>-ร็อกซ์', meaning: 'ถ่ายเอกสาร', example_en: 'Could you Xerox this document for me?', example_th: 'คุณช่วยถ่ายเอกสารฉบับนี้ให้ฉันหน่อยได้ไหม', collocations: ['make a Xerox copy', 'the Xerox machine', 'Xerox a page'] },
+        ],
+        'Y': [
+            { word: 'Yawn', forms: { v1: 'Yawn', v2: 'Yawned', v3: 'Yawned', ving: 'Yawning' }, pronunciation: 'ยอน', meaning: 'หาว', example_en: 'He yawned because he was sleepy.', example_th: 'เขาหาวเพราะเขาง่วง', collocations: ['a big yawn', 'stifle a yawn', 'a contagious yawn'] },
+            { word: 'Yell', forms: { v1: 'Yell', v2: 'Yelled', v3: 'Yelled', ving: 'Yelling' }, pronunciation: 'เยล', meaning: 'ตะโกน', example_en: 'There is no need to yell.', example_th: 'ไม่จำเป็นต้องตะโกน', collocations: ['yell at someone', 'yell for help', 'a loud yell'] },
+        ],
+        'Z': [
+            { word: 'Zip', forms: { v1: 'Zip', v2: 'Zipped', v3: 'Zipped', ving: 'Zipping' }, pronunciation: 'ซิป', meaning: 'รูดซิป', example_en: 'Can you help me zip up my dress?', example_th: 'คุณช่วยฉันรูดซิปชุดของฉันหน่อยได้ไหม', collocations: ['zip up', 'zip your lip', 'zip code'] },
+            { word: 'Zoom', forms: { v1: 'Zoom', v2: 'Zoomed', v3: 'Zoomed', ving: 'Zooming' }, pronunciation: 'ซูม', meaning: 'ซูมเข้า/ออก, เคลื่อนที่เร็ว', example_en: 'The car zoomed past us.', example_th: 'รถคันนั้นวิ่งผ่านพวกเราไปอย่างรวดเร็ว', collocations: ['zoom in', 'zoom out', 'a Zoom meeting'] },
+        ]
+    };
+
+    // --- SCRIPT LOGIC ---
+    document.addEventListener('DOMContentLoaded', () => {
+        const vocabGrid = document.getElementById('vocab-grid');
+        const letterSelector = document.getElementById('letter-selector');
+        const modal = document.getElementById('vocab-modal');
+        const modalBox = document.getElementById('modal-box');
+        const closeModalBtn = document.getElementById('close-modal');
+        const currentLetterDisplay = document.getElementById('current-letter-display');
+        const currentLetterText = document.getElementById('current-letter-text');
+        const currentLetterTitle = document.getElementById('current-letter-title');
+        const modalWord = document.getElementById('modal-word');
+        const modalPronunciation = document.getElementById('modal-pronunciation');
+        const modalMeaning = document.getElementById('modal-meaning');
+        const modalExampleEn = document.getElementById('modal-example-en');
+        const modalExampleTh = document.getElementById('modal-example-th');
+        const modalCollocations = document.getElementById('modal-collocations');
+        const modalV1 = document.getElementById('modal-v1');
+        const modalV2 = document.getElementById('modal-v2');
+        const modalV3 = document.getElementById('modal-v3');
+        const modalVing = document.getElementById('modal-ving');
+
+        const letterDisplayColors = {
+            'A-E': 'from-red-400 to-orange-400',
+            'F-J': 'from-lime-400 to-green-500',
+            'K-O': 'from-cyan-400 to-blue-500',
+            'P-T': 'from-fuchsia-500 to-purple-600',
+            'U-Z': 'from-rose-400 to-red-500',
         };
 
-        // --- APPLICATION LOGIC ---
-        document.addEventListener('DOMContentLoaded', function() {
-            const tabNavigation = document.getElementById('tab-navigation');
-            const tabContent = document.getElementById('tab-content');
-            const modal = document.getElementById('modal');
-            const modalCloseBtn = document.getElementById('modal-close-btn');
-            const modalVerb = document.getElementById('modal-verb');
-            const modalMeaning = document.getElementById('modal-meaning');
-            const modalStructure = document.getElementById('modal-structure');
-            const modalExamples = document.getElementById('modal-examples');
-            
-            const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split('');
-            let firstTab = true;
+        const buttonColors = [
+            'bg-amber-500 hover:bg-amber-600', 'bg-orange-500 hover:bg-orange-600',
+            'bg-lime-500 hover:bg-lime-600', 'bg-green-500 hover:bg-green-600',
+            'bg-emerald-500 hover:bg-emerald-600', 'bg-teal-500 hover:bg-teal-600',
+            'bg-cyan-500 hover:bg-cyan-600', 'bg-sky-500 hover:bg-sky-600'
+        ];
 
-            // 1. Generate Tabs and Content Panels
-            alphabet.forEach(letter => {
-                const verbs = verbData[letter];
+        function getLetterGroupColor(letter) {
+            const charCode = letter.charCodeAt(0);
+            if (charCode <= 'E'.charCodeAt(0)) return letterDisplayColors['A-E'];
+            if (charCode <= 'J'.charCodeAt(0)) return letterDisplayColors['F-J'];
+            if (charCode <= 'O'.charCodeAt(0)) return letterDisplayColors['K-O'];
+            if (charCode <= 'T'.charCodeAt(0)) return letterDisplayColors['P-T'];
+            return letterDisplayColors['U-Z'];
+        }
 
-                // Only create a tab if there is data for that letter
-                if (verbs && verbs.length > 0) {
-                    // Create Tab Button
-                    const tabBtn = document.createElement('button');
-                    tabBtn.className = `tab-btn font-bold font-poppins py-2 px-4 rounded-full text-sm md:text-base ${firstTab ? 'active' : 'bg-white text-gray-600'}`;
-                    tabBtn.textContent = letter;
-                    tabBtn.dataset.target = `panel-${letter}`;
-                    tabNavigation.appendChild(tabBtn);
-
-                    // Create Content Panel
-                    const panel = document.createElement('div');
-                    panel.id = `panel-${letter}`;
-                    panel.className = `verb-panel ${firstTab ? '' : 'hidden'}`;
-                    
-                    const grid = document.createElement('div');
-                    grid.className = 'grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 md:gap-4';
-                    
-                    verbs.forEach(verbInfo => {
-                        const verbBtn = document.createElement('button');
-                        verbBtn.className = 'verb-btn bg-white p-4 rounded-xl text-indigo-700 font-semibold text-center';
-                        verbBtn.textContent = verbInfo.verb;
-                        
-                        verbBtn.dataset.verb = verbInfo.verb;
-                        verbBtn.dataset.meaning = verbInfo.meaning;
-                        verbBtn.dataset.structure = JSON.stringify(verbInfo.structure);
-                        verbBtn.dataset.examples = JSON.stringify(verbInfo.examples);
-
-                        grid.appendChild(verbBtn);
-                    });
-
-                    panel.appendChild(grid);
-                    tabContent.appendChild(panel);
-
-                    firstTab = false; 
+        function displayLetters() {
+            const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split('');
+            letters.forEach(letter => {
+                const button = document.createElement('button');
+                button.textContent = letter;
+                button.dataset.letter = letter;
+                const hasContent = vocabData[letter] && vocabData[letter].length > 0;
+                button.className = `letter-btn font-poppins font-bold w-10 h-10 sm:w-11 sm:h-11 rounded-full text-gray-600 transition-all duration-300 focus:outline-none ${hasContent ? 'bg-gray-200 hover:bg-amber-300' : 'bg-gray-100 text-gray-400 cursor-not-allowed'}`;
+                if (hasContent) {
+                    button.addEventListener('click', () => switchLetter(letter));
                 }
+                letterSelector.appendChild(button);
             });
+        }
 
-            // 2. Tab Switching Logic
-            tabNavigation.addEventListener('click', (e) => {
-                if (e.target.matches('.tab-btn')) {
-                    document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-                    document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.add('bg-white', 'text-gray-600'));
-                    
-                    document.querySelectorAll('.verb-panel').forEach(panel => panel.classList.add('hidden'));
+        function switchLetter(letter) {
+            currentLetterText.textContent = letter;
+            currentLetterTitle.textContent = `คำกริยาหมวด ${letter}`;
+            currentLetterDisplay.className = `w-16 h-16 bg-gradient-to-br ${getLetterGroupColor(letter)} flex items-center justify-center rounded-xl shadow-lg transition-all duration-300`;
+            document.querySelectorAll('.letter-btn').forEach(btn => btn.classList.toggle('active', btn.dataset.letter === letter));
+            displayWords(letter);
+        }
 
-                    e.target.classList.add('active');
-                    e.target.classList.remove('bg-white', 'text-gray-600');
-                    
-                    const targetPanelId = e.target.dataset.target;
-                    document.getElementById(targetPanelId).classList.remove('hidden');
-                }
+        function displayWords(letter) {
+            vocabGrid.innerHTML = ''; 
+            const words = vocabData[letter] || [];
+            words.forEach((item, index) => {
+                const button = document.createElement('button');
+                button.textContent = item.word;
+                const colorClass = buttonColors[index % buttonColors.length];
+                button.className = `font-poppins text-white font-semibold py-4 px-2 rounded-lg shadow-md transition-transform transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-opacity-50 ${colorClass}`;
+                button.addEventListener('click', () => openModal(item));
+                vocabGrid.appendChild(button);
             });
+        }
 
-            // 3. Modal Opening Logic
-            tabContent.addEventListener('click', (e) => {
-                if (e.target.matches('.verb-btn')) {
-                    const buttonData = e.target.dataset;
-                    
-                    modalVerb.textContent = buttonData.verb;
-                    modalMeaning.textContent = buttonData.meaning;
-                    
-                    modalStructure.innerHTML = '';
-                    modalExamples.innerHTML = '';
-
-                    const structures = JSON.parse(buttonData.structure);
-                    structures.forEach(s => {
-                        const p = document.createElement('p');
-                        p.className = 'font-mono bg-gray-100 p-2 rounded-md text-sm text-fuchsia-800';
-                        p.textContent = s;
-                        modalStructure.appendChild(p);
-                    });
-
-                    const examples = JSON.parse(buttonData.examples);
-                    examples.forEach(ex => {
-                        const p = document.createElement('p');
-                        p.innerHTML = `<span class="font-semibold">${ex[0]}</span><br><span class="text-sm text-gray-500">${ex[1]}</span>`;
-                        modalExamples.appendChild(p);
-                    });
-
-                    modal.classList.remove('hidden');
-                    document.body.style.overflow = 'hidden'; 
-                }
+        function openModal(wordData) {
+            modalWord.textContent = wordData.word;
+            modalV1.textContent = wordData.forms.v1;
+            modalV2.textContent = wordData.forms.v2;
+            modalV3.textContent = wordData.forms.v3;
+            modalVing.textContent = wordData.forms.ving;
+            modalPronunciation.innerHTML = wordData.pronunciation;
+            modalMeaning.textContent = wordData.meaning;
+            modalExampleEn.textContent = `"${wordData.example_en}"`;
+            modalExampleTh.textContent = `(${wordData.example_th})`;
+            modalCollocations.innerHTML = '';
+            wordData.collocations.forEach(collocation => {
+                const li = document.createElement('li');
+                li.className = "flex items-start";
+                li.innerHTML = `<span class="text-amber-500 mr-2 mt-1">&#10004;</span> <span class="text-gray-600">${collocation}</span>`;
+                modalCollocations.appendChild(li);
             });
+            modal.classList.remove('hidden');
+            modalBox.classList.add('modal-enter');
+        }
 
-            // 4. Modal Closing Logic
-            function closeModal() {
-                modal.classList.add('hidden');
-                document.body.style.overflow = '';
-            }
-
-            modalCloseBtn.addEventListener('click', closeModal);
-            modal.addEventListener('click', (e) => {
-                if (e.target.id === 'modal') {
-                    closeModal();
-                }
-            });
-            document.addEventListener('keydown', (e) => {
-                if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
-                    closeModal();
-                }
-            });
+        function closeModal() {
+            modal.classList.add('hidden');
+            modalBox.classList.remove('modal-enter');
+        }
+        
+        closeModalBtn.addEventListener('click', closeModal);
+        modal.addEventListener('click', (event) => {
+            if (event.target === modal) closeModal();
         });
+
+        displayLetters();
+        switchLetter('A');
+    });
     </script>
 </body>
 </html>

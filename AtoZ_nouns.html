@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mr. Vocab's Noun-cyclopedia (A-Z Complete!)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'IBM Plex Sans Thai', sans-serif;
+            background: linear-gradient(135deg, #89f7fe 0%, #66a6ff 100%);
+        }
+        .font-poppins {
+            font-family: 'Poppins', sans-serif;
+        }
+        #modal-content::-webkit-scrollbar { width: 8px; }
+        #modal-content::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 10px; }
+        #modal-content::-webkit-scrollbar-thumb { background: #888; border-radius: 10px; }
+        #modal-content::-webkit-scrollbar-thumb:hover { background: #555; }
+        .modal-enter { animation: fadeIn 0.3s ease-out; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        .letter-btn.active {
+            background-color: #0ea5e9; /* sky-500 */
+            color: white;
+            transform: scale(1.1);
+            box-shadow: 0 4px 14px 0 rgb(14 165 233 / 39%);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-2 sm:p-4">
+
+    <main class="w-full max-w-6xl bg-white/70 backdrop-blur-sm rounded-2xl shadow-2xl p-4 md:p-8">
+        
+        <header class="text-center mb-6">
+            <h1 class="font-poppins text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-sky-500 to-blue-600">Noun-cyclopedia</h1>
+            <p class="text-lg text-gray-600 mt-2">คลังคำนาม A-Z ที่ใช้บ่อยในชีวิตประจำวัน (ฉบับสมบูรณ์)</p>
+        </header>
+
+        <section>
+            <h2 class="text-xl font-bold text-gray-700 mb-4 text-center">เลือกหมวดหมู่ตัวอักษร</h2>
+            <div id="letter-selector" class="flex flex-wrap justify-center gap-1.5 sm:gap-2 md:gap-3 mb-8">
+                </div>
+            
+            <div class="flex items-center gap-4 mb-6">
+                <div id="current-letter-display" class="w-16 h-16 bg-gradient-to-br flex items-center justify-center rounded-xl shadow-lg transition-all duration-300">
+                    <span id="current-letter-text" class="font-poppins text-5xl font-bold text-white">A</span>
+                </div>
+                <h2 id="current-letter-title" class="text-2xl md:text-3xl font-bold text-gray-700">คำนามหมวด A</h2>
+            </div>
+            
+            <div id="vocab-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 min-h-[200px]">
+                </div>
+        </section>
+
+    </main>
+
+    <div id="vocab-modal" class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center p-4 z-50 hidden">
+        <div id="modal-box" class="bg-white rounded-2xl shadow-xl w-full max-w-md mx-auto relative modal-enter">
+            <button id="close-modal" class="absolute -top-3 -right-3 bg-red-500 hover:bg-red-600 text-white w-9 h-9 rounded-full flex items-center justify-center text-xl font-bold transition transform hover:scale-110 z-10">&times;</button>
+            <div id="modal-content" class="p-6 md:p-8 max-h-[80vh] overflow-y-auto">
+                <h3 id="modal-word" class="font-poppins text-4xl font-bold text-center text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-teal-400 mb-4">Word</h3>
+                <div class="space-y-5">
+                    <div>
+                        <h4 class="font-bold text-gray-700 text-lg">คำอ่าน (Pronunciation)</h4>
+                        <p id="modal-pronunciation" class="text-gray-600 bg-gray-100 p-3 rounded-lg"></p>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-gray-700 text-lg">ความหมาย (Meaning)</h4>
+                        <p id="modal-meaning" class="text-gray-600"></p>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-gray-700 text-lg">ตัวอย่างประโยค (Example)</h4>
+                        <div class="border-l-4 border-teal-400 pl-4">
+                            <p id="modal-example-en" class="text-gray-800 italic"></p>
+                            <p id="modal-example-th" class="text-gray-500 text-sm"></p>
+                        </div>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-gray-700 text-lg">คำที่มักใช้ร่วมกัน (Collocations)</h4>
+                        <ul id="modal-collocations" class="list-none space-y-2 mt-2"></ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    // --- DATA SOURCE (A-Z COMPLETE) ---
+    const vocabData = {
+        'A': [
+            { word: 'Ability', pronunciation: 'เอ-<u>บิ๊</u>-ลิ-ตี้', meaning: 'ความสามารถ', example_en: 'He has the ability to solve complex problems.', example_th: 'เขามีความสามารถในการแก้ปัญหาที่ซับซ้อน', collocations: ['natural ability', 'proven ability', 'lack the ability'] },
+            { word: 'Accident', pronunciation: '<u>แอ๊ค</u>-ซิ-เด้นท์', meaning: 'อุบัติเหตุ', example_en: 'There was a car accident on the main road.', example_th: 'เกิดอุบัติเหตุทางรถยนต์บนถนนสายหลัก', collocations: ['car accident', 'fatal accident', 'by accident'] },
+            { word: 'Address', pronunciation: 'เอ-<u>เดรส</u>', meaning: 'ที่อยู่', example_en: 'Can you give me your email address?', example_th: 'คุณช่วยให้ที่อยู่อีเมลของคุณได้ไหม', collocations: ['email address', 'home address', 'change of address'] },
+            { word: 'Advice', pronunciation: 'แอด-<u>ไว๊ซ์</u>', meaning: 'คำแนะนำ', example_en: 'Let me give you a piece of advice.', example_th: 'ให้ฉันให้คำแนะนำคุณสักหน่อยนะ', collocations: ['good advice', 'seek advice', 'a piece of advice'] },
+            { word: 'Afternoon', pronunciation: '<u>อาฟ</u>-เท่อะ-นูน', meaning: 'ตอนบ่าย', example_en: 'I have a meeting this afternoon.', example_th: 'ฉันมีประชุมตอนบ่ายนี้', collocations: ['this afternoon', 'yesterday afternoon', 'in the afternoon'] },
+            { word: 'Age', pronunciation: 'เอจ', meaning: 'อายุ', example_en: 'What is your age?', example_th: 'คุณอายุเท่าไหร่', collocations: ['retirement age', 'at the age of', 'middle age'] },
+            { word: 'Air', pronunciation: 'แอร์', meaning: 'อากาศ', example_en: 'I need to get some fresh air.', example_th: 'ฉันต้องการออกไปสูดอากาศบริสุทธิ์', collocations: ['fresh air', 'by air', 'on the air'] },
+            { word: 'Airport', pronunciation: '<u>แอร์</u>-พอร์ท', meaning: 'สนามบิน', example_en: 'We need to be at the airport two hours before the flight.', example_th: 'เราต้องไปถึงสนามบินก่อนเที่ยวบินสองชั่วโมง', collocations: ['international airport', 'airport security', 'arrive at the airport'] },
+            { word: 'Animal', pronunciation: '<u>แอ๊</u>-นิ-มอล', meaning: 'สัตว์', example_en: 'A dog is a domestic animal.', example_th: 'สุนัขเป็นสัตว์เลี้ยงในบ้าน', collocations: ['wild animal', 'farm animal', 'animal lover'] },
+            { word: 'Answer', pronunciation: '<u>อาน</u>-เซ่อะ', meaning: 'คำตอบ', example_en: 'I don’t know the answer to your question.', example_th: 'ฉันไม่รู้คำตอบสำหรับคำถามของคุณ', collocations: ['right answer', 'give an answer', 'look for an answer'] },
+            { word: 'Apartment', pronunciation: 'เอ-<u>พาร์ท</u>-เม้นท์', meaning: 'ห้องชุด, อพาร์ตเมนต์', example_en: 'She lives in a small apartment in the city.', example_th: 'เธออาศัยอยู่ในอพาร์ตเมนต์เล็กๆ ในเมือง', collocations: ['rent an apartment', 'apartment building', 'studio apartment'] },
+            { word: 'Apple', pronunciation: '<u>แอ๊พ</u>-เพิ่ล', meaning: 'แอปเปิ้ล', example_en: 'An apple a day keeps the doctor away.', example_th: 'ทานแอปเปิ้ลวันละผลช่วยให้ห่างไกลหมอ', collocations: ['apple pie', 'apple juice', 'rotten apple'] },
+            { word: 'Area', pronunciation: '<u>แอ</u>-เรีย', meaning: 'พื้นที่, บริเวณ', example_en: 'This is a residential area.', example_th: 'ที่นี่เป็นเขตที่พักอาศัย', collocations: ['local area', 'rural area', 'parking area'] },
+            { word: 'Arm', pronunciation: 'อาร์ม', meaning: 'แขน', example_en: 'He broke his arm playing football.', example_th: 'เขาแขนหักจากการเล่นฟุตบอล', collocations: ['open arms', 'right arm', 'with arms crossed'] },
+            { word: 'Art', pronunciation: 'อาร์ท', meaning: 'ศิลปะ', example_en: 'I studied art and design in college.', example_th: 'ฉันเรียนศิลปะและการออกแบบในวิทยาลัย', collocations: ['modern art', 'art gallery', 'work of art'] },
+            { word: 'Article', pronunciation: '<u>อาร์</u>-ทิ-เคิ่ล', meaning: 'บทความ', example_en: 'I read an interesting article about climate change.', example_th: 'ฉันได้อ่านบทความที่น่าสนใจเกี่ยวกับการเปลี่ยนแปลงสภาพภูมิอากาศ', collocations: ['news article', 'write an article', 'online article'] },
+            { word: 'Aunt', pronunciation: 'อานท', meaning: 'ป้า, น้า, อา (ผู้หญิง)', example_en: 'My aunt lives in Chiang Mai.', example_th: 'ป้าของฉันอาศัยอยู่ที่เชียงใหม่', collocations: ['favorite aunt', 'visit my aunt', 'aunt and uncle'] },
+            { word: 'Author', pronunciation: '<u>ออ</u>-เธ่อะ', meaning: 'นักเขียน, ผู้ประพันธ์', example_en: 'J.K. Rowling is a famous author.', example_th: 'เจ.เค. โรว์ลิ่ง คือนักเขียนชื่อดัง', collocations: ['famous author', 'favorite author', 'guest author'] },
+            { word: 'Autumn', pronunciation: '<u>ออ</u>-ทั่ม', meaning: 'ฤดูใบไม้ร่วง', example_en: 'The leaves are beautiful in autumn.', example_th: 'ใบไม้สวยงามมากในฤดูใบไม้ร่วง', collocations: ['early autumn', 'autumn leaves', 'autumn colors'] },
+            { word: 'Award', pronunciation: 'เอ-<u>หวอร์ด</u>', meaning: 'รางวัล', example_en: 'She won an award for her new book.', example_th: 'เธอได้รับรางวัลสำหรับหนังสือเล่มใหม่ของเธอ', collocations: ['win an award', 'receive an award', 'award ceremony'] }
+        ],
+        'B': [
+            { word: 'Baby', pronunciation: '<u>เบ๊</u>-บิ', meaning: 'ทารก', example_en: 'The baby is sleeping in the crib.', example_th: 'ทารกกำลังนอนหลับอยู่ในเปล', collocations: ['newborn baby', 'baby food', 'have a baby'] },
+            { word: 'Back', pronunciation: 'แบค', meaning: 'หลัง, ด้านหลัง', example_en: 'I hurt my back lifting a heavy box.', example_th: 'ฉันเจ็บหลังตอนยกกล่องหนัก', collocations: ['turn your back', 'behind someone\'s back', 'back door'] },
+            { word: 'Bag', pronunciation: 'แบก', meaning: 'กระเป๋า', example_en: 'Don\'t forget your school bag.', example_th: 'อย่าลืมกระเป๋านักเรียนของคุณ', collocations: ['shopping bag', 'handbag', 'pack a bag'] },
+            { word: 'Ball', pronunciation: 'บอล', meaning: 'ลูกบอล', example_en: 'The children are playing with a ball.', example_th: 'เด็กๆ กำลังเล่นกับลูกบอล', collocations: ['football', 'basketball', 'throw a ball'] },
+            { word: 'Banana', pronunciation: 'เบอะ-<u>แน๊</u>-เนอะ', meaning: 'กล้วย', example_en: 'A banana is a good source of potassium.', example_th: 'กล้วยเป็นแหล่งโพแทสเซียมที่ดี', collocations: ['bunch of bananas', 'banana peel', 'banana smoothie'] },
+            { word: 'Bank', pronunciation: 'แบงค์', meaning: 'ธนาคาร', example_en: 'I need to go to the bank to deposit some money.', example_th: 'ฉันต้องไปธนาคารเพื่อฝากเงิน', collocations: ['investment bank', 'open an account', 'river bank'] },
+            { word: 'Bed', pronunciation: 'เบด', meaning: 'เตียงนอน', example_en: 'It\'s time to go to bed.', example_th: 'ได้เวลาไปนอนแล้ว', collocations: ['make the bed', 'go to bed', 'double bed'] },
+            { word: 'Bicycle', pronunciation: '<u>ไบ๊</u>-ซิ-เคิ่ล', meaning: 'จักรยาน', example_en: 'He rides his bicycle to work.', example_th: 'เขาขี่จักรยานไปทำงาน', collocations: ['ride a bicycle', 'mountain bike', 'bicycle lane'] },
+            { word: 'Bird', pronunciation: 'เบิร์ด', meaning: 'นก', example_en: 'I can hear a bird singing outside.', example_th: 'ฉันได้ยินเสียงนกร้องอยู่ข้างนอก', collocations: ['early bird', 'flock of birds', 'watch birds'] },
+            { word: 'Boat', pronunciation: 'โบท', meaning: 'เรือ', example_en: 'We took a boat trip on the lake.', example_th: 'เราไปล่องเรือในทะเลสาบ', collocations: ['fishing boat', 'take a boat', 'rock the boat'] },
+            { word: 'Body', pronunciation: '<u>บ๊อ</u>-ดิ', meaning: 'ร่างกาย', example_en: 'Exercise is good for your body and mind.', example_th: 'การออกกำลังกายดีต่อร่างกายและจิตใจของคุณ', collocations: ['human body', 'body language', 'full-body workout'] },
+            { word: 'Book', pronunciation: 'บุ๊ค', meaning: 'หนังสือ', example_en: 'I am reading a very interesting book.', example_th: 'ฉันกำลังอ่านหนังสือที่น่าสนใจมาก', collocations: ['read a book', 'comic book', 'book a table'] },
+            { word: 'Bottle', pronunciation: '<u>บ๊อท</u>-เทิ่ล', meaning: 'ขวด', example_en: 'Please recycle the plastic bottle.', example_th: 'กรุณารีไซเคิลขวดพลาสติก', collocations: ['water bottle', 'bottle of wine', 'bottle opener'] },
+            { word: 'Box', pronunciation: 'บ็อกซ์', meaning: 'กล่อง', example_en: 'The present is in the big box.', example_th: 'ของขวัญอยู่ในกล่องใบใหญ่', collocations: ['cardboard box', 'lunch box', 'think outside the box'] },
+            { word: 'Boy', pronunciation: 'บอย', meaning: 'เด็กผู้ชาย', example_en: 'The little boy is playing with his toys.', example_th: 'เด็กชายตัวน้อยกำลังเล่นกับของเล่นของเขา', collocations: ['little boy', 'baby boy', 'a group of boys'] },
+            { word: 'Bread', pronunciation: 'เบรด', meaning: 'ขนมปัง', example_en: 'I eat bread and jam for breakfast.', example_th: 'ฉันกินขนมปังกับแยมเป็นอาหารเช้า', collocations: ['slice of bread', 'white bread', 'bread and butter'] },
+            { word: 'Brother', pronunciation: '<u>บร๊ะ</u>-เธ่อะ', meaning: 'พี่ชาย, น้องชาย', example_en: 'My brother is older than me.', example_th: 'พี่ชายของฉันแก่กว่าฉัน', collocations: ['older brother', 'younger brother', 'like a brother'] },
+            { word: 'Building', pronunciation: '<u>บิ๊ล</u>-ดิ้ง', meaning: 'ตึก, อาคาร', example_en: 'The Empire State Building is a famous landmark.', example_th: 'ตึกเอ็มไพร์สเตทเป็นสถานที่สำคัญที่มีชื่อเสียง', collocations: ['office building', 'tall building', 'construct a building'] },
+            { word: 'Bus', pronunciation: 'บัส', meaning: 'รถโดยสารประจำทาง', example_en: 'I take the bus to school every day.', example_th: 'ฉันนั่งรถบัสไปโรงเรียนทุกวัน', collocations: ['school bus', 'take the bus', 'bus stop'] },
+            { word: 'Business', pronunciation: '<u>บิ๊ส</u>-เนส', meaning: 'ธุรกิจ', example_en: 'She started her own business last year.', example_th: 'เธอเริ่มธุรกิจของตัวเองเมื่อปีที่แล้ว', collocations: ['small business', 'do business', 'business trip'] }
+        ],
+        'C': [
+            { word: 'Cake', pronunciation: 'เค้ก', meaning: 'เค้ก', example_en: 'We had a chocolate cake for my birthday.', example_th: 'เรามีเค้กช็อกโกแลตสำหรับวันเกิดของฉัน', collocations: ['birthday cake', 'a piece of cake', 'bake a cake'] },
+            { word: 'Camera', pronunciation: '<u>แค</u>-เม-ร่า', meaning: 'กล้องถ่ายรูป', example_en: 'I bought a new digital camera.', example_th: 'ฉันซื้อกล้องดิจิทัลใหม่', collocations: ['digital camera', 'take a picture', 'camera lens'] },
+            { word: 'Car', pronunciation: 'คาร์', meaning: 'รถยนต์', example_en: 'My car is parked outside.', example_th: 'รถของฉันจอดอยู่ข้างนอก', collocations: ['drive a car', 'sports car', 'car park'] },
+            { word: 'Cat', pronunciation: 'แคท', meaning: 'แมว', example_en: 'My cat loves to sleep on the sofa.', example_th: 'แมวของฉันชอบนอนบนโซฟา', collocations: ['pet a cat', 'stray cat', 'let the cat out of the bag'] },
+            { word: 'Chair', pronunciation: 'แชร์', meaning: 'เก้าอี้', example_en: 'Please have a seat on that chair.', example_th: 'กรุณานั่งบนเก้าอี้นั้น', collocations: ['pull up a chair', 'armchair', 'wheelchair'] },
+            { word: 'Cheese', pronunciation: 'ชีส', meaning: 'เนยแข็ง', example_en: 'I like to put cheese on my pizza.', example_th: 'ฉันชอบใส่ชีสบนพิซซ่าของฉัน', collocations: ['slice of cheese', 'say cheese!', 'cheese sandwich'] },
+            { word: 'Child', pronunciation: 'ไชลด์', meaning: 'เด็ก', example_en: 'Every child has the right to education.', example_th: 'เด็กทุกคนมีสิทธิที่จะได้รับการศึกษา', collocations: ['only child', 'young child', 'raise a child'] },
+            { word: 'Chocolate', pronunciation: '<u>ช็อก</u>-โก-แลต', meaning: 'ช็อกโกแลต', example_en: 'She loves dark chocolate.', example_th: 'เธอชอบดาร์กช็อกโกแลตมาก', collocations: ['hot chocolate', 'a bar of chocolate', 'box of chocolates'] },
+            { word: 'City', pronunciation: '<u>ซิ๊</u>-ตี้', meaning: 'เมือง', example_en: 'Bangkok is a vibrant city.', example_th: 'กรุงเทพฯ เป็นเมืองที่มีชีวิตชีวา', collocations: ['capital city', 'city center', 'big city'] },
+            { word: 'Class', pronunciation: 'คลาส', meaning: 'ชั้นเรียน', example_en: 'Our English class starts at 9 AM.', example_th: 'ชั้นเรียนภาษาอังกฤษของเราเริ่มเวลา 9 โมงเช้า', collocations: ['attend class', 'first class', 'online class'] },
+            { word: 'Clock', pronunciation: 'คล็อก', meaning: 'นาฬิกา (แขวนผนัง)', example_en: 'The clock on the wall shows it\'s ten o\'clock.', example_th: 'นาฬิกาบนผนังบอกว่าเป็นเวลาสิบโมง', collocations: ['alarm clock', 'around the clock', 'wall clock'] },
+            { word: 'Clothes', pronunciation: 'โคลธส์', meaning: 'เสื้อผ้า', example_en: 'I need to buy some new clothes for winter.', example_th: 'ฉันต้องซื้อเสื้อผ้าใหม่สำหรับฤดูหนาว', collocations: ['put on clothes', 'take off clothes', 'a set of clothes'] },
+            { word: 'Coffee', pronunciation: '<u>คอฟ</u>-ฟี่', meaning: 'กาแฟ', example_en: 'I drink a cup of coffee every morning.', example_th: 'ฉันดื่มกาแฟหนึ่งถ้วยทุกเช้า', collocations: ['cup of coffee', 'black coffee', 'coffee shop'] },
+            { word: 'Color', pronunciation: '<u>คัล</u>-เล่อะ', meaning: 'สี', example_en: 'What is your favorite color?', example_th: 'สีโปรดของคุณคืออะไร', collocations: ['bright color', 'favorite color', 'true colors'] },
+            { word: 'Computer', pronunciation: 'คอม-<u>พิ้ว</u>-เต้อะ', meaning: 'คอมพิวเตอร์', example_en: 'I use my computer for work and study.', example_th: 'ฉันใช้คอมพิวเตอร์ในการทำงานและเรียน', collocations: ['laptop computer', 'turn on the computer', 'computer screen'] },
+            { word: 'Cookie', pronunciation: '<u>คุ๊ก</u>-กี้', meaning: 'คุกกี้', example_en: 'Would you like a chocolate chip cookie?', example_th: 'คุณต้องการคุกกี้ช็อกโกแลตชิพไหม', collocations: ['chocolate chip cookie', 'bake cookies', 'a jar of cookies'] },
+            { word: 'Country', pronunciation: '<u>คัน</u>-ทรี่', meaning: 'ประเทศ', example_en: 'Thailand is a beautiful country.', example_th: 'ประเทศไทยเป็นประเทศที่สวยงาม', collocations: ['foreign country', 'visit a country', 'home country'] },
+            { word: 'Cow', pronunciation: 'คาว', meaning: 'วัว', example_en: 'A cow gives us milk.', example_th: 'วัวให้นมแก่เรา', collocations: ['herd of cows', 'milk a cow', 'holy cow!'] },
+            { word: 'Cup', pronunciation: 'คัพ', meaning: 'ถ้วย', example_en: 'Can I have a cup of tea?', example_th: 'ฉันขอชาสักถ้วยได้ไหม', collocations: ['cup of tea', 'teacup', 'measuring cup'] },
+            { word: 'Customer', pronunciation: '<u>คัส</u>-โท-เม่อะ', meaning: 'ลูกค้า', example_en: 'The customer is always right.', example_th: 'ลูกค้าถูกเสมอ', collocations: ['regular customer', 'serve a customer', 'customer service'] }
+        ],
+        'D': [
+            { word: 'Day', pronunciation: 'เดย์', meaning: 'วัน', example_en: 'There are seven days in a week.', example_th: 'มีเจ็ดวันในหนึ่งสัปดาห์', collocations: ['have a nice day', 'the other day', 'all day'] },
+            { word: 'Desk', pronunciation: 'เดสค์', meaning: 'โต๊ะทำงาน', example_en: 'My books are on the desk.', example_th: 'หนังสือของฉันอยู่บนโต๊ะทำงาน', collocations: ['work at a desk', 'office desk', 'clear your desk'] },
+            { word: 'Diamond', pronunciation: '<u>ได</u>-มอนด์', meaning: 'เพชร', example_en: 'She wore a beautiful diamond necklace.', example_th: 'เธอสวมสร้อยคอเพชรที่สวยงาม', collocations: ['diamond ring', 'rough diamond', 'diamond anniversary'] },
+            { word: 'Dictionary', pronunciation: '<u>ดิ๊ค</u>-เชิน-เน-รี่', meaning: 'พจนานุกรม', example_en: 'You can look up the word in a dictionary.', example_th: 'คุณสามารถค้นหาคำศัพท์ในพจนานุกรมได้', collocations: ['online dictionary', 'bilingual dictionary', 'use a dictionary'] },
+            { word: 'Dinner', pronunciation: '<u>ดิน</u>-เน่อะ', meaning: 'อาหารเย็น', example_en: 'What\'s for dinner tonight?', example_th: 'อาหารเย็นคืนนี้มีอะไรบ้าง', collocations: ['have dinner', 'cook dinner', 'dinner party'] },
+            { word: 'Doctor', pronunciation: '<u>ด็อก</u>-เต้อะ', meaning: 'หมอ', example_en: 'You should see a doctor if you feel sick.', example_th: 'คุณควรไปพบแพทย์ถ้าคุณรู้สึกไม่สบาย', collocations: ['see a doctor', 'family doctor', 'doctor\'s appointment'] },
+            { word: 'Dog', pronunciation: 'ด็อก', meaning: 'สุนัข', example_en: 'My dog loves to play fetch.', example_th: 'สุนัขของฉันชอบเล่นคาบของ', collocations: ['walk the dog', 'pet dog', 'barking dog'] },
+            { word: 'Doll', pronunciation: 'ดอล', meaning: 'ตุ๊กตา', example_en: 'The girl is playing with her doll.', example_th: 'เด็กหญิงกำลังเล่นกับตุ๊กตาของเธอ', collocations: ['doll house', 'a collection of dolls', 'play with dolls'] },
+            { word: 'Door', pronunciation: 'ดอร์', meaning: 'ประตู', example_en: 'Please close the door behind you.', example_th: 'กรุณาปิดประตูด้วย', collocations: ['open the door', 'close the door', 'front door'] },
+            { word: 'Dream', pronunciation: 'ดรีม', meaning: 'ความฝัน', example_en: 'I had a strange dream last night.', example_th: 'ฉันฝันแปลก ๆ เมื่อคืนนี้', collocations: ['have a dream', 'follow your dream', 'bad dream'] },
+            { word: 'Dress', pronunciation: 'เดรส', meaning: 'ชุดกระโปรง', example_en: 'She wore a beautiful blue dress to the party.', example_th: 'เธอสวมชุดเดรสสีฟ้าสวยไปงานปาร์ตี้', collocations: ['wedding dress', 'put on a dress', 'dress code'] },
+            { word: 'Drink', pronunciation: 'ดริ้งค์', meaning: 'เครื่องดื่ม', example_en: 'Would you like a drink?', example_th: 'คุณต้องการเครื่องดื่มไหม', collocations: ['have a drink', 'soft drink', 'a cold drink'] },
+            { word: 'Driver', pronunciation: '<u>ไดร๊</u>-เว่อะ', meaning: 'คนขับรถ', example_en: 'The taxi driver was very friendly.', example_th: 'คนขับรถแท็กซี่เป็นมิตรมาก', collocations: ['bus driver', 'taxi driver', 'careful driver'] },
+            { word: 'Drum', pronunciation: 'ดรัม', meaning: 'กลอง', example_en: 'He plays the drums in a band.', example_th: 'เขาเล่นกลองในวงดนตรี', collocations: ['play the drums', 'a set of drums', 'drum beat'] },
+            { word: 'Duck', pronunciation: 'ดั๊ค', meaning: 'เป็ด', example_en: 'We saw a duck and its ducklings in the pond.', example_th: 'เราเห็นเป็ดและลูกเป็ดของมันในสระน้ำ', collocations: ['roast duck', 'a flock of ducks', 'like a duck to water'] },
+            { word: 'Daughter', pronunciation: '<u>ดอ</u>-เท่อะ', meaning: 'ลูกสาว', example_en: 'Her daughter is a talented artist.', example_th: 'ลูกสาวของเธอเป็นศิลปินที่มีพรสวรรค์', collocations: ['have a daughter', 'proud of his daughter', 'mother and daughter'] },
+            { word: 'Danger', pronunciation: '<u>เดน</u>-เจ้อะ', meaning: 'อันตราย', example_en: 'Smoking is a danger to your health.', example_th: 'การสูบบุหรี่เป็นอันตรายต่อสุขภาพของคุณ', collocations: ['in danger', 'sense of danger', 'danger sign'] },
+            { word: 'Date', pronunciation: 'เดท', meaning: 'วันที่, การนัดพบ', example_en: 'What is the date today?', example_th: 'วันนี้วันที่เท่าไหร่', collocations: ['blind date', 'go on a date', 'save the date'] },
+            { word: 'Decision', pronunciation: 'ดิ-<u>ซิ</u>-เชิน', meaning: 'การตัดสินใจ', example_en: 'It was a difficult decision to make.', example_th: 'มันเป็นการตัดสินใจที่ยากลำบาก', collocations: ['make a decision', 'final decision', 'wise decision'] },
+            { word: 'Dessert', pronunciation: 'ดิ-<u>เซิร์ท</u>', meaning: 'ของหวาน', example_en: 'What are we having for dessert?', example_th: 'เราจะทานอะไรเป็นของหวาน', collocations: ['have dessert', 'chocolate dessert', 'order dessert'] }
+        ],
+        'E': [
+            { word: 'Ear', pronunciation: 'เอียร์', meaning: 'หู', example_en: 'I have an ache in my right ear.', example_th: 'ฉันปวดหูข้างขวา', collocations: ['lend an ear', 'all ears', 'ear piercing'] },
+            { word: 'Earth', pronunciation: 'เอิร์ธ', meaning: 'โลก', example_en: 'We must protect the Earth.', example_th: 'เราต้องปกป้องโลก', collocations: ['planet Earth', 'down to earth', 'on Earth'] },
+            { word: 'Egg', pronunciation: 'เอ้ก', meaning: 'ไข่', example_en: 'I like to eat a boiled egg for breakfast.', example_th: 'ฉันชอบกินไข่ต้มเป็นอาหารเช้า', collocations: ['fried egg', 'scrambled eggs', 'lay an egg'] },
+            { word: 'Elephant', pronunciation: '<u>เอ๊</u>-เล-เฟ่นท์', meaning: 'ช้าง', example_en: 'An elephant is the largest land animal.', example_th: 'ช้างเป็นสัตว์บกที่ใหญ่ที่สุด', collocations: ['African elephant', 'ride an elephant', 'an elephant in the room'] },
+            { word: 'Email', pronunciation: '<u>อี</u>-เมล', meaning: 'อีเมล', example_en: 'I will send you an email with the details.', example_th: 'ฉันจะส่งอีเมลพร้อมรายละเอียดไปให้คุณ', collocations: ['send an email', 'check your email', 'email address'] },
+            { word: 'Engine', pronunciation: '<u>เอ็น</u>-จิ้น', meaning: 'เครื่องยนต์', example_en: 'There is a problem with the car\'s engine.', example_th: 'มีปัญหากับเครื่องยนต์ของรถ', collocations: ['car engine', 'start the engine', 'engine failure'] },
+            { word: 'Evening', pronunciation: '<u>อี๊ฟ</u>-นิ่ง', meaning: 'ตอนเย็น', example_en: 'We are going out for dinner this evening.', example_th: 'เราจะออกไปทานอาหารเย็นกันเย็นนี้', collocations: ['this evening', 'good evening', 'in the evening'] },
+            { word: 'Example', pronunciation: 'เอ็ก-<u>แซม</u>-เพิ่ล', meaning: 'ตัวอย่าง', example_en: 'Can you give me an example?', example_th: 'คุณช่วยยกตัวอย่างให้ฉันได้ไหม', collocations: ['for example', 'set an example', 'a good example'] },
+            { word: 'Exercise', pronunciation: '<u>เอ็ก</u>-เซอ-ไซส์', meaning: 'การออกกำลังกาย', example_en: 'Regular exercise is important for health.', example_th: 'การออกกำลังกายอย่างสม่ำเสมอมีความสำคัญต่อสุขภาพ', collocations: ['do exercise', 'physical exercise', 'get some exercise'] },
+            { word: 'Eye', pronunciation: 'อาย', meaning: 'ตา', example_en: 'She has beautiful blue eyes.', example_th: 'เธอมีดวงตาสีฟ้าที่สวยงาม', collocations: ['keep an eye on', 'catch someone\'s eye', 'eye contact'] },
+            { word: 'Education', pronunciation: 'เอ็ด-จู-<u>เค</u>-ชั่น', meaning: 'การศึกษา', example_en: 'Education is the key to success.', example_th: 'การศึกษาคือกุญแจสู่ความสำเร็จ', collocations: ['higher education', 'quality education', 'get an education'] },
+            { word: 'Effort', pronunciation: '<u>เอฟ</u>-ฟอร์ท', meaning: 'ความพยายาม', example_en: 'Your effort will pay off.', example_th: 'ความพยายามของคุณจะส่งผลดี', collocations: ['make an effort', 'team effort', 'a lot of effort'] },
+            { word: 'Employee', pronunciation: 'เอ็ม-<u>พลอย</u>-ยี', meaning: 'ลูกจ้าง', example_en: 'The company has over 500 employees.', example_th: 'บริษัทมีลูกจ้างมากกว่า 500 คน', collocations: ['new employee', 'full-time employee', 'loyal employee'] },
+            { word: 'Enemy', pronunciation: '<u>เอ๊</u>-เน-หมี่', meaning: 'ศัตรู', example_en: 'He made a powerful enemy.', example_th: 'เขาสร้างศัตรูที่ทรงอิทธิพล', collocations: ['sworn enemy', 'public enemy', 'make an enemy'] },
+            { word: 'Energy', pronunciation: '<u>เอ๊</u>-เนอ-จี้', meaning: 'พลังงาน', example_en: 'I don\'t have the energy to go out tonight.', example_th: 'ฉันไม่มีพลังงานจะออกไปข้างนอกคืนนี้', collocations: ['solar energy', 'save energy', 'full of energy'] },
+            { word: 'Environment', pronunciation: 'เอ็น-<u>ไว</u>-รอน-เม้นท์', meaning: 'สิ่งแวดล้อม', example_en: 'We need to protect the environment.', example_th: 'เราต้องปกป้องสิ่งแวดล้อม', collocations: ['protect the environment', 'natural environment', 'friendly to the environment'] },
+            { word: 'Equipment', pronunciation: 'อี-<u>ควิป</u>-เม้นท์', meaning: 'อุปกรณ์', example_en: 'The photographer has a lot of expensive equipment.', example_th: 'ช่างภาพมีอุปกรณ์ราคาแพงมากมาย', collocations: ['sports equipment', 'office equipment', 'a piece of equipment'] },
+            { word: 'Error', pronunciation: '<u>เอ๊อ</u>-เร่อะ', meaning: 'ข้อผิดพลาด', example_en: 'There is an error in your calculation.', example_th: 'มีการคำนวณของคุณมีข้อผิดพลาด', collocations: ['make an error', 'human error', 'error message'] },
+            { word: 'Event', pronunciation: 'อี-<u>เว้นท์</u>', meaning: 'เหตุการณ์, งาน', example_en: 'The wedding was a memorable event.', example_th: 'งานแต่งงานเป็นเหตุการณ์ที่น่าจดจำ', collocations: ['special event', 'main event', 'charity event'] },
+            { word: 'Experience', pronunciation: 'เอ็กซ์-<u>พี</u>-เรียนซ์', meaning: 'ประสบการณ์', example_en: 'He has a lot of experience in marketing.', example_th: 'เขามีประสบการณ์ด้านการตลาดมากมาย', collocations: ['work experience', 'gain experience', 'a good experience'] }
+        ],
+        'F': [
+            { word: 'Face', pronunciation: 'เฟส', meaning: 'ใบหน้า', example_en: 'She has a happy look on her face.', example_th: 'เธอดูมีความสุขบนใบหน้า', collocations: ['make a face', 'face to face', 'wash your face'] },
+            { word: 'Family', pronunciation: '<u>แฟ๊</u>-มิ-ลี่', meaning: 'ครอบครัว', example_en: 'I love spending time with my family.', example_th: 'ฉันชอบใช้เวลากับครอบครัวของฉัน', collocations: ['close-knit family', 'immediate family', 'start a family'] },
+            { word: 'Fan', pronunciation: 'แฟน', meaning: 'พัดลม, แฟนคลับ', example_en: 'It\'s hot, please turn on the fan.', example_th: 'อากาศร้อน ช่วยเปิดพัดลมหน่อย', collocations: ['ceiling fan', 'a big fan of', 'electric fan'] },
+            { word: 'Farm', pronunciation: 'ฟาร์ม', meaning: 'ฟาร์ม, ไร่นา', example_en: 'They grow vegetables on their farm.', example_th: 'พวกเขาปลูกผักในฟาร์มของพวกเขา', collocations: ['work on a farm', 'farm animal', 'wind farm'] },
+            { word: 'Father', pronunciation: '<u>ฟ๊า</u>-เธ่อะ', meaning: 'พ่อ', example_en: 'My father taught me how to ride a bike.', example_th: 'พ่อของฉันสอนฉันขี่จักรยาน', collocations: ['like father, like son', 'founding father', 'father figure'] },
+            { word: 'Fire', pronunciation: 'ไฟ-เออะ', meaning: 'ไฟ', example_en: 'The firefighters worked hard to put out the fire.', example_th: 'นักดับเพลิงทำงานอย่างหนักเพื่อดับไฟ', collocations: ['catch fire', 'put out a fire', 'on fire'] },
+            { word: 'Fish', pronunciation: 'ฟิช', meaning: 'ปลา', example_en: 'There are many colorful fish in the sea.', example_th: 'มีปลาสีสันสดใสมากมายในทะเล', collocations: ['go fishing', 'a school of fish', 'fresh fish'] },
+            { word: 'Floor', pronunciation: 'ฟลอร์', meaning: 'พื้น', example_en: 'Please don\'t leave your clothes on the floor.', example_th: 'กรุณาอย่าทิ้งเสื้อผ้าของคุณไว้บนพื้น', collocations: ['mop the floor', 'ground floor', 'dance floor'] },
+            { word: 'Flower', pronunciation: '<u>เฟลา</u>-เออะ', meaning: 'ดอกไม้', example_en: 'She received a bouquet of beautiful flowers.', example_th: 'เธอได้รับช่อดอกไม้ที่สวยงาม', collocations: ['bunch of flowers', 'pick flowers', 'artificial flower'] },
+            { word: 'Food', pronunciation: 'ฟู้ด', meaning: 'อาหาร', example_en: 'Thai food is known for being spicy.', example_th: 'อาหารไทยขึ้นชื่อเรื่องรสชาติที่เผ็ดร้อน', collocations: ['fast food', 'healthy food', 'order food'] },
+            { word: 'Foot', pronunciation: 'ฟุต', meaning: 'เท้า', example_en: 'My left foot hurts.', example_th: 'เท้าซ้ายของฉันเจ็บ', collocations: ['on foot', 'get cold feet', 'foot steps'] },
+            { word: 'Forest', pronunciation: '<u>ฟอ</u>-เรสท์', meaning: 'ป่าไม้', example_en: 'We went for a walk in the forest.', example_th: 'เราไปเดินเล่นในป่า', collocations: ['rainforest', 'dense forest', 'get lost in the forest'] },
+            { word: 'Friend', pronunciation: 'เฟรนด์', meaning: 'เพื่อน', example_en: 'A true friend is always there for you.', example_th: 'เพื่อนแท้จะอยู่เคียงข้างคุณเสมอ', collocations: ['best friend', 'make friends', 'close friend'] },
+            { word: 'Fruit', pronunciation: 'ฟรุ๊ท', meaning: 'ผลไม้', example_en: 'You should eat five portions of fruit and vegetables a day.', example_th: 'คุณควรกินผักและผลไม้วันละห้าส่วน', collocations: ['fresh fruit', 'fruit salad', 'bear fruit'] },
+            { word: 'Furniture', pronunciation: '<u>เฟอร์</u>-นิ-เจอร์', meaning: 'เฟอร์นิเจอร์', example_en: 'We need to buy some new furniture for the living room.', example_th: 'เราต้องซื้อเฟอร์นิเจอร์ใหม่สำหรับห้องนั่งเล่น', collocations: ['a piece of furniture', 'buy furniture', 'office furniture'] },
+            { word: 'Future', pronunciation: '<u>ฟิ๊ว</u>-เจอร์', meaning: 'อนาคต', example_en: 'It is important to plan for the future.', example_th: 'การวางแผนเพื่ออนาคตเป็นสิ่งสำคัญ', collocations: ['in the near future', 'bright future', 'future plans'] },
+            { word: 'Flag', pronunciation: 'แฟล็ก', meaning: 'ธง', example_en: 'The Thai flag has three colors: red, white, and blue.', example_th: 'ธงชาติไทยมีสามสีคือแดง ขาว และน้ำเงิน', collocations: ['raise a flag', 'national flag', 'white flag'] },
+            { word: 'Finger', pronunciation: '<u>ฟิง</u>-เก้อะ', meaning: 'นิ้วมือ', example_en: 'He pointed his finger at the map.', example_th: 'เขาชี้นิ้วไปที่แผนที่', collocations: ['point a finger', 'cross your fingers', 'index finger'] },
+            { word: 'Fact', pronunciation: 'แฟคท์', meaning: 'ความจริง, ข้อเท็จจริง', example_en: 'It is a well-known fact that the earth is round.', example_th: 'เป็นข้อเท็จจริงที่ทราบกันดีว่าโลกกลม', collocations: ['in fact', 'face the facts', 'a matter of fact'] },
+            { word: 'Fault', pronunciation: 'ฟอลท์', meaning: 'ความผิดพลาด', example_en: 'It was my fault that we were late.', example_th: 'เป็นความผิดของฉันที่เรามาสาย', collocations: ['my fault', 'find fault with', 'at fault'] }
+        ],
+        'G': [
+            { word: 'Game', pronunciation: 'เกม', meaning: 'เกม', example_en: 'Let\'s play a board game.', example_th: 'มาเล่นบอร์ดเกมกันเถอะ', collocations: ['board game', 'video game', 'play a game'] },
+            { word: 'Garden', pronunciation: '<u>การ์</u>-เด้น', meaning: 'สวน', example_en: 'My mother loves working in her garden.', example_th: 'แม่ของฉันชอบทำงานในสวนของเธอ', collocations: ['flower garden', 'work in the garden', 'public garden'] },
+            { word: 'Girl', pronunciation: 'เกิร์ล', meaning: 'เด็กผู้หญิง', example_en: 'The little girl is holding a red balloon.', example_th: 'เด็กหญิงตัวน้อยกำลังถือลูกโป่งสีแดง', collocations: ['little girl', 'baby girl', 'a group of girls'] },
+            { word: 'Glass', pronunciation: 'กลาส', meaning: 'แก้ว, กระจก', example_en: 'Could I have a glass of water, please?', example_th: 'ขอน้ำหนึ่งแก้วได้ไหมครับ/ค่ะ', collocations: ['a glass of water', 'wine glass', 'broken glass'] },
+            { word: 'Goal', pronunciation: 'โกล', meaning: 'เป้าหมาย', example_en: 'My goal is to finish this project by Friday.', example_th: 'เป้าหมายของฉันคือทำโปรเจกต์นี้ให้เสร็จภายในวันศุกร์', collocations: ['set a goal', 'achieve a goal', 'score a goal'] },
+            { word: 'Gold', pronunciation: 'โกลด์', meaning: 'ทองคำ', example_en: 'She received a gold medal for winning the race.', example_th: 'เธอได้รับเหรียญทองจากการชนะการแข่งขัน', collocations: ['gold medal', 'pure gold', 'heart of gold'] },
+            { word: 'Government', pronunciation: '<u>กั๊</u>-เวิน-เม้นท์', meaning: 'รัฐบาล', example_en: 'The government has announced new policies.', example_th: 'รัฐบาลได้ประกาศนโยบายใหม่', collocations: ['local government', 'work for the government', 'form a government'] },
+            { word: 'Grass', pronunciation: 'กราส', meaning: 'หญ้า', example_en: 'The grass is always greener on the other side.', example_th: 'หญ้าอีกฝั่งหนึ่งมักจะเขียวกว่าเสมอ (สำนวน)', collocations: ['cut the grass', 'green grass', 'keep off the grass'] },
+            { word: 'Ground', pronunciation: 'กราวด์', meaning: 'พื้นดิน', example_en: 'He fell to the ground.', example_th: 'เขาล้มลงกับพื้น', collocations: ['on the ground', 'common ground', 'lose ground'] },
+            { word: 'Group', pronunciation: 'กรุ๊ป', meaning: 'กลุ่ม', example_en: 'A group of tourists were waiting for the bus.', example_th: 'นักท่องเที่ยวกลุ่มหนึ่งกำลังรอรถบัส', collocations: ['a group of people', 'work in a group', 'focus group'] },
+            { word: 'Guest', pronunciation: 'เกสท์', meaning: 'แขก', example_en: 'We are expecting guests for dinner.', example_th: 'เรากำลังรอแขกมาทานอาหารเย็น', collocations: ['special guest', 'have guests over', 'hotel guest'] },
+            { word: 'Guide', pronunciation: 'ไกด์', meaning: 'มัคคุเทศก์, คู่มือ', example_en: 'The tour guide showed us around the city.', example_th: 'มัคคุเทศก์พาเราชมรอบเมือง', collocations: ['tour guide', 'a rough guide', 'user guide'] },
+            { word: 'Guitar', pronunciation: 'กิ-<u>ทาร์</u>', meaning: 'กีตาร์', example_en: 'He loves to play the guitar.', example_th: 'เขาชอบเล่นกีตาร์มาก', collocations: ['play the guitar', 'acoustic guitar', 'electric guitar'] },
+            { word: 'Gym', pronunciation: 'ยิม', meaning: 'โรงยิม', example_en: 'I go to the gym three times a week.', example_th: 'ฉันไปยิมสามครั้งต่อสัปดาห์', collocations: ['go to the gym', 'gym membership', 'gym equipment'] },
+            { word: 'Gift', pronunciation: 'กิฟท์', meaning: 'ของขวัญ', example_en: 'This is a small gift for you.', example_th: 'นี่คือของขวัญเล็กๆ น้อยๆ สำหรับคุณ', collocations: ['birthday gift', 'give a gift', 'a gift for'] },
+            { word: 'Glove', pronunciation: 'กลัฟว์', meaning: 'ถุงมือ', example_en: 'You should wear gloves when gardening.', example_th: 'คุณควรสวมถุงมือเมื่อทำสวน', collocations: ['a pair of gloves', 'wear gloves', 'boxing glove'] },
+            { word: 'Ghost', pronunciation: 'โกสท์', meaning: 'ผี', example_en: 'Do you believe in ghosts?', example_th: 'คุณเชื่อเรื่องผีไหม', collocations: ['ghost story', 'see a ghost', 'the ghost of'] },
+            { word: 'Grape', pronunciation: 'เกรพ', meaning: 'องุ่น', example_en: 'These grapes are very sweet.', example_th: 'องุ่นพวกนี้หวานมาก', collocations: ['a bunch of grapes', 'grape juice', 'sour grapes'] },
+            { word: 'Guard', pronunciation: 'การ์ด', meaning: 'ยาม, ผู้คุ้มกัน', example_en: 'The security guard is standing at the entrance.', example_th: 'ยามรักษาความปลอดภัยกำลังยืนอยู่ที่ทางเข้า', collocations: ['security guard', 'on guard', 'catch off guard'] },
+            { word: 'Gun', pronunciation: 'กัน', meaning: 'ปืน', example_en: 'He was carrying a gun.', example_th: 'เขาพกปืน', collocations: ['water gun', 'stick to your guns', 'a smoking gun'] }
+        ],
+        'H': [
+            { word: 'Hair', pronunciation: 'แฮร์', meaning: 'ผม', example_en: 'She has long, brown hair.', example_th: 'เธอมีผมยาวสีน้ำตาล', collocations: ['cut your hair', 'brush your hair', 'bad hair day'] },
+            { word: 'Hand', pronunciation: 'แฮนด์', meaning: 'มือ', example_en: 'Can you give me a hand with these bags?', example_th: 'คุณช่วยฉันถือกระเป๋าพวกนี้หน่อยได้ไหม', collocations: ['give a hand', 'shake hands', 'on the other hand'] },
+            { word: 'Hat', pronunciation: 'แฮท', meaning: 'หมวก', example_en: 'He is wearing a black hat.', example_th: 'เขากำลังสวมหมวกสีดำ', collocations: ['wear a hat', 'take off your hat', 'baseball hat'] },
+            { word: 'Head', pronunciation: 'เฮด', meaning: 'ศีรษะ, หัว', example_en: 'I have a pain in my head.', example_th: 'ฉันปวดหัว', collocations: ['shake your head', 'nod your head', 'head of the company'] },
+            { word: 'Health', pronunciation: 'เฮลธ์', meaning: 'สุขภาพ', example_en: 'Your health is your most important asset.', example_th: 'สุขภาพของคุณคือทรัพย์สินที่สำคัญที่สุด', collocations: ['good health', 'mental health', 'in poor health'] },
+            { word: 'Heart', pronunciation: 'ฮาร์ท', meaning: 'หัวใจ', example_en: 'My heart is beating so fast.', example_th: 'หัวใจของฉันเต้นเร็วมาก', collocations: ['break your heart', 'learn by heart', 'from the bottom of my heart'] },
+            { word: 'History', pronunciation: '<u>ฮิส</u>-ทรี', meaning: 'ประวัติศาสตร์', example_en: 'I am studying European history.', example_th: 'ฉันกำลังเรียนประวัติศาสตร์ยุโรป', collocations: ['ancient history', 'make history', 'history book'] },
+            { word: 'Holiday', pronunciation: '<u>ฮอ</u>-ลิ-เดย์', meaning: 'วันหยุด', example_en: 'Where are you going for your holiday?', example_th: 'คุณจะไปเที่ยวที่ไหนในวันหยุดของคุณ', collocations: ['go on holiday', 'public holiday', 'summer holiday'] },
+            { word: 'Home', pronunciation: 'โฮม', meaning: 'บ้าน', example_en: 'There\'s no place like home.', example_th: 'ไม่มีที่ไหนเหมือนบ้าน', collocations: ['at home', 'go home', 'feel at home'] },
+            { word: 'Hope', pronunciation: 'โฮพ', meaning: 'ความหวัง', example_en: 'There is still hope for a peaceful solution.', example_th: 'ยังคงมีความหวังสำหรับทางออกที่สันติ', collocations: ['a glimmer of hope', 'lose hope', 'high hopes'] },
+            { word: 'Horse', pronunciation: 'ฮอร์ส', meaning: 'ม้า', example_en: 'She learned to ride a horse when she was young.', example_th: 'เธอเรียนขี่ม้าตั้งแต่ยังเด็ก', collocations: ['ride a horse', 'race horse', 'hold your horses'] },
+            { word: 'Hospital', pronunciation: '<u>ฮอส</u>-พิ-ทอล', meaning: 'โรงพยาบาล', example_en: 'He was taken to the hospital after the accident.', example_th: 'เขาถูกนำตัวส่งโรงพยาบาลหลังเกิดอุบัติเหตุ', collocations: ['go to the hospital', 'in the hospital', 'local hospital'] },
+            { word: 'Hotel', pronunciation: 'โฮ-<u>เทล</u>', meaning: 'โรงแรม', example_en: 'We are staying at a five-star hotel.', example_th: 'เราพักอยู่ที่โรงแรมห้าดาว', collocations: ['book a hotel', 'stay at a hotel', 'hotel room'] },
+            { word: 'Hour', pronunciation: 'อาว-เออร์', meaning: 'ชั่วโมง', example_en: 'The meeting will last for about an hour.', example_th: 'การประชุมจะใช้เวลาประมาณหนึ่งชั่วโมง', collocations: ['an hour ago', 'rush hour', 'happy hour'] },
+            { word: 'House', pronunciation: 'เฮาส์', meaning: 'บ้าน (สิ่งปลูกสร้าง)', example_en: 'They bought a new house in the suburbs.', example_th: 'พวกเขาซื้อบ้านใหม่ในเขตชานเมือง', collocations: ['move house', 'dream house', 'full house'] },
+            { word: 'Husband', pronunciation: '<u>ฮัซ</u>-แบนด์', meaning: 'สามี', example_en: 'Her husband is a doctor.', example_th: 'สามีของเธอเป็นหมอ', collocations: ['loving husband', 'husband and wife', 'ex-husband'] },
+            { word: 'Hammer', pronunciation: '<u>แฮม</u>-เม่อะ', meaning: 'ค้อน', example_en: 'I need a hammer to hang this picture.', example_th: 'ฉันต้องการค้อนเพื่อแขวนรูปนี้', collocations: ['hit with a hammer', 'hammer and nail', 'go at it hammer and tongs'] },
+            { word: 'Hamburger', pronunciation: '<u>แฮม</u>-เบอร์-เกอร์', meaning: 'แฮมเบอร์เกอร์', example_en: 'I would like a cheeseburger and fries.', example_th: 'ฉันขอชีสเบอร์เกอร์กับเฟรนช์ฟรายส์ครับ/ค่ะ', collocations: ['eat a hamburger', 'order a hamburger', 'hamburger bun'] },
+            { word: 'Honey', pronunciation: '<u>ฮัน</u>-นี่', meaning: 'น้ำผึ้ง', example_en: 'I like to add honey to my tea.', example_th: 'ฉันชอบเติมน้ำผึ้งลงในชา', collocations: ['a jar of honey', 'sweet as honey', 'honeymoon'] },
+            { word: 'Helicopter', pronunciation: '<u>เฮ</u>-ลิ-คอป-เตอร์', meaning: 'เฮลิคอปเตอร์', example_en: 'A helicopter landed on the roof of the building.', example_th: 'เฮลิคอปเตอร์ลงจอดบนดาดฟ้าของอาคาร', collocations: ['fly a helicopter', 'rescue helicopter', 'helicopter tour'] }
+        ],
+        'I': [
+            { word: 'Ice', pronunciation: 'ไอซ์', meaning: 'น้ำแข็ง', example_en: 'Would you like some ice in your drink?', example_th: 'คุณต้องการน้ำแข็งในเครื่องดื่มของคุณไหม', collocations: ['a cube of ice', 'break the ice', 'on thin ice'] },
+            { word: 'Ice cream', pronunciation: '<u>ไอซ์</u>-ครีม', meaning: 'ไอศกรีม', example_en: 'What flavor of ice cream do you want?', example_th: 'คุณต้องการไอศกรีมรสอะไร', collocations: ['a scoop of ice cream', 'eat ice cream', 'ice cream cone'] },
+            { word: 'Idea', pronunciation: 'ไอ-<u>เดีย</u>', meaning: 'ความคิด', example_en: 'That\'s a great idea!', example_th: 'นั่นเป็นความคิดที่ยอดเยี่ยม!', collocations: ['bright idea', 'come up with an idea', 'have no idea'] },
+            { word: 'Image', pronunciation: '<u>อิ๊</u>-เมจ', meaning: 'รูปภาพ, ภาพลักษณ์', example_en: 'The book contains many colorful images.', example_th: 'หนังสือเล่มนี้มีรูปภาพสีสันสดใสมากมาย', collocations: ['public image', 'a mirror image', 'an image of'] },
+            { word: 'Industry', pronunciation: '<u>อิน</u>-ดัส-ทรี่', meaning: 'อุตสาหกรรม', example_en: 'The tourism industry is very important for Thailand.', example_th: 'อุตสาหกรรมการท่องเที่ยวมีความสำคัญต่อประเทศไทยมาก', collocations: ['fashion industry', 'music industry', 'heavy industry'] },
+            { word: 'Information', pronunciation: 'อิน-ฟอ-<u>เม</u>-ชั่น', meaning: 'ข้อมูล', example_en: 'I need more information about this topic.', example_th: 'ฉันต้องการข้อมูลเพิ่มเติมเกี่ยวกับหัวข้อนี้', collocations: ['a piece of information', 'for your information', 'gather information'] },
+            { word: 'Injury', pronunciation: '<u>อิน</u>-เจอ-รี่', meaning: 'อาการบาดเจ็บ', example_en: 'He suffered a serious injury in the crash.', example_th: 'เขาได้รับบาดเจ็บสาหัสจากอุบัติเหตุ', collocations: ['suffer an injury', 'minor injury', 'sports injury'] },
+            { word: 'Insect', pronunciation: '<u>อิน</u>-เซคท์', meaning: 'แมลง', example_en: 'An ant is a type of insect.', example_th: 'มดเป็นแมลงชนิดหนึ่ง', collocations: ['insect repellent', 'an insect bite', 'flying insect'] },
+            { word: 'Instruction', pronunciation: 'อิน-<u>สทรัค</u>-ชั่น', meaning: 'คำแนะนำ, คำสั่ง', example_en: 'Please follow the instructions carefully.', example_th: 'กรุณาปฏิบัติตามคำแนะนำอย่างระมัดระวัง', collocations: ['follow instructions', 'a set of instructions', 'clear instructions'] },
+            { word: 'Instrument', pronunciation: '<u>อิน</u>-สทรู-เม้นท์', meaning: 'เครื่องดนตรี, เครื่องมือ', example_en: 'The piano is my favorite musical instrument.', example_th: 'เปียโนเป็นเครื่องดนตรีที่ฉันชอบที่สุด', collocations: ['musical instrument', 'scientific instrument', 'play an instrument'] },
+            { word: 'Interest', pronunciation: '<u>อิน</u>-เทรสท์', meaning: 'ความสนใจ', example_en: 'She has a keen interest in photography.', example_th: 'เธอมีความสนใจในการถ่ายภาพอย่างมาก', collocations: ['show interest', 'lose interest', 'personal interest'] },
+            { word: 'Internet', pronunciation: '<u>อิน</u>-เตอร์-เน็ต', meaning: 'อินเทอร์เน็ต', example_en: 'You can find anything on the internet.', example_th: 'คุณสามารถค้นหาทุกสิ่งได้บนอินเทอร์เน็ต', collocations: ['surf the internet', 'internet connection', 'on the internet'] },
+            { word: 'Interview', pronunciation: '<u>อิน</u>-เทอ-วิว', meaning: 'การสัมภาษณ์', example_en: 'I have a job interview tomorrow.', example_th: 'ฉันมีสัมภาษณ์งานพรุ่งนี้', collocations: ['job interview', 'give an interview', 'a TV interview'] },
+            { word: 'Invitation', pronunciation: 'อิน-วิ-<u>เท</u>-ชั่น', meaning: 'การเชิญ, บัตรเชิญ', example_en: 'Have you received an invitation to the party?', example_th: 'คุณได้รับบัตรเชิญไปงานปาร์ตี้หรือยัง', collocations: ['wedding invitation', 'send an invitation', 'accept an invitation'] },
+            { word: 'Iron', pronunciation: '<u>ไอ</u>-เอิร์น', meaning: 'เตารีด, เหล็ก', example_en: 'I need to iron my shirt.', example_th: 'ฉันต้องรีดเสื้อเชิ้ตของฉัน', collocations: ['an iron will', 'strike while the iron is hot', 'steam iron'] },
+            { word: 'Island', pronunciation: '<u>ไอ</u>-แลนด์', meaning: 'เกาะ', example_en: 'Phuket is a famous island in Thailand.', example_th: 'ภูเก็ตเป็นเกาะที่มีชื่อเสียงในประเทศไทย', collocations: ['desert island', 'on the island', 'tropical island'] },
+            { word: 'Issue', pronunciation: '<u>อิช</u>-ชู', meaning: 'ประเด็น, ปัญหา', example_en: 'Climate change is a major global issue.', example_th: 'การเปลี่ยนแปลงสภาพภูมิอากาศเป็นปัญหาระดับโลกที่สำคัญ', collocations: ['a key issue', 'address an issue', 'the main issue'] },
+            { word: 'Item', pronunciation: '<u>ไอ</u>-เท่ม', meaning: 'รายการ, ชิ้น, อัน', example_en: 'There are ten items on the shopping list.', example_th: 'มีสินค้ารายการในรายการช้อปปิ้ง', collocations: ['a list of items', 'news item', 'collector\'s item'] },
+            { word: 'Imagination', pronunciation: 'อิ-แม-จิ-<u>เน</u>-ชั่น', meaning: 'จินตนาการ', example_en: 'A good writer must have a vivid imagination.', example_th: 'นักเขียนที่ดีต้องมีจินตนาการที่ชัดเจน', collocations: ['vivid imagination', 'use your imagination', 'a lack of imagination'] },
+            { word: 'Ink', pronunciation: 'อิงค์', meaning: 'หมึก', example_en: 'My pen is out of ink.', example_th: 'ปากกาของฉันหมึกหมด', collocations: ['out of ink', 'red ink', 'invisible ink'] }
+        ],
+        'J': [
+            { word: 'Jacket', pronunciation: '<u>แจ๊ค</u>-เก็ต', meaning: 'เสื้อแจ็กเกต', example_en: 'It\'s cold outside, you should wear a jacket.', example_th: 'ข้างนอกอากาศหนาว คุณควรสวมเสื้อแจ็กเกต', collocations: ['leather jacket', 'put on a jacket', 'life jacket'] },
+            { word: 'Jam', pronunciation: 'แจม', meaning: 'แยม, การจราจรติดขัด', example_en: 'I like strawberry jam on my toast.', example_th: 'ฉันชอบแยมสตรอว์เบอร์รีบนขนมปังปิ้ง', collocations: ['strawberry jam', 'a jar of jam', 'traffic jam'] },
+            { word: 'Jeans', pronunciation: 'ยีนส์', meaning: 'กางเกงยีนส์', example_en: 'She is wearing a pair of blue jeans.', example_th: 'เธอกำลังสวมกางเกงยีนส์สีน้ำเงิน', collocations: ['a pair of jeans', 'blue jeans', 'ripped jeans'] },
+            { word: 'Jewelry', pronunciation: '<u>จู</u>-เอล-รี่', meaning: 'เครื่องประดับ', example_en: 'She keeps her jewelry in a small box.', example_th: 'เธอเก็บเครื่องประดับของเธอไว้ในกล่องเล็กๆ', collocations: ['a piece of jewelry', 'wear jewelry', 'gold jewelry'] },
+            { word: 'Job', pronunciation: 'จ็อบ', meaning: 'งาน', example_en: 'He is looking for a new job.', example_th: 'เขากำลังมองหางานใหม่', collocations: ['look for a job', 'full-time job', 'get a job'] },
+            { word: 'Joke', pronunciation: 'โจ๊ก', meaning: 'เรื่องตลก', example_en: 'He told a funny joke.', example_th: 'เขาเล่าเรื่องตลกที่ขำขัน', collocations: ['tell a joke', 'get the joke', 'practical joke'] },
+            { word: 'Journalist', pronunciation: '<u>เจอร์</u>-นะ-ลิสท์', meaning: 'นักข่าว', example_en: 'A journalist must report the facts accurately.', example_th: 'นักข่าวต้องรายงานข้อเท็จจริงอย่างถูกต้อง', collocations: ['investigative journalist', 'a freelance journalist', 'well-known journalist'] },
+            { word: 'Journey', pronunciation: '<u>เจอร์</u>-นี่', meaning: 'การเดินทาง', example_en: 'Life is a long journey.', example_th: 'ชีวิตคือการเดินทางที่ยาวนาน', collocations: ['a long journey', 'safe journey', 'go on a journey'] },
+            { word: 'Joy', pronunciation: 'จอย', meaning: 'ความสุข, ความปิติยินดี', example_en: 'Her eyes were filled with joy.', example_th: 'ดวงตาของเธอเต็มไปด้วยความสุข', collocations: ['a source of joy', 'tears of joy', 'bring joy'] },
+            { word: 'Judge', pronunciation: 'จัดจ์', meaning: 'ผู้พิพากษา', example_en: 'The judge announced the final verdict.', example_th: 'ผู้พิพากษาประกาศคำตัดสินสุดท้าย', collocations: ['a fair judge', 'don\'t judge a book by its cover', 'judge of character'] },
+            { word: 'Juice', pronunciation: 'จู๊ซ', meaning: 'น้ำผลไม้', example_en: 'I would like a glass of orange juice.', example_th: 'ฉันขอน้ำส้มหนึ่งแก้ว', collocations: ['orange juice', 'fresh juice', 'a glass of juice'] },
+            { word: 'Jungle', pronunciation: '<u>จัง</u>-เกิ้ล', meaning: 'ป่าดิบชื้น', example_en: 'Tigers live in the jungle.', example_th: 'เสืออาศัยอยู่ในป่าดิบชื้น', collocations: ['the law of the jungle', 'concrete jungle', 'jungle trek'] },
+            { word: 'January', pronunciation: '<u>แจน</u>-ยัว-รี่', meaning: 'เดือนมกราคม', example_en: 'My birthday is in January.', example_th: 'วันเกิดของฉันคือเดือนมกราคม', collocations: ['in January', 'early January', 'late January'] },
+            { word: 'Jet', pronunciation: 'เจ็ต', meaning: 'เครื่องบินเจ็ต', example_en: 'He flew to New York on a private jet.', example_th: 'เขาบินไปนิวยอร์กด้วยเครื่องบินเจ็ตส่วนตัว', collocations: ['private jet', 'jet engine', 'jet lag'] },
+            { word: 'Jaw', pronunciation: 'จอ', meaning: 'ขากรรไกร', example_en: 'He has a strong jaw.', example_th: 'เขามีขากรรไกรที่แข็งแรง', collocations: ['broken jaw', 'drop your jaw', 'the jaws of death'] },
+            { word: 'Jar', pronunciation: 'จาร์', meaning: 'โหล, ขวดโหล', example_en: 'There is a cookie in the jar.', example_th: 'มีคุกกี้อยู่ในโหล', collocations: ['cookie jar', 'a glass jar', 'open a jar'] },
+            { word: 'Jigsaw', pronunciation: '<u>จิ๊ก</u>-ซอว์', meaning: 'จิ๊กซอว์', example_en: 'We spent the afternoon doing a jigsaw puzzle.', example_th: 'เราใช้เวลาช่วงบ่ายในการต่อจิ๊กซอว์', collocations: ['jigsaw puzzle', 'a piece of the jigsaw', '1000-piece jigsaw'] },
+            { word: 'Joint', pronunciation: 'จอยท์', meaning: 'ข้อต่อ', example_en: 'I have a pain in my knee joint.', example_th: 'ฉันมีอาการปวดที่ข้อเข่า', collocations: ['knee joint', 'sore joints', 'out of joint'] },
+            { word: 'Journal', pronunciation: '<u>เจอร์</u>-นัล', meaning: 'วารสาร, บันทึกประจำวัน', example_en: 'She keeps a journal of her travels.', example_th: 'เธอเก็บบันทึกการเดินทางของเธอ', collocations: ['keep a journal', 'academic journal', 'a travel journal'] },
+            { word: 'Jelly', pronunciation: '<u>เจล</u>-ลี่', meaning: 'เยลลี่', example_en: 'The kids love eating jelly for dessert.', example_th: 'เด็กๆ ชอบกินเยลลี่เป็นของหวาน', collocations: ['strawberry jelly', 'a bowl of jelly', 'peanut butter and jelly'] }
+        ],
+        'K': [
+            { word: 'Key', pronunciation: 'คีย์', meaning: 'กุญแจ, สิ่งสำคัญ', example_en: 'I can\'t find my car keys.', example_th: 'ฉันหากุญแจรถไม่เจอ', collocations: ['car key', 'the key to success', 'turn the key'] },
+            { word: 'Kid', pronunciation: 'คิด', meaning: 'เด็ก', example_en: 'The kids are playing in the park.', example_th: 'เด็กๆ กำลังเล่นอยู่ในสวนสาธารณะ', collocations: ['just kidding', 'a group of kids', 'look after the kids'] },
+            { word: 'Kilogram', pronunciation: '<u>คิ</u>-โล-แกรม', meaning: 'กิโลกรัม', example_en: 'One kilogram is equal to 1,000 grams.', example_th: 'หนึ่งกิโลกรัมเท่ากับ 1,000 กรัม', collocations: ['weigh a kilogram', 'a kilogram of sugar', 'lose a kilogram'] },
+            { word: 'Kindness', pronunciation: '<u>ไคนด์</u>-เนส', meaning: 'ความเมตตา', example_en: 'Thank you for your kindness.', example_th: 'ขอบคุณสำหรับความเมตตาของคุณ', collocations: ['an act of kindness', 'show kindness', 'kindness and compassion'] },
+            { word: 'King', pronunciation: 'คิง', meaning: 'พระราชา', example_en: 'The king ruled the country wisely.', example_th: 'พระราชาทรงปกครองประเทศอย่างชาญฉลาด', collocations: ['king and queen', 'the king of', 'long live the king'] },
+            { word: 'Kiss', pronunciation: 'คิส', meaning: 'การจูบ', example_en: 'She gave her son a goodnight kiss.', example_th: 'เธอจูบราตรีสวัสดิ์ลูกชายของเธอ', collocations: ['give a kiss', 'a goodbye kiss', 'blow a kiss'] },
+            { word: 'Kitchen', pronunciation: '<u>คิท</u>-เช่น', meaning: 'ห้องครัว', example_en: 'My mother is cooking in the kitchen.', example_th: 'แม่ของฉันกำลังทำอาหารอยู่ในครัว', collocations: ['kitchen utensils', 'clean the kitchen', 'kitchen sink'] },
+            { word: 'Kite', pronunciation: 'ไคท์', meaning: 'ว่าว', example_en: 'Let\'s go fly a kite.', example_th: 'ไปเล่นว่าวกันเถอะ', collocations: ['fly a kite', 'high as a kite', 'kite string'] },
+            { word: 'Kitten', pronunciation: '<u>คิท</u>-เท่น', meaning: 'ลูกแมว', example_en: 'The kitten is playing with a ball of yarn.', example_th: 'ลูกแมวกำลังเล่นกับไหมพรมก้อนกลม', collocations: ['a cute kitten', 'a litter of kittens', 'adopt a kitten'] },
+            { word: 'Knee', pronunciation: 'นี', meaning: 'หัวเข่า', example_en: 'I fell and scraped my knee.', example_th: 'ฉันล้มและหัวเข่าถลอก', collocations: ['on your knees', 'sore knee', 'knee-high'] },
+            { word: 'Knife', pronunciation: 'ไนฟ์', meaning: 'มีด', example_en: 'Be careful, that knife is very sharp.', example_th: 'ระวังนะ มีดเล่มนั้นคมมาก', collocations: ['a sharp knife', 'a knife and fork', 'cut with a knife'] },
+            { word: 'Knight', pronunciation: 'ไนท์', meaning: 'อัศวิน', example_en: 'The knight rode a white horse.', example_th: 'อัศวินขี่ม้าสีขาว', collocations: ['a knight in shining armor', 'a medieval knight', 'knight and day'] },
+            { word: 'Knot', pronunciation: 'น็อต', meaning: 'ปม', example_en: 'He tied a knot in the rope.', example_th: 'เขาผูกปมที่เชือก', collocations: ['tie a knot', 'untie a knot', 'a tight knot'] },
+            { word: 'Knowledge', pronunciation: '<u>นอ</u>-เลจ', meaning: 'ความรู้', example_en: 'Knowledge is power.', example_th: 'ความรู้คือพลัง', collocations: ['general knowledge', 'seek knowledge', 'a thirst for knowledge'] },
+            { word: 'Kangaroo', pronunciation: 'แคง-เกอะ-<u>รู</u>', meaning: 'จิงโจ้', example_en: 'A kangaroo carries its baby in a pouch.', example_th: 'จิงโจ้เลี้ยงลูกไว้ในกระเป๋าหน้าท้อง', collocations: ['a mob of kangaroos', 'see a kangaroo', 'kangaroo pouch'] },
+            { word: 'Keyboard', pronunciation: '<u>คี</u>-บอร์ด', meaning: 'คีย์บอร์ด', example_en: 'I need a new keyboard for my computer.', example_th: 'ฉันต้องการคีย์บอร์ดใหม่สำหรับคอมพิวเตอร์ของฉัน', collocations: ['computer keyboard', 'type on the keyboard', 'wireless keyboard'] },
+            { word: 'Ketchup', pronunciation: '<u>เค็ท</u>-ฉับ', meaning: 'ซอสมะเขือเทศ', example_en: 'Do you want some ketchup with your fries?', example_th: 'คุณต้องการซอสมะเขือเทศกับเฟรนช์ฟรายส์ไหม', collocations: ['a bottle of ketchup', 'tomato ketchup', 'add ketchup'] },
+            { word: 'Kettle', pronunciation: '<u>เค็ท</u>-เทิ่ล', meaning: 'กาต้มน้ำ', example_en: 'I\'ll put the kettle on for some tea.', example_th: 'ฉันจะต้มน้ำร้อนเพื่อชงชา', collocations: ['boil the kettle', 'put the kettle on', 'electric kettle'] },
+            { word: 'Keynote', pronunciation: '<u>คี</u>-โน้ต', meaning: 'ประเด็นสำคัญ, ปาฐกถา', example_en: 'She delivered the keynote address at the conference.', example_th: 'เธอกล่าวปาฐกถาพิเศษในที่ประชุม', collocations: ['keynote speaker', 'keynote address', 'deliver a keynote'] },
+            { word: 'Kingdom', pronunciation: '<u>คิง</u>-ด้อม', meaning: 'อาณาจักร', example_en: 'Welcome to the animal kingdom.', example_th: 'ยินดีต้อนรับสู่อาณาจักรสัตว์', collocations: ['the United Kingdom', 'animal kingdom', 'a magical kingdom'] }
+        ],
+        'L': [
+            { word: 'Lake', pronunciation: 'เลค', meaning: 'ทะเลสาบ', example_en: 'We went for a swim in the lake.', example_th: 'เราไปว่ายน้ำในทะเลสาบ', collocations: ['by the lake', 'a deep lake', 'frozen lake'] },
+            { word: 'Lamp', pronunciation: 'แลมป์', meaning: 'โคมไฟ', example_en: 'Please turn on the lamp, it\'s getting dark.', example_th: 'กรุณาเปิดโคมไฟด้วย มันเริ่มมืดแล้ว', collocations: ['a desk lamp', 'turn on the lamp', 'floor lamp'] },
+            { word: 'Land', pronunciation: 'แลนด์', meaning: 'พื้นดิน, ที่ดิน', example_en: 'The plane is about to land.', example_th: 'เครื่องบินกำลังจะลงจอด', collocations: ['buy land', 'on land', 'promised land'] },
+            { word: 'Language', pronunciation: '<u>แลง</u>-เกวจ', meaning: 'ภาษา', example_en: 'How many languages can you speak?', example_th: 'คุณพูดได้กี่ภาษา', collocations: ['foreign language', 'learn a language', 'body language'] },
+            { word: 'Laptop', pronunciation: '<u>แล็ป</u>-ท็อป', meaning: 'แล็ปท็อป', example_en: 'I always carry my laptop with me.', example_th: 'ฉันพกแล็ปท็อปติดตัวเสมอ', collocations: ['on my laptop', 'a new laptop', 'close your laptop'] },
+            { word: 'Law', pronunciation: 'ลอว์', meaning: 'กฎหมาย', example_en: 'No one is above the law.', example_th: 'ไม่มีใครอยู่เหนือกฎหมาย', collocations: ['break the law', 'law and order', 'against the law'] },
+            { word: 'Leaf', pronunciation: 'ลีฟ', meaning: 'ใบไม้', example_en: 'In autumn, the leaves turn brown.', example_th: 'ในฤดูใบไม้ร่วง ใบไม้จะเปลี่ยนเป็นสีน้ำตาล', collocations: ['a new leaf', 'a pile of leaves', 'tea leaf'] },
+            { word: 'Leg', pronunciation: 'เลก', meaning: 'ขา', example_en: 'He broke his leg in the accident.', example_th: 'เขาขาหักในอุบัติเหตุ', collocations: ['break a leg', 'shake a leg', 'long legs'] },
+            { word: 'Letter', pronunciation: '<u>เล็ท</u>-เท่อะ', meaning: 'จดหมาย, ตัวอักษร', example_en: 'I received a letter from my friend.', example_th: 'ฉันได้รับจดหมายจากเพื่อน', collocations: ['write a letter', 'send a letter', 'capital letter'] },
+            { word: 'Library', pronunciation: '<u>ไล</u>-บรารี่', meaning: 'ห้องสมุด', example_en: 'You can borrow books from the library.', example_th: 'คุณสามารถยืมหนังสือได้จากห้องสมุด', collocations: ['go to the library', 'public library', 'library book'] },
+            { word: 'Life', pronunciation: 'ไลฟ์', meaning: 'ชีวิต', example_en: 'Life is beautiful.', example_th: 'ชีวิตสวยงาม', collocations: ['way of life', 'private life', 'quality of life'] },
+            { word: 'Light', pronunciation: 'ไลท์', meaning: 'แสงสว่าง, ไฟ', example_en: 'Turn off the light when you leave.', example_th: 'ปิดไฟเมื่อคุณออกจากห้อง', collocations: ['turn on the light', 'traffic light', 'the speed of light'] },
+            { word: 'Line', pronunciation: 'ไลน์', meaning: 'เส้น, แถว', example_en: 'Please stand in a straight line.', example_th: 'กรุณายืนเป็นเส้นตรง', collocations: ['in a line', 'draw a line', 'bottom line'] },
+            { word: 'Lion', pronunciation: '<u>ไล</u>-ออน', meaning: 'สิงโต', example_en: 'The lion is the king of the jungle.', example_th: 'สิงโตคือเจ้าป่า', collocations: ['a pride of lions', 'the lion\'s share', 'brave as a lion'] },
+            { word: 'Lip', pronunciation: 'ลิป', meaning: 'ริมฝีปาก', example_en: 'She applied red lipstick to her lips.', example_th: 'เธอทาลิปสติกสีแดงบนริมฝีปากของเธอ', collocations: ['bite your lip', 'read my lips', 'upper lip'] },
+            { word: 'List', pronunciation: 'ลิสท์', meaning: 'รายการ', example_en: 'I need to make a shopping list.', example_th: 'ฉันต้องทำรายการของที่จะซื้อ', collocations: ['shopping list', 'make a list', 'on the list'] },
+            { word: 'Love', pronunciation: 'เลิฟ', meaning: 'ความรัก', example_en: 'Love is all you need.', example_th: 'ความรักคือทั้งหมดที่คุณต้องการ', collocations: ['fall in love', 'first love', 'a labor of love'] },
+            { word: 'Luck', pronunciation: 'ลัค', meaning: 'โชค', example_en: 'Good luck with your exam!', example_th: 'ขอให้โชคดีกับการสอบนะ', collocations: ['good luck', 'bad luck', 'a stroke of luck'] },
+            { word: 'Lunch', pronunciation: 'ลันช์', meaning: 'อาหารกลางวัน', example_en: 'What did you have for lunch?', example_th: 'คุณทานอะไรเป็นอาหารกลางวัน', collocations: ['have lunch', 'lunch break', 'packed lunch'] },
+            { word: 'Luggage', pronunciation: '<u>ลัก</u>-เกจ', meaning: 'กระเป๋าเดินทาง', example_en: 'You can check in your luggage here.', example_th: 'คุณสามารถเช็คอินกระเป๋าเดินทางของคุณได้ที่นี่', collocations: ['hand luggage', 'check in luggage', 'excess luggage'] }
+        ],
+        'M': [
+            { word: 'Machine', pronunciation: 'เมอ-<u>ชีน</u>', meaning: 'เครื่องจักร', example_en: 'This machine is out of order.', example_th: 'เครื่องนี้เสีย', collocations: ['washing machine', 'vending machine', 'time machine'] },
+            { word: 'Magazine', pronunciation: 'แม-เกอะ-<u>ซีน</u>', meaning: 'นิตยสาร', example_en: 'I read a fashion magazine.', example_th: 'ฉันอ่านนิตยสารแฟชั่น', collocations: ['fashion magazine', 'read a magazine', 'a magazine article'] },
+            { word: 'Man', pronunciation: 'แมน', meaning: 'ผู้ชาย', example_en: 'A man is walking his dog.', example_th: 'ผู้ชายคนหนึ่งกำลังพาสุนัขของเขาเดินเล่น', collocations: ['a young man', 'an old man', 'the best man'] },
+            { word: 'Map', pronunciation: 'แมพ', meaning: 'แผนที่', example_en: 'I need a map to find the way.', example_th: 'ฉันต้องการแผนที่เพื่อหาทาง', collocations: ['a city map', 'read a map', 'put on the map'] },
+            { word: 'Market', pronunciation: '<u>มาร์</u>-เก็ต', meaning: 'ตลาด', example_en: 'We buy fresh vegetables at the market.', example_th: 'เราซื้อผักสดที่ตลาด', collocations: ['floating market', 'go to the market', 'stock market'] },
+            { word: 'Meal', pronunciation: 'มีล', meaning: 'มื้ออาหาร', example_en: 'Breakfast is the most important meal of the day.', example_th: 'อาหารเช้าเป็นมื้อที่สำคัญที่สุดของวัน', collocations: ['have a meal', 'a three-course meal', 'a home-cooked meal'] },
+            { word: 'Meat', pronunciation: 'มีท', meaning: 'เนื้อสัตว์', example_en: 'I don\'t eat meat, I\'m a vegetarian.', example_th: 'ฉันไม่กินเนื้อสัตว์ ฉันเป็นมังสวิรัติ', collocations: ['red meat', 'white meat', 'a piece of meat'] },
+            { word: 'Medicine', pronunciation: '<u>เม</u>-ดิ-ซิน', meaning: 'ยา', example_en: 'Have you taken your medicine?', example_th: 'คุณทานยาแล้วหรือยัง', collocations: ['take medicine', 'a dose of medicine', 'herbal medicine'] },
+            { word: 'Meeting', pronunciation: '<u>มีท</u>-ติ้ง', meaning: 'การประชุม', example_en: 'The meeting will start at 10 AM.', example_th: 'การประชุมจะเริ่มเวลา 10 โมงเช้า', collocations: ['attend a meeting', 'a business meeting', 'hold a meeting'] },
+            { word: 'Milk', pronunciation: 'มิลค์', meaning: 'นม', example_en: 'I drink a glass of milk before bed.', example_th: 'ฉันดื่มนมหนึ่งแก้วก่อนนอน', collocations: ['a glass of milk', 'coconut milk', 'a carton of milk'] },
+            { word: 'Mistake', pronunciation: 'มิส-<u>เทค</u>', meaning: 'ความผิดพลาด', example_en: 'Everyone makes mistakes.', example_th: 'ทุกคนทำผิดพลาดได้', collocations: ['make a mistake', 'learn from your mistakes', 'a silly mistake'] },
+            { word: 'Moment', pronunciation: '<u>โม</u>-เม้นท์', meaning: 'ช่วงเวลา, ขณะ', example_en: 'Could you wait for a moment?', example_th: 'คุณช่วยรอสักครู่ได้ไหม', collocations: ['at the moment', 'wait a moment', 'a special moment'] },
+            { word: 'Money', pronunciation: '<u>มัน</u>-นี่', meaning: 'เงิน', example_en: 'Money can\'t buy happiness.', example_th: 'เงินไม่สามารถซื้อความสุขได้', collocations: ['save money', 'spend money', 'make money'] },
+            { word: 'Month', pronunciation: 'มันธ์', meaning: 'เดือน', example_en: 'There are twelve months in a year.', example_th: 'มีสิบสองเดือนในหนึ่งปี', collocations: ['next month', 'last month', 'once a month'] },
+            { word: 'Morning', pronunciation: '<u>มอร์</u>-นิ่ง', meaning: 'ตอนเช้า', example_en: 'Good morning! How are you?', example_th: 'สวัสดีตอนเช้า! คุณเป็นอย่างไรบ้าง', collocations: ['in the morning', 'tomorrow morning', 'early in the morning'] },
+            { word: 'Mother', pronunciation: '<u>มา</u>-เธ่อะ', meaning: 'แม่', example_en: 'My mother is the best cook.', example_th: 'แม่ของฉันเป็นแม่ครัวที่เก่งที่สุด', collocations: ['mother tongue', 'mother and child', 'a working mother'] },
+            { word: 'Mountain', pronunciation: '<u>เมา</u>-เท่น', meaning: 'ภูเขา', example_en: 'We climbed the mountain yesterday.', example_th: 'เราปีนเขาเมื่อวานนี้', collocations: ['climb a mountain', 'mountain range', 'at the top of the mountain'] },
+            { word: 'Mouth', pronunciation: 'เมาธ์', meaning: 'ปาก', example_en: 'Don\'t talk with your mouth full.', example_th: 'อย่าพูดขณะที่ปากเต็มไปด้วยอาหาร', collocations: ['open your mouth', 'shut your mouth', 'word of mouth'] },
+            { word: 'Movie', pronunciation: '<u>มู</u>-วี่', meaning: 'ภาพยนตร์', example_en: 'Do you want to watch a movie tonight?', example_th: 'คืนนี้คุณอยากดูหนังไหม', collocations: ['watch a movie', 'go to the movies', 'action movie'] },
+            { word: 'Music', pronunciation: '<u>มิว</u>-สิค', meaning: 'ดนตรี', example_en: 'I love listening to classical music.', example_th: 'ฉันชอบฟังดนตรีคลาสสิก', collocations: ['listen to music', 'play music', 'pop music'] }
+        ],
+        'N': [
+            { word: 'Nail', pronunciation: 'เนล', meaning: 'เล็บ, ตะปู', example_en: 'She painted her nails red.', example_th: 'เธอทาเล็บสีแดง', collocations: ['fingernail', 'toenail', 'hit the nail on the head'] },
+            { word: 'Name', pronunciation: 'เนม', meaning: 'ชื่อ', example_en: 'What is your name?', example_th: 'คุณชื่ออะไร', collocations: ['first name', 'last name', 'call someone by name'] },
+            { word: 'Nation', pronunciation: '<u>เน</u>-ชั่น', meaning: 'ชาติ, ประเทศ', example_en: 'People from many nations attended the event.', example_th: 'ผู้คนจากหลายชาติเข้าร่วมงาน', collocations: ['the whole nation', 'a proud nation', 'United Nations'] },
+            { word: 'Nature', pronunciation: '<u>เน</u>-เจอร์', meaning: 'ธรรมชาติ', example_en: 'I love spending time in nature.', example_th: 'ฉันชอบใช้เวลาอยู่กับธรรมชาติ', collocations: ['mother nature', 'human nature', 'the beauty of nature'] },
+            { word: 'Neck', pronunciation: 'เน็ค', meaning: 'คอ', example_en: 'She wore a beautiful necklace around her neck.', example_th: 'เธอสวมสร้อยคอที่สวยงามรอบคอของเธอ', collocations: ['a pain in the neck', 'stiff neck', 'neck and neck'] },
+            { word: 'Needle', pronunciation: '<u>นี</u>-เดิ้ล', meaning: 'เข็ม', example_en: 'I need a needle and thread to sew this button.', example_th: 'ฉันต้องการเข็มและด้ายเพื่อเย็บกระดุมนี้', collocations: ['a needle in a haystack', 'needle and thread', 'a sewing needle'] },
+            { word: 'Neighbor', pronunciation: '<u>เน</u>-เบอร์', meaning: 'เพื่อนบ้าน', example_en: 'My neighbor is very friendly.', example_th: 'เพื่อนบ้านของฉันเป็นมิตรมาก', collocations: ['a good neighbor', 'next-door neighbor', 'ask a neighbor'] },
+            { word: 'Net', pronunciation: 'เน็ต', meaning: 'ตาข่าย, เครือข่าย', example_en: 'The fisherman cast his net into the sea.', example_th: 'ชาวประมงเหวี่ยงแหลงไปในทะเล', collocations: ['fishing net', 'the Net (Internet)', 'safety net'] },
+            { word: 'Network', pronunciation: '<u>เน็ต</u>-เวิร์ค', meaning: 'เครือข่าย', example_en: 'Social media is a powerful social network.', example_th: 'โซเชียลมีเดียเป็นเครือข่ายสังคมที่ทรงพลัง', collocations: ['social network', 'a computer network', 'build a network'] },
+            { word: 'News', pronunciation: 'นิวส์', meaning: 'ข่าว', example_en: 'Have you heard the good news?', example_th: 'คุณได้ยินข่าวดีหรือยัง', collocations: ['good news', 'bad news', 'watch the news'] },
+            { word: 'Newspaper', pronunciation: '<u>นิวส์</u>-เป-เปอร์', meaning: 'หนังสือพิมพ์', example_en: 'I read the newspaper every morning.', example_th: 'ฉันอ่านหนังสือพิมพ์ทุกเช้า', collocations: ['read the newspaper', 'a local newspaper', 'in the newspaper'] },
+            { word: 'Night', pronunciation: 'ไนท์', meaning: 'กลางคืน', example_en: 'The stars shine brightly at night.', example_th: 'ดวงดาวส่องแสงสว่างในเวลากลางคืน', collocations: ['good night', 'last night', 'at night'] },
+            { word: 'Noise', pronunciation: 'นอยซ์', meaning: 'เสียงดัง, เสียงรบกวน', example_en: 'Please don\'t make so much noise.', example_th: 'กรุณาอย่าส่งเสียงดัง', collocations: ['make a noise', 'a loud noise', 'background noise'] },
+            { word: 'Nose', pronunciation: 'โนส', meaning: 'จมูก', example_en: 'My nose is running because of my cold.', example_th: 'ฉันมีน้ำมูกไหลเพราะเป็นหวัด', collocations: ['runny nose', 'follow your nose', 'under your nose'] },
+            { word: 'Note', pronunciation: 'โน้ต', meaning: 'บันทึก, หมายเหตุ', example_en: 'Please take a note of this.', example_th: 'กรุณาจดบันทึกสิ่งนี้ไว้', collocations: ['take notes', 'a short note', 'a musical note'] },
+            { word: 'Number', pronunciation: '<u>นัม</u>-เบอร์', meaning: 'ตัวเลข, หมายเลข', example_en: 'What\'s your phone number?', example_th: 'หมายเลขโทรศัพท์ของคุณคืออะไร', collocations: ['phone number', 'a large number of', 'lucky number'] },
+            { word: 'Nurse', pronunciation: 'เนิร์ส', meaning: 'พยาบาล', example_en: 'The nurse took my temperature.', example_th: 'พยาบาลวัดอุณหภูมิของฉัน', collocations: ['a registered nurse', 'a male nurse', 'see a nurse'] },
+            { word: 'Nut', pronunciation: 'นัท', meaning: 'ถั่ว', example_en: 'This cake contains nuts.', example_th: 'เค้กนี้มีส่วนผสมของถั่ว', collocations: ['a tough nut to crack', 'mixed nuts', 'allergic to nuts'] },
+            { word: 'Napkin', pronunciation: '<u>แน็ป</u>-คิน', meaning: 'ผ้าเช็ดปาก', example_en: 'Could I have a napkin, please?', example_th: 'ขอผ้าเช็ดปากหน่อยได้ไหมครับ/ค่ะ', collocations: ['a paper napkin', 'a cloth napkin', 'use a napkin'] },
+            { word: 'Necklace', pronunciation: '<u>เนค</u>-เลส', meaning: 'สร้อยคอ', example_en: 'She wore a pearl necklace.', example_th: 'เธอสวมสร้อยคอมุก', collocations: ['a pearl necklace', 'a gold necklace', 'wear a necklace'] }
+        ],
+        'O': [
+            { word: 'Object', pronunciation: '<u>อ็อบ</u>-เจคท์', meaning: 'วัตถุ, สิ่งของ', example_en: 'There was a mysterious object in the box.', example_th: 'มีวัตถุลึกลับอยู่ในกล่อง', collocations: ['a strange object', 'a metal object', 'an object of desire'] },
+            { word: 'Ocean', pronunciation: '<u>โอ</u>-เชิ่น', meaning: 'มหาสมุทร', example_en: 'The Pacific Ocean is the largest ocean in the world.', example_th: 'มหาสมุทรแปซิฟิกเป็นมหาสมุทรที่ใหญ่ที่สุดในโลก', collocations: ['across the ocean', 'deep blue ocean', 'ocean view'] },
+            { word: 'October', pronunciation: 'อ็อค-<u>โท</u>-เบอร์', meaning: 'เดือนตุลาคม', example_en: 'Halloween is in October.', example_th: 'วันฮาโลวีนอยู่ในเดือนตุลาคม', collocations: ['in October', 'late October', 'early October'] },
+            { word: 'Office', pronunciation: '<u>ออฟ</u>-ฟิศ', meaning: 'สำนักงาน', example_en: 'I have to go to the office early tomorrow.', example_th: 'พรุ่งนี้ฉันต้องไปที่ทำงานแต่เช้า', collocations: ['work in an office', 'post office', 'head office'] },
+            { word: 'Oil', pronunciation: 'ออยล์', meaning: 'น้ำมัน', example_en: 'You need to add some oil to the engine.', example_th: 'คุณต้องเติมน้ำมันเครื่อง', collocations: ['cooking oil', 'olive oil', 'burn the midnight oil'] },
+            { word: 'Omelet', pronunciation: '<u>ออม</u>-เล็ต', meaning: 'ไข่เจียว', example_en: 'I had a cheese omelet for breakfast.', example_th: 'ฉันทานไข่เจียวชีสเป็นอาหารเช้า', collocations: ['make an omelet', 'a cheese omelet', 'a fluffy omelet'] },
+            { word: 'Onion', pronunciation: '<u>อั๊น</u>-เหยี่ยน', meaning: 'หัวหอม', example_en: 'Cutting onions makes my eyes water.', example_th: 'การหั่นหัวหอมทำให้น้ำตาฉันไหล', collocations: ['chop an onion', 'a red onion', 'onion rings'] },
+            { word: 'Operation', pronunciation: 'ออ-เพอ-<u>เร</u>-ชั่น', meaning: 'การผ่าตัด, การปฏิบัติการ', example_en: 'The doctor said the operation was successful.', example_th: 'หมอบอกว่าการผ่าตัดประสบความสำเร็จ', collocations: ['have an operation', 'a military operation', 'in operation'] },
+            { word: 'Opinion', pronunciation: 'โอ-<u>พิ</u>-เนี่ยน', meaning: 'ความคิดเห็น', example_en: 'In my opinion, this is the best solution.', example_th: 'ในความคิดเห็นของฉัน นี่คือทางออกที่ดีที่สุด', collocations: ['in my opinion', 'a matter of opinion', 'share an opinion'] },
+            { word: 'Opportunity', pronunciation: 'ออพ-เพอ-<u>ทู</u>-นิ-ตี้', meaning: 'โอกาส', example_en: 'This is a great opportunity for you.', example_th: 'นี่เป็นโอกาสที่ดีสำหรับคุณ', collocations: ['a great opportunity', 'miss an opportunity', 'an equal opportunity'] },
+            { word: 'Orange', pronunciation: '<u>ออ</u>-เรนจ์', meaning: 'ส้ม, สีส้ม', example_en: 'I\'d like a glass of orange juice.', example_th: 'ฉันขอน้ำส้มหนึ่งแก้ว', collocations: ['orange juice', 'a bright orange', 'peel an orange'] },
+            { word: 'Order', pronunciation: '<u>ออร์</u>-เดอร์', meaning: 'คำสั่ง, การสั่งซื้อ, ลำดับ', example_en: 'Are you ready to order?', example_th: 'คุณพร้อมที่จะสั่งอาหารหรือยัง', collocations: ['place an order', 'in alphabetical order', 'out of order'] },
+            { word: 'Organization', pronunciation: 'ออร์-แก-ไน-<u>เซ</u>-ชั่น', meaning: 'องค์กร', example_en: 'He works for a non-profit organization.', example_th: 'เขาทำงานให้กับองค์กรที่ไม่แสวงหาผลกำไร', collocations: ['non-profit organization', 'join an organization', 'a large organization'] },
+            { word: 'Oven', pronunciation: '<u>อ๊ะ</u>-เวิ่น', meaning: 'เตาอบ', example_en: 'The cake is baking in the oven.', example_th: 'เค้กกำลังอบอยู่ในเตาอบ', collocations: ['preheat the oven', 'in the oven', 'microwave oven'] },
+            { word: 'Owner', pronunciation: '<u>โอ</u>-เน่อะ', meaning: 'เจ้าของ', example_en: 'Who is the owner of this dog?', example_th: 'ใครคือเจ้าของสุนัขตัวนี้', collocations: ['a proud owner', 'the legal owner', 'business owner'] },
+            { word: 'Owl', pronunciation: 'อาวล์', meaning: 'นกฮูก', example_en: 'An owl is a nocturnal bird.', example_th: 'นกฮูกเป็นนกที่หากินในเวลากลางคืน', collocations: ['a wise old owl', 'a night owl', 'the hoot of an owl'] },
+            { word: 'Oxygen', pronunciation: '<u>อ็อก</u>-ซิ-เจิน', meaning: 'ออกซิเจน', example_en: 'Plants produce oxygen.', example_th: 'พืชผลิตออกซิเจน', collocations: ['a lack of oxygen', 'an oxygen mask', 'breathe oxygen'] },
+            { word: 'Ounce', pronunciation: 'ออนซ์', meaning: 'ออนซ์ (หน่วยวัด)', example_en: 'There are 16 ounces in a pound.', example_th: 'มี 16 ออนซ์ในหนึ่งปอนด์', collocations: ['an ounce of prevention', 'every single ounce', 'weigh an ounce'] },
+            { word: 'Outfit', pronunciation: '<u>เอาท์</u>-ฟิท', meaning: 'ชุดเสื้อผ้า', example_en: 'She wore a beautiful outfit to the party.', example_th: 'เธอสวมชุดที่สวยงามไปงานปาร์ตี้', collocations: ['a new outfit', 'choose an outfit', 'a matching outfit'] },
+            { word: 'Opponent', pronunciation: 'โอ-<u>โพ</u>-เน้นท์', meaning: 'คู่ต่อสู้', example_en: 'He respected his opponent in the chess match.', example_th: 'เขาเคารพคู่ต่อสู้ของเขาในการแข่งขันหมากรุก', collocations: ['a worthy opponent', 'defeat an opponent', 'a political opponent'] }
+        ],
+		'P': [
+			{ word: 'Page', pronunciation: 'เพจ', meaning: 'หน้ากระดาษ', example_en: 'Please turn to page 25.', example_th: 'กรุณาเปิดไปที่หน้า 25', collocations: ['turn the page', 'front page', 'a blank page'] },
+			{ word: 'Paper', pronunciation: '<u>เพ</u>-เพ่อะ', meaning: 'กระดาษ', example_en: 'I need a piece of paper to write on.', example_th: 'ฉันต้องการกระดาษหนึ่งแผ่นเพื่อเขียน', collocations: ['a piece of paper', 'on paper', 'waste paper'] },
+			{ word: 'Parent', pronunciation: '<u>แพ</u>-เรินท์', meaning: 'ผู้ปกครอง', example_en: 'My parents live in the countryside.', example_th: 'พ่อแม่ของฉันอาศัยอยู่ต่างจังหวัด', collocations: ['proud parents', 'a single parent', 'meet the parents'] },
+			{ word: 'Park', pronunciation: 'พาร์ค', meaning: 'สวนสาธารณะ, จอดรถ', example_en: 'Let\'s go for a walk in the park.', example_th: 'ไปเดินเล่นในสวนสาธารณะกันเถอะ', collocations: ['national park', 'amusement park', 'park the car'] },
+			{ word: 'Party', pronunciation: '<u>พาร์</u>-ตี้', meaning: 'งานเลี้ยง, พรรคการเมือง', example_en: 'Are you coming to my birthday party?', example_th: 'คุณจะมางานวันเกิดของฉันไหม', collocations: ['birthday party', 'throw a party', 'political party'] },
+			{ word: 'Pen', pronunciation: 'เพ็น', meaning: 'ปากกา', example_en: 'Can I borrow your pen?', example_th: 'ฉันขอยืมปากกาของคุณได้ไหม', collocations: ['a ballpoint pen', 'a fountain pen', 'pen and paper'] },
+			{ word: 'Pencil', pronunciation: '<u>เพ็น</u>-ซิล', meaning: 'ดินสอ', example_en: 'Please use a pencil to fill in the form.', example_th: 'กรุณาใช้ดินสอในการกรอกแบบฟอร์ม', collocations: ['a pencil sharpener', 'a lead pencil', 'write in pencil'] },
+			{ word: 'Person', pronunciation: '<u>เพอร์</u>-ซัน', meaning: 'บุคคล', example_en: 'He is a very kind person.', example_th: 'เขาเป็นคนใจดีมาก', collocations: ['a kind person', 'in person', 'a young person'] },
+			{ word: 'Phone', pronunciation: 'โฟน', meaning: 'โทรศัพท์', example_en: 'My phone is ringing.', example_th: 'โทรศัพท์ของฉันกำลังดัง', collocations: ['cell phone', 'answer the phone', 'on the phone'] },
+			{ word: 'Picture', pronunciation: '<u>พิค</u>-เจอร์', meaning: 'รูปภาพ', example_en: 'She took a picture of the sunset.', example_th: 'เธอถ่ายรูปพระอาทิตย์ตก', collocations: ['take a picture', 'a pretty picture', 'the big picture'] },
+			{ word: 'Pillow', pronunciation: '<u>พิ</u>-โล่', meaning: 'หมอน', example_en: 'This pillow is very soft.', example_th: 'หมอนใบนี้นุ่มมาก', collocations: ['a soft pillow', 'rest your head on a pillow', 'pillow case'] },
+			{ word: 'Pizza', pronunciation: '<u>พีท</u>-ซ่า', meaning: 'พิซซ่า', example_en: 'Let\'s order a pizza for dinner.', example_th: 'สั่งพิซซ่าสำหรับมื้อเย็นกันเถอะ', collocations: ['order a pizza', 'a slice of pizza', 'Hawaiian pizza'] },
+			{ word: 'Place', pronunciation: 'เพลส', meaning: 'สถานที่', example_en: 'This is a nice place for a picnic.', example_th: 'ที่นี่เป็นสถานที่ที่ดีสำหรับการปิกนิก', collocations: ['a safe place', 'take place', 'in the first place'] },
+			{ word: 'Planet', pronunciation: '<u>แพล</u>-เน็ต', meaning: 'ดาวเคราะห์', example_en: 'Earth is the third planet from the Sun.', example_th: 'โลกเป็นดาวเคราะห์ดวงที่สามจากดวงอาทิตย์', collocations: ['planet Earth', 'visit another planet', 'a distant planet'] },
+			{ word: 'Plant', pronunciation: 'แพลนท์', meaning: 'พืช', example_en: 'You need to water the plants every day.', example_th: 'คุณต้องรดน้ำต้นไม้ทุกวัน', collocations: ['a house plant', 'water a plant', 'power plant'] },
+			{ word: 'Pocket', pronunciation: '<u>พอค</u>-เก็ต', meaning: 'กระเป๋าเสื้อ/กางเกง', example_en: 'I have my keys in my pocket.', example_th: 'ฉันมีกุญแจอยู่ในกระเป๋า', collocations: ['in your pocket', 'pocket money', 'empty your pockets'] },
+			{ word: 'Police', pronunciation: 'โพ-<u>ลิส</u>', meaning: 'ตำรวจ', example_en: 'You should call the police in an emergency.', example_th: 'คุณควรโทรหาตำรวจในกรณีฉุกเฉิน', collocations: ['call the police', 'police officer', 'police station'] },
+			{ word: 'Price', pronunciation: 'ไพรซ์', meaning: 'ราคา', example_en: 'What is the price of this shirt?', example_th: 'เสื้อตัวนี้ราคาเท่าไหร่', collocations: ['a high price', 'a low price', 'at a reasonable price'] },
+			{ word: 'Problem', pronunciation: '<u>พร็อบ</u>-เบลิม', meaning: 'ปัญหา', example_en: 'Don\'t worry, it\'s not a big problem.', example_th: 'ไม่ต้องกังวล มันไม่ใช่ปัญหาใหญ่', collocations: ['solve a problem', 'a big problem', 'no problem'] },
+			{ word: 'Project', pronunciation: '<u>โพร์</u>-เจ็คท์', meaning: 'โครงการ', example_en: 'We are working on a new project.', example_th: 'เรากำลังทำโครงการใหม่', collocations: ['a school project', 'work on a project', 'a group project'] }
+		],
+		'Q': [
+			{ word: 'Queen', pronunciation: 'ควีน', meaning: 'ราชินี', example_en: 'The queen waved to the crowd.', example_th: 'พระราชินีทรงโบกมือให้ฝูงชน', collocations: ['the queen of', 'a drama queen', 'queen bee'] },
+			{ word: 'Question', pronunciation: '<u>เควส</u>-ชั่น', meaning: 'คำถาม', example_en: 'Does anyone have any questions?', example_th: 'มีใครมีคำถามไหม', collocations: ['ask a question', 'answer a question', 'a tough question'] },
+			{ word: 'Queue', pronunciation: 'คิว', meaning: 'แถว', example_en: 'Please wait in the queue.', example_th: 'กรุณารอในแถว', collocations: ['stand in a queue', 'jump the queue', 'a long queue'] },
+			{ word: 'Quiz', pronunciation: 'ควิซ', meaning: 'แบบทดสอบ', example_en: 'We have a history quiz tomorrow.', example_th: 'พรุ่งนี้เรามีควิซประวัติศาสตร์', collocations: ['a pop quiz', 'take a quiz', 'a music quiz'] },
+			{ word: 'Quote', pronunciation: 'โควท', meaning: 'คำคม, คำพูดที่อ้างอิง', example_en: 'That\'s my favorite quote from the movie.', example_th: 'นั่นคือคำพูดที่ฉันชอบที่สุดจากหนังเรื่องนี้', collocations: ['a famous quote', 'a direct quote', 'quote of the day'] },
+			{ word: 'Quarter', pronunciation: '<u>ควอร์</u>-เท่อะ', meaning: 'หนึ่งในสี่, ไตรมาส', example_en: 'It\'s a quarter past three.', example_th: 'ตอนนี้เวลาบ่ายสามสิบห้านาที', collocations: ['a quarter of an hour', 'the first quarter', 'a quarter-final'] },
+			{ word: 'Quality', pronunciation: '<u>ควอ</u>-ลิ-ตี้', meaning: 'คุณภาพ', example_en: 'This product is of high quality.', example_th: 'สินค้าชิ้นนี้มีคุณภาพสูง', collocations: ['high quality', 'good quality', 'quality of life'] },
+			{ word: 'Quantity', pronunciation: '<u>ควอน</u>-ทิ-ตี้', meaning: 'ปริมาณ', example_en: 'They are more concerned with quantity than quality.', example_th: 'พวกเขาสนใจปริมาณมากกว่าคุณภาพ', collocations: ['a large quantity of', 'a small quantity of', 'quantity over quality'] },
+			{ word: 'Quilt', pronunciation: 'ควิลท์', meaning: 'ผ้านวม', example_en: 'My grandmother made this beautiful quilt.', example_th: 'คุณย่าของฉันทำผ้านวมที่สวยงามผืนนี้', collocations: ['a patchwork quilt', 'under the quilt', 'a warm quilt'] },
+			{ word: 'Quail', pronunciation: 'เควล', meaning: 'นกกระทา', example_en: 'We had roasted quail for dinner.', example_th: 'เราทานนกกระทาย่างเป็นอาหารเย็น', collocations: ['quail eggs', 'a flock of quail', 'roast quail'] }
+		],
+		'R': [
+			{ word: 'Rabbit', pronunciation: '<u>แร๊บ</u>-บิท', meaning: 'กระต่าย', example_en: 'A rabbit has long ears.', example_th: 'กระต่ายมีหูยาว', collocations: ['a pet rabbit', 'as fast as a rabbit', 'pull a rabbit out of a hat'] },
+			{ word: 'Radio', pronunciation: '<u>เร</u>-ดิ-โอ', meaning: 'วิทยุ', example_en: 'I listen to the radio in my car.', example_th: 'ฉันฟังวิทยุในรถของฉัน', collocations: ['listen to the radio', 'on the radio', 'radio station'] },
+			{ word: 'Rain', pronunciation: 'เรน', meaning: 'ฝน', example_en: 'The rain is falling heavily.', example_th: 'ฝนกำลังตกหนัก', collocations: ['heavy rain', 'in the rain', 'acid rain'] },
+			{ word: 'Rainbow', pronunciation: '<u>เรน</u>-โบว์', meaning: 'รุ้ง', example_en: 'Look! There is a beautiful rainbow in the sky.', example_th: 'ดูนั่นสิ! มีรุ้งที่สวยงามบนท้องฟ้า', collocations: ['a beautiful rainbow', 'at the end of the rainbow', 'a double rainbow'] },
+			{ word: 'Reason', pronunciation: '<u>รี</u>-ซั่น', meaning: 'เหตุผล', example_en: 'What is the reason for your decision?', example_th: 'อะไรคือเหตุผลสำหรับการตัดสินใจของคุณ', collocations: ['the main reason', 'for some reason', 'a good reason'] },
+			{ word: 'Report', pronunciation: 'รี-<u>พอร์ท</u>', meaning: 'รายงาน', example_en: 'I have to finish my book report by Friday.', example_th: 'ฉันต้องทำรายงานหนังสือให้เสร็จภายในวันศุกร์', collocations: ['a book report', 'a news report', 'write a report'] },
+			{ word: 'Restaurant', pronunciation: '<u>เรส</u>-เตอ-รองท์', meaning: 'ร้านอาหาร', example_en: 'Let\'s eat at a Thai restaurant tonight.', example_th: 'คืนนี้ไปกินข้าวที่ร้านอาหารไทยกันเถอะ', collocations: ['a fancy restaurant', 'eat at a restaurant', 'a Thai restaurant'] },
+			{ word: 'Result', pronunciation: 'รี-<u>ซอลท์</u>', meaning: 'ผลลัพธ์', example_en: 'The result of the exam will be announced next week.', example_th: 'ผลสอบจะประกาศในสัปดาห์หน้า', collocations: ['exam result', 'as a result', 'a positive result'] },
+			{ word: 'Rice', pronunciation: 'ไรซ์', meaning: 'ข้าว', example_en: 'I eat rice every day.', example_th: 'ฉันกินข้าวทุกวัน', collocations: ['fried rice', 'a bowl of rice', 'sticky rice'] },
+			{ word: 'Ring', pronunciation: 'ริง', meaning: 'แหวน, เสียงกริ่ง', example_en: 'He gave her a diamond ring.', example_th: 'เขาให้แหวนเพชรแก่เธอ', collocations: ['a diamond ring', 'wedding ring', 'give someone a ring'] },
+			{ word: 'River', pronunciation: '<u>ริ</u>-เว่อะ', meaning: 'แม่น้ำ', example_en: 'The Chao Phraya River flows through Bangkok.', example_th: 'แม่น้ำเจ้าพระยาไหลผ่านกรุงเทพฯ', collocations: ['along the river', 'cross the river', 'down the river'] },
+			{ word: 'Road', pronunciation: 'โรด', meaning: 'ถนน', example_en: 'Be careful when you cross the road.', example_th: 'ระมัดระวังเมื่อคุณข้ามถนน', collocations: ['cross the road', 'on the road', 'a main road'] },
+			{ word: 'Rock', pronunciation: 'ร็อค', meaning: 'หิน, ดนตรีร็อค', example_en: 'The ship hit a rock and sank.', example_th: 'เรือชนโขดหินและจมลง', collocations: ['a piece of rock', 'rock music', 'between a rock and a hard place'] },
+			{ word: 'Roof', pronunciation: 'รูฟ', meaning: 'หลังคา', example_en: 'The cat is sleeping on the roof.', example_th: 'แมวกำลังนอนอยู่บนหลังคา', collocations: ['on the roof', 'a flat roof', 'raise the roof'] },
+			{ word: 'Room', pronunciation: 'รูม', meaning: 'ห้อง', example_en: 'This is my living room.', example_th: 'นี่คือห้องนั่งเล่นของฉัน', collocations: ['living room', 'bedroom', 'make room for'] },
+			{ word: 'Rope', pronunciation: 'โรพ', meaning: 'เชือก', example_en: 'He used a rope to climb the tree.', example_th: 'เขาใช้เชือกปีนต้นไม้', collocations: ['a piece of rope', 'tie with a rope', 'on the ropes'] },
+			{ word: 'Rose', pronunciation: 'โรส', meaning: 'กุหลาบ', example_en: 'He gave her a red rose.', example_th: 'เขาให้กุหลาบแดงแก่เธอ', collocations: ['a red rose', 'a bunch of roses', 'a bed of roses'] },
+			{ word: 'Route', pronunciation: 'รูท', meaning: 'เส้นทาง', example_en: 'Which is the best route to the airport?', example_th: 'เส้นทางไหนดีที่สุดที่จะไปสนามบิน', collocations: ['the best route', 'a direct route', 'plan a route'] },
+			{ word: 'Rule', pronunciation: 'รูล', meaning: 'กฎ', example_en: 'You must follow the rules.', example_th: 'คุณต้องปฏิบัติตามกฎ', collocations: ['follow the rules', 'break the rules', 'a general rule'] },
+			{ word: 'Refrigerator', pronunciation: 'รี-<u>ฟริ</u>-เจอ-เร-เตอร์', meaning: 'ตู้เย็น', example_en: 'Please put the milk back in the refrigerator.', example_th: 'กรุณานำนมกลับไปใส่ในตู้เย็นด้วย', collocations: ['in the refrigerator', 'open the refrigerator', 'a refrigerator magnet'] }
+		],
+		'S': [
+			{ word: 'School', pronunciation: 'สคูล', meaning: 'โรงเรียน', example_en: 'My children go to a local school.', example_th: 'ลูกๆ ของฉันไปโรงเรียนในท้องถิ่น', collocations: ['go to school', 'high school', 'primary school'] },
+			{ word: 'Sea', pronunciation: 'ซี', meaning: 'ทะเล', example_en: 'We spent the day at the sea.', example_th: 'เราใช้เวลาทั้งวันที่ทะเล', collocations: ['by the sea', 'at sea', 'deep blue sea'] },
+			{ word: 'Season', pronunciation: '<u>ซี</u>-ซั่น', meaning: 'ฤดูกาล', example_en: 'My favorite season is spring.', example_th: 'ฤดูที่ฉันชอบที่สุดคือฤดูใบไม้ผลิ', collocations: ['rainy season', 'dry season', 'in season'] },
+			{ word: 'Seat', pronunciation: 'ซีท', meaning: 'ที่นั่ง', example_en: 'Is this seat taken?', example_th: 'ที่นั่งนี้มีคนนั่งหรือยัง', collocations: ['take a seat', 'a window seat', 'back seat'] },
+			{ word: 'Shirt', pronunciation: 'เชิร์ท', meaning: 'เสื้อเชิ้ต', example_en: 'He is wearing a white shirt.', example_th: 'เขาสวมเสื้อเชิ้ตสีขาว', collocations: ['a clean shirt', 'iron a shirt', 'T-shirt'] },
+			{ word: 'Shoe', pronunciation: 'ชู', meaning: 'รองเท้า', example_en: 'I need to buy a new pair of shoes.', example_th: 'ฉันต้องซื้อรองเท้าคู่ใหม่', collocations: ['a pair of shoes', 'put on your shoes', 'running shoes'] },
+			{ word: 'Shop', pronunciation: 'ช็อป', meaning: 'ร้านค้า', example_en: 'I need to go to the shop to buy some milk.', example_th: 'ฉันต้องไปร้านค้าเพื่อซื้อนม', collocations: ['go to the shop', 'coffee shop', 'window shopping'] },
+			{ word: 'Sister', pronunciation: '<u>ซิส</u>-เท่อะ', meaning: 'พี่สาว, น้องสาว', example_en: 'My sister and I are very close.', example_th: 'ฉันกับพี่สาวสนิทกันมาก', collocations: ['older sister', 'younger sister', 'like a sister'] },
+			{ word: 'Snow', pronunciation: 'สโนว์', meaning: 'หิมะ', example_en: 'The mountains were covered in snow.', example_th: 'ภูเขาถูกปกคลุมไปด้วยหิมะ', collocations: ['heavy snow', 'play in the snow', 'as white as snow'] },
+			{ word: 'Soap', pronunciation: 'โซพ', meaning: 'สบู่', example_en: 'You should wash your hands with soap and water.', example_th: 'คุณควรล้างมือด้วยสบู่และน้ำ', collocations: ['a bar of soap', 'liquid soap', 'soap opera'] },
+			{ word: 'Son', pronunciation: 'ซัน', meaning: 'ลูกชาย', example_en: 'He is very proud of his son.', example_th: 'เขาภูมิใจในตัวลูกชายของเขามาก', collocations: ['have a son', 'a loving son', 'like father, like son'] },
+			{ word: 'Song', pronunciation: 'ซอง', meaning: 'เพลง', example_en: 'This is my favorite song.', example_th: 'นี่คือเพลงโปรดของฉัน', collocations: ['sing a song', 'a pop song', 'love song'] },
+			{ word: 'Soup', pronunciation: 'ซุป', meaning: 'ซุป', example_en: 'I would like a bowl of tomato soup.', example_th: 'ฉันต้องการซุปมะเขือเทศหนึ่งถ้วย', collocations: ['a bowl of soup', 'chicken soup', 'hot soup'] },
+			{ word: 'Sport', pronunciation: 'สปอร์ต', meaning: 'กีฬา', example_en: 'What is your favorite sport?', example_th: 'กีฬาที่คุณชอบคืออะไร', collocations: ['play a sport', 'a team sport', 'watch sports'] },
+			{ word: 'Star', pronunciation: 'สตาร์', meaning: 'ดาว', example_en: 'The stars are shining brightly tonight.', example_th: 'คืนนี้ดวงดาวส่องแสงเจิดจ้า', collocations: ['a shooting star', 'movie star', 'reach for the stars'] },
+			{ word: 'Station', pronunciation: '<u>สเต</u>-ชั่น', meaning: 'สถานี', example_en: 'I will meet you at the train station.', example_th: 'ฉันจะไปพบคุณที่สถานีรถไฟ', collocations: ['train station', 'bus station', 'police station'] },
+			{ word: 'Story', pronunciation: '<u>สตอ</u>-รี่', meaning: 'เรื่องราว', example_en: 'He told us an interesting story.', example_th: 'เขาเล่าเรื่องที่น่าสนใจให้เราฟัง', collocations: ['tell a story', 'a true story', 'a long story short'] },
+			{ word: 'Street', pronunciation: 'สตรีท', meaning: 'ถนน', example_en: 'My house is on this street.', example_th: 'บ้านของฉันอยู่บนถนนเส้นนี้', collocations: ['on the street', 'a busy street', 'main street'] },
+			{ word: 'Student', pronunciation: '<u>สติว</u>-เด้นท์', meaning: 'นักเรียน', example_en: 'She is a student at a top university.', example_th: 'เธอเป็นนักศึกษาในมหาวิทยาลัยชั้นนำ', collocations: ['a good student', 'a university student', 'a group of students'] },
+			{ word: 'Sun', pronunciation: 'ซัน', meaning: 'ดวงอาทิตย์', example_en: 'The sun is shining.', example_th: 'พระอาทิตย์กำลังส่องแสง', collocations: ['in the sun', 'sunrise', 'sunset'] }
+		],
+		'T': [
+			{ word: 'Table', pronunciation: '<u>เท</u>-เบิ้ล', meaning: 'โต๊ะ', example_en: 'The book is on the table.', example_th: 'หนังสืออยู่บนโต๊ะ', collocations: ['set the table', 'a coffee table', 'book a table'] },
+			{ word: 'Tea', pronunciation: 'ที', meaning: 'ชา', example_en: 'Would you like a cup of tea?', example_th: 'คุณต้องการชาสักถ้วยไหม', collocations: ['a cup of tea', 'green tea', 'afternoon tea'] },
+			{ word: 'Teacher', pronunciation: '<u>ที</u>-เช่อะ', meaning: 'ครู', example_en: 'My English teacher is very kind.', example_th: 'ครูสอนภาษาอังกฤษของฉันใจดีมาก', collocations: ['a good teacher', 'a primary school teacher', 'ask the teacher'] },
+			{ word: 'Team', pronunciation: 'ทีม', meaning: 'ทีม', example_en: 'Our team won the match.', example_th: 'ทีมของเราชนะการแข่งขัน', collocations: ['a football team', 'work as a team', 'join a team'] },
+			{ word: 'Telephone', pronunciation: '<u>เท</u>-เล-โฟน', meaning: 'โทรศัพท์', example_en: 'The telephone was invented by Alexander Graham Bell.', example_th: 'โทรศัพท์ถูกประดิษฐ์ขึ้นโดยอเล็กซานเดอร์ เกรแฮม เบลล์', collocations: ['answer the telephone', 'by telephone', 'telephone number'] },
+			{ word: 'Television', pronunciation: '<u>เท</u>-เล-วิ-ชั่น', meaning: 'โทรทัศน์', example_en: 'What\'s on television tonight?', example_th: 'คืนนี้มีอะไรน่าดูในทีวีบ้าง', collocations: ['watch television', 'on television', 'a television show'] },
+			{ word: 'Test', pronunciation: 'เทสท์', meaning: 'การทดสอบ', example_en: 'I have a math test tomorrow.', example_th: 'พรุ่งนี้ฉันมีสอบคณิตศาสตร์', collocations: ['take a test', 'pass a test', 'an English test'] },
+			{ word: 'Thing', pronunciation: 'ธิง', meaning: 'สิ่งของ', example_en: 'What is that thing on the table?', example_th: 'สิ่งนั้นบนโต๊ะคืออะไร', collocations: ['the first thing', 'one more thing', 'all things considered'] },
+			{ word: 'Time', pronunciation: 'ไทม์', meaning: 'เวลา', example_en: 'What time is it?', example_th: 'ตอนนี้กี่โมงแล้ว', collocations: ['spend time', 'save time', 'on time'] },
+			{ word: 'Today', pronunciation: 'ทู-<u>เดย์</u>', meaning: 'วันนี้', example_en: 'Today is my birthday.', example_th: 'วันนี้เป็นวันเกิดของฉัน', collocations: ['earlier today', 'later today', 'for today'] },
+			{ word: 'Tomato', pronunciation: 'โท-<u>เม</u>-โท', meaning: 'มะเขือเทศ', example_en: 'I like tomato soup.', example_th: 'ฉันชอบซุปมะเขือเทศ', collocations: ['a ripe tomato', 'tomato sauce', 'cherry tomato'] },
+			{ word: 'Tomorrow', pronunciation: 'ทู-<u>มอ</u>-โร่', meaning: 'พรุ่งนี้', example_en: 'See you tomorrow!', example_th: 'เจอกันพรุ่งนี้นะ!', collocations: ['tomorrow morning', 'the day after tomorrow', 'see you tomorrow'] },
+			{ word: 'Tooth', pronunciation: 'ทูธ', meaning: 'ฟัน', example_en: 'You should brush your teeth twice a day.', example_th: 'คุณควรแปรงฟันวันละสองครั้ง', collocations: ['brush your teeth', 'a sweet tooth', 'toothache'] },
+			{ word: 'Town', pronunciation: 'ทาวน์', meaning: 'เมือง', example_en: 'I live in a small town.', example_th: 'ฉันอาศัยอยู่ในเมืองเล็กๆ', collocations: ['a small town', 'in town', 'hometown'] },
+			{ word: 'Toy', pronunciation: 'ทอย', meaning: 'ของเล่น', example_en: 'The child is playing with a toy car.', example_th: 'เด็กกำลังเล่นรถของเล่น', collocations: ['a toy car', 'play with a toy', 'toy store'] },
+			{ word: 'Train', pronunciation: 'เทรน', meaning: 'รถไฟ', example_en: 'We took the train to Chiang Mai.', example_th: 'เรานั่งรถไฟไปเชียงใหม่', collocations: ['take the train', 'by train', 'train station'] },
+			{ word: 'Tree', pronunciation: 'ทรี', meaning: 'ต้นไม้', example_en: 'A bird is sitting on the tree.', example_th: 'มีนกเกาะอยู่บนต้นไม้', collocations: ['climb a tree', 'a tall tree', 'family tree'] },
+			{ word: 'Trip', pronunciation: 'ทริป', meaning: 'การเดินทาง', example_en: 'We are planning a trip to Japan.', example_th: 'เรากำลังวางแผนการเดินทางไปญี่ปุ่น', collocations: ['a business trip', 'a school trip', 'go on a trip'] },
+			{ word: 'Truck', pronunciation: 'ทรัค', meaning: 'รถบรรทุก', example_en: 'The truck is carrying a heavy load.', example_th: 'รถบรรทุกกำลังบรรทุกของหนัก', collocations: ['a big truck', 'a pickup truck', 'a fire truck'] },
+			{ word: 'T-shirt', pronunciation: '<u>ที</u>-เชิร์ท', meaning: 'เสื้อยืด', example_en: 'He wore a blue T-shirt and jeans.', example_th: 'เขาสวมเสื้อยืดสีน้ำเงินกับกางเกงยีนส์', collocations: ['a plain T-shirt', 'wear a T-shirt', 'a cotton T-shirt'] }
+		],
+		'U': [
+			{ word: 'Umbrella', pronunciation: 'อัม-<u>เบรล</u>-ล่า', meaning: 'ร่ม', example_en: 'Don\'t forget your umbrella, it might rain.', example_th: 'อย่าลืมร่มของคุณนะ ฝนอาจจะตก', collocations: ['take an umbrella', 'under my umbrella', 'a beach umbrella'] },
+			{ word: 'Uncle', pronunciation: '<u>อัง</u>-เคิล', meaning: 'ลุง, น้า, อา (ผู้ชาย)', example_en: 'My uncle is a famous writer.', example_th: 'ลุงของฉันเป็นนักเขียนชื่อดัง', collocations: ['visit my uncle', 'a rich uncle', 'uncle and aunt'] },
+			{ word: 'Underwear', pronunciation: '<u>อัน</u>-เดอร์-แวร์', meaning: 'ชุดชั้นใน', example_en: 'You should change your underwear every day.', example_th: 'คุณควรเปลี่ยนชุดชั้นในทุกวัน', collocations: ['a pair of underwear', 'clean underwear', 'thermal underwear'] },
+			{ word: 'University', pronunciation: 'ยู-นิ-<u>เวอร์</u>-ซิ-ตี้', meaning: 'มหาวิทยาลัย', example_en: 'She is studying at a famous university.', example_th: 'เธอกำลังเรียนอยู่ที่มหาวิทยาลัยชื่อดัง', collocations: ['go to university', 'a university degree', 'a top university'] },
+			{ word: 'Universe', pronunciation: '<u>ยู</u>-นิ-เวิร์ส', meaning: 'จักรวาล', example_en: 'The universe is vast and full of wonders.', example_th: 'จักรวาลนั้นกว้างใหญ่และเต็มไปด้วยสิ่งมหัศจรรย์', collocations: ['the entire universe', 'the center of the universe', 'Miss Universe'] },
+			{ word: 'User', pronunciation: '<u>ยู</u>-เซ่อะ', meaning: 'ผู้ใช้', example_en: 'Please enter your username and password.', example_th: 'กรุณาใส่ชื่อผู้ใช้และรหัสผ่านของคุณ', collocations: ['a registered user', 'end user', 'user-friendly'] }
+		],
+		'V': [
+			{ word: 'Vacation', pronunciation: 'เว-<u>เค</u>-ชั่น', meaning: 'วันหยุดพักผ่อน', example_en: 'We are going on vacation to the beach.', example_th: 'เรากำลังจะไปพักผ่อนที่ชายหาด', collocations: ['go on vacation', 'summer vacation', 'a family vacation'] },
+			{ word: 'Vegetable', pronunciation: '<u>เวจ</u>-ทะ-เบิ้ล', meaning: 'ผัก', example_en: 'You should eat plenty of fresh vegetables.', example_th: 'คุณควรกินผักสดเยอะๆ', collocations: ['fresh vegetables', 'eat your vegetables', 'a vegetable garden'] },
+			{ word: 'Vehicle', pronunciation: '<u>วี</u>-ฮิ-เคิ่ล', meaning: 'ยานพาหนะ', example_en: 'A car is a type of vehicle.', example_th: 'รถยนต์เป็นยานพาหนะชนิดหนึ่ง', collocations: ['a motor vehicle', 'drive a vehicle', 'an emergency vehicle'] },
+			{ word: 'Video', pronunciation: '<u>วิ</u>-ดิ-โอ', meaning: 'วิดีโอ', example_en: 'Let\'s watch a video.', example_th: 'มาดูวิดีโอกันเถอะ', collocations: ['watch a video', 'make a video', 'video game'] },
+			{ word: 'View', pronunciation: 'วิว', meaning: 'ทิวทัศน์', example_en: 'The view from the top of the mountain is amazing.', example_th: 'ทิวทัศน์จากยอดเขานั้นน่าทึ่งมาก', collocations: ['an amazing view', 'a room with a view', 'point of view'] },
+			{ word: 'Village', pronunciation: '<u>วิล</u>-ลิจ', meaning: 'หมู่บ้าน', example_en: 'She lives in a small village in the countryside.', example_th: 'เธออาศัยอยู่ในหมู่บ้านเล็กๆ ในชนบท', collocations: ['a small village', 'a fishing village', 'the whole village'] },
+			{ word: 'Violin', pronunciation: 'ไว-โอ-<u>ลิน</u>', meaning: 'ไวโอลิน', example_en: 'She plays the violin beautifully.', example_th: 'เธอเล่นไวโอลินได้ไพเราะมาก', collocations: ['play the violin', 'a violin concerto', 'a violin case'] },
+			{ word: 'Voice', pronunciation: 'วอยซ์', meaning: 'เสียง (คน)', example_en: 'She has a beautiful singing voice.', example_th: 'เธอมีเสียงร้องที่ไพเราะ', collocations: ['a beautiful voice', 'a loud voice', 'at the top of your voice'] },
+			{ word: 'Vase', pronunciation: 'วาซ', meaning: 'แจกัน', example_en: 'She put the flowers in a vase.', example_th: 'เธอใส่ดอกไม้ลงในแจกัน', collocations: ['a flower vase', 'a glass vase', 'put in a vase'] },
+			{ word: 'Volcano', pronunciation: 'วอล-<u>เค</u>-โน', meaning: 'ภูเขาไฟ', example_en: 'The volcano erupted last year.', example_th: 'ภูเขาไฟระเบิดเมื่อปีที่แล้ว', collocations: ['an active volcano', 'a dormant volcano', 'volcano eruption'] },
+			{ word: 'Vowel', pronunciation: '<u>วาว</u>-เอิล', meaning: 'สระ', example_en: 'The English vowels are A, E, I, O, U.', example_th: 'สระในภาษาอังกฤษคือ A, E, I, O, U', collocations: ['a long vowel', 'a short vowel', 'vowel sound'] }
+		],
+		'W': [
+			{ word: 'Wall', pronunciation: 'วอลล์', meaning: 'กำแพง, ผนัง', example_en: 'He hung a picture on the wall.', example_th: 'เขาแขวนรูปภาพบนผนัง', collocations: ['on the wall', 'a brick wall', 'hit a wall'] },
+			{ word: 'Water', pronunciation: '<u>วอ</u>-เท่อะ', meaning: 'น้ำ', example_en: 'Please give me a glass of water.', example_th: 'ขอน้ำหนึ่งแก้วครับ/ค่ะ', collocations: ['a glass of water', 'drinking water', 'hot water'] },
+			{ word: 'Way', pronunciation: 'เวย์', meaning: 'ทาง, วิธี', example_en: 'Can you show me the way to the station?', example_th: 'คุณช่วยบอกทางไปสถานีหน่อยได้ไหม', collocations: ['on the way', 'by the way', 'no way'] },
+			{ word: 'Weather', pronunciation: '<u>เว</u>-เธ่อะ', meaning: 'สภาพอากาศ', example_en: 'The weather is nice today.', example_th: 'วันนี้อากาศดี', collocations: ['good weather', 'bad weather', 'weather forecast'] },
+			{ word: 'Website', pronunciation: '<u>เว็บ</u>-ไซท์', meaning: 'เว็บไซต์', example_en: 'You can find more information on our website.', example_th: 'คุณสามารถค้นหาข้อมูลเพิ่มเติมได้ที่เว็บไซต์ของเรา', collocations: ['visit a website', 'a company website', 'on the website'] },
+			{ word: 'Wedding', pronunciation: '<u>เว็ด</u>-ดิ้ง', meaning: 'งานแต่งงาน', example_en: 'We are invited to their wedding.', example_th: 'เราได้รับเชิญไปงานแต่งงานของพวกเขา', collocations: ['a wedding dress', 'a wedding ring', 'go to a wedding'] },
+			{ word: 'Week', pronunciation: 'วีค', meaning: 'สัปดาห์', example_en: 'I will see you next week.', example_th: 'เจอกันสัปดาห์หน้านะ', collocations: ['next week', 'last week', 'once a week'] },
+			{ word: 'Weekend', pronunciation: '<u>วีค</u>-เอนด์', meaning: 'สุดสัปดาห์', example_en: 'What are you doing this weekend?', example_th: 'สุดสัปดาห์นี้คุณทำอะไร', collocations: ['this weekend', 'have a good weekend', 'on the weekend'] },
+			{ word: 'Wife', pronunciation: 'ไวฟ์', meaning: 'ภรรยา', example_en: 'He loves his wife very much.', example_th: 'เขารักภรรยาของเขามาก', collocations: ['husband and wife', 'a loving wife', 'ex-wife'] },
+			{ word: 'Wind', pronunciation: 'วินด์', meaning: 'ลม', example_en: 'The wind is blowing hard.', example_th: 'ลมพัดแรง', collocations: ['a strong wind', 'in the wind', 'wind power'] },
+			{ word: 'Window', pronunciation: '<u>วิน</u>-โดว์', meaning: 'หน้าต่าง', example_en: 'Please open the window.', example_th: 'กรุณาเปิดหน้าต่าง', collocations: ['open the window', 'a window seat', 'look out the window'] },
+			{ word: 'Wine', pronunciation: 'ไวน์', meaning: 'ไวน์', example_en: 'She enjoys a glass of red wine with dinner.', example_th: 'เธอชอบดื่มไวน์แดงหนึ่งแก้วพร้อมอาหารค่ำ', collocations: ['red wine', 'white wine', 'a glass of wine'] },
+			{ word: 'Winter', pronunciation: '<u>วิน</u>-เท่อะ', meaning: 'ฤดูหนาว', example_en: 'It snows in winter.', example_th: 'หิมะตกในฤดูหนาว', collocations: ['in the winter', 'a cold winter', 'winter clothes'] },
+			{ word: 'Woman', pronunciation: '<u>วู</u>-แมน', meaning: 'ผู้หญิง', example_en: 'That woman is a famous actress.', example_th: 'ผู้หญิงคนนั้นเป็นนักแสดงชื่อดัง', collocations: ['a young woman', 'an old woman', 'a business woman'] },
+			{ word: 'Wood', pronunciation: 'วู้ด', meaning: 'ไม้', example_en: 'This table is made of wood.', example_th: 'โต๊ะตัวนี้ทำจากไม้', collocations: ['made of wood', 'a piece of wood', 'touch wood'] },
+			{ word: 'Word', pronunciation: 'เวิร์ด', meaning: 'คำ', example_en: 'Can you spell that word for me?', example_th: 'คุณช่วยสะกดคำนั้นให้ฉันได้ไหม', collocations: ['in other words', 'a magic word', 'have a word with'] },
+			{ word: 'Work', pronunciation: 'เวิร์ค', meaning: 'งาน', example_en: 'I have a lot of work to do.', example_th: 'ฉันมีงานต้องทำเยอะมาก', collocations: ['go to work', 'hard work', 'at work'] },
+			{ word: 'World', pronunciation: 'เวิลด์', meaning: 'โลก', example_en: 'I want to travel around the world.', example_th: 'ฉันต้องการเดินทางรอบโลก', collocations: ['around the world', 'the whole world', 'a different world'] },
+			{ word: 'Watch', pronunciation: 'วอทช์', meaning: 'นาฬิกาข้อมือ', example_en: 'He looked at his watch.', example_th: 'เขามองไปที่นาฬิกาข้อมือของเขา', collocations: ['a wrist watch', 'a digital watch', 'look at your watch'] },
+			{ word: 'War', pronunciation: 'วอร์', meaning: 'สงคราม', example_en: 'War brings nothing but destruction.', example_th: 'สงครามไม่นำมาซึ่งสิ่งใดนอกจากความพินาศ', collocations: ['go to war', 'a civil war', 'declare war'] }
+		],
+		'X': [
+			{ word: 'X-ray', pronunciation: '<u>เอ็กซ์</u>-เรย์', meaning: 'เอ็กซ์เรย์', example_en: 'The doctor ordered an X-ray of my chest.', example_th: 'หมอสั่งให้เอ็กซ์เรย์หน้าอกของฉัน', collocations: ['a chest X-ray', 'have an X-ray', 'an X-ray machine'] },
+			{ word: 'Xylophone', pronunciation: '<u>ไซ</u>-โล-โฟน', meaning: 'ไซโลโฟน, ระนาดฝรั่ง', example_en: 'The child loves playing the xylophone.', example_th: 'เด็กคนนั้นชอบเล่นไซโลโฟน', collocations: ['play the xylophone', 'a colorful xylophone', 'a toy xylophone'] },
+            { word: 'Box', pronunciation: 'บ็อกซ์', meaning: 'กล่อง (มีเสียง X)', example_en: 'What\'s inside the bo<u>x</u>?', example_th: 'มีอะไรอยู่ข้างในกล่อง', collocations: ['a cardboard box', 'a gift box', 'think outside the box'] },
+            { word: 'Fox', pronunciation: 'ฟ็อกซ์', meaning: 'สุนัขจิ้งจอก (มีเสียง X)', example_en: 'The quick brown fo<u>x</u> jumps over the lazy dog.', example_th: 'สุนัขจิ้งจอกสีน้ำตาลที่ว่องไวกระโดดข้ามสุนัขขี้เกียจ', collocations: ['sly as a fox', 'a red fox', 'fox hunting'] },
+            { word: 'Exit', pronunciation: '<u>เอ็ก</u>-ซิท', meaning: 'ทางออก (มีเสียง X)', example_en: 'The e<u>x</u>it is on your left.', example_th: 'ทางออกอยู่ทางซ้ายมือของคุณ', collocations: ['an emergency exit', 'the main exit', 'make a quick exit'] },
+            { word: 'Example', pronunciation: 'เอ็ก-<u>แซม</u>-เพิ่ล', meaning: 'ตัวอย่าง (มีเสียง X)', example_en: 'Can you give me an e<u>x</u>ample?', example_th: 'คุณช่วยยกตัวอย่างให้ฉันได้ไหม', collocations: ['for example', 'a good example', 'set an example'] },
+            { word: 'Taxi', pronunciation: '<u>แท็ก</u>-ซี่', meaning: 'แท็กซี่ (มีเสียง X)', example_en: 'Let\'s take a ta<u>x</u>i.', example_th: 'เรานั่งแท็กซี่กันเถอะ', collocations: ['call a taxi', 'take a taxi', 'a taxi driver'] },
+            { word: 'Text', pronunciation: 'เท็กซ์ท', meaning: 'ข้อความ (มีเสียง X)', example_en: 'I will send you a te<u>x</u>t message.', example_th: 'ฉันจะส่งข้อความไปให้คุณ', collocations: ['send a text', 'a text message', 'the main text'] }
+		],
+		'Y': [
+			{ word: 'Yard', pronunciation: 'ยาร์ด', meaning: 'สนามหญ้า, ลานบ้าน', example_en: 'The children are playing in the yard.', example_th: 'เด็กๆ กำลังเล่นอยู่ในสนามหญ้า', collocations: ['front yard', 'back yard', 'a big yard'] },
+			{ word: 'Yawn', pronunciation: 'ยอน', meaning: 'การหาว', example_en: 'He tried to stifle a yawn.', example_th: 'เขาพยายามกลั้นหาว', collocations: ['give a big yawn', 'stifle a yawn', 'a wide yawn'] },
+			{ word: 'Year', pronunciation: 'เยียร์', meaning: 'ปี', example_en: 'I will graduate next year.', example_th: 'ฉันจะเรียนจบปีหน้า', collocations: ['next year', 'last year', 'New Year'] },
+			{ word: 'Yogurt', pronunciation: '<u>โย</u>-เกิร์ต', meaning: 'โยเกิร์ต', example_en: 'I eat yogurt for breakfast.', example_th: 'ฉันกินโยเกิร์ตเป็นอาหารเช้า', collocations: ['a cup of yogurt', 'fruit yogurt', 'plain yogurt'] },
+			{ word: 'Yolk', pronunciation: 'โยค', meaning: 'ไข่แดง', example_en: 'I prefer the yolk to the egg white.', example_th: 'ฉันชอบไข่แดงมากกว่าไข่ขาว', collocations: ['egg yolk', 'a runny yolk', 'separate the yolk'] },
+			{ word: 'Youth', pronunciation: 'ยูธ', meaning: 'วัยหนุ่มสาว, เยาวชน', example_en: 'He was a talented football player in his youth.', example_th: 'เขาเป็นนักฟุตบอลที่มีพรสวรรค์ในวัยหนุ่ม', collocations: ['in his youth', 'the fountain of youth', 'a group of youth'] },
+			{ word: 'Yesterday', pronunciation: '<u>เยส</u>-เทอ-เดย์', meaning: 'เมื่อวาน', example_en: 'I saw her yesterday.', example_th: 'ฉันเจอเธอเมื่อวานนี้', collocations: ['yesterday morning', 'the day before yesterday', 'since yesterday'] },
+			{ word: 'Yoga', pronunciation: '<u>โย</u>-คะ', meaning: 'โยคะ', example_en: 'She does yoga every morning.', example_th: 'เธอเล่นโยคะทุกเช้า', collocations: ['do yoga', 'a yoga class', 'a yoga mat'] },
+			{ word: 'Yacht', pronunciation: 'ยอท', meaning: 'เรือยอชต์', example_en: 'They sailed their yacht around the islands.', example_th: 'พวกเขาแล่นเรือยอชต์ไปรอบๆ หมู่เกาะ', collocations: ['a luxury yacht', 'sail a yacht', 'on a yacht'] }
+		],
+		'Z': [
+			{ word: 'Zebra', pronunciation: '<u>ซี</u>-บร้า', meaning: 'ม้าลาย', example_en: 'A zebra has black and white stripes.', example_th: 'ม้าลายมีลายแถบสีขาวดำ', collocations: ['a herd of zebras', 'zebra crossing', 'a zebra stripe'] },
+			{ word: 'Zero', pronunciation: '<u>ซี</u>-โร่', meaning: 'ศูนย์', example_en: 'The temperature is below zero.', example_th: 'อุณหภูมิต่ำกว่าศูนย์', collocations: ['below zero', 'from zero to hero', 'ground zero'] },
+			{ word: 'Zip', pronunciation: 'ซิป', meaning: 'ซิป', example_en: 'My zip is stuck.', example_th: 'ซิปของฉันติด', collocations: ['zip code', 'unzip the zip', 'a broken zip'] },
+			{ word: 'Zone', pronunciation: 'โซน', meaning: 'เขต, พื้นที่', example_en: 'This is a no-smoking zone.', example_th: 'ที่นี่คือเขตปลอดบุหรี่', collocations: ['a danger zone', 'a comfort zone', 'time zone'] },
+			{ word: 'Zoo', pronunciation: 'ซู', meaning: 'สวนสัตว์', example_en: 'We saw lions and tigers at the zoo.', example_th: 'เราเห็นสิงโตและเสือที่สวนสัตว์', collocations: ['go to the zoo', 'a local zoo', 'a petting zoo'] }
+		]
+	};
+
+    // --- SCRIPT LOGIC ---
+    document.addEventListener('DOMContentLoaded', () => {
+        const vocabGrid = document.getElementById('vocab-grid');
+        const letterSelector = document.getElementById('letter-selector');
+        const modal = document.getElementById('vocab-modal');
+        const modalBox = document.getElementById('modal-box');
+        const closeModalBtn = document.getElementById('close-modal');
+        
+        const currentLetterDisplay = document.getElementById('current-letter-display');
+        const currentLetterText = document.getElementById('current-letter-text');
+        const currentLetterTitle = document.getElementById('current-letter-title');
+
+        const modalWord = document.getElementById('modal-word');
+        const modalPronunciation = document.getElementById('modal-pronunciation');
+        const modalMeaning = document.getElementById('modal-meaning');
+        const modalExampleEn = document.getElementById('modal-example-en');
+        const modalExampleTh = document.getElementById('modal-example-th');
+        const modalCollocations = document.getElementById('modal-collocations');
+
+        const letterDisplayColors = {
+            'A-E': 'from-red-400 to-orange-400',
+            'F-J': 'from-green-400 to-blue-400',
+            'K-O': 'from-purple-400 to-pink-400',
+            'P-T': 'from-yellow-400 to-red-400',
+            'U-Z': 'from-teal-400 to-cyan-400',
+        };
+
+        const buttonColors = [
+            'bg-blue-400 hover:bg-blue-500', 'bg-green-400 hover:bg-green-500',
+            'bg-yellow-400 hover:bg-yellow-500', 'bg-purple-400 hover:bg-purple-500',
+            'bg-pink-400 hover:bg-pink-500', 'bg-indigo-400 hover:bg-indigo-500',
+            'bg-teal-400 hover:bg-teal-500', 'bg-orange-400 hover:bg-orange-500',
+        ];
+
+        function getLetterGroupColor(letter) {
+            const charCode = letter.charCodeAt(0);
+            if (charCode >= 'A'.charCodeAt(0) && charCode <= 'E'.charCodeAt(0)) return letterDisplayColors['A-E'];
+            if (charCode >= 'F'.charCodeAt(0) && charCode <= 'J'.charCodeAt(0)) return letterDisplayColors['F-J'];
+            if (charCode >= 'K'.charCodeAt(0) && charCode <= 'O'.charCodeAt(0)) return letterDisplayColors['K-O'];
+            if (charCode >= 'P'.charCodeAt(0) && charCode <= 'T'.charCodeAt(0)) return letterDisplayColors['P-T'];
+            if (charCode >= 'U'.charCodeAt(0) && charCode <= 'Z'.charCodeAt(0)) return letterDisplayColors['U-Z'];
+            return 'from-gray-400 to-gray-500';
+        }
+
+        function displayLetters() {
+            const letters = Object.keys(vocabData);
+            letters.forEach(letter => {
+                const button = document.createElement('button');
+                button.textContent = letter;
+                button.dataset.letter = letter;
+                button.className = 'letter-btn font-poppins font-bold w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-gray-200 text-gray-600 hover:bg-sky-300 transition-all duration-300 focus:outline-none';
+                button.addEventListener('click', () => switchLetter(letter));
+                letterSelector.appendChild(button);
+            });
+        }
+
+        function switchLetter(letter) {
+            currentLetterText.textContent = letter;
+            currentLetterTitle.textContent = `คำนามหมวด ${letter}`;
+            
+            currentLetterDisplay.className = `w-16 h-16 bg-gradient-to-br ${getLetterGroupColor(letter)} flex items-center justify-center rounded-xl shadow-lg transition-all duration-300`;
+
+            document.querySelectorAll('.letter-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.letter === letter);
+            });
+
+            displayWords(letter);
+        }
+
+        function displayWords(letter) {
+            vocabGrid.innerHTML = ''; 
+            const words = vocabData[letter];
+            words.forEach((item, index) => {
+                const button = document.createElement('button');
+                button.textContent = item.word;
+                const colorClass = buttonColors[index % buttonColors.length];
+                button.className = `font-poppins text-white font-semibold py-4 px-2 rounded-lg shadow-md transition-transform transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-opacity-50 ${colorClass}`;
+                button.addEventListener('click', () => openModal(item));
+                vocabGrid.appendChild(button);
+            });
+        }
+
+        function openModal(wordData) {
+            modalWord.textContent = wordData.word;
+            modalPronunciation.innerHTML = wordData.pronunciation;
+            modalMeaning.textContent = wordData.meaning;
+            modalExampleEn.textContent = `"${wordData.example_en}"`;
+            modalExampleTh.textContent = `(${wordData.example_th})`;
+            modalCollocations.innerHTML = '';
+            wordData.collocations.forEach(collocation => {
+                const li = document.createElement('li');
+                li.className = "flex items-start";
+                li.innerHTML = `<span class="text-teal-500 mr-2 mt-1">&#10004;</span> <span class="text-gray-600">${collocation}</span>`;
+                modalCollocations.appendChild(li);
+            });
+            modal.classList.remove('hidden');
+            modalBox.classList.add('modal-enter');
+        }
+
+        function closeModal() {
+            modal.classList.add('hidden');
+            modalBox.classList.remove('modal-enter');
+        }
+        
+        closeModalBtn.addEventListener('click', closeModal);
+        modal.addEventListener('click', (event) => {
+            if (event.target === modal) {
+                closeModal();
+            }
+        });
+
+        // --- Initialize the App ---
+        displayLetters();
+        switchLetter('A');
+    });
+    </script>
+</body>
+</html>

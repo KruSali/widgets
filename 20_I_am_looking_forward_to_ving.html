@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Structure #20 - I'm looking forward to (with translation)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Mitr:wght@300;400;500;600&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Mitr', sans-serif;
+        }
+        .font-poppins {
+            font-family: 'Poppins', sans-serif;
+        }
+        .sentence-btn {
+            transition: all 0.2s ease-in-out;
+        }
+        #modal {
+            transition: opacity 0.3s ease;
+        }
+        .modal-content-container {
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            opacity: 0;
+            transform: translateY(20px) scale(0.95);
+        }
+        #modal.active .modal-content-container {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-sky-100 to-yellow-100 min-h-screen">
+
+    <div class="container mx-auto p-4 sm:p-6 lg:p-8">
+
+        <header class="text-center mb-10">
+            <h1 class="text-4xl sm:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-sky-600 to-blue-500 font-poppins">Structure #20</h1>
+            <h2 class="text-2xl sm:text-3xl font-bold text-slate-800 mt-2 font-poppins">"I'm looking forward to + (noun/gerund)"</h2>
+            <p class="text-slate-600 mt-4 max-w-2xl mx-auto text-lg">
+                ใช้แสดง <strong class="text-sky-700">"ความตั้งตารอคอย"</strong> สิ่งดีๆ ที่จะเกิดขึ้นอย่างสุภาพ<br>
+                <strong class="text-red-600">ข้อควรจำที่สำคัญที่สุด:</strong> หลัง 'to' ในโครงสร้างนี้ต้องตามด้วย <strong class="text-sky-700">คำนาม (Noun)</strong> หรือ <strong class="text-blue-600">กริยาเติม -ing (Gerund)</strong> เท่านั้น!
+            </p>
+        </header>
+
+        <main id="sentences-grid" class="grid grid-cols-1 md:grid-cols-2 gap-5">
+            </main>
+
+        <footer class="text-center mt-12">
+            <p class="text-slate-700 font-medium">อังกฤษฉบับคนเรียนไม่รู้เรื่อง โดยครูสาลี่</p>
+        </footer>
+
+    </div>
+
+    <div id="modal" class="fixed inset-0 bg-black bg-opacity-60 flex justify-center items-center p-4 z-50 opacity-0 pointer-events-none">
+        <div class="modal-content-container w-full max-w-2xl max-h-[90vh] overflow-y-auto bg-slate-50 rounded-2xl shadow-2xl">
+            <div id="modal-header" class="p-6 sm:p-8 rounded-t-2xl bg-gradient-to-r from-sky-500 to-blue-600">
+                <p id="modal-english" class="font-poppins font-bold text-2xl text-white text-center"></p>
+                <p id="modal-thai" class="text-xl text-white text-center mt-2 opacity-90"></p>
+            </div>
+            <div class="p-6 sm:p-8">
+                <div id="modal-details" class="space-y-5">
+                    </div>
+                <div class="text-center mt-8">
+                    <button id="close-modal-btn" class="bg-slate-600 hover:bg-slate-700 text-white font-bold py-2 px-8 rounded-full shadow-lg transform hover:scale-105 transition-transform duration-300">
+                        ปิด
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const sentences = [
+             // --- Followed by Gerund (-ing) ---
+            {
+                eng: "I'm looking forward to seeing you.", th: "ฉันตั้งตารอที่จะได้เจอคุณ",
+                context: "ประโยคที่ใช้บ่อยที่สุดเพื่อบอกเพื่อนหรือคนรู้จักว่าจะได้พบกันเร็วๆ นี้ เป็นการแสดงความรู้สึกที่ดีและเป็นมิตร",
+                dialogue: { a: "Our flight is booked for next Friday.", b: "That's wonderful news! I'm looking forward to seeing you." },
+                alternatives: "<strong>I'm excited to see you.</strong><br><strong>I can't wait to see you.</strong> (ไม่เป็นทางการ)"
+            },
+            {
+                eng: "I'm looking forward to meeting you.", th: "ฉันตั้งตารอที่จะได้พบคุณ (ครั้งแรก)",
+                context: "ใช้กับคนที่เรายังไม่เคยเจอหน้ากันมาก่อน เช่น ในอีเมลธุรกิจหรือการนัดหมายออนไลน์ เพื่อสร้างความประทับใจที่ดี",
+                dialogue: { a: "Our meeting is confirmed for Tuesday.", b: "Excellent. I'm looking forward to meeting you in person." },
+                alternatives: "<strong>It will be a pleasure to meet you.</strong> (เป็นทางการ)<br><strong>I'm excited to finally meet you.</strong>"
+            },
+            {
+                eng: "I'm looking forward to working with you.", th: "ฉันตั้งตารอที่จะได้ร่วมงานกับคุณ",
+                context: "ประโยคมาตรฐานในวงการธุรกิจ ใช้เมื่อเริ่มต้นโปรเจกต์ใหม่หรือต้อนรับเพื่อนร่วมงานใหม่ เพื่อแสดงทัศนคติที่ดี",
+                dialogue: { a: "Welcome to the team.", b: "Thank you. I'm looking forward to working with you all." },
+                alternatives: "<strong>I'm excited to work with you.</strong><br><strong>It will be great working with you.</strong>"
+            },
+            {
+                eng: "I'm looking forward to hearing from you.", th: "ฉันตั้งตารอที่จะได้รับการติดต่อจากคุณ",
+                context: "เป็นประโยคที่นิยมใช้ปิดท้ายอีเมลสมัครงานหรืออีเมลธุรกิจ เพื่อกระตุ้นให้อีกฝ่ายตอบกลับอย่างสุภาพ",
+                dialogue: { a: "...and that is my proposal. Thank you for your consideration.", b: "I look forward to hearing from you soon." },
+                alternatives: "<strong>I hope to hear from you soon.</strong><br><strong>Awaiting your reply.</strong> (รอการตอบกลับของคุณ)"
+            },
+            {
+                eng: "I'm looking forward to starting my new job.", th: "ฉันตั้งตารอที่จะได้เริ่มงานใหม่",
+                context: "ใช้แสดงความรู้สึกคาดหวังในเชิงบวกกับงานใหม่ที่กำลังจะเริ่มต้น",
+                dialogue: { a: "You must be excited.", b: "Yes, I'm really looking forward to starting my new job." },
+                alternatives: "<strong>I'm excited to start my new job.</strong><br><strong>I can't wait to start.</strong>"
+            },
+            {
+                eng: "I'm looking forward to relaxing this weekend.", th: "ฉันตั้งตารอที่จะได้พักผ่อนในสุดสัปดาห์นี้",
+                context: "ใช้พูดถึงแผนการพักผ่อนหลังจากสัปดาห์ที่ทำงานหรือเรียนมาอย่างหนัก",
+                dialogue: { a: "It's been such a long week.", b: "I agree. I'm looking forward to relaxing this weekend." },
+                alternatives: "<strong>I can't wait to relax this weekend.</strong><br><strong>I really need to unwind this weekend.</strong>"
+            },
+            {
+                eng: "I'm looking forward to learning a new skill.", th: "ฉันตั้งตารอที่จะได้เรียนรู้ทักษะใหม่",
+                context: "แสดงความคาดหวังและความกระตือรือร้นในการพัฒนาตนเอง",
+                dialogue: { a: "I signed up for a coding class.", b: "That's cool! I'm looking forward to learning a new skill myself." },
+                alternatives: "<strong>I'm excited about learning a new skill.</strong>"
+            },
+            {
+                eng: "I'm looking forward to celebrating your birthday.", th: "ฉันตั้งตารอที่จะได้ฉลองวันเกิดของคุณ",
+                context: "ใช้บอกเพื่อนหรือคนสำคัญว่าเรารู้สึกดีใจและรอคอยที่จะได้ร่วมฉลองในวันพิเศษของเขา",
+                dialogue: { a: "Are you coming to my party on Saturday?", b: "Of course! I'm looking forward to celebrating your birthday." },
+                alternatives: "<strong>I can't wait to celebrate with you.</strong><br><strong>I'm so excited for your party.</strong>"
+            },
+            // --- Followed by Noun ---
+            {
+                eng: "I'm looking forward to the weekend.", th: "ฉันตั้งตารอวันหยุดสุดสัปดาห์",
+                context: "ประโยคยอดฮิตของมนุษย์ทำงานและนักเรียน ใช้พูดคุยกันในวันศุกร์เพื่อแสดงความดีใจที่สัปดาห์กำลังจะสิ้นสุด",
+                dialogue: { a: "Thank God it's Friday!", b: "Tell me about it! I'm looking forward to the weekend." },
+                alternatives: "<strong>I can't wait for the weekend.</strong><br><strong>I'm so ready for the weekend.</strong>"
+            },
+            {
+                eng: "I'm looking forward to our trip.", th: "ฉันตั้งตารอทริปของเรา",
+                context: "ใช้พูดถึงแผนการเดินทางในอนาคตที่ได้วางแผนไว้แล้วกับเพื่อนหรือครอบครัว",
+                dialogue: { a: "Have you started packing for our trip to the beach?", b: "Not yet, but I'm so excited. I'm looking forward to our trip." },
+                alternatives: "<strong>I'm so excited about our trip.</strong><br><strong>I'm counting down the days until our trip.</strong>"
+            },
+            {
+                eng: "I'm looking forward to the concert.", th: "ฉันตั้งตารอคอนเสิร์ต",
+                context: "ใช้แสดงความตื่นเต้นและคาดหวังกับคอนเสิร์ตหรืองานอีเวนต์ที่กำลังจะไป",
+                dialogue: { a: "Do you have your ticket for the Coldplay concert?", b: "Yes! I'm looking forward to the concert so much." },
+                alternatives: "<strong>I'm so pumped for the concert.</strong> (ไม่เป็นทางการ)<br><strong>I can't wait for the concert.</strong>"
+            },
+            {
+                eng: "I'm looking forward to your visit.", th: "ฉันตั้งตารอการมาเยี่ยมของคุณ",
+                context: "ใช้บอกเพื่อนหรือครอบครัวที่กำลังจะมาเยี่ยม ว่าเรารู้สึกยินดีและรอคอยการมาของเขา",
+                dialogue: { a: "I'll be in your town next month.", b: "That's great news! I'm looking forward to your visit." },
+                alternatives: "<strong>I'm looking forward to having you here.</strong><br><strong>I can't wait for you to visit.</strong>"
+            },
+            {
+                eng: "I'm looking forward to the new season.", th: "ฉันตั้งตารอซีซั่นใหม่",
+                context: "ใช้พูดคุยกับเพื่อนเกี่ยวกับซีรีส์เรื่องโปรดที่กำลังจะออกซีซั่นใหม่",
+                dialogue: { a: "Did you hear? 'Stranger Things' season 5 is confirmed!", b: "Yes! I'm looking forward to the new season." },
+                alternatives: "<strong>I can't wait for the new season.</strong>"
+            },
+            {
+                eng: "I'm looking forward to a long holiday.", th: "ฉันตั้งตารอวันหยุดยาว",
+                context: "แสดงความรู้สึกคาดหวังที่จะได้พักผ่อนในช่วงวันหยุดยาวที่กำลังจะมาถึง",
+                dialogue: { a: "The Songkran festival is next month.", b: "I know. I'm looking forward to a long holiday." },
+                alternatives: "<strong>I'm excited about the long holiday.</strong><br><strong>I need a long break.</strong>"
+            },
+            {
+                eng: "I'm looking forward to your reply.", th: "ฉันตั้งตารอการตอบกลับของคุณ",
+                context: "เป็นอีกหนึ่งประโยคปิดท้ายอีเมลที่เป็นทางการและสุภาพมาก",
+                dialogue: { a: "Please find my resume attached.", b: "Thank you for your application. I look forward to your reply at your earliest convenience." },
+                alternatives: "<strong>I look forward to hearing from you.</strong>"
+            },
+            {
+                eng: "I'm looking forward to the challenge.", th: "ฉันตั้งตารอความท้าทายนี้",
+                context: "ใช้แสดงทัศนคติเชิงบวกในที่ทำงาน ว่าเราไม่กลัวความยากลำบาก แต่กลับมองว่าเป็นโอกาส",
+                dialogue: { a: "This new role comes with a lot of new responsibilities.", b: "I understand. I'm looking forward to the challenge." },
+                alternatives: "<strong>I'm ready for the challenge.</strong><br><strong>I'm excited about this new challenge.</strong>"
+            },
+            {
+                eng: "I'm looking forward to dinner tonight.", th: "ฉันตั้งตารออาหารค่ำคืนนี้",
+                context: "ใช้เมื่อมีนัดทานอาหารมื้อพิเศษหรือไปร้านอาหารดีๆ",
+                dialogue: { a: "Remember our reservation at the fancy restaurant?", b: "Of course! I'm looking forward to dinner tonight." },
+                alternatives: "<strong>I'm excited for dinner tonight.</strong>"
+            },
+            {
+                eng: "I'm looking forward to a change.", th: "ฉันตั้งตารอการเปลี่ยนแปลง",
+                context: "ใช้เมื่อรู้สึกเบื่อกับสถานการณ์ปัจจุบันและต้องการให้มีสิ่งใหม่ๆ เกิดขึ้น",
+                dialogue: { a: "I've been doing the same thing for 10 years.", b: "I understand. Sometimes, you just look forward to a change." },
+                alternatives: "<strong>I'm ready for a change.</strong><br><strong>I need a change of scenery.</strong>"
+            },
+            {
+                eng: "I'm looking forward to the summer.", th: "ฉันตั้งตารอฤดูร้อน",
+                context: "ใช้แสดงความคาดหวังกับฤดูกาลที่กำลังจะมาถึง เพราะมีแผนหรือกิจกรรมที่อยากทำ",
+                dialogue: { a: "I'm tired of the cold weather.", b: "Me too. I'm looking forward to the summer." },
+                alternatives: "<strong>I can't wait for summer.</strong>"
+            },
+            {
+                eng: "I'm not really looking forward to the exam.", th: "ฉันไม่ได้ตั้งตารอการสอบเท่าไหร่",
+                context: "ใช้รูปปฏิเสธเพื่อแสดงความรู้สึกกังวลหรือไม่ชอบเกี่ยวกับเหตุการณ์ในอนาคต",
+                dialogue: { a: "The final exam is next week.", b: "I know. I'm not really looking forward to it." },
+                alternatives: "<strong>I'm dreading the exam.</strong> (ฉันกลัวการสอบมาก)<br><strong>I'm not excited about the exam.</strong>"
+            }
+        ];
+        
+        const grid = document.getElementById('sentences-grid');
+        const modal = document.getElementById('modal');
+        const modalHeader = document.getElementById('modal-header');
+        const modalEnglish = document.getElementById('modal-english');
+        const modalThai = document.getElementById('modal-thai');
+        const modalDetails = document.getElementById('modal-details');
+        const closeModalBtn = document.getElementById('close-modal-btn');
+
+        sentences.forEach((sentence, index) => {
+            const button = document.createElement('button');
+            // Add 'group' class for hover effect on children
+            button.className = `group sentence-btn p-5 rounded-lg text-left bg-white border-2 border-cyan-500 hover:bg-cyan-500`;
+            
+            // Add spans for English and Thai text
+            button.innerHTML = `
+                <span class="font-poppins font-semibold text-cyan-700 group-hover:text-white transition-colors duration-200">${sentence.eng}</span>
+                <span class="block text-sm text-cyan-600 font-normal mt-1 group-hover:text-white/80 transition-colors duration-200">${sentence.th}</span>
+            `;
+            
+            button.addEventListener('click', () => openModal(sentence));
+            grid.appendChild(button);
+        });
+
+        function openModal(sentence) {
+            modalEnglish.textContent = sentence.eng;
+            modalThai.textContent = sentence.th;
+
+            modalDetails.innerHTML = `
+                <div class="p-4 bg-slate-100 rounded-lg">
+                    <h4 class="font-semibold text-lg text-slate-800 mb-2">💡 บริบทการใช้งาน (Context)</h4>
+                    <p class="text-slate-600">${sentence.context}</p>
+                </div>
+                <div class="p-4 bg-slate-100 rounded-lg">
+                    <h4 class="font-semibold text-lg text-slate-800 mb-2">💬 ตัวอย่างบทสนทนา (Dialogue)</h4>
+                    <div class="space-y-1 text-slate-600">
+                        <p><strong>A:</strong> ${sentence.dialogue.a}</p>
+                        <p><strong>B:</strong> ${sentence.dialogue.b}</p>
+                    </div>
+                </div>
+                <div class="p-4 bg-slate-100 rounded-lg">
+                    <h4 class="font-semibold text-lg text-slate-800 mb-2">🔄 คำที่เกี่ยวข้อง / ใช้แทนได้ (Alternatives)</h4>
+                    <div class="text-slate-600">${sentence.alternatives}</div>
+                </div>
+            `;
+
+            modal.classList.add('active');
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            modal.classList.add('opacity-0', 'pointer-events-none');
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        closeModalBtn.addEventListener('click', closeModal);
+        modal.addEventListener('click', (e) => {
+            if (e.target.id === 'modal') {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>

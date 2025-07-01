@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Structure #14 - I've decided to + (verb)</title>
+    <title>Structure #14 - I've decided to + (verb) (with translation)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -77,7 +77,7 @@
                 eng: "I've decided to quit my job.", th: "ฉันตัดสินใจที่จะลาออกจากงานแล้ว",
                 context: "ใช้เพื่อประกาศการตัดสินใจครั้งสำคัญในชีวิต ซึ่งผ่านการไตร่ตรองมาอย่างดี และเป็นการแจ้งให้ทราบถึงการเปลี่ยนแปลงครั้งใหญ่ที่จะเกิดขึ้น",
                 dialogue: { a: "You've been unhappy at work for a long time.", b: "I know. And after much thought, I've decided to quit my job." },
-                alternatives: "<strong>I'm going to quit my job.</strong> (ฉันจะลาออก - บอกความตั้งใจแน่วแน่)<br><strong>I've made up my mind to quit.</strong> (ฉันตัดสินใจแน่วแน่แล้วว่าจะลาออก)"
+                alternatives: "<strong>I'm going to quit my job.</strong> (ฉันจะลาออก - บอกความตั้งใจที่แน่วแน่)<br><strong>I've made up my mind to quit.</strong> (ฉันตัดสินใจแน่วแน่แล้วว่าจะลาออก)"
             },
             {
                 eng: "I've decided to go back to school.", th: "ฉันตัดสินใจที่จะกลับไปเรียนต่อแล้ว",
@@ -205,8 +205,13 @@
 
         sentences.forEach((sentence, index) => {
             const button = document.createElement('button');
-            button.className = `sentence-btn p-5 rounded-lg text-left font-poppins font-semibold bg-slate-800 text-white hover:bg-black`;
-            button.innerHTML = `<span>${sentence.eng}</span>`;
+            button.className = `group sentence-btn p-5 rounded-lg text-left bg-slate-800 hover:bg-black`;
+            
+            button.innerHTML = `
+                <span class="font-poppins font-semibold text-white transition-colors duration-200">${sentence.eng}</span>
+                <span class="block text-sm text-slate-300 font-normal mt-1 transition-colors duration-200">${sentence.th}</span>
+            `;
+
             button.addEventListener('click', () => openModal(sentence));
             grid.appendChild(button);
         });
@@ -224,7 +229,7 @@
                     <h4 class="font-semibold text-lg text-white mb-2">💬 ตัวอย่างบทสนทนา (Dialogue)</h4>
                     <div class="space-y-1">
                         <p><strong>A:</strong> ${sentence.dialogue.a}</p>
-                        <p><strong>B:</strong> ${sentence.dialogue.b}</p>
+                        <p><strong>B:</strong> ${sentence.dialoge.b}</p>
                     </div>
                 </div>
                 <div class="p-4 bg-slate-700 rounded-lg text-slate-300">

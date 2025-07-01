@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Structure #14 - I've decided to + (verb)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Mitr:wght@300;400;500;600&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Mitr', sans-serif;
+        }
+        .font-poppins {
+            font-family: 'Poppins', sans-serif;
+        }
+        .sentence-btn {
+            transition: all 0.2s ease-in-out;
+        }
+        #modal {
+            transition: opacity 0.3s ease;
+        }
+        .modal-content-container {
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            opacity: 0;
+            transform: translateY(20px) scale(0.95);
+        }
+        #modal.active .modal-content-container {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+    </style>
+</head>
+<body class="bg-slate-100">
+
+    <div class="container mx-auto p-4 sm:p-6 lg:p-8">
+
+        <header class="text-center mb-10">
+            <h1 class="text-4xl sm:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-red-600 to-slate-800 font-poppins">Structure #14</h1>
+            <h2 class="text-2xl sm:text-3xl font-bold text-slate-800 mt-2 font-poppins">"I've decided to + (verb)"</h2>
+            <p class="text-slate-600 mt-4 max-w-2xl mx-auto text-lg">
+                ใช้ประกาศ <strong class="text-red-600">"การตัดสินใจที่แน่วแน่"</strong> ซึ่งเกิดขึ้นหลังจากได้ใช้เวลาคิดหรือลังเลมาแล้ว เป็นการเน้นว่า "ณ ตอนนี้ ฉันตัดสินใจได้เรียบร้อยแล้ว"
+            </p>
+        </header>
+
+        <main id="sentences-grid" class="grid grid-cols-1 md:grid-cols-2 gap-5">
+            </main>
+
+        <footer class="text-center mt-12">
+            <p class="text-slate-700 font-medium">อังกฤษฉบับคนเรียนไม่รู้เรื่อง โดยครูสาลี่</p>
+        </footer>
+
+    </div>
+
+    <div id="modal" class="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center p-4 z-50 opacity-0 pointer-events-none">
+        <div class="modal-content-container w-full max-w-2xl max-h-[90vh] overflow-y-auto bg-slate-800 rounded-2xl shadow-2xl border border-slate-700">
+            <div id="modal-header" class="p-6 sm:p-8 rounded-t-2xl bg-gradient-to-r from-slate-900 to-black">
+                <p id="modal-english" class="font-poppins font-bold text-2xl text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-orange-400 text-center"></p>
+                <p id="modal-thai" class="text-xl text-white text-center mt-2 opacity-90"></p>
+            </div>
+            <div class="p-6 sm:p-8">
+                <div id="modal-details" class="space-y-5">
+                    </div>
+                <div class="text-center mt-8">
+                    <button id="close-modal-btn" class="bg-slate-600 hover:bg-slate-500 text-white font-bold py-2 px-8 rounded-full shadow-lg transform hover:scale-105 transition-transform duration-300">
+                        ปิด
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const sentences = [
+            {
+                eng: "I've decided to quit my job.", th: "ฉันตัดสินใจที่จะลาออกจากงานแล้ว",
+                context: "ใช้เพื่อประกาศการตัดสินใจครั้งสำคัญในชีวิต ซึ่งผ่านการไตร่ตรองมาอย่างดี และเป็นการแจ้งให้ทราบถึงการเปลี่ยนแปลงครั้งใหญ่ที่จะเกิดขึ้น",
+                dialogue: { a: "You've been unhappy at work for a long time.", b: "I know. And after much thought, I've decided to quit my job." },
+                alternatives: "<strong>I'm going to quit my job.</strong> (ฉันจะลาออก - บอกความตั้งใจแน่วแน่)<br><strong>I've made up my mind to quit.</strong> (ฉันตัดสินใจแน่วแน่แล้วว่าจะลาออก)"
+            },
+            {
+                eng: "I've decided to go back to school.", th: "ฉันตัดสินใจที่จะกลับไปเรียนต่อแล้ว",
+                context: "ใช้บอกการตัดสินใจครั้งสำคัญด้านการศึกษา ที่จะส่งผลต่ออนาคตและอาชีพการงาน",
+                dialogue: { a: "What's next for you?", b: "I've decided to go back to school and get my master's degree." },
+                alternatives: "<strong>I'm planning to go back to school.</strong> (ฉันวางแผนที่จะ... - ยังไม่หนักแน่นเท่า)<br><strong>I'm going back to school.</strong>"
+            },
+            {
+                eng: "I've decided to take the job offer.", th: "ฉันตัดสินใจที่จะรับข้อเสนองานนั้นแล้ว",
+                context: "ใช้แจ้งผลการตัดสินใจหลังจากพิจารณาข้อเสนองานที่ได้รับมา",
+                dialogue: { a: "Have you thought about the offer from Company A?", b: "Yes, and I've decided to take the job offer." },
+                alternatives: "<strong>I'm going to accept the offer.</strong><br><strong>I've made my decision; I'll take the job.</strong>"
+            },
+            {
+                eng: "I've decided to move to a new city.", th: "ฉันตัดสินใจที่จะย้ายไปเมืองใหม่แล้ว",
+                context: "ประกาศแผนการเปลี่ยนแปลงครั้งใหญ่ในชีวิต ซึ่งเกี่ยวข้องกับการย้ายที่อยู่อาศัย",
+                dialogue: { a: "Are you renewing your lease?", b: "No. Actually, I've decided to move to a new city for a fresh start." },
+                alternatives: "<strong>I'm planning to move.</strong> (ฉันวางแผนที่จะย้าย)<br><strong>The decision is made: I'm moving.</strong>"
+            },
+            {
+                eng: "I've decided to become a vegetarian.", th: "ฉันตัดสินใจที่จะเป็นมังสวิรัติแล้ว",
+                context: "ใช้บอกการเปลี่ยนแปลงไลฟ์สไตล์การกินอย่างถาวร ซึ่งเกิดจากการตัดสินใจอย่างแน่วแน่",
+                dialogue: { a: "No meat for you?", b: "Not anymore. I've decided to become a vegetarian." },
+                alternatives: "<strong>I'm a vegetarian now.</strong><br><strong>I've given up meat.</strong> (ฉันเลิกกินเนื้อสัตว์แล้ว)"
+            },
+            {
+                eng: "I've decided to stay home tonight.", th: "ฉันตัดสินใจว่าจะอยู่บ้านคืนนี้",
+                context: "ใช้บอกการตัดสินใจเกี่ยวกับแผนการในคืนนี้ หลังจากอาจจะลังเลมาก่อน",
+                dialogue: { a: "So, are you coming to the party?", b: "You know what? I'm pretty tired. I've decided to stay home tonight." },
+                alternatives: "<strong>I think I'll just stay home.</strong> (ฉันว่าฉันจะอยู่บ้านดีกว่า - เป็นการตัดสินใจ ณ ขณะนั้น)<br><strong>I'm not going out tonight.</strong>"
+            },
+            {
+                eng: "I've decided to paint the room blue.", th: "ฉันตัดสินใจที่จะทาสีห้องเป็นสีฟ้า",
+                context: "ใช้บอกการตัดสินใจขั้นสุดท้ายเกี่ยวกับเรื่องการออกแบบหรือตกแต่ง",
+                dialogue: { a: "Have you picked a color for the walls yet?", b: "Yes! After looking at hundreds of samples, I've decided to paint the room blue." },
+                alternatives: "<strong>I'm going to paint the room blue.</strong><br><strong>I chose blue.</strong>"
+            },
+            {
+                eng: "I've decided to forgive him.", th: "ฉันตัดสินใจที่จะให้อภัยเขาแล้ว",
+                context: "บอกการตัดสินใจด้านความรู้สึกที่ยิ่งใหญ่ ซึ่งคือการปล่อยวางความโกรธหรือความเสียใจ",
+                dialogue: { a: "Are you still mad at him?", b: "No. Holding a grudge is too tiring. I've decided to forgive him and move on." },
+                alternatives: "<strong>I'm choosing to forgive him.</strong><br><strong>I've made peace with it.</strong> (ฉันทำใจยอมรับมันได้แล้ว)"
+            },
+            {
+                eng: "We've decided to adopt a dog.", th: "พวกเราตัดสินใจที่จะรับเลี้ยงสุนัขแล้ว",
+                context: "ใช้ 'We've decided...' เพื่อประกาศการตัดสินใจร่วมกันของกลุ่มหรือครอบครัว",
+                dialogue: { a: "The kids have been asking for a pet for years.", b: "I know. We've decided to adopt a dog from the shelter." },
+                alternatives: "<strong>We're going to adopt a dog.</strong><br><strong>We made a decision to adopt a dog.</strong>"
+            },
+            {
+                eng: "I've decided to learn a new skill.", th: "ฉันตัดสินใจที่จะเรียนรู้ทักษะใหม่",
+                context: "ประกาศความตั้งใจที่จะเริ่มพัฒนาตนเองอย่างจริงจัง",
+                dialogue: { a: "What are your goals for this year?", b: "I've decided to learn a new skill, probably coding." },
+                alternatives: "<strong>I plan to learn a new skill.</strong><br><strong>I'm going to start learning a new skill.</strong>"
+            },
+            {
+                eng: "I've decided to decline the offer.", th: "ฉันตัดสินใจที่จะปฏิเสธข้อเสนอนั้น",
+                context: "เป็นการแจ้งผลการตัดสินใจอย่างเป็นทางการและแน่วแน่ (ตรงข้ามกับ 'take the offer')",
+                dialogue: { a: "So, what's the news?", b: "After careful consideration, I've decided to decline the offer." },
+                alternatives: "<strong>I'm not going to take the offer.</strong><br><strong>I've turned down the offer.</strong>"
+            },
+            {
+                eng: "I've decided to trust my instincts.", th: "ฉันตัดสินใจที่จะเชื่อสัญชาตญาณของตัวเอง",
+                context: "ใช้เมื่อต้องเผชิญกับการตัดสินใจที่ยาก และเลือกที่จะเชื่อความรู้สึกของตัวเองมากกว่าเหตุผล",
+                dialogue: { a: "The deal looks good on paper, but something feels off.", b: "Then don't do it. I've decided to trust my instincts from now on." },
+                alternatives: "<strong>I'm going to trust my gut.</strong> (ฉันจะเชื่อสัญชาตญาณตัวเอง - Gut เป็นคำไม่เป็นทางการ)"
+            },
+            {
+                eng: "I've decided to stop making excuses.", th: "ฉันตัดสินใจที่จะเลิกหาข้อแก้ตัว",
+                context: "เป็นการประกาศการเปลี่ยนแปลงทัศนคติ ที่จะหันมาเผชิญหน้ากับความจริงและรับผิดชอบมากขึ้น",
+                dialogue: { a: "I failed again.", b: "What are you going to do?", a: "I've decided to stop making excuses and start working harder." },
+                alternatives: "<strong>No more excuses.</strong><br><strong>From now on, I'll take responsibility.</strong>"
+            },
+            {
+                eng: "I've decided to invest in myself.", th: "ฉันตัดสินใจที่จะลงทุนในตัวเอง",
+                context: "ใช้ในความหมายเชิงเปรียบเทียบ คือการตัดสินใจที่จะใช้เวลาและทรัพยากรเพื่อพัฒนาตัวเอง",
+                dialogue: { a: "You're signing up for another course?", b: "Yes. I've decided to invest in myself this year." },
+                alternatives: "<strong>I'm focusing on my personal growth.</strong><br><strong>I believe in investing in myself.</strong>"
+            },
+            {
+                eng: "I've decided not to go.", th: "ฉันตัดสินใจที่จะไม่ไปแล้ว",
+                context: "ใช้รูปปฏิเสธ 'not to' เพื่อบอกการตัดสินใจขั้นสุดท้ายว่าจะไม่เข้าร่วมกิจกรรมบางอย่าง",
+                dialogue: { a: "Are you ready for the trip?", b: "About that... I've decided not to go. I have too much work." },
+                alternatives: "<strong>I'm not going anymore.</strong><br><strong>I've made up my mind not to go.</strong>"
+            },
+            {
+                eng: "I've decided to tell them everything.", th: "ฉันตัดสินใจที่จะบอกพวกเขาทุกอย่าง",
+                context: "บอกการตัดสินใจที่จะเปิดเผยความลับหรือข้อมูลทั้งหมด หลังจากที่อาจจะปิดบังมาก่อน",
+                dialogue: { a: "Are you still keeping it a secret?", b: "No, I can't. I've decided to tell them everything." },
+                alternatives: "<strong>I'm going to tell them the whole story.</strong>"
+            },
+            {
+                eng: "I've decided to take a different approach.", th: "ฉันตัดสินใจที่จะลองใช้วิธีอื่น",
+                context: "ใช้ในบริบทของการแก้ปัญหา เมื่อวิธีเดิมไม่ได้ผลและได้ตัดสินใจที่จะเปลี่ยนกลยุทธ์",
+                dialogue: { a: "This strategy isn't working.", b: "I agree. I've decided to take a different approach." },
+                alternatives: "<strong>I'm going to try a different method.</strong><br><strong>Let's try this from another angle.</strong>"
+            },
+            {
+                eng: "I've decided to run a marathon.", th: "ฉันตัดสินใจที่จะวิ่งมาราธอน",
+                context: "เป็นการประกาศเป้าหมายที่ท้าทาย ซึ่งต้องใช้การเตรียมตัวและฝึกฝนอย่างจริงจัง",
+                dialogue: { a: "You're buying running gear?", b: "Yes! I've decided to run a marathon this year." },
+                alternatives: "<strong>I'm going to run a marathon.</strong><br><strong>I signed up for a marathon.</strong> (ฉันสมัครวิ่งมาราธอนแล้ว)"
+            },
+            {
+                eng: "I've decided to give you a second chance.", th: "ฉันตัดสินใจที่จะให้โอกาสเธออีกครั้ง",
+                context: "ใช้ในการให้อภัยและให้โอกาสใครสักคนอีกครั้งหลังจากที่เคยทำผิดพลาดมา",
+                dialogue: { a: "I promise I won't let you down again.", b: "Okay... I've decided to give you a second chance. Don't waste it." },
+                alternatives: "<strong>I'll give you one more chance.</strong>"
+            },
+            {
+                eng: "Finally, I've decided to buy the red one.", th: "ในที่สุด ฉันก็ตัดสินใจที่จะซื้ออันสีแดง",
+                context: "ใช้เมื่อเราใช้เวลาลังเลอยู่นานระหว่างตัวเลือกหลายๆ อย่าง และในที่สุดก็สามารถเลือกได้",
+                dialogue: { a: "So, the red dress or the blue dress?", b: "This is so hard... Okay. Finally, I've decided to buy the red one." },
+                alternatives: "<strong>After all that, I'll go with the red one.</strong><br><strong>I've made my choice: the red one.</strong>"
+            }
+        ];
+        
+        const grid = document.getElementById('sentences-grid');
+        const modal = document.getElementById('modal');
+        const modalHeader = document.getElementById('modal-header');
+        const modalEnglish = document.getElementById('modal-english');
+        const modalThai = document.getElementById('modal-thai');
+        const modalDetails = document.getElementById('modal-details');
+        const closeModalBtn = document.getElementById('close-modal-btn');
+
+        sentences.forEach((sentence, index) => {
+            const button = document.createElement('button');
+            button.className = `sentence-btn p-5 rounded-lg text-left font-poppins font-semibold bg-slate-800 text-white hover:bg-black`;
+            button.innerHTML = `<span>${sentence.eng}</span>`;
+            button.addEventListener('click', () => openModal(sentence));
+            grid.appendChild(button);
+        });
+
+        function openModal(sentence) {
+            modalEnglish.textContent = sentence.eng;
+            modalThai.textContent = sentence.th;
+
+            modalDetails.innerHTML = `
+                <div class="p-4 bg-slate-700 rounded-lg text-slate-300">
+                    <h4 class="font-semibold text-lg text-white mb-2">💡 บริบทการใช้งาน (Context)</h4>
+                    <p>${sentence.context}</p>
+                </div>
+                <div class="p-4 bg-slate-700 rounded-lg text-slate-300">
+                    <h4 class="font-semibold text-lg text-white mb-2">💬 ตัวอย่างบทสนทนา (Dialogue)</h4>
+                    <div class="space-y-1">
+                        <p><strong>A:</strong> ${sentence.dialogue.a}</p>
+                        <p><strong>B:</strong> ${sentence.dialogue.b}</p>
+                    </div>
+                </div>
+                <div class="p-4 bg-slate-700 rounded-lg text-slate-300">
+                    <h4 class="font-semibold text-lg text-white mb-2">🔄 คำที่เกี่ยวข้อง / ใช้แทนได้ (Alternatives)</h4>
+                    <div class="text-slate-300">${sentence.alternatives}</div>
+                </div>
+            `;
+
+            modal.classList.add('active');
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            modal.classList.add('opacity-0', 'pointer-events-none');
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        closeModalBtn.addEventListener('click', closeModal);
+        modal.addEventListener('click', (e) => {
+            if (e.target.id === 'modal') {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>

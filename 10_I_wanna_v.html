@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Structure #10 - I wanna + (verb)</title>
+    <title>Structure #10 - I wanna + (verb) (with translation)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -144,7 +144,7 @@
             {
                 eng: "I wanna travel the world.", th: "ฉันอยากจะเที่ยวรอบโลก",
                 context: "ใช้เพื่อแสดงความฝันหรือเป้าหมายที่ยิ่งใหญ่ในชีวิตเกี่ยวกับการเดินทาง",
-                dialogue: { a: "What's on your bucket list?", b: "Number one is... I wanna travel the world." },
+                dialogue: { a: "If you had a million dollars, what would you do?", b: "That's easy. I wanna travel the world." },
                 alternatives: "<strong>I want to travel the world.</strong><br><strong>My dream is to travel the world.</strong>"
             },
             {
@@ -207,8 +207,13 @@
 
         sentences.forEach((sentence, index) => {
             const button = document.createElement('button');
-            button.className = `sentence-btn p-5 rounded-xl text-left font-poppins font-semibold bg-white/40 border border-white/50 text-indigo-800 hover:bg-white/80`;
-            button.innerHTML = `<span>${sentence.eng}</span>`;
+            button.className = `group sentence-btn p-5 rounded-xl text-left bg-white/40 border border-white/50 hover:bg-white/80`;
+            
+            button.innerHTML = `
+                <span class="font-poppins font-semibold text-indigo-800 transition-colors duration-200">${sentence.eng}</span>
+                <span class="block text-sm text-indigo-700/80 font-normal mt-1 transition-colors duration-200">${sentence.th}</span>
+            `;
+
             button.addEventListener('click', () => openModal(sentence));
             grid.appendChild(button);
         });

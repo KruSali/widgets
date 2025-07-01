@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Structure #22 - I'm worried about...</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Mitr:wght@300;400;500;600&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Mitr', sans-serif;
+        }
+        .font-poppins {
+            font-family: 'Poppins', sans-serif;
+        }
+        .sentence-btn {
+            transition: all 0.2s ease-in-out;
+        }
+        #modal {
+            transition: opacity 0.3s ease;
+        }
+        .modal-content-container {
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            opacity: 0;
+            transform: translateY(20px) scale(0.95);
+        }
+        #modal.active .modal-content-container {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+    </style>
+</head>
+<body class="bg-slate-200">
+
+    <div class="container mx-auto p-4 sm:p-6 lg:p-8">
+
+        <header class="text-center mb-10">
+            <h1 class="text-4xl sm:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-slate-600 to-gray-700 font-poppins">Structure #22</h1>
+            <h2 class="text-2xl sm:text-3xl font-bold text-slate-800 mt-2 font-poppins">"I'm worried about + (noun/gerund)"</h2>
+            <p class="text-slate-600 mt-4 max-w-2xl mx-auto text-lg">
+                ใช้เพื่อแสดง <strong class="text-slate-700">"ความกังวล ความเครียด หรือความเป็นห่วง"</strong> เกี่ยวกับบุคคล สถานการณ์ หรือสิ่งที่จะเกิดขึ้นในอนาคต<br>
+                <strong class="text-red-600">กฎสำคัญ:</strong> หลัง 'about' ต้องตามด้วย <strong class="text-slate-700">คำนาม (Noun)</strong> หรือ <strong class="text-gray-600">กริยาเติม -ing (Gerund)</strong> เท่านั้น!
+            </p>
+        </header>
+
+        <main id="sentences-grid" class="grid grid-cols-1 md:grid-cols-2 gap-5">
+            </main>
+
+        <footer class="text-center mt-12">
+            <p class="text-slate-700 font-medium">อังกฤษฉบับคนเรียนไม่รู้เรื่อง โดยครูสาลี่</p>
+        </footer>
+
+    </div>
+
+    <div id="modal" class="fixed inset-0 bg-black bg-opacity-60 flex justify-center items-center p-4 z-50 opacity-0 pointer-events-none">
+        <div class="modal-content-container w-full max-w-2xl max-h-[90vh] overflow-y-auto bg-slate-50 rounded-2xl shadow-2xl">
+            <div id="modal-header" class="p-6 sm:p-8 rounded-t-2xl bg-gradient-to-r from-slate-600 to-gray-700">
+                <p id="modal-english" class="font-poppins font-bold text-2xl text-white text-center"></p>
+                <p id="modal-thai" class="text-xl text-white text-center mt-2 opacity-90"></p>
+            </div>
+            <div class="p-6 sm:p-8">
+                <div id="modal-details" class="space-y-5">
+                    </div>
+                <div class="text-center mt-8">
+                    <button id="close-modal-btn" class="bg-slate-600 hover:bg-slate-700 text-white font-bold py-2 px-8 rounded-full shadow-lg transform hover:scale-105 transition-transform duration-300">
+                        ปิด
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const sentences = [
+            // --- Followed by Gerund (-ing) ---
+            {
+                eng: "I'm worried about failing my exam.", th: "ฉันกังวลว่าจะสอบตก",
+                context: "ใช้แสดงความเครียดหรือความกังวลเกี่ยวกับผลการสอบที่กำลังจะมาถึง ซึ่งเป็นความรู้สึกที่พบบ่อยในหมู่นักเรียน",
+                dialogue: { a: "You've been studying all night.", b: "I know. I'm worried about failing my exam tomorrow." },
+                alternatives: "<strong>I'm anxious about failing my exam.</strong> (ฉันวิตกกังวลเรื่องการสอบตก)<br><strong>I'm stressed about the exam.</strong> (ฉันเครียดเรื่องการสอบ)"
+            },
+            {
+                eng: "I'm worried about being late.", th: "ฉันกังวลว่าจะไปสาย",
+                context: "ใช้เมื่อกำลังเดินทางและสถานการณ์ดูเหมือนว่าจะทำให้ไปถึงที่หมายช้ากว่าเวลานัด",
+                dialogue: { a: "Look at the traffic!", b: "I know. I'm worried about being late for the meeting." },
+                alternatives: "<strong>I'm afraid I'm going to be late.</strong><br><strong>I hope I'm not late.</strong>"
+            },
+            {
+                eng: "I'm worried about losing my job.", th: "ฉันกังวลว่าจะตกงาน",
+                context: "แสดงความกังวลเกี่ยวกับความมั่นคงในหน้าที่การงาน โดยเฉพาะเมื่อได้ยินข่าวไม่ดีในบริษัท",
+                dialogue: { a: "The company is not doing well.", b: "I know. I'm worried about losing my job." },
+                alternatives: "<strong>I'm concerned about my job security.</strong><br><strong>I'm afraid of getting laid off.</strong>"
+            },
+            {
+                eng: "I'm worried about getting sick.", th: "ฉันกังวลว่าจะป่วย",
+                context: "ใช้แสดงความกังวลเรื่องสุขภาพ โดยเฉพาะเมื่อคนรอบข้างเริ่มป่วยหรือมีโรคระบาด",
+                dialogue: { a: "Everyone in my office has the flu.", b: "Oh no. You should be careful. I'm worried about getting sick too." },
+                alternatives: "<strong>I'm worried I might catch something.</strong><br><strong>I hope I don't get sick.</strong>"
+            },
+            {
+                eng: "I'm worried about not having enough money.", th: "ฉันกังวลว่าจะมีเงินไม่พอ",
+                context: "แสดงความกังวลเกี่ยวกับสถานะทางการเงิน โดยเฉพาะเมื่อมีค่าใช้จ่ายที่ไม่ได้คาดคิดเกิดขึ้น",
+                dialogue: { a: "The car needs a major repair.", b: "That sounds expensive. I'm worried about not having enough money to cover it." },
+                alternatives: "<strong>I'm concerned about my finances.</strong><br><strong>I'm stressed about money.</strong>"
+            },
+            {
+                eng: "I'm worried about what people will think.", th: "ฉันกังวลว่าคนอื่นจะคิดอย่างไร",
+                context: "ใช้เมื่อกำลังจะตัดสินใจทำอะไรที่แตกต่างจากปกติ และกังวลเกี่ยวกับความคิดเห็นของคนในสังคม",
+                dialogue: { a: "Should I quit my job to become an artist?", b: "You should do what makes you happy.", a: "I want to, but I'm worried about what people will think." },
+                alternatives: "<strong>I care too much about what others think.</strong>"
+            },
+            {
+                eng: "I'm worried about making the wrong decision.", th: "ฉันกังวลว่าจะตัดสินใจผิดพลาด",
+                context: "แสดงความลังเลและความกังวลเมื่อต้องเผชิญกับการตัดสินใจครั้งสำคัญ",
+                dialogue: { a: "Both job offers are good. I don't know which one to choose.", b: "I understand. It's normal to be worried about making the wrong decision." },
+                alternatives: "<strong>I'm afraid of making the wrong choice.</strong><br><strong>What if I choose wrongly?</strong>"
+            },
+             // --- Followed by Noun ---
+            {
+                eng: "I'm worried about you.", th: "ฉันเป็นห่วงคุณ",
+                context: "ใช้แสดงความเป็นห่วงเป็นใยต่ออีกฝ่ายเมื่อเห็นว่าเขาดูไม่สบาย, เศร้า, หรือกำลังเผชิญปัญหา",
+                dialogue: { a: "You haven't been yourself lately.", b: "I'm fine.", a: "Are you sure? I'm worried about you." },
+                alternatives: "<strong>I'm concerned about you.</strong> (เป็นห่วงคุณ - เป็นทางการกว่า)<br><strong>Is everything okay with you?</strong>"
+            },
+            {
+                eng: "I'm worried about the future.", th: "ฉันกังวลเกี่ยวกับอนาคต",
+                context: "ใช้แสดงความรู้สึกไม่แน่นอนหรือความกังวลต่อสิ่งที่จะเกิดขึ้นในอนาคตของตัวเองหรือของโลก",
+                dialogue: { a: "The world is changing so fast.", b: "I know. Sometimes I'm worried about the future." },
+                alternatives: "<strong>I feel anxious about the future.</strong><br><strong>The future concerns me.</strong>"
+            },
+            {
+                eng: "I'm worried about my parents.", th: "ฉันเป็นห่วงพ่อแม่ของฉัน",
+                context: "แสดงความเป็นห่วงต่อสุขภาพหรือความเป็นอยู่ของพ่อแม่",
+                dialogue: { a: "My dad hasn't been feeling well.", b: "I'm sorry to hear that. I'm also worried about my parents' health as they get older." },
+                alternatives: "<strong>I'm concerned for my parents.</strong>"
+            },
+            {
+                eng: "I'm worried about the presentation.", th: "ฉันกังวลเรื่องการนำเสนองาน",
+                context: "แสดงความเครียดและความกังวลก่อนที่จะต้องนำเสนองานสำคัญ",
+                dialogue: { a: "Are you ready for your big presentation tomorrow?", b: "Not really. I'm worried about the presentation. There are so many things that could go wrong." },
+                alternatives: "<strong>I'm nervous about the presentation.</strong><br><strong>The presentation is stressing me out.</strong>"
+            },
+            {
+                eng: "I'm worried about the economy.", th: "ฉันกังวลเรื่องเศรษฐกิจ",
+                context: "ใช้พูดถึงความกังวลต่อสถานการณ์เศรษฐกิจในภาพรวมที่อาจส่งผลกระทบต่อทุกคน",
+                dialogue: { a: "Prices are going up everywhere.", b: "Yes, it's tough. I'm worried about the economy." },
+                alternatives: "<strong>The state of the economy concerns me.</strong>"
+            },
+            {
+                eng: "I'm worried about my health.", th: "ฉันกังวลเรื่องสุขภาพของฉัน",
+                context: "ใช้เมื่อเริ่มรู้สึกว่าร่างกายไม่ปกติหรือกังวลว่าอาจจะเป็นโรคอะไรบางอย่าง",
+                dialogue: { a: "I've been having this strange pain.", b: "You should see a doctor. I'm worried about my health too." },
+                alternatives: "<strong>I'm concerned about my health.</strong><br><strong>My health has been on my mind.</strong>"
+            },
+            {
+                eng: "I'm worried about the deadline.", th: "ฉันกังวลเรื่องเดดไลน์",
+                context: "แสดงความเครียดที่เกิดจากกำหนดส่งงานที่กระชั้นชิด",
+                dialogue: { a: "We only have two days left.", b: "I know, I'm worried about the deadline. I don't think we can make it." },
+                alternatives: "<strong>The deadline is stressing me out.</strong><br><strong>I'm concerned we won't meet the deadline.</strong>"
+            },
+            {
+                eng: "I'm worried about him.", th: "ฉันเป็นห่วงเขา",
+                context: "ใช้แสดงความเป็นห่วงบุคคลที่สามที่ไม่ได้อยู่ในวงสนทนา",
+                dialogue: { a: "Have you heard from Mark?", b: "No, he hasn't answered his phone all day. I'm worried about him." },
+                alternatives: "<strong>I hope he's okay.</strong>"
+            },
+            {
+                eng: "I'm worried about the side effects.", th: "ฉันกังวลเรื่องผลข้างเคียง",
+                context: "ใช้แสดงความกังวลเกี่ยวกับผลกระทบที่ไม่พึงประสงค์จากการใช้ยาหรือการรักษา",
+                dialogue: { a: "The doctor prescribed a new medication.", b: "Did you read the leaflet? I'm worried about the side effects." },
+                alternatives: "<strong>The potential side effects concern me.</strong>"
+            },
+            {
+                eng: "I'm worried about climate change.", th: "ฉันกังวลเรื่องการเปลี่ยนแปลงสภาพภูมิอากาศ",
+                context: "ใช้แสดงความกังวลต่อปัญหาระดับโลก",
+                dialogue: { a: "The weather has been so extreme lately.", b: "It has. I'm genuinely worried about climate change." },
+                alternatives: "<strong>Climate change is a major concern.</strong>"
+            },
+            {
+                eng: "I'm a little worried about the flight.", th: "ฉันกังวลเรื่องเที่ยวบินนิดหน่อย",
+                context: "ใช้ 'a little' เพื่อลดระดับความกังวลลง แสดงว่าเป็นแค่ความกังวลเล็กน้อย",
+                dialogue: { a: "Are you afraid of flying?", b: "Not really, but I'm a little worried about the flight because of the storm." },
+                alternatives: "<strong>I'm slightly nervous about the flight.</strong>"
+            },
+            {
+                eng: "I'm not worried about it.", th: "ฉันไม่ได้กังวลเรื่องนั้น",
+                context: "ใช้รูปปฏิเสธเพื่อแสดงความมั่นใจหรือบอกว่าเรื่องนั้นๆ ไม่ใช่สิ่งที่เราต้องกังวล",
+                dialogue: { a: "Aren't you worried about the competition?", b: "No, I'm confident in our product. I'm not worried about it." },
+                alternatives: "<strong>That doesn't worry me.</strong><br><strong>I'm not concerned about that.</strong>"
+            },
+            {
+                eng: "What are you worried about?", th: "คุณกำลังกังวลเรื่องอะไร",
+                context: "ใช้โครงสร้างนี้เป็นคำถามเพื่อถามไถ่เมื่อเห็นอีกฝ่ายมีท่าทีหรือสีหน้าที่กังวล",
+                dialogue: { a: "You look stressed.", b: "What are you worried about?", a: "It's my son. He's not feeling well." },
+                alternatives: "<strong>What's on your mind?</strong><br><strong>What's bothering you?</strong>"
+            }
+        ];
+        
+        const grid = document.getElementById('sentences-grid');
+        const modal = document.getElementById('modal');
+        const modalHeader = document.getElementById('modal-header');
+        const modalEnglish = document.getElementById('modal-english');
+        const modalThai = document.getElementById('modal-thai');
+        const modalDetails = document.getElementById('modal-details');
+        const closeModalBtn = document.getElementById('close-modal-btn');
+
+        sentences.forEach((sentence, index) => {
+            const button = document.createElement('button');
+            button.className = `group sentence-btn p-5 rounded-lg text-left bg-white border-2 border-slate-400 hover:bg-slate-500 hover:border-slate-500`;
+            
+            button.innerHTML = `
+                <span class="font-poppins font-semibold text-slate-700 group-hover:text-white transition-colors duration-200">${sentence.eng}</span>
+                <span class="block text-sm text-slate-500 font-normal mt-1 group-hover:text-white/80 transition-colors duration-200">${sentence.th}</span>
+            `;
+
+            button.addEventListener('click', () => openModal(sentence));
+            grid.appendChild(button);
+        });
+
+        function openModal(sentence) {
+            modalEnglish.textContent = sentence.eng;
+            modalThai.textContent = sentence.th;
+
+            modalDetails.innerHTML = `
+                <div class="p-4 bg-slate-100 rounded-lg">
+                    <h4 class="font-semibold text-lg text-slate-800 mb-2">💡 บริบทการใช้งาน (Context)</h4>
+                    <p class="text-slate-600">${sentence.context}</p>
+                </div>
+                <div class="p-4 bg-slate-100 rounded-lg">
+                    <h4 class="font-semibold text-lg text-slate-800 mb-2">💬 ตัวอย่างบทสนทนา (Dialogue)</h4>
+                    <div class="space-y-1 text-slate-600">
+                        <p><strong>A:</strong> ${sentence.dialogue.a}</p>
+                        <p><strong>B:</strong> ${sentence.dialogue.b}</p>
+                    </div>
+                </div>
+                <div class="p-4 bg-slate-100 rounded-lg">
+                    <h4 class="font-semibold text-lg text-slate-800 mb-2">🔄 คำที่เกี่ยวข้อง / ใช้แทนได้ (Alternatives)</h4>
+                    <div class="text-slate-600">${sentence.alternatives}</div>
+                </div>
+            `;
+
+            modal.classList.add('active');
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            modal.classList.add('opacity-0', 'pointer-events-none');
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        closeModalBtn.addEventListener('click', closeModal);
+        modal.addEventListener('click', (e) => {
+            if (e.target.id === 'modal') {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>

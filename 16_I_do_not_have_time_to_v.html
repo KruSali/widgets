@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Structure #16 - I don't have time to + (verb)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Mitr:wght@300;400;500;600&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Mitr', sans-serif;
+        }
+        .font-poppins {
+            font-family: 'Poppins', sans-serif;
+        }
+        .sentence-btn {
+            transition: all 0.2s ease-in-out;
+            box-shadow: 4px 4px 0px #ca8a04; /* yellow-500 */
+        }
+        .sentence-btn:hover {
+            transform: translate(2px, 2px);
+            box-shadow: 2px 2px 0px #ca8a04;
+        }
+        .sentence-btn:active {
+            transform: translate(4px, 4px);
+            box-shadow: 0px 0px 0px #ca8a04;
+        }
+        #modal {
+            transition: opacity 0.3s ease;
+        }
+        .modal-content-container {
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            opacity: 0;
+            transform: translateY(20px) scale(0.95);
+        }
+        #modal.active .modal-content-container {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+    </style>
+</head>
+<body class="bg-slate-100">
+
+    <div class="container mx-auto p-4 sm:p-6 lg:p-8">
+
+        <header class="text-center mb-10">
+            <h1 class="text-4xl sm:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-yellow-500 to-amber-600 font-poppins">Structure #16</h1>
+            <h2 class="text-2xl sm:text-3xl font-bold text-slate-800 mt-2 font-poppins">"I don't have time to + (verb)"</h2>
+            <p class="text-slate-600 mt-4 max-w-2xl mx-auto text-lg">
+                วิธีพูดที่ตรงไปตรงมาและใช้บ่อยที่สุดเพื่อบอกว่า <strong class="text-yellow-600">"เรายุ่งเกินไป"</strong> ที่จะทำสิ่งใดสิ่งหนึ่ง มักใช้เป็นเหตุผลในการ <strong class="text-amber-600">"ปฏิเสธคำชวน"</strong> หรืออธิบายว่าทำไมถึงยังทำบางอย่างไม่เสร็จ
+            </p>
+        </header>
+
+        <main id="sentences-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            </main>
+
+        <footer class="text-center mt-12">
+            <p class="text-slate-700 font-medium">อังกฤษฉบับคนเรียนไม่รู้เรื่อง โดยครูสาลี่</p>
+        </footer>
+
+    </div>
+
+    <div id="modal" class="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center p-4 z-50 opacity-0 pointer-events-none">
+        <div class="modal-content-container w-full max-w-2xl max-h-[90vh] overflow-y-auto bg-slate-50 rounded-2xl shadow-2xl">
+            <div id="modal-header" class="p-6 sm:p-8 rounded-t-2xl bg-yellow-400">
+                <p id="modal-english" class="font-poppins font-bold text-2xl text-slate-800 text-center"></p>
+                <p id="modal-thai" class="text-xl text-slate-700 text-center mt-2"></p>
+            </div>
+            <div class="p-6 sm:p-8">
+                <div id="modal-details" class="space-y-5">
+                    </div>
+                <div class="text-center mt-8">
+                    <button id="close-modal-btn" class="bg-slate-600 hover:bg-slate-700 text-white font-bold py-2 px-8 rounded-full shadow-lg transform hover:scale-105 transition-transform duration-300">
+                        ปิด
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const sentences = [
+            {
+                eng: "I don't have time to talk right now.", th: "ฉันไม่มีเวลาคุยด้วยตอนนี้",
+                context: "ประโยคพื้นฐานที่ใช้ในการปฏิเสธการสนทนาอย่างสุภาพเมื่อเรากำลังยุ่งหรือรีบอยู่",
+                dialogue: { a: "Hey, do you have a minute?", b: "Sorry, I'm in the middle of something. I don't have time to talk right now." },
+                alternatives: "<strong>I'm too busy to talk.</strong> (ฉันยุ่งเกินกว่าจะคุย)<br><strong>I can't talk at the moment.</strong> (ตอนนี้ฉันคุยไม่ได้)"
+            },
+            {
+                eng: "I don't have time to explain.", th: "ฉันไม่มีเวลามาอธิบาย",
+                context: "ใช้ในสถานการณ์ที่เร่งด่วนมากๆ เพื่อตัดบทสนทนาและบอกว่าไม่มีเวลาพอที่จะให้รายละเอียด ต้องไปทำสิ่งที่สำคัญกว่าก่อน",
+                dialogue: { a: "Wait, why are you leaving so suddenly?", b: "There's an emergency. I don't have time to explain, I just have to go!" },
+                alternatives: "<strong>There's no time to explain.</strong><br><strong>I can't explain right now.</strong>"
+            },
+            {
+                eng: "I don't have time to cook.", th: "ฉันไม่มีเวลาทำอาหาร",
+                context: "ใช้เป็นเหตุผลว่าทำไมถึงต้องสั่งอาหารหรือกินข้าวนอกบ้าน เพราะตารางชีวิตที่ยุ่งมาก",
+                dialogue: { a: "Are we ordering pizza again?", b: "Yes. I work 10 hours a day. I don't have time to cook." },
+                alternatives: "<strong>I'm too busy to cook.</strong><br><strong>I have no time for cooking.</strong>"
+            },
+            {
+                eng: "I don't have time to exercise.", th: "ฉันไม่มีเวลาออกกำลังกาย",
+                context: "เป็นเหตุผล (หรือข้ออ้าง) ที่คนส่วนใหญ่ใช้เมื่อไม่ได้ออกกำลังกายตามที่ตั้งใจไว้",
+                dialogue: { a: "Have you been to the gym lately?", b: "Honestly, I don't have time to exercise anymore." },
+                alternatives: "<strong>I can't find the time to exercise.</strong> (ฉันหาเวลาออกกำลังกายไม่ได้เลย)<br><strong>I wish I had time to exercise.</strong>"
+            },
+            {
+                eng: "I don't have time to waste.", th: "ฉันไม่มีเวลามาเสียเปล่า",
+                context: "ใช้พูดเพื่อแสดงความจริงจังและต้องการจะเข้าประเด็นหรือลงมือทำทันที โดยไม่ต้องการการอ้อมค้อม",
+                dialogue: { a: "Let's stop arguing and find a solution.", b: "Exactly. I don't have time to waste." },
+                alternatives: "<strong>We're wasting time.</strong><br><strong>Let's get straight to the point.</strong>"
+            },
+            {
+                eng: "I don't have time to go out tonight.", th: "คืนนี้ฉันไม่มีเวลาออกไปข้างนอก",
+                context: "ใช้เป็นเหตุผลในการปฏิเสธคำชวนไปเที่ยวหรือทำกิจกรรมในตอนกลางคืน",
+                dialogue: { a: "Are you coming to the party?", b: "I can't. I have a big project due tomorrow, so I don't have time to go out tonight." },
+                alternatives: "<strong>I'm too busy to go out tonight.</strong><br><strong>I have to stay in tonight.</strong>"
+            },
+            {
+                eng: "I don't have time to deal with this now.", th: "ฉันไม่มีเวลามาจัดการเรื่องนี้ตอนนี้",
+                context: "ใช้เมื่อมีปัญหาใหม่เข้ามาแทรกในขณะที่เรากำลังยุ่งกับเรื่องอื่นอยู่ เป็นการบอกปัดเพื่อจะกลับมาจัดการทีหลัง",
+                dialogue: { a: "Boss, there's a problem with the new client.", b: "I don't have time to deal with this now. I'll look at it this afternoon." },
+                alternatives: "<strong>I can't deal with this right now.</strong><br><strong>I'll handle it later.</strong>"
+            },
+            {
+                eng: "I don't have time to read books for fun.", th: "ฉันไม่มีเวลาอ่านหนังสือเล่นเลย",
+                context: "ใช้ในเชิงบ่นเพื่อแสดงว่าเรายุ่งมากจนไม่มีเวลาสำหรับงานอดิเรกที่เคยชอบ",
+                dialogue: { a: "Have you read any good books lately?", b: "Sadly, no. Between work and kids, I don't have time to read books for fun." },
+                alternatives: "<strong>I wish I had more time to read.</strong><br><strong>I can never find the time to read.</strong>"
+            },
+            {
+                eng: "I don't have time to think about it.", th: "ฉันไม่มีเวลาคิดเรื่องนั้น",
+                context: "ใช้เมื่อต้องการคำตอบแบบเร่งด่วน หรือเมื่อถูกถามถึงเรื่องที่ไม่ใช่เรื่องสำคัญเร่งด่วนในขณะนั้น",
+                dialogue: { a: "What color should we paint the office?", b: "The deadline is in an hour! I don't have time to think about that now!" },
+                alternatives: "<strong>I can't think about that right now.</strong><br><strong>That's the least of my worries.</strong> (นั่นเป็นเรื่องที่ฉันกังวลน้อยที่สุด)"
+            },
+            {
+                eng: "I don't have time to wait.", th: "ฉันไม่มีเวลารอ",
+                context: "ใช้ในสถานการณ์ที่ต้องรีบไปและไม่สามารถรอช้าได้อีกต่อไป",
+                dialogue: { a: "The bus should be here in 10 minutes.", b: "I can't. I'll be late. I don't have time to wait, I'll just take a taxi." },
+                alternatives: "<strong>I can't afford to wait.</strong> (ฉันรอช้าไม่ได้)<br><strong>I'm in too much of a hurry to wait.</strong>"
+            },
+            {
+                eng: "I don't have time for games.", th: "ฉันไม่มีเวลามาเล่นเกมด้วยหรอกนะ",
+                context: "ใช้ในเชิงเปรียบเทียบ หมายถึง 'ไม่มีเวลามาเล่นตุกติก' หรือ 'ไม่มีเวลามาเล่นลีลา' ต้องการความจริงจังและตรงไปตรงมา",
+                dialogue: { a: "Just tell me what you want.", b: "I...", a: "Be direct. I don't have time for games." },
+                alternatives: "<strong>Stop playing games.</strong><br><strong>Get to the point.</strong>"
+            },
+            {
+                eng: "I don't have time to worry about small things.", th: "ฉันไม่มีเวลามากังวลเรื่องเล็กๆ น้อยๆ",
+                context: "ใช้เมื่อต้องการโฟกัสที่ภาพใหญ่หรือเป้าหมายที่สำคัญกว่า",
+                dialogue: { a: "You used the wrong font color on slide 23.", b: "Honestly, I don't have time to worry about small things like that. Does the data make sense?" },
+                alternatives: "<strong>That's not a priority right now.</strong><br><strong>Let's focus on the big picture.</strong>"
+            },
+            {
+                eng: "I don't have time to get sick.", th: "ฉันไม่มีเวลาแม้แต่จะป่วย",
+                context: "เป็นสำนวนที่ใช้พูดเมื่อเรายุ่งมากๆ จนรู้สึกว่าเราจะป่วยไม่ได้เด็ดขาด เพราะมีงานหรือภาระรออยู่เยอะมาก",
+                dialogue: { a: "You should rest. You look pale.", b: "I can't. This is our busiest season. I don't have time to get sick." },
+                alternatives: "<strong>I can't afford to get sick right now.</strong>"
+            },
+            {
+                eng: "I don't have time to argue.", th: "ฉันไม่มีเวลามาเถียงด้วย",
+                context: "ใช้เพื่อตัดบทสนทนาที่กำลังจะกลายเป็นการโต้เถียงที่ไร้ประโยชน์",
+                dialogue: { a: "I still think my way is better.", b: "Look, we can agree to disagree. I don't have time to argue. We need to get this done." },
+                alternatives: "<strong>I'm not going to argue with you.</strong><br><strong>This isn't worth arguing about.</strong>"
+            },
+            {
+                eng: "I don't have time to go to the bank.", th: "ฉันไม่มีเวลาไปธนาคาร",
+                context: "บอกถึงความยุ่งในชีวิตประจำวันที่ทำให้ไม่มีเวลาไปทำธุระส่วนตัว",
+                dialogue: { a: "Can you deposit this check for me?", b: "Sorry, I don't have time to go to the bank today. Can you use the mobile app?" },
+                alternatives: "<strong>I'm too busy to go to the bank.</strong>"
+            },
+            {
+                eng: "I don't have time to look for it.", th: "ฉันไม่มีเวลาหาของนั่น",
+                context: "ใช้เมื่อทำของเล็กๆ น้อยๆ หาย แต่กำลังรีบมากจนไม่มีเวลาหาในตอนนั้น",
+                dialogue: { a: "Where is the remote control?", b: "I don't know and I don't have time to look for it. I'm late!" },
+                alternatives: "<strong>I can't look for it right now.</strong>"
+            },
+            {
+                eng: "I don't have time to listen to excuses.", th: "ฉันไม่มีเวลามาฟังข้อแก้ตัว",
+                context: "เป็นคำพูดของคนที่มีอำนาจ เช่น เจ้านายหรือพ่อแม่ ที่ต้องการผลลัพธ์ ไม่ใช่คำแก้ตัว",
+                dialogue: { a: "But the traffic was bad...", b: "I don't have time to listen to excuses. Is the report done or not?" },
+                alternatives: "<strong>Save your excuses.</strong><br><strong>I want results, not excuses.</strong>"
+            },
+            {
+                eng: "I don't have time to teach you from scratch.", th: "ฉันไม่มีเวลามาสอนเธอตั้งแต่ต้น",
+                context: "ใช้ในที่ทำงานเมื่อคาดหวังว่าพนักงานใหม่หรือเพื่อนร่วมงานควรมีความรู้พื้นฐานมาแล้ว",
+                dialogue: { a: "Can you show me how to use Excel?", b: "I can show you this formula, but I don't have time to teach you from scratch." },
+                alternatives: "<strong>I expect you to know the basics.</strong><br><strong>You'll have to learn the basics on your own.</strong>"
+            },
+            {
+                eng: "I don't have time to second-guess myself.", th: "ฉันไม่มีเวลามานั่งสงสัยในการตัดสินใจของตัวเอง",
+                context: "ใช้เมื่ออยู่ในสถานการณ์ที่ต้องตัดสินใจอย่างรวดเร็วและเด็ดขาด",
+                dialogue: { a: "Are you sure this is the right move?", b: "We have to act now. I don't have time to second-guess myself." },
+                alternatives: "<strong>I have to trust my decision.</strong><br><strong>There's no time for doubt.</strong>"
+            },
+            {
+                eng: "I don't even have time to breathe.", th: "ฉันไม่มีเวลาแม้แต่จะหายใจ",
+                context: "เป็นสำนวนที่ใช้การเปรียบเทียบเกินจริง (Hyperbole) เพื่อเน้นว่ากำลังยุ่งสุดๆ จนไม่มีเวลาว่างเลย",
+                dialogue: { a: "How's your new job?", b: "It's crazy. I have three deadlines this week. I don't even have time to breathe!" },
+                alternatives: "<strong>I'm completely swamped.</strong> (ฉันงานท่วมหัวเลย)<br><strong>I'm snowed under with work.</strong> (ฉันถูกฝังอยู่ใต้กองงาน)"
+            }
+        ];
+        
+        const grid = document.getElementById('sentences-grid');
+        const modal = document.getElementById('modal');
+        const modalHeader = document.getElementById('modal-header');
+        const modalEnglish = document.getElementById('modal-english');
+        const modalThai = document.getElementById('modal-thai');
+        const modalDetails = document.getElementById('modal-details');
+        const closeModalBtn = document.getElementById('close-modal-btn');
+
+        sentences.forEach((sentence, index) => {
+            const button = document.createElement('button');
+            button.className = `sentence-btn p-5 rounded-md text-left font-poppins font-semibold bg-yellow-300 border-2 border-slate-800 text-slate-800 hover:bg-yellow-400`;
+            button.innerHTML = `<span>${sentence.eng}</span>`;
+            button.addEventListener('click', () => openModal(sentence));
+            grid.appendChild(button);
+        });
+
+        function openModal(sentence) {
+            modalEnglish.textContent = sentence.eng;
+            modalThai.textContent = sentence.th;
+
+            modalDetails.innerHTML = `
+                <div class="p-4 bg-slate-100 rounded-lg">
+                    <h4 class="font-semibold text-lg text-slate-800 mb-2">💡 บริบทการใช้งาน (Context)</h4>
+                    <p class="text-slate-600">${sentence.context}</p>
+                </div>
+                <div class="p-4 bg-slate-100 rounded-lg">
+                    <h4 class="font-semibold text-lg text-slate-800 mb-2">💬 ตัวอย่างบทสนทนา (Dialogue)</h4>
+                    <div class="space-y-1 text-slate-600">
+                        <p><strong>A:</strong> ${sentence.dialogue.a}</p>
+                        <p><strong>B:</strong> ${sentence.dialogue.b}</p>
+                    </div>
+                </div>
+                <div class="p-4 bg-slate-100 rounded-lg">
+                    <h4 class="font-semibold text-lg text-slate-800 mb-2">🔄 คำที่เกี่ยวข้อง / ใช้แทนได้ (Alternatives)</h4>
+                    <div class="text-slate-600">${sentence.alternatives}</div>
+                </div>
+            `;
+
+            modal.classList.add('active');
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            modal.classList.add('opacity-0', 'pointer-events-none');
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        closeModalBtn.addEventListener('click', closeModal);
+        modal.addEventListener('click', (e) => {
+            if (e.target.id === 'modal') {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>

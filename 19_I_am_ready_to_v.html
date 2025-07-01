@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Structure #19 - I'm ready to + (verb)</title>
+    <title>Structure #19 - I'm ready to + (verb) (with translation)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -75,9 +75,9 @@
         const sentences = [
             {
                 eng: "I'm ready to go.", th: "ฉันพร้อมที่จะไปแล้ว",
-                context: "ประโยคที่ใช้บ่อยที่สุดเพื่อบอกว่าเราเตรียมตัวเสร็จเรียบร้อยแล้ว (เช่น แต่งตัว, เก็บของ) และพร้อมที่จะออกจากสถานที่นั้นๆ ทันที",
-                dialogue: { a: "The taxi is waiting outside.", b: "Great. I've got my bag. I'm ready to go." },
-                alternatives: "<strong>I'm all set to go.</strong> (ฉันพร้อมเต็มที่ที่จะไป)<br><strong>I'm good to go.</strong> (ฉันพร้อมไปแล้ว)"
+                context: "เป็นประโยคที่ใช้บ่อยที่สุดเพื่อบอกว่าเราเตรียมตัวเสร็จเรียบร้อยแล้ว (เช่น แต่งตัว, เก็บของ) และพร้อมที่จะออกจากสถานที่นั้นๆ ทันที",
+                dialogue: { a: "The taxi is here!", b: "Great. I've got my bag. I'm ready to go." },
+                alternatives: "<strong>I'm all set to go.</strong> (ฉันพร้อมเต็มที่ที่จะไป)<br><strong>I'm good to go.</strong> (ฉันพร้อมไปแล้ว)<br><strong>Let's go.</strong> (ไปกันเถอะ)"
             },
             {
                 eng: "I'm ready to start.", th: "ฉันพร้อมที่จะเริ่มแล้ว",
@@ -205,8 +205,13 @@
 
         sentences.forEach((sentence, index) => {
             const button = document.createElement('button');
-            button.className = `sentence-btn p-5 rounded-lg text-left font-poppins font-semibold text-white bg-green-600 shadow-md hover:bg-green-700 transform hover:-translate-y-1`;
-            button.innerHTML = `<span>${sentence.eng}</span>`;
+            button.className = `group sentence-btn p-5 rounded-lg text-left bg-green-600 shadow-md hover:bg-green-700 transform hover:-translate-y-1`;
+            
+            button.innerHTML = `
+                <span class="font-poppins font-semibold text-white transition-colors duration-200">${sentence.eng}</span>
+                <span class="block text-sm text-green-100 font-normal mt-1 transition-colors duration-200">${sentence.th}</span>
+            `;
+
             button.addEventListener('click', () => openModal(sentence));
             grid.appendChild(button);
         });

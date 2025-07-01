@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Structure #17 - I'm happy to + (verb)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Mitr:wght@300;400;500;600&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Mitr', sans-serif;
+        }
+        .font-poppins {
+            font-family: 'Poppins', sans-serif;
+        }
+        .sentence-btn {
+            transition: all 0.2s ease-in-out;
+        }
+        #modal {
+            transition: opacity 0.3s ease;
+        }
+        .modal-content-container {
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            opacity: 0;
+            transform: translateY(20px) scale(0.95);
+        }
+        #modal.active .modal-content-container {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+    </style>
+</head>
+<body class="bg-sky-50">
+
+    <div class="container mx-auto p-4 sm:p-6 lg:p-8">
+
+        <header class="text-center mb-10">
+            <h1 class="text-4xl sm:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-sky-500 to-blue-600 font-poppins">Structure #17</h1>
+            <h2 class="text-2xl sm:text-3xl font-bold text-slate-800 mt-2 font-poppins">"I'm happy to + (verb)"</h2>
+            <p class="text-slate-600 mt-4 max-w-2xl mx-auto text-lg">
+                เป็นวิธีพูดที่สุภาพและเป็นมิตรเพื่อแสดง <strong class="text-sky-600">"ความเต็มใจ"</strong> ที่จะทำบางสิ่งบางอย่างให้ผู้อื่น สื่อว่าเรา <strong class="text-blue-600">"ยินดี"</strong> และมีความสุขที่จะช่วย ไม่ได้รู้สึกว่าเป็นภาระ
+            </p>
+        </header>
+
+        <main id="sentences-grid" class="grid grid-cols-1 md:grid-cols-2 gap-5">
+            </main>
+
+        <footer class="text-center mt-12">
+            <p class="text-slate-700 font-medium">อังกฤษฉบับคนเรียนไม่รู้เรื่อง โดยครูสาลี่</p>
+        </footer>
+
+    </div>
+
+    <div id="modal" class="fixed inset-0 bg-black bg-opacity-60 flex justify-center items-center p-4 z-50 opacity-0 pointer-events-none">
+        <div class="modal-content-container w-full max-w-2xl max-h-[90vh] overflow-y-auto bg-slate-50 rounded-2xl shadow-2xl">
+            <div id="modal-header" class="p-6 sm:p-8 rounded-t-2xl bg-gradient-to-r from-sky-500 to-blue-600">
+                <p id="modal-english" class="font-poppins font-bold text-2xl text-white text-center"></p>
+                <p id="modal-thai" class="text-xl text-white text-center mt-2 opacity-90"></p>
+            </div>
+            <div class="p-6 sm:p-8">
+                <div id="modal-details" class="space-y-5">
+                    </div>
+                <div class="text-center mt-8">
+                    <button id="close-modal-btn" class="bg-slate-600 hover:bg-slate-700 text-white font-bold py-2 px-8 rounded-full shadow-lg transform hover:scale-105 transition-transform duration-300">
+                        ปิด
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const sentences = [
+            {
+                eng: "I'm happy to help.", th: "ฉันยินดีที่จะช่วย",
+                context: "ประโยคที่ใช้บ่อยที่สุดในการเสนอความช่วยเหลืออย่างเป็นมิตรและจริงใจ ทำให้ผู้ฟังรู้สึกดีและไม่เกรงใจที่จะรับความช่วยเหลือ",
+                dialogue: { a: "I can't lift this box by myself.", b: "Here, let me get that. I'm happy to help." },
+                alternatives: "<strong>I'd be happy to help.</strong> (สุภาพยิ่งขึ้น)<br><strong>Of course, I can help.</strong> (แน่นอน ฉันช่วยได้)<br><strong>Let me help you with that.</strong> (ให้ฉันช่วยคุณนะ)"
+            },
+            {
+                eng: "I'm happy to answer any questions.", th: "ฉันยินดีที่จะตอบทุกคำถาม",
+                context: "ใช้พูดหลังจบการนำเสนอหรือบรรยาย เพื่อเปิดโอกาสให้ผู้ฟังซักถามได้อย่างเต็มที่",
+                dialogue: { a: "That concludes my presentation.", b: "Now, I'm happy to answer any questions you may have." },
+                alternatives: "<strong>I'd be glad to answer your questions.</strong><br><strong>Feel free to ask any questions.</strong>"
+            },
+            {
+                eng: "I'm happy to show you around.", th: "ฉันยินดีที่จะพาคุณเดินชมรอบๆ",
+                context: "ใช้เมื่อต้อนรับแขกหรือเพื่อนร่วมงานใหม่ โดยเสนอตัวที่จะเป็นคนพาชมสถานที่",
+                dialogue: { a: "Welcome to our office! It's my first day and I'm a bit lost.", b: "Don't worry. I'm happy to show you around." },
+                alternatives: "<strong>I can give you a tour.</strong> (ฉันพาคุณทัวร์ได้นะ)<br><strong>Let me show you where everything is.</strong>"
+            },
+            {
+                eng: "I'm happy to clarify.", th: "ฉันยินดีที่จะอธิบายให้ชัดเจนขึ้น",
+                context: "ใช้ในสถานการณ์ที่การสื่อสารอาจเกิดความเข้าใจผิด และเราพร้อมที่จะอธิบายเพิ่มเติมเพื่อให้เกิดความชัดเจน",
+                dialogue: { a: "I'm not sure I understand your point.", b: "Of course. I'm happy to clarify. What I meant was..." },
+                alternatives: "<strong>I'd be happy to explain further.</strong><br><strong>Let me rephrase that.</strong> (ขอฉันพูดใหม่อีกแบบนะ)"
+            },
+            {
+                eng: "I'm happy to provide more information.", th: "ฉันยินดีที่จะให้ข้อมูลเพิ่มเติม",
+                context: "ใช้ในเชิงธุรกิจหรือบริการลูกค้า เพื่อแสดงความพร้อมที่จะให้รายละเอียดเกี่ยวกับสินค้าหรือบริการ",
+                dialogue: { a: "This product looks interesting.", b: "I'm glad you think so. I'm happy to provide more information if you'd like." },
+                alternatives: "<strong>I can give you more details.</strong><br><strong>Would you like to know more?</strong>"
+            },
+            {
+                eng: "I'm happy to join the team.", th: "ฉันยินดีที่ได้เข้าร่วมทีม",
+                context: "ใช้เมื่อตอบรับการเข้าร่วมโปรเจกต์หรือทีมใหม่ เพื่อแสดงทัศนคติเชิงบวกและความกระตือรือร้น",
+                dialogue: { a: "We'd like to invite you to be part of our new project.", b: "Thank you so much! I'm happy to join the team." },
+                alternatives: "<strong>I'd be delighted to join the team.</strong> (ฉันจะยินดีอย่างยิ่งที่ได้เข้าร่วมทีม)<br><strong>I look forward to working with you.</strong>"
+            },
+            {
+                eng: "I'm happy to do it.", th: "ฉันยินดีที่จะทำมัน",
+                context: "ใช้ตอบกลับเมื่อมีคนขอให้เราช่วยและถามเราด้วยความเกรงใจว่า 'เป็นภาระไหม' เพื่อยืนยันว่าเราเต็มใจช่วยจริงๆ",
+                dialogue: { a: "Could you pick up my mail? Are you sure it's not a bother?", b: "Not at all. I'm happy to do it." },
+                alternatives: "<strong>It's no trouble at all.</strong> (ไม่เป็นภาระเลย)<br><strong>My pleasure.</strong> (ด้วยความยินดี)"
+            },
+            {
+                eng: "I'm happy to give you a ride.", th: "ฉันยินดีที่จะไปส่งคุณ",
+                context: "ใช้เสนอความช่วยเหลือในการขับรถไปส่งเพื่อนหรือเพื่อนร่วมงาน",
+                dialogue: { a: "Oh no, it's raining and I don't have an umbrella.", b: "Don't worry, I have my car. I'm happy to give you a ride home." },
+                alternatives: "<strong>I can give you a lift.</strong><br><strong>Do you need a ride?</strong>"
+            },
+            {
+                eng: "I'm happy to wait.", th: "ฉันรอได้ (ด้วยความยินดี)",
+                context: "ใช้บอกอีกฝ่ายว่าเราไม่รีบและสามารถรอได้โดยไม่รู้สึกเป็นปัญหา",
+                dialogue: { a: "I'm so sorry, I'm running about 10 minutes late.", b: "No problem at all. Take your time. I'm happy to wait." },
+                alternatives: "<strong>That's okay, I don't mind waiting.</strong><br><strong>No rush.</strong> (ไม่ต้องรีบ)"
+            },
+            {
+                eng: "I'm happy to announce the winner.", th: "ฉันยินดีที่จะประกาศชื่อผู้ชนะ",
+                context: "ใช้ในงานพิธีหรืองานประกวด เพื่อเกริ่นนำก่อนที่จะประกาศผลการตัดสินที่น่ายินดี",
+                dialogue: { a: "And now, the moment you've all been waiting for...", b: "I'm happy to announce the winner of this year's competition!" },
+                alternatives: "<strong>It is my great pleasure to announce...</strong> (เป็นเกียรติอย่างยิ่งที่จะประกาศ...)"
+            },
+            {
+                eng: "I'm happy to listen if you want to talk.", th: "ฉันยินดีที่จะรับฟังนะถ้าเธออยากจะคุย",
+                context: "เป็นวิธีเสนอการสนับสนุนทางใจให้เพื่อนที่กำลังเศร้าหรือมีปัญหา",
+                dialogue: { a: "You seem down today.", b: "I just had a bad day.", a: "Well, I'm happy to listen if you want to talk." },
+                alternatives: "<strong>I'm here for you if you need to talk.</strong><br><strong>My ears are open.</strong>"
+            },
+            {
+                eng: "I'm happy to contribute in any way I can.", th: "ฉันยินดีที่จะมีส่วนร่วมไม่ว่าจะในทางใดก็ตามที่ฉันสามารถทำได้",
+                context: "ใช้แสดงความเต็มใจอย่างยิ่งที่จะช่วยเหลือโปรเจกต์หรืองานกลุ่ม",
+                dialogue: { a: "We need more volunteers for the event.", b: "Count me in. I'm happy to contribute in any way I can." },
+                alternatives: "<strong>Just let me know how I can help.</strong><br><strong>I'm willing to do whatever it takes.</strong>"
+            },
+            {
+                eng: "I'm happy to recommend a good restaurant.", th: "ฉันยินดีที่จะแนะนำร้านอาหารดีๆ ให้",
+                context: "ใช้เมื่อมีคนมาขอคำแนะนำเกี่ยวกับสถานที่ และเรามีความรู้และเต็มใจที่จะแบ่งปัน",
+                dialogue: { a: "We're new in town. Do you know any good places to eat?", b: "Of course! I'm happy to recommend a good restaurant nearby." },
+                alternatives: "<strong>I can recommend a great place.</strong><br><strong>You should try...</strong>"
+            },
+            {
+                eng: "I'm happy to reschedule.", th: "ฉันยินดีที่จะเลื่อนนัดให้",
+                context: "ใช้เมื่ออีกฝ่ายไม่สะดวกตามนัดเดิม เพื่อแสดงความยืดหยุ่นและเต็มใจที่จะหาวันนัดใหม่",
+                dialogue: { a: "I'm so sorry, something has come up and I can't make it tomorrow.", b: "That's perfectly fine. We can reschedule. I'm happy to reschedule." },
+                alternatives: "<strong>We can find another time.</strong><br><strong>Rescheduling is not a problem.</strong>"
+            },
+            {
+                eng: "I'm happy to take on the responsibility.", th: "ฉันยินดีที่จะรับผิดชอบหน้าที่นี้",
+                context: "ใช้ในที่ทำงานเพื่อแสดงความพร้อมและความเต็มใจที่จะรับงานหรือความรับผิดชอบใหม่ๆ",
+                dialogue: { a: "Who will lead this new initiative?", b: "I will. I'm happy to take on the responsibility." },
+                alternatives: "<strong>I'm willing to take on this responsibility.</strong><br><strong>I volunteer for this role.</strong>"
+            },
+            {
+                eng: "I'm happy to share my notes.", th: "ฉันยินดีที่จะให้เธอยืม/ดูเลคเชอร์ของฉัน",
+                context: "ใช้ในสถานการณ์การเรียนเมื่อเพื่อนขาดเรียนและต้องการความช่วยเหลือ",
+                dialogue: { a: "I missed yesterday's class. I'm so behind.", b: "Don't worry. I'm happy to share my notes with you." },
+                alternatives: "<strong>You can borrow my notes.</strong><br><strong>I can send you my notes.</strong>"
+            },
+            {
+                eng: "I'm happy to welcome our new CEO.", th: "ฉันยินดีที่จะต้อนรับ CEO คนใหม่ของเรา",
+                context: "ใช้ในอีเมลหรือการประชุมเพื่อกล่าวต้อนรับสมาชิกใหม่ในตำแหน่งที่สำคัญอย่างเป็นทางการ",
+                dialogue: { a: "Today, I'm happy to welcome our new CEO, Ms. Evans, to the company.", b: "" },
+                alternatives: "<strong>Please join me in welcoming...</strong><br><strong>It is my pleasure to welcome...</strong>"
+            },
+            {
+                eng: "I'm happy to be here.", th: "ฉันมีความสุข/ยินดีที่ได้มาอยู่ที่นี่",
+                context: "ใช้พูดเมื่อไปถึงงานอีเวนต์, การประชุม, หรือบ้านของใครสักคน เพื่อแสดงความรู้สึกยินดีที่ได้รับเชิญ",
+                dialogue: { a: "Thanks for coming!", b: "Thanks for having me! I'm happy to be here." },
+                alternatives: "<strong>It's great to be here.</strong><br><strong>I'm pleased to be here.</strong>"
+            },
+            {
+                eng: "I'm happy to work late if needed.", th: "ฉันยินดีที่จะทำงานล่วงเวลาหากจำเป็น",
+                context: "ใช้เพื่อแสดงความทุ่มเทต่องานและทีม ว่าเราพร้อมที่จะทำงานหนักขึ้นเมื่อสถานการณ์บังคับ",
+                dialogue: { a: "This deadline is going to be tough.", b: "I agree. I'm happy to work late if needed to get it done." },
+                alternatives: "<strong>I don't mind working late.</strong><br><strong>I'm willing to stay late.</strong>"
+            },
+            {
+                eng: "I'm happy to see you succeed.", th: "ฉันดีใจที่ได้เห็นคุณประสบความสำเร็จ",
+                context: "ใช้แสดงความยินดีอย่างจริงใจต่อความสำเร็จของเพื่อน, เพื่อนร่วมงาน, หรือลูกน้อง",
+                dialogue: { a: "I finally got the promotion!", b: "That's fantastic news! I'm genuinely happy to see you succeed." },
+                alternatives: "<strong>I'm so happy for your success.</strong><br><strong>You deserve it!</strong> (คุณคู่ควรกับมัน!)"
+            }
+        ];
+        
+        const grid = document.getElementById('sentences-grid');
+        const modal = document.getElementById('modal');
+        const modalHeader = document.getElementById('modal-header');
+        const modalEnglish = document.getElementById('modal-english');
+        const modalThai = document.getElementById('modal-thai');
+        const modalDetails = document.getElementById('modal-details');
+        const closeModalBtn = document.getElementById('close-modal-btn');
+
+        sentences.forEach((sentence, index) => {
+            const button = document.createElement('button');
+            button.className = `sentence-btn p-5 rounded-lg text-left font-poppins font-semibold text-white bg-gradient-to-r from-sky-500 to-blue-500 shadow-md hover:shadow-lg transform hover:-translate-y-1`;
+            button.innerHTML = `<span>${sentence.eng}</span>`;
+            button.addEventListener('click', () => openModal(sentence));
+            grid.appendChild(button);
+        });
+
+        function openModal(sentence) {
+            modalEnglish.textContent = sentence.eng;
+            modalThai.textContent = sentence.th;
+
+            modalDetails.innerHTML = `
+                <div class="p-4 bg-slate-100 rounded-lg">
+                    <h4 class="font-semibold text-lg text-slate-800 mb-2">💡 บริบทการใช้งาน (Context)</h4>
+                    <p class="text-slate-600">${sentence.context}</p>
+                </div>
+                <div class="p-4 bg-slate-100 rounded-lg">
+                    <h4 class="font-semibold text-lg text-slate-800 mb-2">💬 ตัวอย่างบทสนทนา (Dialogue)</h4>
+                    <div class="space-y-1 text-slate-600">
+                        <p><strong>A:</strong> ${sentence.dialogue.a}</p>
+                        <p><strong>B:</strong> ${sentence.dialogue.b}</p>
+                    </div>
+                </div>
+                <div class="p-4 bg-slate-100 rounded-lg">
+                    <h4 class="font-semibold text-lg text-slate-800 mb-2">🔄 คำที่เกี่ยวข้อง / ใช้แทนได้ (Alternatives)</h4>
+                    <div class="text-slate-600">${sentence.alternatives}</div>
+                </div>
+            `;
+
+            modal.classList.add('active');
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            modal.classList.add('opacity-0', 'pointer-events-none');
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        closeModalBtn.addEventListener('click', closeModal);
+        modal.addEventListener('click', (e) => {
+            if (e.target.id === 'modal') {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>

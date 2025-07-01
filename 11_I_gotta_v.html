@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Structure #11 - I gotta + (verb)</title>
+    <title>Structure #11 - I gotta + (verb) (with translation)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -203,17 +203,24 @@
         const modalDetails = document.getElementById('modal-details');
         const closeModalBtn = document.getElementById('close-modal-btn');
 
+        const buttonColors = [
+            { base: 'border-cyan-400', hover: 'hover:bg-cyan-400', text: 'text-cyan-400', hoverText: 'group-hover:text-slate-900', subText: 'text-slate-400', subHoverText: 'group-hover:text-slate-800' },
+            { base: 'border-fuchsia-400', hover: 'hover:bg-fuchsia-400', text: 'text-fuchsia-400', hoverText: 'group-hover:text-slate-900', subText: 'text-slate-400', subHoverText: 'group-hover:text-slate-800' },
+            { base: 'border-lime-400', hover: 'hover:bg-lime-400', text: 'text-lime-400', hoverText: 'group-hover:text-slate-900', subText: 'text-slate-400', subHoverText: 'group-hover:text-slate-800' },
+            { base: 'border-teal-400', hover: 'hover:bg-teal-400', text: 'text-teal-400', hoverText: 'group-hover:text-slate-900', subText: 'text-slate-400', subHoverText: 'group-hover:text-slate-800' },
+        ];
+
         sentences.forEach((sentence, index) => {
             const button = document.createElement('button');
-            const colorClasses = [
-                'border-cyan-400 text-cyan-400 hover:bg-cyan-400',
-                'border-fuchsia-400 text-fuchsia-400 hover:bg-fuchsia-400',
-                'border-lime-400 text-lime-400 hover:bg-lime-400',
-                'border-teal-400 text-teal-400 hover:bg-teal-400',
-            ]
-            const colorClass = colorClasses[index % colorClasses.length];
-            button.className = `sentence-btn p-5 rounded-lg text-left font-poppins font-semibold bg-slate-800 border-2 ${colorClass} hover:text-slate-900`;
-            button.innerHTML = `<span>${sentence.eng}</span>`;
+            const colorTheme = buttonColors[index % buttonColors.length];
+            
+            button.className = `group sentence-btn p-5 rounded-lg text-left bg-slate-800 border-2 ${colorTheme.base} ${colorTheme.hover}`;
+            
+            button.innerHTML = `
+                <span class="font-poppins font-semibold ${colorTheme.text} ${colorTheme.hoverText} transition-colors duration-200">${sentence.eng}</span>
+                <span class="block text-sm ${colorTheme.subText} font-normal mt-1 ${colorTheme.subHoverText} transition-colors duration-200">${sentence.th}</span>
+            `;
+            
             button.addEventListener('click', () => openModal(sentence));
             grid.appendChild(button);
         });

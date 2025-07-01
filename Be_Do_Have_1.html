@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mr. Grammar: สรุป V. to be, do, have (New Layout)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Kanit', sans-serif;
+        }
+        .modal {
+            display: none; /* Hidden by default */
+            transition: opacity 0.3s ease-in-out;
+        }
+        .modal-content {
+            transform: translateY(20px) scale(0.95);
+            transition: all 0.3s ease-in-out;
+        }
+        .modal.flex {
+            display: flex;
+        }
+        .modal.flex .modal-content {
+            transform: translateY(0) scale(1);
+        }
+        .keyword {
+            text-decoration: underline;
+            text-decoration-color: #fbbf24; /* amber-400 */
+            text-decoration-thickness: 2px;
+            text-underline-offset: 3px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: color 0.2s;
+        }
+        .page-title-verb-be { color: #3b82f6; }
+        .page-title-verb-do { color: #22c55e; }
+        .page-title-verb-have { color: #ef4444; }
+
+        .keyword-be { color: #2563eb; }
+        .keyword-be:hover { color: #1d4ed8; }
+
+        .keyword-do { color: #16a34a; }
+        .keyword-do:hover { color: #15803d; }
+        
+        .keyword-have { color: #dc2626; }
+        .keyword-have:hover { color: #b91c1c; }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-sky-50 to-indigo-100 flex items-center justify-center min-h-screen p-4">
+
+    <div id="app-container" class="w-full max-w-4xl bg-white/70 backdrop-blur-xl rounded-2xl shadow-2xl p-6 md:p-8 ring-1 ring-black ring-opacity-5">
+        
+        <header class="text-center mb-8">
+            <h1 id="page-title" class="text-3xl md:text-4xl font-bold text-slate-800 transition-colors duration-500">
+                </h1>
+            <p class="text-slate-500 mt-2">สรุปการใช้กริยาพื้นฐาน 3 ตัวหลักในภาษาอังกฤษ</p>
+        </header>
+
+        <main id="page-content" class="mb-8 min-h-[480px] md:min-h-[420px]">
+            </main>
+
+        <footer class="flex justify-between items-center">
+            <button id="prev-btn" class="bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold py-2 px-5 rounded-lg transition-all duration-300 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-slate-200 transform hover:scale-105">
+                &larr; ก่อนหน้า
+            </button>
+            <div id="page-indicator" class="text-slate-600 font-medium text-sm md:text-base"></div>
+            <button id="next-btn" class="text-white font-bold py-2 px-5 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg">
+                ถัดไป &rarr;
+            </button>
+        </footer>
+    </div>
+
+    <div id="keyword-modal" class="modal fixed inset-0 bg-black bg-opacity-60 items-center justify-center p-4">
+        <div class="modal-content bg-white rounded-2xl shadow-xl w-full max-w-md p-6 relative">
+            <button id="close-modal-btn" class="absolute top-3 right-4 text-gray-400 hover:text-gray-800 text-3xl font-light">&times;</button>
+            <h3 id="modal-title" class="text-2xl font-bold mb-5"></h3>
+            <div class="space-y-4">
+                <div>
+                    <h4 class="font-semibold text-gray-500 text-sm tracking-wider uppercase">การออกเสียง</h4>
+                    <p id="modal-pronunciation" class="text-lg font-medium"></p>
+                </div>
+                <div>
+                    <h4 class="font-semibold text-gray-500 text-sm tracking-wider uppercase">ความหมาย</h4>
+                    <p id="modal-meaning" class="text-lg"></p>
+                </div>
+                <div>
+                    <h4 class="font-semibold text-gray-500 text-sm tracking-wider uppercase">ตัวอย่างประโยค</h4>
+                    <p id="modal-example" class="text-lg bg-slate-100 p-3 rounded-lg"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- Data for each page ---
+        const pagesData = [
+            {
+                title: "<span class='page-title-verb-be'>การใช้ Verb to be</span>",
+                themeColor: "blue",
+                content: `
+                    <div class="space-y-6">
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div class="bg-white p-6 rounded-xl shadow-md border border-slate-200">
+                                <h3 class="font-bold text-xl text-slate-800 mb-3">1. เป็นกริยาแท้ (Main Verb)</h3>
+                                <p class="text-slate-600 mb-4">มีความหมายว่า <strong>"เป็น, อยู่, คือ"</strong> เพื่อบอกสถานะหรือคุณสมบัติ</p>
+                                <div class="space-y-2 text-slate-700">
+                                    <p>› She <span class="keyword keyword-be">is</span> a doctor.</p>
+                                    <p>› We <span class="keyword keyword-be">were</span> at school.</p>
+                                </div>
+                            </div>
+                            <div class="bg-white p-6 rounded-xl shadow-md border border-slate-200">
+                                <h3 class="font-bold text-xl text-slate-800 mb-3">2. เป็นกริยาช่วย (Helping Verb)</h3>
+                                <p class="text-slate-600 mb-4">ใช้วางหน้ากริยาแท้ในโครงสร้าง Continuous Tense และ Passive Voice</p>
+                                <div class="space-y-2 text-slate-700">
+                                     <p>› He <span class="keyword keyword-be">is</span> <span class="keyword keyword-be">reading</span> a book.</p>
+                                     <p>› This car <span class="keyword keyword-be">was</span> <span class="keyword keyword-be">made</span> in Japan.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-sky-50 border-t-4 border-sky-400 p-5 rounded-b-lg">
+                            <h3 class="font-bold text-lg text-sky-800 mb-3">💡 เทคนิคช่วยจำ V. to be</h3>
+                            <ul class="list-disc list-inside space-y-2 text-sky-900 leading-relaxed">
+                                <li>ประธานเอกพจน์ (He, She, It) &rarr; ใช้ <span class="keyword keyword-be">is</span> (ปัจจุบัน), <span class="keyword keyword-be">was</span> (อดีต)</li>
+                                <li>ประธาน "I" &rarr; ใช้ <span class="keyword keyword-be">am</span> (ปัจจุบัน), <span class="keyword keyword-be">was</span> (อดีต)</li>
+                                <li>ประธานพหูพจน์ (You, We, They) &rarr; ใช้ <span class="keyword keyword-be">are</span> (ปัจจุบัน), <span class="keyword keyword-be">were</span> (อดีต)</li>
+                            </ul>
+                        </div>
+                    </div>
+                `,
+                keywords: {
+                    'is': { pronunciation: '<span class="text-blue-600"><u>อิส</u></span>', meaning: 'เป็น, อยู่, คือ (ใช้กับประธานเอกพจน์)', example: 'The cat <strong>is</strong> sleeping.' },
+                    'am': { pronunciation: '<span class="text-blue-600"><u>แอม</u></span>', meaning: 'เป็น, อยู่, คือ (ใช้กับประธาน I)', example: 'I <strong>am</strong> hungry.' },
+                    'are': { pronunciation: '<span class="text-blue-600"><u>อาร์</u></span>', meaning: 'เป็น, อยู่, คือ (ใช้กับประธานพหูพจน์)', example: 'They <strong>are</strong> friends.' },
+                    'was': { pronunciation: '<span class="text-blue-600"><u>วอส</u></span>', meaning: 'เป็น, อยู่, คือ (รูปอดีตของ is/am)', example: 'He <strong>was</strong> tired yesterday.' },
+                    'were': { pronunciation: '<span class="text-blue-600"><u>เวียร์</u></span>', meaning: 'เป็น, อยู่, คือ (รูปอดีตของ are)', example: 'You <strong>were</strong> right.' },
+                    'reading': { pronunciation: '<span class="text-blue-600"><u>รีด</u>-ดิง</span>', meaning: 'กำลังอ่าน (รูป V-ing)', example: 'She is <strong>reading</strong> a fantasy novel.' },
+                    'made': { pronunciation: '<span class="text-blue-600">เมด</span>', meaning: 'ถูกทำ, ถูกสร้าง (รูป V.3)', example: 'This cake was <strong>made</strong> by my mother.' }
+                }
+            },
+            {
+                title: "<span class='page-title-verb-do'>การใช้ Verb to do</span>",
+                themeColor: "green",
+                content: `
+                    <div class="space-y-6">
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div class="bg-white p-6 rounded-xl shadow-md border border-slate-200">
+                                <h3 class="font-bold text-xl text-slate-800 mb-3">1. เป็นกริยาแท้ (Main Verb)</h3>
+                                <p class="text-slate-600 mb-4">มีความหมายว่า <strong>"ทำ"</strong> เพื่อบอกถึงการกระทำทั่วไป</p>
+                                <div class="space-y-2 text-slate-700">
+                                    <p>› I <span class="keyword keyword-do">do</span> my homework.</p>
+                                    <p>› She <span class="keyword keyword-do">did</span> a great job.</p>
+                                </div>
+                            </div>
+                            <div class="bg-white p-6 rounded-xl shadow-md border border-slate-200">
+                                <h3 class="font-bold text-xl text-slate-800 mb-3">2. เป็นกริยาช่วย (Helping Verb)</h3>
+                                <p class="text-slate-600 mb-4">ใช้สร้างประโยคคำถาม, ปฏิเสธ, และเพื่อเน้นย้ำความรู้สึก</p>
+                                <div class="space-y-2 text-slate-700">
+                                     <p>› <span class="keyword keyword-do">Do</span> you like coffee?</p>
+                                     <p>› He <span class="keyword keyword-do">does</span> not play games.</p>
+                                     <p>› I <span class="keyword keyword-do">do</span> want to go!</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-green-50 border-t-4 border-green-400 p-5 rounded-b-lg">
+                            <h3 class="font-bold text-lg text-green-800 mb-3">💡 เทคนิคช่วยจำ V. to do</h3>
+                            <ul class="list-disc list-inside space-y-2 text-green-900 leading-relaxed">
+                                <li>ใช้สร้างประโยคคำถาม/ปฏิเสธคู่กับกริยาช่องที่ 1 (V.1) เสมอ</li>
+                                <li>ประธานเอกพจน์ (He, She, It) &rarr; ใช้ <span class="keyword keyword-do">does</span></li>
+                                <li>ประธานอื่น ๆ (I, You, We, They) &rarr; ใช้ <span class="keyword keyword-do">do</span></li>
+                                <li>รูปอดีตใช้ <span class="keyword keyword-do">did</span> กับทุกประธาน</li>
+                            </ul>
+                        </div>
+                    </div>
+                `,
+                keywords: {
+                    'do': { pronunciation: '<span class="text-green-600"><u>ดู</u></span>', meaning: 'ทำ (ใช้กับ I/You/We/They), ใช้สร้างคำถาม/ปฏิเสธ', example: 'What do you <strong>do</strong> for a living?' },
+                    'does': { pronunciation: '<span class="text-green-600"><u>ดาส</u></span>', meaning: 'ทำ (ใช้กับ He/She/It), ใช้สร้างคำถาม/ปฏิเสธ', example: '<strong>Does</strong> he know the answer?' },
+                    'did': { pronunciation: '<span class="text-green-600"><u>ดิด</u></span>', meaning: 'ทำ (รูปอดีต), ใช้สร้างคำถาม/ปฏิเสธในอดีต', example: 'She <strong>did</strong> not see me.' }
+                }
+            },
+            {
+                title: "<span class='page-title-verb-have'>การใช้ Verb to have</span>",
+                themeColor: "red",
+                content: `
+                    <div class="space-y-6">
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div class="bg-white p-6 rounded-xl shadow-md border border-slate-200">
+                                <h3 class="font-bold text-xl text-slate-800 mb-3">1. เป็นกริยาแท้ (Main Verb)</h3>
+                                <p class="text-slate-600 mb-4">มีความหมายว่า <strong>"มี"</strong> หรือ <strong>"กิน"</strong> เพื่อแสดงความเป็นเจ้าของ</p>
+                                <div class="space-y-2 text-slate-700">
+                                    <p>› They <span class="keyword keyword-have">have</span> a big house.</p>
+                                    <p>› She <span class="keyword keyword-have">had</span> breakfast at 7 AM.</p>
+                                </div>
+                            </div>
+                            <div class="bg-white p-6 rounded-xl shadow-md border border-slate-200">
+                                <h3 class="font-bold text-xl text-slate-800 mb-3">2. เป็นกริยาช่วย (Helping Verb)</h3>
+                                <p class="text-slate-600 mb-4">ใช้วางหน้ากริยาช่องที่ 3 (V.3) ในโครงสร้าง Perfect Tenses</p>
+                                <div class="space-y-2 text-slate-700">
+                                     <p>› I <span class="keyword keyword-have">have</span> <span class="keyword keyword-have">finished</span> my work.</p>
+                                     <p>› He <span class="keyword keyword-have">had</span> <span class="keyword keyword-have">left</span> before I arrived.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-red-50 border-t-4 border-red-400 p-5 rounded-b-lg">
+                            <h3 class="font-bold text-lg text-red-800 mb-3">💡 เทคนิคช่วยจำ V. to have</h3>
+                            <ul class="list-disc list-inside space-y-2 text-red-900 leading-relaxed">
+                                <li>เมื่อเป็นกริยาช่วย ต้องตามด้วยกริยาช่อง 3 (V.3) เสมอ!</li>
+                                <li>ประธานเอกพจน์ (He, She, It) &rarr; ใช้ <span class="keyword keyword-have">has</span></li>
+                                <li>ประธานอื่น ๆ (I, You, We, They) &rarr; ใช้ <span class="keyword keyword-have">have</span></li>
+                                <li>รูปอดีตใช้ <span class="keyword keyword-have">had</span> กับทุกประธาน</li>
+                            </ul>
+                        </div>
+                    </div>
+                `,
+                keywords: {
+                    'have': { pronunciation: '<span class="text-red-600"><u>แฮฟว</u></span>', meaning: 'มี, กิน (ใช้กับ I/You/We/They)', example: 'We <strong>have</strong> a meeting now.' },
+                    'has': { pronunciation: '<span class="text-red-600"><u>แฮส</u></span>', meaning: 'มี, กิน (ใช้กับ He/She/It)', example: 'The company <strong>has</strong> a new policy.' },
+                    'had': { pronunciation: '<span class="text-red-600"><u>แฮด</u></span>', meaning: 'มี, กิน (รูปอดีต)', example: 'I <strong>had</strong> a strange dream last night.' },
+                    'finished': { pronunciation: '<span class="text-red-600"><u>ฟิน</u>-ิชท</span>', meaning: 'เสร็จสิ้น (รูป V.3)', example: 'Have you <strong>finished</strong> the report?' },
+                    'left': { pronunciation: '<span class="text-red-600"><u>เลฟท</u></span>', meaning: 'ออกไปแล้ว (รูป V.3 ของ leave)', example: 'The train had already <strong>left</strong>.' }
+                }
+            }
+        ];
+
+        // --- App Logic ---
+        let currentPageIndex = 0;
+
+        const pageTitleEl = document.getElementById('page-title');
+        const pageContentEl = document.getElementById('page-content');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const pageIndicatorEl = document.getElementById('page-indicator');
+        
+        const modalEl = document.getElementById('keyword-modal');
+        const closeModalBtn = document.getElementById('close-modal-btn');
+        const modalTitleEl = document.getElementById('modal-title');
+        const modalPronunciationEl = document.getElementById('modal-pronunciation');
+        const modalMeaningEl = document.getElementById('modal-meaning');
+        const modalExampleEl = document.getElementById('modal-example');
+
+        const themeColors = {
+            blue: { bg: 'bg-blue-500', hover: 'hover:bg-blue-600', modalHeader: 'text-blue-600' },
+            green: { bg: 'bg-green-500', hover: 'hover:bg-green-600', modalHeader: 'text-green-600' },
+            red: { bg: 'bg-red-500', hover: 'hover:bg-red-600', modalHeader: 'text-red-600' }
+        };
+
+        function updateNav() {
+            prevBtn.disabled = currentPageIndex === 0;
+            nextBtn.disabled = currentPageIndex === pagesData.length - 1;
+            pageIndicatorEl.textContent = `หน้า ${currentPageIndex + 1} / ${pagesData.length}`;
+            
+            // Update next button color based on theme
+            const currentTheme = pagesData[currentPageIndex].themeColor;
+            const colors = themeColors[currentTheme];
+            nextBtn.className = `text-white font-bold py-2 px-5 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg ${colors.bg} ${colors.hover} disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-slate-400`;
+            if (nextBtn.disabled) {
+                nextBtn.classList.remove(colors.bg, colors.hover);
+                nextBtn.classList.add('bg-slate-400');
+            }
+        }
+
+        function renderPage(index) {
+            const pageData = pagesData[index];
+            pageTitleEl.innerHTML = pageData.title;
+            pageContentEl.innerHTML = pageData.content;
+            
+            const keywords = pageContentEl.querySelectorAll('.keyword');
+            keywords.forEach(kw => {
+                kw.addEventListener('click', () => {
+                    const term = kw.textContent;
+                    const keywordData = pagesData[currentPageIndex].keywords[term];
+                    if (keywordData) {
+                        showModal(term, keywordData);
+                    }
+                });
+            });
+            updateNav();
+        }
+
+        function showModal(term, data) {
+            const currentTheme = pagesData[currentPageIndex].themeColor;
+            const colors = themeColors[currentTheme];
+
+            modalTitleEl.innerHTML = `คำศัพท์: <span class="${colors.modalHeader}">${term}</span>`;
+            modalPronunciationEl.innerHTML = data.pronunciation;
+            modalMeaningEl.textContent = data.meaning;
+            modalExampleEl.innerHTML = data.example;
+            modalEl.classList.add('flex');
+        }
+
+        function hideModal() {
+            modalEl.classList.remove('flex');
+        }
+
+        prevBtn.addEventListener('click', () => {
+            if (currentPageIndex > 0) {
+                currentPageIndex--;
+                renderPage(currentPageIndex);
+            }
+        });
+
+        nextBtn.addEventListener('click', () => {
+            if (currentPageIndex < pagesData.length - 1) {
+                currentPageIndex++;
+                renderPage(currentPageIndex);
+            }
+        });
+
+        closeModalBtn.addEventListener('click', hideModal);
+        modalEl.addEventListener('click', (e) => {
+            if (e.target === modalEl) {
+                hideModal();
+            }
+        });
+
+        // Initial render
+        document.addEventListener('DOMContentLoaded', () => {
+            renderPage(currentPageIndex);
+        });
+    </script>
+</body>
+</html>

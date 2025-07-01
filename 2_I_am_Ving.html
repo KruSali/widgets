@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Structure #2 - I'm + (verb-ing)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Mitr:wght@300;400;500;600&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Mitr', sans-serif;
+        }
+        .font-poppins {
+            font-family: 'Poppins', sans-serif;
+        }
+        .sentence-btn {
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.07);
+            border: 2px solid transparent;
+        }
+        .sentence-btn:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+        }
+        #modal {
+            transition: opacity 0.3s ease;
+        }
+        .modal-content-container {
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            opacity: 0;
+            transform: translateY(20px) scale(0.95);
+        }
+        #modal.active .modal-content-container {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-rose-100 via-pink-100 to-purple-200 min-h-screen">
+
+    <div class="container mx-auto p-4 sm:p-6 lg:p-8">
+
+        <header class="text-center mb-10">
+            <h1 class="text-4xl sm:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-violet-600 font-poppins">Structure #2</h1>
+            <h2 class="text-2xl sm:text-3xl font-bold text-slate-800 mt-2 font-poppins">"I'm + (verb ending in -ing)"</h2>
+            <p class="text-slate-600 mt-4 max-w-2xl mx-auto text-lg">
+                โครงสร้างนี้ใช้บอก 3 เรื่องหลัก: 1. สิ่งที่<strong>กำลังทำอยู่ตอนนี้</strong> 2. สิ่งที่<strong>ทำอยู่ช่วงนี้</strong> (แต่ไม่ได้ทำอยู่ตอนนี้ก็ได้) และ 3. <strong>แผนอนาคต</strong>ที่แน่นอนแล้ว
+            </p>
+        </header>
+
+        <main id="sentences-grid" class="grid grid-cols-1 md:grid-cols-2 gap-5">
+            </main>
+
+        <footer class="text-center mt-12">
+            <p class="text-slate-700 font-medium">อังกฤษฉบับคนเรียนไม่รู้เรื่อง โดยครูสาลี่</p>
+        </footer>
+
+    </div>
+
+    <div id="modal" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center p-4 z-50 opacity-0 pointer-events-none">
+        <div class="modal-content-container w-full max-w-2xl max-h-[90vh] overflow-y-auto bg-white rounded-2xl shadow-2xl">
+            <div id="modal-header" class="p-6 sm:p-8 rounded-t-2xl bg-gradient-to-r from-pink-500 to-violet-600">
+                <p id="modal-english" class="font-poppins font-bold text-2xl text-white text-center"></p>
+                <p id="modal-thai" class="text-xl text-white text-center mt-2 opacity-90"></p>
+            </div>
+            <div class="p-6 sm:p-8">
+                <div id="modal-details" class="space-y-5">
+                    </div>
+                <div class="text-center mt-8">
+                    <button id="close-modal-btn" class="bg-slate-600 hover:bg-slate-700 text-white font-bold py-2 px-8 rounded-full shadow-lg transform hover:scale-105 transition-transform duration-300">
+                        ปิด
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const sentences = [
+            // --- 1. Happening Right Now ---
+            {
+                eng: "I'm working right now.", th: "ฉันกำลังทำงานอยู่ตอนนี้",
+                context: "ใช้บอกกิจกรรมที่กำลังทำอยู่ ณ ขณะที่พูดจริงๆ เป็นคำตอบยอดฮิตเมื่อมีคนโทรเข้ามาตอนเราไม่ว่าง",
+                dialogue: { a: "Hey, do you have a minute to chat?", b: "Sorry, I'm working right now. Can I call you back?" },
+                alternatives: "<strong>I'm in the middle of something.</strong> (ฉันกำลังยุ่งอยู่)<br><strong>I'm a bit busy at the moment.</strong> (ตอนนี้ฉันยุ่งนิดหน่อย)"
+            },
+            {
+                eng: "I'm cooking dinner.", th: "ฉันกำลังทำอาหารเย็นอยู่",
+                context: "บอกกิจกรรมที่กำลังดำเนินอยู่ในขณะนั้น มักใช้ตอบคำถามว่า 'What are you doing?'",
+                dialogue: { a: "What's that delicious smell?", b: "I'm cooking dinner. It's green curry." },
+                alternatives: "<strong>I'm making dinner.</strong> (ใช้ making แทน cooking ได้)<br><strong>Dinner is in progress.</strong> (อาหารเย็นกำลังอยู่ในขั้นตอนการทำ)"
+            },
+            {
+                eng: "I'm watching a movie.", th: "ฉันกำลังดูหนังอยู่",
+                context: "บอกกิจกรรมที่กำลังทำเพื่อพักผ่อนหย่อนใจในขณะนั้น เป็นการบอกอีกฝ่ายว่าเราอาจจะไม่สะดวกคุย",
+                dialogue: { a: "Want to play an online game?", b: "Not right now, I'm watching a movie." },
+                alternatives: "<strong>I'm in the middle of a movie.</strong><br><strong>I'm trying to watch a film.</strong>"
+            },
+            {
+                eng: "I'm just leaving the office.", th: "ฉันเพิ่งจะออกจากออฟฟิศ",
+                context: "ใช้บอกการกระทำที่กำลังจะสิ้นสุดหรือเพิ่งเริ่มในขณะที่พูด เพื่ออัปเดตสถานะของเราให้อีกฝ่ายทราบ",
+                dialogue: { a: "Where are you? I'm already at the restaurant.", b: "I'm just leaving the office. I'll be there in 20 minutes." },
+                alternatives: "<strong>I'm on my way out of the office.</strong><br><strong>I'm heading out now.</strong> (ฉันกำลังออกไปเดี๋ยวนี้)"
+            },
+            {
+                eng: "I'm trying to concentrate.", th: "ฉันกำลังพยายามใช้สมาธิอยู่",
+                context: "ใช้เมื่อถูกรบกวนและต้องการบอกอีกฝ่ายอย่างสุภาพให้หยุดการกระทำนั้นๆ",
+                dialogue: { a: "(Music is playing loudly) ...", b: "Could you please turn it down? I'm trying to concentrate." },
+                alternatives: "<strong>I need to focus.</strong><br><strong>I'm finding it hard to concentrate with that noise.</strong>"
+            },
+            {
+                eng: "I'm waiting for the bus.", th: "ฉันกำลังรอรถเมล์อยู่",
+                context: "บอกกิจกรรมที่กำลังทำระหว่างรอคอย เพื่ออัปเดตสถานะและตำแหน่งของเรา",
+                dialogue: { a: "What are you doing standing there?", b: "I'm waiting for the bus." },
+                alternatives: "<strong>I'm at the bus stop.</strong>"
+            },
+            {
+                eng: "I'm kidding!", th: "ฉันล้อเล่น!",
+                context: "ใช้พูดทันทีหลังจากพูดอะไรที่ไม่จริงจัง เพื่อให้อีกฝ่ายรู้ว่าเราแค่พูดเล่น ไม่ได้หมายความตามนั้นจริงๆ",
+                dialogue: { a: "I've decided to quit my job and join the circus.", b: "(Stares in shock)... Are you serious?", a: "Of course not! I'm kidding!" },
+                alternatives: "<strong>I'm just joking.</strong><br><strong>I'm pulling your leg.</strong> (สำนวนแปลว่า 'ฉันแค่แกล้งเธอเล่น')"
+            },
+            // --- 2. Happening Around Now (in this period) ---
+            {
+                eng: "I'm reading a really good book.", th: "ช่วงนี้ฉันกำลังอ่านหนังสือดีๆ เล่มหนึ่งอยู่",
+                context: "บอกถึงกิจกรรมที่ทำอยู่ 'ช่วงนี้' แต่ไม่จำเป็นต้องกำลังทำในขณะที่พูด เป็นการเล่าถึงงานอดิเรกหรือโปรเจกต์ระยะยาว",
+                dialogue: { a: "Have you read anything interesting lately?", b: "Yes! I'm reading a really good book about Japanese history." },
+                alternatives: "<strong>I've been reading a good book.</strong> (ใช้ Present Perfect Continuous เพื่อเน้นความต่อเนื่อง)"
+            },
+            {
+                eng: "I'm learning to play the piano.", th: "ช่วงนี้ฉันกำลังเรียนเล่นเปียโนอยู่",
+                context: "บอกถึงการเรียนรู้ทักษะใหม่ๆ ที่กำลังดำเนินไปในช่วงระยะเวลาหนึ่ง",
+                dialogue: { a: "What do you do in your free time?", b: "Lately, I'm learning to play the piano." },
+                alternatives: "<strong>I'm taking piano lessons.</strong> (ฉันกำลังเรียนเปียโนอยู่)<br><strong>I've started learning the piano.</strong> (ฉันได้เริ่มเรียนเปียโนแล้ว)"
+            },
+            {
+                eng: "I'm working on a new project.", th: "ช่วงนี้ฉันกำลังทำโปรเจกต์ใหม่อยู่",
+                context: "ใช้ในบริบทการทำงาน เพื่อบอกถึงโปรเจกต์หลักที่กำลังรับผิดชอบอยู่ในช่วงนั้น",
+                dialogue: { a: "You seem busy these days.", b: "I am. I'm working on a new project for our biggest client." },
+                alternatives: "<strong>My current focus is a new project.</strong><br><strong>I'm involved in a new project.</strong>"
+            },
+            {
+                eng: "I'm training for a marathon.", th: "ช่วงนี้ฉันกำลังฝึกซ้อมเพื่อวิ่งมาราธอน",
+                context: "บอกถึงเป้าหมายระยะยาวที่ต้องใช้เวลาในการฝึกฝนและเตรียมตัว",
+                dialogue: { a: "Why are you running so much these days?", b: "I'm training for a marathon." },
+                alternatives: "<strong>I've been preparing for a marathon.</strong>"
+            },
+            {
+                eng: "I'm living with my parents at the moment.", th: "ตอนนี้ฉันอาศัยอยู่กับพ่อแม่ชั่วคราว",
+                context: "ใช้บรรยายสถานการณ์ที่เป็น 'เรื่องชั่วคราว' ไม่ใช่เรื่องถาวร",
+                dialogue: { a: "I thought you had your own apartment.", b: "I did, but I'm living with my parents at the moment to save some money." },
+                alternatives: "<strong>I'm staying with my parents temporarily.</strong>"
+            },
+            {
+                eng: "I'm trying to eat healthier.", th: "ช่วงนี้ฉันพยายามจะกินอาหารที่ดีต่อสุขภาพมากขึ้น",
+                context: "ใช้บอกถึงความพยายามที่จะเปลี่ยนพฤติกรรมหรือนิสัยบางอย่างในช่วงนี้",
+                dialogue: { a: "No cake for you?", b: "No, thanks. I'm trying to eat healthier." },
+                alternatives: "<strong>I've been trying to improve my diet.</strong><br><strong>I'm on a health kick.</strong> (สำนวนแปลว่า 'กำลังเห่อเรื่องสุขภาพ')"
+            },
+             // --- 3. Definite Future Plans ---
+            {
+                eng: "I'm meeting my friends tonight.", th: "คืนนี้ฉันมีนัดเจอเพื่อน",
+                context: "ใช้บอกแผนการในอนาคตอันใกล้ที่ 'แน่นอนแล้ว' มีการนัดหมายหรือเตรียมการไว้แล้ว",
+                dialogue: { a: "Are you free to join us for dinner?", b: "Sorry, I can't. I'm meeting my friends tonight." },
+                alternatives: "<strong>I have plans to meet my friends tonight.</strong><br><strong>I'm going to meet my friends tonight.</strong>"
+            },
+            {
+                eng: "I'm flying to Japan next week.", th: "ฉันจะบินไปญี่ปุ่นสัปดาห์หน้า",
+                context: "ใช้บอกแผนการเดินทางในอนาคตที่มีการจองตั๋วหรือวางแผนไว้เรียบร้อยแล้ว",
+                dialogue: { a: "You look excited!", b: "I am! I'm flying to Japan next week for a holiday." },
+                alternatives: "<strong>I'm going to fly to Japan next week.</strong><br><strong>My flight to Japan is next week.</strong>"
+            },
+            {
+                eng: "I'm starting my new job on Monday.", th: "ฉันจะเริ่มงานใหม่วันจันทร์นี้",
+                context: "ใช้บอกถึงเหตุการณ์สำคัญในอนาคตที่มีกำหนดการชัดเจนและแน่นอน",
+                dialogue: { a: "So, what's next for you?", b: "Actually, I'm starting my new job on Monday." },
+                alternatives: "<strong>I start my new job on Monday.</strong> (ใช้ Present Simple ก็ได้สำหรับตารางเวลาที่แน่นอน)"
+            },
+            {
+                eng: "I'm giving a presentation tomorrow morning.", th: "พรุ่งนี้เช้าฉันต้องนำเสนองาน",
+                context: "ใช้บอกตารางงานหรือนัดหมายที่ถูกกำหนดไว้แล้วในอนาคตอันใกล้",
+                dialogue: { a: "Why are you still at the office?", b: "I'm giving a presentation tomorrow morning and I need to prepare." },
+                alternatives: "<strong>I have a presentation tomorrow morning.</strong>"
+            },
+            {
+                eng: "I'm not going to the party.", th: "ฉันจะไม่ไปงานปาร์ตี้",
+                context: "ใช้ในรูปปฏิเสธเพื่อบอกการตัดสินใจที่แน่นอนแล้วว่าจะไม่ทำอะไรบางอย่างในอนาคต",
+                dialogue: { a: "Are you coming to Mark's party on Saturday?", b: "No, I'm not going to the party. I have other plans." },
+                alternatives: "<strong>I've decided not to go to the party.</strong><br><strong>I can't make it to the party.</strong>"
+            },
+            {
+                eng: "I'm having a small get-together at my place.", th: "ฉันจะจัดงานเลี้ยงเล็กๆ ที่บ้าน",
+                context: "ใช้บอกแผนการที่เป็นการเชิญชวนอีกฝ่ายให้มาร่วมงานที่เรากำลังจะจัดขึ้น",
+                dialogue: { a: "Are you free this Friday?", b: "I think so. Why?", a: "I'm having a small get-together at my place. You should come!" },
+                alternatives: "<strong>I'm planning a small party.</strong><br><strong>I'm hosting a get-together.</strong>"
+            },
+            {
+                eng: "I'm getting married in June.", th: "ฉันจะแต่งงานในเดือนมิถุนายน",
+                context: "ใช้บอกแผนการในชีวิตที่ยิ่งใหญ่และมีการวางแผนเตรียมการมาเป็นอย่างดี",
+                dialogue: { a: "I heard you have some big news!", b: "Yes! I'm getting married in June." },
+                alternatives: "<strong>My wedding is in June.</strong><br><strong>We are going to get married in June.</strong>"
+            }
+        ];
+        
+        const buttonColors = [
+            'bg-pink-100 hover:border-pink-400',
+            'bg-purple-100 hover:border-purple-400',
+            'bg-rose-100 hover:border-rose-400',
+            'bg-violet-100 hover:border-violet-400',
+        ];
+        
+        const grid = document.getElementById('sentences-grid');
+        const modal = document.getElementById('modal');
+        const modalHeader = document.getElementById('modal-header');
+        const modalEnglish = document.getElementById('modal-english');
+        const modalThai = document.getElementById('modal-thai');
+        const modalDetails = document.getElementById('modal-details');
+        const closeModalBtn = document.getElementById('close-modal-btn');
+
+        sentences.forEach((sentence, index) => {
+            const button = document.createElement('button');
+            const colorClass = buttonColors[index % buttonColors.length];
+            button.className = `sentence-btn p-5 rounded-xl text-left font-poppins text-slate-700 ${colorClass}`;
+            button.innerHTML = `<span class="font-semibold">${sentence.eng}</span>`;
+            button.addEventListener('click', () => openModal(sentence));
+            grid.appendChild(button);
+        });
+
+        function openModal(sentence) {
+            modalEnglish.textContent = sentence.eng;
+            modalThai.textContent = sentence.th;
+
+            modalDetails.innerHTML = `
+                <div class="p-4 bg-slate-50 rounded-lg">
+                    <h4 class="font-semibold text-lg text-slate-800 mb-2">💡 บริบทการใช้งาน (Context)</h4>
+                    <p class="text-slate-600">${sentence.context}</p>
+                </div>
+                <div class="p-4 bg-slate-50 rounded-lg">
+                    <h4 class="font-semibold text-lg text-slate-800 mb-2">💬 ตัวอย่างบทสนทนา (Dialogue)</h4>
+                    <div class="space-y-1 text-slate-600">
+                        <p><strong>A:</strong> ${sentence.dialogue.a}</p>
+                        <p><strong>B:</strong> ${sentence.dialogue.b}</p>
+                    </div>
+                </div>
+                <div class="p-4 bg-slate-50 rounded-lg">
+                    <h4 class="font-semibold text-lg text-slate-800 mb-2">🔄 คำที่เกี่ยวข้อง / ใช้แทนได้ (Alternatives)</h4>
+                    <div class="text-slate-600">${sentence.alternatives}</div>
+                </div>
+            `;
+
+            modal.classList.add('active');
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            modal.classList.add('opacity-0', 'pointer-events-none');
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        closeModalBtn.addEventListener('click', closeModal);
+        modal.addEventListener('click', (e) => {
+            if (e.target.id === 'modal') {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>

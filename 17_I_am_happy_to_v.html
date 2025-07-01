@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Structure #17 - I'm happy to + (verb)</title>
+    <title>Structure #17 - I'm happy to + (verb) (with translation)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -75,7 +75,7 @@
         const sentences = [
             {
                 eng: "I'm happy to help.", th: "ฉันยินดีที่จะช่วย",
-                context: "ประโยคที่ใช้บ่อยที่สุดในการเสนอความช่วยเหลืออย่างเป็นมิตรและจริงใจ ทำให้ผู้ฟังรู้สึกดีและไม่เกรงใจที่จะรับความช่วยเหลือ",
+                context: "เป็นประโยคที่ใช้บ่อยที่สุดในการเสนอความช่วยเหลืออย่างเป็นมิตรและจริงใจ ทำให้ผู้ฟังรู้สึกดีและไม่เกรงใจที่จะรับความช่วยเหลือ",
                 dialogue: { a: "I can't lift this box by myself.", b: "Here, let me get that. I'm happy to help." },
                 alternatives: "<strong>I'd be happy to help.</strong> (สุภาพยิ่งขึ้น)<br><strong>Of course, I can help.</strong> (แน่นอน ฉันช่วยได้)<br><strong>Let me help you with that.</strong> (ให้ฉันช่วยคุณนะ)"
             },
@@ -205,8 +205,13 @@
 
         sentences.forEach((sentence, index) => {
             const button = document.createElement('button');
-            button.className = `sentence-btn p-5 rounded-lg text-left font-poppins font-semibold text-white bg-gradient-to-r from-sky-500 to-blue-500 shadow-md hover:shadow-lg transform hover:-translate-y-1`;
-            button.innerHTML = `<span>${sentence.eng}</span>`;
+            button.className = `group sentence-btn p-5 rounded-lg text-left bg-gradient-to-r from-sky-500 to-blue-500 shadow-md hover:shadow-lg transform hover:-translate-y-1`;
+            
+            button.innerHTML = `
+                <span class="font-poppins font-semibold text-white transition-colors duration-200">${sentence.eng}</span>
+                <span class="block text-sm text-white/80 font-normal mt-1 transition-colors duration-200">${sentence.th}</span>
+            `;
+
             button.addEventListener('click', () => openModal(sentence));
             grid.appendChild(button);
         });

@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Structure #19 - I'm ready to + (verb)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Mitr:wght@300;400;500;600&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Mitr', sans-serif;
+        }
+        .font-poppins {
+            font-family: 'Poppins', sans-serif;
+        }
+        .sentence-btn {
+            transition: all 0.2s ease-in-out;
+        }
+        #modal {
+            transition: opacity 0.3s ease;
+        }
+        .modal-content-container {
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            opacity: 0;
+            transform: translateY(20px) scale(0.95);
+        }
+        #modal.active .modal-content-container {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+    </style>
+</head>
+<body class="bg-green-50">
+
+    <div class="container mx-auto p-4 sm:p-6 lg:p-8">
+
+        <header class="text-center mb-10">
+            <h1 class="text-4xl sm:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-green-600 to-emerald-500 font-poppins">Structure #19</h1>
+            <h2 class="text-2xl sm:text-3xl font-bold text-slate-800 mt-2 font-poppins">"I'm ready to + (verb)"</h2>
+            <p class="text-slate-600 mt-4 max-w-2xl mx-auto text-lg">
+                ใช้เพื่อประกาศ <strong class="text-green-700">"ความพร้อม"</strong> ที่จะทำสิ่งใดสิ่งหนึ่ง หมายความว่าเราได้เตรียมตัวทุกอย่างเรียบร้อยแล้ว และกำลังรอที่จะเริ่มขั้นต่อไป หรือพร้อมที่จะลงมือทำทันที
+            </p>
+        </header>
+
+        <main id="sentences-grid" class="grid grid-cols-1 md:grid-cols-2 gap-5">
+            </main>
+
+        <footer class="text-center mt-12">
+            <p class="text-slate-700 font-medium">อังกฤษฉบับคนเรียนไม่รู้เรื่อง โดยครูสาลี่</p>
+        </footer>
+
+    </div>
+
+    <div id="modal" class="fixed inset-0 bg-black bg-opacity-60 flex justify-center items-center p-4 z-50 opacity-0 pointer-events-none">
+        <div class="modal-content-container w-full max-w-2xl max-h-[90vh] overflow-y-auto bg-slate-50 rounded-2xl shadow-2xl">
+            <div id="modal-header" class="p-6 sm:p-8 rounded-t-2xl bg-gradient-to-r from-green-600 to-emerald-500">
+                <p id="modal-english" class="font-poppins font-bold text-2xl text-white text-center"></p>
+                <p id="modal-thai" class="text-xl text-white text-center mt-2 opacity-90"></p>
+            </div>
+            <div class="p-6 sm:p-8">
+                <div id="modal-details" class="space-y-5">
+                    </div>
+                <div class="text-center mt-8">
+                    <button id="close-modal-btn" class="bg-slate-600 hover:bg-slate-700 text-white font-bold py-2 px-8 rounded-full shadow-lg transform hover:scale-105 transition-transform duration-300">
+                        ปิด
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const sentences = [
+            {
+                eng: "I'm ready to go.", th: "ฉันพร้อมที่จะไปแล้ว",
+                context: "ประโยคที่ใช้บ่อยที่สุดเพื่อบอกว่าเราเตรียมตัวเสร็จเรียบร้อยแล้ว (เช่น แต่งตัว, เก็บของ) และพร้อมที่จะออกจากสถานที่นั้นๆ ทันที",
+                dialogue: { a: "The taxi is waiting outside.", b: "Great. I've got my bag. I'm ready to go." },
+                alternatives: "<strong>I'm all set to go.</strong> (ฉันพร้อมเต็มที่ที่จะไป)<br><strong>I'm good to go.</strong> (ฉันพร้อมไปแล้ว)"
+            },
+            {
+                eng: "I'm ready to start.", th: "ฉันพร้อมที่จะเริ่มแล้ว",
+                context: "ใช้ประกาศความพร้อมก่อนเริ่มกิจกรรม, การประชุม, การสอบ, หรือการแข่งขัน",
+                dialogue: { a: "Is everyone here?", b: "Yes, we are.", a: "Okay then. I'm ready to start." },
+                alternatives: "<strong>I'm ready to begin.</strong><br><strong>Let's get started.</strong>"
+            },
+            {
+                eng: "I'm ready to order.", th: "ฉันพร้อมที่จะสั่งอาหารแล้ว",
+                context: "ใช้บอกพนักงานเสิร์ฟในร้านอาหารว่าเราได้เลือกเมนูเสร็จแล้วและพร้อมที่จะสั่ง",
+                dialogue: { a: "Have you decided what you'd like?", b: "Yes, I'm ready to order." },
+                alternatives: "<strong>We're ready to order.</strong> (เมื่อสั่งพร้อมกับคนอื่น)<br><strong>I'd like to order now.</strong>"
+            },
+            {
+                eng: "I'm ready to listen.", th: "ฉันพร้อมที่จะรับฟังแล้ว",
+                context: "ใช้บอกอีกฝ่ายว่าเราพร้อมที่จะให้ความสนใจและรับฟังเรื่องราวหรือปัญหาของเขาอย่างเต็มที่",
+                dialogue: { a: "Can I talk to you about something?", b: "Of course. My phone is on silent. I'm ready to listen." },
+                alternatives: "<strong>I'm all ears.</strong> (สำนวน: ฉันพร้อมฟังเต็มที่)<br><strong>Go ahead, I'm listening.</strong>"
+            },
+            {
+                eng: "I'm ready to answer your questions.", th: "ฉันพร้อมที่จะตอบคำถามของคุณแล้ว",
+                context: "ใช้ในสถานการณ์ที่เป็นทางการ เช่น หลังการนำเสนอ หรือในการสัมภาษณ์ เพื่อแสดงความพร้อมในการให้ข้อมูลเพิ่มเติม",
+                dialogue: { a: "That was an excellent presentation.", b: "Thank you. I'm ready to answer your questions now." },
+                alternatives: "<strong>I'm happy to answer any questions.</strong><br><strong>Fire away.</strong> (ยิงคำถามมาเลย - ไม่เป็นทางการ)"
+            },
+            {
+                eng: "I'm ready to move on.", th: "ฉันพร้อมที่จะก้าวต่อไปแล้ว",
+                context: "ใช้แสดงความพร้อมทางด้านจิตใจที่จะทิ้งอดีตที่เจ็บปวดไว้ข้างหลังและเริ่มต้นชีวิตใหม่",
+                dialogue: { a: "It's been a tough year for you.", b: "It has, but I've learned a lot. I'm ready to move on." },
+                alternatives: "<strong>I'm ready for a new chapter.</strong><br><strong>I'm ready to put the past behind me.</strong>"
+            },
+            {
+                eng: "I'm ready to face the consequences.", th: "ฉันพร้อมที่จะเผชิญหน้ากับผลที่ตามมา",
+                context: "ใช้แสดงความรับผิดชอบและยอมรับผลของการกระทำของตัวเองอย่างกล้าหาญ",
+                dialogue: { a: "Are you sure you want to do this? There will be consequences.", b: "I know. But it's the right thing to do, and I'm ready to face the consequences." },
+                alternatives: "<strong>I'm prepared to face the consequences.</strong><br><strong>I'll accept whatever happens.</strong>"
+            },
+            {
+                eng: "I'm ready to take the next step.", th: "ฉันพร้อมที่จะก้าวไปสู่ขั้นต่อไปแล้ว",
+                context: "ใช้ในเรื่องความสัมพันธ์, อาชีพ, หรือโปรเจกต์ เพื่อบอกว่าเราพร้อมที่จะพัฒนาไปสู่ระดับที่สูงขึ้นหรือจริงจังขึ้น",
+                dialogue: { a: "We've been dating for three years now.", b: "I know. I think I'm ready to take the next step." },
+                alternatives: "<strong>I'm ready to move forward.</strong><br><strong>I'm ready for what's next.</strong>"
+            },
+            {
+                eng: "I'm ready to get married.", th: "ฉันพร้อมที่จะแต่งงานแล้ว",
+                context: "เป็นการประกาศการตัดสินใจและความพร้อมครั้งสำคัญในชีวิตคู่",
+                dialogue: { a: "Have you thought about our future?", b: "I've thought about it a lot. I love you, and I'm ready to get married." },
+                alternatives: "<strong>I'm ready to settle down.</strong> (ฉันพร้อมที่จะลงหลักปักฐานแล้ว)"
+            },
+            {
+                eng: "I'm ready to learn.", th: "ฉันพร้อมที่จะเรียนรู้",
+                context: "ใช้แสดงทัศนคติที่ดีในวันแรกของการทำงานหรือการเข้าคลาสเรียน ว่าเราพร้อมเปิดรับความรู้ใหม่ๆ",
+                dialogue: { a: "Welcome to your first day of training.", b: "Thank you! I'm ready to learn." },
+                alternatives: "<strong>I'm eager to learn.</strong> (ฉันกระตือรือร้นที่จะเรียนรู้)<br><strong>I'm ready to absorb everything.</strong>"
+            },
+            {
+                eng: "I'm ready to give my presentation.", th: "ฉันพร้อมที่จะนำเสนองานแล้ว",
+                context: "ใช้บอกผู้ควบคุมการประชุมว่าเราได้เตรียมตัวมาพร้อมแล้วและสามารถเริ่มการนำเสนอได้เลย",
+                dialogue: { a: "Who is the next speaker?", b: "That would be me. I'm ready to give my presentation." },
+                alternatives: "<strong>I'm ready when you are.</strong> (คุณพร้อมเมื่อไหร่ ฉันก็พร้อม)<br><strong>I'm all set to present.</strong>"
+            },
+            {
+                eng: "I'm ready to hear the bad news.", th: "ฉันพร้อมที่จะฟังข่าวร้ายแล้ว",
+                context: "ใช้เตรียมใจเพื่อรับฟังข่าวที่ไม่ดี โดยบอกอีกฝ่ายว่าให้พูดมาได้เลย",
+                dialogue: { a: "I have something to tell you, and you're not going to like it.", b: "(Takes a deep breath) Okay. I'm ready to hear the bad news." },
+                alternatives: "<strong>Just tell me.</strong><br><strong>Okay, what is it?</strong>"
+            },
+            {
+                eng: "I'm ready to take on more responsibility.", th: "ฉันพร้อมที่จะรับผิดชอบงานมากขึ้น",
+                context: "ใช้บอกหัวหน้าเพื่อแสดงให้เห็นว่าเราต้องการเติบโตและพร้อมสำหรับความท้าทายใหม่ๆ ในที่ทำงาน",
+                dialogue: { a: "You've done great work on your current projects.", b: "Thank you. I feel like I'm ready to take on more responsibility." },
+                alternatives: "<strong>I'm ready for a bigger challenge.</strong><br><strong>I'm prepared to take on more.</strong>"
+            },
+            {
+                eng: "I'm ready to forgive you.", th: "ฉันพร้อมที่จะให้อภัยคุณแล้ว",
+                context: "แสดงความพร้อมทางจิตใจที่จะปล่อยวางความขุ่นเคืองและให้อภัยอีกฝ่าย",
+                dialogue: { a: "I am so truly sorry for what I did.", b: "It took me a while, but... I think I'm ready to forgive you." },
+                alternatives: "<strong>I'm at a place where I can forgive you.</strong><br><strong>I forgive you.</strong>"
+            },
+            {
+                eng: "I was born ready.", th: "ฉันเกิดมาก็พร้อมเลย",
+                context: "เป็นสำนวนที่ใช้ตอบคำว่า 'Are you ready?' แบบเท่ๆ และมั่นใจสุดๆ เพื่อแสดงว่าเราพร้อมมากอยู่แล้ว",
+                dialogue: { a: "This is going to be tough. Are you ready?", b: "I was born ready." },
+                alternatives: "<strong>I'm more than ready.</strong> (ฉันพร้อมยิ่งกว่าพร้อม)<br><strong>Bring it on.</strong> (จัดมาเลย!)"
+            },
+            {
+                eng: "I'm ready to make a change.", th: "ฉันพร้อมที่จะสร้างความเปลี่ยนแปลงแล้ว",
+                context: "ใช้แสดงความมุ่งมั่นที่จะเปลี่ยนบางอย่างในชีวิตของตัวเองให้ดีขึ้น",
+                dialogue: { a: "I'm tired of my unhealthy lifestyle.", b: "Me too. I'm ready to make a change." },
+                alternatives: "<strong>I'm ready for a change.</strong><br><strong>It's time for a change.</strong>"
+            },
+            {
+                eng: "I'm ready to invest.", th: "ฉันพร้อมที่จะลงทุนแล้ว",
+                context: "ใช้บอกที่ปรึกษาทางการเงินหรือพาร์ทเนอร์ว่าเราได้ศึกษาข้อมูลและเตรียมเงินทุนมาพร้อมแล้ว",
+                dialogue: { a: "Have you considered our investment proposal?", b: "Yes, I've reviewed it carefully. I'm ready to invest." },
+                alternatives: "<strong>I've decided to invest.</strong><br><strong>I'm ready to put my money in.</strong>"
+            },
+            {
+                eng: "I'm ready to leave my comfort zone.", th: "ฉันพร้อมที่จะออกจากคอมฟอร์ตโซนแล้ว",
+                context: "ใช้แสดงความกล้าที่จะลองทำในสิ่งที่ไม่คุ้นเคยเพื่อการเติบโต",
+                dialogue: { a: "Public speaking is scary.", b: "I know, but that's why I'm doing it. I'm ready to leave my comfort zone." },
+                alternatives: "<strong>I'm ready to challenge myself.</strong><br><strong>It's time to step out of my comfort zone.</strong>"
+            },
+            {
+                eng: "I'm ready to fight for what I believe in.", th: "ฉันพร้อมที่จะต่อสู้เพื่อสิ่งที่ฉันเชื่อ",
+                context: "ใช้แสดงอุดมการณ์และความมุ่งมั่นที่จะปกป้องความเชื่อของตนเอง",
+                dialogue: { a: "This won't be an easy battle.", b: "I know. But I'm ready to fight for what I believe in." },
+                alternatives: "<strong>I'm prepared to stand up for my beliefs.</strong>"
+            },
+            {
+                eng: "I'm not ready to say goodbye.", th: "ฉันยังไม่พร้อมที่จะกล่าวคำอำลา",
+                context: "ใช้รูปปฏิเสธเพื่อแสดงความรู้สึกที่ยังไม่พร้อมจะยอมรับการจากลา",
+                dialogue: { a: "This is our last evening together.", b: "I know... and I'm not ready to say goodbye." },
+                alternatives: "<strong>I don't want to say goodbye yet.</strong><br><strong>I'm not ready for this to end.</strong>"
+            }
+        ];
+        
+        const grid = document.getElementById('sentences-grid');
+        const modal = document.getElementById('modal');
+        const modalHeader = document.getElementById('modal-header');
+        const modalEnglish = document.getElementById('modal-english');
+        const modalThai = document.getElementById('modal-thai');
+        const modalDetails = document.getElementById('modal-details');
+        const closeModalBtn = document.getElementById('close-modal-btn');
+
+        sentences.forEach((sentence, index) => {
+            const button = document.createElement('button');
+            button.className = `sentence-btn p-5 rounded-lg text-left font-poppins font-semibold text-white bg-green-600 shadow-md hover:bg-green-700 transform hover:-translate-y-1`;
+            button.innerHTML = `<span>${sentence.eng}</span>`;
+            button.addEventListener('click', () => openModal(sentence));
+            grid.appendChild(button);
+        });
+
+        function openModal(sentence) {
+            modalEnglish.textContent = sentence.eng;
+            modalThai.textContent = sentence.th;
+
+            modalDetails.innerHTML = `
+                <div class="p-4 bg-slate-100 rounded-lg">
+                    <h4 class="font-semibold text-lg text-slate-800 mb-2">💡 บริบทการใช้งาน (Context)</h4>
+                    <p class="text-slate-600">${sentence.context}</p>
+                </div>
+                <div class="p-4 bg-slate-100 rounded-lg">
+                    <h4 class="font-semibold text-lg text-slate-800 mb-2">💬 ตัวอย่างบทสนทนา (Dialogue)</h4>
+                    <div class="space-y-1 text-slate-600">
+                        <p><strong>A:</strong> ${sentence.dialogue.a}</p>
+                        <p><strong>B:</strong> ${sentence.dialogue.b}</p>
+                    </div>
+                </div>
+                <div class="p-4 bg-slate-100 rounded-lg">
+                    <h4 class="font-semibold text-lg text-slate-800 mb-2">🔄 คำที่เกี่ยวข้อง / ใช้แทนได้ (Alternatives)</h4>
+                    <div class="text-slate-600">${sentence.alternatives}</div>
+                </div>
+            `;
+
+            modal.classList.add('active');
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            modal.classList.add('opacity-0', 'pointer-events-none');
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        closeModalBtn.addEventListener('click', closeModal);
+        modal.addEventListener('click', (e) => {
+            if (e.target.id === 'modal') {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Structure #1 - I'm good at...</title>
+    <title>Structure #1 - I'm good at... (with translation)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -16,13 +16,7 @@
             font-family: 'Poppins', sans-serif;
         }
         .sentence-btn {
-            transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.06);
-            border: 2px solid transparent;
-        }
-        .sentence-btn:hover {
-            transform: translateY(-5px) scale(1.02);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            transition: all 0.2s ease-in-out;
         }
         #modal {
             transition: opacity 0.3s ease;
@@ -60,8 +54,8 @@
 
     </div>
 
-    <div id="modal" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center p-4 z-50 opacity-0 pointer-events-none">
-        <div class="modal-content-container w-full max-w-2xl max-h-[90vh] overflow-y-auto bg-white rounded-2xl shadow-2xl">
+    <div id="modal" class="fixed inset-0 bg-black bg-opacity-60 flex justify-center items-center p-4 z-50 opacity-0 pointer-events-none">
+        <div class="modal-content-container w-full max-w-2xl max-h-[90vh] overflow-y-auto bg-slate-50 rounded-2xl shadow-2xl">
             <div id="modal-header" class="p-6 sm:p-8 rounded-t-2xl bg-gradient-to-r from-teal-500 to-cyan-500">
                 <p id="modal-english" class="font-poppins font-bold text-2xl text-white text-center"></p>
                 <p id="modal-thai" class="text-xl text-white text-center mt-2 opacity-90"></p>
@@ -202,13 +196,6 @@
             }
         ];
         
-        const buttonColors = [
-            'bg-cyan-100 hover:border-cyan-400',
-            'bg-teal-100 hover:border-teal-400',
-            'bg-emerald-100 hover:border-emerald-400',
-            'bg-sky-100 hover:border-sky-400',
-        ];
-        
         const grid = document.getElementById('sentences-grid');
         const modal = document.getElementById('modal');
         const modalHeader = document.getElementById('modal-header');
@@ -219,9 +206,21 @@
 
         sentences.forEach((sentence, index) => {
             const button = document.createElement('button');
-            const colorClass = buttonColors[index % buttonColors.length];
-            button.className = `sentence-btn p-5 rounded-xl text-left font-poppins text-slate-700 ${colorClass}`;
-            button.innerHTML = `<span class="font-semibold">${sentence.eng}</span>`;
+            const colorClasses = [
+                'border-cyan-400 hover:bg-cyan-400 text-cyan-700',
+                'border-teal-400 hover:bg-teal-400 text-teal-700',
+                'border-emerald-400 hover:bg-emerald-400 text-emerald-700',
+                'border-sky-400 hover:bg-sky-400 text-sky-700',
+            ]
+            const colorClass = colorClasses[index % colorClasses.length];
+            
+            button.className = `group sentence-btn p-5 rounded-xl text-left bg-white border-2 ${colorClass} hover:text-white`;
+            
+            button.innerHTML = `
+                <span class="font-poppins font-semibold text-slate-800 group-hover:text-white transition-colors duration-200">${sentence.eng}</span>
+                <span class="block text-sm text-slate-600 font-normal mt-1 group-hover:text-white/80 transition-colors duration-200">${sentence.th}</span>
+            `;
+            
             button.addEventListener('click', () => openModal(sentence));
             grid.appendChild(button);
         });
@@ -231,18 +230,18 @@
             modalThai.textContent = sentence.th;
 
             modalDetails.innerHTML = `
-                <div class="p-4 bg-slate-50 rounded-lg">
+                <div class="p-4 bg-slate-100 rounded-lg">
                     <h4 class="font-semibold text-lg text-slate-800 mb-2">💡 บริบทการใช้งาน (Context)</h4>
                     <p class="text-slate-600">${sentence.context}</p>
                 </div>
-                <div class="p-4 bg-slate-50 rounded-lg">
+                <div class="p-4 bg-slate-100 rounded-lg">
                     <h4 class="font-semibold text-lg text-slate-800 mb-2">💬 ตัวอย่างบทสนทนา (Dialogue)</h4>
                     <div class="space-y-1 text-slate-600">
                         <p><strong>A:</strong> ${sentence.dialogue.a}</p>
                         <p><strong>B:</strong> ${sentence.dialogue.b}</p>
                     </div>
                 </div>
-                <div class="p-4 bg-slate-50 rounded-lg">
+                <div class="p-4 bg-slate-100 rounded-lg">
                     <h4 class="font-semibold text-lg text-slate-800 mb-2">🔄 คำที่เกี่ยวข้อง / ใช้แทนได้ (Alternatives)</h4>
                     <div class="text-slate-600">${sentence.alternatives}</div>
                 </div>

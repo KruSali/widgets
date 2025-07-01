@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mr. Grammar: Advanced Subjunctive Mood (TOEIC Practice)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom styles for the app */
+        body {
+            font-family: 'Sarabun', sans-serif;
+        }
+        .app-box {
+            display: flex;
+            flex-direction: column;
+            height: 650px; /* Increased height for TOEIC style questions */
+        }
+        .content-area {
+            flex-grow: 1;
+            overflow-y: auto;
+        }
+        .content-area::-webkit-scrollbar {
+            width: 8px;
+        }
+        .content-area::-webkit-scrollbar-track {
+            background: #f1f5f9; /* slate-100 */
+        }
+        .content-area::-webkit-scrollbar-thumb {
+            background: #94a3b8; /* slate-400 */
+            border-radius: 4px;
+        }
+        .modal {
+            display: none;
+            align-items: center;
+            justify-content: center;
+            background-color: rgba(0, 0, 0, 0.65);
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        .modal-content {
+            animation: slideIn 0.3s ease-in-out;
+        }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slideIn { from { transform: translateY(-30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        .clickable-term {
+            color: #2563eb; /* blue-600 */
+            font-weight: bold;
+            text-decoration: underline;
+            cursor: pointer;
+            text-underline-offset: 2px;
+        }
+        .clickable-term:hover {
+            color: #1d4ed8; /* blue-800 */
+        }
+        .choice-btn {
+            transition: all 0.2s ease-in-out;
+            text-align: left;
+        }
+        .choice-btn:disabled {
+            cursor: not-allowed;
+            opacity: 0.9;
+        }
+        .correct-answer {
+            background-color: #10b981 !important; /* emerald-500 */
+            color: white !important;
+            border-color: #059669 !important;
+            transform: scale(1.03);
+        }
+        .wrong-answer {
+            background-color: #ef4444 !important; /* red-500 */
+            color: white !important;
+            border-color: #dc2626 !important;
+        }
+    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body class="bg-gray-200 flex items-center justify-center min-h-screen p-4">
+
+    <div class="bg-white rounded-2xl shadow-2xl w-full max-w-3xl overflow-hidden">
+        <div class="bg-gradient-to-r from-blue-600 to-indigo-700 p-5 text-white flex items-center justify-between">
+            <div>
+                <h1 class="text-2xl font-bold">ไวยากรณ์ขั้นสูง: Subjunctive Mood</h1>
+            </div>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-white/70" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+            </svg>
+        </div>
+
+        <div class="p-6 md:p-8 app-box">
+            <div id="page-content" class="content-area pr-3">
+                </div>
+
+            <div id="feedback-area" class="text-center font-bold mt-4 h-6 text-lg"></div>
+
+            <div id="navigation" class="flex justify-between items-center pt-4 border-t-2 border-gray-100 mt-auto">
+                <button id="prev-btn" class="bg-slate-300 hover:bg-slate-400 text-slate-800 font-bold py-2 px-6 rounded-lg transition-colors">
+                    ก่อนหน้า
+                </button>
+                <div id="page-indicator" class="text-sm font-semibold text-slate-500"></div>
+                <button id="next-btn" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-6 rounded-lg transition-colors">
+                    ถัดไป
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="definition-modal" class="modal fixed inset-0 z-50 p-4">
+        <div class="modal-content bg-white w-11/12 max-w-md p-6 rounded-xl shadow-lg">
+            <div class="flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-indigo-500 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                <h3 id="modal-term" class="text-2xl font-bold text-indigo-600"></h3>
+            </div>
+            <p id="modal-pronunciation" class="text-lg text-slate-700 mt-1 pl-10"></p>
+            <hr class="my-3 border-t border-gray-200">
+            <p class="font-bold text-slate-800">ความหมาย:</p>
+            <p id="modal-meaning" class="mb-3 text-slate-600"></p>
+            <p class="font-bold text-slate-800">ตัวอย่างประโยค:</p>
+            <p id="modal-example" class="italic text-slate-600 bg-slate-100 p-2 rounded"></p>
+            <button id="close-modal-btn" class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-lg mt-6 w-full transition-colors">
+                ปิด
+            </button>
+        </div>
+    </div>
+
+
+    <script>
+        // --- DATA SECTION ---
+
+        const definitions = {
+            'subjunctive_mood': { term: "Subjunctive Mood", pronunciation: "ซับ-<u>จัง</u>-ถีฟ-มูด", meaning: "รูปแบบของกริยาที่ใช้แสดงความปรารถนา, คำแนะนำ, ข้อเรียกร้อง, หรือสถานการณ์ที่ไม่เป็นจริง ซึ่งจะแตกต่างจากการใช้กริยาใน Indicative Mood ที่ใช้บอกเล่าข้อเท็จจริง", example: "The board demanded that he <strong>resign</strong>." },
+            'base_form': { term: "Base Form Verb", pronunciation: "<u>เบส</u>-ฟอร์ม-เวิร์บ", meaning: "รูปดั้งเดิมของคำกริยา (Infinitive without 'to') เช่น go, be, have โดยไม่มีการเติม s, es, ed, ing ใดๆ", example: "It is essential that you <strong>be</strong> on time." },
+            'imperative': { term: "Imperative", pronunciation: "อิม-<u>แพ</u>-ระ-ทีฟ", meaning: "ที่สำคัญและเร่งด่วนอย่างยิ่ง, ซึ่งจำเป็นต้องทำตาม", example: "It is <strong>imperative</strong> that all staff attend the safety briefing." },
+            'stipulates': { term: "Stipulate", pronunciation: "<u>สติ๊</u>-พิว-เลท", meaning: "ระบุเป็นเงื่อนไข, กำหนดไว้ในข้อตกลงหรือสัญญา", example: "The contract <strong>stipulates</strong> that payment be made within 30 days." },
+            'mandate': { term: "Mandate", pronunciation: "<u>แมน</u>-เดท", meaning: "สั่งการ, ออกข้อบังคับ, มอบอำนาจ", example: "The new regulations <strong>mandate</strong> that all factories reduce their emissions." },
+            'concur': { term: "Concur", pronunciation: "เคิน-<u>เคอ</u>", meaning: "เห็นด้วย, มีความเห็นตรงกัน (มักใช้ในบริบทที่เป็นทางการ)", example: "The auditors <strong>concur</strong> that the financial records must be revised." }
+        };
+
+        const pages = [
+            { // Page 1
+                content: `
+                    <h2 class="flex items-center text-2xl font-bold text-indigo-700 mb-4 pb-2 border-b-2 border-indigo-100">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+                        จุดเริ่มต้น: God bless you
+                    </h2>
+                    <p class="text-lg text-gray-700 leading-relaxed">
+                        ประโยค "God bless you" เป็นตัวอย่างที่ชัดเจนของ <span class="clickable-term" data-term="subjunctive_mood">Subjunctive Mood</span> แม้ประธาน 'God' จะเป็นเอกพจน์ แต่กริยา 'bless' ไม่เติม 'es' เพราะประโยคนี้ไม่ใช่การบอกเล่าข้อเท็จจริง แต่เป็นการแสดง "ความปรารถนา"
+                    </p>
+                    <div class="bg-blue-100 border-l-4 border-blue-500 text-blue-800 p-4 rounded-r-lg mt-5">
+                        <p class="font-bold">กฎหลัก: ใน Subjunctive Mood เราจะใช้กริยารูปดั้งเดิม (<span class="clickable-term" data-term="base_form">Base Form</span>) เสมอ โดยไม่ผันตามประธาน</p>
+                    </div>
+                `
+            },
+            { // Page 2
+                content: `
+                    <h2 class="flex items-center text-2xl font-bold text-indigo-700 mb-4 pb-2 border-b-2 border-indigo-100">
+                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h7" /></svg>
+                        คำกริยาที่ใช้กับ Subjunctive
+                    </h2>
+                    <p class="text-gray-600 mb-4">คำกริยาเหล่านี้เมื่อตามด้วย 'that' มักจะนำไปสู่ประโยค Subjunctive:</p>
+                    <div class="space-y-4">
+                        <div class="bg-green-50 border border-green-200 p-3 rounded-lg">
+                            <p class="font-bold text-green-800">กลุ่มคำสั่ง/ข้อเรียกร้อง (demand, insist, require, <span class="clickable-term" data-term="mandate">mandate</span>)</p>
+                            <p class="italic text-green-700 mt-1">Ex: The manager insisted that the report <strong>be</strong> finished by noon.</p>
+                        </div>
+                        <div class="bg-purple-50 border border-purple-200 p-3 rounded-lg">
+                            <p class="font-bold text-purple-800">กลุ่มคำแนะนำ (suggest, recommend, propose, advise)</p>
+                             <p class="italic text-purple-700 mt-1">Ex: We recommend that the client <strong>review</strong> the contract carefully.</p>
+                        </div>
+                        <div class="bg-sky-50 border border-sky-200 p-3 rounded-lg">
+                            <p class="font-bold text-sky-800">กลุ่มคำร้องขอ (ask, request, urge)</p>
+                            <p class="italic text-sky-700 mt-1">Ex: The board requested that all members <strong>attend</strong> the special meeting.</p>
+                        </div>
+                    </div>
+                `
+            },
+            { // Page 3
+                content: `
+                    <h2 class="flex items-center text-2xl font-bold text-indigo-700 mb-4 pb-2 border-b-2 border-indigo-100">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                        วลี Adjective ที่ใช้กับ Subjunctive
+                    </h2>
+                     <p class="text-gray-600 mb-4">โครงสร้าง 'It is [adjective] that...' ก็เป็นอีกรูปแบบที่พบบ่อยมาก:</p>
+                    <div class="space-y-4">
+                        <div class="bg-green-50 border border-green-200 p-3 rounded-lg">
+                            <p class="font-bold text-green-800">กลุ่มความสำคัญ/จำเป็น (essential, important, vital, crucial, <span class="clickable-term" data-term="imperative">imperative</span>)</p>
+                            <p class="italic text-green-700 mt-1">Ex: It is vital that we <strong>find</strong> a solution quickly.</p>
+                        </div>
+                        <div class="bg-purple-50 border border-purple-200 p-3 rounded-lg">
+                            <p class="font-bold text-purple-800">กลุ่มคำแนะนำ/ความปรารถนา (advisable, desirable, best)</p>
+                             <p class="italic text-purple-700 mt-1">Ex: It is advisable that you <strong>save</strong> a copy of the file.</p>
+                        </div>
+                         <div class="bg-sky-50 border border-sky-200 p-3 rounded-lg">
+                            <p class="font-bold text-sky-800">กลุ่มข้อบังคับ (mandatory, obligatory)</p>
+                            <p class="italic text-sky-700 mt-1">Ex: It is mandatory that all visitors <strong>sign</strong> in at the reception.</p>
+                        </div>
+                    </div>
+                `
+            },
+            { // Page 4
+                 content: `
+                    <h2 class="flex items-center text-2xl font-bold text-indigo-700 mb-4 pb-2 border-b-2 border-indigo-100">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
+                        รูปแบบพิเศษและข้อยกเว้น
+                    </h2>
+                    <div class="bg-yellow-50 border-l-4 border-yellow-400 text-yellow-800 p-4 rounded-r-lg mt-4 space-y-3">
+                        <p><strong>รูปปฏิเสธ (Negative):</strong> สร้างรูปปฏิเสธโดยการเติม <strong>not</strong> ไว้หน้า <span class="clickable-term" data-term="base_form">Base Form</span> <br><em>Ex: The boss insisted that employees <strong>not use</strong> personal phones during work hours.</em></p>
+                        <p><strong>รูปถูกกระทำ (Passive):</strong> ใช้โครงสร้าง <strong>be + Past Participle (V.3)</strong> <br><em>Ex: It is crucial that this document <strong>be kept</strong> confidential.</em></p>
+                        <p><strong>British English:</strong> มักนิยมใช้ <strong>should + verb</strong> แทน <br><em>Ex: They suggested that he <strong>should apply</strong> for the position. (มีความหมายเหมือน he <strong>apply</strong>)</em></p>
+                    </div>
+                `
+            },
+            { // Page 5: Exercise Intro
+                content: `
+                    <div class="text-center h-full flex flex-col justify-center items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-blue-500 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg>
+                        <h2 class="text-3xl font-bold text-gray-800 mb-2">แบบฝึกหัด (TOEIC Level)</h2>
+                        <p class="text-xl text-gray-600">เลือกคำตอบที่ถูกต้องที่สุดสำหรับแต่ละประโยค</p>
+                    </div>
+                `
+            },
+            // 15 TOEIC Questions start here
+            { content: `<h3 class="text-xl font-bold text-center text-gray-700 mb-6">1. It is <span class="clickable-term" data-term="imperative">imperative</span> that all expense reports _______ by the end of the month.</h3><div class="space-y-3">${generateChoices(['be submitted', 'are submitted', 'submit', 'have submitted'], 0)}</div>` },
+            { content: `<h3 class="text-xl font-bold text-center text-gray-700 mb-6">2. The CEO has proposed that a new branch _______ in Singapore next year.</h3><div class="space-y-3">${generateChoices(['open', 'opens', 'be opened', 'will open'], 2)}</div>` },
+            { content: `<h3 class="text-xl font-bold text-center text-gray-700 mb-6">3. Company policy <span class="clickable-term" data-term="stipulates">stipulates</span> that confidential information _______ with any third party.</h3><div class="space-y-3">${generateChoices(['is not shared', 'not be shared', 'not to share', 'does not share'], 1)}</div>` },
+            { content: `<h3 class="text-xl font-bold text-center text-gray-700 mb-6">4. The legal team advised that the company _______ from making any public statements.</h3><div class="space-y-3">${generateChoices(['refrains', 'to refrain', 'refrain', 'is refraining'], 2)}</div>` },
+            { content: `<h3 class="text-xl font-bold text-center text-gray-700 mb-6">5. It is essential that every new employee _______ a comprehensive orientation program.</h3><div class="space-y-3">${generateChoices(['undergoes', 'undergo', 'undergone', 'will undergo'], 1)}</div>` },
+            { content: `<h3 class="text-xl font-bold text-center text-gray-700 mb-6">6. The committee has recommended that the current budget _______ for the next fiscal year.</h3><div class="space-y-3">${generateChoices(['be maintained', 'maintains', 'is maintained', 'has maintained'], 0)}</div>` },
+            { content: `<h3 class="text-xl font-bold text-center text-gray-700 mb-6">7. The chairman moved that the final decision _______ until more data becomes available.</h3><div class="space-y-3">${generateChoices(['postponed', 'is postponed', 'postpones', 'be postponed'], 3)}</div>` },
+            { content: `<h3 class="text-xl font-bold text-center text-gray-700 mb-6">8. We urge that our international partners _______ with the new trade regulations.</h3><div class="space-y-3">${generateChoices(['comply', 'complies', 'to comply', 'are complying'], 0)}</div>` },
+            { content: `<h3 class="text-xl font-bold text-center text-gray-700 mb-6">9. It is desirable that the project manager _______ all stakeholders informed of the progress.</h3><div class="space-y-3">${generateChoices(['keeps', 'to keep', 'is keeping', 'keep'], 3)}</div>` },
+            { content: `<h3 class="text-xl font-bold text-center text-gray-700 mb-6">10. The safety regulations require that all personnel _______ protective gear in the construction area.</h3><div class="space-y-3">${generateChoices(['wear', 'wears', 'worn', 'are wearing'], 0)}</div>` },
+            { content: `<h3 class="text-xl font-bold text-center text-gray-700 mb-6">11. I must insist that this defective product _______ by the supplier at once.</h3><div class="space-y-3">${generateChoices(['replaces', 'be replaced', 'is replaced', 'to be replaced'], 1)}</div>` },
+            { content: `<h3 class="text-xl font-bold text-center text-gray-700 mb-6">12. It is crucial that the IT department _______ the system for any vulnerabilities before launch.</h3><div class="space-y-3">${generateChoices(['check', 'checks', 'is checking', 'checked'], 0)}</div>` },
+            { content: `<h3 class="text-xl font-bold text-center text-gray-700 mb-6">13. The auditors and I <span class="clickable-term" data-term="concur">concur</span> that the financial statements _______ for accuracy.</h3><div class="space-y-3">${generateChoices(['are re-examined', 're-examine', 'should re-examine', 'be re-examined'], 3)}</div>` },
+            { content: `<h3 class="text-xl font-bold text-center text-gray-700 mb-6">14. The new federal law <span class="clickable-term" data-term="mandate">mandates</span> that every corporation _______ its carbon footprint annually.</h3><div class="space-y-3">${generateChoices(['discloses', 'to disclose', 'disclose', 'is disclosed'], 2)}</div>` },
+            { content: `<h3 class="text-xl font-bold text-center text-gray-700 mb-6">15. It is advisable that you _______ a legal expert before signing the agreement.</h3><div class="space-y-3">${generateChoices(['consults', 'consult', 'are consulting', 'have consulted'], 1)}</div>` },
+            // Conclusion
+            {
+                content: `
+                     <div class="text-center h-full flex flex-col justify-center items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-green-500 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                        <h2 class="text-3xl font-bold text-green-600 mb-4">บทสรุปและประเด็นสำคัญ</h2>
+                        <p class="text-xl text-gray-700 leading-relaxed max-w-xl">
+                            การเข้าใจ <strong>Subjunctive Mood</strong> เป็นสิ่งสำคัญในการใช้ภาษาอังกฤษอย่างเป็นทางการและในการสอบต่างๆ เช่น TOEIC<br><br>
+                            หัวใจสำคัญคือการจดจำว่าเมื่อใดควรใช้ <strong>กริยารูปดั้งเดิม (Base Form)</strong> โดยไม่คำนึงถึงประธาน เพื่อแสดงความปรารถนา, ข้อเรียกร้อง หรือคำแนะนำ
+                        </p>
+                    </div>
+                `
+            }
+        ];
+
+        function generateChoices(options, correctIndex) {
+            const letters = ['A', 'B', 'C', 'D'];
+            return options.map((option, index) =>
+                `<button class="choice-btn w-full bg-slate-100 hover:bg-slate-200 border-2 border-slate-200 p-4 rounded-lg text-lg flex items-center" onclick="checkAnswer(event)" ${index === correctIndex ? 'data-correct="true"' : ''}>
+                    <span class="font-bold text-slate-500 mr-4">${letters[index]}.</span>
+                    <span>${option}</span>
+                </button>`
+            ).join('');
+        }
+
+        const pageContent = document.getElementById('page-content');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const pageIndicator = document.getElementById('page-indicator');
+        const feedbackArea = document.getElementById('feedback-area');
+        const modal = document.getElementById('definition-modal');
+        const closeModalBtn = document.getElementById('close-modal-btn');
+        const modalTerm = document.getElementById('modal-term');
+        const modalPronunciation = document.getElementById('modal-pronunciation');
+        const modalMeaning = document.getElementById('modal-meaning');
+        const modalExample = document.getElementById('modal-example');
+
+        let currentPageIndex = 0;
+
+        function renderPage(index) {
+            feedbackArea.innerHTML = '';
+            const page = pages[index];
+            pageContent.innerHTML = page.content;
+            pageContent.scrollTop = 0;
+            const pageNumber = index >= 5 && index <= 19 ? `ข้อ ${index - 4}` : `หน้า ${index + 1}`;
+            pageIndicator.textContent = `${pageNumber} / ${pages.length}`;
+            prevBtn.style.visibility = index === 0 ? 'hidden' : 'visible';
+            nextBtn.style.visibility = index === pages.length - 1 ? 'hidden' : 'visible';
+            attachTermListeners();
+        }
+        
+        function attachTermListeners() {
+            document.querySelectorAll('.clickable-term').forEach(term => {
+                term.addEventListener('click', (event) => {
+                    const termKey = event.target.dataset.term;
+                    if (definitions[termKey]) showModal(termKey);
+                });
+            });
+        }
+
+        function showModal(termKey) {
+            const data = definitions[termKey];
+            modalTerm.innerHTML = data.term;
+            modalPronunciation.innerHTML = data.pronunciation;
+            modalMeaning.innerHTML = data.meaning;
+            modalExample.innerHTML = data.example;
+            modal.style.display = 'flex';
+        }
+
+        function hideModal() {
+            modal.style.display = 'none';
+        }
+
+        function checkAnswer(event) {
+            const selectedButton = event.currentTarget;
+            const isCorrect = selectedButton.dataset.correct === 'true';
+            
+            pageContent.querySelectorAll('.choice-btn').forEach(button => {
+                button.disabled = true;
+            });
+
+            if (isCorrect) {
+                selectedButton.classList.add('correct-answer');
+                feedbackArea.textContent = 'ถูกต้อง';
+                feedbackArea.className = 'text-center font-bold mt-4 h-6 text-lg text-green-600';
+            } else {
+                selectedButton.classList.add('wrong-answer');
+                feedbackArea.textContent = 'คำตอบที่ถูกต้องคือ...';
+                feedbackArea.className = 'text-center font-bold mt-4 h-6 text-lg text-red-600';
+                const correctButton = pageContent.querySelector('[data-correct="true"]');
+                if (correctButton) correctButton.classList.add('correct-answer');
+            }
+        }
+
+        nextBtn.addEventListener('click', () => {
+            if (currentPageIndex < pages.length - 1) renderPage(++currentPageIndex);
+        });
+
+        prevBtn.addEventListener('click', () => {
+            if (currentPageIndex > 0) renderPage(--currentPageIndex);
+        });
+        
+        closeModalBtn.addEventListener('click', hideModal);
+        modal.addEventListener('click', (event) => {
+            if (event.target === modal) hideModal();
+        });
+        
+        renderPage(currentPageIndex);
+
+    </script>
+</body>
+</html>

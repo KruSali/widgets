@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Structure #12 - I would like to + (verb)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Mitr:wght@300;400;500;600&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Mitr', sans-serif;
+        }
+        .font-poppins {
+            font-family: 'Poppins', sans-serif;
+        }
+        .sentence-btn {
+            transition: all 0.2s ease-in-out;
+        }
+        #modal {
+            transition: opacity 0.3s ease;
+        }
+        .modal-content-container {
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            opacity: 0;
+            transform: translateY(20px) scale(0.95);
+        }
+        #modal.active .modal-content-container {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+    </style>
+</head>
+<body class="bg-slate-100">
+
+    <div class="container mx-auto p-4 sm:p-6 lg:p-8">
+
+        <header class="text-center mb-10">
+            <h1 class="text-4xl sm:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-gray-700 to-black font-poppins">Structure #12</h1>
+            <h2 class="text-2xl sm:text-3xl font-bold text-slate-800 mt-2 font-poppins">"I would like to + (verb)"</h2>
+            <p class="text-slate-600 mt-4 max-w-2xl mx-auto text-lg">
+                <strong class="text-gray-800">"I would like to..."</strong> (หรือรูปย่อ <strong>I'd like to...</strong>) คือวิธีพูดว่า "ฉันอยากจะ..." ในรูปแบบที่ <strong class="text-gray-800">"สุภาพและเป็นทางการ"</strong> ที่สุด เหมาะสำหรับใช้ในงานบริการ, ธุรกิจ, หรือกับคนที่ไม่คุ้นเคย
+            </p>
+        </header>
+
+        <main id="sentences-grid" class="grid grid-cols-1 md:grid-cols-2 gap-5">
+            </main>
+
+        <footer class="text-center mt-12">
+            <p class="text-slate-700 font-medium">อังกฤษฉบับคนเรียนไม่รู้เรื่อง โดยครูสาลี่</p>
+        </footer>
+
+    </div>
+
+    <div id="modal" class="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center p-4 z-50 opacity-0 pointer-events-none">
+        <div class="modal-content-container w-full max-w-2xl max-h-[90vh] overflow-y-auto bg-slate-800 rounded-2xl shadow-2xl border border-slate-700">
+            <div id="modal-header" class="p-6 sm:p-8 rounded-t-2xl bg-slate-900">
+                <p id="modal-english" class="font-poppins font-bold text-2xl text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-yellow-300 text-center"></p>
+                <p id="modal-thai" class="text-xl text-white text-center mt-2 opacity-90"></p>
+            </div>
+            <div class="p-6 sm:p-8">
+                <div id="modal-details" class="space-y-5">
+                    </div>
+                <div class="text-center mt-8">
+                    <button id="close-modal-btn" class="bg-slate-600 hover:bg-slate-500 text-white font-bold py-2 px-8 rounded-full shadow-lg transform hover:scale-105 transition-transform duration-300">
+                        ปิด
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const sentences = [
+            {
+                eng: "I would like to make a reservation.", th: "ฉันต้องการทำการจอง",
+                context: "ประโยคมาตรฐานที่ใช้ในการโทรศัพท์หรือติดต่อร้านอาหาร, โรงแรม เพื่อทำการจองล่วงหน้าอย่างสุภาพ",
+                dialogue: { a: "Good evening, The Grand Hotel. How may I help you?", b: "Hello, I would like to make a reservation for next weekend." },
+                alternatives: "<strong>I want to make a reservation.</strong> (ตรงไปตรงมา แต่สุภาพน้อยกว่า)<br><strong>Could I book a room, please?</strong> (ฉันขอจองห้องพักได้ไหม? - สุภาพมาก)"
+            },
+            {
+                eng: "I would like to order a coffee.", th: "ฉันต้องการสั่งกาแฟ",
+                context: "วิธีที่สุภาพที่สุดในการสั่งเครื่องดื่มหรืออาหารในร้านกาแฟหรือร้านอาหาร",
+                dialogue: { a: "Welcome! What can I get for you?", b: "Hello, I would like to order a black coffee, please." },
+                alternatives: "<strong>I'll have a coffee.</strong> (ฉันจะเอากาแฟ - ไม่เป็นทางการ)<br><strong>Can I get a coffee?</strong> (ฉันขอกาแฟแก้วนึงได้ไหม?)"
+            },
+            {
+                eng: "I would like to ask a question.", th: "ฉันอยากจะขอถามคำถามหนึ่งข้อ",
+                context: "ใช้เกริ่นนำอย่างสุภาพก่อนถามคำถามในการประชุม, การบรรยาย, หรือสถานการณ์ที่เป็นทางการ",
+                dialogue: { a: "...and that concludes my presentation.", b: "Thank you. I would like to ask a question about your data." },
+                alternatives: "<strong>I have a question.</strong><br><strong>May I ask something?</strong> (ฉันขอถามอะไรหน่อยได้ไหม?)"
+            },
+            {
+                eng: "I would like to speak to the manager.", th: "ฉันต้องการพูดคุยกับผู้จัดการ",
+                context: "ใช้เมื่อต้องการติดต่อกับบุคคลที่มีอำนาจตัดสินใจสูงกว่าพนักงานทั่วไป โดยเฉพาะเมื่อมีปัญหาเกิดขึ้น",
+                dialogue: { a: "Is there anything else I can help you with?", b: "Yes, I'm not satisfied with the service. I would like to speak to the manager." },
+                alternatives: "<strong>I want to speak to the manager.</strong> (ฟังดูเป็นการเรียกร้องมากกว่า)<br><strong>Could you get the manager for me?</strong>"
+            },
+            {
+                eng: "I would like to thank you for your time.", th: "ฉันอยากจะขอบคุณสำหรับเวลาของคุณ",
+                context: "เป็นประโยคที่สุภาพและเป็นทางการมาก ใช้ในการจบการสัมภาษณ์งาน, การประชุม, หรือการสนทนาทางธุรกิจ",
+                dialogue: { a: "Thank you for coming in today.", b: "Thank you for the opportunity. I would like to thank you for your time." },
+                alternatives: "<strong>Thank you for your time.</strong><br><strong>I appreciate you taking the time to meet with me.</strong>"
+            },
+            {
+                eng: "I would like to apologize for the delay.", th: "ฉันอยากจะขอโทษสำหรับความล่าช้า",
+                context: "ใช้ในการแสดงความขอโทษอย่างเป็นทางการในสถานการณ์ทางธุรกิจหรือการบริการลูกค้า",
+                dialogue: { a: "Your package has finally arrived.", b: "Yes, we understand it's late. I would like to apologize for the delay." },
+                alternatives: "<strong>I want to apologize for the delay.</strong><br><strong>We are very sorry for the delay.</strong>"
+            },
+            {
+                eng: "I would like to apply for this position.", th: "ฉันต้องการสมัครงานในตำแหน่งนี้",
+                context: "ประโยคมาตรฐานที่ใช้ในการเริ่มต้นการสมัครงาน ไม่ว่าจะในการเขียนอีเมลหรือการพูดคุยกับฝ่ายบุคคล",
+                dialogue: { a: "I saw your job posting online.", b: "Yes, we are hiring.", a: "Great. I would like to apply for this position." },
+                alternatives: "<strong>I want to apply for this job.</strong><br><strong>I'm interested in applying for this position.</strong>"
+            },
+            {
+                eng: "I would like to confirm my appointment.", th: "ฉันต้องการยืนยันนัดหมายของฉัน",
+                context: "ใช้ในการโทรหรือส่งอีเมลเพื่อตรวจสอบและยืนยันนัดหมายที่ทำไว้ล่วงหน้าอย่างเป็นทางการ",
+                dialogue: { a: "Hello, Dr. Smith's office.", b: "Hello, my name is Jane. I would like to confirm my appointment for tomorrow at 3 PM." },
+                alternatives: "<strong>I'm calling to confirm my appointment.</strong><br><strong>I just want to confirm my appointment.</strong>"
+            },
+            {
+                eng: "I would like to introduce myself.", th: "ฉันอยากจะขอแนะนำตัวเอง",
+                context: "ใช้เกริ่นนำอย่างสุภาพก่อนที่จะเริ่มแนะนำตัวในที่ประชุมหรือต่อหน้ากลุ่มคนที่ไม่รู้จัก",
+                dialogue: { a: "Before we begin, we have a new team member.", b: "Hello everyone. I would like to introduce myself. My name is David." },
+                alternatives: "<strong>Let me introduce myself.</strong><br><strong>My name is...</strong>"
+            },
+            {
+                eng: "I would like to learn more.", th: "ฉันอยากจะเรียนรู้เพิ่มเติม",
+                context: "ใช้แสดงความสนใจในหัวข้อหรือผลิตภัณฑ์อย่างสุภาพ และต้องการข้อมูลเพิ่มเติม",
+                dialogue: { a: "This is a brief overview of our services.", b: "It sounds very interesting. I would like to learn more." },
+                alternatives: "<strong>I want to know more.</strong><br><strong>Could you tell me more about it?</strong>"
+            },
+            {
+                eng: "I'd like to try this on.", th: "ฉันอยากจะขอลองตัวนี้",
+                context: "รูปย่อ 'I'd like to' ใช้บ่อยในร้านเสื้อผ้าเพื่อขออนุญาตลองสินค้า",
+                dialogue: { a: "Do you like this shirt?", b: "Yes, it's nice. I'd like to try this on, please." },
+                alternatives: "<strong>Can I try this on?</strong><br><strong>Where are the fitting rooms?</strong>"
+            },
+            {
+                eng: "I'd like to pay by credit card.", th: "ฉันอยากจะจ่ายด้วยบัตรเครดิต",
+                context: "ใช้บอกวิธีการชำระเงินที่เราต้องการแก่พนักงานแคชเชียร์",
+                dialogue: { a: "That will be 500 baht.", b: "Okay, I'd like to pay by credit card." },
+                alternatives: "<strong>Can I pay by card?</strong><br><strong>Do you accept credit cards?</strong>"
+            },
+            {
+                eng: "I'd like to make a suggestion.", th: "ฉันอยากจะขอเสนอแนะบางอย่าง",
+                context: "เป็นวิธีที่สุภาพในการเสนอความคิดเห็นหรือข้อเสนอแนะในที่ประชุม",
+                dialogue: { a: "Does anyone have any other ideas?", b: "If I may, I'd like to make a suggestion." },
+                alternatives: "<strong>I have a suggestion.</strong><br><strong>Can I suggest something?</strong>"
+            },
+            {
+                eng: "I'd like to get your opinion on something.", th: "ฉันอยากจะขอความเห็นของคุณในเรื่องบางอย่าง",
+                context: "ใช้เมื่อต้องการขอคำปรึกษาหรือความคิดเห็นจากผู้อื่นอย่างให้เกียรติ",
+                dialogue: { a: "Do you have a moment, boss?", b: "Sure, come in.", a: "I'd like to get your opinion on the new project proposal." },
+                alternatives: "<strong>Can I get your opinion?</strong><br><strong>What do you think about this?</strong>"
+            },
+            {
+                eng: "I'd like to request a day off.", th: "ฉันอยากจะขอลาหยุดหนึ่งวัน",
+                context: "ประโยคที่เป็นทางการสำหรับใช้ในการยื่นเรื่องขอลาหยุดกับหัวหน้าหรือฝ่ายบุคคล",
+                dialogue: { a: "I'm writing this email because I'd like to request a day off next Friday.", b: "" },
+                alternatives: "<strong>I need to take a day off.</strong><br><strong>I'm requesting next Friday off.</strong>"
+            },
+            {
+                eng: "I'd like to change my order.", th: "ฉันอยากจะขอเปลี่ยนออเดอร์",
+                context: "ใช้ในร้านอาหารเมื่อเราสั่งไปแล้วแต่เปลี่ยนใจ และต้องการแก้ไขรายการอาหารอย่างสุภาพ",
+                dialogue: { a: "Excuse me, waiter?", b: "Yes?", a: "I'm so sorry, but I'd like to change my order if it's not too late." },
+                alternatives: "<strong>Is it too late to change my order?</strong><br><strong>Can I change my order?</strong>"
+            },
+            {
+                eng: "I'd like to know more about your culture.", th: "ฉันอยากจะเรียนรู้เกี่ยวกับวัฒนธรรมของคุณให้มากขึ้น",
+                context: "ใช้เมื่อพบปะกับคนต่างชาติ เพื่อแสดงความสนใจและเคารพในวัฒนธรรมของพวกเขา",
+                dialogue: { a: "Your festival sounds fascinating.", b: "I'm glad you think so.", a: "I'd like to know more about your culture." },
+                alternatives: "<strong>I'm interested in your culture.</strong><br><strong>Tell me more about your culture.</strong>"
+            },
+            {
+                eng: "I'd like to book a flight to New York.", th: "ฉันต้องการจองเที่ยวบินไปนิวยอร์ก",
+                context: "ใช้เมื่อติดต่อกับบริษัททัวร์หรือสายการบินเพื่อทำการจองตั๋วเครื่องบิน",
+                dialogue: { a: "Hello, Global Airlines. How can I help?", b: "Hi, I'd like to book a flight to New York for next month." },
+                alternatives: "<strong>I need to book a flight.</strong><br><strong>I want to book a flight.</strong>"
+            },
+            {
+                eng: "I'd like to report a problem.", th: "ฉันต้องการแจ้งปัญหา",
+                context: "ใช้เมื่อต้องการแจ้งเรื่องที่ไม่ปกติหรือปัญหาที่เกิดขึ้นกับผู้ให้บริการหรือเจ้าหน้าที่",
+                dialogue: { a: "Hello, IT support.", b: "Hello, I'd like to report a problem with my internet connection." },
+                alternatives: "<strong>There's a problem with...</strong><br><strong>I'm having an issue with...</strong>"
+            },
+            {
+                eng: "I'd like to wish you all the best.", th: "ฉันอยากจะขออวยพรให้คุณโชคดี",
+                context: "เป็นคำอวยพรที่สุภาพและจริงใจ ใช้ในโอกาสที่จะมีการเปลี่ยนแปลงหรือการจากลา",
+                dialogue: { a: "So today is your last day.", b: "Yes, it is.", a: "Well, I'd like to wish you all the best in your new job." },
+                alternatives: "<strong>I wish you the best of luck.</strong><br><strong>Good luck with everything.</strong>"
+            }
+        ];
+        
+        const grid = document.getElementById('sentences-grid');
+        const modal = document.getElementById('modal');
+        const modalHeader = document.getElementById('modal-header');
+        const modalEnglish = document.getElementById('modal-english');
+        const modalThai = document.getElementById('modal-thai');
+        const modalDetails = document.getElementById('modal-details');
+        const closeModalBtn = document.getElementById('close-modal-btn');
+
+        sentences.forEach((sentence, index) => {
+            const button = document.createElement('button');
+            button.className = `sentence-btn p-5 rounded-lg text-left font-poppins font-semibold bg-slate-800 text-white hover:bg-slate-700`;
+            button.innerHTML = `<span>${sentence.eng}</span>`;
+            button.addEventListener('click', () => openModal(sentence));
+            grid.appendChild(button);
+        });
+
+        function openModal(sentence) {
+            modalEnglish.textContent = sentence.eng;
+            modalThai.textContent = sentence.th;
+
+            modalDetails.innerHTML = `
+                <div class="p-4 bg-slate-700 rounded-lg text-slate-300">
+                    <h4 class="font-semibold text-lg text-white mb-2">💡 บริบทการใช้งาน (Context)</h4>
+                    <p>${sentence.context}</p>
+                </div>
+                <div class="p-4 bg-slate-700 rounded-lg text-slate-300">
+                    <h4 class="font-semibold text-lg text-white mb-2">💬 ตัวอย่างบทสนทนา (Dialogue)</h4>
+                    <div class="space-y-1">
+                        <p><strong>A:</strong> ${sentence.dialogue.a}</p>
+                        <p><strong>B:</strong> ${sentence.dialogue.b}</p>
+                    </div>
+                </div>
+                <div class="p-4 bg-slate-700 rounded-lg text-slate-300">
+                    <h4 class="font-semibold text-lg text-white mb-2">🔄 คำที่เกี่ยวข้อง / ใช้แทนได้ (Alternatives)</h4>
+                    <div class="text-slate-300">${sentence.alternatives}</div>
+                </div>
+            `;
+
+            modal.classList.add('active');
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            modal.classList.add('opacity-0', 'pointer-events-none');
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        closeModalBtn.addEventListener('click', closeModal);
+        modal.addEventListener('click', (e) => {
+            if (e.target.id === 'modal') {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>

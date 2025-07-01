@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Structure #21 - I'm thinking about...</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Mitr:wght@300;400;500;600&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Mitr', sans-serif;
+        }
+        .font-poppins {
+            font-family: 'Poppins', sans-serif;
+        }
+        .sentence-btn {
+            transition: all 0.2s ease-in-out;
+        }
+        #modal {
+            transition: opacity 0.3s ease;
+        }
+        .modal-content-container {
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            opacity: 0;
+            transform: translateY(20px) scale(0.95);
+        }
+        #modal.active .modal-content-container {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+    </style>
+</head>
+<body class="bg-stone-100">
+
+    <div class="container mx-auto p-4 sm:p-6 lg:p-8">
+
+        <header class="text-center mb-10">
+            <h1 class="text-4xl sm:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-stone-700 to-slate-600 font-poppins">Structure #21</h1>
+            <h2 class="text-2xl sm:text-3xl font-bold text-slate-800 mt-2 font-poppins">"I'm thinking about + (noun/gerund)"</h2>
+            <p class="text-slate-600 mt-4 max-w-2xl mx-auto text-lg">
+                ใช้เพื่อบอกว่าเรากำลัง <strong class="text-stone-700">"ครุ่นคิด"</strong> หรือ <strong class="text-slate-600">"พิจารณา"</strong> เรื่องอะไรบางอย่างอยู่ ซึ่งยังไม่ใช่แผนการที่แน่นอน<br>
+                <strong class="text-red-600">ข้อควรจำที่สำคัญที่สุด:</strong> หลัง 'about' ต้องตามด้วย <strong class="text-stone-700">คำนาม (Noun)</strong> หรือ <strong class="text-slate-600">กริยาเติม -ing (Gerund)</strong> เท่านั้น!
+            </p>
+        </header>
+
+        <main id="sentences-grid" class="grid grid-cols-1 md:grid-cols-2 gap-5">
+            </main>
+
+        <footer class="text-center mt-12">
+            <p class="text-slate-700 font-medium">อังกฤษฉบับคนเรียนไม่รู้เรื่อง โดยครูสาลี่</p>
+        </footer>
+
+    </div>
+
+    <div id="modal" class="fixed inset-0 bg-black bg-opacity-60 flex justify-center items-center p-4 z-50 opacity-0 pointer-events-none">
+        <div class="modal-content-container w-full max-w-2xl max-h-[90vh] overflow-y-auto bg-slate-50 rounded-2xl shadow-2xl">
+            <div id="modal-header" class="p-6 sm:p-8 rounded-t-2xl bg-gradient-to-r from-stone-800 to-slate-700">
+                <p id="modal-english" class="font-poppins font-bold text-2xl text-white text-center"></p>
+                <p id="modal-thai" class="text-xl text-white text-center mt-2 opacity-90"></p>
+            </div>
+            <div class="p-6 sm:p-8">
+                <div id="modal-details" class="space-y-5">
+                    </div>
+                <div class="text-center mt-8">
+                    <button id="close-modal-btn" class="bg-slate-600 hover:bg-slate-700 text-white font-bold py-2 px-8 rounded-full shadow-lg transform hover:scale-105 transition-transform duration-300">
+                        ปิด
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const sentences = [
+            // --- Followed by Gerund (-ing) ---
+            {
+                eng: "I'm thinking about quitting my job.", th: "ฉันกำลังคิดเรื่องที่จะลาออกจากงาน",
+                context: "ใช้เมื่อความคิดที่จะลาออกอยู่ในหัว แต่ยังไม่ได้ตัดสินใจขั้นสุดท้าย เป็นการพิจารณาถึงความเป็นไปได้",
+                dialogue: { a: "You don't seem happy at work.", b: "I'm not. I'm thinking about quitting my job, but I'm not sure yet." },
+                alternatives: "<strong>I'm considering quitting my job.</strong> (ฉันกำลังพิจารณา... - เป็นทางการกว่า)<br><strong>I've been toying with the idea of quitting.</strong> (ฉันเคยคิดเล่นๆ เรื่องที่จะลาออก)"
+            },
+            {
+                eng: "I'm thinking about moving to a new city.", th: "ฉันกำลังคิดเรื่องย้ายไปเมืองใหม่",
+                context: "ใช้พูดถึงความเป็นไปได้ที่จะเปลี่ยนแปลงครั้งใหญ่ในชีวิต แต่ยังอยู่ในขั้นตอนการพิจารณา",
+                dialogue: { a: "This town is getting a bit boring.", b: "I agree. I'm thinking about moving to a new city." },
+                alternatives: "<strong>I'm contemplating a move to a new city.</strong><br><strong>The thought of moving has crossed my mind.</strong>"
+            },
+            {
+                eng: "I'm thinking about getting a dog.", th: "ฉันกำลังคิดเรื่องที่จะเลี้ยงสุนัข",
+                context: "บอกถึงความคิดที่จะมีสัตว์เลี้ยง ซึ่งต้องพิจารณาความพร้อมและความรับผิดชอบ",
+                dialogue: { a: "You love dogs so much.", b: "I do. I'm thinking about getting a dog, but it's a big commitment." },
+                alternatives: "<strong>I'm considering getting a dog.</strong><br><strong>I might get a dog.</strong> (ฉันอาจจะเลี้ยงสุนัข)"
+            },
+            {
+                eng: "I'm thinking about starting my own business.", th: "ฉันกำลังคิดเรื่องที่จะเริ่มธุรกิจของตัวเอง",
+                context: "พูดถึงเป้าหมายในอาชีพที่อยู่ในช่วงเริ่มต้นของการวางแผนและพิจารณาความเป็นไปได้",
+                dialogue: { a: "Are you happy being an employee?", b: "Not really. I'm thinking about starting my own business." },
+                alternatives: "<strong>I'm mulling over the idea of starting a business.</strong> (ฉันกำลังไตร่ตรอง...)"
+            },
+            {
+                eng: "I'm thinking about calling her.", th: "ฉันกำลังคิดว่าจะโทรหาเธอดีไหม",
+                context: "ใช้เมื่อกำลังลังเลว่าจะติดต่อหาใครสักคนดีหรือไม่",
+                dialogue: { a: "I miss her.", b: "Then you should call her.", a: "I don't know... I'm thinking about calling her." },
+                alternatives: "<strong>I'm debating whether to call her.</strong><br><strong>I might call her later.</strong>"
+            },
+            {
+                eng: "I'm thinking about going back to school.", th: "ฉันกำลังคิดเรื่องที่จะกลับไปเรียนต่อ",
+                context: "บอกถึงการพิจารณาแผนการศึกษาต่อ ซึ่งเป็นการตัดสินใจครั้งสำคัญ",
+                dialogue: { a: "I feel stuck in my career.", b: "Maybe you need more qualifications. I'm thinking about going back to school myself." },
+                alternatives: "<strong>I'm considering going back to school.</strong><br><strong>I've thought about furthering my education.</strong>"
+            },
+            {
+                eng: "I'm thinking about changing my hairstyle.", th: "ฉันกำลังคิดเรื่องที่จะเปลี่ยนทรงผม",
+                context: "พูดถึงความคิดที่จะเปลี่ยนแปลงรูปลักษณ์ของตัวเอง",
+                dialogue: { a: "I'm bored with my hair.", b: "Me too! I'm thinking about changing my hairstyle completely." },
+                alternatives: "<strong>I feel like changing my hair.</strong><br><strong>I might get a new haircut.</strong>"
+            },
+            {
+                eng: "I'm thinking about learning to cook.", th: "ฉันกำลังคิดเรื่องที่จะหัดทำอาหาร",
+                context: "บอกถึงความคิดที่จะเรียนรู้ทักษะใหม่ๆ เพื่อเป็นงานอดิเรกหรือเพื่อใช้ในชีวิตประจำวัน",
+                dialogue: { a: "Eating out every day is expensive.", b: "I know. I'm thinking about learning to cook." },
+                alternatives: "<strong>I'm considering taking a cooking class.</strong><br><strong>Maybe I should learn to cook.</strong>"
+            },
+            // --- Followed by Noun ---
+            {
+                eng: "I'm thinking about you.", th: "ฉันกำลังคิดถึงคุณ",
+                context: "ใช้ในความหมายตรงตัวว่า ความคิดของเราในขณะนั้นกำลังนึกถึงอีกฝ่ายหนึ่งอยู่",
+                dialogue: { a: "You've been quiet.", b: "Sorry, I was just thinking about you." },
+                alternatives: "<strong>You're on my mind.</strong> (คุณอยู่ในความคิดของฉัน)"
+            },
+            {
+                eng: "I'm thinking about the future.", th: "ฉันกำลังคิดเกี่ยวกับอนาคต",
+                context: "ใช้เมื่อกำลังครุ่นคิดหรือวางแผนชีวิตในระยะยาว",
+                dialogue: { a: "What's on your mind?", b: "Oh, nothing much. I'm just thinking about the future." },
+                alternatives: "<strong>I'm contemplating my future.</strong>"
+            },
+            {
+                eng: "I'm thinking about our next vacation.", th: "ฉันกำลังคิดถึงทริปเที่ยวครั้งต่อไปของเรา",
+                context: "ใช้เมื่อกำลังวางแผนหรือฝันถึงการไปเที่ยวพักผ่อนครั้งถัดไป",
+                dialogue: { a: "Where should we go next?", b: "I'm already thinking about our next vacation. Maybe Italy?" },
+                alternatives: "<strong>I'm dreaming about our next vacation.</strong>"
+            },
+            {
+                eng: "I'm thinking about the problem.", th: "ฉันกำลังคิดเกี่ยวกับปัญหานั้นอยู่",
+                context: "ใช้เมื่อเรากำลังพยายามหาสาเหตุหรือทางแก้ของปัญหาที่เกิดขึ้น",
+                dialogue: { a: "Have you found a solution yet?", b: "Not yet. I'm still thinking about the problem." },
+                alternatives: "<strong>I'm working on the problem.</strong>"
+            },
+            {
+                eng: "I'm thinking about the job offer.", th: "ฉันกำลังคิดเกี่ยวกับข้อเสนองานนั้น",
+                context: "ใช้ในช่วงที่กำลังพิจารณาข้อเสนองานที่ได้รับมา ว่าจะรับหรือไม่รับดี",
+                dialogue: { a: "Have you decided yet?", b: "Not yet. I'm still thinking about the job offer." },
+                alternatives: "<strong>I'm still considering the offer.</strong><br><strong>I'm weighing my options.</strong> (ฉันกำลังชั่งน้ำหนักตัวเลือกต่างๆ)"
+            },
+            {
+                eng: "I'm thinking about what you said.", th: "ฉันกำลังคิดถึงสิ่งที่เธอพูด",
+                context: "ใช้เมื่อคำพูดของอีกฝ่ายทำให้เราต้องกลับมาครุ่นคิดอย่างจริงจัง",
+                dialogue: { a: "You seem quiet.", b: "I'm just thinking about what you said earlier. Maybe you're right." },
+                alternatives: "<strong>What you said is on my mind.</strong><br><strong>I'm reflecting on your words.</strong>"
+            },
+            {
+                eng: "I'm thinking about dinner.", th: "ฉันกำลังคิดเรื่องอาหารเย็น",
+                context: "ใช้เมื่อกำลังคิดว่าจะกินอะไรหรือทำอะไรสำหรับมื้อเย็น",
+                dialogue: { a: "It's almost 6 PM.", b: "I know. I'm thinking about dinner. What should we eat?" },
+                alternatives: "<strong>I'm trying to decide on dinner.</strong>"
+            },
+            {
+                eng: "I'm thinking about a career change.", th: "ฉันกำลังคิดเรื่องการเปลี่ยนสายงาน",
+                context: "ใช้เมื่อกำลังพิจารณาอย่างจริงจังที่จะเปลี่ยนอาชีพหรือสายงานที่ทำอยู่",
+                dialogue: { a: "Are you happy in marketing?", b: "I'm not sure anymore. I'm thinking about a career change." },
+                alternatives: "<strong>I'm considering a career change.</strong>"
+            },
+            {
+                eng: "I'm thinking about a new strategy.", th: "ฉันกำลังคิดเกี่ยวกับกลยุทธ์ใหม่",
+                context: "ใช้ในที่ทำงานเมื่อแผนเดิมไม่ได้ผล และกำลังพิจารณาแนวทางใหม่ๆ",
+                dialogue: { a: "Our sales are down.", b: "I know. I'm thinking about a new strategy to boost them." },
+                alternatives: "<strong>I'm trying to come up with a new strategy.</strong>"
+            },
+            {
+                eng: "I was just thinking about that!", th: "ฉันก็กำลังคิดถึงเรื่องนั้นอยู่พอดีเลย!",
+                context: "ใช้ 'was just thinking' เพื่อแสดงความบังเอิญเมื่ออีกฝ่ายพูดในสิ่งที่เราเพิ่งจะคิดถึง",
+                dialogue: { a: "We should rewatch 'The Office'.", b: "No way! I was just thinking about that!" },
+                alternatives: "<strong>You read my mind!</strong>"
+            },
+            {
+                eng: "What are you thinking about?", th: "เธอกำลังคิดอะไรอยู่",
+                context: "ใช้โครงสร้างนี้เป็นคำถาม เพื่อถามความคิดของอีกฝ่ายเมื่อเห็นเขานั่งเงียบๆ หรือเหม่อลอย",
+                dialogue: { a: "You've been staring out the window for ten minutes.", b: "What are you thinking about?" },
+                alternatives: "<strong>A penny for your thoughts?</strong> (สำนวน)"
+            },
+            {
+                eng: "I'm thinking about it.", th: "ฉันกำลังคิดเรื่องนั้นอยู่",
+                context: "เป็นคำตอบสั้นๆ เพื่อบอกว่าเรากำลังพิจารณาข้อเสนอหรือคำแนะนำของอีกฝ่ายอยู่",
+                dialogue: { a: "You should apply for that scholarship.", b: "Hmm, that's an interesting idea. I'm thinking about it." },
+                alternatives: "<strong>I'll think about it.</strong><br><strong>I'm considering it.</strong>"
+            }
+        ];
+        
+        const grid = document.getElementById('sentences-grid');
+        const modal = document.getElementById('modal');
+        const modalHeader = document.getElementById('modal-header');
+        const modalEnglish = document.getElementById('modal-english');
+        const modalThai = document.getElementById('modal-thai');
+        const modalDetails = document.getElementById('modal-details');
+        const closeModalBtn = document.getElementById('close-modal-btn');
+
+        sentences.forEach((sentence, index) => {
+            const button = document.createElement('button');
+            button.className = `group sentence-btn p-5 rounded-lg text-left bg-white border-2 border-stone-400 hover:bg-stone-700 hover:border-stone-700`;
+            
+            button.innerHTML = `
+                <span class="font-poppins font-semibold text-stone-700 group-hover:text-white transition-colors duration-200">${sentence.eng}</span>
+                <span class="block text-sm text-stone-600 font-normal mt-1 group-hover:text-white/80 transition-colors duration-200">${sentence.th}</span>
+            `;
+
+            button.addEventListener('click', () => openModal(sentence));
+            grid.appendChild(button);
+        });
+
+        function openModal(sentence) {
+            modalEnglish.textContent = sentence.eng;
+            modalThai.textContent = sentence.th;
+
+            modalDetails.innerHTML = `
+                <div class="p-4 bg-slate-100 rounded-lg">
+                    <h4 class="font-semibold text-lg text-slate-800 mb-2">💡 บริบทการใช้งาน (Context)</h4>
+                    <p class="text-slate-600">${sentence.context}</p>
+                </div>
+                <div class="p-4 bg-slate-100 rounded-lg">
+                    <h4 class="font-semibold text-lg text-slate-800 mb-2">💬 ตัวอย่างบทสนทนา (Dialogue)</h4>
+                    <div class="space-y-1 text-slate-600">
+                        <p><strong>A:</strong> ${sentence.dialogue.a}</p>
+                        <p><strong>B:</strong> ${sentence.dialogue.b}</p>
+                    </div>
+                </div>
+                <div class="p-4 bg-slate-100 rounded-lg">
+                    <h4 class="font-semibold text-lg text-slate-800 mb-2">🔄 คำที่เกี่ยวข้อง / ใช้แทนได้ (Alternatives)</h4>
+                    <div class="text-slate-600">${sentence.alternatives}</div>
+                </div>
+            `;
+
+            modal.classList.add('active');
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            modal.classList.add('opacity-0', 'pointer-events-none');
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        closeModalBtn.addEventListener('click', closeModal);
+        modal.addEventListener('click', (e) => {
+            if (e.target.id === 'modal') {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>

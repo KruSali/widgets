@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Structure #23 - I'm surprised to + (verb)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Mitr:wght@300;400;500;600&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Mitr', sans-serif;
+        }
+        .font-poppins {
+            font-family: 'Poppins', sans-serif;
+        }
+        .sentence-btn {
+            transition: all 0.2s ease-in-out;
+        }
+        #modal {
+            transition: opacity 0.3s ease;
+        }
+        .modal-content-container {
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            opacity: 0;
+            transform: translateY(20px) scale(0.95);
+        }
+        #modal.active .modal-content-container {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+    </style>
+</head>
+<body class="bg-slate-100">
+
+    <div class="container mx-auto p-4 sm:p-6 lg:p-8">
+
+        <header class="text-center mb-10">
+            <h1 class="text-4xl sm:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-fuchsia-500 font-poppins">Structure #23</h1>
+            <h2 class="text-2xl sm:text-3xl font-bold text-slate-800 mt-2 font-poppins">"I'm surprised to + (verb)"</h2>
+            <p class="text-slate-600 mt-4 max-w-2xl mx-auto text-lg">
+                ใช้เพื่อแสดง <strong class="text-purple-700">"ความประหลาดใจ"</strong> เมื่อมีบางสิ่งบางอย่างเกิดขึ้นโดยที่เรา <strong class="text-fuchsia-600">"ไม่คาดคิด"</strong> มาก่อน หัวใจของมันคือความรู้สึก "ผิดคาด" ไม่ว่าจะเป็นเรื่องดีหรือไม่ดี
+            </p>
+        </header>
+
+        <main id="sentences-grid" class="grid grid-cols-1 md:grid-cols-2 gap-5">
+            </main>
+
+        <footer class="text-center mt-12">
+            <p class="text-slate-700 font-medium">อังกฤษฉบับคนเรียนไม่รู้เรื่อง โดยครูสาลี่</p>
+        </footer>
+
+    </div>
+
+    <div id="modal" class="fixed inset-0 bg-black bg-opacity-60 flex justify-center items-center p-4 z-50 opacity-0 pointer-events-none">
+        <div class="modal-content-container w-full max-w-2xl max-h-[90vh] overflow-y-auto bg-slate-50 rounded-2xl shadow-2xl">
+            <div id="modal-header" class="p-6 sm:p-8 rounded-t-2xl bg-gradient-to-r from-purple-600 to-fuchsia-500">
+                <p id="modal-english" class="font-poppins font-bold text-2xl text-white text-center"></p>
+                <p id="modal-thai" class="text-xl text-white text-center mt-2 opacity-90"></p>
+            </div>
+            <div class="p-6 sm:p-8">
+                <div id="modal-details" class="space-y-5">
+                    </div>
+                <div class="text-center mt-8">
+                    <button id="close-modal-btn" class="bg-slate-600 hover:bg-slate-700 text-white font-bold py-2 px-8 rounded-full shadow-lg transform hover:scale-105 transition-transform duration-300">
+                        ปิด
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const sentences = [
+            {
+                eng: "I'm surprised to see you here.", th: "ฉันประหลาดใจที่เจอคุณที่นี่",
+                context: "ใช้เมื่อเราเจอคนรู้จักในสถานที่ที่ไม่คาดคิดว่าจะเจอเขา เป็นการทักทายที่แสดงความประหลาดใจ",
+                dialogue: { a: "Mark? Is that you?", b: "Jane! Wow! I'm surprised to see you here. I thought you were still living in Thailand." },
+                alternatives: "<strong>I didn't expect to see you here.</strong> (ฉันไม่คิดว่าจะเจอคุณที่นี่)<br><strong>What a surprise seeing you here!</strong><br><strong>Fancy seeing you here.</strong> (สำนวน)"
+            },
+            {
+                eng: "I'm surprised to hear that.", th: "ฉันประหลาดใจที่ได้ยินแบบนั้น",
+                context: "ใช้เมื่อได้ยินข่าวหรือข้อมูลที่ไม่คาดคิดมาก่อน อาจจะเป็นข่าวดี, ข่าวร้าย, หรือแค่เรื่องแปลกๆ",
+                dialogue: { a: "Did you know that Tom quit his job to become a monk?", b: "Really? I'm surprised to hear that." },
+                alternatives: "<strong>That's surprising.</strong><br><strong>I wasn't expecting that.</strong><br><strong>That comes as a surprise.</strong>"
+            },
+            {
+                eng: "I'm surprised to find out the truth.", th: "ฉันประหลาดใจที่ได้ค้นพบความจริง",
+                context: "ใช้เมื่อได้เรียนรู้ความจริงบางอย่างที่แตกต่างจากสิ่งที่เราเคยเชื่อหรือเข้าใจมาตลอด",
+                dialogue: { a: "So he was lying the whole time.", b: "Yes. I'm surprised to find out the truth, too." },
+                alternatives: "<strong>I'm shocked to find out the truth.</strong> (ตกใจมากกว่าประหลาดใจ)<br><strong>I can't believe it.</strong>"
+            },
+            {
+                eng: "I'm surprised to learn that he can cook.", th: "ฉันประหลาดใจที่ได้รู้ว่าเขาทำอาหารเป็น",
+                context: "ใช้เมื่อได้เรียนรู้ทักษะหรือความสามารถของใครบางคนที่เราไม่เคยรู้มาก่อน",
+                dialogue: { a: "This lasagna is delicious! Who made it?", b: "David did.", a: "Wow, I'm surprised to learn that he can cook." },
+                alternatives: "<strong>I didn't know he could cook.</strong><br><strong>Who would have thought he could cook?</strong>"
+            },
+            {
+                eng: "I'm surprised to receive this award.", th: "ฉันประหลาดใจที่ได้รับรางวัลนี้",
+                context: "ใช้พูดเมื่อขึ้นรับรางวัลเพื่อแสดงความถ่อมตัว ว่าเราไม่คาดคิดว่าจะได้รับเกียรตินี้",
+                dialogue: { a: "And the winner is... Jane Doe!", b: "(Walks on stage) I'm speechless. I'm so surprised to receive this award. Thank you." },
+                alternatives: "<strong>I'm truly honored and surprised.</strong><br><strong>I never expected this.</strong>"
+            },
+            {
+                eng: "I'm surprised to get a perfect score.", th: "ฉันประหลาดใจที่ได้คะแนนเต็ม",
+                context: "ใช้แสดงความประหลาดใจในผลลัพธ์ที่ดีเกินคาดของตัวเอง",
+                dialogue: { a: "How did you do on the test?", b: "I can't believe it. I'm surprised to get a perfect score!" },
+                alternatives: "<strong>I didn't think I would get a perfect score.</strong><br><strong>I'm amazed I got a perfect score.</strong>"
+            },
+            {
+                eng: "I'm surprised to see the project finished.", th: "ฉันประหลาดใจที่เห็นว่าโปรเจกต์เสร็จแล้ว",
+                context: "ใช้เมื่อเห็นว่างานบางอย่างเสร็จเร็วกว่าที่คาดไว้มาก",
+                dialogue: { a: "Is the report done already?", b: "Yes. I'm surprised to see the project finished so quickly." },
+                alternatives: "<strong>I didn't expect it to be finished so soon.</strong><br><strong>Wow, that was fast.</strong>"
+            },
+            {
+                eng: "I'm surprised to find the office empty.", th: "ฉันประหลาดใจที่เห็นว่าออฟฟิศว่างเปล่า",
+                context: "ใช้เมื่อไปถึงสถานที่แห่งหนึ่งแล้วพบกับสภาพที่ผิดไปจากที่คาดการณ์ไว้",
+                dialogue: { a: "Where is everybody?", b: "I don't know. I'm surprised to find the office empty. It's only 4 PM." },
+                alternatives: "<strong>I wonder where everyone went.</strong>"
+            },
+            {
+                eng: "I'm surprised to see him so calm.", th: "ฉันประหลาดใจที่เห็นเขาใจเย็นขนาดนี้",
+                context: "ใช้เมื่อเห็นปฏิกิริยาของใครบางคนที่สงบนิ่งผิดกับที่เราคาดไว้ในสถานการณ์ที่กดดัน",
+                dialogue: { a: "We just lost our biggest client.", b: "I know. But look at the boss. I'm surprised to see him so calm." },
+                alternatives: "<strong>I expected him to be angry.</strong><br><strong>It's surprising how calm he is.</strong>"
+            },
+            {
+                eng: "I'm surprised to discover we have so much in common.", th: "ฉันประหลาดใจที่ได้ค้นพบว่าเรามีอะไรเหมือนกันเยอะมาก",
+                context: "ใช้เมื่อได้ทำความรู้จักกับใครคนหนึ่งแล้วพบว่ามีสิ่งที่ชอบหรือความคิดที่คล้ายกันอย่างไม่น่าเชื่อ",
+                dialogue: { a: "You like old sci-fi movies too?", b: "Yes! I'm surprised to discover we have so much in common." },
+                alternatives: "<strong>I didn't realize we had so much in common.</strong>"
+            },
+            {
+                eng: "I'm surprised to read such a positive review.", th: "ฉันประหลาดใจที่ได้อ่านรีวิวที่ดีขนาดนี้",
+                context: "ใช้เมื่อผลตอบรับดีกว่าที่เราคาดการณ์ไว้มาก",
+                dialogue: { a: "How was the movie?", b: "I thought it would be terrible, but I'm surprised to read such a positive review online." },
+                alternatives: "<strong>The reviews are surprisingly good.</strong>"
+            },
+            {
+                eng: "I'm surprised to admit that I enjoyed it.", th: "ฉันประหลาดใจที่ต้องยอมรับว่าฉันสนุกกับมัน",
+                context: "ใช้เมื่อเราได้ลองทำอะไรที่ไม่คิดว่าจะชอบ แต่ผลกลับกลายเป็นว่าสนุกกว่าที่คิด",
+                dialogue: { a: "So, how was the opera?", b: "I thought I would be bored, but I'm surprised to admit that I really enjoyed it." },
+                alternatives: "<strong>It was better than I expected.</strong><br><strong>It was surprisingly fun.</strong>"
+            },
+            {
+                eng: "I'm surprised to realize I was wrong.", th: "ฉันประหลาดใจที่ได้ตระหนักว่าฉันคิดผิด",
+                context: "ใช้เมื่อเราเพิ่งค้นพบว่าความเชื่อหรือความเข้าใจของเรานั้นไม่ถูกต้อง",
+                dialogue: { a: "I always thought he was a serious person.", b: "Me too. But after talking to him, I'm surprised to realize I was wrong. He's hilarious." },
+                alternatives: "<strong>I guess I misjudged him.</strong> (ฉันคงจะตัดสินเขาผิดไป)"
+            },
+            {
+                eng: "I'm surprised to be chosen.", th: "ฉันประหลาดใจที่ได้รับเลือก",
+                context: "ใช้เมื่อได้รับเลือกให้ทำหน้าที่หรือได้รับโอกาสบางอย่างโดยไม่คาดฝัน",
+                dialogue: { a: "Congratulations! You've been selected for the program.", b: "Me? Wow. I'm surprised to be chosen." },
+                alternatives: "<strong>I can't believe I was chosen.</strong><br><strong>I'm shocked that they picked me.</strong>"
+            },
+            {
+                eng: "I'm surprised to feel this way.", th: "ฉันประหลาดใจที่รู้สึกแบบนี้",
+                context: "ใช้เมื่อเกิดความรู้สึกบางอย่างขึ้นมาโดยที่เราไม่คาดคิดว่าตัวเองจะรู้สึกแบบนั้น",
+                dialogue: { a: "I thought I would be sad about leaving.", b: "But actually, I feel relieved. I'm surprised to feel this way." },
+                alternatives: "<strong>I didn't expect to feel this way.</strong>"
+            },
+            {
+                eng: "I'm surprised to find you still awake.", th: "ฉันประหลาดใจที่เห็นเธอยังไม่นอน",
+                context: "ใช้เมื่อเห็นว่าใครบางคนยังคงตื่นอยู่ดึกกว่าปกติที่เคยเป็น",
+                dialogue: { a: "(Comes out to the living room at 2 AM) What are you still doing up?", b: "I could ask you the same thing. I'm surprised to find you still awake." },
+                alternatives: "<strong>I thought you'd be asleep by now.</strong>"
+            },
+            {
+                eng: "I'm not surprised to see you here.", th: "ฉันไม่แปลกใจเลยที่เจอคุณที่นี่",
+                context: "ใช้รูปปฏิเสธเพื่อบอกว่าการเจออีกฝ่ายที่นี่เป็นเรื่องที่ 'คาดเดาได้' ไม่ใช่เรื่องน่าประหลาดใจ",
+                dialogue: { a: "Oh, hi Mark.", b: "Hey. I'm not surprised to see you here. This is your favorite coffee shop, isn't it?" },
+                alternatives: "<strong>I had a feeling I'd see you here.</strong><br><strong>As expected.</strong>"
+            },
+            {
+                eng: "I'm not surprised to hear he failed.", th: "ฉันไม่แปลกใจเลยที่ได้ยินว่าเขาสอบตก",
+                context: "ใช้รูปปฏิเสธเพื่อแสดงว่าผลลัพธ์ที่ไม่ดีนั้นเป็นไปตามที่คาดการณ์ไว้",
+                dialogue: { a: "Did you hear? Mike failed the test.", b: "He never studied. I'm not surprised to hear he failed." },
+                alternatives: "<strong>That was predictable.</strong><br><strong>I saw it coming.</strong>"
+            },
+            {
+                eng: "Are you surprised to see me?", th: "เธอประหลาดใจไหมที่เห็นฉัน",
+                context: "ใช้โครงสร้างนี้เป็นคำถาม เพื่อถามความรู้สึกของอีกฝ่ายเมื่อเราปรากฏตัวอย่างไม่คาดฝัน",
+                dialogue: { a: "(Knocks on door, friend opens) Hello!", b: "Oh my gosh! I thought you were in Paris!", a: "I came back early. Are you surprised to see me?" },
+                alternatives: "<strong>Surprise!</strong>"
+            },
+            {
+                eng: "I'm always surprised to remember how young she is.", th: "ฉันประหลาดใจทุกครั้งที่นึกขึ้นได้ว่าเธอเด็กแค่ไหน",
+                context: "ใช้ 'always surprised' เพื่อเน้นว่าความรู้สึกประหลาดใจนี้เกิดขึ้นซ้ำๆ ทุกครั้งที่นึกถึงเรื่องนั้น",
+                dialogue: { a: "She handles pressure so well.", b: "I know. I'm always surprised to remember how young she is. She's only 22." },
+                alternatives: "<strong>It's amazing to think how young she is.</strong>"
+            }
+        ];
+        
+        const grid = document.getElementById('sentences-grid');
+        const modal = document.getElementById('modal');
+        const modalHeader = document.getElementById('modal-header');
+        const modalEnglish = document.getElementById('modal-english');
+        const modalThai = document.getElementById('modal-thai');
+        const modalDetails = document.getElementById('modal-details');
+        const closeModalBtn = document.getElementById('close-modal-btn');
+
+        sentences.forEach((sentence, index) => {
+            const button = document.createElement('button');
+            button.className = `group sentence-btn p-5 rounded-lg text-left bg-white border-dashed border-2 border-purple-400 hover:border-solid hover:bg-purple-500`;
+            
+            button.innerHTML = `
+                <span class="font-poppins font-semibold text-purple-700 group-hover:text-white transition-colors duration-200">${sentence.eng}</span>
+                <span class="block text-sm text-purple-600 font-normal mt-1 group-hover:text-white/80 transition-colors duration-200">${sentence.th}</span>
+            `;
+
+            button.addEventListener('click', () => openModal(sentence));
+            grid.appendChild(button);
+        });
+
+        function openModal(sentence) {
+            modalEnglish.textContent = sentence.eng;
+            modalThai.textContent = sentence.th;
+
+            modalDetails.innerHTML = `
+                <div class="p-4 bg-slate-100 rounded-lg">
+                    <h4 class="font-semibold text-lg text-slate-800 mb-2">💡 บริบทการใช้งาน (Context)</h4>
+                    <p class="text-slate-600">${sentence.context}</p>
+                </div>
+                <div class="p-4 bg-slate-100 rounded-lg">
+                    <h4 class="font-semibold text-lg text-slate-800 mb-2">💬 ตัวอย่างบทสนทนา (Dialogue)</h4>
+                    <div class="space-y-1 text-slate-600">
+                        <p><strong>A:</strong> ${sentence.dialogue.a}</p>
+                        <p><strong>B:</strong> ${sentence.dialogue.b}</p>
+                    </div>
+                </div>
+                <div class="p-4 bg-slate-100 rounded-lg">
+                    <h4 class="font-semibold text-lg text-slate-800 mb-2">🔄 คำที่เกี่ยวข้อง / ใช้แทนได้ (Alternatives)</h4>
+                    <div class="text-slate-600">${sentence.alternatives}</div>
+                </div>
+            `;
+
+            modal.classList.add('active');
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            modal.classList.add('opacity-0', 'pointer-events-none');
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        closeModalBtn.addEventListener('click', closeModal);
+        modal.addEventListener('click', (e) => {
+            if (e.target.id === 'modal') {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>

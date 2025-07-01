@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Structure #5 - I'm gonna + (verb)</title>
+    <title>Structure #5 - I'm gonna + (verb) (with translation)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -206,10 +206,10 @@
         ];
         
         const buttonColors = [
-            'bg-yellow-300 hover:border-yellow-500 text-slate-800',
-            'bg-cyan-400 hover:border-cyan-600 text-white',
-            'bg-rose-400 hover:border-rose-600 text-white',
-            'bg-lime-400 hover:border-lime-600 text-slate-800',
+            { bg: 'bg-yellow-300', text: 'text-slate-800', subText: 'text-slate-700' },
+            { bg: 'bg-cyan-400', text: 'text-white', subText: 'text-cyan-100' },
+            { bg: 'bg-rose-400', text: 'text-white', subText: 'text-rose-100' },
+            { bg: 'bg-lime-400', text: 'text-slate-800', subText: 'text-slate-700' },
         ];
         
         const grid = document.getElementById('sentences-grid');
@@ -222,9 +222,15 @@
 
         sentences.forEach((sentence, index) => {
             const button = document.createElement('button');
-            const colorClass = buttonColors[index % buttonColors.length];
-            button.className = `sentence-btn p-5 rounded-md text-left font-poppins font-semibold ${colorClass}`;
-            button.innerHTML = `<span>${sentence.eng}</span>`;
+            const colorTheme = buttonColors[index % buttonColors.length];
+
+            button.className = `sentence-btn p-5 rounded-md text-left ${colorTheme.bg}`;
+            
+            button.innerHTML = `
+                <span class="font-poppins font-semibold ${colorTheme.text}">${sentence.eng}</span>
+                <span class="block text-sm font-normal mt-1 ${colorTheme.subText}">${sentence.th}</span>
+            `;
+
             button.addEventListener('click', () => openModal(sentence));
             grid.appendChild(button);
         });

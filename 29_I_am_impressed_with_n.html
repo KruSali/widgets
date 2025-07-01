@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Structure #29 - I'm impressed with...</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Mitr:wght@300;400;500;600&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Mitr', sans-serif;
+        }
+        .font-poppins {
+            font-family: 'Poppins', sans-serif;
+        }
+        .sentence-btn {
+            transition: all 0.2s ease-in-out;
+        }
+        #modal {
+            transition: opacity 0.3s ease;
+        }
+        .modal-content-container {
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            opacity: 0;
+            transform: translateY(20px) scale(0.95);
+        }
+        #modal.active .modal-content-container {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+    </style>
+</head>
+<body class="bg-slate-100">
+
+    <div class="container mx-auto p-4 sm:p-6 lg:p-8">
+
+        <header class="text-center mb-10">
+            <h1 class="text-4xl sm:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-slate-700 to-black font-poppins">Structure #29</h1>
+            <h2 class="text-2xl sm:text-3xl font-bold text-slate-800 mt-2 font-poppins">"I'm impressed with + (noun)"</h2>
+            <p class="text-slate-600 mt-4 max-w-2xl mx-auto text-lg">
+                ใช้เพื่อแสดง <strong class="text-slate-800">"ความประทับใจ"</strong> และ <strong class="text-gray-700">"ความชื่นชม"</strong> ต่อผลงาน, ทักษะ, หรือคุณสมบัติของใครบางคน เป็นคำชมที่จริงจังและน่าเชื่อถือ
+            </p>
+        </header>
+
+        <main id="sentences-grid" class="grid grid-cols-1 md:grid-cols-2 gap-5">
+            </main>
+
+        <footer class="text-center mt-12">
+            <p class="text-slate-700 font-medium">อังกฤษฉบับคนเรียนไม่รู้เรื่อง โดยครูสาลี่</p>
+        </footer>
+
+    </div>
+
+    <div id="modal" class="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center p-4 z-50 opacity-0 pointer-events-none">
+        <div class="modal-content-container w-full max-w-2xl max-h-[90vh] overflow-y-auto bg-slate-800 rounded-2xl shadow-2xl border border-slate-700">
+            <div id="modal-header" class="p-6 sm:p-8 rounded-t-2xl bg-slate-900">
+                <p id="modal-english" class="font-poppins font-bold text-2xl text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-yellow-300 text-center"></p>
+                <p id="modal-thai" class="text-xl text-white text-center mt-2 opacity-90"></p>
+            </div>
+            <div class="p-6 sm:p-8">
+                <div id="modal-details" class="space-y-5">
+                    </div>
+                <div class="text-center mt-8">
+                    <button id="close-modal-btn" class="bg-slate-600 hover:bg-slate-500 text-white font-bold py-2 px-8 rounded-full shadow-lg transform hover:scale-105 transition-transform duration-300">
+                        ปิด
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const sentences = [
+            {
+                eng: "I'm impressed with your work.", th: "ฉันประทับใจในผลงานของคุณ",
+                context: "เป็นคำชมที่เป็นมาตรฐานและทรงพลังในที่ทำงาน ใช้เมื่อเห็นผลงานที่มีคุณภาพสูงจากเพื่อนร่วมงานหรือลูกน้อง",
+                dialogue: { a: "Here is the final report.", b: "I've just read it. It's excellent. I'm impressed with your work." },
+                alternatives: "<strong>Your work is impressive.</strong><br><strong>You did an excellent job.</strong><br><strong>This is excellent work.</strong>"
+            },
+            {
+                eng: "I'm impressed with your presentation.", th: "ฉันประทับใจกับการนำเสนอของคุณ",
+                context: "ใช้ชื่นชมทักษะการนำเสนอของใครบางคนที่ทำได้อย่างยอดเยี่ยม ทั้งในด้านเนื้อหาและวิธีการพูด",
+                dialogue: { a: "Thank you everyone.", b: "That was a great talk. I'm impressed with your presentation skills." },
+                alternatives: "<strong>That was an impressive presentation.</strong><br><strong>You presented that very well.</strong>"
+            },
+            {
+                eng: "I'm impressed with his professionalism.", th: "ฉันประทับใจในความเป็นมืออาชีพของเขา",
+                context: "ใช้เมื่อชื่นชมการทำงานที่เป็นระบบ, มีความรับผิดชอบ, และมีวุฒิภาวะสูง",
+                dialogue: { a: "He handled that angry customer so calmly.", b: "I agree. I'm impressed with his professionalism." },
+                alternatives: "<strong>He is very professional.</strong><br><strong>He handled that situation like a true professional.</strong>"
+            },
+            {
+                eng: "I'm impressed with her dedication.", th: "ฉันประทับใจในความทุ่มเทของเธอ",
+                context: "ใช้ชื่นชมคนที่มีความมุ่งมั่นและทุ่มเทให้กับงานหรือเป้าหมายอย่างเต็มที่",
+                dialogue: { a: "She stayed late every night to finish this project.", b: "I know. I'm impressed with her dedication." },
+                alternatives: "<strong>Her dedication is admirable.</strong> (ความทุ่มเทของเธอน่าชื่นชม)<br><strong>She is very dedicated.</strong>"
+            },
+            {
+                eng: "I'm impressed with your English.", th: "ฉันประทับใจกับภาษาอังกฤษของคุณ",
+                context: "เป็นคำชมที่ดีมากสำหรับผู้เรียนภาษา เพื่อบอกว่าทักษะภาษาของเขานั้นดีอย่างน่าทึ่ง",
+                dialogue: { a: "You've only been learning for a year?", b: "Yes, that's right.", a: "Wow, I'm impressed with your English." },
+                alternatives: "<strong>Your English is very good.</strong><br><strong>You speak English so fluently.</strong>"
+            },
+            {
+                eng: "I'm impressed with the service here.", th: "ฉันประทับใจกับบริการของที่นี่",
+                context: "ใช้ชื่นชมการบริการของร้านอาหาร, โรงแรม, หรือร้านค้าที่ทำได้อย่างยอดเยี่ยม",
+                dialogue: { a: "The staff is so attentive and friendly.", b: "I agree. I'm impressed with the service here." },
+                alternatives: "<strong>The service here is excellent.</strong><br><strong>This place has great service.</strong>"
+            },
+            {
+                eng: "I'm impressed with the quality.", th: "ฉันประทับใจในคุณภาพ",
+                context: "ใช้เมื่อเห็นหรือได้ใช้สินค้าที่มีคุณภาพการผลิตดีเยี่ยมและทนทาน",
+                dialogue: { a: "This leather bag feels so durable.", b: "It is. I'm impressed with the quality of their products." },
+                alternatives: "<strong>The quality is impressive.</strong><br><strong>This is very well-made.</strong>"
+            },
+            {
+                eng: "I'm impressed with his attention to detail.", th: "ฉันประทับใจในความใส่ใจในรายละเอียดของเขา",
+                context: "ใช้ชมคนที่ทำงานละเอียดรอบคอบ ไม่ปล่อยให้มีจุดผิดพลาดเล็กๆ น้อยๆ",
+                dialogue: { a: "He found three typos that everyone else missed.", b: "He's amazing. I'm impressed with his attention to detail." },
+                alternatives: "<strong>He has a great eye for detail.</strong><br><strong>He is very meticulous.</strong>"
+            },
+            {
+                eng: "I'm impressed with how you handled that.", th: "ฉันประทับใจในวิธีที่คุณรับมือกับเรื่องนั้น",
+                context: "ใช้ชื่นชมวิธีที่ใครบางคนแก้ปัญหาหรือรับมือกับสถานการณ์ที่ยากลำบาก",
+                dialogue: { a: "That was a difficult client meeting.", b: "It was, but you did great. I'm impressed with how you handled that." },
+                alternatives: "<strong>You handled that situation very well.</strong><br><strong>That was well-handled.</strong>"
+            },
+            {
+                eng: "I'm impressed with the results.", th: "ฉันประทับใจกับผลลัพธ์",
+                context: "ใช้เมื่อผลลัพธ์ของงานหรือโปรเจกต์ออกมาดีเกินกว่าที่คาดหมาย",
+                dialogue: { a: "Our sales increased by 50% last month.", b: "Fifty percent? I'm impressed with the results of our new campaign." },
+                alternatives: "<strong>The results are very impressive.</strong><br><strong>These are fantastic results.</strong>"
+            },
+            {
+                eng: "I'm impressed with the design.", th: "ฉันประทับใจในการออกแบบ",
+                context: "ใช้ชมการออกแบบที่สวยงาม, สร้างสรรค์, และใช้งานได้ดี",
+                dialogue: { a: "What do you think of the new website?", b: "It's clean, modern, and easy to navigate. I'm impressed with the design." },
+                alternatives: "<strong>The design is beautiful.</strong><br><strong>This is great design work.</strong>"
+            },
+            {
+                eng: "I'm impressed with your honesty.", th: "ฉันประทับใจในความซื่อสัตย์ของคุณ",
+                context: "ใช้เมื่อมีคนกล้าที่จะพูดความจริงหรือยอมรับผิดอย่างตรงไปตรงมา",
+                dialogue: { a: "I have to admit, it was my mistake.", b: "Thank you for telling me. I'm impressed with your honesty." },
+                alternatives: "<strong>I appreciate your honesty.</strong><br><strong>Thank you for being upfront.</strong>"
+            },
+            {
+                eng: "I'm impressed with your resume.", th: "ฉันประทับใจในเรซูเม่ของคุณ",
+                context: "เป็นคำพูดที่ผู้สัมภาษณ์งานอาจใช้เพื่อชมประวัติและคุณสมบัติของผู้สมัคร",
+                dialogue: { a: "So, I've had a look at your file...", b: "...and I have to say, I'm impressed with your resume." },
+                alternatives: "<strong>You have a very strong resume.</strong>"
+            },
+            {
+                eng: "I'm impressed with your positive attitude.", th: "ฉันประทับใจในทัศนคติเชิงบวกของคุณ",
+                context: "ใช้ชื่นชมคนที่มีกำลังใจดีและมองโลกในแง่ดีอยู่เสมอ",
+                dialogue: { a: "Even after all the setbacks, you're still smiling.", b: "I try to be. I'm impressed with your positive attitude." },
+                alternatives: "<strong>I admire your positive outlook.</strong>"
+            },
+            {
+                eng: "I must say, I'm impressed.", th: "ต้องขอบอกเลยว่าฉันประทับใจมาก",
+                context: "ใช้ 'I must say' เพื่อเน้นย้ำความรู้สึกประทับใจอย่างจริงใจ",
+                dialogue: { a: "So, what did you think of my performance?", b: "I must say, I'm impressed. You were fantastic." },
+                alternatives: "<strong>To be honest, I'm very impressed.</strong>"
+            },
+            {
+                eng: "I'm impressed with the speed of delivery.", th: "ฉันประทับใจในความเร็วของการจัดส่ง",
+                context: "ใช้เมื่อสั่งของออนไลน์แล้วได้รับของเร็วกว่าที่คาดไว้มาก",
+                dialogue: { a: "My package is here already!", b: "Wow, you just ordered it yesterday. I'm impressed with the speed of delivery." },
+                alternatives: "<strong>That was surprisingly fast delivery.</strong>"
+            },
+            {
+                eng: "I'm not easily impressed.", th: "ฉันไม่ใช่คนที่จะประทับใจอะไรง่ายๆ",
+                context: "ใช้พูดเกริ่นก่อนที่จะชมอะไรบางอย่าง เพื่อเพิ่มน้ำหนักให้คำชมนั้นดูจริงใจและมีค่ามากขึ้น",
+                dialogue: { a: "What do you think?", b: "Well, I'm not easily impressed, but this is truly brilliant work." },
+                alternatives: "<strong>It takes a lot to impress me.</strong>"
+            },
+            {
+                eng: "I'm impressed by your knowledge.", th: "ฉันประทับใจในความรู้ของคุณ",
+                context: "ใช้ 'by' แทน 'with' ได้ในความหมายเดียวกัน เพื่อชื่นชมว่าอีกฝ่ายมีความรู้ในเรื่องใดเรื่องหนึ่งอย่างลึกซึ้ง",
+                dialogue: { a: "He can name every capital city in the world.", b: "I'm impressed by his knowledge of geography." },
+                alternatives: "<strong>You are very knowledgeable.</strong>"
+            },
+            {
+                eng: "I'm impressed that you remembered.", th: "ฉันประทับใจมากที่เธอจำได้",
+                context: "ใช้โครงสร้าง 'impressed that + clause' เพื่อแสดงความประทับใจในการกระทำของอีกฝ่าย",
+                dialogue: { a: "Happy birthday! This is for you.", b: "You remembered! I'm impressed that you remembered after all these years." },
+                alternatives: "<strong>I can't believe you remembered!</strong>"
+            },
+            {
+                eng: "He's trying to impress you.", th: "เขากำลังพยายามทำให้เธอประทับใจ",
+                context: "ใช้ในรูป 'trying to impress...' เพื่ออธิบายพฤติกรรมของบุคคลที่สาม",
+                dialogue: { a: "Why is he bragging so much?", b: "It's obvious. He's trying to impress you." },
+                alternatives: "<strong>He's just showing off for you.</strong>"
+            }
+        ];
+        
+        const grid = document.getElementById('sentences-grid');
+        const modal = document.getElementById('modal');
+        const modalHeader = document.getElementById('modal-header');
+        const modalEnglish = document.getElementById('modal-english');
+        const modalThai = document.getElementById('modal-thai');
+        const modalDetails = document.getElementById('modal-details');
+        const closeModalBtn = document.getElementById('close-modal-btn');
+
+        sentences.forEach((sentence, index) => {
+            const button = document.createElement('button');
+            button.className = `group sentence-btn p-5 rounded-lg text-left bg-white border-2 border-slate-300 hover:border-slate-500 hover:shadow-md`;
+            
+            button.innerHTML = `
+                <span class="font-poppins font-semibold text-slate-700 transition-colors duration-200">${sentence.eng}</span>
+                <span class="block text-sm text-slate-500 font-normal mt-1 transition-colors duration-200">${sentence.th}</span>
+            `;
+
+            button.addEventListener('click', () => openModal(sentence));
+            grid.appendChild(button);
+        });
+
+        function openModal(sentence) {
+            modalEnglish.textContent = sentence.eng;
+            modalThai.textContent = sentence.th;
+
+            modalDetails.innerHTML = `
+                <div class="p-4 bg-slate-100 rounded-lg">
+                    <h4 class="font-semibold text-lg text-slate-800 mb-2">💡 บริบทการใช้งาน (Context)</h4>
+                    <p class="text-slate-600">${sentence.context}</p>
+                </div>
+                <div class="p-4 bg-slate-100 rounded-lg">
+                    <h4 class="font-semibold text-lg text-slate-800 mb-2">💬 ตัวอย่างบทสนทนา (Dialogue)</h4>
+                    <div class="space-y-1 text-slate-600">
+                        <p><strong>A:</strong> ${sentence.dialogue.a}</p>
+                        <p><strong>B:</strong> ${sentence.dialogue.b}</p>
+                    </div>
+                </div>
+                <div class="p-4 bg-slate-100 rounded-lg">
+                    <h4 class="font-semibold text-lg text-slate-800 mb-2">🔄 คำที่เกี่ยวข้อง / ใช้แทนได้ (Alternatives)</h4>
+                    <div class="text-slate-600">${sentence.alternatives}</div>
+                </div>
+            `;
+
+            modal.classList.add('active');
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            modal.classList.add('opacity-0', 'pointer-events-none');
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        closeModalBtn.addEventListener('click', closeModal);
+        modal.addEventListener('click', (e) => {
+            if (e.target.id === 'modal') {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>

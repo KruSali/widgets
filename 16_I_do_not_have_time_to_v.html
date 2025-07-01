@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Structure #16 - I don't have time to + (verb)</title>
+    <title>Structure #16 - I don't have time to (with translation)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -214,8 +214,13 @@
 
         sentences.forEach((sentence, index) => {
             const button = document.createElement('button');
-            button.className = `sentence-btn p-5 rounded-md text-left font-poppins font-semibold bg-yellow-300 border-2 border-slate-800 text-slate-800 hover:bg-yellow-400`;
-            button.innerHTML = `<span>${sentence.eng}</span>`;
+            button.className = `group sentence-btn p-5 rounded-md text-left bg-yellow-300 border-2 border-slate-800 hover:bg-yellow-400`;
+            
+            button.innerHTML = `
+                <span class="font-poppins font-semibold text-slate-800 transition-colors duration-200">${sentence.eng}</span>
+                <span class="block text-sm text-slate-700/80 font-normal mt-1 transition-colors duration-200">${sentence.th}</span>
+            `;
+
             button.addEventListener('click', () => openModal(sentence));
             grid.appendChild(button);
         });

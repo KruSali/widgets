@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Structure #8 - I used to + (verb)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Mitr:wght@300;400;500;600&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Mitr', sans-serif;
+        }
+        .font-poppins {
+            font-family: 'Poppins', sans-serif;
+        }
+        .sentence-btn {
+            transition: all 0.2s ease-in-out;
+        }
+        #modal {
+            transition: opacity 0.3s ease;
+        }
+        .modal-content-container {
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            opacity: 0;
+            transform: translateY(20px) scale(0.95);
+        }
+        #modal.active .modal-content-container {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+    </style>
+</head>
+<body class="bg-amber-50">
+
+    <div class="container mx-auto p-4 sm:p-6 lg:p-8">
+
+        <header class="text-center mb-10">
+            <h1 class="text-4xl sm:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-amber-700 to-orange-600 font-poppins">Structure #8</h1>
+            <h2 class="text-2xl sm:text-3xl font-bold text-slate-800 mt-2 font-poppins">"I used to + (verb)"</h2>
+            <p class="text-slate-600 mt-4 max-w-2xl mx-auto text-lg">
+                โครงสร้างสำคัญที่ใช้เล่าถึง <strong class="text-amber-700">นิสัย, สภาพ, หรือการกระทำ</strong> ที่เคยทำเป็นประจำในอดีต แต่ <strong class="text-orange-600">ปัจจุบันไม่ได้ทำแล้ว</strong>
+            </p>
+        </header>
+
+        <main id="sentences-grid" class="grid grid-cols-1 md:grid-cols-2 gap-5">
+            </main>
+
+        <footer class="text-center mt-12">
+            <p class="text-slate-700 font-medium">อังกฤษฉบับคนเรียนไม่รู้เรื่อง โดยครูสาลี่</p>
+        </footer>
+
+    </div>
+
+    <div id="modal" class="fixed inset-0 bg-black bg-opacity-60 flex justify-center items-center p-4 z-50 opacity-0 pointer-events-none">
+        <div class="modal-content-container w-full max-w-2xl max-h-[90vh] overflow-y-auto bg-slate-50 rounded-2xl shadow-2xl">
+            <div id="modal-header" class="p-6 sm:p-8 rounded-t-2xl bg-gradient-to-r from-amber-600 to-orange-700">
+                <p id="modal-english" class="font-poppins font-bold text-2xl text-white text-center"></p>
+                <p id="modal-thai" class="text-xl text-white text-center mt-2 opacity-90"></p>
+            </div>
+            <div class="p-6 sm:p-8">
+                <div id="modal-details" class="space-y-5">
+                    </div>
+                <div class="text-center mt-8">
+                    <button id="close-modal-btn" class="bg-slate-600 hover:bg-slate-700 text-white font-bold py-2 px-8 rounded-full shadow-lg transform hover:scale-105 transition-transform duration-300">
+                        ปิด
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const sentences = [
+            {
+                eng: "I used to live in London.", th: "ฉันเคยอาศัยอยู่ที่ลอนดอน",
+                context: "ใช้บอกถึงสถานที่ที่เคยอาศัยอยู่เป็นระยะเวลาหนึ่งในอดีต แต่ปัจจุบันไม่ได้อยู่ที่นั่นแล้ว",
+                dialogue: { a: "You know London so well!", b: "I should! I used to live in London for five years." },
+                alternatives: "<strong>I lived in London before.</strong> (ฉันเคยอยู่ลอนดอนมาก่อน)<br><strong>London was my home once.</strong> (ลอนดอนเคยเป็นบ้านของฉัน)"
+            },
+            {
+                eng: "I used to smoke.", th: "ฉันเคยสูบบุหรี่",
+                context: "ใช้บอกถึงนิสัยในอดีตที่เลิกทำไปแล้ว ประโยคนี้มีความหมายโดยนัยว่า 'ตอนนี้ฉันไม่สูบแล้ว'",
+                dialogue: { a: "Do you want a cigarette?", b: "No, thanks. I used to smoke, but I quit last year." },
+                alternatives: "<strong>I quit smoking.</strong> (ฉันเลิกบุหรี่แล้ว)<br><strong>I'm an ex-smoker.</strong> (ฉันเป็นคนที่เคยสูบบุหรี่)"
+            },
+            {
+                eng: "I used to have long hair.", th: "ฉันเคยไว้ผมยาว",
+                context: "ใช้อธิบายลักษณะภายนอกในอดีตที่ตอนนี้เปลี่ยนแปลงไปแล้ว",
+                dialogue: { a: "I almost didn't recognize you!", b: "I know, right? I used to have long hair." },
+                alternatives: "<strong>I had long hair back in the day.</strong><br><strong>I cut my long hair off.</strong>"
+            },
+            {
+                eng: "I used to be very shy.", th: "ฉันเคยเป็นคนขี้อายมากๆ",
+                context: "ใช้อธิบายลักษณะนิสัยหรือตัวตนในอดีตที่ตอนนี้ไม่เป็นแล้ว",
+                dialogue: { a: "You're so confident on stage.", b: "Thanks. It's funny, because I used to be very shy." },
+                alternatives: "<strong>I was shy when I was younger.</strong><br><strong>I've grown out of my shyness.</strong> (ฉันโตขึ้นจนหายขี้อายแล้ว)"
+            },
+            {
+                eng: "I used to hate vegetables.", th: "ฉันเคยเกลียดผัก",
+                context: "ใช้บอกถึงความชอบหรือไม่ชอบในอดีตที่ตอนนี้เปลี่ยนไปในทางตรงกันข้าม",
+                dialogue: { a: "You're eating a big salad!", b: "I know. I used to hate vegetables, but now I love them." },
+                alternatives: "<strong>I didn't like vegetables as a kid.</strong><br><strong>I've learned to like vegetables.</strong>"
+            },
+            {
+                eng: "I used to work at that company.", th: "ฉันเคยทำงานที่บริษัทนั้น",
+                context: "ใช้บอกถึงสถานที่ทำงานในอดีตที่ตอนนี้ไม่ได้ทำแล้ว",
+                dialogue: { a: "Do you know John from ABC Corp?", b: "Yes, I used to work at that company with him." },
+                alternatives: "<strong>I worked there before.</strong><br><strong>That was my former company.</strong>"
+            },
+            {
+                eng: "I used to play basketball every day.", th: "ฉันเคยเล่นบาสเกตบอลทุกวัน",
+                context: "ใช้อธิบายกิจกรรมหรือกิจวัตรที่เคยทำเป็นประจำในอดีต แต่ตอนนี้ไม่ได้ทำบ่อยเท่าเดิมหรือเลิกทำไปแล้ว",
+                dialogue: { a: "You're really good at basketball.", b: "Thanks. I used to play basketball every day when I was in college." },
+                alternatives: "<strong>I played basketball a lot in the past.</strong><br><strong>I don't play as much as I used to.</strong>"
+            },
+            {
+                eng: "I used to bite my nails.", th: "ฉันเคยกัดเล็บ",
+                context: "ใช้บอกถึงนิสัยที่ไม่ดีในอดีตที่ตอนนี้เลิกทำได้แล้ว",
+                dialogue: { a: "Your nails look so healthy.", b: "Thank you! I used to bite my nails all the time." },
+                alternatives: "<strong>That was a bad habit of mine.</strong><br><strong>I managed to stop biting my nails.</strong>"
+            },
+            {
+                eng: "I used to be a teacher.", th: "ฉันเคยเป็นครู",
+                context: "ใช้อธิบายอาชีพในอดีตที่ตอนนี้ไม่ได้ทำแล้ว",
+                dialogue: { a: "You're so good at explaining things.", b: "Maybe it's because I used to be a teacher." },
+                alternatives: "<strong>Teaching was my previous career.</strong><br><strong>I was a teacher before I became a writer.</strong>"
+            },
+            {
+                eng: "I used to think it was easy.", th: "ฉันเคยคิดว่ามันง่าย",
+                context: "ใช้บอกถึงความคิดหรือความเชื่อในอดีตที่ตอนนี้ได้เรียนรู้แล้วว่ามันไม่เป็นความจริง",
+                dialogue: { a: "Being a parent is hard work.", b: "I agree. Before I had kids, I used to think it was easy." },
+                alternatives: "<strong>I mistakenly thought it was easy.</strong><br><strong>I underestimated how hard it would be.</strong>"
+            },
+            {
+                eng: "I used to have a crush on him.", th: "ฉันเคยแอบชอบเขา",
+                context: "ใช้เล่าถึงความรู้สึกหรือความสัมพันธ์ในอดีตที่ตอนนี้จบลงแล้ว",
+                dialogue: { a: "Isn't that Mark from high school?", b: "Wow, yes! I can't believe I used to have a crush on him." },
+                alternatives: "<strong>I liked him back in high school.</strong>"
+            },
+            {
+                eng: "We used to be close friends.", th: "เราเคยเป็นเพื่อนสนิทกัน",
+                context: "ใช้อธิบายความสัมพันธ์ในอดีตที่ตอนนี้ห่างเหินกันไปแล้ว",
+                dialogue: { a: "Do you still talk to Amy?", b: "Not really. We used to be close friends, but we drifted apart." },
+                alternatives: "<strong>We were close friends once.</strong><br><strong>We've lost touch over the years.</strong>"
+            },
+            {
+                eng: "I used to wear glasses.", th: "ฉันเคยใส่แว่น",
+                context: "ใช้อธิบายสิ่งที่เคยเป็นส่วนหนึ่งของเราในอดีต แต่ตอนนี้ไม่แล้ว (อาจจะเพราะไปทำเลสิกหรือใส่คอนแทคเลนส์)",
+                dialogue: { a: "You look different in this old photo.", b: "That's because I used to wear glasses." },
+                alternatives: "<strong>I wore glasses before I got contacts.</strong>"
+            },
+            {
+                eng: "I used to believe in Santa Claus.", th: "ฉันเคยเชื่อว่าซานตาคลอสมีจริง",
+                context: "ใช้พูดถึงความเชื่อในวัยเด็กที่ตอนนี้รู้แล้วว่าไม่เป็นความจริง",
+                dialogue: { a: "Christmas was so magical as a child.", b: "I know. I used to believe in Santa Claus." },
+                alternatives: "<strong>When I was a kid, I believed in Santa Claus.</strong>"
+            },
+            {
+                eng: "I used to be able to run a mile in 5 minutes.", th: "ฉันเคยสามารถวิ่งหนึ่งไมล์ได้ใน 5 นาที",
+                context: "ใช้บอกถึงความสามารถทางกายในอดีตที่ตอนนี้ทำไม่ได้แล้ว",
+                dialogue: { a: "I get tired just climbing the stairs.", b: "Me too. It's hard to believe I used to be able to run a mile in 5 minutes." },
+                alternatives: "<strong>Back in my prime, I could run a mile in 5 minutes.</strong>"
+            },
+            {
+                eng: "I used to live with three roommates.", th: "ฉันเคยอยู่กับเพื่อนร่วมห้องสามคน",
+                context: "ใช้อธิบายสภาพการใช้ชีวิตในอดีตที่ตอนนี้เปลี่ยนแปลงไปแล้ว",
+                dialogue: { a: "It must be nice living alone.", b: "It is! I used to live with three roommates, and it was chaotic." },
+                alternatives: "<strong>I had three roommates in college.</strong>"
+            },
+            {
+                eng: "I used to be afraid of dogs.", th: "ฉันเคยกลัวหมา",
+                context: "ใช้บอกถึงความกลัวในอดีตที่ตอนนี้เอาชนะได้แล้ว",
+                dialogue: { a: "Your dog is so cute!", b: "Thanks! It's funny, I used to be afraid of dogs." },
+                alternatives: "<strong>I'm not afraid of dogs anymore.</strong><br><strong>I've overcome my fear of dogs.</strong>"
+            },
+            {
+                eng: "I used to drink coffee every morning.", th: "ฉันเคยดื่มกาแฟทุกเช้า",
+                context: "บอกถึงกิจวัตรประจำวันที่ตอนนี้เปลี่ยนแปลงไปแล้ว",
+                dialogue: { a: "You're drinking tea?", b: "Yes, I switched. I used to drink coffee every morning, but it gave me anxiety." },
+                alternatives: "<strong>I stopped drinking coffee in the morning.</strong>"
+            },
+            {
+                eng: "This building used to be a cinema.", th: "ตึกนี้เคยเป็นโรงหนังมาก่อน",
+                context: "ใช้ 'It/This used to be...' เพื่ออธิบายหน้าที่หรือสภาพของสถานที่ในอดีต",
+                dialogue: { a: "What is this supermarket building so grand?", b: "That's because this building used to be a cinema." },
+                alternatives: "<strong>This was a cinema in the past.</strong><br><strong>Formerly, this building was a cinema.</strong>"
+            },
+            {
+                eng: "I didn't use to like spicy food.", th: "เมื่อก่อนฉันไม่เคยชอบอาหารรสเผ็ด",
+                context: "ใช้รูปปฏิเสธ 'didn't use to' เพื่อบอกว่าสิ่งนี้ไม่เป็นความจริงในอดีต (แต่ตอนนี้อาจจะเป็นแล้ว)",
+                dialogue: { a: "You're eating Som Tum? I thought you couldn't handle spice.", b: "I didn't use to like spicy food, but now I love it!" },
+                alternatives: "<strong>I wasn't a fan of spicy food before.</strong><br><strong>I've developed a taste for spicy food.</strong>"
+            }
+        ];
+        
+        const grid = document.getElementById('sentences-grid');
+        const modal = document.getElementById('modal');
+        const modalHeader = document.getElementById('modal-header');
+        const modalEnglish = document.getElementById('modal-english');
+        const modalThai = document.getElementById('modal-thai');
+        const modalDetails = document.getElementById('modal-details');
+        const closeModalBtn = document.getElementById('close-modal-btn');
+
+        sentences.forEach((sentence, index) => {
+            const button = document.createElement('button');
+            button.className = `sentence-btn p-5 rounded-lg text-left font-poppins font-semibold bg-white border-2 border-amber-600 text-amber-700 hover:bg-amber-600 hover:text-white`;
+            button.innerHTML = `<span>${sentence.eng}</span>`;
+            button.addEventListener('click', () => openModal(sentence));
+            grid.appendChild(button);
+        });
+
+        function openModal(sentence) {
+            modalEnglish.textContent = sentence.eng;
+            modalThai.textContent = sentence.th;
+
+            modalDetails.innerHTML = `
+                <div class="p-4 bg-slate-100 rounded-lg">
+                    <h4 class="font-semibold text-lg text-slate-800 mb-2">💡 บริบทการใช้งาน (Context)</h4>
+                    <p class="text-slate-600">${sentence.context}</p>
+                </div>
+                <div class="p-4 bg-slate-100 rounded-lg">
+                    <h4 class="font-semibold text-lg text-slate-800 mb-2">💬 ตัวอย่างบทสนทนา (Dialogue)</h4>
+                    <div class="space-y-1 text-slate-600">
+                        <p><strong>A:</strong> ${sentence.dialogue.a}</p>
+                        <p><strong>B:</strong> ${sentence.dialogue.b}</p>
+                    </div>
+                </div>
+                <div class="p-4 bg-slate-100 rounded-lg">
+                    <h4 class="font-semibold text-lg text-slate-800 mb-2">🔄 คำที่เกี่ยวข้อง / ใช้แทนได้ (Alternatives)</h4>
+                    <div class="text-slate-600">${sentence.alternatives}</div>
+                </div>
+            `;
+
+            modal.classList.add('active');
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            modal.classList.add('opacity-0', 'pointer-events-none');
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        closeModalBtn.addEventListener('click', closeModal);
+        modal.addEventListener('click', (e) => {
+            if (e.target.id === 'modal') {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>

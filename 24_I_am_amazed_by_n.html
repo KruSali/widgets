@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Structure #24 - I'm amazed by...</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Mitr:wght@300;400;500;600&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Mitr', sans-serif;
+        }
+        .font-poppins {
+            font-family: 'Poppins', sans-serif;
+        }
+        .sentence-btn {
+            transition: all 0.2s ease-in-out;
+        }
+        #modal {
+            transition: opacity 0.3s ease;
+        }
+        .modal-content-container {
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            opacity: 0;
+            transform: translateY(20px) scale(0.95);
+        }
+        #modal.active .modal-content-container {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+    </style>
+</head>
+<body class="bg-slate-900">
+
+    <div class="container mx-auto p-4 sm:p-6 lg:p-8">
+
+        <header class="text-center mb-10">
+            <h1 class="text-4xl sm:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 font-poppins">Structure #24</h1>
+            <h2 class="text-2xl sm:text-3xl font-bold text-white mt-2 font-poppins">"I'm amazed by + (noun)"</h2>
+            <p class="text-indigo-200 mt-4 max-w-2xl mx-auto text-lg">
+                ใช้เพื่อแสดงความรู้สึก <strong class="text-indigo-300">"ทึ่ง, อึ้ง, หรือประทับใจอย่างยิ่ง"</strong> ต่อสิ่งใดสิ่งหนึ่ง เป็นความประหลาดใจในเชิงบวกที่เต็มไปด้วยความชื่นชมในความสามารถ, ความสวยงาม, หรือความยิ่งใหญ่
+            </p>
+        </header>
+
+        <main id="sentences-grid" class="grid grid-cols-1 md:grid-cols-2 gap-5">
+            </main>
+
+        <footer class="text-center mt-12">
+            <p class="text-indigo-300 font-medium text-sm">อังกฤษฉบับคนเรียนไม่รู้เรื่อง โดยครูสาลี่</p>
+        </footer>
+
+    </div>
+
+    <div id="modal" class="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center p-4 z-50 opacity-0 pointer-events-none">
+        <div class="modal-content-container w-full max-w-2xl max-h-[90vh] overflow-y-auto bg-slate-800 rounded-2xl shadow-2xl border border-slate-700">
+            <div id="modal-header" class="p-6 sm:p-8 rounded-t-2xl bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600">
+                <p id="modal-english" class="font-poppins font-bold text-2xl text-white text-center"></p>
+                <p id="modal-thai" class="text-xl text-white text-center mt-2 opacity-90"></p>
+            </div>
+            <div class="p-6 sm:p-8">
+                <div id="modal-details" class="space-y-5">
+                    </div>
+                <div class="text-center mt-8">
+                    <button id="close-modal-btn" class="bg-slate-600 hover:bg-slate-500 text-white font-bold py-2 px-8 rounded-full shadow-lg transform hover:scale-105 transition-transform duration-300">
+                        ปิด
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const sentences = [
+            {
+                eng: "I'm amazed by your talent.", th: "พรสวรรค์ของคุณทำฉันอึ้งไปเลย",
+                context: "ใช้เพื่อชื่นชมความสามารถหรือพรสวรรค์ของใครบางคนอย่างสูงสุด แสดงความประทับใจอย่างมากในสิ่งที่เขาทำได้",
+                dialogue: { a: "Did you paint this yourself? It looks like a photograph.", b: "I did. It took a while.", a: "Wow. I'm amazed by your talent." },
+                alternatives: "<strong>I'm in awe of your talent.</strong> (ฉันทึ่งในพรสวรรค์ของคุณ)<br><strong>Your talent is astonishing.</strong> (พรสวรรค์ของคุณน่าทึ่งมาก)<br><strong>I'm blown away by your talent.</strong> (ไม่เป็นทางการ)"
+            },
+            {
+                eng: "I'm amazed by the view from up here.", th: "วิวจากข้างบนนี้ทำฉันอึ้งไปเลย",
+                context: "ใช้เมื่อเห็นทิวทัศน์ที่สวยงามอย่างยิ่งยวดจนน่าประทับใจและน่าทึ่ง",
+                dialogue: { a: "We finally made it to the top of the mountain.", b: "Look at that sunset. I'm amazed by the view from up here." },
+                alternatives: "<strong>The view is breathtaking.</strong> (วิวสวยจนลืมหายใจ)<br><strong>This view is absolutely incredible.</strong>"
+            },
+            {
+                eng: "I'm amazed by her kindness.", th: "ความใจดีของเธอทำฉันทึ่งไปเลย",
+                context: "ใช้เมื่อประทับใจในความมีน้ำใจหรือความเมตตาของใครบางคนอย่างสุดซึ้ง",
+                dialogue: { a: "She donated her entire lottery winning to charity.", b: "I heard. I'm amazed by her kindness." },
+                alternatives: "<strong>Her kindness is truly amazing.</strong><br><strong>I'm so impressed by her kindness.</strong>"
+            },
+            {
+                eng: "I'm amazed by the level of detail.", th: "รายละเอียดของงานทำฉันอึ้งไปเลย",
+                context: "ใช้เมื่อชื่นชมผลงานที่มีความละเอียดอ่อนซับซ้อนและทำออกมาได้อย่างยอดเยี่ยม",
+                dialogue: { a: "Look at this miniature model.", b: "Every tiny piece is perfect. I'm amazed by the level of detail." },
+                alternatives: "<strong>The attention to detail is incredible.</strong><br><strong>The craftsmanship is amazing.</strong>"
+            },
+            {
+                eng: "I'm amazed by his progress.", th: "พัฒนาการของเขาทำฉันทึ่งไปเลย",
+                context: "ใช้เมื่อเห็นใครบางคนพัฒนาไปอย่างรวดเร็วและยอดเยี่ยมเกินกว่าที่คาด",
+                dialogue: { a: "He only started learning piano six months ago.", b: "And now he can play Chopin? I'm amazed by his progress." },
+                alternatives: "<strong>His progress is remarkable.</strong><br><strong>He has improved so much.</strong>"
+            },
+            {
+                eng: "I'm amazed by the power of nature.", th: "พลังของธรรมชาติทำฉันทึ่งไปเลย",
+                context: "ใช้เมื่อได้เห็นปรากฏการณ์ทางธรรมชาติที่ยิ่งใหญ่และทรงพลัง เช่น พายุ, ภูเขาไฟ, หรือคลื่นยักษ์",
+                dialogue: { a: "Did you see the footage of the volcanic eruption?", b: "Yes. I'm amazed by the power of nature." },
+                alternatives: "<strong>Nature is truly awesome.</strong> ('Awesome' ในความหมายดั้งเดิมคือ 'น่าเกรงขาม')"
+            },
+            {
+                eng: "I'm amazed by what you have achieved.", th: "สิ่งที่เธอทำสำเร็จมาทำฉันอึ้งไปเลย",
+                context: "ใช้ชื่นชมความสำเร็จในชีวิตของอีกฝ่าย ที่ต้องผ่านความพยายามมาอย่างมาก",
+                dialogue: { a: "She started with nothing and now she's a CEO.", b: "I know her story. I'm amazed by what she has achieved." },
+                alternatives: "<strong>Your achievements are incredible.</strong><br><strong>It's amazing what you've accomplished.</strong>"
+            },
+            {
+                eng: "I'm amazed by their performance.", th: "การแสดงของพวกเขาทำฉันอึ้งไปเลย",
+                context: "ใช้หลังจากดูการแสดงที่ยอดเยี่ยม ไม่ว่าจะเป็นดนตรี, การละคร, หรือกีฬา",
+                dialogue: { a: "That was the best concert I've ever been to.", b: "Me too. I'm amazed by their performance tonight." },
+                alternatives: "<strong>Their performance was out of this world.</strong> (การแสดงของพวกเขาสุดยอดมาก)<br><strong>They put on an amazing show.</strong>"
+            },
+            {
+                eng: "I'm amazed by the architecture.", th: "สถาปัตยกรรม (ของที่นี่) ทำฉันทึ่งไปเลย",
+                context: "ใช้เมื่อไปเยี่ยมชมอาคารหรือสิ่งก่อสร้างที่มีการออกแบบที่สวยงามหรือน่าทึ่ง",
+                dialogue: { a: "This cathedral is over 500 years old.", b: "It's magnificent. I'm amazed by the architecture." },
+                alternatives: "<strong>The architecture is stunning.</strong><br><strong>What an incredible building.</strong>"
+            },
+            {
+                eng: "I'm amazed by your courage.", th: "ความกล้าหาญของคุณทำฉันทึ่งไปเลย",
+                context: "ใช้เพื่อชื่นชมคนที่กล้าเผชิญหน้ากับความกลัวหรือสถานการณ์ที่ยากลำบาก",
+                dialogue: { a: "He ran into the burning building to save the cat.", b: "I saw that. I'm amazed by his courage." },
+                alternatives: "<strong>You are so brave.</strong><br><strong>That took a lot of courage.</strong>"
+            },
+            {
+                eng: "I'm amazed by the technology.", th: "เทคโนโลยี (ของสิ่งนี้) ทำฉันอึ้งไปเลย",
+                context: "ใช้เมื่อได้สัมผัสกับเทคโนโลยีใหม่ๆ ที่ล้ำสมัยและมีความสามารถที่น่าทึ่ง",
+                dialogue: { a: "This new phone can translate languages in real-time.", b: "No way. Let me see. I'm amazed by the technology." },
+                alternatives: "<strong>This technology is incredible.</strong><br><strong>It's amazing what technology can do now.</strong>"
+            },
+            {
+                eng: "I'm amazed by her ability to stay positive.", th: "ความสามารถในการมองโลกในแง่ดีของเธอทำฉันทึ่งไปเลย",
+                context: "ใช้ชื่นชมคนที่มีทัศนคติที่ดีเยี่ยม แม้จะอยู่ในสถานการณ์ที่ยากลำบาก",
+                dialogue: { a: "After everything she's been through, she's still smiling.", b: "I know. I'm amazed by her ability to stay positive." },
+                alternatives: "<strong>Her positivity is inspiring.</strong><br><strong>She has such a strong spirit.</strong>"
+            },
+            {
+                eng: "I'm amazed by how quickly you learn.", th: "การเรียนรู้ที่รวดเร็วของเธอทำฉันอึ้งไปเลย",
+                context: "ใช้ชื่นชมคนที่เรียนรู้หรือปรับตัวเข้ากับสิ่งใหม่ๆ ได้อย่างรวดเร็ว",
+                dialogue: { a: "You've only been here a week and you already know the whole system.", b: "I'm amazed by how quickly you learn." },
+                alternatives: "<strong>You're a very quick learner.</strong><br><strong>You pick things up so fast.</strong>"
+            },
+            {
+                eng: "I'm amazed by your generosity.", th: "ความใจกว้างของเธอทำฉันทึ่งไปเลย",
+                context: "ใช้เพื่อขอบคุณและแสดงความประทับใจในการให้ที่ยิ่งใหญ่ของใครบางคน",
+                dialogue: { a: "Thank you for the huge donation to our cause.", b: "I'm amazed by your generosity." },
+                alternatives: "<strong>You are incredibly generous.</strong><br><strong>That is so generous of you.</strong>"
+            },
+            {
+                eng: "I'm amazed by the complexity of the universe.", th: "ความซับซ้อนของจักรวาลทำฉันทึ่งไปเลย",
+                context: "ใช้เมื่อครุ่นคิดถึงเรื่องราวที่ยิ่งใหญ่และซับซ้อนเกินกว่าความเข้าใจ",
+                dialogue: { a: "When you look at the stars, what do you think?", b: "I'm amazed by the complexity of the universe." },
+                alternatives: "<strong>The universe is mind-boggling.</strong>"
+            },
+            {
+                eng: "I'm amazed at the price.", th: "ราคาทำฉันอึ้งไปเลย",
+                context: "ใช้ 'at' แทน 'by' ได้ในหลายกรณี ประโยคนี้ใช้เมื่อเจอราคาที่ถูกหรือแพงอย่างไม่น่าเชื่อ",
+                dialogue: { a: "This designer bag is on sale for only $10.", b: "What? I'm amazed at the price. Is it real?" },
+                alternatives: "<strong>That price is unbelievable.</strong><br><strong>I can't believe how cheap/expensive it is.</strong>"
+            },
+            {
+                eng: "I'm amazed that you remembered.", th: "ฉันทึ่งมากเลยที่เธอจำได้",
+                context: "ใช้โครงสร้าง 'amazed that + clause' เพื่อแสดงความประทับใจในการกระทำของอีกฝ่าย",
+                dialogue: { a: "Happy anniversary! I got you something.", b: "Oh, honey! I'm amazed that you remembered." },
+                alternatives: "<strong>I can't believe you remembered!</strong>"
+            },
+            {
+                eng: "I'm still amazed by it all.", th: "ฉันยังคงทึ่งกับเรื่องทั้งหมดอยู่เลย",
+                context: "ใช้ 'still amazed' เพื่อบอกว่าความรู้สึกทึ่งนั้นยังคงอยู่ แม้เวลาจะผ่านไปแล้ว",
+                dialogue: { a: "It's been a week since we won the championship.", b: "I know. I'm still amazed by it all." },
+                alternatives: "<strong>I still can't get over it.</strong>"
+            },
+            {
+                eng: "To this day, I'm amazed by her story.", th: "จนถึงทุกวันนี้ ฉันก็ยังทึ่งกับเรื่องราวของเธอ",
+                context: "ใช้ 'To this day' เพื่อเน้นว่าเรื่องราวในอดีตนั้นยังคงสร้างความประทับใจให้เราอยู่เสมอ",
+                dialogue: { a: "Do you remember our first teacher?", b: "Yes. To this day, I'm amazed by her story of survival." },
+                alternatives: "<strong>Her story still amazes me.</strong>"
+            },
+            {
+                eng: "Honestly, I'm not easily amazed.", th: "พูดตามตรงนะ ฉันไม่ใช่คนที่จะทึ่งกับอะไรง่ายๆ",
+                context: "ใช้เพื่อบอกว่าโดยปกติแล้วตัวเองเป็นคนที่ประทับใจในสิ่งต่างๆ ได้ยาก (มักจะพูดเกริ่นก่อนที่จะชมอะไรบางอย่างเพื่อเพิ่มน้ำหนัก)",
+                dialogue: { a: "What did you think of the magic show?", b: "Honestly, I'm not easily amazed, but that last trick was incredible." },
+                alternatives: "<strong>It takes a lot to impress me.</strong>"
+            }
+        ];
+        
+        const grid = document.getElementById('sentences-grid');
+        const modal = document.getElementById('modal');
+        const modalHeader = document.getElementById('modal-header');
+        const modalEnglish = document.getElementById('modal-english');
+        const modalThai = document.getElementById('modal-thai');
+        const modalDetails = document.getElementById('modal-details');
+        const closeModalBtn = document.getElementById('close-modal-btn');
+
+        sentences.forEach((sentence, index) => {
+            const button = document.createElement('button');
+            button.className = `group sentence-btn p-5 rounded-lg text-left bg-slate-800 border border-indigo-500 hover:bg-indigo-500 hover:border-indigo-400`;
+            
+            button.innerHTML = `
+                <span class="font-poppins font-semibold text-indigo-300 group-hover:text-white transition-colors duration-200">${sentence.eng}</span>
+                <span class="block text-sm text-slate-400 font-normal mt-1 group-hover:text-indigo-100 transition-colors duration-200">${sentence.th}</span>
+            `;
+
+            button.addEventListener('click', () => openModal(sentence));
+            grid.appendChild(button);
+        });
+
+        function openModal(sentence) {
+            modalEnglish.textContent = sentence.eng;
+            modalThai.textContent = sentence.th;
+
+            modalDetails.innerHTML = `
+                <div class="p-4 bg-slate-700 rounded-lg text-slate-300">
+                    <h4 class="font-semibold text-lg text-white mb-2">💡 บริบทการใช้งาน (Context)</h4>
+                    <p>${sentence.context}</p>
+                </div>
+                <div class="p-4 bg-slate-700 rounded-lg text-slate-300">
+                    <h4 class="font-semibold text-lg text-white mb-2">💬 ตัวอย่างบทสนทนา (Dialogue)</h4>
+                    <div class="space-y-1">
+                        <p><strong>A:</strong> ${sentence.dialogue.a}</p>
+                        <p><strong>B:</strong> ${sentence.dialogue.b}</p>
+                    </div>
+                </div>
+                <div class="p-4 bg-slate-700 rounded-lg text-slate-300">
+                    <h4 class="font-semibold text-lg text-white mb-2">🔄 คำที่เกี่ยวข้อง / ใช้แทนได้ (Alternatives)</h4>
+                    <div class="text-slate-300">${sentence.alternatives}</div>
+                </div>
+            `;
+
+            modal.classList.add('active');
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            modal.classList.add('opacity-0', 'pointer-events-none');
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        closeModalBtn.addEventListener('click', closeModal);
+        modal.addEventListener('click', (e) => {
+            if (e.target.id === 'modal') {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>

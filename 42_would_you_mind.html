@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Structure #42 - Would you mind + (verb-ing)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Mitr:wght@300;400;500;600&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Mitr', sans-serif;
+        }
+        .font-poppins {
+            font-family: 'Poppins', sans-serif;
+        }
+        .sentence-btn {
+            transition: all 0.2s ease-in-out;
+        }
+        #modal {
+            transition: opacity 0.3s ease;
+        }
+        .modal-content-container {
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            opacity: 0;
+            transform: translateY(20px) scale(0.95);
+        }
+        #modal.active .modal-content-container {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+    </style>
+</head>
+<body class="bg-rose-50">
+
+    <div class="container mx-auto p-4 sm:p-6 lg:p-8">
+
+        <header class="text-center mb-10">
+            <h1 class="text-4xl sm:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-rose-500 to-pink-500 font-poppins">Structure #42</h1>
+            <h2 class="text-2xl sm:text-3xl font-bold text-slate-800 mt-2 font-poppins">"Would you mind + (verb-ing)...?"</h2>
+            <p class="text-slate-600 mt-4 max-w-2xl mx-auto text-lg">
+                เป็นวิธีขอร้องที่ <strong class="text-rose-600">"สุภาพและเกรงใจที่สุด"</strong> แปลตรงตัวว่า "คุณจะรังเกียจไหมถ้าจะ..."<br>
+                <strong class="text-red-600">กฎสำคัญมาก:</strong> 1. ต้องตามด้วย <strong class="text-rose-600">กริยาเติม -ing</strong> เสมอ! 2. ถ้า "ยินดีช่วย" ต้องตอบว่า <strong class="text-pink-600">"No"</strong> (ไม่รังเกียจ)
+            </p>
+        </header>
+
+        <main id="sentences-grid" class="grid grid-cols-1 md:grid-cols-2 gap-5">
+            </main>
+
+        <footer class="text-center mt-12">
+            <p class="text-slate-700 font-medium">อังกฤษฉบับคนเรียนไม่รู้เรื่อง โดยครูสาลี่</p>
+        </footer>
+
+    </div>
+
+    <div id="modal" class="fixed inset-0 bg-black bg-opacity-60 flex justify-center items-center p-4 z-50 opacity-0 pointer-events-none">
+        <div class="modal-content-container w-full max-w-2xl max-h-[90vh] overflow-y-auto bg-slate-50 rounded-2xl shadow-2xl">
+            <div id="modal-header" class="p-6 sm:p-8 rounded-t-2xl bg-gradient-to-r from-rose-500 to-pink-500">
+                <p id="modal-english" class="font-poppins font-bold text-2xl text-white text-center"></p>
+                <p id="modal-thai" class="text-xl text-white text-center mt-2 opacity-90"></p>
+            </div>
+            <div class="p-6 sm:p-8">
+                <div id="modal-details" class="space-y-5">
+                    </div>
+                <div class="text-center mt-8">
+                    <button id="close-modal-btn" class="bg-slate-600 hover:bg-slate-700 text-white font-bold py-2 px-8 rounded-full shadow-lg transform hover:scale-105 transition-transform duration-300">
+                        ปิด
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const sentences = [
+            {
+                eng: "Would you mind closing the window?", th: "คุณจะว่าอะไรไหมถ้าจะช่วยปิดหน้าต่างให้หน่อย",
+                context: "เป็นวิธีขอร้องที่สุภาพและนุ่มนวลมากเมื่อต้องการให้ใครบางคนทำอะไรให้ โดยเฉพาะคนที่เราไม่รู้จักหรือผู้ใหญ่",
+                dialogue: { a: "It's a bit chilly in here.", b: "Excuse me, would you mind closing the window?", c: "Oh, no, not at all. Of course." },
+                alternatives: "<strong>Could you close the window, please?</strong> (สุภาพ)<br><strong>Can you close the window?</strong> (ไม่เป็นทางการ)"
+            },
+            {
+                eng: "Would you mind helping me with this?", th: "คุณจะว่าอะไรไหมถ้าจะช่วยฉันเรื่องนี้หน่อย",
+                context: "ใช้เมื่อต้องการขอความช่วยเหลือในเรื่องที่อาจจะใช้เวลาหรือความพยายามของอีกฝ่าย",
+                dialogue: { a: "This box is too heavy for me.", b: "Would you mind helping me with this?", a: "No problem at all." },
+                alternatives: "<strong>Could you give me a hand with this?</strong> (สำนวน: ช่วยฉันหน่อยได้ไหม)<br><strong>I need some help with this.</strong>"
+            },
+            {
+                eng: "Would you mind turning down the music?", th: "คุณจะว่าอะไรไหมถ้าจะช่วยลดเสียงเพลงลงหน่อย",
+                context: "วิธีที่สุภาพมากในการขอให้ใครบางคนลดเสียงที่ดังรบกวน",
+                dialogue: { a: "I'm trying to work.", b: "I understand. Would you mind turning down the music a little?", a: "Oh, sorry! Of course not." },
+                alternatives: "<strong>Could you please turn the music down?</strong><br><strong>The music is a bit loud.</strong>"
+            },
+            {
+                eng: "Would you mind watching my bag?", th: "คุณจะว่าอะไรไหมถ้าจะช่วยเฝ้ากระเป๋าให้ฉันหน่อย",
+                context: "ใช้ขอความช่วยเหลือจากคนที่นั่งอยู่ใกล้ๆ ในที่สาธารณะ เพื่อให้ช่วยดูของให้ชั่วครู่",
+                dialogue: { a: "Excuse me, I need to use the restroom.", b: "Would you mind watching my bag for a minute?", a: "No, go ahead. I'll watch it." },
+                alternatives: "<strong>Could you keep an eye on my bag?</strong>"
+            },
+            {
+                eng: "Would you mind moving your car?", th: "คุณจะว่าอะไรไหมถ้าจะช่วยเลื่อนรถให้หน่อย",
+                context: "ใช้ขอร้องให้ใครบางคนขยับรถที่จอดขวางทางอยู่อย่างสุภาพที่สุด",
+                dialogue: { a: "Excuse me, is this your car?", b: "Yes.", a: "Would you mind moving your car? It's blocking my driveway." },
+                alternatives: "<strong>Could you please move your car?</strong>"
+            },
+            {
+                eng: "Would you mind repeating that?", th: "คุณจะว่าอะไรไหมถ้าจะช่วยพูดซ้ำอีกครั้ง",
+                context: "เป็นวิธีที่สุภาพมากในการขอให้อีกฝ่ายพูดซ้ำเมื่อเราฟังไม่ทัน",
+                dialogue: { a: "The address is 123... Street.", b: "I'm sorry, I didn't get that. Would you mind repeating that?" },
+                alternatives: "<strong>Could you repeat that, please?</strong><br><strong>I'm sorry, I didn't catch that.</strong>"
+            },
+            {
+                eng: "Would you mind explaining that again?", th: "คุณจะว่าอะไรไหมถ้าจะช่วยอธิบายเรื่องนั้นอีกครั้ง",
+                context: "ใช้เมื่อเราไม่เข้าใจคำอธิบายในครั้งแรกและต้องการคำอธิบายเพิ่มเติมอย่างสุภาพ",
+                dialogue: { a: "So that's the whole process.", b: "I think I'm a bit lost. Would you mind explaining the last part again?" },
+                alternatives: "<strong>Could you explain that one more time?</strong><br><strong>I'm still confused about the last part.</strong>"
+            },
+            {
+                eng: "Would you mind sending me the report?", th: "คุณจะว่าอะไรไหมถ้าจะช่วยส่งรายงานให้ฉันหน่อย",
+                context: "ใช้ในการทำงานเพื่อขอไฟล์หรือเอกสารจากเพื่อนร่วมงานอย่างสุภาพ",
+                dialogue: { a: "The meeting is in an hour.", b: "Right. Would you mind sending me the latest report?", a: "Sure, I'll send it right over." },
+                alternatives: "<strong>Could you please send me the report?</strong>"
+            },
+            {
+                eng: "Would you mind if I opened the window?", th: "คุณจะว่าอะไรไหมถ้าฉันจะขอเปิดหน้าต่าง",
+                context: "เปลี่ยนโครงสร้างเป็น 'if I + V.2' เพื่อ 'ขออนุญาตทำเอง' เป็นวิธีที่สุภาพและให้เกียรติคนอื่นมาก",
+                dialogue: { a: "It's getting a little stuffy in here.", b: "Would you mind if I opened the window?", a: "No, please do." },
+                alternatives: "<strong>Is it okay if I open the window?</strong><br><strong>May I open the window?</strong>"
+            },
+            {
+                eng: "Would you mind if I sat here?", th: "คุณจะว่าอะไรไหมถ้าฉันจะขอนั่งตรงนี้",
+                context: "ใช้ 'if I + V.2' เพื่อขออนุญาตนั่งในที่ว่างข้างๆ คนอื่นอย่างสุภาพที่สุด",
+                dialogue: { a: "Excuse me.", b: "Yes?", a: "Would you mind if I sat here? All the other seats are taken." },
+                alternatives: "<strong>Is this seat taken?</strong><br><strong>May I sit here?</strong>"
+            },
+            {
+                eng: "Would you mind if I borrowed your charger?", th: "คุณจะว่าอะไรไหมถ้าฉันจะขอยืมที่ชาร์จของคุณ",
+                context: "ใช้ 'if I + V.2' เพื่อขอยืมของส่วนตัวจากผู้อื่นอย่างเกรงใจ",
+                dialogue: { a: "My phone is about to die.", b: "Would you mind if I borrowed your charger for a while?", a: "Not at all. Here you go." },
+                alternatives: "<strong>Could I possibly borrow your charger?</strong>"
+            },
+            {
+                eng: "Would you mind speaking up a little?", th: "คุณจะว่าอะไรไหมถ้าจะช่วยพูดดังขึ้นอีกหน่อย",
+                context: "ใช้เมื่ออีกฝ่ายพูดเสียงเบาเกินไป",
+                dialogue: { a: "(Mumbling)... and then we...", b: "I'm so sorry, I can't quite hear you. Would you mind speaking up a little?" },
+                alternatives: "<strong>Could you speak a little louder, please?</strong>"
+            },
+            {
+                eng: "Would you mind taking a photo of me?", th: "คุณจะว่าอะไรไหมถ้าจะช่วยถ่ายรูปให้ฉันหน่อย",
+                context: "เป็นวิธีที่สุภาพมากในการขอให้คนแปลกหน้าช่วยถ่ายรูปให้",
+                dialogue: { a: "Excuse me, I hate to bother you.", b: "No problem. What can I do?", a: "Would you mind taking a photo of me?" },
+                alternatives: "<strong>Could you please take a picture of me?</strong>"
+            },
+            {
+                eng: "Would you mind not smoking here?", th: "คุณจะว่าอะไรไหมถ้าจะไม่สูบบุหรี่ตรงนี้",
+                context: "ใช้รูปปฏิเสธ 'not + verb-ing' เพื่อขอร้องให้ใครบางคน 'หยุด' ทำการกระทำที่ไม่พึงประสงค์",
+                dialogue: { a: "Excuse me.", b: "Yes?", a: "This is a non-smoking area. Would you mind not smoking here?" },
+                alternatives: "<strong>Could you please not smoke here?</strong><br><strong>Smoking isn't allowed here.</strong>"
+            },
+            {
+                eng: "Would you mind being quiet?", th: "คุณจะว่าอะไรไหมถ้าจะช่วยเงียบๆ หน่อย",
+                context: "ใช้ขอร้องให้กลุ่มคนที่กำลังส่งเสียงดังช่วยลดความดังลงอย่างสุภาพ",
+                dialogue: { a: "The library is for silent study.", b: "Would you mind being quiet, please?", a: "Oh, our apologies." },
+                alternatives: "<strong>Could you please keep it down?</strong>"
+            },
+            {
+                eng: "Would you mind telling me your name again?", th: "คุณจะว่าอะไรไหมถ้าจะช่วยบอกชื่อของคุณอีกครั้ง",
+                context: "เป็นวิธีที่สุภาพและเกรงใจมากในการถามชื่ออีกครั้งเมื่อเราลืม",
+                dialogue: { a: "It's so nice to see you again!", b: "You too! I'm so sorry, would you mind telling me your name again?" },
+                alternatives: "<strong>I'm sorry, I've forgotten your name.</strong>"
+            },
+            {
+                eng: "Would you mind holding the elevator?", th: "คุณจะว่าอะไรไหมถ้าจะช่วยกดเปิดลิฟต์รอหน่อย",
+                context: "ใช้ตะโกนขอร้องคนที่อยู่ในลิฟต์ให้รอเราแป๊บนึง",
+                dialogue: { a: "(Running towards the elevator) Wait!", b: "Would you mind holding the elevator, please?", a: "Sure!" },
+                alternatives: "<strong>Could you hold the door, please?</strong>"
+            },
+            {
+                eng: "Do you mind if I ask a personal question?", th: "คุณจะว่าอะไรไหมถ้าฉันจะถามคำถามส่วนตัว",
+                context: "ใช้ 'Do you mind...' ได้เหมือนกัน มีความสุภาพน้อยกว่า 'Would' เล็กน้อย แต่ยังคงสุภาพมากอยู่",
+                dialogue: { a: "Do you mind if I ask a personal question?", b: "It depends on the question, but go ahead.", a: "Are you married?" },
+                alternatives: "<strong>Would you mind if I asked a personal question?</strong>"
+            },
+            {
+                eng: "Would you mind switching seats with me?", th: "คุณจะว่าอะไรไหมถ้าจะสลับที่นั่งกับฉัน",
+                context: "ใช้เมื่อต้องการขอสลับที่นั่งกับผู้โดยสารคนอื่นบนเครื่องบินหรือรถไฟ",
+                dialogue: { a: "Excuse me. My wife is sitting over there.", b: "Would you mind switching seats with me so we can sit together?" },
+                alternatives: "<strong>Is it possible to switch seats?</strong>"
+            },
+            {
+                eng: "I was wondering if you would mind helping me.", th: "ฉันกำลังสงสัยว่าคุณจะว่าอะไรไหมถ้าจะช่วยฉันหน่อย",
+                context: "ใช้ 'I was wondering if...' นำหน้าเพื่อทำให้ประโยคขอร้องมีความสุภาพ, อ้อมค้อม, และเกรงใจมากที่สุด",
+                dialogue: { a: "Boss, do you have a second?", b: "Sure.", a: "I was wondering if you would mind looking over my proposal before I send it." },
+                alternatives: "<strong>This is a big ask, but could you possibly help me?</strong>"
+            }
+        ];
+        
+        const grid = document.getElementById('sentences-grid');
+        const modal = document.getElementById('modal');
+        const modalHeader = document.getElementById('modal-header');
+        const modalEnglish = document.getElementById('modal-english');
+        const modalThai = document.getElementById('modal-thai');
+        const modalDetails = document.getElementById('modal-details');
+        const closeModalBtn = document.getElementById('close-modal-btn');
+
+        sentences.forEach((sentence, index) => {
+            const button = document.createElement('button');
+            button.className = `group sentence-btn p-5 rounded-lg text-left bg-white border border-rose-200 hover:bg-rose-100 hover:border-rose-300`;
+            
+            button.innerHTML = `
+                <span class="font-poppins font-semibold text-rose-700 transition-colors duration-200">${sentence.eng}</span>
+                <span class="block text-sm text-rose-600/80 font-normal mt-1 transition-colors duration-200">${sentence.th}</span>
+            `;
+
+            button.addEventListener('click', () => openModal(sentence));
+            grid.appendChild(button);
+        });
+
+        function openModal(sentence) {
+            modalEnglish.textContent = sentence.eng;
+            modalThai.textContent = sentence.th;
+
+            modalDetails.innerHTML = `
+                <div class="p-4 bg-slate-100 rounded-lg">
+                    <h4 class="font-semibold text-lg text-slate-800 mb-2">💡 บริบทการใช้งาน (Context)</h4>
+                    <p class="text-slate-600">${sentence.context}</p>
+                </div>
+                <div class="p-4 bg-slate-100 rounded-lg">
+                    <h4 class="font-semibold text-lg text-slate-800 mb-2">💬 ตัวอย่างบทสนทนา (Dialogue)</h4>
+                    <div class="space-y-1 text-slate-600">
+                        <p><strong>A:</strong> ${sentence.dialogue.a}</p>
+                        <p><strong>B:</strong> ${sentence.dialogue.b}</p>
+                    </div>
+                </div>
+                <div class="p-4 bg-slate-100 rounded-lg">
+                    <h4 class="font-semibold text-lg text-slate-800 mb-2">🔄 คำที่เกี่ยวข้อง / ใช้แทนได้ (Alternatives)</h4>
+                    <div class="text-slate-600">${sentence.alternatives}</div>
+                </div>
+            `;
+
+            modal.classList.add('active');
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            modal.classList.add('opacity-0', 'pointer-events-none');
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        closeModalBtn.addEventListener('click', closeModal);
+        modal.addEventListener('click', (e) => {
+            if (e.target.id === 'modal') {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>

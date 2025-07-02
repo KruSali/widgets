@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Structure #39 - It seems that...</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Mitr:wght@300;400;500;600&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Mitr', sans-serif;
+        }
+        .font-poppins {
+            font-family: 'Poppins', sans-serif;
+        }
+        .sentence-btn {
+            transition: all 0.2s ease-in-out;
+        }
+        #modal {
+            transition: opacity 0.3s ease;
+        }
+        .modal-content-container {
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            opacity: 0;
+            transform: translateY(20px) scale(0.95);
+        }
+        #modal.active .modal-content-container {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+    </style>
+</head>
+<body class="bg-slate-100">
+
+    <div class="container mx-auto p-4 sm:p-6 lg:p-8">
+
+        <header class="text-center mb-10">
+            <h1 class="text-4xl sm:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-slate-600 to-gray-800 font-poppins">Structure #39</h1>
+            <h2 class="text-2xl sm:text-3xl font-bold text-slate-800 mt-2 font-poppins">"It seems that + (S + V)"</h2>
+            <p class="text-slate-600 mt-4 max-w-2xl mx-auto text-lg">
+                ใช้เพื่อแสดง <strong class="text-slate-700">"การสังเกต"</strong> หรือ <strong class="text-gray-700">"ความประทับใจ"</strong> จากหลักฐานที่มี เป็นการพูดถึงสิ่งที่เราคิดว่าเป็นจริง แต่ยังมีความไม่แน่นอนอยู่เล็กน้อย คล้ายๆ กับ "ดูเหมือนว่า..."
+            </p>
+        </header>
+
+        <main id="sentences-grid" class="grid grid-cols-1 md:grid-cols-2 gap-5">
+            </main>
+
+        <footer class="text-center mt-12">
+            <p class="text-slate-700 font-medium">อังกฤษฉบับคนเรียนไม่รู้เรื่อง โดยครูสาลี่</p>
+        </footer>
+
+    </div>
+
+    <div id="modal" class="fixed inset-0 bg-black bg-opacity-60 flex justify-center items-center p-4 z-50 opacity-0 pointer-events-none">
+        <div class="modal-content-container w-full max-w-2xl max-h-[90vh] overflow-y-auto bg-slate-50 rounded-2xl shadow-2xl">
+            <div id="modal-header" class="p-6 sm:p-8 rounded-t-2xl bg-gradient-to-r from-slate-600 to-gray-800">
+                <p id="modal-english" class="font-poppins font-bold text-2xl text-white text-center"></p>
+                <p id="modal-thai" class="text-xl text-white text-center mt-2 opacity-90"></p>
+            </div>
+            <div class="p-6 sm:p-8">
+                <div id="modal-details" class="space-y-5">
+                    </div>
+                <div class="text-center mt-8">
+                    <button id="close-modal-btn" class="bg-slate-600 hover:bg-slate-700 text-white font-bold py-2 px-8 rounded-full shadow-lg transform hover:scale-105 transition-transform duration-300">
+                        ปิด
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const sentences = [
+            {
+                eng: "It seems that we are lost.", th: "ดูเหมือนว่าเราจะหลงทาง",
+                context: "ใช้เมื่อสังเกตจากสภาพแวดล้อมแล้วอนุมานว่าน่าจะหลงทาง เป็นการบอกข้อสรุปที่ไม่แน่ใจ 100%",
+                dialogue: { a: "I don't recognize this street.", b: "Me neither. It seems that we are lost. Let's check the map." },
+                alternatives: "<strong>We seem to be lost.</strong> (โครงสร้างนี้นิยมมาก)<br><strong>It looks like we're lost.</strong> (ดูท่าว่าเราจะหลงทาง)<br><strong>I think we might be lost.</strong>"
+            },
+            {
+                eng: "It seems that he is not happy.", th: "ดูเหมือนว่าเขาจะไม่ค่อยมีความสุข",
+                context: "ใช้เมื่อสังเกตจากสีหน้าหรือท่าทางของใครบางคนแล้วอนุมานถึงความรู้สึกของเขา",
+                dialogue: { a: "He's been very quiet all day.", b: "Yes. It seems that he is not happy about the news." },
+                alternatives: "<strong>He doesn't seem happy.</strong><br><strong>He looks unhappy.</strong>"
+            },
+            {
+                eng: "It seems that you've made a mistake.", th: "ดูเหมือนว่าคุณจะทำผิดพลาดนะ",
+                context: "เป็นวิธีที่สุภาพและนุ่มนวลในการชี้ให้เห็นถึงข้อผิดพลาดของอีกฝ่าย โดยไม่กล่าวหาโดยตรง",
+                dialogue: { a: "I've checked the numbers again.", b: "And?", a: "It seems that you've made a mistake in your calculation." },
+                alternatives: "<strong>You seem to have made a mistake.</strong><br><strong>I think there might be a mistake here.</strong>"
+            },
+            {
+                eng: "It seems that everyone has left.", th: "ดูเหมือนว่าทุกคนจะกลับกันไปหมดแล้ว",
+                context: "ใช้เมื่อไปถึงสถานที่แห่งหนึ่งแล้วพบว่าไม่มีใครอยู่ เป็นการอนุมานจากสิ่งที่เห็น",
+                dialogue: { a: "The office is so quiet.", b: "It's 7 PM. It seems that everyone has left for the day." },
+                alternatives: "<strong>Everyone seems to have left.</strong><br><strong>It looks like everyone is gone.</strong>"
+            },
+            {
+                eng: "It seems that I've lost my wallet.", th: "ดูเหมือนว่าฉันจะทำกระเป๋าตังค์หาย",
+                context: "ใช้เมื่อเริ่มตระหนักว่ามีบางอย่างผิดปกติ แต่ยังไม่แน่ใจ 100% ว่าเกิดอะไรขึ้น",
+                dialogue: { a: "Are you okay? You're checking all your pockets.", b: "Oh no... It seems that I've lost my wallet." },
+                alternatives: "<strong>I seem to have lost my wallet.</strong><br><strong>I think I lost my wallet.</strong>"
+            },
+            {
+                eng: "It seems that we have a problem.", th: "ดูเหมือนว่าเราจะมีปัญหา",
+                context: "เป็นวิธีเกริ่นนำที่ใช้บ่อยในที่ทำงาน เพื่อบอกทีมว่ามีปัญหาเกิดขึ้นและต้องช่วยกันแก้ไข",
+                dialogue: { a: "The server is down again.", b: "Okay... it seems that we have a problem." },
+                alternatives: "<strong>We seem to have a problem.</strong><br><strong>Looks like we have a problem.</strong>"
+            },
+            {
+                eng: "It seems that the plan is working.", th: "ดูเหมือนว่าแผนการจะได้ผล",
+                context: "ใช้เมื่อสังเกตเห็นผลลัพธ์เบื้องต้นที่เป็นไปในทิศทางที่ดี",
+                dialogue: { a: "Our website traffic has doubled this week.", b: "Great! It seems that the new marketing plan is working." },
+                alternatives: "<strong>The plan seems to be working.</strong><br><strong>It looks like the plan is a success.</strong>"
+            },
+            {
+                eng: "It seems that no one is home.", th: "ดูเหมือนว่าจะไม่มีใครอยู่บ้าน",
+                context: "ใช้เมื่อไปถึงบ้านใครสักคนแล้วพบว่าไฟปิดและไม่มีคนตอบรับ",
+                dialogue: { a: "I've been ringing the doorbell for five minutes.", b: "It seems that no one is home." },
+                alternatives: "<strong>No one seems to be home.</strong><br><strong>I don't think anyone's home.</strong>"
+            },
+            {
+                eng: "It seems that you're busy right now.", th: "ดูเหมือนว่าตอนนี้คุณกำลังยุ่งอยู่",
+                context: "เป็นวิธีพูดอย่างสุภาพเมื่อเราเห็นว่าอีกฝ่ายกำลังยุ่ง และเราจะยังไม่รบกวน",
+                dialogue: { a: "Hi, do you have a minute?", b: "(On the phone) One second...", a: "Oh, it seems that you're busy right now. I'll come back later." },
+                alternatives: "<strong>You seem busy.</strong><br><strong>I see that you're busy. I'll let you work.</strong>"
+            },
+            {
+                eng: "It seems that you know him.", th: "ดูเหมือนว่าคุณจะรู้จักเขานะ",
+                context: "ใช้เมื่อสังเกตจากปฏิกิริยาของอีกฝ่ายว่าน่าจะรู้จักกับบุคคลที่สาม",
+                dialogue: { a: "That's Mr. Harrison, our CEO.", b: "Oh!", a: "From your reaction, it seems that you know him." },
+                alternatives: "<strong>You seem to know him.</strong><br><strong>Do you know him?</strong>"
+            },
+            {
+                eng: "It seems that it's going to rain.", th: "ดูเหมือนว่าฝนกำลังจะตก",
+                context: "ใช้เพื่อคาดการณ์สภาพอากาศจากหลักฐานที่เห็น เช่น ท้องฟ้ามืดครึ้ม",
+                dialogue: { a: "The sky is getting very dark.", b: "Yes, it seems that it's going to rain soon." },
+                alternatives: "<strong>It looks like it's going to rain.</strong><br><strong>I think it's about to rain.</strong>"
+            },
+            {
+                eng: "It seems that things are getting better.", th: "ดูเหมือนว่าอะไรๆ กำลังจะดีขึ้น",
+                context: "ใช้แสดงความหวังหลังจากผ่านช่วงเวลาที่ยากลำบาก และเริ่มเห็นสัญญาณที่ดีขึ้น",
+                dialogue: { a: "He's smiling for the first time in weeks.", b: "Yes. It seems that things are finally getting better." },
+                alternatives: "<strong>Things seem to be improving.</strong><br><strong>The situation appears to be getting better.</strong>"
+            },
+            {
+                eng: "It seems that I was wrong.", th: "ดูเหมือนว่าฉันจะคิดผิดไป",
+                context: "เป็นวิธีที่นุ่มนวลในการยอมรับความผิดพลาดของตัวเอง",
+                dialogue: { a: "The data shows the opposite of what I predicted.", b: "Well, it seems that I was wrong." },
+                alternatives: "<strong>I appear to have been wrong.</strong><br><strong>I guess I was wrong.</strong>"
+            },
+            {
+                eng: "It seems that the store is closed.", th: "ดูเหมือนว่าร้านจะปิดแล้ว",
+                context: "ใช้เมื่อไปถึงร้านค้าแล้วพบว่าไฟปิดหรือประตูถูกล็อค",
+                dialogue: { a: "Why can't we open the door?", b: "The lights are off. It seems that the store is closed for the day." },
+                alternatives: "<strong>The store seems to be closed.</strong><br><strong>I think the store is closed.</strong>"
+            },
+            {
+                eng: "It would seem that you have a choice to make.", th: "ดูเหมือนว่าคุณจะมีเรื่องต้องตัดสินใจนะ",
+                context: "ใช้ 'It would seem...' เพื่อทำให้ประโยคฟังดูเป็นทางการ, สุภาพ, และไม่แน่นอนมากยิ่งขึ้น",
+                dialogue: { a: "They offered me the job, but my current company gave me a counter-offer.", b: "It would seem that you have a choice to make." },
+                alternatives: "<strong>It appears you have a decision to make.</strong>"
+            },
+            {
+                eng: "It seems that the train is delayed.", th: "ดูเหมือนว่ารถไฟจะล่าช้า",
+                context: "ใช้เมื่อสังเกตจากตารางเวลาหรือประกาศที่ไม่เป็นทางการ",
+                dialogue: { a: "Our train was supposed to be here 10 minutes ago.", b: "It seems that the train is delayed." },
+                alternatives: "<strong>The train seems to be delayed.</strong><br><strong>I think our train is running late.</strong>"
+            },
+            {
+                eng: "It seems that you've forgotten our anniversary.", th: "ดูเหมือนว่าคุณจะลืมวันครบรอบของเรานะ",
+                context: "ใช้ในเชิงตัดพ้อหรือน้อยใจ เมื่ออีกฝ่ายลืมวันสำคัญ",
+                dialogue: { a: "Do you know what day it is today?", b: "It's Tuesday.", a: "It seems that you've forgotten our anniversary." },
+                alternatives: "<strong>You seem to have forgotten our anniversary.</strong><br><strong>Did you forget what today is?</strong>"
+            },
+            {
+                eng: "It seems that the rumor is true.", th: "ดูเหมือนว่าข่าวลือนั้นจะเป็นเรื่องจริง",
+                context: "ใช้เมื่อเริ่มได้เห็นหลักฐานที่สนับสนุนข่าวลือที่เคยได้ยินมา",
+                dialogue: { a: "I saw them having dinner together.", b: "So it seems that the rumor about them dating is true." },
+                alternatives: "<strong>The rumor appears to be true.</strong>"
+            },
+            {
+                eng: "It seems that we're the first ones here.", th: "ดูเหมือนว่าเราจะมาถึงเป็นคนแรก",
+                context: "ใช้เมื่อไปถึงสถานที่นัดหมายแล้วยังไม่มีใครมาเลย",
+                dialogue: { a: "The restaurant is completely empty.", b: "It seems that we're the first ones here." },
+                alternatives: "<strong>We seem to be the first to arrive.</strong><br><strong>Looks like we're early.</strong>"
+            },
+            {
+                eng: "It does not seem that bad.", th: "มันก็ดูไม่แย่ขนาดนั้นนะ",
+                context: "ใช้รูปปฏิเสธเพื่อแสดงความเห็นแย้งอย่างนุ่มนวล หรือเพื่อให้กำลังใจอีกฝ่าย",
+                dialogue: { a: "My drawing is terrible.", b: "Let me see. Hmm, it does not seem that bad. I actually like it." },
+                alternatives: "<strong>It's not as bad as you think.</strong><br><strong>It looks fine to me.</strong>"
+            }
+        ];
+        
+        const grid = document.getElementById('sentences-grid');
+        const modal = document.getElementById('modal');
+        const modalHeader = document.getElementById('modal-header');
+        const modalEnglish = document.getElementById('modal-english');
+        const modalThai = document.getElementById('modal-thai');
+        const modalDetails = document.getElementById('modal-details');
+        const closeModalBtn = document.getElementById('close-modal-btn');
+
+        const buttonColors = [
+            { base: 'border-slate-500 bg-slate-50 hover:bg-slate-200 text-slate-800' },
+            { base: 'border-gray-500 bg-gray-50 hover:bg-gray-200 text-gray-800' },
+            { base: 'border-blue-500 bg-blue-50 hover:bg-blue-100 text-blue-800' },
+            { base: 'border-indigo-500 bg-indigo-50 hover:bg-indigo-100 text-indigo-800' },
+        ];
+
+        sentences.forEach((sentence, index) => {
+            const button = document.createElement('button');
+            const colorTheme = buttonColors[index % buttonColors.length];
+            
+            button.className = `group sentence-btn p-4 text-left border-l-4 ${colorTheme.base}`;
+            
+            button.innerHTML = `
+                <span class="font-poppins font-semibold ${colorTheme.text}">${sentence.eng}</span>
+                <span class="block text-sm ${colorTheme.text}/80 font-normal mt-1">${sentence.th}</span>
+            `;
+
+            button.addEventListener('click', () => openModal(sentence));
+            grid.appendChild(button);
+        });
+
+        function openModal(sentence) {
+            modalEnglish.textContent = sentence.eng;
+            modalThai.textContent = sentence.th;
+
+            modalDetails.innerHTML = `
+                <div class="p-4 bg-slate-100 rounded-lg">
+                    <h4 class="font-semibold text-lg text-slate-800 mb-2">💡 บริบทการใช้งาน (Context)</h4>
+                    <p class="text-slate-600">${sentence.context}</p>
+                </div>
+                <div class="p-4 bg-slate-100 rounded-lg">
+                    <h4 class="font-semibold text-lg text-slate-800 mb-2">💬 ตัวอย่างบทสนทนา (Dialogue)</h4>
+                    <div class="space-y-1 text-slate-600">
+                        <p><strong>A:</strong> ${sentence.dialogue.a}</p>
+                        <p><strong>B:</strong> ${sentence.dialogue.b}</p>
+                    </div>
+                </div>
+                <div class="p-4 bg-slate-100 rounded-lg">
+                    <h4 class="font-semibold text-lg text-slate-800 mb-2">🔄 คำที่เกี่ยวข้อง / ใช้แทนได้ (Alternatives)</h4>
+                    <div class="text-slate-600">${sentence.alternatives}</div>
+                </div>
+            `;
+
+            modal.classList.add('active');
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            modal.classList.add('opacity-0', 'pointer-events-none');
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        closeModalBtn.addEventListener('click', closeModal);
+        modal.addEventListener('click', (e) => {
+            if (e.target.id === 'modal') {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>

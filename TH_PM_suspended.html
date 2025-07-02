@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mr.News: Political News Lesson (Corrected)</title>
+    <title>Mr.News: Political News Lesson (Sentence Box Version)</title>
     <style>
         /* Import Google Fonts */
         @import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@400;700&family=Teko:wght@500&display=swap');
@@ -15,7 +15,7 @@
             --accent-color: #FFC300; /* Bright Yellow */
             --text-color: #333;
             --light-text-color: #fff;
-            --border-color: #ddd;
+            --border-color: #e0e0e0;
             --shadow-color: rgba(0, 0, 0, 0.1);
             --highlight-color: #005A9C;
             --font-main: 'Sarabun', sans-serif;
@@ -117,15 +117,54 @@
             font-family: var(--font-main);
             font-weight: 700;
             color: var(--primary-color);
-            margin-bottom: 15px;
+            margin-bottom: 20px;
             border-bottom: 2px solid var(--accent-color);
             padding-bottom: 10px;
         }
-
-        .content p {
-            font-size: 1.1rem;
-            text-align: justify;
+        
+        /* NEW: Sentence Container & Boxes */
+        .sentence-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px; /* Space between sentence boxes */
+            counter-reset: sentence-counter; /* Initialize counter */
         }
+        
+        .sentence-box {
+            background-color: #fdfdfd;
+            padding: 15px 20px 15px 50px; /* Add padding for number */
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+            font-size: 1.1rem;
+            position: relative;
+            counter-increment: sentence-counter; /* Increment counter for each box */
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .sentence-box:hover {
+            border-color: var(--accent-color);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.07);
+        }
+
+        .sentence-box::before {
+            content: counter(sentence-counter); /* Display the counter number */
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: var(--accent-color);
+            color: var(--primary-color);
+            font-weight: 700;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: 10px;
+            font-size: 1rem;
+        }
+
 
         /* Highlighted Text */
         .highlight {
@@ -252,6 +291,14 @@
             .popup-term {
                 font-size: 1.5rem;
             }
+            .sentence-box {
+                padding: 15px 15px 15px 45px;
+            }
+            .sentence-box::before {
+                width: 25px;
+                height: 25px;
+                font-size: 0.9rem;
+            }
         }
     </style>
 </head>
@@ -271,16 +318,28 @@
         <main class="content-area">
             <div id="basic-content" class="content active">
                 <h2>เรื่องย่อ (ฉบับเข้าใจง่าย)</h2>
-                <p>
-                    The Constitutional Court has ordered Prime Minister Paetongtarn Shinawatra to <span class="highlight" data-term="suspend">suspend</span> her work. This is a <span class="highlight" data-term="temporary">temporary</span> stop while the court looks at a case against her. The case is about a phone call that was <span class="highlight" data-term="leaked">leaked</span> to the public. In the call, she talked to Cambodia's Senate President, Hun Sen. Some senators say she said bad things about a Thai army commander who is <span class="highlight" data-term="in_charge_of">in charge of</span> the border with Cambodia. They also said she sounded too willing to agree with Hun Sen. For now, Deputy Prime Minister Suriya Jungrungreangkit will be the <span class="highlight" data-term="acting_prime_minister">acting prime minister</span>. Ms. Paetongtarn said she made the call to stop problems at the border.
-                </p>
+                <div class="sentence-container">
+                    <div class="sentence-box">The Constitutional Court has ordered Prime Minister Paetongtarn Shinawatra to <span class="highlight" data-term="suspend">suspend</span> her work.</div>
+                    <div class="sentence-box">This is a <span class="highlight" data-term="temporary">temporary</span> stop while the court looks at a case against her.</div>
+                    <div class="sentence-box">The case is about a phone call that was <span class="highlight" data-term="leaked">leaked</span> to the public.</div>
+                    <div class="sentence-box">In the call, she talked to Cambodia's Senate President, Hun Sen.</div>
+                    <div class="sentence-box">Some senators say she said bad things about a Thai army commander who is <span class="highlight" data-term="in_charge_of">in charge of</span> the border with Cambodia.</div>
+                    <div class="sentence-box">They also said she sounded too willing to agree with Hun Sen.</div>
+                    <div class="sentence-box">For now, Deputy Prime Minister Suriya Jungrungreangkit will be the <span class="highlight" data-term="acting_prime_minister">acting prime minister</span>.</div>
+                    <div class="sentence-box">Ms. Paetongtarn said she made the call to stop problems at the border.</div>
+                </div>
             </div>
 
             <div id="advanced-content" class="content">
                 <h2>Summary (Advanced Version)</h2>
-                <p>
-                    The Constitutional Court has <span class="highlight" data-term="suspended_adv">suspended</span> Prime Minister Paetongtarn Shinawatra from duty <span class="highlight" data-term="pending_consideration">pending its consideration</span> of a case against her. The court <span class="highlight" data-term="unanimously">unanimously</span> agreed to review a petition from senators concerning a leaked phone call with Cambodian Senate President Hun Sen. In the recording, Ms. Paetongtarn allegedly made <span class="highlight" data-term="derogatory_remarks">derogatory remarks</span> about a Thai army commander and displayed a <span class="highlight" data-term="submissive_tone">submissive tone</span> towards Hun Sen. The complaint accuses her of a grave <span class="highlight" data-term="breach_of_ethical_standards">breach of ethical standards</span> and of lacking the required integrity for her office. Her <span class="highlight" data-term="tenure">tenure</span> as prime minister has been suspended, and an acting PM has been appointed. Ms. Paetongtarn has 15 days to provide a written clarification, stating her intention was to prevent border clashes.
-                </p>
+                <div class="sentence-container">
+                    <div class="sentence-box">The Constitutional Court has <span class="highlight" data-term="suspended_adv">suspended</span> Prime Minister Paetongtarn Shinawatra from duty <span class="highlight" data-term="pending_consideration">pending its consideration</span> of a case against her.</div>
+                    <div class="sentence-box">The court <span class="highlight" data-term="unanimously">unanimously</span> agreed to review a petition from senators concerning a leaked phone call with Cambodian Senate President Hun Sen.</div>
+                    <div class="sentence-box">In the recording, Ms. Paetongtarn allegedly made <span class="highlight" data-term="derogatory_remarks">derogatory remarks</span> about a Thai army commander and displayed a <span class="highlight" data-term="submissive_tone">submissive tone</span> towards Hun Sen.</div>
+                    <div class="sentence-box">The complaint accuses her of a grave <span class="highlight" data-term="breach_of_ethical_standards">breach of ethical standards</span> and of lacking the required integrity for her office.</div>
+                    <div class="sentence-box">Her <span class="highlight" data-term="tenure">tenure</span> as prime minister has been suspended, and an acting PM has been appointed.</div>
+                    <div class="sentence-box">Ms. Paetongtarn has 15 days to provide a written clarification, stating her intention was to prevent border clashes.</div>
+                </div>
             </div>
         </main>
     </div>
@@ -289,17 +348,14 @@
         <div class="modal-content">
             <span class="close-btn">&times;</span>
             <h3 id="popup-term" class="popup-term"></h3>
-            
             <div class="popup-section">
                 <h4>คำอ่าน (Pronunciation)</h4>
                 <p id="popup-pronunciation" class="popup-pronunciation"></p>
             </div>
-
             <div class="popup-section">
                 <h4>ความหมาย (Meaning)</h4>
                 <p id="popup-meaning" class="popup-meaning"></p>
             </div>
-
             <div class="popup-section">
                 <h4>ประโยคตัวอย่าง (Example)</h4>
                 <p id="popup-example" class="popup-example"></p>
@@ -311,14 +367,14 @@
     <script>
         // Data for popups
         const vocabularyData = {
-            suspend: { // Corrected Key and Data
+            suspend: {
                 term: "Suspend",
                 pronunciation: "สัส-<u>เพ็นด์</u>",
                 meaning: "การสั่งให้หยุดปฏิบัติหน้าที่หรือเข้าร่วมกิจกรรมเป็นการชั่วคราว",
                 example: "The school had to suspend classes because of the heavy snow.",
                 translation: "โรงเรียนต้องหยุดการเรียนการสอนเนื่องจากหิมะตกหนัก"
             },
-            temporary: { // Corrected Key and Data
+            temporary: {
                 term: "Temporary",
                 pronunciation: "<u>เท็ม</u>-เพอ-แร-รี่",
                 meaning: "เป็นการชั่วคราว, ไม่ถาวร",
@@ -401,7 +457,6 @@
         const modal = document.getElementById('popup-modal');
         const closeBtn = document.querySelector('.close-btn');
         const highlights = document.querySelectorAll('.highlight');
-        
         const btnBasic = document.getElementById('btn-basic');
         const btnAdvanced = document.getElementById('btn-advanced');
         const basicContent = document.getElementById('basic-content');
@@ -409,11 +464,6 @@
         
         // Function to show popup
         function showPopup(termKey) {
-            // A simple fix for the corrected 'suspended'/'suspend' key in the basic version
-            if (termKey === 'suspended') { termKey = 'suspend'; } 
-            // A simple fix for the corrected 'temporarily'/'temporary' key in the basic version
-            if (termKey === 'temporarily') { termKey = 'temporary'; }
-
             const data = vocabularyData[termKey];
             if (data) {
                 document.getElementById('popup-term').innerHTML = data.term;
@@ -425,9 +475,10 @@
             }
         }
 
-        // Add event listener to all highlighted words
+        // Event listener to all highlighted words
         highlights.forEach(span => {
-            span.addEventListener('click', () => {
+            span.addEventListener('click', (event) => {
+                event.stopPropagation(); // Prevent click from bubbling to the sentence-box
                 const termKey = span.getAttribute('data-term');
                 showPopup(termKey);
             });
@@ -464,11 +515,6 @@
             btnAdvanced.classList.add('active');
             btnBasic.classList.remove('active');
         });
-
-        // I've also updated the data-term attributes in the HTML to match the corrected JS keys.
-        document.querySelector('[data-term="suspended"]').setAttribute('data-term', 'suspend');
-        document.querySelector('[data-term="temporarily"]').setAttribute('data-term', 'temporary');
-
     </script>
 
 </body>

@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Structure #46 - Are you + (verb-ing)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Mitr:wght@300;400;500;600&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Mitr', sans-serif;
+        }
+        .font-poppins {
+            font-family: 'Poppins', sans-serif;
+        }
+        .sentence-btn {
+            transition: all 0.2s ease-in-out;
+        }
+        #modal {
+            transition: opacity 0.3s ease;
+        }
+        .modal-content-container {
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            opacity: 0;
+            transform: translateY(20px) scale(0.95);
+        }
+        #modal.active .modal-content-container {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+    </style>
+</head>
+<body class="bg-slate-100">
+
+    <div class="container mx-auto p-4 sm:p-6 lg:p-8">
+
+        <header class="text-center mb-10">
+            <h1 class="text-4xl sm:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-rose-500 via-red-500 to-orange-500 font-poppins">Structure #46</h1>
+            <h2 class="text-2xl sm:text-3xl font-bold text-slate-800 mt-2 font-poppins">"Are you + (verb-ing)...?"</h2>
+            <p class="text-slate-600 mt-4 max-w-2xl mx-auto text-lg">
+                เป็นคำถามของ Present Continuous ใช้ถามถึง 2 เรื่องหลักๆ คือ:<br>
+                1. สิ่งที่ <strong class="text-rose-600">"กำลังเกิดขึ้น ณ ขณะที่พูด"</strong> (คุณกำลัง...อยู่เหรอ?)<br>
+                2. <strong class="text-orange-600">"แผนการในอนาคตที่แน่นอนแล้ว"</strong> (คุณจะ...ใช่ไหม?)
+            </p>
+        </header>
+
+        <main id="sentences-grid" class="grid grid-cols-1 md:grid-cols-2 gap-5">
+            </main>
+
+        <footer class="text-center mt-12">
+            <p class="text-slate-700 font-medium">อังกฤษฉบับคนเรียนไม่รู้เรื่อง โดยครูสาลี่</p>
+        </footer>
+
+    </div>
+
+    <div id="modal" class="fixed inset-0 bg-black bg-opacity-60 flex justify-center items-center p-4 z-50 opacity-0 pointer-events-none">
+        <div class="modal-content-container w-full max-w-2xl max-h-[90vh] overflow-y-auto bg-slate-50 rounded-2xl shadow-2xl">
+            <div id="modal-header" class="p-6 sm:p-8 rounded-t-2xl bg-gradient-to-r from-rose-500 via-red-500 to-orange-500">
+                <p id="modal-english" class="font-poppins font-bold text-2xl text-white text-center"></p>
+                <p id="modal-thai" class="text-xl text-white text-center mt-2 opacity-90"></p>
+            </div>
+            <div class="p-6 sm:p-8">
+                <div id="modal-details" class="space-y-5">
+                    </div>
+                <div class="text-center mt-8">
+                    <button id="close-modal-btn" class="bg-slate-600 hover:bg-slate-700 text-white font-bold py-2 px-8 rounded-full shadow-lg transform hover:scale-105 transition-transform duration-300">
+                        ปิด
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const sentences = [
+            // --- Happening Now ---
+            {
+                eng: "Are you listening to me?", th: "คุณกำลังฟังฉันอยู่หรือเปล่า",
+                context: "ใช้เมื่อต้องการตรวจสอบว่าอีกฝ่ายกำลังให้ความสนใจในสิ่งที่เราพูดอยู่หรือไม่ มักใช้เมื่อรู้สึกว่าอีกฝ่ายอาจจะไม่ได้ฟัง",
+                dialogue: { a: "...and that's why it's so important.", b: "(Staring at phone)", a: "Hello? Are you listening to me?" },
+                alternatives: "<strong>Are you paying attention?</strong> (คุณกำลังตั้งใจฟังอยู่ไหม)<br><strong>Did you hear what I said?</strong>"
+            },
+            {
+                eng: "Are you working right now?", th: "ตอนนี้คุณกำลังทำงานอยู่หรือเปล่า",
+                context: "ใช้ถามเพื่อตรวจสอบว่าอีกฝ่ายว่างคุยหรือไม่ ก่อนที่จะเริ่มบทสนทนาที่ยาวขึ้น",
+                dialogue: { a: "Hi, I have a quick question.", b: "I'm a bit busy. Are you working right now?", a: "Yes, I'm on a deadline." },
+                alternatives: "<strong>Is this a good time to talk?</strong><br><strong>Are you busy at the moment?</strong>"
+            },
+            {
+                eng: "Are you kidding me?", th: "นี่คุณล้อฉันเล่นใช่ไหม",
+                context: "เป็นสำนวนอุทานที่ใช้แสดงความประหลาดใจ, ความไม่เชื่อ, หรือความหงุดหงิดอย่างมาก",
+                dialogue: { a: "I accidentally deleted the entire project.", b: "What?! Are you kidding me?" },
+                alternatives: "<strong>You've got to be kidding me.</strong><br><strong>Are you serious?</strong>"
+            },
+            {
+                eng: "What are you doing?", th: "คุณกำลังทำอะไรอยู่",
+                context: "เป็นคำถามพื้นฐานที่สุดเพื่อถามถึงกิจกรรมที่กำลังเกิดขึ้น ณ ขณะที่พูด",
+                dialogue: { a: "(Hears strange noises from the kitchen)", b: "What are you doing in there?", a: "I'm trying to open this jar." },
+                alternatives: "<strong>What are you up to?</strong> (ไม่เป็นทางการ)"
+            },
+            {
+                eng: "Are you feeling okay?", th: "คุณรู้สึกโอเคไหม",
+                context: "ใช้ถามด้วยความเป็นห่วงเมื่อเห็นใครบางคนดูไม่สบาย, เศร้า, หรือมีท่าทีผิดปกติ",
+                dialogue: { a: "You look a little pale.", b: "Are you feeling okay?", a: "I think I have a headache." },
+                alternatives: "<strong>Are you alright?</strong><br><strong>Is everything okay?</strong>"
+            },
+            {
+                eng: "Are you watching this?", th: "คุณกำลังดูอันนี้อยู่หรือเปล่า",
+                context: "ใช้ถามเมื่อเห็นทีวีหรือวิดีโอกำลังเล่นอยู่ เพื่อจะขออนุญาตเปลี่ยนช่องหรือปิดมัน",
+                dialogue: { a: "(Sees TV on with no one in the room)", b: "Honey, are you watching this?", a: "No, you can turn it off." },
+                alternatives: "<strong>Is anyone watching this?</strong>"
+            },
+            {
+                eng: "Who are you talking to?", th: "คุณกำลังคุยกับใครอยู่",
+                context: "ใช้ถามเมื่อเห็นอีกฝ่ายกำลังคุยโทรศัพท์หรือคุยกับใครสักคนที่เรามองไม่เห็น",
+                dialogue: { a: "(Overhears friend laughing and talking)", b: "Who are you talking to?", a: "Oh, just my mom on the phone." },
+                alternatives: "<strong>Who's on the phone?</strong>"
+            },
+            {
+                eng: "Are you crying?", th: "คุณกำลังร้องไห้เหรอ",
+                context: "ใช้ถามด้วยความเป็นห่วงเมื่อเห็นหรือได้ยินเสียงใครบางคนกำลังร้องไห้",
+                dialogue: { a: "(Hears sniffing sounds)", b: "Are you okay in there? Are you crying?", a: "No, I'm just watching a sad movie." },
+                alternatives: "<strong>What's wrong? Why are you crying?</strong>"
+            },
+            {
+                eng: "Are you ignoring me?", th: "คุณกำลังเมินฉันอยู่หรือเปล่า",
+                context: "ใช้ถามในเชิงตัดพ้อเมื่อเรารู้สึกว่าอีกฝ่ายจงใจไม่สนใจหรือไม่ตอบเรา",
+                dialogue: { a: "I've called your name five times.", b: "Are you ignoring me?", a: "Oh, sorry! I had my headphones on." },
+                alternatives: "<strong>Why aren't you answering me?</strong>"
+            },
+            // --- Fixed Future Plans ---
+            {
+                eng: "Are you coming to the party tonight?", th: "คืนนี้คุณจะมางานปาร์ตี้ไหม",
+                context: "ใช้ถามเพื่อยืนยันแผนการในอนาคตอันใกล้ที่แน่นอนแล้ว (มีปาร์ตี้แน่ๆ)",
+                dialogue: { a: "The party starts at 8.", b: "Are you coming to the party tonight?", a: "Yes, I'll be there." },
+                alternatives: "<strong>Are you going to come to the party?</strong><br><strong>Will I see you at the party tonight?</strong>"
+            },
+            {
+                eng: "Are you working tomorrow?", th: "พรุ่งนี้คุณทำงานไหม",
+                context: "ใช้ถามเกี่ยวกับตารางงานที่แน่นอนแล้วของอีกฝ่าย",
+                dialogue: { a: "I was thinking we could go for a hike.", b: "That sounds nice, but are you working tomorrow? Tomorrow is Saturday.", a: "Oh, right! No, I'm free." },
+                alternatives: "<strong>Do you have to work tomorrow?</strong><br><strong>Are you going to work tomorrow?</strong>"
+            },
+            {
+                eng: "What are you wearing to the wedding?", th: "คุณจะใส่ชุดอะไรไปงานแต่ง",
+                context: "ใช้ถามเพื่อนเกี่ยวกับแผนการแต่งตัวสำหรับงานอีเวนต์ในอนาคตที่กำลังจะมาถึง",
+                dialogue: { a: "The wedding is next week!", b: "I know! I still don't have an outfit. What are you wearing to the wedding?" },
+                alternatives: "<strong>What are you going to wear to the wedding?</strong><br><strong>Have you picked out an outfit yet?</strong>"
+            },
+            {
+                eng: "Are you leaving soon?", th: "คุณจะไปแล้วหรือยัง",
+                context: "ใช้ถามเมื่อต้องการจะกลับพร้อมกัน หรือเมื่อสังเกตเห็นว่าอีกฝ่ายเริ่มเก็บของ",
+                dialogue: { a: "(Sees friend packing their bag)", b: "Are you leaving soon?", a: "Yes, in about five minutes." },
+                alternatives: "<strong>Are you about to leave?</strong>"
+            },
+            {
+                eng: "Who is driving?", th: "ใครจะเป็นคนขับรถ",
+                context: "ใช้ถามถึงแผนการที่แน่นอนแล้วว่าใครจะเป็นผู้รับผิดชอบหน้าที่ขับรถ",
+                dialogue: { a: "Okay, time to go.", b: "Wait, who is driving? I think I had too much to drink.", a: "I'll drive. I'm sober." },
+                alternatives: "<strong>Who's going to drive?</strong>"
+            },
+            {
+                eng: "Are you joining the meeting?", th: "คุณจะเข้าร่วมการประชุมไหม",
+                context: "ใช้ถามเพื่อนร่วมงานเพื่อยืนยันว่าจะเข้าร่วมการประชุมที่กำหนดไว้แล้วหรือไม่",
+                dialogue: { a: "The Zoom meeting starts in 5 minutes.", b: "Are you joining?", a: "Yes, I'm just getting my coffee." },
+                alternatives: "<strong>Will you be in the meeting?</strong>"
+            },
+            {
+                eng: "Are you doing anything this weekend?", th: "สุดสัปดาห์นี้คุณทำอะไรไหม",
+                context: "เป็นคำถามเปิดที่ใช้บ่อยเพื่อถามถึงแผนของอีกฝ่าย และมักจะตามมาด้วยการชวนไปทำอะไรบางอย่าง",
+                dialogue: { a: "Are you doing anything special this weekend?", b: "Not really, why?", a: "I was wondering if you'd like to see a movie." },
+                alternatives: "<strong>Do you have any plans for the weekend?</strong><br><strong>What are you up to this weekend?</strong>"
+            },
+            {
+                eng: "We're going for ice cream. Are you coming?", th: "พวกเรากำลังจะไปกินไอศกรีม จะไปด้วยกันไหม",
+                context: "ใช้บอกแผนของตัวเองก่อน แล้วตามด้วยคำถามเพื่อเชิญชวนอีกฝ่าย",
+                dialogue: { a: "We're heading out.", b: "Where to?", a: "We're going for ice cream. Are you coming with us?" },
+                alternatives: "<strong>Want to come with us for ice cream?</strong>"
+            },
+            {
+                eng: "When are you leaving?", th: "คุณจะออกเดินทางเมื่อไหร่",
+                context: "ใช้ 'When' เพื่อถามถึงเวลาที่แน่นอนของแผนการในอนาคต",
+                dialogue: { a: "I heard you're moving to Canada.", b: "Yes, that's right.", a: "Wow. When are you leaving?" },
+                alternatives: "<strong>When is your departure date?</strong>"
+            },
+            {
+                eng: "What time are you arriving?", th: "คุณจะมาถึงกี่โมง",
+                context: "ใช้ 'What time' เพื่อถามถึงเวลาที่เจาะจงของแผนการเดินทาง",
+                dialogue: { a: "I'll pick you up from the airport.", b: "Thanks! What time are you arriving?", a: "My flight lands at 8:15 PM." },
+                alternatives: "<strong>What time does your flight arrive?</strong>"
+            },
+            {
+                eng: "Are you not coming?", th: "สรุปว่าคุณจะไม่มาแล้วใช่ไหม",
+                context: "ใช้คำถามรูปปฏิเสธเพื่อแสดงความประหลาดใจหรือผิดหวังเล็กน้อย และเพื่อยืนยันว่าเขาจะไม่มาจริงๆ",
+                dialogue: { a: "The party has already started.", b: "Aren't you coming? I thought you said you would.", a: "I'm so sorry, I can't make it." },
+                alternatives: "<strong>So you're not coming after all?</strong>"
+            }
+        ];
+        
+        const grid = document.getElementById('sentences-grid');
+        const modal = document.getElementById('modal');
+        const modalHeader = document.getElementById('modal-header');
+        const modalEnglish = document.getElementById('modal-english');
+        const modalThai = document.getElementById('modal-thai');
+        const modalDetails = document.getElementById('modal-details');
+        const closeModalBtn = document.getElementById('close-modal-btn');
+
+        const buttonColors = [
+            'bg-rose-500 hover:bg-rose-600',
+            'bg-red-500 hover:bg-red-600',
+            'bg-orange-500 hover:bg-orange-600',
+            'bg-amber-500 hover:bg-amber-600',
+        ];
+
+        sentences.forEach((sentence, index) => {
+            const button = document.createElement('button');
+            const colorClass = buttonColors[index % buttonColors.length];
+
+            button.className = `group sentence-btn p-5 rounded-lg text-left text-white shadow-md transform hover:-translate-y-1 ${colorClass}`;
+            
+            button.innerHTML = `
+                <span class="font-poppins font-semibold transition-colors duration-200">${sentence.eng}</span>
+                <span class="block text-sm text-white/80 font-normal mt-1 transition-colors duration-200">${sentence.th}</span>
+            `;
+
+            button.addEventListener('click', () => openModal(sentence));
+            grid.appendChild(button);
+        });
+
+        function openModal(sentence) {
+            modalEnglish.textContent = sentence.eng;
+            modalThai.textContent = sentence.th;
+
+            modalDetails.innerHTML = `
+                <div class="p-4 bg-slate-100 rounded-lg">
+                    <h4 class="font-semibold text-lg text-slate-800 mb-2">💡 บริบทการใช้งาน (Context)</h4>
+                    <p class="text-slate-600">${sentence.context}</p>
+                </div>
+                <div class="p-4 bg-slate-100 rounded-lg">
+                    <h4 class="font-semibold text-lg text-slate-800 mb-2">💬 ตัวอย่างบทสนทนา (Dialogue)</h4>
+                    <div class="space-y-1 text-slate-600">
+                        <p><strong>A:</strong> ${sentence.dialogue.a}</p>
+                        <p><strong>B:</strong> ${sentence.dialogue.b}</p>
+                    </div>
+                </div>
+                <div class="p-4 bg-slate-100 rounded-lg">
+                    <h4 class="font-semibold text-lg text-slate-800 mb-2">🔄 คำที่เกี่ยวข้อง / ใช้แทนได้ (Alternatives)</h4>
+                    <div class="text-slate-600">${sentence.alternatives}</div>
+                </div>
+            `;
+
+            modal.classList.add('active');
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            modal.classList.add('opacity-0', 'pointer-events-none');
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        closeModalBtn.addEventListener('click', closeModal);
+        modal.addEventListener('click', (e) => {
+            if (e.target.id === 'modal') {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Structure #45 - Are you going to...</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Mitr:wght@300;400;500;600&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Mitr', sans-serif;
+        }
+        .font-poppins {
+            font-family: 'Poppins', sans-serif;
+        }
+        .sentence-btn {
+            transition: all 0.2s ease-in-out;
+        }
+        #modal {
+            transition: opacity 0.3s ease;
+        }
+        .modal-content-container {
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            opacity: 0;
+            transform: translateY(20px) scale(0.95);
+        }
+        #modal.active .modal-content-container {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+    </style>
+</head>
+<body class="bg-slate-100">
+
+    <div class="container mx-auto p-4 sm:p-6 lg:p-8">
+
+        <header class="text-center mb-10">
+            <h1 class="text-4xl sm:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-green-500 to-emerald-600 font-poppins">Structure #45</h1>
+            <h2 class="text-2xl sm:text-3xl font-bold text-slate-800 mt-2 font-poppins">"Are you going to + (verb)...?"</h2>
+            <p class="text-slate-600 mt-4 max-w-2xl mx-auto text-lg">
+                ใช้เพื่อถามถึง <strong class="text-green-600">"แผนการ"</strong> หรือ <strong class="text-emerald-600">"ความตั้งใจ"</strong> ของอีกฝ่ายในอนาคต เป็นการถามว่า "คุณจะ...ไหม" โดยมักจะหมายถึงแผนที่คิดไว้แล้วในใจ<br>
+                <strong class="text-red-600">Tip:</strong> ในการพูดทั่วไป มักจะย่อเสียงเป็น "Are you gonna...?" (อาร์ยูเกอนนะ)
+            </p>
+        </header>
+
+        <main id="sentences-grid" class="grid grid-cols-1 md:grid-cols-2 gap-5">
+            </main>
+
+        <footer class="text-center mt-12">
+            <p class="text-slate-700 font-medium">อังกฤษฉบับคนเรียนไม่รู้เรื่อง โดยครูสาลี่</p>
+        </footer>
+
+    </div>
+
+    <div id="modal" class="fixed inset-0 bg-black bg-opacity-60 flex justify-center items-center p-4 z-50 opacity-0 pointer-events-none">
+        <div class="modal-content-container w-full max-w-2xl max-h-[90vh] overflow-y-auto bg-slate-50 rounded-2xl shadow-2xl">
+            <div id="modal-header" class="p-6 sm:p-8 rounded-t-2xl bg-gradient-to-r from-green-500 to-emerald-600">
+                <p id="modal-english" class="font-poppins font-bold text-2xl text-white text-center"></p>
+                <p id="modal-thai" class="text-xl text-white text-center mt-2 opacity-90"></p>
+            </div>
+            <div class="p-6 sm:p-8">
+                <div id="modal-details" class="space-y-5">
+                    </div>
+                <div class="text-center mt-8">
+                    <button id="close-modal-btn" class="bg-slate-600 hover:bg-slate-700 text-white font-bold py-2 px-8 rounded-full shadow-lg transform hover:scale-105 transition-transform duration-300">
+                        ปิด
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const sentences = [
+            {
+                eng: "Are you going to eat that?", th: "คุณจะกินนั่นไหม",
+                context: "ใช้ถามเมื่อเห็นอาหารเหลืออยู่ และเราอยากจะขอกิน (ถ้าเขาไม่กินแล้ว) เป็นการถามอย่างมีมารยาท",
+                dialogue: { a: "I'm so full.", b: "You didn't finish your fries. Are you going to eat that?", a: "No, you can have it." },
+                alternatives: "<strong>Are you gonna eat that?</strong> (ไม่เป็นทางการ)<br><strong>Are you done with that?</strong> (คุณกินเสร็จแล้วใช่ไหม?)"
+            },
+            {
+                eng: "Are you going to the party tonight?", th: "คืนนี้คุณจะไปงานปาร์ตี้ไหม",
+                context: "ใช้เพื่อถามถึงแผนการของอีกฝ่ายเกี่ยวกับงานอีเวนต์ที่กำลังจะมาถึง เพื่อดูว่าเขาจะไปหรือไม่",
+                dialogue: { a: "I heard Sarah is throwing a party.", b: "Yes, I heard that too. Are you going to the party tonight?", a: "I think so!" },
+                alternatives: "<strong>Are you going to the party tonight?</strong> (ใช้ Present Continuous ก็ได้ ความหมายใกล้เคียงกันมาก)<br><strong>Will you be at the party tonight?</strong>"
+            },
+            {
+                eng: "Are you going to buy it?", th: "คุณจะซื้อมันไหม",
+                context: "ใช้ถามเพื่อนหรือคนใกล้ชิดหลังจากที่เขาได้พิจารณาสินค้าชิ้นหนึ่งอยู่นาน เพื่อถามการตัดสินใจสุดท้าย",
+                dialogue: { a: "You've been looking at that watch for 20 minutes.", b: "I know, I love it but it's expensive.", a: "So, are you going to buy it?" },
+                alternatives: "<strong>Are you gonna get it?</strong> (ไม่เป็นทางการ)<br><strong>Have you decided to buy it?</strong>"
+            },
+            {
+                eng: "Are you going to finish your work?", th: "คุณจะทำงานของคุณให้เสร็จไหม",
+                context: "ใช้ถามเพื่อนร่วมงานหรือเพื่อนเพื่อตรวจสอบความคืบหน้าของงาน",
+                dialogue: { a: "It's almost 5 PM.", b: "I know. Are you going to finish your work soon? We can go home together." },
+                alternatives: "<strong>Will you finish your work soon?</strong>"
+            },
+            {
+                eng: "What are you going to do?", th: "แล้วคุณจะทำอย่างไรต่อไป",
+                context: "ใช้ถามถึงแผนการในอนาคตหลังจากเกิดเหตุการณ์บางอย่างขึ้น เป็นการถามถึงการตัดสินใจขั้นต่อไป",
+                dialogue: { a: "I just lost my job.", b: "Oh no, I'm so sorry. What are you going to do?", a: "I'll start looking for a new one tomorrow." },
+                alternatives: "<strong>What's your next move?</strong> (ก้าวต่อไปของคุณคืออะไร)<br><strong>What's your plan?</strong>"
+            },
+            {
+                eng: "Are you going to call him?", th: "คุณจะโทรหาเขาไหม",
+                context: "ใช้ถามถึงความตั้งใจของอีกฝ่ายว่าจะติดต่อกับบุคคลที่สามหรือไม่",
+                dialogue: { a: "You've been waiting for his call all day.", b: "Maybe he's busy. Are you going to call him instead?" },
+                alternatives: "<strong>Will you call him?</strong>"
+            },
+            {
+                eng: "Are you going to apologize?", th: "คุณจะขอโทษไหม",
+                context: "ใช้ถามอีกฝ่ายหลังจากที่เขาทะเลาะหรือทำผิดต่อใครบางคน ว่าเขามีความตั้งใจที่จะขอโทษหรือไม่",
+                dialogue: { a: "You know you were wrong.", b: "So, are you going to apologize to her?", a: "I guess I have to." },
+                alternatives: "<strong>Do you plan to apologize?</strong>"
+            },
+            {
+                eng: "When are you going to start?", th: "คุณจะเริ่มเมื่อไหร่",
+                context: "ใช้ 'When' เพื่อถามถึงเวลาที่จะเริ่มต้นทำโปรเจกต์หรือกิจกรรมที่ได้วางแผนไว้",
+                dialogue: { a: "I plan to learn the piano.", b: "That's great! When are you going to start?" },
+                alternatives: "<strong>When will you start?</strong>"
+            },
+            {
+                eng: "Are you going to watch the game tonight?", th: "คืนนี้คุณจะดูการแข่งขันไหม",
+                context: "ใช้ชวนคุยเกี่ยวกับโปรแกรมกีฬาที่น่าสนใจในคืนนั้น",
+                dialogue: { a: "The final match is on TV.", b: "I know! Are you going to watch the game tonight?", a: "Definitely!" },
+                alternatives: "<strong>Will you be watching the game tonight?</strong>"
+            },
+            {
+                eng: "How are you going to fix this?", th: "คุณจะแก้ไขเรื่องนี้อย่างไร",
+                context: "ใช้ 'How' เพื่อถามถึง 'วิธีการ' หรือ 'แผนการ' ในการแก้ปัญหาที่เกิดขึ้น",
+                dialogue: { a: "You broke the vase.", b: "I know, I'm so sorry. How are you going to fix this?", a: "I'll buy a new one." },
+                alternatives: "<strong>What's your plan to fix this?</strong>"
+            },
+            {
+                eng: "Are you going to wear that?", th: "คุณจะใส่ชุดนั้นจริงๆ เหรอ",
+                context: "ใช้ถามด้วยความประหลาดใจหรือไม่อยากจะเชื่อ เกี่ยวกับเสื้อผ้าที่อีกฝ่ายเลือกใส่",
+                dialogue: { a: "I'm ready for the party.", b: "(Sees friend wearing a strange costume) Wait... are you really going to wear that?" },
+                alternatives: "<strong>Is that what you're wearing?</strong>"
+            },
+            {
+                eng: "Are you going to tell your parents?", th: "คุณจะบอกพ่อแม่ของคุณไหม",
+                context: "ใช้ถามถึงการตัดสินใจว่าจะบอกข่าวสำคัญ (ทั้งดีและร้าย) ให้ครอบครัวทราบหรือไม่",
+                dialogue: { a: "We're getting married!", b: "Congratulations! Are you going to tell your parents soon?" },
+                alternatives: "<strong>When will you tell your parents?</strong>"
+            },
+            {
+                eng: "Who are you going to invite?", th: "คุณจะเชิญใครบ้าง",
+                context: "ใช้ 'Who' เพื่อถามเกี่ยวกับรายชื่อแขกที่จะเชิญมาในงานเลี้ยง",
+                dialogue: { a: "I'm planning my birthday party.", b: "Sounds fun! Who are you going to invite?" },
+                alternatives: "<strong>Who is on your guest list?</strong>"
+            },
+            {
+                eng: "It's not going to be easy.", th: "มันจะไม่ง่ายนะ",
+                context: "ใช้โครงสร้างนี้เป็นประโยคบอกเล่าเพื่อเตือนอีกฝ่ายว่าสิ่งที่กำลังจะทำนั้นมีความท้าทาย",
+                dialogue: { a: "I'm going to climb that mountain.", b: "Good luck. It's not going to be easy." },
+                alternatives: "<strong>It will be difficult.</strong>"
+            },
+            {
+                eng: "This is going to be fun.", th: "นี่จะต้องสนุกแน่ๆ",
+                context: "ใช้แสดงความคาดหวังในเชิงบวกต่อกิจกรรมที่กำลังจะเริ่มต้น",
+                dialogue: { a: "Are you ready for our road trip?", b: "Yes! All packed. This is going to be fun." },
+                alternatives: "<strong>This will be fun.</strong><br><strong>I'm so excited for this.</strong>"
+            },
+            {
+                eng: "Are you going to answer the phone?", th: "คุณจะรับโทรศัพท์ไหม",
+                context: "ใช้ถามเมื่อโทรศัพท์ดังขึ้นและอีกฝ่ายยังไม่ยอมรับสาย",
+                dialogue: { a: "(Phone keeps ringing)", b: "It might be important. Are you going to answer the phone?" },
+                alternatives: "<strong>Aren't you going to get that?</strong>"
+            },
+            {
+                eng: "Are you going to do something about it?", th: "คุณจะทำอะไรกับเรื่องนี้สักอย่างไหม",
+                context: "ใช้ถามในเชิงท้าทายหรือกระตุ้นให้ใครบางคนลุกขึ้นมาจัดการกับปัญหาแทนที่จะบ่นเฉยๆ",
+                dialogue: { a: "I hate my job so much.", b: "You say that every day. Are you going to do something about it, like look for a new one?" },
+                alternatives: "<strong>Are you just going to complain, or are you going to act?</strong>"
+            },
+            {
+                eng: "What are you going to name him?", th: "คุณจะตั้งชื่อเขาว่าอะไร",
+                context: "ใช้ถามพ่อแม่ที่เพิ่งมีลูกหรือเพิ่งได้สัตว์เลี้ยงตัวใหม่",
+                dialogue: { a: "Our new puppy is so cute!", b: "He is! What are you going to name him?" },
+                alternatives: "<strong>Have you picked a name for him yet?</strong>"
+            },
+            {
+                eng: "I'm not going to lie to you.", th: "ฉันจะไม่โกหกคุณ",
+                context: "ใช้เป็นประโยคบอกเล่าเพื่อสร้างความเชื่อมั่นก่อนที่จะพูดความจริงที่อาจจะฟังดูไม่ดี",
+                dialogue: { a: "Tell me the truth, what do you think?", b: "Okay, I'm not going to lie to you. It's not your best work." },
+                alternatives: "<strong>I'm going to be honest with you.</strong>"
+            },
+            {
+                eng: "It's going to be okay.", th: "เดี๋ยวมันก็จะโอเค",
+                context: "ประโยคปลอบใจที่ใช้บ่อยที่สุด เพื่อให้กำลังใจคนที่กำลังกังวลหรือเสียใจ",
+                dialogue: { a: "I'm so worried about everything.", b: "Hey, look at me. It's going to be okay. We'll get through this." },
+                alternatives: "<strong>Everything will be alright.</strong><br><strong>Don't worry, it will be fine.</strong>"
+            }
+        ];
+        
+        const grid = document.getElementById('sentences-grid');
+        const modal = document.getElementById('modal');
+        const modalHeader = document.getElementById('modal-header');
+        const modalEnglish = document.getElementById('modal-english');
+        const modalThai = document.getElementById('modal-thai');
+        const modalDetails = document.getElementById('modal-details');
+        const closeModalBtn = document.getElementById('close-modal-btn');
+
+        const buttonColors = [
+            { base: 'border-emerald-500 bg-emerald-50 hover:bg-emerald-100 text-emerald-800' },
+            { base: 'border-green-500 bg-green-50 hover:bg-green-100 text-green-800' },
+            { base: 'border-teal-500 bg-teal-50 hover:bg-teal-100 text-teal-800' },
+            { base: 'border-lime-500 bg-lime-50 hover:bg-lime-100 text-lime-800' },
+        ];
+
+        sentences.forEach((sentence, index) => {
+            const button = document.createElement('button');
+            const colorTheme = buttonColors[index % buttonColors.length];
+            
+            button.className = `group sentence-btn p-4 text-left border-l-4 ${colorTheme.base}`;
+            
+            button.innerHTML = `
+                <span class="font-poppins font-semibold ${colorTheme.text}">${sentence.eng}</span>
+                <span class="block text-sm ${colorTheme.text}/80 font-normal mt-1">${sentence.th}</span>
+            `;
+
+            button.addEventListener('click', () => openModal(sentence));
+            grid.appendChild(button);
+        });
+
+        function openModal(sentence) {
+            modalEnglish.textContent = sentence.eng;
+            modalThai.textContent = sentence.th;
+
+            modalDetails.innerHTML = `
+                <div class="p-4 bg-slate-100 rounded-lg">
+                    <h4 class="font-semibold text-lg text-slate-800 mb-2">💡 บริบทการใช้งาน (Context)</h4>
+                    <p class="text-slate-600">${sentence.context}</p>
+                </div>
+                <div class="p-4 bg-slate-100 rounded-lg">
+                    <h4 class="font-semibold text-lg text-slate-800 mb-2">💬 ตัวอย่างบทสนทนา (Dialogue)</h4>
+                    <div class="space-y-1 text-slate-600">
+                        <p><strong>A:</strong> ${sentence.dialogue.a}</p>
+                        <p><strong>B:</strong> ${sentence.dialogue.b}</p>
+                    </div>
+                </div>
+                <div class="p-4 bg-slate-100 rounded-lg">
+                    <h4 class="font-semibold text-lg text-slate-800 mb-2">🔄 คำที่เกี่ยวข้อง / ใช้แทนได้ (Alternatives)</h4>
+                    <div class="text-slate-600">${sentence.alternatives}</div>
+                </div>
+            `;
+
+            modal.classList.add('active');
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            modal.classList.add('opacity-0', 'pointer-events-none');
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        closeModalBtn.addEventListener('click', closeModal);
+        modal.addEventListener('click', (e) => {
+            if (e.target.id === 'modal') {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>

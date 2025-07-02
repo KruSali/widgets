@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Structure #36 - There is/are...</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Mitr:wght@300;400;500;600&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Mitr', sans-serif;
+        }
+        .font-poppins {
+            font-family: 'Poppins', sans-serif;
+        }
+        .sentence-btn {
+            transition: all 0.2s ease-in-out;
+        }
+        #modal {
+            transition: opacity 0.3s ease;
+        }
+        .modal-content-container {
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            opacity: 0;
+            transform: translateY(20px) scale(0.95);
+        }
+        #modal.active .modal-content-container {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+    </style>
+</head>
+<body class="bg-slate-50">
+
+    <div class="container mx-auto p-4 sm:p-6 lg:p-8">
+
+        <header class="text-center mb-10">
+            <h1 class="text-4xl sm:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-teal-500 font-poppins">Structure #36</h1>
+            <h2 class="text-2xl sm:text-3xl font-bold text-slate-800 mt-2 font-poppins">"There is / There are + (noun)"</h2>
+            <p class="text-slate-600 mt-4 max-w-2xl mx-auto text-lg">
+                ใช้เพื่อบอกว่า "มี" อะไรบางอย่างอยู่ ณ ที่ใดที่หนึ่ง เป็นการเกริ่นนำหรือชี้ให้เห็นการมีอยู่ของสิ่งต่างๆ<br>
+                <strong class="text-red-600">กฎสำคัญที่สุด:</strong> <strong class="text-blue-600">There is</strong> + นามนับได้เอกพจน์ (1 สิ่ง) / นามนับไม่ได้ | <strong class="text-teal-600">There are</strong> + นามนับได้พหูพจน์ (2 สิ่งขึ้นไป)
+            </p>
+        </header>
+
+        <main id="sentences-grid" class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4">
+            </main>
+
+        <footer class="text-center mt-12">
+            <p class="text-slate-700 font-medium">อังกฤษฉบับคนเรียนไม่รู้เรื่อง โดยครูสาลี่</p>
+        </footer>
+
+    </div>
+
+    <div id="modal" class="fixed inset-0 bg-black bg-opacity-60 flex justify-center items-center p-4 z-50 opacity-0 pointer-events-none">
+        <div class="modal-content-container w-full max-w-2xl max-h-[90vh] overflow-y-auto bg-slate-50 rounded-2xl shadow-2xl">
+            <div id="modal-header" class="p-6 sm:p-8 rounded-t-2xl bg-gradient-to-r from-blue-500 to-teal-500">
+                <p id="modal-english" class="font-poppins font-bold text-2xl text-white text-center"></p>
+                <p id="modal-thai" class="text-xl text-white text-center mt-2 opacity-90"></p>
+            </div>
+            <div class="p-6 sm:p-8">
+                <div id="modal-details" class="space-y-5">
+                    </div>
+                <div class="text-center mt-8">
+                    <button id="close-modal-btn" class="bg-slate-600 hover:bg-slate-700 text-white font-bold py-2 px-8 rounded-full shadow-lg transform hover:scale-105 transition-transform duration-300">
+                        ปิด
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const sentences = [
+            // --- There is ---
+            {
+                eng: "There is a cat on the roof.", th: "มีแมวหนึ่งตัวอยู่บนหลังคา",
+                context: "การใช้งานพื้นฐานที่สุด ใช้ชี้ให้เห็นถึงการมีอยู่ของสิ่งของหรือสัตว์ (เอกพจน์) ในที่ใดที่หนึ่ง",
+                dialogue: { a: "What's that noise?", b: "Look! There is a cat on the roof." },
+                alternatives: "<strong>A cat is on the roof.</strong><br><strong>I see a cat on the roof.</strong>"
+            },
+            {
+                eng: "There is a problem with my car.", th: "มีปัญหากับรถของฉัน",
+                context: "ใช้เพื่อเกริ่นนำว่ามีปัญหาเกิดขึ้น และต้องการความช่วยเหลือหรือต้องการแจ้งให้ผู้ที่เกี่ยวข้องทราบ",
+                dialogue: { a: "Why are you late?", b: "There is a problem with my car. It won't start." },
+                alternatives: "<strong>My car has a problem.</strong><br><strong>Something is wrong with my car.</strong>"
+            },
+            {
+                eng: "There is a good reason for this.", th: "มันมีเหตุผลดีๆ สำหรับเรื่องนี้นะ",
+                context: "ใช้เพื่อยืนยันว่าการกระทำที่ดูเหมือนจะแปลกนั้นมีเหตุผลที่ดีรองรับอยู่",
+                dialogue: { a: "Why did you sell your house?", b: "It seems crazy, I know, but there is a good reason for this." },
+                alternatives: "<strong>I have a good reason for this.</strong>"
+            },
+            {
+                eng: "There is some milk in the fridge.", th: "มีนมอยู่ในตู้เย็น",
+                context: "ใช้ 'There is' กับคำนามนับไม่ได้ (uncountable noun) เช่น milk, water, sugar, information",
+                dialogue: { a: "Do we have any milk left?", b: "Yes, there is some milk in the fridge." },
+                alternatives: "<strong>We have some milk in the fridge.</strong>"
+            },
+            {
+                eng: "There is no time to waste.", th: "ไม่มีเวลาให้เสียแล้ว",
+                context: "ใช้ 'There is no...' กับคำนามนับไม่ได้เพื่อบอกว่า 'ไม่มีเลย' เป็นการแสดงความเร่งด่วน",
+                dialogue: { a: "The train leaves in five minutes!", b: "Let's go now! There is no time to waste." },
+                alternatives: "<strong>We don't have any time to waste.</strong><br><strong>We have to hurry.</strong>"
+            },
+            {
+                eng: "There is a possibility of rain.", th: "มีความเป็นไปได้ว่าฝนจะตก",
+                context: "ใช้เพื่อพูดถึงความเป็นไปได้ของเหตุการณ์บางอย่าง",
+                dialogue: { a: "Should I bring an umbrella?", b: "Maybe. The forecast says there is a possibility of rain." },
+                alternatives: "<strong>It might rain.</strong><br><strong>Rain is possible.</strong>"
+            },
+            {
+                eng: "Is there a bank near here?", th: "มีธนาคารอยู่ใกล้ๆ แถวนี้ไหม",
+                context: "ใช้โครงสร้างคำถาม 'Is there...?' เพื่อถามถึงการมีอยู่ของสถานที่ (เอกพจน์)",
+                dialogue: { a: "Excuse me, is there a bank near here?", b: "Yes, there's one just around the corner." },
+                alternatives: "<strong>Do you know where the nearest bank is?</strong>"
+            },
+            // --- There are ---
+            {
+                eng: "There are two books on the table.", th: "มีหนังสือสองเล่มอยู่บนโต๊ะ",
+                context: "การใช้งานพื้นฐาน ใช้ชี้ให้เห็นถึงการมีอยู่ของสิ่งของ (พหูพจน์)",
+                dialogue: { a: "Have you seen my books?", b: "I think so. There are two books on the table. Are they yours?" },
+                alternatives: "<strong>Two books are on the table.</strong><br><strong>I see two books on the table.</strong>"
+            },
+            {
+                eng: "There are many people at the party.", th: "มีคนมากมายอยู่ที่งานปาร์ตี้",
+                context: "ใช้เพื่อบรรยายปริมาณของคนหรือสิ่งของ (พหูพจน์) ในสถานที่หนึ่ง",
+                dialogue: { a: "Is the party crowded?", b: "Yes! There are many people at the party. I can barely move." },
+                alternatives: "<strong>The party is crowded.</strong><br><strong>Lots of people are at the party.</strong>"
+            },
+            {
+                eng: "There are some issues we need to discuss.", th: "มีบางประเด็นที่เราต้องหารือกัน",
+                context: "ใช้ในบริบทการทำงานเพื่อเกริ่นนำว่ามีปัญหาหรือหัวข้อหลายอย่างที่ต้องนำมาพูดคุยกัน",
+                dialogue: { a: "Can we have a quick meeting?", b: "Sure. There are some issues we need to discuss before the launch." },
+                alternatives: "<strong>We have some issues to discuss.</strong><br><strong>We need to talk about some issues.</strong>"
+            },
+            {
+                eng: "There are no good movies playing now.", th: "ตอนนี้ไม่มีหนังดีๆ ฉายเลย",
+                context: "ใช้ 'There are no...' กับคำนามพหูพจน์เพื่อบอกว่า 'ไม่มีเลย'",
+                dialogue: { a: "Let's go to the cinema.", b: "I checked the listings. There are no good movies playing now." },
+                alternatives: "<strong>There aren't any good movies playing.</strong>"
+            },
+            {
+                eng: "There are a lot of things to do.", th: "มีอะไรต้องทำเยอะแยะเลย",
+                context: "ใช้เพื่อบ่นหรือบอกว่ากำลังยุ่งมากและมีภาระงานมากมาย",
+                dialogue: { a: "Can you relax for a bit?", b: "I wish. There are a lot of things to do before the guests arrive." },
+                alternatives: "<strong>I have a lot to do.</strong><br><strong>I'm swamped.</strong> (ฉันงานท่วมหัว)"
+            },
+            {
+                eng: "Are there any questions?", th: "มีคำถามอะไรไหม",
+                context: "เป็นประโยคที่ใช้บ่อยที่สุดหลังจบการนำเสนอหรือการสอน เพื่อเปิดโอกาสให้ถาม",
+                dialogue: { a: "...and that's how it works.", b: "Are there any questions?", a: "Yes, I have one." },
+                alternatives: "<strong>Does anyone have any questions?</strong>"
+            },
+            {
+                eng: "There are only two choices.", th: "มีเพียงสองทางเลือกเท่านั้น",
+                context: "ใช้เพื่อจำกัดขอบเขตของทางเลือกที่มีอยู่",
+                dialogue: { a: "What can we do now?", b: "As I see it, there are only two choices: we either quit or we fight." },
+                alternatives: "<strong>We only have two options.</strong>"
+            },
+            // --- Mixed / Nuance ---
+            {
+                eng: "There seems to be a mistake.", th: "ดูเหมือนว่าจะมีความผิดพลาด",
+                context: "ใช้ 'seems to be' เพื่อทำให้ประโยคดูสุภาพและนุ่มนวลลง เป็นการบอกว่า 'น่าจะ' มีปัญหา แต่ยังไม่แน่ใจ 100%",
+                dialogue: { a: "The total is $50.", b: "Hmm, that's more than I expected. I think there seems to be a mistake on the bill." },
+                alternatives: "<strong>I think there might be a mistake.</strong>"
+            },
+            {
+                eng: "There used to be a park here.", th: "ตรงนี้เคยมีสวนสาธารณะมาก่อน",
+                context: "ใช้ 'used to be' เพื่อพูดถึงสิ่งที่เคยมีอยู่ แต่ปัจจุบันไม่มีแล้ว",
+                dialogue: { a: "This area has changed so much.", b: "I know. There used to be a park here, right where this mall is." },
+                alternatives: "<strong>A park was once here.</strong>"
+            },
+            {
+                eng: "There has been an accident.", th: "ได้เกิดอุบัติเหตุขึ้น",
+                context: "ใช้ Present Perfect (has been) เพื่อบอกว่ามีเหตุการณ์บางอย่างเพิ่งเกิดขึ้นและยังส่งผลถึงปัจจุบัน",
+                dialogue: { a: "Why is the traffic so bad?", b: "The radio says there has been an accident on the main road." },
+                alternatives: "<strong>An accident just happened.</strong>"
+            },
+            {
+                eng: "There's a fly in my soup!", th: "มีแมลงวันอยู่ในซุปของฉัน!",
+                context: "ใช้ 'There's' (รูปย่อของ There is) ในการอุทานหรือร้องเรียนเมื่อเจอสิ่งที่ไม่พึงประสงค์",
+                dialogue: { a: "Waiter! Come here!", b: "Yes, sir?", a: "There's a fly in my soup!" },
+                alternatives: "<strong>I found a fly in my soup!</strong>"
+            },
+            {
+                eng: "There's no reason to be upset.", th: "ไม่มีเหตุผลที่จะต้องเสียใจ/โมโหเลย",
+                context: "ใช้เพื่อปลอบใจหรือทำให้ใครบางคนใจเย็นลง",
+                dialogue: { a: "I can't believe I made such a stupid mistake.", b: "It's okay. Everyone makes mistakes. There's no reason to be upset." },
+                alternatives: "<strong>You don't need to be upset.</strong><br><strong>Don't worry about it.</strong>"
+            },
+            {
+                eng: "There is still hope.", th: "มันยังคงมีความหวัง",
+                context: "ใช้เพื่อให้กำลังใจในสถานการณ์ที่ยากลำบาก ว่ายังไม่สิ้นหวังเสียทีเดียว",
+                dialogue: { a: "We have lost almost everything.", b: "But we haven't lost each other. There is still hope." },
+                alternatives: "<strong>We shouldn't lose hope yet.</strong><br><strong>All is not lost.</strong>"
+            }
+        ];
+        
+        const grid = document.getElementById('sentences-grid');
+        const modal = document.getElementById('modal');
+        const modalHeader = document.getElementById('modal-header');
+        const modalEnglish = document.getElementById('modal-english');
+        const modalThai = document.getElementById('modal-thai');
+        const modalDetails = document.getElementById('modal-details');
+        const closeModalBtn = document.getElementById('close-modal-btn');
+
+        sentences.forEach((sentence, index) => {
+            const button = document.createElement('button');
+            button.className = `group sentence-btn p-4 text-left bg-transparent border-b-2 border-slate-300 hover:border-blue-500`;
+            
+            button.innerHTML = `
+                <span class="font-poppins font-semibold text-slate-700 group-hover:text-blue-600 transition-colors duration-200">${sentence.eng}</span>
+                <span class="block text-sm text-slate-500 font-normal mt-1 group-hover:text-blue-500 transition-colors duration-200">${sentence.th}</span>
+            `;
+
+            button.addEventListener('click', () => openModal(sentence));
+            grid.appendChild(button);
+        });
+
+        function openModal(sentence) {
+            modalEnglish.textContent = sentence.eng;
+            modalThai.textContent = sentence.th;
+
+            modalDetails.innerHTML = `
+                <div class="p-4 bg-slate-100 rounded-lg">
+                    <h4 class="font-semibold text-lg text-slate-800 mb-2">💡 บริบทการใช้งาน (Context)</h4>
+                    <p class="text-slate-600">${sentence.context}</p>
+                </div>
+                <div class="p-4 bg-slate-100 rounded-lg">
+                    <h4 class="font-semibold text-lg text-slate-800 mb-2">💬 ตัวอย่างบทสนทนา (Dialogue)</h4>
+                    <div class="space-y-1 text-slate-600">
+                        <p><strong>A:</strong> ${sentence.dialogue.a}</p>
+                        <p><strong>B:</strong> ${sentence.dialogue.b}</p>
+                    </div>
+                </div>
+                <div class="p-4 bg-slate-100 rounded-lg">
+                    <h4 class="font-semibold text-lg text-slate-800 mb-2">🔄 คำที่เกี่ยวข้อง / ใช้แทนได้ (Alternatives)</h4>
+                    <div class="text-slate-600">${sentence.alternatives}</div>
+                </div>
+            `;
+
+            modal.classList.add('active');
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            modal.classList.add('opacity-0', 'pointer-events-none');
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        closeModalBtn.addEventListener('click', closeModal);
+        modal.addEventListener('click', (e) => {
+            if (e.target.id === 'modal') {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>

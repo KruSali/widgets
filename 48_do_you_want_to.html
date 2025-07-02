@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Structure #48 - Do you want to...</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Mitr:wght@300;400;500;600&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Mitr', sans-serif;
+        }
+        .font-poppins {
+            font-family: 'Poppins', sans-serif;
+        }
+        .sentence-btn {
+            transition: all 0.2s ease-in-out;
+        }
+        #modal {
+            transition: opacity 0.3s ease;
+        }
+        .modal-content-container {
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            opacity: 0;
+            transform: translateY(20px) scale(0.95);
+        }
+        #modal.active .modal-content-container {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+    </style>
+</head>
+<body class="bg-slate-100">
+
+    <div class="container mx-auto p-4 sm:p-6 lg:p-8">
+
+        <header class="text-center mb-10">
+            <h1 class="text-4xl sm:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-green-500 to-teal-500 font-poppins">Structure #48</h1>
+            <h2 class="text-2xl sm:text-3xl font-bold text-slate-800 mt-2 font-poppins">"Do you want to + (verb)...?"</h2>
+            <p class="text-slate-600 mt-4 max-w-2xl mx-auto text-lg">
+                เป็นวิธีที่ <strong class="text-green-600">"ตรงไปตรงมา"</strong> ที่สุดในการถามถึง <strong class="text-teal-600">"ความต้องการ"</strong> ของใครสักคน หรือใช้เป็น <strong class="text-green-600">"คำชวนแบบไม่เป็นทางการ"</strong><br>
+                <strong class="text-red-600">Tip:</strong> ในการพูด มักจะย่อเสียงเป็น **"Do you wanna...?"** | ถ้าต้องการสุภาพขึ้น ให้ใช้ **"Would you like to...?"**
+            </p>
+        </header>
+
+        <main id="sentences-grid" class="grid grid-cols-1 md:grid-cols-2 gap-5">
+            </main>
+
+        <footer class="text-center mt-12">
+            <p class="text-slate-700 font-medium">อังกฤษฉบับคนเรียนไม่รู้เรื่อง โดยครูสาลี่</p>
+        </footer>
+
+    </div>
+
+    <div id="modal" class="fixed inset-0 bg-black bg-opacity-60 flex justify-center items-center p-4 z-50 opacity-0 pointer-events-none">
+        <div class="modal-content-container w-full max-w-2xl max-h-[90vh] overflow-y-auto bg-slate-50 rounded-2xl shadow-2xl">
+            <div id="modal-header" class="p-6 sm:p-8 rounded-t-2xl bg-gradient-to-r from-green-500 to-teal-500">
+                <p id="modal-english" class="font-poppins font-bold text-2xl text-white text-center"></p>
+                <p id="modal-thai" class="text-xl text-white text-center mt-2 opacity-90"></p>
+            </div>
+            <div class="p-6 sm:p-8">
+                <div id="modal-details" class="space-y-5">
+                    </div>
+                <div class="text-center mt-8">
+                    <button id="close-modal-btn" class="bg-slate-600 hover:bg-slate-700 text-white font-bold py-2 px-8 rounded-full shadow-lg transform hover:scale-105 transition-transform duration-300">
+                        ปิด
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const sentences = [
+            {
+                eng: "Do you want to go to the movies?", th: "คุณอยากไปดูหนังไหม",
+                context: "เป็นคำชวนเพื่อนแบบไม่เป็นทางการที่ใช้บ่อยที่สุด",
+                dialogue: { a: "There's a new Marvel movie out.", b: "Oh, cool. Do you want to go to the movies this weekend?", a: "Yeah, definitely!" },
+                alternatives: "<strong>Do you wanna go to the movies?</strong> (ไม่เป็นทางการสุดๆ)<br><strong>Would you like to go to the movies?</strong> (สุภาพขึ้น)<br><strong>How about we go to the movies?</strong>"
+            },
+            {
+                eng: "Do you want to grab a coffee?", th: "คุณอยากจะไปหากาแฟดื่มกันไหม",
+                context: "เป็นคำชวนแบบกันเองที่ใช้บ่อยมากกับเพื่อนหรือเพื่อนร่วมงาน 'Grab a coffee' เป็นสำนวนที่หมายถึง 'ไปดื่มกาแฟกัน'",
+                dialogue: { a: "I need a break from work.", b: "Me too. Do you want to grab a coffee?", a: "Sure, let's go." },
+                alternatives: "<strong>Wanna grab a coffee?</strong> (ไม่เป็นทางการมาก)<br><strong>Feel like getting a coffee?</strong>"
+            },
+            {
+                eng: "Do you want to talk about it?", th: "คุณอยากจะพูดถึงมันไหม",
+                context: "ใช้ถามอีกฝ่ายด้วยความเป็นห่วงเมื่อเห็นว่าเขามีเรื่องไม่สบายใจ เป็นการเปิดโอกาสให้เขาได้ระบายโดยไม่บังคับ",
+                dialogue: { a: "You look really upset.", b: "Do you want to talk about it?", a: "Not right now. Maybe later." },
+                alternatives: "<strong>Would you like to talk about it?</strong><br><strong>Are you okay to talk about it?</strong>"
+            },
+            {
+                eng: "What do you want to eat?", th: "คุณอยากจะกินอะไร",
+                context: "เป็นคำถามพื้นฐานที่สุดที่ใช้ถามความต้องการเรื่องอาหาร",
+                dialogue: { a: "I'm getting hungry.", b: "Me too. What do you want to eat for dinner?" },
+                alternatives: "<strong>What do you feel like eating?</strong><br><strong>What are you in the mood for?</strong>"
+            },
+            {
+                eng: "Do you want to join us?", th: "คุณอยากจะมาร่วมกับพวกเราไหม",
+                context: "ใช้เชิญชวนใครบางคนที่อยู่คนเดียวให้เข้ามาร่วมกิจกรรมกับกลุ่มของเรา",
+                dialogue: { a: "We're going out for lunch.", b: "Hey Mark, do you want to join us?", c: "Sure, I'd love to." },
+                alternatives: "<strong>Wanna join us?</strong><br><strong>Would you like to join us?</strong>"
+            },
+            {
+                eng: "Do you want to leave?", th: "คุณอยากจะกลับแล้วหรือยัง",
+                context: "ใช้ถามเพื่อนหรือคนรักในงานปาร์ตี้หรืองานอีเวนต์ เพื่อเช็คว่าเขาเบื่อหรืออยากกลับแล้วหรือยัง",
+                dialogue: { a: "You've been checking your watch a lot.", b: "Do you want to leave?", a: "Yes, I'm a little tired." },
+                alternatives: "<strong>Are you ready to go?</strong>"
+            },
+            {
+                eng: "Do you want to come over?", th: "คุณอยากจะมาที่นี่ (บ้านฉัน) ไหม",
+                context: "เป็นคำชวนแบบกันเองให้มาที่บ้านหรือที่พักของผู้พูด",
+                dialogue: { a: "I'm bored at home.", b: "I'm just watching TV. Do you want to come over?", a: "Okay, I'll be there in 10." },
+                alternatives: "<strong>Wanna come over?</strong><br><strong>You should come over.</strong>"
+            },
+            {
+                eng: "Do you want to try some?", th: "คุณอยากลองชิมหน่อยไหม",
+                context: "ใช้เมื่อเรากำลังกินอะไรอร่อยๆ และต้องการแบ่งให้เพื่อนลองชิม",
+                dialogue: { a: "Mmm, this cake is amazing.", b: "It looks good! Do you want to try some?", a: "Yes, please!" },
+                alternatives: "<strong>Would you like to try some?</strong><br><strong>Here, have a bite.</strong>"
+            },
+            {
+                eng: "Do you want to play a game?", th: "คุณอยากเล่นเกมไหม",
+                context: "ใช้ชวนเพื่อนเล่นบอร์ดเกมหรือวิดีโอเกม",
+                dialogue: { a: "It's raining outside, we can't go to the park.", b: "So, do you want to play a game instead?" },
+                alternatives: "<strong>Are you up for a game?</strong> (สนใจเล่นเกมไหม - ไม่เป็นทางการ)<br><strong>How about a game?</strong>"
+            },
+            {
+                eng: "Do you want to know a secret?", th: "คุณอยากรู้ความลับไหม",
+                context: "ใช้เกริ่นนำแบบน่าตื่นเต้นก่อนที่จะเล่าความลับหรือเรื่องที่ไม่ค่อยมีคนรู้ให้ใครสักคนฟัง",
+                dialogue: { a: "Come here.", b: "What is it?", a: "Do you want to know a secret about our boss?" },
+                alternatives: "<strong>Can I tell you a secret?</strong>"
+            },
+            {
+                eng: "Do you want me to help you?", th: "คุณอยากให้ฉันช่วยคุณไหม",
+                context: "ใช้โครงสร้าง 'want me to' เพื่อเสนอความช่วยเหลืออย่างเจาะจง",
+                dialogue: { a: "I can't carry all of these bags.", b: "Do you want me to help you with that?", a: "Yes, please. That would be great." },
+                alternatives: "<strong>Would you like me to help you?</strong><br><strong>Let me help you.</strong>"
+            },
+            {
+                eng: "Where do you want to go?", th: "คุณอยากจะไปที่ไหน",
+                context: "ใช้ 'Where' เพื่อถามถึงสถานที่ที่อีกฝ่ายต้องการจะไป",
+                dialogue: { a: "Let's go somewhere this weekend.", b: "Okay. Where do you want to go?", a: "Maybe the beach?" },
+                alternatives: "<strong>Where would you like to go?</strong>"
+            },
+            {
+                eng: "What do you want to be when you grow up?", th: "โตขึ้นเธออยากเป็นอะไร",
+                context: "เป็นคำถามคลาสสิกที่ผู้ใหญ่ใช้ถามเด็กๆ เกี่ยวกับความฝันในอาชีพ",
+                dialogue: { a: "So, little Timmy...", b: "What do you want to be when you grow up?", c: "A superhero!" },
+                alternatives: "<strong>What's your dream job?</strong>"
+            },
+            {
+                eng: "Do you want to order in or eat out?", th: "คุณอยากจะสั่งอาหารมากินหรือออกไปกินข้างนอก",
+                context: "ใช้ถามเพื่อตัดสินใจเลือกระหว่างสองทางเลือกเกี่ยวกับมื้ออาหาร",
+                dialogue: { a: "I'm too lazy to cook.", b: "Me too. Do you want to order in or eat out tonight?" },
+                alternatives: "<strong>Should we order in or go out?</strong>"
+            },
+            {
+                eng: "I don't want to talk to you.", th: "ฉันไม่อยากคุยกับคุณ",
+                context: "ใช้รูปปฏิเสธเพื่อแสดงความรู้สึกโกรธหรือไม่พอใจอย่างชัดเจน",
+                dialogue: { a: "Please just listen to me.", b: "No. You lied to me. I don't want to talk to you right now." },
+                alternatives: "<strong>Leave me alone.</strong><br><strong>I'm not speaking to you.</strong>"
+            },
+            {
+                eng: "Do you want to know what I think?", th: "คุณอยากรู้ไหมว่าฉันคิดว่ายังไง",
+                context: "ใช้ถามก่อนที่จะแสดงความคิดเห็น ซึ่งอาจจะเป็นการพูดเชิงประชดประชันเล็กน้อยก็ได้",
+                dialogue: { a: "This is my brilliant plan!", b: "Do you want to know what I *really* think?", a: "I'm not sure I do..." },
+                alternatives: "<strong>Do you want my honest opinion?</strong>"
+            },
+            {
+                eng: "Do you want to bet?", th: "อยากจะพนันกันไหมล่ะ",
+                context: "เป็นสำนวนที่ใช้พูดอย่างท้าทาย เมื่อเรามั่นใจในความคิดของเรามากและต้องการจะพนันกับอีกฝ่าย",
+                dialogue: { a: "I bet you can't eat that whole pizza.", b: "Oh yeah? Do you want to bet?", a: "You're on!" },
+                alternatives: "<strong>Wanna bet?</strong><br><strong>I'll bet you can't do it.</strong>"
+            },
+            {
+                eng: "Do you want to try again?", th: "คุณอยากจะลองอีกครั้งไหม",
+                context: "ใช้เพื่อให้กำลังใจหลังจากที่ใครบางคนทำผิดพลาดหรือล้มเหลว",
+                dialogue: { a: "I give up. I can't solve it.", b: "Don't quit now. Take a deep breath. Do you want to try again?" },
+                alternatives: "<strong>Do you want to give it another shot?</strong>"
+            },
+            {
+                eng: "Do you want to switch places?", th: "คุณอยากจะสลับที่กันไหม",
+                context: "ใช้เพื่อเสนอการสลับที่นั่งหรือตำแหน่งกัน",
+                dialogue: { a: "I can't see the stage from here.", b: "My view is pretty good. Do you want to switch places with me?" },
+                alternatives: "<strong>Would you like to trade seats?</strong>"
+            },
+            {
+                eng: "Do you want to be right, or do you want to be happy?", th: "คุณอยากจะเป็นฝ่ายถูก หรือคุณอยากจะมีความสุข",
+                context: "เป็นคำถามเชิงปรัชญาที่ใช้เตือนใจคนที่ชอบเอาชนะในการโต้เถียง ว่าบางครั้งการยอมแพ้ก็ทำให้มีความสุขมากกว่า",
+                dialogue: { a: "I have to prove him wrong!", b: "But is it worth it? Ask yourself: do you want to be right, or do you want to be happy?" },
+                alternatives: "<strong>Is winning this argument really that important?</strong>"
+            }
+        ];
+        
+        const grid = document.getElementById('sentences-grid');
+        const modal = document.getElementById('modal');
+        const modalHeader = document.getElementById('modal-header');
+        const modalEnglish = document.getElementById('modal-english');
+        const modalThai = document.getElementById('modal-thai');
+        const modalDetails = document.getElementById('modal-details');
+        const closeModalBtn = document.getElementById('close-modal-btn');
+
+        sentences.forEach((sentence, index) => {
+            const button = document.createElement('button');
+            button.className = `group sentence-btn p-5 rounded-lg text-left text-white bg-green-500 shadow-md hover:bg-green-600 transform hover:-translate-y-1`;
+            
+            button.innerHTML = `
+                <span class="font-poppins font-semibold transition-colors duration-200">${sentence.eng}</span>
+                <span class="block text-sm text-green-100 font-normal mt-1 transition-colors duration-200">${sentence.th}</span>
+            `;
+
+            button.addEventListener('click', () => openModal(sentence));
+            grid.appendChild(button);
+        });
+
+        function openModal(sentence) {
+            modalEnglish.textContent = sentence.eng;
+            modalThai.textContent = sentence.th;
+
+            modalDetails.innerHTML = `
+                <div class="p-4 bg-slate-100 rounded-lg">
+                    <h4 class="font-semibold text-lg text-slate-800 mb-2">💡 บริบทการใช้งาน (Context)</h4>
+                    <p class="text-slate-600">${sentence.context}</p>
+                </div>
+                <div class="p-4 bg-slate-100 rounded-lg">
+                    <h4 class="font-semibold text-lg text-slate-800 mb-2">💬 ตัวอย่างบทสนทนา (Dialogue)</h4>
+                    <div class="space-y-1 text-slate-600">
+                        <p><strong>A:</strong> ${sentence.dialogue.a}</p>
+                        <p><strong>B:</strong> ${sentence.dialogue.b}</p>
+                    </div>
+                </div>
+                <div class="p-4 bg-slate-100 rounded-lg">
+                    <h4 class="font-semibold text-lg text-slate-800 mb-2">🔄 คำที่เกี่ยวข้อง / ใช้แทนได้ (Alternatives)</h4>
+                    <div class="text-slate-600">${sentence.alternatives}</div>
+                </div>
+            `;
+
+            modal.classList.add('active');
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            modal.classList.add('opacity-0', 'pointer-events-none');
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        closeModalBtn.addEventListener('click', closeModal);
+        modal.addEventListener('click', (e) => {
+            if (e.target.id === 'modal') {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Structure #43 - Do you know how to...</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Mitr:wght@300;400;500;600&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Mitr', sans-serif;
+        }
+        .font-poppins {
+            font-family: 'Poppins', sans-serif;
+        }
+        .sentence-btn {
+            transition: all 0.2s ease-in-out;
+        }
+        #modal {
+            transition: opacity 0.3s ease;
+        }
+        .modal-content-container {
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            opacity: 0;
+            transform: translateY(20px) scale(0.95);
+        }
+        #modal.active .modal-content-container {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+    </style>
+</head>
+<body class="bg-slate-100">
+
+    <div class="container mx-auto p-4 sm:p-6 lg:p-8">
+
+        <header class="text-center mb-10">
+            <h1 class="text-4xl sm:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-amber-500 font-poppins">Structure #43</h1>
+            <h2 class="text-2xl sm:text-3xl font-bold text-slate-800 mt-2 font-poppins">"Do you know how to + (verb)...?"</h2>
+            <p class="text-slate-600 mt-4 max-w-2xl mx-auto text-lg">
+                ใช้ถามว่าใครคนหนึ่ง <strong class="text-orange-600">"มีทักษะ"</strong> หรือ <strong class="text-amber-600">"มีความรู้"</strong> ในการทำสิ่งใดสิ่งหนึ่งหรือไม่ เป็นการถามถึง <strong class="text-orange-600">"วิธีทำ"</strong> ซึ่งเหมาะมากเวลาจะขอความช่วยเหลือหรือขอให้ใครสอน
+            </p>
+        </header>
+
+        <main id="sentences-grid" class="grid grid-cols-1 md:grid-cols-2 gap-5">
+            </main>
+
+        <footer class="text-center mt-12">
+            <p class="text-slate-700 font-medium">อังกฤษฉบับคนเรียนไม่รู้เรื่อง โดยครูสาลี่</p>
+        </footer>
+
+    </div>
+
+    <div id="modal" class="fixed inset-0 bg-black bg-opacity-60 flex justify-center items-center p-4 z-50 opacity-0 pointer-events-none">
+        <div class="modal-content-container w-full max-w-2xl max-h-[90vh] overflow-y-auto bg-slate-50 rounded-2xl shadow-2xl">
+            <div id="modal-header" class="p-6 sm:p-8 rounded-t-2xl bg-gradient-to-r from-orange-500 to-amber-500">
+                <p id="modal-english" class="font-poppins font-bold text-2xl text-white text-center"></p>
+                <p id="modal-thai" class="text-xl text-white text-center mt-2 opacity-90"></p>
+            </div>
+            <div class="p-6 sm:p-8">
+                <div id="modal-details" class="space-y-5">
+                    </div>
+                <div class="text-center mt-8">
+                    <button id="close-modal-btn" class="bg-slate-600 hover:bg-slate-700 text-white font-bold py-2 px-8 rounded-full shadow-lg transform hover:scale-105 transition-transform duration-300">
+                        ปิด
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const sentences = [
+            {
+                eng: "Do you know how to fix this?", th: "คุณรู้วิธีซ่อมเจ้านี่ไหม",
+                context: "ใช้เมื่อมีอุปกรณ์บางอย่างพัง และเราต้องการถามว่าอีกฝ่ายมีความรู้ความสามารถพอที่จะซ่อมมันได้หรือไม่",
+                dialogue: { a: "My coffee machine is making a weird noise.", b: "Hmm. Do you know how to fix this?", a: "Not a clue. Let's call a technician." },
+                alternatives: "<strong>Can you fix this?</strong> (คุณซ่อมอันนี้ได้ไหม - ถามถึงความสามารถ)<br><strong>How do I fix this?</strong> (ฉันจะซ่อมเจ้านี่ได้อย่างไร)"
+            },
+            {
+                eng: "Do you know how to get to the station?", th: "คุณรู้วิธีไปสถานีรถไฟไหม",
+                context: "ใช้เพื่อถามทางจากคนอื่น ซึ่งเป็นการถามถึงความรู้เกี่ยวกับเส้นทาง",
+                dialogue: { a: "Excuse me, I'm a bit lost.", b: "Yes?", a: "Do you know how to get to the train station from here?" },
+                alternatives: "<strong>Could you tell me how to get to the station?</strong> (สุภาพกว่า)<br><strong>Where is the train station?</strong>"
+            },
+            {
+                eng: "Do you know how to use this software?", th: "คุณรู้วิธีใช้ซอฟต์แวร์นี้ไหม",
+                context: "ใช้ถามเมื่อเจอโปรแกรมคอมพิวเตอร์ใหม่ๆ และต้องการคำแนะนำจากผู้ที่มีประสบการณ์มากกว่า",
+                dialogue: { a: "I just installed Photoshop.", b: "It looks complicated. Do you know how to use this software?" },
+                alternatives: "<strong>Can you teach me how to use this?</strong><br><strong>How does this software work?</strong>"
+            },
+            {
+                eng: "Do you know how to cook pasta?", th: "คุณรู้วิธีทำพาสต้าไหม",
+                context: "ใช้ถามถึงทักษะการทำอาหาร หรือเพื่อชวนคุยและหาคนมาช่วยทำอาหาร",
+                dialogue: { a: "What should we make for dinner?", b: "I have some pasta. Do you know how to cook pasta carbonara?" },
+                alternatives: "<strong>Can you cook pasta?</strong>"
+            },
+            {
+                eng: "Do you know how to solve this problem?", th: "คุณรู้วิธีแก้ปัญหานี้ไหม",
+                context: "ใช้เมื่อเจอปัญหาที่ซับซ้อน (เช่น ปัญหาคณิตศาสตร์, ปัญหาทางธุรกิจ) และต้องการความช่วยเหลือจากคนอื่น",
+                dialogue: { a: "I've been staring at this puzzle for an hour.", b: "I'm completely stuck. Do you know how to solve this problem?" },
+                alternatives: "<strong>How can we solve this?</strong><br><strong>Do you have any idea how to solve this?</strong>"
+            },
+            {
+                eng: "Do you know how to change a tire?", th: "คุณรู้วิธีเปลี่ยนยางรถยนต์ไหม",
+                context: "ใช้ถามถึงทักษะเฉพาะทางที่ต้องใช้ในสถานการณ์ฉุกเฉิน",
+                dialogue: { a: "Oh no, we have a flat tire.", b: "Okay, don't panic. First question: do you know how to change a tire?" },
+                alternatives: "<strong>Can you change a tire?</strong>"
+            },
+            {
+                eng: "Do you know how to speak French?", th: "คุณรู้วิธีพูดภาษาฝรั่งเศสไหม (พูดเป็นไหม)",
+                context: "ใช้เพื่อถามว่าใครคนหนึ่งสามารถพูดภาษาใดภาษาหนึ่งได้หรือไม่",
+                dialogue: { a: "We need someone to translate this document.", b: "Ask Maria. Do you know if she knows how to speak French?" },
+                alternatives: "<strong>Can you speak French?</strong><br><strong>Do you speak French?</strong>"
+            },
+            {
+                eng: "Do you know how to play chess?", th: "คุณรู้วิธีเล่นหมากรุกไหม (เล่นเป็นไหม)",
+                context: "ใช้ถามถึงทักษะการเล่นเกมหรือกีฬา เพื่อหาคนเล่นด้วย",
+                dialogue: { a: "I'm bored.", b: "Me too. Do you know how to play chess? There's a board over there." },
+                alternatives: "<strong>Can you play chess?</strong><br><strong>Want to play a game of chess?</strong>"
+            },
+            {
+                eng: "Do you know how to swim?", th: "คุณรู้วิธีว่ายน้ำไหม (ว่ายน้ำเป็นไหม)",
+                context: "ใช้ถามถึงทักษะพื้นฐานด้านกีฬาหรือความปลอดภัย",
+                dialogue: { a: "The water looks great today.", b: "Let's go in! Wait, do you know how to swim?" },
+                alternatives: "<strong>Can you swim?</strong>"
+            },
+            {
+                eng: "Do you know how to drive a manual car?", th: "คุณรู้วิธีขับรถเกียร์กระปุกไหม",
+                context: "ใช้ถามถึงทักษะการขับขี่ที่เฉพาะเจาะจง",
+                dialogue: { a: "Can you drive me home? My car is a bit old.", b: "It depends. Do you know how to drive a manual car?" },
+                alternatives: "<strong>Can you drive stick?</strong> (สำนวนอเมริกัน)"
+            },
+            {
+                eng: "I don't know how to thank you.", th: "ฉันไม่รู้จะขอบคุณคุณอย่างไรเลย",
+                context: "ใช้โครงสร้างนี้ในเชิงสำนวน เพื่อแสดงความขอบคุณอย่างสุดซึ้งสำหรับความช่วยเหลือที่ยิ่งใหญ่",
+                dialogue: { a: "You saved my life!", b: "I'm just glad you're okay.", a: "I don't know how to thank you enough." },
+                alternatives: "<strong>I can't thank you enough.</strong><br><strong>How can I ever repay you?</strong>"
+            },
+            {
+                eng: "I don't know how to tell her.", th: "ฉันไม่รู้ว่าจะบอกเธออย่างไรดี",
+                context: "ใช้เมื่อเรามีข่าวร้ายหรือเรื่องที่พูดยาก และกำลังลำบากใจว่าจะเริ่มต้นพูดอย่างไร",
+                dialogue: { a: "Have you told her the bad news yet?", b: "No. I don't know how to tell her without breaking her heart." },
+                alternatives: "<strong>I'm struggling to find the right words to tell her.</strong>"
+            },
+            {
+                eng: "Do you know how to tie a tie?", th: "คุณรู้วิธีผูกเนคไทไหม",
+                context: "ใช้ถามถึงทักษะเล็กๆ น้อยๆ ในชีวิตประจำวัน",
+                dialogue: { a: "I have a wedding to go to, but I can't get this right.", b: "Let me help. Do you know how to tie a tie?", a: "No, I've never learned." },
+                alternatives: "<strong>Can you teach me how to tie this?</strong>"
+            },
+            {
+                eng: "Do you know how to get their attention?", th: "คุณรู้วิธีที่จะได้รับความสนใจจากพวกเขาไหม",
+                context: "ใช้ในเชิงกลยุทธ์ (เช่น การตลาด, การพูดในที่สาธารณะ) เพื่อถามถึงวิธีดึงดูดความสนใจ",
+                dialogue: { a: "Nobody is listening to my presentation.", b: "You need a stronger opening. Do you know how to get their attention from the start?" },
+                alternatives: "<strong>What's the best way to get their attention?</strong>"
+            },
+            {
+                eng: "Do you know how much this costs?", th: "คุณรู้ไหมว่านี่ราคาเท่าไหร่",
+                context: "เปลี่ยน 'how to' เป็น 'how much' เพื่อถามเกี่ยวกับราคา",
+                dialogue: { a: "This watch is beautiful.", b: "It is. Do you know how much this costs?", a: "I'm afraid to even ask." },
+                alternatives: "<strong>How much is this?</strong>"
+            },
+            {
+                eng: "Do you know how long it takes?", th: "คุณรู้ไหมว่ามันใช้เวลานานเท่าไหร่",
+                context: "เปลี่ยน 'how to' เป็น 'how long' เพื่อถามเกี่ยวกับระยะเวลา",
+                dialogue: { a: "I'm going to walk to the museum.", b: "It's quite far. Do you know how long it takes?" },
+                alternatives: "<strong>How long does it take?</strong>"
+            },
+            {
+                eng: "He knows how to make people laugh.", th: "เขารู้วิธีทำให้คนอื่นหัวเราะ",
+                context: "ใช้โครงสร้างนี้เป็นประโยคบอกเล่าเพื่อชมเชยทักษะของใครบางคน",
+                dialogue: { a: "Everyone loves John.", b: "It's because he knows how to make people laugh. He has a great sense of humor." },
+                alternatives: "<strong>He's good at making people laugh.</strong>"
+            },
+            {
+                eng: "She knows how to handle difficult customers.", th: "เธอรู้วิธีรับมือกับลูกค้าที่รับมือยาก",
+                context: "ใช้เพื่อชมเชยความเป็นมืออาชีพและทักษะการแก้ปัญหาของใครบางคน",
+                dialogue: { a: "That customer was yelling, but she calmed him down.", b: "She's the best. She knows how to handle difficult customers." },
+                alternatives: "<strong>She's very skilled at handling difficult customers.</strong>"
+            },
+            {
+                eng: "If you don't know how to do it, just ask.", th: "ถ้าคุณไม่รู้วิธีทำ ก็แค่ถาม",
+                context: "เป็นคำแนะนำที่ให้กำลังใจ เพื่อบอกว่าการถามไม่ใช่เรื่องน่าอาย",
+                dialogue: { a: "I'm scared I'll make a mistake.", b: "It's okay. If you don't know how to do it, just ask for help." },
+                alternatives: "<strong>Don't be afraid to ask if you're not sure.</strong>"
+            },
+            {
+                eng: "Nobody knows how to open this jar.", th: "ไม่มีใครรู้วิธีเปิดขวดโหลนี้เลย",
+                context: "ใช้ในเชิงบ่นหรือติดตลกเมื่อเจอกับปัญหาที่ดูเหมือนง่ายแต่ไม่มีใครทำได้",
+                dialogue: { a: "Have you tried?", b: "Yes. My turn.", a: "Okay... wow, this is tight. Nobody knows how to open this jar." },
+                alternatives: "<strong>This jar is impossible to open.</strong>"
+            }
+        ];
+        
+        const grid = document.getElementById('sentences-grid');
+        const modal = document.getElementById('modal');
+        const modalHeader = document.getElementById('modal-header');
+        const modalEnglish = document.getElementById('modal-english');
+        const modalThai = document.getElementById('modal-thai');
+        const modalDetails = document.getElementById('modal-details');
+        const closeModalBtn = document.getElementById('close-modal-btn');
+
+        sentences.forEach((sentence, index) => {
+            const button = document.createElement('button');
+            button.className = `group sentence-btn p-5 rounded-lg text-left bg-white border-2 border-orange-400 hover:bg-orange-400`;
+            
+            button.innerHTML = `
+                <span class="font-poppins font-semibold text-orange-700 group-hover:text-white transition-colors duration-200">${sentence.eng}</span>
+                <span class="block text-sm text-orange-600/80 font-normal mt-1 group-hover:text-white/80 transition-colors duration-200">${sentence.th}</span>
+            `;
+
+            button.addEventListener('click', () => openModal(sentence));
+            grid.appendChild(button);
+        });
+
+        function openModal(sentence) {
+            modalEnglish.textContent = sentence.eng;
+            modalThai.textContent = sentence.th;
+
+            modalDetails.innerHTML = `
+                <div class="p-4 bg-slate-100 rounded-lg">
+                    <h4 class="font-semibold text-lg text-slate-800 mb-2">💡 บริบทการใช้งาน (Context)</h4>
+                    <p class="text-slate-600">${sentence.context}</p>
+                </div>
+                <div class="p-4 bg-slate-100 rounded-lg">
+                    <h4 class="font-semibold text-lg text-slate-800 mb-2">💬 ตัวอย่างบทสนทนา (Dialogue)</h4>
+                    <div class="space-y-1 text-slate-600">
+                        <p><strong>A:</strong> ${sentence.dialogue.a}</p>
+                        <p><strong>B:</strong> ${sentence.dialogue.b}</p>
+                    </div>
+                </div>
+                <div class="p-4 bg-slate-100 rounded-lg">
+                    <h4 class="font-semibold text-lg text-slate-800 mb-2">🔄 คำที่เกี่ยวข้อง / ใช้แทนได้ (Alternatives)</h4>
+                    <div class="text-slate-600">${sentence.alternatives}</div>
+                </div>
+            `;
+
+            modal.classList.add('active');
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            modal.classList.add('opacity-0', 'pointer-events-none');
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        closeModalBtn.addEventListener('click', closeModal);
+        modal.addEventListener('click', (e) => {
+            if (e.target.id === 'modal') {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>

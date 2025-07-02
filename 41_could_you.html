@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Structure #41 - Could you + (verb)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Mitr:wght@300;400;500;600&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Mitr', sans-serif;
+        }
+        .font-poppins {
+            font-family: 'Poppins', sans-serif;
+        }
+        .sentence-btn {
+            transition: all 0.2s ease-in-out;
+        }
+        #modal {
+            transition: opacity 0.3s ease;
+        }
+        .modal-content-container {
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            opacity: 0;
+            transform: translateY(20px) scale(0.95);
+        }
+        #modal.active .modal-content-container {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+    </style>
+</head>
+<body class="bg-purple-50">
+
+    <div class="container mx-auto p-4 sm:p-6 lg:p-8">
+
+        <header class="text-center mb-10">
+            <h1 class="text-4xl sm:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-indigo-600 font-poppins">Structure #41</h1>
+            <h2 class="text-2xl sm:text-3xl font-bold text-slate-800 mt-2 font-poppins">"Could you + (verb)...?"</h2>
+            <p class="text-slate-600 mt-4 max-w-2xl mx-auto text-lg">
+                เป็นวิธีที่ <strong class="text-purple-700">"สุภาพ"</strong> และใช้บ่อยมากในการ <strong class="text-indigo-600">"ขอร้อง"</strong> ให้ใครบางคนทำอะไรให้เรา สุภาพกว่า "Can you...?" และเหมาะกับสถานการณ์ที่ต้องการความเป็นทางการเล็กน้อย
+            </p>
+        </header>
+
+        <main id="sentences-grid" class="grid grid-cols-1 md:grid-cols-2 gap-5">
+            </main>
+
+        <footer class="text-center mt-12">
+            <p class="text-slate-700 font-medium">อังกฤษฉบับคนเรียนไม่รู้เรื่อง โดยครูสาลี่</p>
+        </footer>
+
+    </div>
+
+    <div id="modal" class="fixed inset-0 bg-black bg-opacity-60 flex justify-center items-center p-4 z-50 opacity-0 pointer-events-none">
+        <div class="modal-content-container w-full max-w-2xl max-h-[90vh] overflow-y-auto bg-slate-50 rounded-2xl shadow-2xl">
+            <div id="modal-header" class="p-6 sm:p-8 rounded-t-2xl bg-gradient-to-r from-purple-600 to-indigo-600">
+                <p id="modal-english" class="font-poppins font-bold text-2xl text-white text-center"></p>
+                <p id="modal-thai" class="text-xl text-white text-center mt-2 opacity-90"></p>
+            </div>
+            <div class="p-6 sm:p-8">
+                <div id="modal-details" class="space-y-5">
+                    </div>
+                <div class="text-center mt-8">
+                    <button id="close-modal-btn" class="bg-slate-600 hover:bg-slate-700 text-white font-bold py-2 px-8 rounded-full shadow-lg transform hover:scale-105 transition-transform duration-300">
+                        ปิด
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const sentences = [
+            {
+                eng: "Could you help me, please?", th: "รบกวนคุณช่วยฉันหน่อยได้ไหม",
+                context: "เป็นประโยคขอความช่วยเหลือที่สุภาพและใช้ได้ในทุกสถานการณ์ ไม่ว่าจะเป็นการถามทางคนแปลกหน้า หรือขอความช่วยเหลือจากเพื่อนร่วมงาน",
+                dialogue: { a: "(Struggling with heavy bags) Excuse me.", b: "Yes?", a: "Could you help me open the door, please?" },
+                alternatives: "<strong>Can you help me?</strong> (ไม่เป็นทางการเท่า)<br><strong>Would you mind helping me?</strong> (คุณจะว่าอะไรไหมถ้าจะช่วยฉัน - สุภาพมาก)<br><strong>Could you give me a hand?</strong> (สำนวน: ช่วยฉันหน่อยได้ไหม)"
+            },
+            {
+                eng: "Could you repeat that, please?", th: "รบกวนคุณพูดซ้ำอีกครั้งได้ไหม",
+                context: "วิธีที่สุภาพที่สุดในการขอให้อีกฝ่ายพูดซ้ำเมื่อเราฟังไม่ทันหรือไม่เข้าใจ",
+                dialogue: { a: "The meeting is at three.", b: "I'm sorry, the connection is bad. Could you repeat that, please?" },
+                alternatives: "<strong>Can you say that again?</strong> (ไม่เป็นทางการ)<br><strong>I didn't catch that.</strong> (ฉันฟังไม่ทัน)"
+            },
+            {
+                eng: "Could you pass the salt?", th: "รบกวนคุณช่วยหยิบเกลือให้หน่อยได้ไหม",
+                context: "ใช้บนโต๊ะอาหารเพื่อขอให้คนอื่นหยิบของที่อยู่ไกลตัวเราส่งให้",
+                dialogue: { a: "This soup needs something.", b: "Could you pass the salt, please?", a: "Sure, here you go." },
+                alternatives: "<strong>Can you pass the salt?</strong>"
+            },
+            {
+                eng: "Could you speak a little slower?", th: "รบกวนคุณช่วยพูดช้าลงหน่อยได้ไหม",
+                context: "ใช้เมื่อคู่สนทนาพูดเร็วเกินไปจนเราฟังตามไม่ทัน โดยเฉพาะเมื่อคุยกับเจ้าของภาษา",
+                dialogue: { a: "My name is T-h-a-n-a-p-o-r-n.", b: "I'm sorry, could you speak a little slower? My English isn't perfect." },
+                alternatives: "<strong>Could you slow down a bit, please?</strong>"
+            },
+            {
+                eng: "Could you close the door?", th: "รบกวนคุณช่วยปิดประตูหน่อยได้ไหม",
+                context: "เป็นคำขอร้องที่สุภาพกว่าการสั่งว่า 'Close the door.'",
+                dialogue: { a: "It's getting cold in here.", b: "Oh, you're right. Excuse me, could you close the door, please?" },
+                alternatives: "<strong>Would you mind closing the door?</strong><br><strong>Can you close the door?</strong>"
+            },
+            {
+                eng: "Could you tell me the time?", th: "รบกวนคุณช่วยบอกเวลาหน่อยได้ไหม",
+                context: "ใช้ถามเวลาจากคนแปลกหน้าหรือคนอื่นอย่างสุภาพ",
+                dialogue: { a: "Excuse me, sir.", b: "Yes?", a: "Could you tell me the time, please?" },
+                alternatives: "<strong>Do you have the time?</strong><br><strong>What time is it?</strong> (ตรงไปตรงมา)"
+            },
+            {
+                eng: "Could you send me the file?", th: "รบกวนคุณช่วยส่งไฟล์ให้ฉันหน่อยได้ไหม",
+                context: "ใช้ในบริบทการทำงานเพื่อขอให้เพื่อนร่วมงานส่งไฟล์เอกสารให้",
+                dialogue: { a: "I'm ready to start working on the report.", b: "Great. Could you send me the sales data file?" },
+                alternatives: "<strong>Can you send me the file?</strong><br><strong>Please send me the file when you have a chance.</strong>"
+            },
+            {
+                eng: "Could you spell that for me?", th: "รบกวนคุณช่วยสะกดคำนั้นให้ฉันหน่อยได้ไหม",
+                context: "ใช้เมื่อเราไม่แน่ใจในการสะกดชื่อหรือคำศัพท์ และต้องการความถูกต้อง",
+                dialogue: { a: "My last name is 'Wojcicki'.", b: "I'm sorry, could you spell that for me, please?" },
+                alternatives: "<strong>How do you spell that?</strong>"
+            },
+            {
+                eng: "Could you explain this to me?", th: "รบกวนคุณช่วยอธิบายเรื่องนี้ให้ฉันฟังหน่อยได้ไหม",
+                context: "ใช้เมื่อเราไม่เข้าใจเรื่องที่ซับซ้อนและต้องการคำอธิบายเพิ่มเติม",
+                dialogue: { a: "I've read the instructions, but I'm still confused.", b: "Could you explain this part to me?" },
+                alternatives: "<strong>Can you explain this?</strong><br><strong>I don't understand this. Can you help?</strong>"
+            },
+            {
+                eng: "Could you do me a favor?", th: "รบกวนคุณช่วยอะไรฉันสักอย่างได้ไหม",
+                context: "เป็นประโยคเกริ่นนำก่อนที่จะขอความช่วยเหลือในเรื่องที่ค่อนข้างใหญ่หรือเป็นเรื่องส่วนตัว",
+                dialogue: { a: "I have something to ask you.", b: "What is it?", a: "Could you do me a favor and watch my dog this weekend?" },
+                alternatives: "<strong>Can I ask you for a favor?</strong>"
+            },
+            {
+                eng: "Could you turn the music down?", th: "รบกวนคุณช่วยลดเสียงเพลงลงหน่อยได้ไหม",
+                context: "ใช้ขอร้องให้ใครบางคนลดเสียงที่ดังรบกวนอย่างสุภาพ",
+                dialogue: { a: "I'm trying to study here.", b: "Oh, sorry.", a: "Could you turn the music down a little, please?" },
+                alternatives: "<strong>Would you mind turning the music down?</strong>"
+            },
+            {
+                eng: "Could you hold my bag for a second?", th: "รบกวนคุณช่วยถือกระเป๋าให้ฉันแป๊บนึงได้ไหม",
+                context: "ใช้เมื่อต้องการความช่วยเหลือชั่วคราว เช่น ตอนที่กำลังจะผูกเชือกรองเท้า",
+                dialogue: { a: "My shoelace is untied.", b: "Could you hold my bag for a second?", a: "Sure, no problem." },
+                alternatives: "<strong>Can you hold this for me?</strong>"
+            },
+            {
+                eng: "Could you give me a call back?", th: "รบกวนคุณช่วยโทรกลับหาฉันหน่อยได้ไหม",
+                context: "ใช้เมื่อเราโทรหาใครแล้วเขาไม่รับ และต้องการฝากข้อความไว้ให้เขาโทรกลับ",
+                dialogue: { a: "(Voicemail) Hi, this is Mark. I can't come to the phone right now.", b: "Hi Mark, it's Jane. Could you give me a call back when you get this message?" },
+                alternatives: "<strong>Please call me back.</strong>"
+            },
+            {
+                eng: "Could you check this for me?", th: "รบกวนคุณช่วยตรวจทานอันนี้ให้ฉันหน่อยได้ไหม",
+                context: "ใช้เมื่อต้องการให้ใครบางคนช่วยตรวจทานงานเขียนหรือเอกสารเพื่อหาข้อผิดพลาด",
+                dialogue: { a: "I've finished my essay.", b: "Before I submit it, could you check this for me for any grammar mistakes?" },
+                alternatives: "<strong>Can you take a look at this for me?</strong><br><strong>Would you mind proofreading this?</strong>"
+                },
+            {
+                eng: "Could you move your car?", th: "รบกวนคุณช่วยเลื่อนรถหน่อยได้ไหม",
+                context: "ใช้ขอร้องให้ใครบางคนขยับรถที่จอดขวางทางอยู่อย่างสุภาพ",
+                dialogue: { a: "Excuse me, is this your red car?", b: "Yes, it is.", a: "I'm sorry to bother you, but could you move your car? It's blocking me in." },
+                alternatives: "<strong>Would you mind moving your car?</strong>"
+            },
+            {
+                eng: "Could you recommend a good hotel?", th: "รบกวนคุณช่วยแนะนำโรงแรมดีๆ หน่อยได้ไหม",
+                context: "ใช้เมื่อต้องการขอคำแนะนำจากคนในพื้นที่หรือผู้มีประสบการณ์",
+                dialogue: { a: "We're planning a trip to Phuket.", b: "That's great! Could you recommend a good hotel near the beach?" },
+                alternatives: "<strong>Can you recommend a good hotel?</strong><br><strong>Do you have any hotel recommendations?</strong>"
+            },
+            {
+                eng: "Could you keep an eye on my stuff?", th: "รบกวนคุณช่วยเฝ้าของให้ฉันหน่อยได้ไหม",
+                context: "ใช้ขอความช่วยเหลือจากคนที่นั่งอยู่ใกล้ๆ ในที่สาธารณะ เช่น ร้านกาแฟ เพื่อให้ช่วยดูของให้ชั่วครู่",
+                dialogue: { a: "Excuse me, I need to use the restroom.", b: "Could you keep an eye on my laptop for a minute?", a: "Of course." },
+                alternatives: "<strong>Would you mind watching my stuff for a second?</strong>"
+            },
+            {
+                eng: "Could you speak up, please?", th: "รบกวนคุณช่วยพูดดังขึ้นหน่อยได้ไหม",
+                context: "ใช้เมื่ออีกฝ่ายพูดเสียงเบาเกินไปจนเราไม่ได้ยิน",
+                dialogue: { a: "And the new policy is...", b: "I'm sorry, I can't hear you in the back. Could you speak up, please?" },
+                alternatives: "<strong>Can you speak a little louder?</strong>"
+            },
+            {
+                eng: "Could you take a picture of us?", th: "รบกวนคุณช่วยถ่ายรูปให้พวกเราหน่อยได้ไหม",
+                context: "ประโยคยอดฮิตที่ใช้ขอให้คนแปลกหน้าช่วยถ่ายรูปให้เมื่อไปเที่ยว",
+                dialogue: { a: "Excuse me.", b: "Yes?", a: "Could you take a picture of us, please?" },
+                alternatives: "<strong>Would you mind taking a photo for us?</strong>"
+            },
+            {
+                eng: "Could you possibly work on Saturday?", th: "พอจะเป็นไปได้ไหมที่คุณจะทำงานวันเสาร์",
+                context: "ใช้ 'possibly' เพื่อเพิ่มระดับความสุภาพและความเกรงใจขึ้นไปอีกขั้น เหมาะกับคำขอที่ค่อนข้างเป็นเรื่องใหญ่",
+                dialogue: { a: "We have a very urgent deadline.", b: "I know this is a lot to ask, but could you possibly work on Saturday?" },
+                alternatives: "<strong>Would it be possible for you to work on Saturday?</strong>"
+            }
+        ];
+        
+        const grid = document.getElementById('sentences-grid');
+        const modal = document.getElementById('modal');
+        const modalHeader = document.getElementById('modal-header');
+        const modalEnglish = document.getElementById('modal-english');
+        const modalThai = document.getElementById('modal-thai');
+        const modalDetails = document.getElementById('modal-details');
+        const closeModalBtn = document.getElementById('close-modal-btn');
+
+        sentences.forEach((sentence, index) => {
+            const button = document.createElement('button');
+            button.className = `group sentence-btn p-5 rounded-lg text-left text-white bg-purple-600 shadow-md hover:bg-purple-700 transform hover:-translate-y-1`;
+            
+            button.innerHTML = `
+                <span class="font-poppins font-semibold transition-colors duration-200">${sentence.eng}</span>
+                <span class="block text-sm text-purple-200 font-normal mt-1 transition-colors duration-200">${sentence.th}</span>
+            `;
+
+            button.addEventListener('click', () => openModal(sentence));
+            grid.appendChild(button);
+        });
+
+        function openModal(sentence) {
+            modalEnglish.textContent = sentence.eng;
+            modalThai.textContent = sentence.th;
+
+            modalDetails.innerHTML = `
+                <div class="p-4 bg-slate-100 rounded-lg">
+                    <h4 class="font-semibold text-lg text-slate-800 mb-2">💡 บริบทการใช้งาน (Context)</h4>
+                    <p class="text-slate-600">${sentence.context}</p>
+                </div>
+                <div class="p-4 bg-slate-100 rounded-lg">
+                    <h4 class="font-semibold text-lg text-slate-800 mb-2">💬 ตัวอย่างบทสนทนา (Dialogue)</h4>
+                    <div class="space-y-1 text-slate-600">
+                        <p><strong>A:</strong> ${sentence.dialogue.a}</p>
+                        <p><strong>B:</strong> ${sentence.dialogue.b}</p>
+                    </div>
+                </div>
+                <div class="p-4 bg-slate-100 rounded-lg">
+                    <h4 class="font-semibold text-lg text-slate-800 mb-2">🔄 คำที่เกี่ยวข้อง / ใช้แทนได้ (Alternatives)</h4>
+                    <div class="text-slate-600">${sentence.alternatives}</div>
+                </div>
+            `;
+
+            modal.classList.add('active');
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            modal.classList.add('opacity-0', 'pointer-events-none');
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        closeModalBtn.addEventListener('click', closeModal);
+        modal.addEventListener('click', (e) => {
+            if (e.target.id === 'modal') {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>

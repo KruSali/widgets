@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Structure #49 - Do you need...</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Mitr:wght@300;400;500;600&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Mitr', sans-serif;
+        }
+        .font-poppins {
+            font-family: 'Poppins', sans-serif;
+        }
+        .sentence-btn {
+            transition: all 0.2s ease-in-out;
+        }
+        #modal {
+            transition: opacity 0.3s ease;
+        }
+        .modal-content-container {
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            opacity: 0;
+            transform: translateY(20px) scale(0.95);
+        }
+        #modal.active .modal-content-container {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+    </style>
+</head>
+<body class="bg-slate-200">
+
+    <div class="container mx-auto p-4 sm:p-6 lg:p-8">
+
+        <header class="text-center mb-10">
+            <h1 class="text-4xl sm:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-amber-500 to-yellow-500 font-poppins">Structure #49</h1>
+            <h2 class="text-2xl sm:text-3xl font-bold text-slate-800 mt-2 font-poppins">"Do you need + (noun/to + verb)...?"</h2>
+            <p class="text-slate-600 mt-4 max-w-2xl mx-auto text-lg">
+                ใช้ถามถึง <strong class="text-amber-600">"ความจำเป็น"</strong> หรือ <strong class="text-yellow-600">"ความต้องการที่ขาดไม่ได้"</strong> (ต่างจาก 'want' ที่เป็นแค่ 'ความอยาก')<br>
+                <strong class="text-red-600">กฎสำคัญ:</strong> หลัง 'need' สามารถตามด้วย <strong class="text-amber-600">คำนาม (Noun)</strong> หรือ <strong class="text-yellow-600">กริยา To+V.1</strong> ก็ได้
+            </p>
+        </header>
+
+        <main id="sentences-grid" class="grid grid-cols-1 md:grid-cols-2 gap-5">
+            </main>
+
+        <footer class="text-center mt-12">
+            <p class="text-slate-700 font-medium">อังกฤษฉบับคนเรียนไม่รู้เรื่อง โดยครูสาลี่</p>
+        </footer>
+
+    </div>
+
+    <div id="modal" class="fixed inset-0 bg-black bg-opacity-60 flex justify-center items-center p-4 z-50 opacity-0 pointer-events-none">
+        <div class="modal-content-container w-full max-w-2xl max-h-[90vh] overflow-y-auto bg-slate-50 rounded-2xl shadow-2xl">
+            <div id="modal-header" class="p-6 sm:p-8 rounded-t-2xl bg-yellow-400">
+                <p id="modal-english" class="font-poppins font-bold text-2xl text-slate-800 text-center"></p>
+                <p id="modal-thai" class="text-xl text-slate-700 text-center mt-2"></p>
+            </div>
+            <div class="p-6 sm:p-8">
+                <div id="modal-details" class="space-y-5">
+                    </div>
+                <div class="text-center mt-8">
+                    <button id="close-modal-btn" class="bg-slate-600 hover:bg-slate-700 text-white font-bold py-2 px-8 rounded-full shadow-lg transform hover:scale-105 transition-transform duration-300">
+                        ปิด
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const sentences = [
+            {
+                eng: "Do you need help?", th: "คุณต้องการความช่วยเหลือไหม",
+                context: "เป็นวิธีที่ใช้บ่อยและตรงไปตรงมาที่สุดในการเสนอความช่วยเหลือ เมื่อเห็นว่าใครบางคนกำลังลำบาก",
+                dialogue: { a: "(Struggling to carry a heavy box)", b: "That looks heavy. Do you need help?", a: "Yes, please! Thank you so much." },
+                alternatives: "<strong>Do you need a hand?</strong> (คุณต้องการคนช่วยไหม - สำนวน)<br><strong>Can I help you with that?</strong><br><strong>Would you like some help?</strong> (สุภาพขึ้น)"
+            },
+            {
+                eng: "Do you need anything else?", th: "คุณต้องการอะไรอีกไหม",
+                context: "พนักงานบริการมักใช้ถามลูกค้าหลังจากให้บริการไปแล้ว เพื่อตรวจสอบว่าลูกค้าต้องการอะไรเพิ่มเติมหรือไม่",
+                dialogue: { a: "Here is your coffee.", b: "Thank you.", a: "You're welcome. Do you need anything else?", b: "No, that's all for now." },
+                alternatives: "<strong>Is there anything else I can get for you?</strong>"
+            },
+            {
+                eng: "Do you need a ride?", th: "คุณต้องการให้ไปส่งไหม",
+                context: "ใช้เสนอตัวขับรถไปส่งเมื่อเห็นว่าอีกฝ่ายไม่มีรถหรือกำลังลำบากในการเดินทาง",
+                dialogue: { a: "It's starting to rain and the buses are late.", b: "I have my car. Do you need a ride home?" },
+                alternatives: "<strong>Do you need a lift?</strong> (สำนวนอังกฤษ)<br><strong>Can I give you a ride?</strong>"
+            },
+            {
+                eng: "Do you need to talk?", th: "คุณต้องการที่จะคุย (ระบาย) ไหม",
+                context: "ใช้ถามด้วยความเป็นห่วงเมื่อเห็นเพื่อนหรือคนใกล้ชิดดูเศร้าหรือมีเรื่องไม่สบายใจ เป็นการเสนอตัวรับฟัง",
+                dialogue: { a: "You seem really down.", b: "I am. I had a terrible day.", a: "Do you need to talk?" },
+                alternatives: "<strong>Do you want to talk about it?</strong><br><strong>I'm here to listen if you need me.</strong>"
+            },
+            {
+                eng: "What do you need?", th: "คุณต้องการอะไร",
+                context: "เป็นคำถามที่ตรงมาก เพื่อถามถึงความต้องการที่จำเป็นของอีกฝ่าย",
+                dialogue: { a: "I'm going to the store.", b: "Okay.", a: "What do you need? I can pick it up for you.", b: "Just some milk, please." },
+                alternatives: "<strong>What can I get for you?</strong><br><strong>Is there anything you need?</strong>"
+            },
+            {
+                eng: "Do you need a moment?", th: "คุณต้องการเวลาสักครู่ไหม",
+                context: "ใช้ถามอย่างเข้าอกเข้าใจเมื่ออีกฝ่ายกำลังรู้สึกท่วมท้น, เศร้า, หรือต้องการเวลาตั้งสติ",
+                dialogue: { a: "(Someone starts crying after hearing bad news)", b: "Hey... it's okay. Do you need a moment alone?" },
+                alternatives: "<strong>Do you need some time?</strong><br><strong>Take all the time you need.</strong> (ใช้เวลาเท่าที่ต้องการเลยนะ)"
+            },
+            {
+                eng: "Do you need to go to the hospital?", th: "คุณจำเป็นต้องไปโรงพยาบาลไหม",
+                context: "ใช้ถามเมื่อเห็นใครบางคนได้รับบาดเจ็บหรือไม่สบาย เพื่อประเมินความรุนแรงของสถานการณ์",
+                dialogue: { a: "I fell and my ankle really hurts.", b: "It looks swollen. Do you need to go to the hospital?" },
+                alternatives: "<strong>Should we take you to the hospital?</strong>"
+            },
+            {
+                eng: "Do you need to lie down?", th: "คุณต้องการจะนอนพักไหม",
+                context: "ใช้ถามด้วยความเป็นห่วงเมื่อเห็นใครบางคนดูหน้ามืด, เวียนหัว, หรือไม่สบาย",
+                dialogue: { a: "I feel dizzy all of a sudden.", b: "Whoa, sit down. Do you need to lie down?" },
+                alternatives: "<strong>You should lie down for a bit.</strong>"
+            },
+            {
+                eng: "Do you need a break?", th: "คุณต้องการพักเบรกไหม",
+                context: "ใช้ถามเพื่อนร่วมงานหรือใครก็ตามที่ทำงานอย่างหนักมาเป็นเวลานาน",
+                dialogue: { a: "You've been staring at that screen for three hours.", b: "Do you need a break?", a: "Yes, I probably do." },
+                alternatives: "<strong>You should take a break.</strong><br><strong>How about we take a five-minute break?</strong>"
+            },
+            {
+                eng: "Do you need a password to connect?", th: "จำเป็นต้องใช้รหัสผ่านเพื่อเชื่อมต่อไหม",
+                context: "ใช้ถามเกี่ยวกับข้อกำหนดทางเทคนิค เช่น การเชื่อมต่อ Wi-Fi",
+                dialogue: { a: "I'm trying to connect to your Wi-Fi.", b: "Okay.", a: "Do you need a password to connect?" },
+                alternatives: "<strong>Is there a password for the Wi-Fi?</strong>"
+            },
+            {
+                eng: "Do you really need to buy that?", th: "คุณจำเป็นต้องซื้อสิ่งนั้นจริงๆ เหรอ",
+                context: "ใช้ถามเพื่อให้อีกฝ่ายฉุกคิด ว่าสิ่งที่กำลังจะซื้อเป็น 'ความจำเป็น' หรือแค่ 'ความอยากได้'",
+                dialogue: { a: "I'm going to buy this new video game.", b: "But you already have 20 games you haven't played. Do you really need to buy that?" },
+                alternatives: "<strong>Is that a necessary purchase?</strong>"
+            },
+            {
+                eng: "How much time do you need?", th: "คุณต้องการเวลาอีกนานแค่ไหน",
+                context: "ใช้ถามเพื่อประเมินระยะเวลาที่ต้องใช้ในการทำงานให้เสร็จ",
+                dialogue: { a: "Are you almost done?", b: "Not quite. How much time do you need?", a: "Give me another 30 minutes." },
+                alternatives: "<strong>How much longer will you be?</strong>"
+            },
+            {
+                eng: "Do you need an answer right now?", th: "คุณต้องการคำตอบตอนนี้เลยไหม",
+                context: "ใช้เพื่อถามว่าเราสามารถใช้เวลาคิดก่อนได้หรือไม่ หรือจำเป็นต้องให้คำตอบในทันที",
+                dialogue: { a: "I'd like to offer you the job.", b: "Wow, thank you. Do you need an answer right now, or can I have some time to think?" },
+                alternatives: "<strong>Do I need to decide now?</strong>"
+            },
+            {
+                eng: "I need to know what happened. Do you know?", th: "ฉันจำเป็นต้องรู้ว่าเกิดอะไรขึ้น คุณรู้ไหม",
+                context: "ใช้โครงสร้างนี้เป็นประโยคบอกเล่าก่อน แล้วตามด้วยคำถาม",
+                dialogue: { a: "Everyone is acting weird.", b: "I need to know what happened. Do you know something I don't?" },
+                alternatives: "<strong>You have to tell me what's going on.</strong>"
+            },
+            {
+                eng: "Do you need me to come with you?", th: "คุณต้องการให้ฉันไปกับคุณด้วยไหม",
+                context: "ใช้ 'need me to' เพื่อเสนอตัวไปเป็นเพื่อนในสถานการณ์ที่น่ากังวล เช่น การไปหาหมอ",
+                dialogue: { a: "I'm nervous about going to the dentist alone.", b: "Do you need me to come with you?" },
+                alternatives: "<strong>Would you like me to come with you?</strong>"
+            },
+            {
+                eng: "Do you need anything from the store?", th: "คุณต้องการอะไรจากร้านค้าไหม",
+                context: "ใช้ถามเพื่อนหรือคนในครอบครัวก่อนที่เราจะไปร้านค้า ว่ามีอะไรอยากจะฝากซื้อหรือไม่",
+                dialogue: { a: "I'm heading to the supermarket.", b: "Do you need anything from the store?", a: "Oh, yes! Could you get some bread?" },
+                alternatives: "<strong>I'm going to the store. Need anything?</strong> (ไม่เป็นทางการ)"
+            },
+            {
+                eng: "Why do you need to know?", th: "ทำไมคุณถึงจำเป็นต้องรู้ล่ะ",
+                context: "ใช้ถามกลับเมื่อมีคนถามคำถามที่ส่วนตัวหรือดูไม่เกี่ยวข้อง เพื่อถามถึงเหตุผลของความจำเป็นนั้น",
+                dialogue: { a: "How much money do you make?", b: "That's a personal question. Why do you need to know?" },
+                alternatives: "<strong>Why is that necessary for you to know?</strong>"
+            },
+            {
+                eng: "Do you need to see a doctor?", th: "คุณจำเป็นต้องไปหาหมอไหม",
+                context: "ใช้ถามด้วยความเป็นห่วงเมื่อเห็นใครมีอาการป่วยหรือบาดเจ็บ",
+                dialogue: { a: "This cough isn't going away.", b: "It's been two weeks. Do you need to see a doctor?" },
+                alternatives: "<strong>Maybe you should see a doctor.</strong>"
+            },
+            {
+                eng: "I don't need your help.", th: "ฉันไม่ต้องการความช่วยเหลือของคุณ",
+                context: "ใช้ในรูปปฏิเสธเพื่อปฏิเสธความช่วยเหลืออย่างแข็งขัน อาจจะด้วยความโกรธหรือความหยิ่ง",
+                dialogue: { a: "Let me help you.", b: "No. I can do it myself. I don't need your help." },
+                alternatives: "<strong>I don't require your assistance.</strong> (เป็นทางการมาก)"
+            },
+            {
+                eng: "You don't need to shout.", th: "คุณไม่จำเป็นต้องตะโกน",
+                context: "ใช้เพื่อบอกให้อีกฝ่ายใจเย็นลงและลดเสียงลง",
+                dialogue: { a: "WHERE ARE MY KEYS?!", b: "Calm down. You don't need to shout. I'm right here." },
+                alternatives: "<strong>There's no need to shout.</strong>"
+            }
+        ];
+        
+        const grid = document.getElementById('sentences-grid');
+        const modal = document.getElementById('modal');
+        const modalHeader = document.getElementById('modal-header');
+        const modalEnglish = document.getElementById('modal-english');
+        const modalThai = document.getElementById('modal-thai');
+        const modalDetails = document.getElementById('modal-details');
+        const closeModalBtn = document.getElementById('close-modal-btn');
+
+        sentences.forEach((sentence, index) => {
+            const button = document.createElement('button');
+            button.className = `group sentence-btn p-5 rounded-lg text-left bg-slate-800 border-2 border-transparent hover:border-yellow-400`;
+            
+            button.innerHTML = `
+                <span class="font-poppins font-semibold text-white transition-colors duration-200">${sentence.eng}</span>
+                <span class="block text-sm text-slate-400 font-normal mt-1 transition-colors duration-200">${sentence.th}</span>
+            `;
+
+            button.addEventListener('click', () => openModal(sentence));
+            grid.appendChild(button);
+        });
+
+        function openModal(sentence) {
+            modalEnglish.textContent = sentence.eng;
+            modalThai.textContent = sentence.th;
+
+            modalDetails.innerHTML = `
+                <div class="p-4 bg-slate-100 rounded-lg">
+                    <h4 class="font-semibold text-lg text-slate-800 mb-2">💡 บริบทการใช้งาน (Context)</h4>
+                    <p class="text-slate-600">${sentence.context}</p>
+                </div>
+                <div class="p-4 bg-slate-100 rounded-lg">
+                    <h4 class="font-semibold text-lg text-slate-800 mb-2">💬 ตัวอย่างบทสนทนา (Dialogue)</h4>
+                    <div class="space-y-1 text-slate-600">
+                        <p><strong>A:</strong> ${sentence.dialogue.a}</p>
+                        <p><strong>B:</strong> ${sentence.dialogue.b}</p>
+                    </div>
+                </div>
+                <div class="p-4 bg-slate-100 rounded-lg">
+                    <h4 class="font-semibold text-lg text-slate-800 mb-2">🔄 คำที่เกี่ยวข้อง / ใช้แทนได้ (Alternatives)</h4>
+                    <div class="text-slate-600">${sentence.alternatives}</div>
+                </div>
+            `;
+
+            modal.classList.add('active');
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            modal.classList.add('opacity-0', 'pointer-events-none');
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        closeModalBtn.addEventListener('click', closeModal);
+        modal.addEventListener('click', (e) => {
+            if (e.target.id === 'modal') {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>

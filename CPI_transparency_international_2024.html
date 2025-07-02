@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CPI 2024 Summary for English Learners</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom font for better Thai display */
+        @import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@400;700&display=swap');
+        body {
+            font-family: 'Sarabun', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        .vocab {
+            text-decoration: underline;
+            text-decoration-color: #fbbf24; /* amber-400 */
+            text-decoration-thickness: 2px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        .modal-overlay {
+            background-color: rgba(0, 0, 0, 0.7);
+        }
+    </style>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen p-4">
+
+    <div id="app-container" class="w-full max-w-2xl mx-auto bg-gradient-to-br from-sky-500 to-indigo-600 rounded-2xl shadow-2xl overflow-hidden">
+        <div class="p-6 md:p-8">
+            <div id="page-content" class="text-white">
+                </div>
+
+            <div class="mt-6 flex justify-between items-center">
+                <button id="prev-btn" class="bg-white/20 hover:bg-white/40 text-white font-bold py-2 px-4 rounded-lg transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed">
+                    ก่อนหน้า
+                </button>
+                <div id="page-indicator" class="text-white/80 text-sm font-semibold"></div>
+                <button id="next-btn" class="bg-white/20 hover:bg-white/40 text-white font-bold py-2 px-4 rounded-lg transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed">
+                    ถัดไป
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-container" class="fixed inset-0 z-50 flex items-center justify-center p-4 modal-overlay hidden">
+        <div id="modal-box" class="bg-white rounded-xl shadow-2xl w-full max-w-md transform transition-all duration-300 scale-95 opacity-0">
+            <div id="modal-content" class="p-6">
+                </div>
+            <div class="px-6 py-3 bg-gray-50 text-right rounded-b-xl">
+                <button id="modal-close-btn" class="bg-indigo-500 hover:bg-indigo-600 text-white font-bold py-2 px-4 rounded-lg transition-colors duration-300">
+                    ปิด
+                </button>
+            </div>
+        </div>
+    </div>
+
+<script>
+    // --- DATA ---
+    // This section holds all the content for the pages and vocabulary pop-ups.
+    // It's designed to be easily updated or expanded.
+
+    const pages = [
+        {
+            title: "What is the CPI?",
+            content: `
+                <h1 class="text-2xl md:text-3xl font-bold mb-4">Introduction: The CPI</h1>
+                <p class="text-base md:text-lg leading-relaxed">
+                    The <span class="vocab" data-word="cpi">Corruption Perceptions Index (CPI)</span> is an annual report published by <span class="vocab" data-word="ti">Transparency International</span>.
+                    <br><br>
+                    It ranks countries by their perceived levels of public sector <span class="vocab" data-word="corruption">corruption</span>. The score ranges from 0 (highly corrupt) to 100 (very clean).
+                </p>`
+        },
+        {
+            title: "Asia-Pacific Overview",
+            content: `
+                <h1 class="text-2xl md:text-3xl font-bold mb-4">Asia-Pacific Overview</h1>
+                <p class="text-base md:text-lg leading-relaxed">
+                    The latest report shows a worrying situation. The region's average score has dropped to 44/100.
+                    <br><br>
+                    A key theme is the dangerous link between corruption and <span class="vocab" data-word="climate">climate change</span>, where funds for environmental projects are often lost to embezzlement or bribery.
+                </p>`
+        },
+        {
+            title: "Thailand's Situation",
+            content: `
+                <h1 class="text-2xl md:text-3xl font-bold mb-4">Focus: Thailand's Situation</h1>
+                <p class="text-base md:text-lg leading-relaxed">
+                    According to the latest data (2024 CPI), Thailand's performance shows significant challenges:
+                </p>
+                <ul class="list-none mt-4 space-y-2 text-lg">
+                    <li><strong>Score:</strong> <span class="bg-amber-300 text-indigo-800 px-2 py-1 rounded">34 / 100</span></li>
+                    <li><strong>Rank:</strong> <span class="bg-amber-300 text-indigo-800 px-2 py-1 rounded">107 out of 180 countries</span></li>
+                </ul>
+                <p class="mt-4 text-base md:text-lg leading-relaxed">
+                    This represents a <span class="vocab" data-word="trend">downward trend</span> and is below the <span class="vocab" data-word="average">regional average</span> of 44.
+                </p>`
+        },
+        {
+            title: "Key Challenges",
+            content: `
+                <h1 class="text-2xl md:text-3xl font-bold mb-4">Key Challenges for Thailand</h1>
+                <p class="text-base md:text-lg leading-relaxed">
+                    Several factors contribute to the score. Experts are concerned about:
+                </p>
+                 <ul class="list-disc list-inside mt-4 space-y-2 text-lg">
+                    <li>Lack of <span class="vocab" data-word="transparency">transparency</span> in public spending.</li>
+                    <li><span class="vocab" data-word="influence">Undue influence</span> and <span class="vocab" data-word="conflict">conflicts of interest</span> in policymaking.</li>
+                    <li>Weakness in the <span class="vocab" data-word="ruleoflaw">rule of law</span> regarding enforcement against corruption.</li>
+                </ul>`
+        },
+        {
+            title: "Conclusion",
+            content: `
+                <h1 class="text-2xl md:text-3xl font-bold mb-4">Conclusion</h1>
+                <p class="text-base md:text-lg leading-relaxed">
+                    Corruption remains a major obstacle to Thailand's development.
+                    <br><br>
+                    Improving transparency and strengthening legal frameworks are crucial steps to build public trust and attract investment. Tangible and effective measures are needed to reverse the negative trend.
+                </p>`
+        }
+    ];
+
+    const vocabulary = {
+        cpi: {
+            term: "Corruption Perceptions Index (CPI)",
+            pronunciation: "คอ-**รัป**-ชั่น เพอร์-**เซ็ป**-ชั่น **อิน**-เด็กซ์",
+            translation: "ดัชนีการรับรู้การทุจริต",
+            definition: "An index that measures how corrupt a country's public sector is perceived to be by experts and business people.",
+            example: "Thailand's rank in the CPI is a key indicator for foreign investors."
+        },
+        ti: {
+            term: "Transparency International",
+            pronunciation: "ทรานส์-**แพ**-เรน-ซี่ อิน-เทอร์-**แนช**-เชิน-นอล",
+            translation: "องค์กรเพื่อความโปร่งใสนานาชาติ",
+            definition: "A global non-governmental organization based in Germany which works to combat global corruption.",
+            example: "Transparency International releases the CPI report every year."
+        },
+        corruption: {
+            term: "Corruption",
+            pronunciation: "คอ-**รัป**-ชั่น",
+            translation: "การทุจริต, คอร์รัปชัน",
+            definition: "Dishonest or fraudulent conduct by those in power, typically involving bribery.",
+            example: "The government has promised to fight against corruption."
+        },
+        climate: {
+            term: "Climate Change",
+            pronunciation: "**ไคล**-เหมท เชนจ์",
+            translation: "การเปลี่ยนแปลงสภาพภูมิอากาศ",
+            definition: "Long-term shifts in temperatures and weather patterns, often caused by human activities.",
+            example: "Corruption can weaken a country's ability to respond to climate change."
+        },
+        trend: {
+            term: "Downward Trend",
+            pronunciation: "**ดาวน์**-เวิร์ด เทรนด์",
+            translation: "แนวโน้มขาลง",
+            definition: "A general tendency for something to decrease or get worse over time.",
+            example: "The declining score shows a downward trend in transparency."
+        },
+        average: {
+            term: "Regional Average",
+            pronunciation: "**รี**-เจิน-นอล **แอฟ**-เวอ-เรจ",
+            translation: "ค่าเฉลี่ยของภูมิภาค",
+            definition: "The average value or score for all countries within a specific geographical area.",
+            example: "Thailand's score is unfortunately below the regional average."
+        },
+        transparency: {
+            term: "Transparency",
+            pronunciation: "ทรานส์-**แพ**-เรน-ซี่",
+            translation: "ความโปร่งใส",
+            definition: "The quality of being easy to perceive or detect; operating in an open way without secrets.",
+            example: "Greater transparency in government spending is needed."
+        },
+        influence: {
+            term: "Undue Influence",
+            pronunciation: "**อัน**-ดิว **อิน**-ฟลู-เอนซ์",
+            translation: "การใช้อิทธิพลโดยมิชอบ",
+            definition: "When a person or group uses their power to improperly persuade or manipulate someone's decisions.",
+            example: "Lobbying can sometimes become a form of undue influence."
+        },
+        conflict: {
+            term: "Conflict of Interest",
+            pronunciation: "**คอน**-ฟลิคท์ ออฟ **อิน**-เทอ-เรสท์",
+            translation: "ผลประโยชน์ทับซ้อน",
+            definition: "A situation in which a person is in a position to derive personal benefit from actions or decisions made in their official capacity.",
+            example: "A politician voting on a law that benefits their own company is a clear conflict of interest."
+        },
+        ruleoflaw: {
+            term: "Rule of Law",
+            pronunciation: "รูล ออฟ ลอว์",
+            translation: "หลักนิติธรรม",
+            definition: "The principle that all people and institutions are subject to and accountable to law that is fairly applied and enforced.",
+            example: "A strong rule of law is essential for a fair and just society."
+        }
+    };
+
+    // --- APP LOGIC ---
+    // This section controls the functionality of the app, like changing pages and showing modals.
+
+    let currentPage = 0;
+
+    const pageContentEl = document.getElementById('page-content');
+    const pageIndicatorEl = document.getElementById('page-indicator');
+    const prevBtn = document.getElementById('prev-btn');
+    const nextBtn = document.getElementById('next-btn');
+    
+    const modalContainer = document.getElementById('modal-container');
+    const modalBox = document.getElementById('modal-box');
+    const modalContentEl = document.getElementById('modal-content');
+    const modalCloseBtn = document.getElementById('modal-close-btn');
+
+    function renderPage() {
+        // Get the current page's data
+        const pageData = pages[currentPage];
+        
+        // Update the content
+        pageContentEl.innerHTML = pageData.content;
+        
+        // Update the page indicator
+        pageIndicatorEl.textContent = `หน้า ${currentPage + 1} / ${pages.length}`;
+        
+        // Update button states
+        prevBtn.disabled = currentPage === 0;
+        nextBtn.disabled = currentPage === pages.length - 1;
+        
+        // Add event listeners to new vocab spans
+        attachVocabListeners();
+    }
+
+    function showModal(word) {
+        const vocabData = vocabulary[word];
+        if (!vocabData) return;
+        
+        modalContentEl.innerHTML = `
+            <h3 class="text-2xl font-bold text-indigo-600 mb-2">${vocabData.term}</h3>
+            <p class="text-gray-500 mb-4 text-sm">
+                การออกเสียง: <span class="font-semibold">${vocabData.pronunciation}</span><br>
+                คำแปล: <span class="font-semibold">${vocabData.translation}</span>
+            </p>
+            <p class="text-gray-800 mb-4">${vocabData.definition}</p>
+            <div class="p-3 bg-gray-100 rounded-lg">
+                <p class="text-sm font-semibold text-gray-600">Example:</p>
+                <p class="text-gray-800 italic">"${vocabData.example}"</p>
+            </div>
+        `;
+        
+        modalContainer.classList.remove('hidden');
+        setTimeout(() => {
+            modalBox.classList.remove('scale-95', 'opacity-0');
+        }, 10); // Start transition
+    }
+
+    function hideModal() {
+        modalBox.classList.add('scale-95', 'opacity-0');
+        setTimeout(() => {
+            modalContainer.classList.add('hidden');
+        }, 200); // Wait for transition to finish
+    }
+    
+    function attachVocabListeners() {
+        const vocabSpans = document.querySelectorAll('.vocab');
+        vocabSpans.forEach(span => {
+            span.addEventListener('click', (e) => {
+                const word = e.target.dataset.word;
+                showModal(word);
+            });
+        });
+    }
+
+    // --- EVENT LISTENERS ---
+    
+    nextBtn.addEventListener('click', () => {
+        if (currentPage < pages.length - 1) {
+            currentPage++;
+            renderPage();
+        }
+    });
+
+    prevBtn.addEventListener('click', () => {
+        if (currentPage > 0) {
+            currentPage--;
+            renderPage();
+        }
+    });
+    
+    modalCloseBtn.addEventListener('click', hideModal);
+    modalContainer.addEventListener('click', (e) => {
+        // Close modal if clicking on the overlay, but not on the modal box itself
+        if (e.target === modalContainer) {
+            hideModal();
+        }
+    });
+
+    // Initial Render on page load
+    document.addEventListener('DOMContentLoaded', renderPage);
+
+</script>
+</body>
+</html>

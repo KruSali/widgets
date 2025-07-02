@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Structure #32 - It's important to...</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Mitr:wght@300;400;500;600&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Mitr', sans-serif;
+        }
+        .font-poppins {
+            font-family: 'Poppins', sans-serif;
+        }
+        .sentence-btn {
+            transition: all 0.2s ease-in-out;
+        }
+        #modal {
+            transition: opacity 0.3s ease;
+        }
+        .modal-content-container {
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            opacity: 0;
+            transform: translateY(20px) scale(0.95);
+        }
+        #modal.active .modal-content-container {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+    </style>
+</head>
+<body class="bg-slate-100">
+
+    <div class="container mx-auto p-4 sm:p-6 lg:p-8">
+
+        <header class="text-center mb-10">
+            <h1 class="text-4xl sm:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-700 to-cyan-600 font-poppins">Structure #32</h1>
+            <h2 class="text-2xl sm:text-3xl font-bold text-slate-800 mt-2 font-poppins">"It's important to + (verb)"</h2>
+            <p class="text-slate-600 mt-4 max-w-2xl mx-auto text-lg">
+                ใช้เพื่อ <strong class="text-blue-700">"เน้นย้ำความสำคัญ"</strong> ของการกระทำบางอย่าง เป็นการให้คำแนะนำ, บอกกฎ, หรือชี้ให้เห็นถึงความจำเป็น โดยใช้ 'It' เป็นประธาน ทำให้ฟังดูเป็นกลางและเป็นคำแนะนำโดยรวม
+            </p>
+        </header>
+
+        <main id="sentences-grid" class="grid grid-cols-1 md:grid-cols-2 gap-5">
+            </main>
+
+        <footer class="text-center mt-12">
+            <p class="text-slate-700 font-medium">อังกฤษฉบับคนเรียนไม่รู้เรื่อง โดยครูสาลี่</p>
+        </footer>
+
+    </div>
+
+    <div id="modal" class="fixed inset-0 bg-black bg-opacity-60 flex justify-center items-center p-4 z-50 opacity-0 pointer-events-none">
+        <div class="modal-content-container w-full max-w-2xl max-h-[90vh] overflow-y-auto bg-slate-50 rounded-2xl shadow-2xl">
+            <div id="modal-header" class="p-6 sm:p-8 rounded-t-2xl bg-gradient-to-r from-blue-700 to-cyan-600">
+                <p id="modal-english" class="font-poppins font-bold text-2xl text-white text-center"></p>
+                <p id="modal-thai" class="text-xl text-white text-center mt-2 opacity-90"></p>
+            </div>
+            <div class="p-6 sm:p-8">
+                <div id="modal-details" class="space-y-5">
+                    </div>
+                <div class="text-center mt-8">
+                    <button id="close-modal-btn" class="bg-slate-600 hover:bg-slate-700 text-white font-bold py-2 px-8 rounded-full shadow-lg transform hover:scale-105 transition-transform duration-300">
+                        ปิด
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const sentences = [
+            {
+                eng: "It's important to be on time.", th: "มันเป็นเรื่องสำคัญที่จะต้องตรงต่อเวลา",
+                context: "ใช้เพื่อเน้นย้ำถึงกฎหรือมารยาททางสังคมและอาชีพเกี่ยวกับการรักษาเวลา",
+                dialogue: { a: "The meeting starts at 9 AM sharp.", b: "I know. It's important to be on time, especially when the client is there." },
+                alternatives: "<strong>You must be on time.</strong> (คุณต้องตรงเวลา - เป็นการบังคับ)<br><strong>Being on time is crucial.</strong> (การตรงต่อเวลาเป็นสิ่งสำคัญอย่างยิ่ง)"
+            },
+            {
+                eng: "It's important to get enough sleep.", th: "มันเป็นเรื่องสำคัญที่จะต้องนอนหลับให้เพียงพอ",
+                context: "เป็นคำแนะนำด้านสุขภาพทั่วไปที่แพทย์หรือผู้ใหญ่ใช้เพื่อเน้นย้ำถึงความสำคัญของการพักผ่อน",
+                dialogue: { a: "I feel so tired lately.", b: "Are you sleeping well? It's important to get enough sleep." },
+                alternatives: "<strong>You should get enough sleep.</strong> (คุณควรนอนให้พอ)<br><strong>Getting enough sleep is vital for your health.</strong>"
+            },
+            {
+                eng: "It's important to listen to others.", th: "มันเป็นเรื่องสำคัญที่จะต้องรับฟังผู้อื่น",
+                context: "ใช้สอนหรือเตือนใจเกี่ยวกับทักษะการเข้าสังคมและการทำงานร่วมกับผู้อื่น",
+                dialogue: { a: "He never lets anyone else speak.", b: "That's not good teamwork. It's important to listen to others' opinions." },
+                alternatives: "<strong>You should listen to others.</strong><br><strong>Listening to others is key to collaboration.</strong>"
+            },
+            {
+                eng: "It's important to double-check your work.", th: "มันเป็นเรื่องสำคัญที่จะต้องตรวจทานงานของคุณซ้ำ",
+                context: "เป็นคำแนะนำในที่ทำงานหรือการเรียนเพื่อลดข้อผิดพลาดและเพิ่มคุณภาพของงาน",
+                dialogue: { a: "I've finished the report.", b: "Okay, but before you send it, remember it's important to double-check your work for any errors." },
+                alternatives: "<strong>You should always double-check your work.</strong><br><strong>Make sure to double-check your work.</strong>"
+            },
+            {
+                eng: "It's important to stay hydrated.", th: "มันเป็นเรื่องสำคัญที่จะต้องดื่มน้ำให้เพียงพอ",
+                context: "เป็นคำแนะนำด้านสุขภาพ โดยเฉพาะในวันที่อากาศร้อนหรือระหว่างการออกกำลังกาย",
+                dialogue: { a: "I'm going for a run.", b: "Okay, take this water bottle. It's important to stay hydrated." },
+                alternatives: "<strong>Remember to drink enough water.</strong><br><strong>Staying hydrated is essential.</strong>"
+            },
+            {
+                eng: "It's important to be honest.", th: "มันเป็นเรื่องสำคัญที่จะต้องซื่อสัตย์",
+                context: "เป็นคำสอนด้านคุณธรรมที่ใช้ได้ในทุกสถานการณ์ เพื่อเน้นย้ำถึงคุณค่าของความซื่อสัตย์",
+                dialogue: { a: "Should I tell her I broke her vase?", b: "Yes. It's important to be honest, even when it's difficult." },
+                alternatives: "<strong>Honesty is the best policy.</strong> (ความซื่อสัตย์เป็นนโยบายที่ดีที่สุด - เป็นสำนวน)"
+            },
+            {
+                eng: "It's important to learn from your mistakes.", th: "มันเป็นเรื่องสำคัญที่จะต้องเรียนรู้จากความผิดพลาด",
+                context: "ใช้เป็นคำแนะนำเพื่อให้กำลังใจหลังจากที่ใครบางคนทำผิดพลาด เพื่อให้มองเห็นเป็นบทเรียน",
+                dialogue: { a: "I can't believe I failed.", b: "Don't be too hard on yourself. It's important to learn from your mistakes." },
+                alternatives: "<strong>You should learn from your mistakes.</strong><br><strong>Mistakes are opportunities to learn.</strong>"
+            },
+            {
+                eng: "It's important to save money for the future.", th: "มันเป็นเรื่องสำคัญที่จะต้องออมเงินเพื่ออนาคต",
+                context: "เป็นคำแนะนำด้านการวางแผนทางการเงิน",
+                dialogue: { a: "I spend all my salary every month.", b: "That's not a good habit. It's important to save money for the future." },
+                alternatives: "<strong>You should save money for a rainy day.</strong> (คุณควรเก็บเงินไว้ใช้ยามฉุกเฉิน - เป็นสำนวน)"
+            },
+            {
+                eng: "It's important to respect different opinions.", th: "มันเป็นเรื่องสำคัญที่จะต้องเคารพความคิดเห็นที่แตกต่าง",
+                context: "ใช้ในการสนทนาหรือถกเถียงเพื่อเตือนใจให้เปิดกว้างและยอมรับความหลากหลายทางความคิด",
+                dialogue: { a: "I can't believe he thinks that way!", b: "People come from different backgrounds. It's important to respect different opinions." },
+                alternatives: "<strong>We should respect each other's opinions.</strong>"
+            },
+            {
+                eng: "It's important to read the instructions carefully.", th: "มันเป็นเรื่องสำคัญที่จะต้องอ่านคำแนะนำอย่างละเอียด",
+                context: "เป็นคำเตือนก่อนที่จะเริ่มประกอบสินค้าหรือใช้โปรแกรมคอมพิวเตอร์เพื่อป้องกันความผิดพลาด",
+                dialogue: { a: "I'm ready to build this furniture.", b: "Wait. It's important to read the instructions carefully first." },
+                alternatives: "<strong>Make sure you read the instructions first.</strong>"
+            },
+            {
+                eng: "It's important to have a balanced diet.", th: "มันเป็นเรื่องสำคัญที่จะต้องทานอาหารให้สมดุล",
+                context: "เป็นคำแนะนำด้านโภชนาการเพื่อสุขภาพที่ดี",
+                dialogue: { a: "I only eat fried chicken.", b: "That's not healthy. It's important to have a balanced diet with fruits and vegetables." },
+                alternatives: "<strong>You should eat a balanced diet.</strong>"
+            },
+            {
+                eng: "It's important to communicate clearly.", th: "มันเป็นเรื่องสำคัญที่จะต้องสื่อสารให้ชัดเจน",
+                context: "ใช้เน้นย้ำในที่ทำงานหรือความสัมพันธ์ เพื่อหลีกเลี่ยงความเข้าใจผิด",
+                dialogue: { a: "They misunderstood my email completely.", b: "That's why it's important to communicate clearly." },
+                alternatives: "<strong>Clear communication is key.</strong> (การสื่อสารที่ชัดเจนคือกุญแจสำคัญ)"
+            },
+            {
+                eng: "It's important to take a break sometimes.", th: "มันเป็นเรื่องสำคัญที่จะต้องพักบ้างเป็นครั้งคราว",
+                context: "ใช้เตือนคนที่ทำงานหนักเกินไป ให้เห็นความสำคัญของการพักผ่อนเพื่อป้องกันภาวะหมดไฟ (burnout)",
+                dialogue: { a: "I've been working 12 hours a day for a month.", b: "You need to be careful. It's important to take a break sometimes." },
+                alternatives: "<strong>You need to avoid burnout.</strong><br><strong>Remember to take breaks.</strong>"
+            },
+            {
+                eng: "It's important to follow your dreams.", th: "มันเป็นเรื่องสำคัญที่จะต้องทำตามความฝันของคุณ",
+                context: "เป็นคำพูดที่สร้างแรงบันดาลใจ เพื่อกระตุ้นให้คนกล้าที่จะทำในสิ่งที่ตัวเองรัก",
+                dialogue: { a: "I want to be a writer, but my parents want me to be a lawyer.", b: "It's your life. It's important to follow your dreams." },
+                alternatives: "<strong>You should follow your heart.</strong>"
+            },
+            {
+                eng: "It's important to set realistic goals.", th: "มันเป็นเรื่องสำคัญที่จะต้องตั้งเป้าหมายที่อยู่บนพื้นฐานความเป็นจริง",
+                context: "เป็นคำแนะนำในการวางแผนชีวิตหรือการทำงาน เพื่อไม่ให้ตั้งเป้าหมายที่สูงเกินไปจนทำไม่ได้และหมดกำลังใจ",
+                dialogue: { a: "I'm going to be a billionaire next year!", b: "That's a bit ambitious. It's important to set realistic goals." },
+                alternatives: "<strong>Your goals should be achievable.</strong>"
+            },
+            {
+                eng: "It's important not to give up.", th: "มันเป็นเรื่องสำคัญที่จะต้องไม่ยอมแพ้",
+                context: "ใช้รูปปฏิเสธเพื่อให้กำลังใจคนที่กำลังท้อแท้",
+                dialogue: { a: "This is too hard. I quit.", b: "No, don't say that! It's important not to give up." },
+                alternatives: "<strong>You mustn't give up.</strong><br><strong>Don't quit.</strong>"
+            },
+            {
+                eng: "It's important to protect your skin from the sun.", th: "มันเป็นเรื่องสำคัญที่จะต้องปกป้องผิวของคุณจากแสงแดด",
+                context: "เป็นคำแนะนำด้านความงามและสุขภาพผิว",
+                dialogue: { a: "I'm going to the beach.", b: "Don't forget your sunscreen. It's important to protect your skin from the sun." },
+                alternatives: "<strong>You should always wear sunscreen.</strong>"
+            },
+            {
+                eng: "It's important to stay true to yourself.", th: "มันเป็นเรื่องสำคัญที่จะต้องซื่อสัตย์ต่อตัวเอง",
+                context: "เป็นคำแนะนำในการใช้ชีวิต ให้เราเป็นตัวของตัวเองและไม่เปลี่ยนแปลงไปตามความคาดหวังของคนอื่น",
+                dialogue: { a: "Everyone wants me to change.", b: "Don't listen to them. It's important to stay true to yourself." },
+                alternatives: "<strong>Always be yourself.</strong>"
+            },
+            {
+                eng: "It's important to ask for help when you need it.", th: "มันเป็นเรื่องสำคัญที่จะต้องขอความช่วยเหลือเมื่อคุณต้องการ",
+                context: "ใช้เตือนใจคนที่ไม่กล้าขอความช่วยเหลือ ให้รู้ว่าการขอความช่วยเหลือไม่ใช่เรื่องน่าอาย",
+                dialogue: { a: "I'm struggling with this, but I don't want to bother anyone.", b: "Don't think like that. It's important to ask for help when you need it." },
+                alternatives: "<strong>Don't be afraid to ask for help.</strong>"
+            },
+            {
+                eng: "Is it important to be there?", th: "มันสำคัญไหมที่ต้องไปที่นั่น",
+                context: "ใช้โครงสร้างนี้เป็นคำถามเพื่อถามถึงความจำเป็นของการเข้าร่วมงานหรือไปสถานที่นั้นๆ",
+                dialogue: { a: "There's a company-wide meeting this Friday.", b: "Is it important to be there? I have another appointment." },
+                alternatives: "<strong>Is attendance mandatory?</strong> (การเข้าร่วมเป็นภาคบังคับหรือไม่?)"
+            }
+        ];
+        
+        const grid = document.getElementById('sentences-grid');
+        const modal = document.getElementById('modal');
+        const modalHeader = document.getElementById('modal-header');
+        const modalEnglish = document.getElementById('modal-english');
+        const modalThai = document.getElementById('modal-thai');
+        const modalDetails = document.getElementById('modal-details');
+        const closeModalBtn = document.getElementById('close-modal-btn');
+
+        sentences.forEach((sentence, index) => {
+            const button = document.createElement('button');
+            button.className = `group sentence-btn p-5 rounded-lg text-left text-white bg-blue-700 shadow-md hover:bg-blue-800 transform hover:-translate-y-1`;
+            
+            button.innerHTML = `
+                <span class="font-poppins font-semibold transition-colors duration-200">${sentence.eng}</span>
+                <span class="block text-sm text-blue-100 font-normal mt-1 transition-colors duration-200">${sentence.th}</span>
+            `;
+
+            button.addEventListener('click', () => openModal(sentence));
+            grid.appendChild(button);
+        });
+
+        function openModal(sentence) {
+            modalEnglish.textContent = sentence.eng;
+            modalThai.textContent = sentence.th;
+
+            modalDetails.innerHTML = `
+                <div class="p-4 bg-slate-100 rounded-lg">
+                    <h4 class="font-semibold text-lg text-slate-800 mb-2">💡 บริบทการใช้งาน (Context)</h4>
+                    <p class="text-slate-600">${sentence.context}</p>
+                </div>
+                <div class="p-4 bg-slate-100 rounded-lg">
+                    <h4 class="font-semibold text-lg text-slate-800 mb-2">💬 ตัวอย่างบทสนทนา (Dialogue)</h4>
+                    <div class="space-y-1 text-slate-600">
+                        <p><strong>A:</strong> ${sentence.dialogue.a}</p>
+                        <p><strong>B:</strong> ${sentence.dialogue.b}</p>
+                    </div>
+                </div>
+                <div class="p-4 bg-slate-100 rounded-lg">
+                    <h4 class="font-semibold text-lg text-slate-800 mb-2">🔄 คำที่เกี่ยวข้อง / ใช้แทนได้ (Alternatives)</h4>
+                    <div class="text-slate-600">${sentence.alternatives}</div>
+                </div>
+            `;
+
+            modal.classList.add('active');
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            modal.classList.add('opacity-0', 'pointer-events-none');
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        closeModalBtn.addEventListener('click', closeModal);
+        modal.addEventListener('click', (e) => {
+            if (e.target.id === 'modal') {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>

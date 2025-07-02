@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Structure #34 - It's possible to...</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Mitr:wght@300;400;500;600&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Mitr', sans-serif;
+        }
+        .font-poppins {
+            font-family: 'Poppins', sans-serif;
+        }
+        .sentence-btn {
+            transition: all 0.2s ease-in-out;
+        }
+        #modal {
+            transition: opacity 0.3s ease;
+        }
+        .modal-content-container {
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            opacity: 0;
+            transform: translateY(20px) scale(0.95);
+        }
+        #modal.active .modal-content-container {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+    </style>
+</head>
+<body class="bg-slate-100">
+
+    <div class="container mx-auto p-4 sm:p-6 lg:p-8">
+
+        <header class="text-center mb-10">
+            <h1 class="text-4xl sm:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-emerald-500 to-sky-500 font-poppins">Structure #34</h1>
+            <h2 class="text-2xl sm:text-3xl font-bold text-slate-800 mt-2 font-poppins">"It's possible to + (verb)"</h2>
+            <p class="text-slate-600 mt-4 max-w-2xl mx-auto text-lg">
+                ใช้เพื่อพูดถึง <strong class="text-emerald-600">"ความเป็นไปได้"</strong> ในการทำสิ่งต่างๆ หมายความว่าสิ่งนั้น <strong class="text-sky-600">"สามารถทำได้"</strong> แม้อาจจะยากหรือยังไม่เกิดขึ้นจริงก็ตาม เป็นการเปิดทางสู่ทางเลือกใหม่ๆ
+            </p>
+        </header>
+
+        <main id="sentences-grid" class="grid grid-cols-1 md:grid-cols-2 gap-5">
+            </main>
+
+        <footer class="text-center mt-12">
+            <p class="text-slate-700 font-medium">อังกฤษฉบับคนเรียนไม่รู้เรื่อง โดยครูสาลี่</p>
+        </footer>
+
+    </div>
+
+    <div id="modal" class="fixed inset-0 bg-black bg-opacity-60 flex justify-center items-center p-4 z-50 opacity-0 pointer-events-none">
+        <div class="modal-content-container w-full max-w-2xl max-h-[90vh] overflow-y-auto bg-slate-50 rounded-2xl shadow-2xl">
+            <div id="modal-header" class="p-6 sm:p-8 rounded-t-2xl bg-gradient-to-r from-emerald-500 to-sky-500">
+                <p id="modal-english" class="font-poppins font-bold text-2xl text-white text-center"></p>
+                <p id="modal-thai" class="text-xl text-white text-center mt-2 opacity-90"></p>
+            </div>
+            <div class="p-6 sm:p-8">
+                <div id="modal-details" class="space-y-5">
+                    </div>
+                <div class="text-center mt-8">
+                    <button id="close-modal-btn" class="bg-slate-600 hover:bg-slate-700 text-white font-bold py-2 px-8 rounded-full shadow-lg transform hover:scale-105 transition-transform duration-300">
+                        ปิด
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const sentences = [
+            {
+                eng: "It's possible to change your mind.", th: "มันเป็นไปได้ที่จะเปลี่ยนใจ",
+                context: "ใช้เพื่อบอกอีกฝ่ายว่าการตัดสินใจยังไม่สิ้นสุดและเขายังมีโอกาสที่จะเปลี่ยนใจได้เสมอ",
+                dialogue: { a: "I think I made the wrong choice.", b: "Don't worry. The deadline isn't until tomorrow. It's possible to change your mind." },
+                alternatives: "<strong>You can still change your mind.</strong><br><strong>It's not too late to change your mind.</strong>"
+            },
+            {
+                eng: "It's possible to get a refund.", th: "มันเป็นไปได้ที่จะขอเงินคืน",
+                context: "ใช้เมื่อพูดถึงนโยบายของร้านค้า เพื่อบอกว่ามีทางเลือกในการขอคืนเงินหากไม่พอใจในสินค้า",
+                dialogue: { a: "This shirt doesn't fit me.", b: "You should check the store's policy. It's usually possible to get a refund within 30 days." },
+                alternatives: "<strong>You might be able to get a refund.</strong><br><strong>A refund is a possibility.</strong>"
+            },
+            {
+                eng: "It's possible to learn a new language at any age.", th: "มันเป็นไปได้ที่จะเรียนรู้ภาษาใหม่ในทุกช่วงวัย",
+                context: "ใช้เพื่อให้กำลังใจว่าการเรียนรู้ไม่มีคำว่าสายเกินไป",
+                dialogue: { a: "I think I'm too old to learn Spanish.", b: "That's not true! It's possible to learn a new language at any age." },
+                alternatives: "<strong>Anyone can learn a new language.</strong><br><strong>Age is not a barrier to learning.</strong>"
+            },
+            {
+                eng: "It's possible to achieve your dreams.", th: "มันเป็นไปได้ที่จะทำความฝันให้เป็นจริง",
+                context: "เป็นคำพูดที่สร้างแรงบันดาลใจ เพื่อบอกว่าถ้ามีความพยายาม ความฝันก็สามารถเป็นจริงได้",
+                dialogue: { a: "My dream seems so far away.", b: "Don't give up. If you work hard, it's possible to achieve your dreams." },
+                alternatives: "<strong>You can achieve your dreams.</strong><br><strong>Your dreams are within reach.</strong>"
+            },
+            {
+                eng: "It's possible to work from home.", th: "มันเป็นไปได้ที่จะทำงานจากที่บ้าน",
+                context: "ใช้พูดถึงรูปแบบการทำงานที่ยืดหยุ่น ซึ่งเป็นทางเลือกให้กับพนักงาน",
+                dialogue: { a: "Does everyone have to come to the office?", b: "No, our company is flexible. It's possible to work from home." },
+                alternatives: "<strong>Working from home is an option.</strong><br><strong>We have a remote work option.</strong>"
+            },
+            {
+                eng: "It's possible to disagree without being disrespectful.", th: "มันเป็นไปได้ที่จะไม่เห็นด้วยโดยไม่จำเป็นต้องหยาบคาย",
+                context: "ใช้เป็นคำแนะนำในการถกเถียงอย่างสร้างสรรค์ ว่าเราสามารถมีความคิดเห็นที่แตกต่างได้โดยยังคงให้เกียรติกัน",
+                dialogue: { a: "They started shouting at each other.", b: "That's not productive. It's possible to disagree without being disrespectful." },
+                alternatives: "<strong>We can agree to disagree politely.</strong>"
+            },
+            {
+                eng: "It's possible to find a solution.", th: "มันเป็นไปได้ที่จะหาทางแก้ไข",
+                context: "ใช้พูดเพื่อให้กำลังใจทีมหรือตัวเองในเวลาที่เจอปัญหา ว่าทุกปัญหามีทางออกเสมอ",
+                dialogue: { a: "This problem seems impossible.", b: "Let's brainstorm together. I'm sure it's possible to find a solution." },
+                alternatives: "<strong>There must be a solution.</strong><br><strong>A solution is achievable.</strong>"
+            },
+            {
+                eng: "It's possible to live without a car in this city.", th: "มันเป็นไปได้ที่จะใช้ชีวิตในเมืองนี้โดยไม่มีรถยนต์",
+                context: "ใช้เมื่อพูดถึงไลฟ์สไตล์หรือทางเลือกในการใช้ชีวิต โดยเฉพาะในเมืองที่มีระบบขนส่งสาธารณะที่ดี",
+                dialogue: { a: "Should I buy a car?", b: "You don't have to. The public transport is great here, so it's possible to live without a car." },
+                alternatives: "<strong>You can get by without a car here.</strong> (คุณอยู่ได้โดยไม่มีรถที่นี่)"
+            },
+            {
+                eng: "It's possible to see the stars tonight.", th: "มันเป็นไปได้ที่จะเห็นดาวในคืนนี้",
+                context: "ใช้คาดการณ์ความเป็นไปได้เกี่ยวกับสภาพอากาศหรือปรากฏการณ์ธรรมชาติ",
+                dialogue: { a: "Is it going to be cloudy again?", b: "The forecast says the sky will be clear. It's possible to see the stars tonight." },
+                alternatives: "<strong>We might be able to see the stars tonight.</strong>"
+            },
+            {
+                eng: "It's possible to finish this by Friday.", th: "มันเป็นไปได้ที่จะทำงานนี้ให้เสร็จภายในวันศุกร์",
+                context: "ใช้ในการประเมินความเป็นไปได้ของเดดไลน์ในโปรเจกต์ ว่าสามารถทำได้แม้จะต้องพยายามอย่างหนัก",
+                dialogue: { a: "Can we meet the deadline?", b: "It will be tight, but if we all work together, it's possible to finish this by Friday." },
+                alternatives: "<strong>It's achievable to finish this by Friday.</strong><br><strong>We can potentially finish this by Friday.</strong>"
+            },
+            {
+                eng: "Is it possible to get a discount?", th: "มันเป็นไปได้ไหมที่จะได้ส่วนลด",
+                context: "ใช้โครงสร้างนี้เป็นคำถามเพื่อต่อรองราคาอย่างสุภาพ",
+                dialogue: { a: "The price is a little high for me.", b: "Is it possible to get a discount?", a: "Let me check with my manager." },
+                alternatives: "<strong>Can you offer a discount?</strong><br><strong>Is there any room for negotiation on the price?</strong>"
+            },
+            {
+                eng: "Is it possible to reschedule?", th: "มันเป็นไปได้ไหมที่จะเลื่อนนัด",
+                context: "ใช้เป็นคำถามสุภาพเพื่อขอเลื่อนนัดหมาย",
+                dialogue: { a: "I'm afraid I can't make it on Wednesday.", b: "Is it possible to reschedule for Thursday instead?" },
+                alternatives: "<strong>Could we reschedule?</strong><br><strong>Can we move the appointment?</strong>"
+            },
+            {
+                eng: "It's technically possible, but not practical.", th: "ในทางเทคนิคมันเป็นไปได้ แต่มันใช้จริงไม่ได้",
+                context: "ใช้เพื่อยอมรับว่าสิ่งหนึ่งทำได้ในทางทฤษฎี แต่ในทางปฏิบัติจริงนั้นยากหรือไม่มีประสิทธิภาพ",
+                dialogue: { a: "Can we build a robot that does all our work?", b: "It's technically possible, but not practical with our current budget." },
+                alternatives: "<strong>In theory, it's possible, but in practice, no.</strong>"
+            },
+            {
+                eng: "It's possible to love again after a heartbreak.", th: "มันเป็นไปได้ที่จะกลับมารักได้อีกครั้งหลังอกหัก",
+                context: "ใช้เพื่อให้กำลังใจคนที่เพิ่งผ่านความสัมพันธ์ที่เจ็บปวด",
+                dialogue: { a: "I feel like I'll never find someone else.", b: "Don't say that. It takes time, but it's possible to love again after a heartbreak." },
+                alternatives: "<strong>You will find love again.</strong>"
+            },
+            {
+                eng: "It's possible to be both strong and kind.", th: "มันเป็นไปได้ที่จะเป็นทั้งคนที่เข้มแข็งและใจดี",
+                context: "ใช้เพื่อบอกว่าคุณสมบัติที่ดูเหมือนจะตรงข้ามกันสามารถอยู่ร่วมกันในคนคนเดียวได้",
+                dialogue: { a: "She's a tough boss.", b: "Yes, but she's also very fair. It proves it's possible to be both strong and kind." },
+                alternatives: "<strong>Strength and kindness can coexist.</strong>"
+            },
+            {
+                eng: "It's possible to have too much of a good thing.", th: "มันเป็นไปได้ที่จะมีของดีมากเกินไป (จนกลายเป็นไม่ดี)",
+                context: "เป็นสำนวนที่หมายความว่า แม้แต่สิ่งที่ดีๆ หากมีมากเกินไปก็อาจส่งผลเสียได้",
+                dialogue: { a: "I ate the whole box of chocolates.", b: "And now you feel sick? See? It's possible to have too much of a good thing." },
+                alternatives: "<strong>Too much of anything is good for nothing.</strong> (สำนวน)"
+            },
+            {
+                eng: "It's not possible to please everyone.", th: "มันเป็นไปไม่ได้ที่จะทำให้ทุกคนพอใจ",
+                context: "ใช้รูปปฏิเสธเพื่อบอกสัจธรรมว่าเราไม่สามารถทำให้ทุกคนชอบหรือเห็นด้วยกับเราได้ทั้งหมด",
+                dialogue: { a: "Some people didn't like my presentation.", b: "That's okay. It's not possible to please everyone." },
+                alternatives: "<strong>You can't please everyone.</strong>"
+            },
+            {
+                eng: "It's impossible to know for sure.", th: "มันเป็นไปไม่ได้ที่จะรู้ได้อย่างแน่นอน",
+                context: "ใช้ 'impossible' (รูปปฏิเสธที่หนักแน่นกว่า) เพื่อเน้นว่าไม่มีทางที่จะรู้ความจริงได้ 100%",
+                dialogue: { a: "Do you think he's telling the truth?", b: "We can only guess. It's impossible to know for sure." },
+                alternatives: "<strong>There's no way to know for sure.</strong>"
+            },
+            {
+                eng: "It's possible, but unlikely.", th: "มันก็เป็นไปได้นะ แต่ไม่น่าจะเกิดขึ้น",
+                context: "ใช้เพื่อยอมรับความเป็นไปได้ที่น้อยมาก",
+                dialogue: { a: "Do you think we'll win the lottery?", b: "Well, it's possible, but highly unlikely." },
+                alternatives: "<strong>There's a slim chance.</strong>"
+            },
+            {
+                eng: "Anything is possible if you believe.", th: "ทุกสิ่งเป็นไปได้ถ้าคุณเชื่อ",
+                context: "เป็นวลีที่สร้างแรงบันดาลใจอย่างมาก เพื่อบอกว่าพลังแห่งความเชื่อสามารถทำให้สิ่งที่เป็นไปไม่ได้เกิดขึ้นได้",
+                dialogue: { a: "This goal seems out of reach.", b: "Don't give up. Anything is possible if you believe." },
+                alternatives: "<strong>Believe in yourself and anything is possible.</strong>"
+            }
+        ];
+        
+        const grid = document.getElementById('sentences-grid');
+        const modal = document.getElementById('modal');
+        const modalHeader = document.getElementById('modal-header');
+        const modalEnglish = document.getElementById('modal-english');
+        const modalThai = document.getElementById('modal-thai');
+        const modalDetails = document.getElementById('modal-details');
+        const closeModalBtn = document.getElementById('close-modal-btn');
+
+        const buttonColors = [
+            { base: 'border-emerald-500 hover:bg-emerald-500 text-emerald-700', hoverText: 'group-hover:text-white' },
+            { base: 'border-sky-500 hover:bg-sky-500 text-sky-700', hoverText: 'group-hover:text-white' },
+            { base: 'border-violet-500 hover:bg-violet-500 text-violet-700', hoverText: 'group-hover:text-white' },
+            { base: 'border-cyan-500 hover:bg-cyan-500 text-cyan-700', hoverText: 'group-hover:text-white' },
+        ];
+
+        sentences.forEach((sentence, index) => {
+            const button = document.createElement('button');
+            const colorTheme = buttonColors[index % buttonColors.length];
+            
+            button.className = `group sentence-btn p-5 rounded-lg text-left bg-white border-2 ${colorTheme.base}`;
+            
+            button.innerHTML = `
+                <span class="font-poppins font-semibold ${colorTheme.text} ${colorTheme.hoverText} transition-colors duration-200">${sentence.eng}</span>
+                <span class="block text-sm ${colorTheme.text}/80 ${colorTheme.hoverText}/80 font-normal mt-1 transition-colors duration-200">${sentence.th}</span>
+            `;
+
+            button.addEventListener('click', () => openModal(sentence));
+            grid.appendChild(button);
+        });
+
+        function openModal(sentence) {
+            modalEnglish.textContent = sentence.eng;
+            modalThai.textContent = sentence.th;
+
+            modalDetails.innerHTML = `
+                <div class="p-4 bg-slate-100 rounded-lg">
+                    <h4 class="font-semibold text-lg text-slate-800 mb-2">💡 บริบทการใช้งาน (Context)</h4>
+                    <p class="text-slate-600">${sentence.context}</p>
+                </div>
+                <div class="p-4 bg-slate-100 rounded-lg">
+                    <h4 class="font-semibold text-lg text-slate-800 mb-2">💬 ตัวอย่างบทสนทนา (Dialogue)</h4>
+                    <div class="space-y-1 text-slate-600">
+                        <p><strong>A:</strong> ${sentence.dialogue.a}</p>
+                        <p><strong>B:</strong> ${sentence.dialogue.b}</p>
+                    </div>
+                </div>
+                <div class="p-4 bg-slate-100 rounded-lg">
+                    <h4 class="font-semibold text-lg text-slate-800 mb-2">🔄 คำที่เกี่ยวข้อง / ใช้แทนได้ (Alternatives)</h4>
+                    <div class="text-slate-600">${sentence.alternatives}</div>
+                </div>
+            `;
+
+            modal.classList.add('active');
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            modal.classList.add('opacity-0', 'pointer-events-none');
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        closeModalBtn.addEventListener('click', closeModal);
+        modal.addEventListener('click', (e) => {
+            if (e.target.id === 'modal') {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>

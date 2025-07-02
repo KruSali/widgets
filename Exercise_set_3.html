@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>แบบฝึกหัดแต่งประโยค - ชุดที่ 3</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Mitr:wght@300;400;500;600&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Mitr', sans-serif;
+        }
+        .font-poppins {
+            font-family: 'Poppins', sans-serif;
+        }
+        .quiz-card {
+            transition: background-color 0.5s ease;
+        }
+        .answer-area, .hint-content {
+            transition: all 0.3s ease-in-out;
+            max-height: 0;
+            overflow: hidden;
+            opacity: 0;
+        }
+        .answer-area.visible, .hint-content.visible {
+            max-height: 600px; /* Adjust as needed */
+            opacity: 1;
+        }
+    </style>
+</head>
+<body class="bg-slate-200">
+
+    <div class="container mx-auto p-4 sm:p-6 lg:p-8 max-w-2xl">
+
+        <header class="text-center mb-6">
+            <h1 class="text-3xl sm:text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-slate-800 to-black font-poppins">Sentence Practice</h1>
+            <h2 class="text-xl sm:text-2xl font-bold text-slate-800 mt-2">แบบฝึกหัดแต่งประโยค ชุดที่ 3</h2>
+        </header>
+
+        <div id="quiz-card" class="quiz-card p-6 sm:p-8 rounded-2xl shadow-xl">
+            <div>
+                <div id="progress-text" class="text-sm font-semibold text-slate-600 mb-1">ข้อที่ 1 / 50</div>
+                <div class="w-full bg-slate-300 rounded-full h-2.5">
+                    <div id="progress-bar" class="bg-gradient-to-r from-slate-700 to-black h-2.5 rounded-full transition-all duration-500 ease-out"></div>
+                </div>
+            </div>
+
+            <div class="mt-6">
+                <p class="text-slate-700 mb-2">ลองแต่งประโยคภาษาอังกฤษจากประโยคภาษาไทยต่อไปนี้:</p>
+                <p id="thai-question" class="text-2xl font-semibold text-slate-900 bg-white/50 p-4 rounded-lg"></p>
+            </div>
+            
+            <div class="mt-4">
+                 <div class="w-full bg-white/50 rounded-lg p-4 min-h-[80px] text-slate-500 italic text-center flex items-center justify-center border-2 border-dashed border-slate-300">
+                    <p>พื้นที่สำหรับฝึกแต่งประโยค...</p>
+                </div>
+            </div>
+
+            <div class="mt-6 flex flex-wrap gap-4 justify-center">
+                <button id="toggle-hint-btn" class="bg-gray-500 text-white font-bold py-2 px-5 rounded-full shadow-md hover:bg-gray-600 transition-all duration-200">
+                    ดูคำใบ้
+                </button>
+                <button id="toggle-answer-btn" class="bg-gray-800 text-white font-bold py-2 px-5 rounded-full shadow-md hover:bg-black transition-all duration-200">
+                    ดูคำตอบ
+                </button>
+            </div>
+            
+            <div id="hint-area" class="mt-4">
+                 <div id="hint-content" class="hint-content text-sm text-slate-600 bg-amber-100 border-l-4 border-amber-500 p-3 rounded-r-lg">
+                    <p><strong class="font-semibold text-amber-800">คำใบ้:</strong> <span id="hint-text"></span></p>
+                </div>
+            </div>
+            
+            <div id="answer-area" class="mt-4">
+                <div id="answer-content" class="answer-area bg-indigo-50 border-l-4 border-indigo-500 p-4 rounded-r-lg">
+                    <h4 class="font-bold text-indigo-800">คำตอบที่ถูกต้อง:</h4>
+                    <p id="english-answer" class="text-lg font-semibold text-indigo-700 mt-1 font-poppins"></p>
+                    <hr class="my-3 border-indigo-200">
+                    <h4 class="font-bold text-indigo-800">คำอธิบาย:</h4>
+                    <p id="explanation-text" class="text-slate-700 mt-1"></p>
+                    <hr class="my-3 border-indigo-200">
+                    <h4 class="font-bold text-indigo-800">ทางเลือกอื่นๆ ในการตอบ:</h4>
+                    <p id="alternatives-text" class="text-slate-700 mt-1"></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="flex justify-between mt-6">
+            <button id="prev-btn" class="bg-slate-600 text-white font-bold py-2 px-6 rounded-full shadow-md hover:bg-slate-700 disabled:bg-slate-300 disabled:cursor-not-allowed transition-all">
+                ย้อนกลับ
+            </button>
+            <button id="next-btn" class="bg-slate-600 text-white font-bold py-2 px-6 rounded-full shadow-md hover:bg-slate-700 disabled:bg-slate-300 disabled:cursor-not-allowed transition-all">
+                ถัดไป
+            </button>
+        </div>
+         <footer class="text-center mt-12">
+            <p class="text-slate-700 font-medium">อังกฤษฉบับคนเรียนไม่รู้เรื่อง โดยครูสาลี่</p>
+        </footer>
+    </div>
+
+    <script>
+        const exercises = [
+            // Set 3 (50 new questions)
+            { id: 1, structure: "#32", thai: "มันสำคัญที่จะต้องไม่ยอมแพ้", english: "It's important not to give up.", hint: "สำคัญ (important), ไม่ยอมแพ้ (not give up)", explanation: "ใช้โครงสร้าง <strong>It's important not to + (verb)</strong> เพื่อเน้นย้ำความสำคัญของการไม่ทำบางสิ่ง", alternatives: "<strong>You must not give up.</strong>" },
+            { id: 2, structure: "#41", thai: "รบกวนคุณช่วยพูดดังขึ้นหน่อยได้ไหม", english: "Could you speak up, please?", hint: "รบกวนคุณ (could you), พูดดังขึ้น (speak up)", explanation: "ใช้โครงสร้าง <strong>Could you + (phrasal verb)</strong> เพื่อขอร้องอย่างสุภาพ", alternatives: "<strong>Would you mind speaking up?</strong> (Structure #42)" },
+            { id: 3, structure: "#25", thai: "ฉันซาบซึ้งในความอดทนของคุณ", english: "I'm grateful for your patience.", hint: "ซาบซึ้ง (grateful for), ความอดทน (patience)", explanation: "ใช้โครงสร้าง <strong>I'm grateful for + (noun)</strong> เพื่อแสดงความขอบคุณอย่างสุดซึ้ง", alternatives: "<strong>Thank you for being so patient.</strong>" },
+            { id: 4, structure: "#10", thai: "ฉันอยากจะขอโทษสำหรับพฤติกรรมของฉัน", english: "I wanna apologize for my behavior.", hint: "อยากจะ (wanna), ขอโทษ (apologize)", explanation: "ใช้โครงสร้าง <strong>I wanna + (verb)</strong> เพื่อแสดงความต้องการจะขอโทษ", alternatives: "<strong>I'm sorry for my behavior.</strong> (Structure #26)" },
+            { id: 5, structure: "#46", thai: "คุณกำลังล้อฉันเล่นใช่ไหม", english: "Are you kidding me?", hint: "กำลัง...อยู่เหรอ (are you), ล้อเล่น (kid)", explanation: "ใช้โครงสร้าง <strong>Are you + (verb-ing)</strong> เป็นสำนวนแสดงความไม่เชื่ออย่างยิ่ง", alternatives: "<strong>You've got to be kidding me.</strong> (Structure #11)" },
+            { id: 6, structure: "#1", thai: "ฉันไม่เก่งเรื่องการวาดรูปเลย", english: "I'm not good at drawing.", hint: "ไม่เก่ง (not good at), วาดรูป (draw)", explanation: "ใช้โครงสร้าง <strong>I'm not good at + (gerund)</strong> ในรูปปฏิเสธ", alternatives: "<strong>Drawing is not my strong suit.</strong> (สำนวน)" },
+            { id: 7, structure: "#28", thai: "ฉันสับสนว่าทำไมเธอถึงโกรธฉัน", english: "I'm confused about why she's angry at me.", hint: "สับสน (confused about), ทำไม (why)", explanation: "ใช้โครงสร้าง <strong>I'm confused about + (wh-word)</strong> เพื่อแสดงความไม่เข้าใจ", alternatives: "<strong>I have no idea why she's mad at me.</strong> (Structure #6)" },
+            { id: 8, structure: "#37", thai: "จะมีการลงคะแนนเสียงตอนท้ายของการประชุม", english: "There will be a vote at the end of the meeting.", hint: "จะมี (there will be), การลงคะแนนเสียง (vote)", explanation: "ใช้โครงสร้าง <strong>There will be + (noun)</strong> เพื่อประกาศเหตุการณ์ในอนาคต", alternatives: "<strong>We will hold a vote at the end.</strong>" },
+            { id: 9, structure: "#16", thai: "ฉันไม่มีเวลามานั่งกังวลเรื่องเล็กๆ น้อยๆ", english: "I don't have time to worry about small things.", hint: "ไม่มีเวลา (don't have time to), กังวล (worry)", explanation: "ใช้โครงสร้าง <strong>I don't have time to + (verb)</strong> เพื่อบอกว่าต้องโฟกัสเรื่องที่ใหญ่กว่า", alternatives: "<strong>Let's focus on the big picture.</strong>" },
+            { id: 10, structure: "#34", thai: "มันเป็นไปได้ที่จะทำความฝันให้เป็นจริง", english: "It's possible to achieve your dreams.", hint: "เป็นไปได้ (possible to), ทำสำเร็จ (achieve)", explanation: "ใช้โครงสร้าง <strong>It's possible to + (verb)</strong> เพื่อสร้างแรงบันดาลใจ", alternatives: "<strong>You can achieve your dreams.</strong>" },
+            { id: 11, structure: "#20", thai: "ฉันตั้งตารอที่จะได้พักผ่อน", english: "I'm looking forward to getting some rest.", hint: "ตั้งตารอ (look forward to), พักผ่อน (get rest)", explanation: "ใช้โครงสร้าง <strong>I'm looking forward to + (gerund)</strong>. get rest ต้องเปลี่ยนเป็น getting rest", alternatives: "<strong>I can't wait to get some rest.</strong>" },
+            { id: 12, structure: "#49", thai: "คุณต้องการให้ฉันมากับคุณด้วยไหม", english: "Do you need me to come with you?", hint: "ต้องการ...ไหม (do you need), ฉัน (me)", explanation: "ใช้โครงสร้าง <strong>Do you need me to + (verb)</strong> เพื่อเสนอความช่วยเหลือ", alternatives: "<strong>Would you like me to come with you?</strong> (Structure #12)" },
+            { id: 13, structure: "#11", thai: "ฉันต้องยอมรับเลยว่าคุณพูดถูก", english: "I gotta admit, you were right.", hint: "ต้อง (gotta), ยอมรับ (admit)", explanation: "ใช้โครงสร้าง <strong>I gotta + (verb)</strong> เพื่อแสดงการยอมรับอย่างหนักแน่น", alternatives: "<strong>I have to admit, you were right.</strong> (Structure #9)" },
+            { id: 14, structure: "#24", thai: "ฉันทึ่งกับความสามารถในการแก้ปัญหาของเขา", english: "I'm amazed by his problem-solving skills.", hint: "ทึ่ง (amazed by), ทักษะการแก้ปัญหา (problem-solving skills)", explanation: "ใช้โครงสร้าง <strong>I'm amazed by + (noun)</strong> เพื่อแสดงความประทับใจอย่างยิ่ง", alternatives: "<strong>His problem-solving skills are incredible.</strong>" },
+            { id: 15, structure: "#42", thai: "คุณจะว่าอะไรไหมถ้าจะช่วยเฝ้าของให้ฉันหน่อย", english: "Would you mind watching my stuff?", hint: "จะว่าอะไรไหม (would you mind), เฝ้า/ดู (watch)", explanation: "ใช้โครงสร้าง <strong>Would you mind + (gerund)</strong> เพื่อขอร้องอย่างสุภาพที่สุด", alternatives: "<strong>Could you keep an eye on my stuff?</strong> (Structure #41)" },
+            { id: 16, structure: "#9", thai: "ฉันต้องจ่ายบิล", english: "I have to pay my bills.", hint: "ต้อง (have to), จ่าย (pay), บิล (bills)", explanation: "ใช้โครงสร้าง <strong>I have to + (verb)</strong> เพื่อบอกถึงภาระผูกพันทางการเงิน", alternatives: "<strong>My bills are due.</strong>" },
+            { id: 17, structure: "#38", thai: "ถนนเส้นนี้เคยเงียบกว่านี้มาก", english: "This street used to be much quieter.", hint: "เคย (used to be), เงียบ (quiet)", explanation: "ใช้โครงสร้าง <strong>(S) + used to be + (adjective)</strong> เพื่อเปรียบเทียบอดีตกับปัจจุบัน", alternatives: "<strong>This street is noisier than it used to be.</strong>" },
+            { id: 18, structure: "#21", thai: "ฉันกำลังคิดเรื่องการเปลี่ยนทรงผม", english: "I'm thinking about changing my hairstyle.", hint: "กำลังคิด (think about), เปลี่ยน (change)", explanation: "ใช้โครงสร้าง <strong>I'm thinking about + (gerund)</strong> เพื่อบอกสิ่งที่กำลังพิจารณา", alternatives: "<strong>I might get a new haircut.</strong>" },
+            { id: 19, structure: "#4", thai: "ฉันกำลังพยายามหาทางแก้ไขอยู่", english: "I'm trying to find a solution.", hint: "พยายาม (try to), หา (find), ทางแก้ไข (solution)", explanation: "ใช้โครงสร้าง <strong>I'm trying to + (verb)</strong> เพื่อบอกถึงความพยายาม", alternatives: "<strong>I'm working on a solution.</strong>" },
+            { id: 20, structure: "#44", thai: "คุณเคยเผลอหลับในโรงหนังไหม", english: "Have you ever fallen asleep in a movie theater?", hint: "เคย...ไหม (have you ever), เผลอหลับ (fall asleep - V.3: fallen)", explanation: "ใช้โครงสร้าง <strong>Have you ever + (past participle)</strong> เพื่อถามถึงประสบการณ์", alternatives: "<strong>Did you fall asleep during the movie last night?</strong>" },
+            { id: 21, structure: "#36", thai: "มีคนรออยู่ข้างนอก", english: "There is someone waiting outside.", hint: "มี (there is), ใครบางคน (someone)", explanation: "ใช้โครงสร้าง <strong>There is + (singular noun)</strong> เพื่อบอกการมีอยู่ของบุคคล", alternatives: "<strong>Someone is waiting outside.</strong>" },
+            { id: 22, structure: "#14", thai: "ฉันตัดสินใจที่จะเชื่อสัญชาตญาณของตัวเอง", english: "I've decided to trust my instincts.", hint: "ตัดสินใจ (decide to), เชื่อ (trust), สัญชาตญาณ (instincts)", explanation: "ใช้โครงสร้าง <strong>I've decided to + (verb)</strong> เพื่อประกาศการตัดสินใจที่แน่วแน่", alternatives: "<strong>I'm going to trust my gut.</strong> (สำนวน)" },
+            { id: 23, structure: "#47", thai: "คุณชอบดนตรีแจ๊สไหม", english: "Do you like jazz music?", hint: "ชอบ...ไหม (do you like), ดนตรีแจ๊ส (jazz music)", explanation: "ใช้โครงสร้าง <strong>Do you like + (noun)</strong> เพื่อถามถึงรสนิยม", alternatives: "<strong>Are you a fan of jazz?</strong>" },
+            { id: 24, structure: "#8", thai: "ฉันเคยเชื่อในเรื่องซานตาคลอส", english: "I used to believe in Santa Claus.", hint: "เคย (used to), เชื่อใน (believe in)", explanation: "ใช้โครงสร้าง <strong>I used to + (verb)</strong> เพื่อบอกความเชื่อในอดีตที่ตอนนี้ไม่จริงแล้ว", alternatives: "<strong>When I was a kid, I believed in Santa Claus.</strong>" },
+            { id: 25, structure: "#33", thai: "มันจำเป็นที่จะต้องมีแผนสำรอง", english: "It's necessary to have a backup plan.", hint: "จำเป็น (necessary to), มี (have), แผนสำรอง (backup plan)", explanation: "ใช้โครงสร้าง <strong>It's necessary to + (verb)</strong> เพื่อบอกสิ่งที่ขาดไม่ได้", alternatives: "<strong>We should always have a Plan B.</strong>" },
+            { id: 26, structure: "#17", thai: "ฉันยินดีที่จะเลื่อนนัดให้", english: "I'm happy to reschedule.", hint: "ยินดี (happy to), เลื่อนนัด (reschedule)", explanation: "ใช้โครงสร้าง <strong>I'm happy to + (verb)</strong> เพื่อแสดงความยืดหยุ่นและเต็มใจ", alternatives: "<strong>We can find another time.</strong>" },
+            { id: 27, structure: "#30", thai: "ฉันพอใจกับคะแนนของฉัน", english: "I'm satisfied with my score.", hint: "พอใจ (satisfied with), คะแนน (score)", explanation: "ใช้โครงสร้าง <strong>I'm satisfied with + (noun)</strong> เพื่อแสดงความพึงพอใจ", alternatives: "<strong>My score is acceptable to me.</strong>" },
+            { id: 28, structure: "#5", thai: "ฉันกะว่าจะบอกความจริงกับเขา", english: "I'm gonna tell him the truth.", hint: "กะว่าจะ (gonna), บอก (tell), ความจริง (truth)", explanation: "ใช้โครงสร้าง <strong>I'm gonna + (verb)</strong> เพื่อบอกความตั้งใจที่แน่วแน่", alternatives: "<strong>I've decided to tell him the truth.</strong> (Structure #14)" },
+            { id: 29, structure: "#45", thai: "คุณจะทำอะไรกับเรื่องนี้สักอย่างไหม", english: "Are you going to do something about it?", hint: "จะ...ไหม (are you going to), ทำอะไรบางอย่าง (do something)", explanation: "ใช้โครงสร้าง <strong>Are you going to + (verb)</strong> ในเชิงท้าทายหรือกระตุ้น", alternatives: "<strong>Are you just going to complain?</strong>" },
+            { id: 30, structure: "#12", thai: "ฉันต้องการที่จะขอความเห็นของคุณ", english: "I'd like to get your opinion.", hint: "ต้องการ (would like to), ขอ/รับ (get), ความคิดเห็น (opinion)", explanation: "ใช้โครงสร้าง <strong>I'd like to + (verb)</strong> เพื่อขอความเห็นอย่างสุภาพ", alternatives: "<strong>What do you think about this?</strong>" },
+            { id: 31, structure: "#27", thai: "ฉันสนใจที่จะทำงานร่วมกัน", english: "I'm interested in working together.", hint: "สนใจ (interested in), ทำงานร่วมกัน (work together)", explanation: "ใช้โครงสร้าง <strong>I'm interested in + (gerund)</strong> เพื่อแสดงความสนใจในความร่วมมือ", alternatives: "<strong>I'm interested in a potential partnership.</strong>" },
+            { id: 32, structure: "#3", thai: "ฉันเริ่มสับสนแล้ว", english: "I'm getting confused.", hint: "เริ่ม... (get), สับสน (confused)", explanation: "ใช้โครงสร้าง <strong>I'm getting + (adjective)</strong> เพื่อบอกการเปลี่ยนแปลงสภาวะทางความคิด", alternatives: "<strong>This is starting to confuse me.</strong>" },
+            { id: 33, structure: "#48", thai: "คุณอยากจะลองอีกครั้งไหม", english: "Do you want to try again?", hint: "อยาก...ไหม (do you want to), ลองอีกครั้ง (try again)", explanation: "ใช้โครงสร้าง <strong>Do you want to + (verb)</strong> เพื่อให้กำลังใจ", alternatives: "<strong>Do you want to give it another shot?</strong> (สำนวน)" },
+            { id: 34, structure: "#29", thai: "ฉันประทับใจในทักษะภาษาอังกฤษของคุณ", english: "I'm impressed with your English skills.", hint: "ประทับใจ (impressed with), ทักษะภาษาอังกฤษ (English skills)", explanation: "ใช้โครงสร้าง <strong>I'm impressed with + (noun)</strong> เพื่อชื่นชมความสามารถ", alternatives: "<strong>Your English is very impressive.</strong>" },
+            { id: 35, structure: "#22", thai: "ฉันกังวลว่าจะไปสาย", english: "I'm worried about being late.", hint: "กังวล (worried about), สาย (be late)", explanation: "ใช้โครงสร้าง <strong>I'm worried about + (gerund)</strong>. late เป็น adj. จึงต้องใช้ 'being' นำหน้า", alternatives: "<strong>I hope I'm not late.</strong>" },
+            { id: 36, structure: "#40", thai: "ฉันขอยืมปากกาของคุณได้ไหม", english: "Can I borrow your pen?", hint: "ขอ...ได้ไหม (can I), ยืม (borrow)", explanation: "ใช้โครงสร้าง <strong>Can I + (verb)</strong> เพื่อขอยืมของ", alternatives: "<strong>Could I borrow your pen?</strong> (Structure #41)" },
+            { id: 37, structure: "#18", thai: "ฉันตื่นเต้นที่จะได้เผชิญกับความท้าทายนี้", english: "I'm excited to face this challenge.", hint: "ตื่นเต้น (excited to), เผชิญหน้า (face)", explanation: "ใช้โครงสร้าง <strong>I'm excited to + (verb)</strong> เพื่อแสดงทัศนคติเชิงบวก", alternatives: "<strong>I'm ready for this challenge.</strong> (Structure #19)" },
+            { id: 38, structure: "#31", thai: "ฉันผิดหวังกับตอนจบของหนังเรื่องนี้", english: "I'm disappointed with this movie's ending.", hint: "ผิดหวัง (disappointed with), ตอนจบ (ending)", explanation: "ใช้โครงสร้าง <strong>I'm disappointed with + (noun)</strong> เพื่อวิจารณ์", alternatives: "<strong>The ending was a letdown.</strong> (สำนวน)" },
+            { id: 39, structure: "#7", thai: "ฉันจองตั๋วเรียบร้อยแล้ว", english: "I have booked the tickets.", hint: "จอง (book - V.3: booked)", explanation: "ใช้โครงสร้าง <strong>I have + (past participle)</strong> เพื่อแจ้งข่าวว่าทำบางสิ่งสำเร็จแล้ว", alternatives: "<strong>The tickets are booked.</strong> (Passive Voice)" },
+            { id: 40, structure: "#23", thai: "ฉันประหลาดใจที่ได้ยินว่าเขาลาออก", english: "I'm surprised to hear that he quit.", hint: "ประหลาดใจ (surprised to), ได้ยิน (hear)", explanation: "ใช้โครงสร้าง <strong>I'm surprised to + (verb)</strong> เพื่อแสดงความประหลาดใจ", alternatives: "<strong>I can't believe he quit.</strong>" },
+            { id: 41, structure: "#35", thai: "เป็นเรื่องยากที่จะเปลี่ยนความคิดของคน", english: "It's difficult to change a person's mind.", hint: "ยาก (difficult to), เปลี่ยนความคิด (change someone's mind)", explanation: "ใช้โครงสร้าง <strong>It's difficult to + (verb)</strong> เพื่ออธิบายความท้าทาย", alternatives: "<strong>Changing someone's mind is hard.</strong>" },
+            { id: 42, structure: "#6", thai: "ฉันมีความรู้สึกไม่ดีเกี่ยวกับเรื่องนี้", english: "I have a bad feeling about this.", hint: "มี (have), ความรู้สึกไม่ดี (bad feeling)", explanation: "ใช้โครงสร้าง <strong>I have a + (noun)</strong> เพื่อบอกถึงลางสังหรณ์", alternatives: "<strong>Something about this feels wrong.</strong>" },
+            { id: 43, structure: "#19", thai: "คุณพร้อมที่จะสั่งอาหารหรือยัง", english: "Are you ready to order?", hint: "พร้อม...หรือยัง (are you ready to), สั่ง (order)", explanation: "ใช้โครงสร้าง <strong>(Be) ready to + (verb)</strong> ในรูปคำถาม", alternatives: "<strong>Would you like to order now?</strong> (Structure #12)" },
+            { id: 44, structure: "#26", thai: "ฉันขอโทษที่ทำให้คุณต้องรอ", english: "I'm sorry for keeping you waiting.", hint: "ขอโทษ (sorry for), ทำให้รอ (keep someone waiting)", explanation: "ใช้โครงสร้าง <strong>I'm sorry for + (gerund)</strong>. 'keep' ต้องเป็น 'keeping'", alternatives: "<strong>I apologize for the wait.</strong>" },
+            { id: 45, structure: "#43", thai: "คุณรู้วิธีเดินทางไปสนามบินไหม", english: "Do you know how to get to the airport?", hint: "รู้วิธี...ไหม (do you know how to), ไปถึง (get to)", explanation: "ใช้โครงสร้าง <strong>Do you know how to + (verb)</strong> เพื่อถามเส้นทาง", alternatives: "<strong>Could you give me directions to the airport?</strong> (Structure #41)" },
+            { id: 46, structure: "#36", thai: "ไม่มีน้ำตาลเหลืออยู่เลย", english: "There is no sugar left.", hint: "มี (there is), น้ำตาล (sugar), เหลืออยู่ (left)", explanation: "ใช้โครงสร้าง <strong>There is no + (uncountable noun)</strong> เพื่อบอกว่าไม่มีสิ่งนั้นเลย", alternatives: "<strong>We're all out of sugar.</strong> (สำนวน)" },
+            { id: 47, structure: "#39", thai: "ดูเหมือนว่าฝนกำลังจะตก", english: "It seems that it's going to rain.", hint: "ดูเหมือนว่า (it seems that), ฝนจะตก (it's going to rain)", explanation: "ใช้โครงสร้าง <strong>It seems that + (S+V)</strong> เพื่อคาดการณ์", alternatives: "<strong>It looks like rain.</strong>" },
+            { id: 48, structure: "#15", thai: "ฉันกำลังจะพูดเรื่องนั้นพอดี", english: "I was about to bring that up.", hint: "กำลังจะ...พอดี (was about to), หยิบยกเรื่อง...ขึ้นมา (bring up)", explanation: "ใช้โครงสร้าง <strong>I was about to + (phrasal verb)</strong> เพื่อบอกถึงความบังเอิญ", alternatives: "<strong>I was just going to mention that.</strong>" },
+            { id: 49, structure: "#34", thai: "เป็นไปได้ไหมที่จะขอส่วนลด", english: "Is it possible to get a discount?", hint: "เป็นไปได้ไหม (is it possible to), ได้รับ (get)", explanation: "ใช้โครงสร้าง <strong>Is it possible to + (verb)</strong> เพื่อขอต่อรองอย่างสุภาพ", alternatives: "<strong>Can I get a discount?</strong> (Structure #40)" },
+            { id: 50, structure: "#42", thai: "คุณจะว่าอะไรไหมถ้าฉันจะขอลาป่วยพรุ่งนี้", english: "Would you mind if I called in sick tomorrow?", hint: "จะว่าอะไรไหม (would you mind), ถ้าฉัน (if I), ลาป่วย (call in sick)", explanation: "ใช้โครงสร้าง <strong>Would you mind if I + (V.2)</strong> เพื่อขออนุญาตอย่างสุภาพที่สุด", alternatives: "<strong>Could I possibly take a sick day tomorrow?</strong> (Structure #41)" }
+        ];
+
+        let currentIndex = 0;
+        const quizCard = document.getElementById('quiz-card');
+        const cardColors = ['bg-indigo-50', 'bg-rose-50', 'bg-teal-50', 'bg-amber-50', 'bg-slate-50'];
+
+        const progressText = document.getElementById('progress-text');
+        const progressBar = document.getElementById('progress-bar');
+        const thaiQuestion = document.getElementById('thai-question');
+        
+        const toggleHintBtn = document.getElementById('toggle-hint-btn');
+        const hintContent = document.getElementById('hint-content');
+        const hintText = document.getElementById('hint-text');
+
+        const toggleAnswerBtn = document.getElementById('toggle-answer-btn');
+        const answerContent = document.getElementById('answer-content');
+        const englishAnswer = document.getElementById('english-answer');
+        const explanationText = document.getElementById('explanation-text');
+        const alternativesText = document.getElementById('alternatives-text');
+        
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+
+        function renderExercise(index) {
+            const exercise = exercises[index];
+            
+            const baseClass = 'quiz-card p-6 sm:p-8 rounded-2xl shadow-xl';
+            quizCard.className = `${baseClass} ${cardColors[index % cardColors.length]}`;
+            
+            progressText.textContent = `ข้อที่ ${index + 1} / ${exercises.length}`;
+            progressBar.style.width = `${(index + 1) / exercises.length * 100}%`;
+            
+            thaiQuestion.textContent = exercise.thai;
+            hintText.textContent = exercise.hint;
+            englishAnswer.textContent = exercise.english;
+            explanationText.innerHTML = `ใช้โครงสร้าง <strong class="text-indigo-800">${exercise.structure}</strong>: ${exercise.explanation}`;
+            alternativesText.innerHTML = exercise.alternatives;
+
+            hintContent.classList.remove('visible');
+            answerContent.classList.remove('visible');
+            toggleHintBtn.textContent = 'ดูคำใบ้';
+            toggleAnswerBtn.textContent = 'ดูคำตอบ';
+
+            prevBtn.disabled = index === 0;
+            nextBtn.disabled = index === exercises.length - 1;
+        }
+
+        function toggleHint() {
+            const isVisible = hintContent.classList.toggle('visible');
+            toggleHintBtn.textContent = isVisible ? 'ซ่อนคำใบ้' : 'ดูคำใบ้';
+        }
+
+        function toggleAnswer() {
+            const isVisible = answerContent.classList.toggle('visible');
+            toggleAnswerBtn.textContent = isVisible ? 'ซ่อนคำตอบ' : 'ดูคำตอบ';
+        }
+
+        prevBtn.addEventListener('click', () => {
+            if (currentIndex > 0) {
+                currentIndex--;
+                renderExercise(currentIndex);
+            }
+        });
+
+        nextBtn.addEventListener('click', () => {
+            if (currentIndex < exercises.length - 1) {
+                currentIndex++;
+                renderExercise(currentIndex);
+            }
+        });
+
+        toggleHintBtn.addEventListener('click', toggleHint);
+        toggleAnswerBtn.addEventListener('click', toggleAnswer);
+
+        renderExercise(currentIndex);
+
+    </script>
+</body>
+</html>

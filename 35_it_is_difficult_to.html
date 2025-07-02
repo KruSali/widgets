@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Structure #35 - It's difficult to...</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Mitr:wght@300;400;500;600&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Mitr', sans-serif;
+        }
+        .font-poppins {
+            font-family: 'Poppins', sans-serif;
+        }
+        .sentence-btn {
+            transition: all 0.2s ease-in-out;
+        }
+        #modal {
+            transition: opacity 0.3s ease;
+        }
+        .modal-content-container {
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            opacity: 0;
+            transform: translateY(20px) scale(0.95);
+        }
+        #modal.active .modal-content-container {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+    </style>
+</head>
+<body class="bg-slate-200">
+
+    <div class="container mx-auto p-4 sm:p-6 lg:p-8">
+
+        <header class="text-center mb-10">
+            <h1 class="text-4xl sm:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-slate-700 to-black font-poppins">Structure #35</h1>
+            <h2 class="text-2xl sm:text-3xl font-bold text-slate-800 mt-2 font-poppins">"It's difficult to + (verb)"</h2>
+            <p class="text-slate-600 mt-4 max-w-2xl mx-auto text-lg">
+                ใช้เพื่อบอกว่าการกระทำบางอย่างนั้น <strong class="text-slate-800">"ยาก"</strong> หรือ <strong class="text-gray-700">"ลำบาก"</strong> ต้องใช้ความพยายาม, ทักษะ, หรือความอดทนอย่างสูงในการทำให้สำเร็จ
+            </p>
+        </header>
+
+        <main id="sentences-grid" class="grid grid-cols-1 md:grid-cols-2 gap-5">
+            </main>
+
+        <footer class="text-center mt-12">
+            <p class="text-slate-700 font-medium">อังกฤษฉบับคนเรียนไม่รู้เรื่อง โดยครูสาลี่</p>
+        </footer>
+
+    </div>
+
+    <div id="modal" class="fixed inset-0 bg-black bg-opacity-60 flex justify-center items-center p-4 z-50 opacity-0 pointer-events-none">
+        <div class="modal-content-container w-full max-w-2xl max-h-[90vh] overflow-y-auto bg-slate-50 rounded-2xl shadow-2xl">
+            <div id="modal-header" class="p-6 sm:p-8 rounded-t-2xl bg-gradient-to-r from-slate-800 to-black">
+                <p id="modal-english" class="font-poppins font-bold text-2xl text-white text-center"></p>
+                <p id="modal-thai" class="text-xl text-white text-center mt-2 opacity-90"></p>
+            </div>
+            <div class="p-6 sm:p-8">
+                <div id="modal-details" class="space-y-5">
+                    </div>
+                <div class="text-center mt-8">
+                    <button id="close-modal-btn" class="bg-slate-600 hover:bg-slate-700 text-white font-bold py-2 px-8 rounded-full shadow-lg transform hover:scale-105 transition-transform duration-300">
+                        ปิด
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const sentences = [
+            {
+                eng: "It's difficult to say.", th: "มันเป็นเรื่องยากที่จะพูด/บอก",
+                context: "ใช้เมื่อเราไม่สามารถให้คำตอบที่แน่นอนได้ อาจเพราะเราไม่รู้จริงๆ หรือสถานการณ์ยังไม่ชัดเจน",
+                dialogue: { a: "Will we finish the project on time?", b: "At this point, it's difficult to say." },
+                alternatives: "<strong>It's hard to say.</strong><br><strong>I can't say for sure.</strong> (ฉันบอกได้อย่างไม่แน่นอน)<br><strong>It's too early to tell.</strong> (มันยังเร็วเกินไปที่จะบอกได้)"
+            },
+            {
+                eng: "It's difficult to find a good job.", th: "มันเป็นเรื่องยากที่จะหางานดีๆ",
+                context: "ใช้เพื่อบ่นหรืออธิบายถึงความท้าทายของตลาดแรงงานในปัจจุบัน",
+                dialogue: { a: "I've sent out 50 applications and haven't heard back.", b: "Don't lose hope. It's difficult to find a good job these days." },
+                alternatives: "<strong>It's hard to find a good job.</strong><br><strong>Finding a good job is challenging.</strong>"
+            },
+            {
+                eng: "It's difficult to explain.", th: "มันเป็นเรื่องยากที่จะอธิบาย",
+                context: "ใช้เมื่อเรื่องราวมันซับซ้อน, เป็นนามธรรม, หรือมีรายละเอียดเยอะมากจนยากที่จะอธิบายให้เข้าใจง่ายๆ",
+                dialogue: { a: "Why did you do that?", b: "It's a long story... It's difficult to explain." },
+                alternatives: "<strong>It's complicated.</strong> (มันซับซ้อน)<br><strong>It's hard to put into words.</strong> (มันยากที่จะอธิบายออกมาเป็นคำพูด)"
+            },
+            {
+                eng: "It's difficult to please everyone.", th: "มันเป็นเรื่องยากที่จะทำให้ทุกคนพอใจ",
+                context: "ใช้เพื่อบอกสัจธรรมว่าเราไม่สามารถทำให้ทุกคนมีความสุขหรือเห็นด้วยกับการตัดสินใจของเราได้ทั้งหมด",
+                dialogue: { a: "Half the team loves the new logo, the other half hates it.", b: "Well, it's difficult to please everyone." },
+                alternatives: "<strong>You can't please everyone.</strong> (เป็นสำนวนที่ใช้บ่อยมาก)"
+            },
+            {
+                eng: "It's difficult to wake up early.", th: "มันเป็นเรื่องยากที่จะตื่นเช้า",
+                context: "ใช้บ่นถึงความลำบากในการตื่นนอนตอนเช้า โดยเฉพาะสำหรับคนที่ไม่ใช่ 'morning person'",
+                dialogue: { a: "You look tired.", b: "I am. It's so difficult to wake up early when it's cold outside." },
+                alternatives: "<strong>It's hard for me to get up early.</strong><br><strong>I'm not a morning person.</strong>"
+            },
+            {
+                eng: "It's difficult to admit when you're wrong.", th: "มันเป็นเรื่องยากที่จะยอมรับเมื่อคุณทำผิด",
+                context: "ใช้พูดถึงความท้าทายทางจิตใจในการยอมรับความผิดพลาดของตนเอง",
+                dialogue: { a: "He still insists he was right.", b: "Of course. It's difficult for some people to admit when they're wrong." },
+                alternatives: "<strong>Admitting you're wrong is hard.</strong>"
+            },
+            {
+                eng: "It's difficult to stay focused.", th: "มันเป็นเรื่องยากที่จะมีสมาธิต่อเนื่อง",
+                context: "ใช้เมื่อมีสิ่งรบกวนมากมาย หรือเมื่อต้องทำงานที่น่าเบื่อเป็นเวลานาน",
+                dialogue: { a: "There are so many notifications on my phone.", b: "I know. It's difficult to stay focused these days." },
+                alternatives: "<strong>It's hard to concentrate.</strong><br><strong>I keep getting distracted.</strong>"
+            },
+            {
+                eng: "It's difficult to understand quantum physics.", th: "มันเป็นเรื่องยากที่จะเข้าใจควอนตัมฟิสิกส์",
+                context: "ใช้เมื่อพูดถึงหัวข้อหรือวิชาที่มีความซับซ้อนและต้องใช้ความรู้เฉพาะทาง",
+                dialogue: { a: "I tried reading a book about it.", b: "And?", a: "It's difficult to understand quantum physics without a teacher." },
+                alternatives: "<strong>Quantum physics is hard to grasp.</strong> (ยากที่จะเข้าใจ)"
+            },
+            {
+                eng: "It's difficult to say goodbye.", th: "มันเป็นเรื่องยากที่จะกล่าวคำอำลา",
+                context: "ใช้แสดงความรู้สึกเศร้าและเจ็บปวดเมื่อต้องจากลากับคนหรือสถานที่ที่เรารัก",
+                dialogue: { a: "This is our last day here.", b: "I know. It's always difficult to say goodbye." },
+                alternatives: "<strong>Saying goodbye is never easy.</strong><br><strong>I hate goodbyes.</strong>"
+            },
+            {
+                eng: "It's difficult to master a new skill.", th: "มันเป็นเรื่องยากที่จะเชี่ยวชาญในทักษะใหม่",
+                context: "ใช้เพื่อบอกว่าการจะเก่งในเรื่องใดเรื่องหนึ่งต้องใช้เวลาและความพยายามอย่างมาก",
+                dialogue: { a: "I've been playing the violin for a year, but I'm still not great.", b: "Be patient. It's difficult to master a new skill." },
+                alternatives: "<strong>Mastering a new skill takes time.</strong>"
+            },
+            {
+                eng: "It's difficult to find parking here.", th: "มันเป็นเรื่องยากที่จะหาที่จอดรถที่นี่",
+                context: "ใช้บ่นถึงปัญหาในชีวิตประจำวันในเมืองใหญ่",
+                dialogue: { a: "We've been driving in circles for 15 minutes.", b: "I told you. It's extremely difficult to find parking here." },
+                alternatives: "<strong>Parking is a nightmare here.</strong> (การหาที่จอดรถที่นี่คือฝันร้าย)"
+            },
+            {
+                eng: "It's difficult to change someone's mind.", th: "มันเป็นเรื่องยากที่จะเปลี่ยนความคิดของคน",
+                context: "ใช้เมื่อพูดถึงความท้าทายในการโน้มน้าวหรือเปลี่ยนความเชื่อที่ฝังแน่นของใครบางคน",
+                dialogue: { a: "I tried to convince him, but he won't listen.", b: "Don't waste your breath. It's difficult to change someone's mind once it's made up." },
+                alternatives: "<strong>It's hard to change a person's beliefs.</strong>"
+            },
+            {
+                eng: "It's difficult to forgive and forget.", th: "มันเป็นเรื่องยากที่จะให้อภัยและลืม",
+                context: "ใช้พูดถึงความลำบากทางอารมณ์ในการปล่อยวางความเจ็บปวดในอดีต",
+                dialogue: { a: "Are you still angry with her?", b: "I want to move on, but it's difficult to forgive and forget." },
+                alternatives: "<strong>Forgiving and forgetting is easier said than done.</strong> (พูดง่ายแต่ทำยาก)"
+            },
+            {
+                eng: "It's difficult to predict the future.", th: "มันเป็นเรื่องยากที่จะทำนายอนาคต",
+                context: "ใช้เพื่อบอกว่าไม่มีใครสามารถรู้ได้อย่างแน่นอนว่าอะไรจะเกิดขึ้นในอนาคต",
+                dialogue: { a: "Do you think the stock market will go up?", b: "Who knows? It's difficult to predict the future." },
+                alternatives: "<strong>The future is unpredictable.</strong><br><strong>No one can predict the future.</strong>"
+            },
+            {
+                eng: "It's difficult to choose just one.", th: "มันเป็นเรื่องยากที่จะเลือกเพียงอย่างเดียว",
+                context: "ใช้เมื่อมีตัวเลือกที่ดีหลายอย่างจนทำให้ตัดสินใจลำบาก",
+                dialogue: { a: "Which is your favorite movie?", b: "That's a tough question. It's difficult to choose just one." },
+                alternatives: "<strong>It's hard to pick just one.</strong>"
+            },
+            {
+                eng: "It's difficult to maintain a long-distance relationship.", th: "มันเป็นเรื่องยากที่จะรักษาความสัมพันธ์ทางไกล",
+                context: "ใช้พูดถึงความท้าทายของการมีความรักในระยะทางที่ห่างไกลกัน",
+                dialogue: { a: "They broke up.", b: "I'm not surprised. It's difficult to maintain a long-distance relationship." },
+                alternatives: "<strong>Long-distance relationships are tough.</strong>"
+            },
+            {
+                eng: "It's difficult to balance work and life.", th: "มันเป็นเรื่องยากที่จะสร้างสมดุลระหว่างงานและชีวิตส่วนตัว",
+                context: "ใช้พูดถึงความท้าทายของคนในยุคปัจจุบันในการแบ่งเวลา",
+                dialogue: { a: "I feel like I'm always working.", b: "I know the feeling. It's difficult to balance work and life." },
+                alternatives: "<strong>Achieving work-life balance is a challenge.</strong>"
+            },
+            {
+                eng: "It's not difficult to see why.", th: "มันไม่ยากเลยที่จะเข้าใจว่าทำไม",
+                context: "ใช้รูปปฏิเสธเพื่อบอกว่าเหตุผลนั้น 'ชัดเจน' และ 'เข้าใจได้ง่าย'",
+                dialogue: { a: "Everyone loves this restaurant.", b: "The food is amazing and the price is fair. It's not difficult to see why." },
+                alternatives: "<strong>It's easy to see why.</strong><br><strong>No wonder everyone loves it.</strong> (ไม่น่าแปลกใจเลย)"
+            },
+            {
+                eng: "How difficult is it to get a visa?", th: "มันยากแค่ไหนที่จะขอวีซ่า",
+                context: "ใช้โครงสร้างนี้เป็นคำถามเพื่อถามถึงระดับความยากของบางสิ่ง",
+                dialogue: { a: "I want to visit the US.", b: "How difficult is it to get a visa?", a: "It can be a long process." },
+                alternatives: "<strong>Is it hard to get a visa?</strong>"
+            },
+            {
+                eng: "It's difficult, but not impossible.", th: "มันยากนะ แต่ก็ไม่ใช่ว่าเป็นไปไม่ได้",
+                context: "เป็นวลีที่ให้กำลังใจ เพื่อยอมรับความยากลำบากแต่ก็ยังคงความหวังไว้",
+                dialogue: { a: "Do you think we can win against the top team?", b: "It's difficult, but not impossible." },
+                alternatives: "<strong>It will be tough, but it's possible.</strong>"
+            }
+        ];
+        
+        const grid = document.getElementById('sentences-grid');
+        const modal = document.getElementById('modal');
+        const modalHeader = document.getElementById('modal-header');
+        const modalEnglish = document.getElementById('modal-english');
+        const modalThai = document.getElementById('modal-thai');
+        const modalDetails = document.getElementById('modal-details');
+        const closeModalBtn = document.getElementById('close-modal-btn');
+
+        sentences.forEach((sentence, index) => {
+            const button = document.createElement('button');
+            button.className = `group sentence-btn p-5 rounded-lg text-left bg-slate-700 hover:bg-slate-800 border-2 border-slate-800`;
+            
+            button.innerHTML = `
+                <span class="font-poppins font-semibold text-white transition-colors duration-200">${sentence.eng}</span>
+                <span class="block text-sm text-slate-300 font-normal mt-1 transition-colors duration-200">${sentence.th}</span>
+            `;
+
+            button.addEventListener('click', () => openModal(sentence));
+            grid.appendChild(button);
+        });
+
+        function openModal(sentence) {
+            modalEnglish.textContent = sentence.eng;
+            modalThai.textContent = sentence.th;
+
+            modalDetails.innerHTML = `
+                <div class="p-4 bg-slate-100 rounded-lg">
+                    <h4 class="font-semibold text-lg text-slate-800 mb-2">💡 บริบทการใช้งาน (Context)</h4>
+                    <p class="text-slate-600">${sentence.context}</p>
+                </div>
+                <div class="p-4 bg-slate-100 rounded-lg">
+                    <h4 class="font-semibold text-lg text-slate-800 mb-2">💬 ตัวอย่างบทสนทนา (Dialogue)</h4>
+                    <div class="space-y-1 text-slate-600">
+                        <p><strong>A:</strong> ${sentence.dialogue.a}</p>
+                        <p><strong>B:</strong> ${sentence.dialogue.b}</p>
+                    </div>
+                </div>
+                <div class="p-4 bg-slate-100 rounded-lg">
+                    <h4 class="font-semibold text-lg text-slate-800 mb-2">🔄 คำที่เกี่ยวข้อง / ใช้แทนได้ (Alternatives)</h4>
+                    <div class="text-slate-600">${sentence.alternatives}</div>
+                </div>
+            `;
+
+            modal.classList.add('active');
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            modal.classList.add('opacity-0', 'pointer-events-none');
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        closeModalBtn.addEventListener('click', closeModal);
+        modal.addEventListener('click', (e) => {
+            if (e.target.id === 'modal') {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>

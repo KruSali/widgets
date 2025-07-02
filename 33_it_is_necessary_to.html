@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Structure #33 - It's necessary to...</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Mitr:wght@300;400;500;600&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Mitr', sans-serif;
+        }
+        .font-poppins {
+            font-family: 'Poppins', sans-serif;
+        }
+        .sentence-btn {
+            transition: all 0.2s ease-in-out;
+        }
+        #modal {
+            transition: opacity 0.3s ease;
+        }
+        .modal-content-container {
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            opacity: 0;
+            transform: translateY(20px) scale(0.95);
+        }
+        #modal.active .modal-content-container {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+    </style>
+</head>
+<body class="bg-slate-100">
+
+    <div class="container mx-auto p-4 sm:p-6 lg:p-8">
+
+        <header class="text-center mb-10">
+            <h1 class="text-4xl sm:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 via-pink-500 to-red-500 font-poppins">Structure #33</h1>
+            <h2 class="text-2xl sm:text-3xl font-bold text-slate-800 mt-2 font-poppins">"It's necessary to + (verb)"</h2>
+            <p class="text-slate-600 mt-4 max-w-2xl mx-auto text-lg">
+                ใช้เพื่อบอกถึงสิ่งที่ <strong class="text-purple-700">"จำเป็น"</strong> หรือ <strong class="text-pink-600">"ขาดไม่ได้"</strong> ในการทำสิ่งใดสิ่งหนึ่งให้สำเร็จ มีความหมายหนักแน่นกว่า "It's important to..." เพราะหมายถึงเป็นเงื่อนไขที่ต้องทำ
+            </p>
+        </header>
+
+        <main id="sentences-grid" class="grid grid-cols-1 md:grid-cols-2 gap-5">
+            </main>
+
+        <footer class="text-center mt-12">
+            <p class="text-slate-700 font-medium">อังกฤษฉบับคนเรียนไม่รู้เรื่อง โดยครูสาลี่</p>
+        </footer>
+
+    </div>
+
+    <div id="modal" class="fixed inset-0 bg-black bg-opacity-60 flex justify-center items-center p-4 z-50 opacity-0 pointer-events-none">
+        <div class="modal-content-container w-full max-w-2xl max-h-[90vh] overflow-y-auto bg-slate-50 rounded-2xl shadow-2xl">
+            <div id="modal-header" class="p-6 sm:p-8 rounded-t-2xl bg-gradient-to-r from-purple-600 via-pink-500 to-red-500">
+                <p id="modal-english" class="font-poppins font-bold text-2xl text-white text-center"></p>
+                <p id="modal-thai" class="text-xl text-white text-center mt-2 opacity-90"></p>
+            </div>
+            <div class="p-6 sm:p-8">
+                <div id="modal-details" class="space-y-5">
+                    </div>
+                <div class="text-center mt-8">
+                    <button id="close-modal-btn" class="bg-slate-600 hover:bg-slate-700 text-white font-bold py-2 px-8 rounded-full shadow-lg transform hover:scale-105 transition-transform duration-300">
+                        ปิด
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const sentences = [
+            {
+                eng: "It's necessary to have a passport to travel abroad.", th: "มันจำเป็นที่จะต้องมีพาสปอร์ตเพื่อเดินทางไปต่างประเทศ",
+                context: "ใช้เพื่อบอกถึงข้อกำหนดหรือเงื่อนไขที่ขาดไม่ได้และไม่สามารถหลีกเลี่ยงได้ตามกฎหมายหรือกฎระเบียบ",
+                dialogue: { a: "Can I just use my ID card to fly to Japan?", b: "No, that's not possible. It's necessary to have a passport to travel abroad." },
+                alternatives: "<strong>You must have a passport to travel abroad.</strong><br><strong>A passport is required for international travel.</strong>"
+            },
+            {
+                eng: "It's necessary to fill out this form completely.", th: "มันจำเป็นที่จะต้องกรอกแบบฟอร์มนี้ให้ครบถ้วน",
+                context: "ใช้ในการสมัครหรือลงทะเบียน เพื่อเน้นย้ำว่าต้องกรอกข้อมูลให้ครบทุกช่อง มิฉะนั้นการสมัครจะไม่สมบูรณ์",
+                dialogue: { a: "Can I leave this part blank?", b: "No, please don't. It's necessary to fill out this form completely." },
+                alternatives: "<strong>You must complete this form.</strong><br><strong>Please ensure the form is completely filled out.</strong>"
+            },
+            {
+                eng: "It's necessary to charge the battery before use.", th: "มันจำเป็นที่จะต้องชาร์จแบตเตอรี่ก่อนใช้งาน",
+                context: "เป็นคำแนะนำที่สำคัญในคู่มือผลิตภัณฑ์อิเล็กทรอนิกส์ ถ้าไม่ทำตาม อุปกรณ์ก็อาจจะใช้งานไม่ได้",
+                dialogue: { a: "My new drone won't turn on.", b: "Did you charge it? The manual says it's necessary to charge the battery before first use." },
+                alternatives: "<strong>The battery must be charged before use.</strong><br><strong>You have to charge it first.</strong>"
+            },
+            {
+                eng: "It's necessary to get a visa for some countries.", th: "มันจำเป็นที่จะต้องขอวีซ่าสำหรับบางประเทศ",
+                context: "ใช้บอกถึงข้อกำหนดทางกฎหมายสำหรับการเดินทางเข้าประเทศบางแห่ง",
+                dialogue: { a: "I've booked my flight to China.", b: "Great, but don't forget it's necessary to get a visa for some countries like China." },
+                alternatives: "<strong>A visa is necessary for travel to some countries.</strong><br><strong>You are required to have a visa.</strong>"
+            },
+            {
+                eng: "It's necessary to understand the basics first.", th: "มันจำเป็นที่จะต้องเข้าใจพื้นฐานก่อน",
+                context: "ใช้ในการสอนหรือการเรียนรู้ เพื่อเน้นว่าการจะเข้าใจเรื่องที่ซับซ้อนได้ ต้องมีพื้นฐานที่แน่นก่อน",
+                dialogue: { a: "I want to learn advanced calculus.", b: "Okay, but it's necessary to understand the basics of algebra first." },
+                alternatives: "<strong>You must understand the basics first.</strong><br><strong>A basic understanding is essential.</strong>"
+            },
+            {
+                eng: "It's necessary to work as a team to succeed.", th: "มันจำเป็นที่จะต้องทำงานเป็นทีมเพื่อที่จะสำเร็จ",
+                context: "ใช้เพื่อเน้นย้ำถึงความสำคัญของการทำงานร่วมกันในโปรเจกต์ที่ใหญ่และซับซ้อน",
+                dialogue: { a: "Everyone is trying to do their own thing.", b: "That won't work. It's necessary to work as a team to succeed in this." },
+                alternatives: "<strong>Teamwork is necessary for success.</strong><br><strong>We must work together to succeed.</strong>"
+            },
+            {
+                eng: "It's necessary to preheat the oven.", th: "มันจำเป็นที่จะต้องอุ่นเตาอบก่อน",
+                context: "เป็นขั้นตอนที่ขาดไม่ได้ในการทำอาหารหรือขนมอบหลายชนิด ถ้าไม่ทำ อาหารอาจจะออกมาไม่ดี",
+                dialogue: { a: "Are you putting the cake in already?", b: "Wait. The recipe says it's necessary to preheat the oven to 180 degrees." },
+                alternatives: "<strong>You have to preheat the oven.</strong><br><strong>The oven must be preheated.</strong>"
+            },
+            {
+                eng: "It's necessary to have a clear goal.", th: "มันจำเป็นที่จะต้องมีเป้าหมายที่ชัดเจน",
+                context: "ใช้เป็นคำแนะนำในการวางแผนชีวิตหรือโปรเจกต์ ว่าการมีเป้าหมายที่ชัดเจนเป็นสิ่งจำเป็นต่อความสำเร็จ",
+                dialogue: { a: "I feel so lost in my career.", b: "Well, it's necessary to have a clear goal. What do you want to achieve?" },
+                alternatives: "<strong>You need to have a clear goal.</strong><br><strong>A clear goal is essential.</strong>"
+            },
+            {
+                eng: "It's necessary to follow the safety guidelines.", th: "มันจำเป็นที่จะต้องปฏิบัติตามแนวทางความปลอดภัย",
+                context: "ใช้ในสถานที่ทำงาน, โรงงาน, หรือห้องปฏิบัติการ เพื่อย้ำเตือนกฎที่สำคัญและป้องกันอุบัติเหตุ",
+                dialogue: { a: "Do I really need to wear these goggles?", b: "Yes. It's necessary to follow all the safety guidelines in the lab." },
+                alternatives: "<strong>You must follow the safety guidelines.</strong><br><strong>Following safety guidelines is mandatory.</strong>"
+            },
+            {
+                eng: "It's necessary to consider all the risks.", th: "มันจำเป็นที่จะต้องพิจารณาความเสี่ยงทั้งหมด",
+                context: "ใช้ในการตัดสินใจทางธุรกิจหรือการลงทุน เพื่อให้แน่ใจว่าได้พิจารณาผลกระทบในแง่ลบทั้งหมดแล้ว",
+                dialogue: { a: "This investment seems perfect.", b: "Maybe, but it's necessary to consider all the risks before we commit." },
+                alternatives: "<strong>We must consider all the risks.</strong><br><strong>All risks must be taken into account.</strong>"
+            },
+            {
+                eng: "It's necessary to restart the computer.", th: "มันจำเป็นที่จะต้องรีสตาร์ทคอมพิวเตอร์",
+                context: "เป็นขั้นตอนที่จำเป็นหลังจากติดตั้งโปรแกรมหรือเมื่อคอมพิวเตอร์ทำงานผิดปกติ",
+                dialogue: { a: "The program is still not working correctly.", b: "The update requires a restart. It's necessary to restart the computer." },
+                alternatives: "<strong>You have to restart the computer now.</strong>"
+            },
+            {
+                eng: "It's necessary to tell the truth in court.", th: "มันจำเป็นที่จะต้องพูดความจริงในศาล",
+                context: "บอกถึงข้อบังคับทางกฎหมายที่ร้ายแรงและหลีกเลี่ยงไม่ได้",
+                dialogue: { a: "I'm scared to testify.", b: "I understand, but remember, it's necessary to tell the truth in court." },
+                alternatives: "<strong>You must tell the truth in court.</strong><br><strong>You are legally required to tell the truth.</strong>"
+            },
+            {
+                eng: "It's necessary to remove the old paint first.", th: "มันจำเป็นที่จะต้องลอกสีเก่าออกก่อน",
+                context: "ใช้บอกถึงขั้นตอนที่จำเป็นในการทำงานช่างเพื่อให้ได้ผลงานที่ดีที่สุด",
+                dialogue: { a: "Can't we just paint over it?", b: "No, the new paint will peel off. It's necessary to remove the old paint first." },
+                alternatives: "<strong>You have to remove the old paint first.</strong>"
+            },
+            {
+                eng: "It's necessary to have a ticket to enter.", th: "มันจำเป็นที่จะต้องมีตั๋วเพื่อเข้างาน",
+                context: "บอกถึงเงื่อนไขในการเข้าชมคอนเสิร์ต, พิพิธภัณฑ์, หรือการเดินทาง",
+                dialogue: { a: "Can we just walk in?", b: "No, look at the sign. It's necessary to have a ticket to enter." },
+                alternatives: "<strong>A ticket is required for entry.</strong>"
+            },
+            {
+                eng: "It's not always necessary to be the best.", th: "มันไม่จำเป็นที่จะต้องเป็นที่หนึ่งเสมอไป",
+                context: "ใช้รูปปฏิเสธเพื่อให้คำแนะนำที่ปลอบโยน ว่าการพยายามอย่างเต็มที่สำคัญกว่าการเป็นที่หนึ่ง",
+                dialogue: { a: "I'm so disappointed I only got second place.", b: "But you did amazing! It's not always necessary to be the best." },
+                alternatives: "<strong>You don't always have to be the best.</strong>"
+            },
+            {
+                eng: "It's necessary to distinguish between fact and opinion.", th: "มันจำเป็นที่จะต้องแยกแยะระหว่างข้อเท็จจริงและความคิดเห็น",
+                context: "ใช้สอนทักษะการคิดวิเคราะห์ (Critical Thinking)",
+                dialogue: { a: "The news article was very biased.", b: "That's why it's necessary to distinguish between fact and opinion." },
+                alternatives: "<strong>One must be able to tell fact from opinion.</strong>"
+            },
+            {
+                eng: "Is it necessary to attend the meeting?", th: "มันจำเป็นต้องเข้าร่วมการประชุมไหม",
+                context: "ใช้เป็นคำถามเพื่อถามว่าการเข้าร่วมเป็นภาคบังคับหรือไม่",
+                dialogue: { a: "There's a team meeting at 4 PM.", b: "Is it necessary to attend? I have another urgent task." },
+                alternatives: "<strong>Is the meeting mandatory?</strong><br><strong>Do I have to be there?</strong>"
+            },
+            {
+                eng: "It's necessary to adapt to change.", th: "มันจำเป็นที่จะต้องปรับตัวเข้ากับการเปลี่ยนแปลง",
+                context: "เป็นคำแนะนำในการใช้ชีวิตและการทำงานในโลกที่เปลี่ยนแปลงอย่างรวดเร็ว",
+                dialogue: { a: "The company is restructuring again.", b: "It's the way of the world. It's necessary to adapt to change to survive." },
+                alternatives: "<strong>We must be adaptable to change.</strong>"
+            },
+            {
+                eng: "It's necessary to have a backup plan.", th: "มันจำเป็นที่จะต้องมีแผนสำรอง",
+                context: "เป็นคำแนะนำในการวางแผน เพื่อเตรียมพร้อมสำหรับเหตุการณ์ที่ไม่คาดฝัน",
+                dialogue: { a: "What if our main strategy fails?", b: "That's a good point. It's always necessary to have a backup plan." },
+                alternatives: "<strong>We should always have a Plan B.</strong>"
+            },
+            {
+                eng: "It's not necessary to book in advance.", th: "มันไม่จำเป็นต้องจองล่วงหน้า",
+                context: "ใช้รูปปฏิเสธเพื่อบอกว่าการกระทำบางอย่างเป็นทางเลือก ไม่ใช่ข้อบังคับ",
+                dialogue: { a: "Should I call the restaurant to reserve a table?", b: "It's a weekday, so it's not necessary to book in advance." },
+                alternatives: "<strong>You don't have to book in advance.</strong><br><strong>Walk-ins are welcome.</strong> (สามารถมาได้เลยไม่ต้องจอง)"
+            }
+        ];
+        
+        const grid = document.getElementById('sentences-grid');
+        const modal = document.getElementById('modal');
+        const modalHeader = document.getElementById('modal-header');
+        const modalEnglish = document.getElementById('modal-english');
+        const modalThai = document.getElementById('modal-thai');
+        const modalDetails = document.getElementById('modal-details');
+        const closeModalBtn = document.getElementById('close-modal-btn');
+
+        sentences.forEach((sentence, index) => {
+            const button = document.createElement('button');
+            button.className = `group sentence-btn p-5 rounded-lg text-left text-white bg-gradient-to-r from-purple-600 to-pink-500 shadow-md hover:from-purple-700 hover:to-pink-600 transform hover:-translate-y-1`;
+            
+            button.innerHTML = `
+                <span class="font-poppins font-semibold transition-colors duration-200">${sentence.eng}</span>
+                <span class="block text-sm text-white/80 font-normal mt-1 transition-colors duration-200">${sentence.th}</span>
+            `;
+
+            button.addEventListener('click', () => openModal(sentence));
+            grid.appendChild(button);
+        });
+
+        function openModal(sentence) {
+            modalEnglish.textContent = sentence.eng;
+            modalThai.textContent = sentence.th;
+
+            modalDetails.innerHTML = `
+                <div class="p-4 bg-slate-100 rounded-lg">
+                    <h4 class="font-semibold text-lg text-slate-800 mb-2">💡 บริบทการใช้งาน (Context)</h4>
+                    <p class="text-slate-600">${sentence.context}</p>
+                </div>
+                <div class="p-4 bg-slate-100 rounded-lg">
+                    <h4 class="font-semibold text-lg text-slate-800 mb-2">💬 ตัวอย่างบทสนทนา (Dialogue)</h4>
+                    <div class="space-y-1 text-slate-600">
+                        <p><strong>A:</strong> ${sentence.dialogue.a}</p>
+                        <p><strong>B:</strong> ${sentence.dialogue.b}</p>
+                    </div>
+                </div>
+                <div class="p-4 bg-slate-100 rounded-lg">
+                    <h4 class="font-semibold text-lg text-slate-800 mb-2">🔄 คำที่เกี่ยวข้อง / ใช้แทนได้ (Alternatives)</h4>
+                    <div class="text-slate-600">${sentence.alternatives}</div>
+                </div>
+            `;
+
+            modal.classList.add('active');
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            modal.classList.add('opacity-0', 'pointer-events-none');
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        closeModalBtn.addEventListener('click', closeModal);
+        modal.addEventListener('click', (e) => {
+            if (e.target.id === 'modal') {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>

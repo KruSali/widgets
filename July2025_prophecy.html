@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mr.News: The July 2025 Prophecy</title>
+    <style>
+        /* Import Google Fonts */
+        @import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@400;700&family=Teko:wght@500&display=swap');
+
+        /* Main Variables */
+        :root {
+            --primary-color: #4A148C; /* Deep Purple */
+            --secondary-color: #f5f3f7; /* Light Lavender Background */
+            --accent-color: #FDD835; /* Bright Yellow */
+            --text-color: #333;
+            --light-text-color: #fff;
+            --border-color: #e0e0e0;
+            --shadow-color: rgba(0, 0, 0, 0.1);
+            --highlight-color: #6A1B9A; /* Darker Purple */
+            --font-main: 'Sarabun', sans-serif;
+            --font-header: 'Teko', sans-serif;
+        }
+
+        /* Basic Reset */
+        body, h1, h2, h3, p {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background-color: var(--secondary-color);
+            color: var(--text-color);
+            line-height: 1.7;
+            padding: 20px;
+        }
+
+        /* App Container */
+        .app-container {
+            max-width: 800px;
+            margin: 20px auto;
+            background-color: var(--light-text-color);
+            border-radius: 15px;
+            box-shadow: 0 8px 25px var(--shadow-color);
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+        }
+
+        /* App Header */
+        .app-header {
+            background: linear-gradient(135deg, var(--primary-color), #7B1FA2);
+            color: var(--light-text-color);
+            padding: 25px;
+            text-align: center;
+        }
+
+        .app-header h1 {
+            font-family: var(--font-header);
+            font-size: 3rem;
+            letter-spacing: 1.5px;
+            margin-bottom: 5px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .app-header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        /* Toggle Switch */
+        .toggle-container {
+            display: flex;
+            background-color: #e9ecef;
+            padding: 5px;
+        }
+
+        .toggle-btn {
+            flex: 1;
+            padding: 15px 10px;
+            border: none;
+            background-color: transparent;
+            font-family: var(--font-main);
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: #888;
+            border-radius: 8px;
+        }
+
+        .toggle-btn.active {
+            background-color: var(--accent-color);
+            color: var(--primary-color);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .toggle-btn:not(.active):hover {
+            background-color: #dfe6ed;
+        }
+
+        /* Content Area */
+        .content-area {
+            padding: 25px 30px;
+        }
+
+        .content {
+            display: none; /* Hidden by default */
+        }
+
+        .content.active {
+            display: block; /* Shown when active */
+        }
+
+        .content h2 {
+            font-family: var(--font-main);
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            border-bottom: 2px solid var(--accent-color);
+            padding-bottom: 10px;
+        }
+        
+        /* Sentence Container & Boxes */
+        .sentence-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            counter-reset: sentence-counter;
+        }
+        
+        .sentence-box {
+            background-color: #fdfdff;
+            padding: 15px 20px 15px 50px;
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+            font-size: 1.1rem;
+            position: relative;
+            counter-increment: sentence-counter;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .sentence-box:hover {
+            border-color: var(--accent-color);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.07);
+        }
+
+        .sentence-box::before {
+            content: counter(sentence-counter);
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: var(--accent-color);
+            color: var(--primary-color);
+            font-weight: 700;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: 10px;
+            font-size: 1rem;
+        }
+
+        /* Highlighted Text */
+        .highlight {
+            color: var(--highlight-color);
+            font-weight: 700;
+            cursor: pointer;
+            text-decoration: none;
+            border-bottom: 2px dotted var(--highlight-color);
+            transition: background-color 0.3s ease;
+            padding: 0 2px;
+        }
+
+        .highlight:hover {
+            background-color: #f3e5f5;
+        }
+        
+        /* Modal Popup */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.6);
+            animation: fadeIn 0.4s;
+        }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        
+        .modal-content {
+            background-color: #fff;
+            margin: 10% auto;
+            padding: 30px;
+            border: 1px solid #888;
+            width: 90%;
+            max-width: 550px;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+            position: relative;
+            animation: slideIn 0.5s;
+        }
+
+        @keyframes slideIn { from { transform: translateY(-50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+        .close-btn {
+            color: #aaa;
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            font-size: 32px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .close-btn:hover, .close-btn:focus { color: #333; }
+
+        .popup-term {
+            font-family: var(--font-main);
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+        
+        .popup-section { margin-bottom: 15px; }
+        .popup-section h4 { font-size: 1.1rem; font-weight: 700; color: #555; margin-bottom: 5px; }
+        .popup-pronunciation { font-size: 1.2rem; font-style: italic; color: #d6336c; }
+        .popup-meaning, .popup-example { font-size: 1.1rem; }
+        .popup-example-translation { font-size: 1rem; color: #666; margin-top: 5px; }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            body { padding: 10px; }
+            .app-header h1 { font-size: 2.5rem; }
+            .app-header p { font-size: 1rem; }
+            .content-area { padding: 20px; }
+            .modal-content { width: 95%; margin: 20% auto; padding: 25px; }
+            .popup-term { font-size: 1.5rem; }
+            .sentence-box { padding: 15px 15px 15px 45px; }
+            .sentence-box::before { width: 25px; height: 25px; font-size: 0.9rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+        <header class="app-header">
+            <h1>ข่าวร้อนก่อนวันพยากรณ์</h1>
+            <p>คำทำนายภัยพิบัติ 5 ก.ค. 2025 เปลี่ยนไปแล้ว?</p>
+        </header>
+
+        <div class="toggle-container">
+            <button id="btn-basic" class="toggle-btn active">ระดับพื้นฐาน (Basic)</button>
+            <button id="btn-advanced" class="toggle-btn">ระดับสูง (Advanced)</button>
+        </div>
+
+        <main class="content-area">
+            <div id="basic-content" class="content active">
+                <h2>เรื่องย่อ (ฉบับเข้าใจง่าย)</h2>
+                <div class="sentence-container">
+                    <div class="sentence-box">A Japanese manga artist, Ryo Tatsuki, made a famous <span class="highlight" data-term="prediction">prediction</span>.</div>
+                    <div class="sentence-box">She said a great <span class="highlight" data-term="disaster">disaster</span> would happen on July 5, 2025.</div>
+                    <div class="sentence-box">Many people were <span class="highlight" data-term="worried">worried</span> because she had predicted big events correctly before.</div>
+                    <div class="sentence-box">The book about her prediction sold over a million copies.</div>
+                    <div class="sentence-box">An airline even <span class="highlight" data-term="reduced_flights">reduced flights</span> to Japan because tourists were scared.</div>
+                    <div class="sentence-box">But now, she has changed her story a little.</div>
+                    <div class="sentence-box">She says something might not happen on that exact date.</div>
+                    <div class="sentence-box">However, government <span class="highlight" data-term="experts">experts</span> say it's impossible to predict earthquakes and that the information is false.</div>
+                </div>
+            </div>
+
+            <div id="advanced-content" class="content">
+                <h2>Summary (Advanced Version)</h2>
+                <div class="sentence-container">
+                    <div class="sentence-box">Japanese manga artist Ryo Tatsuki, known for accurately predicting past events, now <span class="highlight" data-term="revises_stance">revises her stance</span> on a controversial <span class="highlight" data-term="prophecy">prophecy</span>.</div>
+                    <div class="sentence-box">She previously claimed a great disaster would strike Japan on July 5, 2025.</div>
+                    <div class="sentence-box">This prediction, published in her reissued manga, sold over a million copies and <span class="highlight" data-term="caused_stir">caused a stir</span> across Asia, even leading one airline to reduce its flights.</div>
+                    <div class="sentence-box">Recently, Tatsuki has backed away from the specific date, stating something will not "necessarily" happen on July 5.</div>
+                    <div class="sentence-box">She still maintains, however, that this July will be an important <span class="highlight" data-term="turning_point">turning point</span> for the region.</div>
+                    <div class="sentence-box">The Japan Meteorological Administration has strongly <span class="highlight" data-term="refuted">refuted</span> her claims, stating it is <span class="highlight" data-term="scientifically_impossible">scientifically impossible</span> to predict earthquakes and calling such predictions false information.</div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <div id="popup-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h3 id="popup-term" class="popup-term"></h3>
+            <div class="popup-section">
+                <h4>คำอ่าน (Pronunciation)</h4>
+                <p id="popup-pronunciation" class="popup-pronunciation"></p>
+            </div>
+            <div class="popup-section">
+                <h4>ความหมาย (Meaning)</h4>
+                <p id="popup-meaning" class="popup-meaning"></p>
+            </div>
+            <div class="popup-section">
+                <h4>ประโยคตัวอย่าง (Example)</h4>
+                <p id="popup-example" class="popup-example"></p>
+                <p id="popup-example-translation" class="popup-example-translation"></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Data for popups
+        const vocabularyData = {
+            prediction: {
+                term: "Prediction",
+                pronunciation: "พรี-<u>ดิ๊ค</u>-ชั่น",
+                meaning: "คำทำนาย, การคาดการณ์สิ่งที่จะเกิดขึ้นในอนาคต",
+                example: "The weather forecast is a prediction based on scientific data.",
+                translation: "การพยากรณ์อากาศคือคำทำนายที่อ้างอิงจากข้อมูลทางวิทยาศาสตร์"
+            },
+            disaster: {
+                term: "Disaster",
+                pronunciation: "ดิ-<u>ซาส</u>-เทอร์",
+                meaning: "ภัยพิบัติ, หายนะ, เหตุการณ์ที่ก่อให้เกิดความเสียหายอย่างรุนแรง",
+                example: "The earthquake was the worst natural disaster the country had ever seen.",
+                translation: "แผ่นดินไหวครั้งนั้นเป็นภัยพิบัติทางธรรมชาติที่เลวร้ายที่สุดเท่าที่ประเทศเคยประสบมา"
+            },
+            worried: {
+                term: "Worried",
+                pronunciation: "<u>เวอ</u>-หรี่ด",
+                meaning: "กังวล, เป็นห่วง",
+                example: "She was worried about her exam results.",
+                translation: "เธอรู้สึกกังวลเกี่ยวกับผลสอบของเธอ"
+            },
+            reduced_flights: {
+                term: "Reduced flights",
+                pronunciation: "รี-<u>ดิวซ์</u>-ทฺ-ไฟลท์สฺ",
+                meaning: "ลดจำนวนเที่ยวบินลง",
+                example: "During the low season, the airline reduced flights to the island.",
+                translation: "ในช่วงนอกฤดูท่องเที่ยว สายการบินได้ลดจำนวนเที่ยวบินไปยังเกาะแห่งนั้น"
+            },
+            experts: {
+                term: "Experts",
+                pronunciation: "<u>เอ็กซ์</u>-เปิร์ทสฺ",
+                meaning: "ผู้เชี่ยวชาญ, ผู้ที่มีความรู้ความสามารถในเรื่องใดเรื่องหนึ่งเป็นพิเศษ",
+                example: "We need to consult with financial experts before making an investment.",
+                translation: "เราจำเป็นต้องปรึกษาผู้เชี่ยวชาญด้านการเงินก่อนทำการลงทุน"
+            },
+            revises_stance: {
+                term: "Revises her stance",
+                pronunciation: "รี-<u>ไว</u>-เซส-เฮอ-สแตนซ์",
+                meaning: "ปรับเปลี่ยนจุดยืนหรือความคิดเห็นของเธอ",
+                example: "After seeing the new evidence, the politician revises her stance on the issue.",
+                translation: "หลังจากได้เห็นหลักฐานใหม่ นักการเมืองคนนั้นก็ปรับเปลี่ยนจุดยืนของเธอต่อประเด็นดังกล่าว"
+            },
+            prophecy: {
+                term: "Prophecy",
+                pronunciation: "<u>พรอ</u>-เฟะ-ซี",
+                meaning: "คำพยากรณ์, คำทำนาย (มักเกี่ยวข้องกับเรื่องศาสนาหรือพลังเหนือธรรมชาติ)",
+                example: "The old book contained a prophecy about a future king.",
+                translation: "หนังสือเก่าเล่มนั้นมีคำพยากรณ์เกี่ยวกับกษัตริย์ในอนาคต"
+            },
+            caused_stir: {
+                term: "Caused a stir",
+                pronunciation: "<u>คอซ</u>-ดฺ-อะ-สเตอร์",
+                meaning: "ก่อให้เกิดความตื่นเต้น, ความโกลาหล, หรือการวิพากษ์วิจารณ์ในวงกว้าง",
+                example: "The celebrity's surprise announcement caused a stir on social media.",
+                translation: "การประกาศแบบไม่ทันตั้งตัวของคนดังได้ก่อให้เกิดกระแสวิพากษ์วิจารณ์บนโซเชียลมีเดีย"
+            },
+            turning_point: {
+                term: "Turning point",
+                pronunciation: "<u>เทิร์น</u>-นิ่ง-พอยท์",
+                meaning: "จุดเปลี่ยน, ช่วงเวลาที่การเปลี่ยนแปลงที่สำคัญเกิดขึ้น",
+                example: "Getting that scholarship was a turning point in my life.",
+                translation: "การได้รับทุนการศึกษานั้นคือจุดเปลี่ยนที่สำคัญในชีวิตของฉัน"
+            },
+            refuted: {
+                term: "Refuted",
+                pronunciation: "รี-<u>ฟิ้ว</u>-เท็ด",
+                meaning: "ปฏิเสธ, โต้แย้ง, พิสูจน์ว่าไม่เป็นความจริง",
+                example: "The company refuted the accusations of environmental damage.",
+                translation: "บริษัทได้โต้แย้งข้อกล่าวหาเรื่องการทำลายสิ่งแวดล้อม"
+            },
+            scientifically_impossible: {
+                term: "Scientifically impossible",
+                pronunciation: "ไซ-เอ็น-<u>ทิ</u>-ฟิก-คลี-อิม-<u>พอส</u>-ซิ-เบิล",
+                meaning: "เป็นไปไม่ได้ในทางวิทยาศาสตร์",
+                example: "Traveling faster than the speed of light is currently considered scientifically impossible.",
+                translation: "การเดินทางเร็วกว่าความเร็วแสงในปัจจุบันถือว่าเป็นสิ่งที่เป็นไปไม่ได้ในทางวิทยาศาสตร์"
+            }
+        };
+
+        // Get elements and set up event listeners (No changes needed in this script block)
+        const modal = document.getElementById('popup-modal');
+        const closeBtn = document.querySelector('.close-btn');
+        const highlights = document.querySelectorAll('.highlight');
+        const btnBasic = document.getElementById('btn-basic');
+        const btnAdvanced = document.getElementById('btn-advanced');
+        const basicContent = document.getElementById('basic-content');
+        const advancedContent = document.getElementById('advanced-content');
+        
+        function showPopup(termKey) {
+            const data = vocabularyData[termKey];
+            if (data) {
+                document.getElementById('popup-term').innerHTML = data.term;
+                document.getElementById('popup-pronunciation').innerHTML = data.pronunciation;
+                document.getElementById('popup-meaning').textContent = data.meaning;
+                document.getElementById('popup-example').textContent = data.example;
+                document.getElementById('popup-example-translation').textContent = data.translation;
+                modal.style.display = 'block';
+            }
+        }
+
+        highlights.forEach(span => {
+            span.addEventListener('click', (event) => {
+                event.stopPropagation();
+                const termKey = span.getAttribute('data-term');
+                showPopup(termKey);
+            });
+        });
+
+        closeBtn.addEventListener('click', () => { modal.style.display = 'none'; });
+        window.addEventListener('click', (event) => { if (event.target == modal) { modal.style.display = 'none'; } });
+        document.addEventListener('keydown', (event) => { if (event.key === 'Escape') { modal.style.display = 'none'; } });
+
+        btnBasic.addEventListener('click', () => {
+            basicContent.classList.add('active');
+            advancedContent.classList.remove('active');
+            btnBasic.classList.add('active');
+            btnAdvanced.classList.remove('active');
+        });
+
+        btnAdvanced.addEventListener('click', () => {
+            advancedContent.classList.add('active');
+            basicContent.classList.remove('active');
+            btnAdvanced.classList.add('active');
+            btnBasic.classList.remove('active');
+        });
+    </script>
+
+</body>
+</html>

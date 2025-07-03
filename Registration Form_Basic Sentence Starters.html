@@ -164,12 +164,12 @@
         form.addEventListener('submit', function(e) {
             e.preventDefault(); // Prevent the default form submission
 
-            const scriptURL = 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE'; // <-- IMPORTANT: Replace with your Google Apps Script URL
+            const scriptURL = https://script.google.com/macros/s/AKfycbyr4P99p_goOMLufEtAlJkztz7gllwpBzH3sJ7olk7WDzqBKRhiZpJJ5hXBdbZciYl1/exec; // <-- IMPORTANT: Replace with your Google Apps Script URL
 
             submitButton.disabled = true;
             submitButton.innerHTML = 'กำลังลงทะเบียน...';
             
-            if (scriptURL === https://script.google.com/macros/s/AKfycbyr4P99p_goOMLufEtAlJkztz7gllwpBzH3sJ7olk7WDzqBKRhiZpJJ5hXBdbZciYl1/exec) {
+            if (scriptURL === 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE') {
                 console.log('Form submitted (simulation)');
                 setTimeout(() => {
                     showMessage('ลงทะเบียนสำเร็จแล้ว!', 'success');

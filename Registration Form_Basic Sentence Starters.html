@@ -168,10 +168,11 @@
             submitButton.disabled = true;
             submitButton.innerHTML = 'กำลังลงทะเบียน...';
 
-            const scriptURL = https://script.google.com/macros/s/AKfycbyr4P99p_goOMLufEtAlJkztz7gllwpBzH3sJ7olk7WDzqBKRhiZpJJ5hXBdbZciYl1/exec; // <-- IMPORTANT: Replace with your Google Apps Script URL
+            // --- FIX: Added quotes around the URL ---
+            const scriptURL = 'https://script.google.com/macros/s/AKfycbyr4P99p_goOMLufEtAlJkztz7gllwpBzH3sJ7olk7WDzqBKRhiZpJJ5hXBdbZciYl1/exec';
             const formData = new FormData(form);
 
-            // --- FIX: Combine multiple checkbox values ---
+            // --- Combine multiple checkbox values ---
             const problems = form.querySelectorAll('input[name="problem"]:checked');
             let problemValues = [];
             problems.forEach(checkbox => problemValues.push(checkbox.value));
@@ -181,17 +182,16 @@
             let contactValues = [];
             contacts.forEach(checkbox => contactValues.push(checkbox.value));
             formData.append("contact_methods_combined", contactValues.join(", "));
-            // --- END FIX ---
+            // --- END ---
 
             fetch(scriptURL, { method: 'POST', body: formData})
-                .then(response => response.json()) // Parse the JSON response from Apps Script
+                .then(response => response.json())
                 .then(data => {
                     console.log('Success!', data);
                     if(data.result === 'success'){
                         showSuccessModal();
                         form.reset();
                     } else {
-                        // You can add an error modal here if you want
                         alert('เกิดข้อผิดพลาด: ' + (data.error || 'ไม่สามารถส่งข้อมูลได้'));
                     }
                 })

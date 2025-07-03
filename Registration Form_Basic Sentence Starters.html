@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ลงทะเบียนผู้สั่งเอกสารประกอบการเรียน</title>
+    <!-- Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter & Sarabun -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sarabun:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Use Sarabun font for Thai text and Inter for fallback */
+        body {
+            font-family: 'Sarabun', 'Inter', sans-serif;
+        }
+        /* Custom style to make checkbox and radio button bigger */
+        .form-checkbox, .form-radio {
+            width: 1.25em;
+            height: 1.25em;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen py-12">
+
+    <div class="w-full max-w-2xl p-8 mx-4 bg-white rounded-2xl shadow-lg">
+        
+        <!-- Form Header -->
+        <div class="text-center mb-8">
+            <h1 class="text-3xl font-bold text-gray-800">
+                ลงทะเบียนผู้สั่งเอกสารประกอบการเรียน
+                <span class="block text-2xl font-semibold mt-1">ของครูสาลี่</span>
+            </h1>
+            <p class="text-gray-500 mt-2">กรุณากรอกข้อมูลให้ครบถ้วนเพื่อลงทะเบียน</p>
+        </div>
+
+        <!-- Form -->
+        <form id="registrationForm">
+            <!-- Thai Name Input -->
+            <div class="mb-5">
+                <label for="thai_name" class="block mb-2 text-sm font-medium text-gray-700">ชื่อ-นามสกุล (ภาษาไทย)</label>
+                <input type="text" id="thai_name" name="thai_name" class="w-full px-4 py-3 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300" placeholder="สมชาย รักเรียน" required>
+            </div>
+
+            <!-- English Name Input -->
+            <div class="mb-5">
+                <label for="eng_name" class="block mb-2 text-sm font-medium text-gray-700">ชื่อ-นามสกุล (ภาษาอังกฤษ)</label>
+                <input type="text" id="eng_name" name="eng_name" class="w-full px-4 py-3 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300" placeholder="Somchai Rukrian" required>
+                <p class="mt-2 text-xs text-red-600">สำคัญ* จะนำไปใส่เป็นรหัสในการเปิดเอกสารของคุณ</p>
+            </div>
+
+            <!-- Social Media Contact -->
+            <div class="mb-5">
+                <label class="block mb-3 text-sm font-medium text-gray-700">โซเชียลมีเดียที่สามารถใช้ติดต่อกันได้ (เลือกอย่างน้อย 1 ช่องทาง)</label>
+                <div class="space-y-3">
+                    <div class="flex items-center gap-3">
+                        <input type="checkbox" id="contact_line" name="contact_method" value="Line" class="form-checkbox text-blue-600 rounded focus:ring-blue-500">
+                        <label for="contact_line" class="text-sm text-gray-700">Line</label>
+                        <input type="text" id="line_id" name="line_id" class="flex-grow px-3 py-2 bg-gray-50 border border-gray-300 text-sm rounded-lg" placeholder="กรอก Line ID">
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <input type="checkbox" id="contact_facebook" name="contact_method" value="Facebook" class="form-checkbox text-blue-600 rounded focus:ring-blue-500">
+                        <label for="contact_facebook" class="text-sm text-gray-700">Facebook Messenger</label>
+                        <input type="text" id="facebook_id" name="facebook_id" class="flex-grow px-3 py-2 bg-gray-50 border border-gray-300 text-sm rounded-lg" placeholder="กรอกชื่อ Facebook">
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <input type="checkbox" id="contact_tiktok" name="contact_method" value="Tiktok" class="form-checkbox text-blue-600 rounded focus:ring-blue-500">
+                        <label for="contact_tiktok" class="text-sm text-gray-700">Tiktok Direct Message</label>
+                        <input type="text" id="tiktok_id" name="tiktok_id" class="flex-grow px-3 py-2 bg-gray-50 border border-gray-300 text-sm rounded-lg" placeholder="กรอก Tiktok Username">
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <input type="checkbox" id="contact_email" name="contact_method" value="Email" class="form-checkbox text-blue-600 rounded focus:ring-blue-500">
+                        <label for="contact_email" class="text-sm text-gray-700">Email</label>
+                        <input type="email" id="email_id" name="email_id" class="flex-grow px-3 py-2 bg-gray-50 border border-gray-300 text-sm rounded-lg" placeholder="you@example.com">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Age Group -->
+            <div class="mb-5">
+                <label class="block mb-2 text-sm font-medium text-gray-700">อายุ</label>
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="flex items-center">
+                        <input id="age1" type="radio" value="ต่ำกว่า 20 ปี" name="age_group" class="form-radio text-blue-600 focus:ring-blue-500">
+                        <label for="age1" class="ml-2 text-sm text-gray-700">ต่ำกว่า 20 ปี</label>
+                    </div>
+                    <div class="flex items-center">
+                        <input id="age2" type="radio" value="20-29 ปี" name="age_group" class="form-radio text-blue-600 focus:ring-blue-500">
+                        <label for="age2" class="ml-2 text-sm text-gray-700">20-29 ปี</label>
+                    </div>
+                    <div class="flex items-center">
+                        <input id="age3" type="radio" value="30-45 ปี" name="age_group" class="form-radio text-blue-600 focus:ring-blue-500">
+                        <label for="age3" class="ml-2 text-sm text-gray-700">30-45 ปี</label>
+                    </div>
+                    <div class="flex items-center">
+                        <input id="age4" type="radio" value="มากกว่า 50 ปีขึ้นไป" name="age_group" class="form-radio text-blue-600 focus:ring-blue-500">
+                        <label for="age4" class="ml-2 text-sm text-gray-700">มากกว่า 50 ปีขึ้นไป</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- English Proficiency -->
+            <div class="mb-5">
+                <label for="eng_level" class="block mb-2 text-sm font-medium text-gray-700">พื้นฐานภาษาอังกฤษ</label>
+                <select id="eng_level" name="eng_level" class="w-full px-4 py-3 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                    <option selected disabled>-- กรุณาเลือก --</option>
+                    <option value="ไม่ได้เลย">ฟังพูดอ่านเขียนไม่ได้เลย</option>
+                    <option value="พอเข้าใจ">ฟังพูดอ่านเขียนพอเข้าใจแต่จะให้พูดออกมานั้นทำไม่ได้</option>
+                    <option value="สื่อสารได้ทั่วไป">ฟังพูดอ่านเขียนพอได้ สื่อสารได้ในระดับทั่วไป</option>
+                    <option value="ใช้ทำงานได้">ฟังพูดอ่านเขียนได้ในระดับที่สามารถนำไปทำงานหรือประกอบอาชีพ</option>
+                </select>
+            </div>
+
+            <!-- English Learning Problems -->
+            <div class="mb-8">
+                <label class="block mb-2 text-sm font-medium text-gray-700">คุณคิดว่าปัญหาสำคัญในการพัฒนาภาษาอังกฤษของคุณคือ (เลือกได้มากกว่า 1 ข้อ)</label>
+                <div class="space-y-2">
+                    <div class="flex items-center"><input type="checkbox" name="problem" value="ไม่มีเวลา" class="form-checkbox rounded"><label class="ml-2 text-sm text-gray-700">ไม่มีเวลา</label></div>
+                    <div class="flex items-center"><input type="checkbox" name="problem" value="ไม่รู้จะเริ่มตรงไหน" class="form-checkbox rounded"><label class="ml-2 text-sm text-gray-700">ไม่รู้จะเริ่มตรงไหน</label></div>
+                    <div class="flex items-center"><input type="checkbox" name="problem" value="เรียนไม่เข้าใจ" class="form-checkbox rounded"><label class="ml-2 text-sm text-gray-700">เรียนที่ไหนก็ไม่เข้าใจ</label></div>
+                    <div class="flex items-center"><input type="checkbox" name="problem" value="ขี้เกียจ" class="form-checkbox rounded"><label class="ml-2 text-sm text-gray-700">ขี้เกียจ</label></div>
+                    <div class="flex items-center"><input type="checkbox" name="problem" value="จำศัพท์ไม่ได้" class="form-checkbox rounded"><label class="ml-2 text-sm text-gray-700">ไม่รู้คำศัพท์และไม่รู้จะทำยังไงให้จำได้</label></div>
+                    <div class="flex items-center"><input type="checkbox" name="problem" value="อ่านไม่ออก" class="form-checkbox rounded"><label class="ml-2 text-sm text-gray-700">อ่านไม่ออก</label></div>
+                    <div class="flex items-center"><input type="checkbox" name="problem" value="อายุมาก" class="form-checkbox rounded"><label class="ml-2 text-sm text-gray-700">คิดว่าตัวเองอายุมาก เรียนรู้ได้ยาก</label></div>
+                    <div class="flex items-center gap-2">
+                        <input type="checkbox" id="problem_other_check" name="problem" value="อื่น" class="form-checkbox rounded">
+                        <label class="text-sm text-gray-700">อื่น ๆ (โปรดระบุ)</label>
+                        <input type="text" id="problem_other_text" name="problem_other_text" class="flex-grow px-3 py-2 bg-gray-50 border border-gray-300 text-sm rounded-lg disabled:bg-gray-200" placeholder="ระบุปัญหาของคุณ" disabled>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" id="submitButton" class="w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-base px-5 py-3 text-center transition-all duration-300">
+                ลงทะเบียน
+            </button>
+        </form>
+
+        <!-- Success/Error Message Box -->
+        <div id="messageBox" class="hidden mt-6 p-4 text-sm rounded-lg text-center"></div>
+
+    </div>
+
+    <script>
+        const form = document.getElementById('registrationForm');
+        const submitButton = document.getElementById('submitButton');
+        const messageBox = document.getElementById('messageBox');
+        
+        // Logic for "Other" problem checkbox
+        const otherProblemCheckbox = document.getElementById('problem_other_check');
+        const otherProblemText = document.getElementById('problem_other_text');
+
+        otherProblemCheckbox.addEventListener('change', function() {
+            if (this.checked) {
+                otherProblemText.disabled = false;
+                otherProblemText.focus();
+            } else {
+                otherProblemText.disabled = true;
+                otherProblemText.value = '';
+            }
+        });
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault(); // Prevent the default form submission
+
+            const scriptURL = 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE'; // <-- IMPORTANT: Replace with your Google Apps Script URL
+
+            submitButton.disabled = true;
+            submitButton.innerHTML = 'กำลังลงทะเบียน...';
+            
+            if (scriptURL === https://script.google.com/macros/s/AKfycbyr4P99p_goOMLufEtAlJkztz7gllwpBzH3sJ7olk7WDzqBKRhiZpJJ5hXBdbZciYl1/exec) {
+                console.log('Form submitted (simulation)');
+                setTimeout(() => {
+                    showMessage('ลงทะเบียนสำเร็จแล้ว!', 'success');
+                    submitButton.disabled = false;
+                    submitButton.innerHTML = 'ลงทะเบียน';
+                    form.reset();
+                    otherProblemText.disabled = true; // re-disable other text field
+                }, 1500);
+                return;
+            }
+            
+            // This part handles checkboxes with the same name
+            const formData = new FormData(form);
+            const problems = form.querySelectorAll('input[name="problem"]:checked');
+            let problemValues = [];
+            problems.forEach((checkbox) => {
+                problemValues.push(checkbox.value);
+            });
+            
+            // Append the combined problems to the form data
+            formData.append("problems_combined", problemValues.join(", "));
+
+
+            fetch(scriptURL, { method: 'POST', body: formData})
+                .then(response => {
+                    console.log('Success!', response);
+                    showMessage('ลงทะเบียนสำเร็จแล้ว! ขอบคุณค่ะ', 'success');
+                    submitButton.disabled = false;
+                    submitButton.innerHTML = 'ลงทะเบียน';
+                    form.reset();
+                    otherProblemText.disabled = true; // re-disable other text field
+                })
+                .catch(error => {
+                    console.error('Error!', error.message);
+                    showMessage('เกิดข้อผิดพลาด! กรุณาลองใหม่อีกครั้ง', 'error');
+                    submitButton.disabled = false;
+                    submitButton.innerHTML = 'ลงทะเบียน';
+                });
+        });
+
+        function showMessage(message, type) {
+            messageBox.textContent = message;
+            messageBox.className = 'mt-6 p-4 text-sm rounded-lg text-center'; // Reset classes
+            if (type === 'success') {
+                messageBox.classList.add('bg-green-100', 'text-green-800');
+            } else {
+                messageBox.classList.add('bg-red-100', 'text-red-800');
+            }
+            messageBox.classList.remove('hidden');
+        }
+    </script>
+
+</body>
+</html>

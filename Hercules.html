@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>เรื่องราวของวีรบุรุษเฮอร์คิวลีส (ฉบับละเอียด)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;600;700&family=Cinzel:wght@700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #292524; /* Stone-800 */
+            background-image: linear-gradient(to bottom right, #44403c, #1c1917);
+            min-height: 100vh;
+        }
+        .font-kanit { font-family: 'Kanit', sans-serif; }
+        .font-cinzel { font-family: 'Cinzel', serif; }
+        .hidden { display: none; }
+
+        .btn-lang {
+            transition: all 0.3s ease;
+            border: 2px solid #a16207;
+        }
+        .btn-lang.active {
+            background-color: #f59e0b;
+            color: #422006;
+            border-color: #fcd34d;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(245, 158, 11, 0.4);
+        }
+
+        .main-container {
+            background: rgba(28, 25, 23, 0.85); /* Stone-900 with transparency */
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            padding: 1.5rem 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        .main-title {
+            color: #fcd34d; /* Amber-300 */
+            text-shadow: 0 0 15px #f59e0b;
+        }
+        .page-content {
+             min-height: 580px; /* Increased min-height for larger text */
+        }
+        .card {
+            background: rgba(68, 64, 60, 0.5); /* Stone-700 with transparency */
+            border-radius: 15px;
+            padding: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .card-title {
+            color: #fde68a; /* Amber-200 */
+            font-size: 1.75rem; /* Increased from 1.5rem */
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+        .card-icon {
+            font-size: 2.25rem; /* Increased from 2rem */
+            color: #f59e0b;
+        }
+        .content-text {
+            color: #d6d3d1; /* Stone-300 */
+            line-height: 1.9; /* Increased line-height */
+            font-size: 1.125rem; /* text-lg, increased from default */
+        }
+        strong {
+            color: #fcd34d;
+            font-weight: 700;
+        }
+        .nav-btn {
+            background-color: #ca8a04; /* Yellow-600 */
+            color: white;
+            padding: 0.75rem 2rem; /* Increased padding */
+            border-radius: 9999px;
+            font-weight: 700;
+            font-size: 1rem; /* Added font size */
+            transition: background-color 0.3s ease;
+        }
+        .nav-btn:hover {
+            background-color: #a16207; /* Yellow-700 */
+        }
+        .nav-btn:disabled {
+            background-color: #57534e; /* Stone-600 */
+            cursor: not-allowed;
+            opacity: 0.5;
+        }
+    </style>
+</head>
+<body class="font-kanit p-4 sm:p-6 text-white">
+
+    <div class="container mx-auto max-w-4xl">
+        <div class="flex justify-center mb-6 bg-black/50 p-2 rounded-full shadow-lg max-w-xs mx-auto">
+            <button id="thaiBtn" class="btn-lang active py-2 px-6 rounded-full font-bold w-1/2">ไทย</button>
+            <button id="engBtn" class="btn-lang py-2 px-6 rounded-full font-bold w-1/2">English</button>
+        </div>
+
+        <!-- Thai Content -->
+        <div id="thai-version">
+            <div id="thai-page-1" class="main-container page">
+                <header class="text-center mb-6">
+                    <h1 class="text-4xl md:text-5xl font-bold font-cinzel main-title">วีรบุรุษเฮอร์คิวลีส</h1>
+                    <p class="text-lg text-amber-300">หน้า 1/6: ลักษณะนิสัยและกำเนิด</p>
+                </header>
+                <div class="page-content space-y-6">
+                    <div class="card">
+                        <h2 class="card-title"><span class="card-icon">💪</span>วีรบุรุษผู้ยิ่งใหญ่ที่สุดแห่งกรีซ</h2>
+                        <p class="content-text">เฮอร์คิวลีสคือวีรบุรุษที่ยิ่งใหญ่ที่สุดของกรีซ (ยกเว้นเอเธนส์) เขาคือบุรุษที่แข็งแกร่งที่สุดในโลกและมีความมั่นใจในตนเองสูง เขามองว่าตนเองทัดเทียมกับเหล่าทวยเทพ และยังเคยช่วยเหล่าเทพต่อสู้กับเหล่ายักษ์อีกด้วย อย่างไรก็ตาม เขาไม่ใช่คนฉลาดหลักแหลม ความคิดของเขาจำกัดอยู่แค่การหาวิธีเอาชนะอสูรร้ายตรงหน้า แต่สิ่งที่ทำให้เขายิ่งใหญ่คือ **ความแข็งแกร่งของจิตใจ** และความเต็มใจที่จะชดใช้ความผิดของตนเองเสมอ</p>
+                    </div>
+                    <div class="card">
+                        <h2 class="card-title"><span class="card-icon">⚡</span>กำเนิดอันน่าทึ่ง</h2>
+                        <p class="content-text">เฮอร์คิวลีสเกิดที่เมืองธีบส์ เขาเป็นบุตรของ **ซุส** และ **เจ้าหญิงอัลค์เมนา (Alcmena)** ซุสได้ปลอมตัวเป็นแอมฟิทรีออน (Amphitryon) สามีของนางที่กำลังไปรบ เพื่อเข้าหานาง เฮราผู้ขี้หึงพยายามขัดขวางการเกิดของเขา แต่ก็ไม่สำเร็จ</p>
+                    </div>
+                    <div class="card">
+                        <h2 class="card-title"><span class="card-icon">🐍</span>วีรกรรมแรก</h2>
+                        <p class="content-text">เมื่อเฮอร์คิวลีสยังเป็นทารก เฮราได้ส่งงูยักษ์สองตัวเข้ามาในเปลเพื่อสังหารเขา แต่ทารกน้อยกลับหัวเราะอย่างสนุกสนานและใช้มือเปล่าบีบคองูทั้งสองจนตาย ทุกคนจึงรู้ว่าเด็กคนนี้ถูกกำหนดมาเพื่อทำสิ่งที่ยิ่งใหญ่</p>
+                    </div>
+                </div>
+            </div>
+            <div id="thai-page-2" class="main-container page hidden">
+                <header class="text-center mb-6">
+                    <h1 class="text-4xl md:text-5xl font-bold font-cinzel main-title">โศกนาฏกรรมและการไถ่บาป</h1>
+                    <p class="text-lg text-amber-300">หน้า 2/6: ความบ้าคลั่งและการชดใช้</p>
+                </header>
+                 <div class="page-content space-y-6">
+                    <div class="card">
+                        <h2 class="card-title"><span class="card-icon">😠</span>ความผิดพลาดในวัยเยาว์</h2>
+                        <p class="content-text">เฮอร์คิวลีสเป็นคนอารมณ์ร้อน ในวัยเยาว์เขาเคยพลั้งมือสังหารครูสอนดนตรีของตนเองด้วยพิณไลร์เพราะไม่พอใจที่ถูกตำหนิ นี่เป็นครั้งแรกที่เขาพลั้งมือฆ่าคนโดยไม่ได้ตั้งใจ หลังจากนั้นเขาได้ไปใช้ชีวิตกับคนเลี้ยงแกะ และได้ทำวีรกรรมยิ่งใหญ่ครั้งแรกคือการสังหารสิงโตแห่งเธสเพีย (Thespian lion) เขาสวมหนังสิงโตเป็นเสื้อคลุมและใช้หัวของมันเป็นหมวกตั้งแต่นั้นมา</p>
+                    </div>
+                    <div class="card">
+                        <h2 class="card-title"><span class="card-icon">🤯</span>ความบ้าคลั่งจากเฮรา</h2>
+                        <p class="content-text">ต่อมาเขาได้แต่งงานกับ **เจ้าหญิงเมการา (Megara)** และมีบุตรด้วยกันสามคน แต่เฮราไม่เคยลืมความแค้น นางได้สาปให้เฮอร์คิวลีสเสียสติ ในความบ้าคลั่งนั้น เขาได้สังหารภรรยาและลูกๆ ของตนเอง เมื่อได้สติกลับคืนมา เขาก็ถูกความโศกเศร้าท่วมท้นและตั้งใจจะฆ่าตัวตาย</p>
+                    </div>
+                    <div class="card">
+                        <h2 class="card-title"><span class="card-icon">🤝</span>มิตรภาพของเธเซอุส</h2>
+                        <p class="content-text">ในขณะที่เขากำลังจะฆ่าตัวตาย **เธเซอุส (Theseus)** สหายของเขาได้เข้ามาห้ามไว้ และยื่นมือไปจับมือที่เปื้อนเลือดของเฮอร์คิวลีสเพื่อแบ่งปันความผิดบาป เธเซอุสได้เกลี้ยกล่อมให้เฮอร์คิวลีสมีชีวิตอยู่ต่อไปเพื่อต่อสู้กับชะตากรรม เฮอร์คิวลีสจึงตัดสินใจเดินทางไปยังวิหารเดลฟีเพื่อขอคำแนะนำจากเทพอพอลโลในการชำระบาป</p>
+                    </div>
+                </div>
+            </div>
+            <div id="thai-page-3" class="main-container page hidden">
+                <header class="text-center mb-6">
+                    <h1 class="text-4xl md:text-5xl font-bold font-cinzel main-title">ภารกิจ 12 ประการ (ตอนที่ 1)</h1>
+                    <p class="text-lg text-amber-300">หน้า 3/6: ภารกิจที่ 1-6</p>
+                </header>
+                <div class="page-content space-y-6">
+                    <p class="content-text text-center">นักบวชหญิงแห่งเดลฟีสั่งให้เฮอร์คิวลีสไปหา **กษัตริย์ยูริสธีอุส (Eurystheus)** แห่งไมซีนี และทำตามคำสั่งของเขาทุกอย่างเพื่อเป็นการไถ่บาป ยูริสธีอุสผู้ขี้ขลาดและอิจฉาเฮอร์คิวลีสจึงได้มอบภารกิจที่อันตรายและแทบจะเป็นไปไม่ได้ 12 ประการให้เขาทำ</p>
+                    <div class="card">
+                        <h2 class="card-title"><span class="card-icon">📜</span>ภารกิจที่ 1-6</h2>
+                        <ul class="list-decimal list-inside content-text space-y-2">
+                            <li><strong>สังหารสิงโตแห่งนีเมีย:</strong> สัตว์ร้ายที่ไม่มีอาวุธใดทำอันตรายได้ เฮอร์คิวลีสจึงใช้มือเปล่าบีบคอมันจนตาย</li>
+                            <li><strong>สังหารไฮดราแห่งเลอร์นา:</strong> อสูรเก้าหัวที่เมื่อตัดหัวหนึ่งออกไป จะมีหัวใหม่งอกขึ้นมาสองหัว เขาใช้ไฟเผาแผลที่คอเพื่อไม่ให้หัวงอกใหม่ได้</li>
+                            <li><strong>จับกวางเขาทองคำแห่งเซรินิเทีย:</strong> กวางศักดิ์สิทธิ์ของอาร์เทมิส เขาต้องไล่ตามมันเป็นเวลาหนึ่งปีกว่าจะจับเป็นมาได้</li>
+                            <li><strong>จับหมูป่าแห่งเขาเอริแมนธัส:</strong> เขาไล่ต้อนมันจนหมดแรงแล้วจับด้วยการผลักให้ตกลงไปในหิมะ</li>
+                            <li><strong>ทำความสะอาดคอกม้าของพระเจ้าออกีอัส:</strong> คอกม้าที่มีวัวนับพันตัวและไม่เคยถูกทำความสะอาดมานานหลายปี เขาเปลี่ยนเส้นทางแม่น้ำสองสายให้ไหลผ่านคอกม้าเพื่อชะล้างสิ่งสกปรกออกไปในวันเดียว</li>
+                            <li><strong>ขับไล่ฝูงนกแห่งสติมฟาเลียน:</strong> ฝูงนกที่สร้างความเดือดร้อนให้ชาวเมือง เขาได้รับความช่วยเหลือจากอะธีนาในการไล่มันออกจากที่ซ่อนแล้วยิงทิ้ง</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+             <div id="thai-page-4" class="main-container page hidden">
+                <header class="text-center mb-6">
+                    <h1 class="text-4xl md:text-5xl font-bold font-cinzel main-title">ภารกิจ 12 ประการ (ตอนที่ 2)</h1>
+                    <p class="text-lg text-amber-300">หน้า 4/6: ภารกิจที่ 7-12</p>
+                </header>
+                <div class="page-content space-y-6">
+                     <div class="card">
+                        <h2 class="card-title"><span class="card-icon">📜</span>ภารกิจที่ 7-12</h2>
+                        <ul class="list-decimal list-inside content-text space-y-2" start="7">
+                            <li><strong>จับวัวกระทิงแห่งครีต:</strong> วัวที่โพไซดอนมอบให้พระเจ้าไมนอส เขาจับมันมาได้สำเร็จ</li>
+                            <li><strong>จับม้ากินคนของพระเจ้าไดโอมีดีส:</strong> เขาสังหารไดโอมีดีสก่อนแล้วจึงนำฝูงม้าออกมาได้โดยไม่มีใครขัดขวาง</li>
+                            <li><strong>นำเข็มขัดของฮิปโปลิตา:</strong> ราชินีแห่งนักรบอเมซอน ตอนแรกนางยอมมอบให้โดยดี แต่เฮราได้ยุยงให้เหล่านักรบอเมซอนเข้าโจมตี เฮอร์คิวลีสจึงสังหารฮิปโปลิตาและชิงเข็มขัดมา</li>
+                            <li><strong>จับวัวของจีริออน:</strong> อสูรสามร่าง เขาเดินทางไปสุดขอบโลกตะวันตกและตั้งเสาหินสองก้อนไว้เป็นที่ระลึก (ช่องแคบยิบรอลตาร์) ก่อนจะนำวัวกลับมาได้</li>
+                            <li><strong>นำแอปเปิลทองคำของเหล่าเฮสเพอริดีส:</strong> เขาหลอกให้ **แอตลาส** ไปนำแอปเปิลมาให้ โดยตนเองรับหน้าที่แบกท้องฟ้าไว้แทนชั่วคราว</li>
+                            <li><strong>นำเซอร์เบอรัสขึ้นมาจากยมโลก:</strong> เขาได้รับอนุญาตจากพลูโตให้จับสุนัขสามหัวได้โดยห้ามใช้อาวุธ เขาใช้เพียงกำลังแขนในการปราบมันและนำขึ้นมายังไมซีนี ก่อนจะนำกลับไปคืน</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+             <div id="thai-page-5" class="main-container page hidden">
+                <header class="text-center mb-6">
+                    <h1 class="text-4xl md:text-5xl font-bold font-cinzel main-title">การผจญภัยหลังภารกิจ</h1>
+                    <p class="text-lg text-amber-300">หน้า 5/6: เรื่องราวของอัลเซสติส</p>
+                </header>
+                 <div class="page-content space-y-6">
+                    <div class="card">
+                        <h2 class="card-title"><span class="card-icon">🤼</span>การต่อสู้กับอันเทอุส</h2>
+                        <p class="content-text">หลังเสร็จสิ้นภารกิจ เฮอร์คิวลีสยังคงผจญภัยต่อไป เขาได้ปราบ **อันเทอุส (Antaeus)** ยักษ์นักมวยปล้ำที่จะไม่มีวันแพ้ตราบใดที่เท้าของเขายังแตะพื้นดิน เฮอร์คิวลีสจึงยกเขาขึ้นกลางอากาศแล้วบีบคอจนตาย</p>
+                    </div>
+                    <div class="card">
+                        <h2 class="card-title"><span class="card-icon">❤️</span>การช่วยเหลืออัลเซสติส</h2>
+                        <p class="content-text">ระหว่างการเดินทางไปจับม้ากินคน เฮอร์คิวลีสได้แวะไปเยี่ยม **แอดมีตัส (Admetus)** สหายของเขา ซึ่งกำลังโศกเศร้าเพราะ **อัลเซสติส (Alcestis)** ภรรยาของเขากำลังจะตายแทนเขา แต่แอดมีตัสได้ซ่อนความเศร้าและต้อนรับเฮอร์คิวลีสอย่างดีที่สุดตามธรรมเนียมเจ้าบ้าน</p>
+                        <p class="content-text mt-2">เฮอร์คิวลีสที่ไม่รู้เรื่องจึงดื่มไวน์และร้องรำทำเพลงอย่างสนุกสนาน จนกระทั่งคนรับใช้ทนไม่ไหวและบอกความจริง เมื่อรู้ความจริง เฮอร์คิวลีสก็รู้สึกผิดอย่างมากและตัดสินใจที่จะช่วยเหลือเพื่อน เขาดักรอ **ความตาย (Death)** และเข้าต่อสู้เพื่อชิงตัวอัลเซสติสกลับคืนมาได้สำเร็จ</p>
+                    </div>
+                </div>
+            </div>
+             <div id="thai-page-6" class="main-container page hidden">
+                <header class="text-center mb-6">
+                    <h1 class="text-4xl md:text-5xl font-bold font-cinzel main-title">วาระสุดท้ายของวีรบุรุษ</h1>
+                    <p class="text-lg text-amber-300">หน้า 6/6: ความตายและการขึ้นสู่สวรรค์</p>
+                </header>
+                <div class="page-content space-y-6">
+                    <div class="card">
+                        <h2 class="card-title"><span class="card-icon">💔</span>ความผิดบาปครั้งใหม่</h2>
+                        <p class="content-text">เฮอร์คิวลีสยังคงทำผิดพลาด เขาสังหารบุตรชายของกษัตริย์ยูริทัสเพื่อล้างแค้น ซุสจึงลงโทษเขาให้ไปเป็นทาสของ **ราชินีออมเฟล (Omphale)** แห่งลิเดียเป็นเวลาสามปี</p>
+                    </div>
+                    <div class="card">
+                        <h2 class="card-title"><span class="card-icon">🔥</span>เสื้อคลุมอาบยาพิษ</h2>
+                        <p class="content-text">หลังเป็นอิสระ เขาได้ยกทัพไปตีเมืองของยูริทัสและจับตัว **เจ้าหญิงไอโอลี (Iole)** มาเป็นเชลย **ดีเอนีรา (Deianira)** ภรรยาของเขาเกิดความหึงหวง นางจึงนำเลือดของเซนทอร์เนสซัสที่เคยบอกว่าเป็นยาเสน่ห์มาทาบนเสื้อคลุมและส่งไปให้เฮอร์คิวลีส</p>
+                        <p class="content-text mt-2">แต่เลือดนั้นคือยาพิษร้ายแรง เมื่อเฮอร์คิวลีสสวมเสื้อคลุม เขาก็ต้องทนทุกข์ทรมานอย่างแสนสาหัส เขารู้ว่าความตายกำลังมาเยือนจึงได้สร้างเชิงตะกอนให้ตนเองบนภูเขาโอเอตา และขอให้ **ฟิลอคทีทีส (Philoctetes)** จุดไฟเผาเขา โดยมอบธนูและลูกศรให้เป็นการตอบแทน</p>
+                    </div>
+                     <div class="card">
+                        <h2 class="card-title"><span class="card-icon">✨</span>การขึ้นสู่โอลิมปัส</h2>
+                        <p class="content-text">เมื่อเปลวไฟลุกท่วมร่างของเขา เฮอร์คิวลีสก็ถูกนำตัวขึ้นสู่สวรรค์ ที่นั่นเขาได้คืนดีกับเฮรา, แต่งงานกับ **เทพีฮีบี (Hebe)**, และได้ใช้ชีวิตอย่างสงบสุขในดินแดนแห่งผู้ศักดิ์สิทธิ์ตลอดไป</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- English Content -->
+        <div id="english-version" class="hidden">
+           <div id="eng-page-1" class="main-container page">
+                <header class="text-center mb-6">
+                    <h1 class="text-4xl md:text-5xl font-bold font-cinzel main-title">The Hero Hercules</h1>
+                    <p class="text-lg text-amber-300">Page 1/6: Character and Birth</p>
+                </header>
+                <div class="page-content space-y-6">
+                    <div class="card">
+                        <h2 class="card-title"><span class="card-icon">💪</span>The Greatest Hero of Greece</h2>
+                        <p class="content-text">Hercules was the greatest hero of Greece (except in Athens). He was the strongest man on earth and had supreme self-confidence, considering himself an equal to the gods. He even helped the gods conquer the Giants. However, he was not intelligent. His thinking was limited to how to defeat the monster before him. What made him great was his **greatness of soul** and his willingness to always atone for his wrongdoings.</p>
+                    </div>
+                    <div class="card">
+                        <h2 class="card-title"><span class="card-icon">⚡</span>A Remarkable Birth</h2>
+                        <p class="content-text">Hercules was born in Thebes. He was the son of **Zeus** and **Princess Alcmena**. Zeus visited her disguised as her husband, Amphitryon, who was away at war. The jealous Hera tried to prevent his birth but failed.</p>
+                    </div>
+                    <div class="card">
+                        <h2 class="card-title"><span class="card-icon">🐍</span>First Heroic Deed</h2>
+                        <p class="content-text">When Hercules was a baby, Hera sent two great snakes to his cradle to kill him. But the infant laughed with delight and strangled them with his bare hands. All knew then that the child was destined for great things.</p>
+                    </div>
+                </div>
+            </div>
+            <div id="eng-page-2" class="main-container page hidden">
+                <header class="text-center mb-6">
+                    <h1 class="text-4xl md:text-5xl font-bold font-cinzel main-title">Tragedy and Atonement</h1>
+                    <p class="text-lg text-amber-300">Page 2/6: Madness and Penance</p>
+                </header>
+                 <div class="page-content space-y-6">
+                    <div class="card">
+                        <h2 class="card-title"><span class="card-icon">😠</span>Youthful Mistakes</h2>
+                        <p class="content-text">Hercules was very emotional. In his youth, he unintentionally killed his music master with his lute in a fit of rage after being reprimanded. He later lived with shepherds and performed his first great deed: killing the Thespian lion, whose skin he wore as a cloak and whose head he used as a helmet.</p>
+                    </div>
+                    <div class="card">
+                        <h2 class="card-title"><span class="card-icon">🤯</span>Hera's Madness</h2>
+                        <p class="content-text">He later married **Princess Megara** and had three sons. But Hera, never forgetting her grudge, sent madness upon him. In his insanity, he killed his wife and children. When his sanity returned, he was overwhelmed with grief and intended to kill himself.</p>
+                    </div>
+                    <div class="card">
+                        <h2 class="card-title"><span class="card-icon">🤝</span>The Friendship of Theseus</h2>
+                        <p class="content-text">As he was about to commit suicide, his friend **Theseus** stopped him, grasping his bloodstained hands to share his guilt. Theseus persuaded Hercules to live and fight against his fate. Hercules then journeyed to Delphi to seek guidance from Apollo on how to purify himself.</p>
+                    </div>
+                </div>
+            </div>
+            <div id="eng-page-3" class="main-container page hidden">
+                <header class="text-center mb-6">
+                    <h1 class="text-4xl md:text-5xl font-bold font-cinzel main-title">The Twelve Labors (Part 1)</h1>
+                    <p class="text-lg text-amber-300">Page 3/6: Labors 1-6</p>
+                </header>
+                 <div class="page-content space-y-6">
+                    <p class="content-text text-center">The priestess at Delphi ordered Hercules to go to his cousin, **King Eurystheus** of Mycenae, and submit to his commands as penance. The cowardly and envious Eurystheus gave him twelve dangerous and nearly impossible tasks.</p>
+                    <div class="card">
+                        <h2 class="card-title"><span class="card-icon">📜</span>Labors 1-6</h2>
+                        <ul class="list-decimal list-inside content-text space-y-2">
+                            <li><strong>Kill the lion of Nemea:</strong> A beast no weapons could wound. Hercules choked it to death.</li>
+                            <li><strong>Kill the Hydra of Lerna:</strong> A nine-headed creature that grew two new heads for each one cut off. He seared the necks with a burning brand to prevent regrowth.</li>
+                            <li><strong>Bring back alive the stag with golden horns:</strong> Sacred to Artemis. He hunted it for a whole year before succeeding.</li>
+                            <li><strong>Capture a great boar from Mount Erymanthus:</strong> He chased it until it was exhausted, then drove it into deep snow and trapped it.</li>
+                            <li><strong>Clean the Augean stables in a single day:</strong> Stalls of thousands of cattle that had not been cleaned for years. He diverted two rivers to flow through them.</li>
+                            <li><strong>Drive away the Stymphalian birds:</strong> A plague of birds. He was helped by Athena to drive them from their coverts, and then shot them.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div id="eng-page-4" class="main-container page hidden">
+                <header class="text-center mb-6">
+                    <h1 class="text-4xl md:text-5xl font-bold font-cinzel main-title">The Twelve Labors (Part 2)</h1>
+                    <p class="text-lg text-amber-300">Page 4/6: Labors 7-12</p>
+                </header>
+                 <div class="page-content space-y-6">
+                    <div class="card">
+                        <h2 class="card-title"><span class="card-icon">📜</span>Labors 7-12</h2>
+                        <ul class="list-decimal list-inside content-text space-y-2" start="7">
+                            <li><strong>Go to Crete and fetch the beautiful savage bull</strong> that Poseidon had given Minos.</li>
+                            <li><strong>Get the man-eating mares of King Diomedes</strong> of Thrace. He slew Diomedes first and then drove off the mares.</li>
+                            <li><strong>Bring back the girdle of Hippolyta, Queen of the Amazons.</strong> She was willing to give it, but Hera incited the Amazons to attack. Hercules killed Hippolyta and took the girdle.</li>
+                            <li><strong>Bring back the cattle of Geryon,</strong> a three-bodied monster. He journeyed to the western end of the world, setting up two great rocks (the pillars of Hercules) as a memorial.</li>
+                            <li><strong>Bring back the Golden Apples of the Hesperides.</strong> He tricked **Atlas** into getting the apples for him while he held up the heavens.</li>
+                            <li><strong>Bring Cerberus up from Hades.</strong> Pluto gave him permission, provided he used no weapons. He forced the three-headed dog to submit with his bare hands and carried him to Mycenae, then returned him.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+             <div id="eng-page-5" class="main-container page hidden">
+                <header class="text-center mb-6">
+                    <h1 class="text-4xl md:text-5xl font-bold font-cinzel main-title">Adventures After the Labors</h1>
+                    <p class="text-lg text-amber-300">Page 5/6: The Story of Alcestis</p>
+                </header>
+                 <div class="page-content space-y-6">
+                    <div class="card">
+                        <h2 class="card-title"><span class="card-icon">🤼</span>The Fight with Antaeus</h2>
+                        <p class="content-text">After the labors, Hercules continued his adventures. He defeated **Antaeus**, a Giant wrestler who was invincible as long as he touched the earth. Hercules lifted him into the air and strangled him.</p>
+                    </div>
+                    <div class="card">
+                        <h2 class="card-title"><span class="card-icon">❤️</span>The Rescue of Alcestis</h2>
+                        <p class="content-text">On his way to get the man-eating mares, Hercules visited his friend **Admetus**, who was mourning because his wife, **Alcestis**, was about to die in his place. But Admetus, to be a good host, hid his grief and welcomed Hercules.</p>
+                        <p class="content-text mt-2">Hercules, unaware, drank and made merry until a servant revealed the truth. Filled with remorse, Hercules decided to help his friend. He ambushed **Death** and wrestled him to bring Alcestis back to life, which he successfully did.</p>
+                    </div>
+                </div>
+            </div>
+             <div id="eng-page-6" class="main-container page hidden">
+                <header class="text-center mb-6">
+                    <h1 class="text-4xl md:text-5xl font-bold font-cinzel main-title">The End of the Hero</h1>
+                    <p class="text-lg text-amber-300">Page 6/6: Death and Ascension</p>
+                </header>
+                 <div class="page-content space-y-6">
+                     <div class="card">
+                        <h2 class="card-title"><span class="card-icon">💔</span>A New Transgression</h2>
+                        <p class="content-text">Hercules continued to make mistakes. He killed King Eurytus's son to avenge an insult. As punishment, Zeus sent him to be a slave to **Queen Omphale** of Lydia for three years.</p>
+                    </div>
+                    <div class="card">
+                        <h2 class="card-title"><span class="card-icon">🔥</span>The Poisoned Robe</h2>
+                        <p class="content-text">After his freedom, he conquered Eurytus's city and took **Princess Iole** captive. His wife, **Deianira**, became jealous. She anointed a robe with the blood of the Centaur Nessus, believing it was a love charm, and sent it to Hercules.</p>
+                        <p class="content-text mt-2">But the blood was a deadly poison. When Hercules put on the robe, he was seized with unbearable pain. Knowing death was near, he built his own funeral pyre on Mount Oeta and asked **Philoctetes** to light it, giving him his bow and arrows in return.</p>
+                    </div>
+                    <div class="card">
+                        <h2 class="card-title"><span class="card-icon">✨</span>Ascension to Olympus</h2>
+                        <p class="content-text">As the flames consumed his body, Hercules was taken to heaven. There he was reconciled to Hera, married **Hebe**, the Goddess of Youth, and lived in peace among the blessed immortals forever.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <footer class="mt-6 flex justify-between items-center">
+            <button id="prevBtn" class="nav-btn">ก่อนหน้า</button>
+            <span id="page-indicator" class="text-lg font-bold">1 / 6</span>
+            <button id="nextBtn" class="nav-btn">ต่อไป</button>
+        </footer>
+    </div>
+
+    <script>
+        const thaiBtn = document.getElementById('thaiBtn');
+        const engBtn = document.getElementById('engBtn');
+        const thaiVersion = document.getElementById('thai-version');
+        const englishVersion = document.getElementById('english-version');
+
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const pageIndicator = document.getElementById('page-indicator');
+        
+        let currentLang = 'thai';
+        let currentPage = 1;
+        const totalPages = 6;
+
+        function showPage(lang, pageNum) {
+            const versionContainer = lang === 'thai' ? thaiVersion : englishVersion;
+            const pages = versionContainer.querySelectorAll('.page');
+            
+            pages.forEach((page, index) => {
+                if (index + 1 === pageNum) {
+                    page.classList.remove('hidden');
+                } else {
+                    page.classList.add('hidden');
+                }
+            });
+
+            pageIndicator.textContent = `${pageNum} / ${totalPages}`;
+            prevBtn.disabled = pageNum === 1;
+            nextBtn.disabled = pageNum === totalPages;
+            
+            // Update button text based on language
+            if (lang === 'thai') {
+                prevBtn.textContent = 'ก่อนหน้า';
+                nextBtn.textContent = 'ต่อไป';
+            } else {
+                prevBtn.textContent = 'Previous';
+                nextBtn.textContent = 'Next';
+            }
+        }
+
+        thaiBtn.addEventListener('click', () => {
+            currentLang = 'thai';
+            thaiVersion.classList.remove('hidden');
+            englishVersion.classList.add('hidden');
+            thaiBtn.classList.add('active');
+            engBtn.classList.remove('active');
+            showPage(currentLang, currentPage);
+        });
+
+        engBtn.addEventListener('click', () => {
+            currentLang = 'english';
+            englishVersion.classList.remove('hidden');
+            thaiVersion.classList.add('hidden');
+            engBtn.classList.add('active');
+            thaiBtn.classList.remove('active');
+            showPage(currentLang, currentPage);
+        });
+
+        prevBtn.addEventListener('click', () => {
+            if (currentPage > 1) {
+                currentPage--;
+                showPage(currentLang, currentPage);
+            }
+        });
+
+        nextBtn.addEventListener('click', () => {
+            if (currentPage < totalPages) {
+                currentPage++;
+                showPage(currentLang, currentPage);
+            }
+        });
+
+        // Initial setup
+        showPage(currentLang, currentPage);
+
+    </script>
+
+</body>
+</html>

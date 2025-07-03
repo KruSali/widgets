@@ -11,14 +11,19 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sarabun:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        /* Use Sarabun font for Thai text and Inter for fallback */
         body {
             font-family: 'Sarabun', 'Inter', sans-serif;
         }
-        /* Custom style to make checkbox and radio button bigger */
         .form-checkbox, .form-radio {
             width: 1.25em;
             height: 1.25em;
+        }
+        /* Modal styles */
+        .modal-backdrop {
+            transition: opacity 0.3s ease;
+        }
+        .modal-content {
+            transition: transform 0.3s ease;
         }
     </style>
 </head>
@@ -40,13 +45,13 @@
             <!-- Thai Name Input -->
             <div class="mb-5">
                 <label for="thai_name" class="block mb-2 text-sm font-medium text-gray-700">ชื่อ-นามสกุล (ภาษาไทย)</label>
-                <input type="text" id="thai_name" name="thai_name" class="w-full px-4 py-3 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300" placeholder="สมชาย รักเรียน" required>
+                <input type="text" id="thai_name" name="thai_name" class="w-full px-4 py-3 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="สมชาย รักเรียน" required>
             </div>
 
             <!-- English Name Input -->
             <div class="mb-5">
                 <label for="eng_name" class="block mb-2 text-sm font-medium text-gray-700">ชื่อ-นามสกุล (ภาษาอังกฤษ)</label>
-                <input type="text" id="eng_name" name="eng_name" class="w-full px-4 py-3 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300" placeholder="Somchai Rukrian" required>
+                <input type="text" id="eng_name" name="eng_name" class="w-full px-4 py-3 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="Somchai Rukrian" required>
                 <p class="mt-2 text-xs text-red-600">สำคัญ* จะนำไปใส่เป็นรหัสในการเปิดเอกสารของคุณ</p>
             </div>
 
@@ -81,22 +86,10 @@
             <div class="mb-5">
                 <label class="block mb-2 text-sm font-medium text-gray-700">อายุ</label>
                 <div class="grid grid-cols-2 gap-4">
-                    <div class="flex items-center">
-                        <input id="age1" type="radio" value="ต่ำกว่า 20 ปี" name="age_group" class="form-radio text-blue-600 focus:ring-blue-500">
-                        <label for="age1" class="ml-2 text-sm text-gray-700">ต่ำกว่า 20 ปี</label>
-                    </div>
-                    <div class="flex items-center">
-                        <input id="age2" type="radio" value="20-29 ปี" name="age_group" class="form-radio text-blue-600 focus:ring-blue-500">
-                        <label for="age2" class="ml-2 text-sm text-gray-700">20-29 ปี</label>
-                    </div>
-                    <div class="flex items-center">
-                        <input id="age3" type="radio" value="30-45 ปี" name="age_group" class="form-radio text-blue-600 focus:ring-blue-500">
-                        <label for="age3" class="ml-2 text-sm text-gray-700">30-45 ปี</label>
-                    </div>
-                    <div class="flex items-center">
-                        <input id="age4" type="radio" value="มากกว่า 50 ปีขึ้นไป" name="age_group" class="form-radio text-blue-600 focus:ring-blue-500">
-                        <label for="age4" class="ml-2 text-sm text-gray-700">มากกว่า 50 ปีขึ้นไป</label>
-                    </div>
+                    <div class="flex items-center"><input id="age1" type="radio" value="ต่ำกว่า 20 ปี" name="age_group" class="form-radio text-blue-600 focus:ring-blue-500"><label for="age1" class="ml-2 text-sm text-gray-700">ต่ำกว่า 20 ปี</label></div>
+                    <div class="flex items-center"><input id="age2" type="radio" value="20-29 ปี" name="age_group" class="form-radio text-blue-600 focus:ring-blue-500"><label for="age2" class="ml-2 text-sm text-gray-700">20-29 ปี</label></div>
+                    <div class="flex items-center"><input id="age3" type="radio" value="30-45 ปี" name="age_group" class="form-radio text-blue-600 focus:ring-blue-500"><label for="age3" class="ml-2 text-sm text-gray-700">30-45 ปี</label></div>
+                    <div class="flex items-center"><input id="age4" type="radio" value="มากกว่า 50 ปีขึ้นไป" name="age_group" class="form-radio text-blue-600 focus:ring-blue-500"><label for="age4" class="ml-2 text-sm text-gray-700">มากกว่า 50 ปีขึ้นไป</label></div>
                 </div>
             </div>
 
@@ -136,90 +129,100 @@
                 ลงทะเบียน
             </button>
         </form>
-
-        <!-- Success/Error Message Box -->
-        <div id="messageBox" class="hidden mt-6 p-4 text-sm rounded-lg text-center"></div>
-
     </div>
+
+    <!-- Success Modal -->
+    <div id="successModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 modal-backdrop bg-black bg-opacity-50 opacity-0 pointer-events-none">
+        <div class="modal-content bg-white w-full max-w-md p-6 rounded-2xl shadow-lg text-center transform scale-95">
+            <svg class="w-16 h-16 mx-auto text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            <h3 class="text-2xl font-bold text-gray-800 mt-4">ลงทะเบียนเรียบร้อย!</h3>
+            <p class="text-gray-600 mt-2">ข้อมูลของคุณถูกส่งเรียบร้อยแล้ว ขอบคุณค่ะ</p>
+            <button id="closeModalButton" class="mt-6 w-full bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg transition-colors">
+                ปิด
+            </button>
+        </div>
+    </div>
+
 
     <script>
         const form = document.getElementById('registrationForm');
         const submitButton = document.getElementById('submitButton');
-        const messageBox = document.getElementById('messageBox');
+        const successModal = document.getElementById('successModal');
+        const closeModalButton = document.getElementById('closeModalButton');
         
-        // Logic for "Other" problem checkbox
         const otherProblemCheckbox = document.getElementById('problem_other_check');
         const otherProblemText = document.getElementById('problem_other_text');
 
         otherProblemCheckbox.addEventListener('change', function() {
+            otherProblemText.disabled = !this.checked;
             if (this.checked) {
-                otherProblemText.disabled = false;
                 otherProblemText.focus();
             } else {
-                otherProblemText.disabled = true;
                 otherProblemText.value = '';
             }
         });
 
         form.addEventListener('submit', function(e) {
-            e.preventDefault(); // Prevent the default form submission
-
-            const scriptURL = https://script.google.com/macros/s/AKfycbyr4P99p_goOMLufEtAlJkztz7gllwpBzH3sJ7olk7WDzqBKRhiZpJJ5hXBdbZciYl1/exec; // <-- IMPORTANT: Replace with your Google Apps Script URL
-
+            e.preventDefault(); 
+            
             submitButton.disabled = true;
             submitButton.innerHTML = 'กำลังลงทะเบียน...';
-            
-            if (scriptURL === 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE') {
-                console.log('Form submitted (simulation)');
-                setTimeout(() => {
-                    showMessage('ลงทะเบียนสำเร็จแล้ว!', 'success');
-                    submitButton.disabled = false;
-                    submitButton.innerHTML = 'ลงทะเบียน';
-                    form.reset();
-                    otherProblemText.disabled = true; // re-disable other text field
-                }, 1500);
-                return;
-            }
-            
-            // This part handles checkboxes with the same name
+
+            const scriptURL = https://script.google.com/macros/s/AKfycbyr4P99p_goOMLufEtAlJkztz7gllwpBzH3sJ7olk7WDzqBKRhiZpJJ5hXBdbZciYl1/exec; // <-- IMPORTANT: Replace with your Google Apps Script URL
             const formData = new FormData(form);
+
+            // --- FIX: Combine multiple checkbox values ---
             const problems = form.querySelectorAll('input[name="problem"]:checked');
             let problemValues = [];
-            problems.forEach((checkbox) => {
-                problemValues.push(checkbox.value);
-            });
-            
-            // Append the combined problems to the form data
+            problems.forEach(checkbox => problemValues.push(checkbox.value));
             formData.append("problems_combined", problemValues.join(", "));
-
+            
+            const contacts = form.querySelectorAll('input[name="contact_method"]:checked');
+            let contactValues = [];
+            contacts.forEach(checkbox => contactValues.push(checkbox.value));
+            formData.append("contact_methods_combined", contactValues.join(", "));
+            // --- END FIX ---
 
             fetch(scriptURL, { method: 'POST', body: formData})
-                .then(response => {
-                    console.log('Success!', response);
-                    showMessage('ลงทะเบียนสำเร็จแล้ว! ขอบคุณค่ะ', 'success');
-                    submitButton.disabled = false;
-                    submitButton.innerHTML = 'ลงทะเบียน';
-                    form.reset();
-                    otherProblemText.disabled = true; // re-disable other text field
+                .then(response => response.json()) // Parse the JSON response from Apps Script
+                .then(data => {
+                    console.log('Success!', data);
+                    if(data.result === 'success'){
+                        showSuccessModal();
+                        form.reset();
+                    } else {
+                        // You can add an error modal here if you want
+                        alert('เกิดข้อผิดพลาด: ' + (data.error || 'ไม่สามารถส่งข้อมูลได้'));
+                    }
                 })
                 .catch(error => {
                     console.error('Error!', error.message);
-                    showMessage('เกิดข้อผิดพลาด! กรุณาลองใหม่อีกครั้ง', 'error');
+                    alert('เกิดข้อผิดพลาดในการเชื่อมต่อ กรุณาลองใหม่อีกครั้ง');
+                })
+                .finally(() => {
                     submitButton.disabled = false;
                     submitButton.innerHTML = 'ลงทะเบียน';
+                    otherProblemText.disabled = true;
                 });
         });
 
-        function showMessage(message, type) {
-            messageBox.textContent = message;
-            messageBox.className = 'mt-6 p-4 text-sm rounded-lg text-center'; // Reset classes
-            if (type === 'success') {
-                messageBox.classList.add('bg-green-100', 'text-green-800');
-            } else {
-                messageBox.classList.add('bg-red-100', 'text-red-800');
-            }
-            messageBox.classList.remove('hidden');
+        function showSuccessModal() {
+            successModal.classList.remove('opacity-0', 'pointer-events-none');
+            successModal.querySelector('.modal-content').classList.remove('scale-95');
         }
+
+        function hideSuccessModal() {
+            successModal.classList.add('opacity-0', 'pointer-events-none');
+            successModal.querySelector('.modal-content').classList.add('scale-95');
+        }
+
+        closeModalButton.addEventListener('click', hideSuccessModal);
+        successModal.addEventListener('click', function(e) {
+            if (e.target === successModal) {
+                hideSuccessModal();
+            }
+        });
+
     </script>
 
 </body>

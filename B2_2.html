@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mr. Vocab: The Ultimate Edition - ชุดที่ 2</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Kanit', sans-serif;
+            background-color: #f0f4f8; /* A light, clean blue-gray */
+        }
+        .main-container { max-width: 1200px; margin: auto; }
+        .view { display: none; }
+        .view.active { display: block; }
+        .set-card-wrapper {
+            background: linear-gradient(135deg, var(--tw-gradient-from), var(--tw-gradient-to));
+            transition: all 0.3s ease;
+            padding: 8px;
+        }
+        .set-card-wrapper:hover { transform: scale(1.05); box-shadow: 0 10px 20px rgba(0,0,0,0.15); }
+        .tab-button.active {
+            background-color: #2563eb; /* blue-600 */
+            color: white;
+            border-bottom-color: transparent;
+        }
+        .vocab-card {
+            background-color: white;
+            border-left-width: 5px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            transition: all 0.2s ease;
+        }
+        .vocab-card:hover { transform: translateY(-3px); box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+        .choice-item {
+            border: 2px solid #e5e7eb; /* gray-200 */
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+        .choice-item:hover { border-color: #93c5fd; /* blue-300 */ background-color: #eff6ff; /* blue-50 */ }
+        .choice-item.selected { border-color: #2563eb; /* blue-600 */ background-color: #dbeafe; /* blue-200 */ }
+        .feedback.correct { background-color: #dcfce7; color: #166534; border-left: 4px solid #22c55e; }
+        .feedback.incorrect { background-color: #fee2e2; color: #991b1b; border-left: 4px solid #ef4444; }
+        .stress { text-decoration: underline; font-weight: 600; }
+    </style>
+</head>
+<body class="p-4 md:p-6">
+
+    <div class="main-container">
+        <div id="main-menu-view" class="view active">
+            <header class="text-center mb-8">
+                <h1 class="text-4xl md:text-5xl font-bold text-gray-800">Mr. Vocab: Ultimate Edition 🚀</h1>
+                <h2 class="text-2xl md:text-3xl font-bold text-blue-600">ชุดที่ 2</h2>
+                <p class="text-gray-600 mt-2 text-lg">คลังศัพท์ B2-C1 ชุดใหม่! เลือกบทเรียนที่ใช่ได้เลย</p>
+            </header>
+            <div id="set-selection-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+                </div>
+        </div>
+
+        <div id="lesson-view" class="view">
+            <header class="flex items-center justify-between mb-4">
+                <button onclick="showMainMenu()" class="bg-white text-blue-600 hover:bg-blue-50 font-semibold flex items-center px-4 py-2 rounded-lg shadow-sm border border-gray-200">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" /></svg>
+                    เมนูหลัก
+                </button>
+                <h1 id="lesson-title" class="text-2xl md:text-3xl font-bold text-gray-800 text-right"></h1>
+            </header>
+            
+            <div class="bg-white/80 backdrop-blur-sm p-4 sm:p-6 rounded-2xl shadow-lg">
+                <div class="border-b border-gray-200">
+                    <nav class="-mb-px flex space-x-4" aria-label="Tabs">
+                        <button id="tab-lesson-btn" class="tab-button whitespace-nowrap py-3 px-4 border-b-2 font-medium text-lg" onclick="showTab('lesson')">บทเรียน</button>
+                        <button id="tab-exercise-btn" class="tab-button whitespace-nowrap py-3 px-4 border-b-2 font-medium text-lg text-gray-500" onclick="showTab('exercise')">แบบฝึกหัด</button>
+                    </nav>
+                </div>
+                
+                <div class="pt-6">
+                    <div id="lesson-content-wrapper">
+                        <div id="lesson-content" class="grid md:grid-cols-2 gap-5"></div>
+                    </div>
+                    <div id="exercise-content-wrapper" class="hidden">
+                        <p class="text-center text-gray-600 mb-6">เลือกคำตอบที่ถูกต้องที่สุด</p>
+                        <div class="space-y-6" id="quiz-container"></div>
+                        <div class="text-center mt-8">
+                            <button id="check-answers-btn" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-10 rounded-full text-lg shadow-md transition-transform hover:scale-105" onclick="checkAnswers()">ตรวจคำตอบ</button>
+                            <button id="reset-btn" class="hidden bg-gray-500 hover:bg-gray-600 text-white font-bold py-3 px-10 rounded-full text-lg" onclick="resetQuiz()">ลองอีกครั้ง</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+    // --- Data for All Vocabulary Sets ---
+    const allSetsData = {
+        set01_ant: {
+            title: 'สารเคมี "-ant"',
+            description: 'คำนามที่ลงท้ายด้วย -ant มักหมายถึง "สารที่ทำหน้าที่..."',
+            colors: 'from-cyan-400 to-sky-500',
+            lesson: [
+                { word: 'Refrigerant', read: 'รี-<span class="stress">ฟริ</span>-เจอ-แรนท์', pos: '(n.) สารทำความเย็น', meaning: 'สารเคมีที่ใช้ในตู้เย็นหรือเครื่องปรับอากาศเพื่อสร้างความเย็น', example: 'The technician had to replace the refrigerant in our air conditioner.', ex_thai: 'ช่างเทคนิคต้องเปลี่ยนสารทำความเย็นในเครื่องปรับอากาศของเรา' },
+                { word: 'Disinfectant', read: 'ดิส-อิน-<span class="stress">เฟค</span>-เทินท์', pos: '(n.) ยาฆ่าเชื้อ', meaning: 'สารเคมีที่ใช้ทำลายแบคทีเรียและเชื้อโรคบนพื้นผิว', example: 'She cleaned the kitchen counter with a strong disinfectant.', ex_thai: 'เธอทำความสะอาดเคาน์เตอร์ครัวด้วยยาฆ่าเชื้อชนิดแรง' },
+                { word: 'Stimulant', read: '<span class="stress">สติ</span>-มิว-เลินท์', pos: '(n.) สารกระตุ้น', meaning: 'สารที่กระตุ้นการทำงานของร่างกายหรือสมอง เช่น คาเฟอีน', example: 'Coffee acts as a mild stimulant.', ex_thai: 'กาแฟทำหน้าที่เป็นสารกระตุ้นอย่างอ่อน' },
+                { word: 'Pollutant', read: 'โพ-<span class="stress">ลู</span>-เทินท์', pos: '(n.) สารมลพิษ', meaning: 'สารที่เป็นอันตรายและทำให้สิ่งแวดล้อมสกปรก', example: 'Factories must control the amount of pollutants they release.', ex_thai: 'โรงงานต้องควบคุมปริมาณสารมลพิษที่ปล่อยออกมา' },
+                { word: 'Protectant', read: 'โพร-<span class="stress">เทค</span>-เทินท์', pos: '(n.) สารป้องกัน', meaning: 'สารที่ใช้เคลือบเพื่อป้องกันบางสิ่งจากความเสียหาย', example: 'This spray is a fabric protectant that repels water.', ex_thai: 'สเปรย์นี้คือสารป้องกันผ้าที่กันน้ำได้' }
+            ],
+            quiz: [
+                { q: "To kill germs on the bathroom floor, you should use a _______.", a: "Disinfectant", choices: ["Refrigerant", "Stimulant", "Disinfectant", "Pollutant"], explanation: "ใช้ Disinfectant เพราะเป็นสารสำหรับฆ่าเชื้อโรค" },
+                { q: "Smoke from cars and factories is a major air _______.", a: "Pollutant", choices: ["Protectant", "Pollutant", "Refrigerant", "Stimulant"], explanation: "ใช้ Pollutant เพราะควันจากรถและโรงงานเป็นสารก่อให้เกิดมลพิษทางอากาศ" },
+                { q: "An air conditioner uses a _______ to cool the air.", a: "Refrigerant", choices: ["Stimulant", "Disinfectant", "Refrigerant", "Protectant"], explanation: "ใช้ Refrigerant เพราะเป็นสารทำความเย็นในเครื่องปรับอากาศ" },
+                { q: "After a long night of studying, he drank an energy drink for its _______ effect.", a: "Stimulant", choices: ["Pollutant", "Stimulant", "Protectant", "Disinfectant"], explanation: "ใช้ Stimulant เพราะเครื่องดื่มชูกำลังมีฤทธิ์เป็นสารกระตุ้น" }
+            ]
+        },
+        set02_lure: {
+            title: 'หลอกล่อ / เสน่ห์',
+            description: 'กลุ่มคำกริยาที่เกี่ยวกับการหลอกล่อ และคำนาม "เสน่ห์"',
+            colors: 'from-rose-400 to-red-500',
+            lesson: [
+                { word: 'Lure', read: 'ลัวร์', pos: '(v.) ล่อลวง', meaning: 'ดึงดูดให้ทำบางสิ่งหรือไปบางแห่งโดยการเสนอสิ่งที่น่าสนใจ', example: 'Fishermen use bait to lure fish.', ex_thai: 'ชาวประมงใช้เหยื่อเพื่อล่อปลา' },
+                { word: 'Entice', read: 'เอน-<span class="stress">ไทซ์</span>', pos: '(v.) ล่อใจ', meaning: 'ดึงดูดโดยการเสนอความสุขหรือผลประโยชน์', example: 'The advertisement is designed to entice customers to buy.', ex_thai: 'โฆษณานี้ถูกออกแบบมาเพื่อล่อใจให้ลูกค้าซื้อ' },
+                { word: 'Seduce', read: 'ซิ-<span class="stress">ดิวซ์</span>', pos: '(v.) ยั่วยวน', meaning: 'ชักจูงให้ทำในสิ่งที่ไม่เหมาะสม โดยเฉพาะทางเพศหรือการกระทำผิด', example: 'He felt that power and money had seduced his friend.', ex_thai: 'เขารู้สึกว่าอำนาจและเงินทองได้ยั่วยวนเพื่อนของเขา' },
+                { word: 'Charm', read: 'ชาร์ม', pos: '(v.) โปรยเสน่ห์ (n.) เสน่ห์', meaning: '(v.) ทำให้คนอื่นชอบหรือชื่นชม (n.) คุณสมบัติที่น่าดึงดูดใจ', example: 'He charmed everyone at the party with his wit.', ex_thai: 'เขาโปรยเสน่ห์ใส่ทุกคนในงานปาร์ตี้ด้วยความมีไหวพริบของเขา' }
+            ],
+            quiz: [
+                { q: "The company tried to _______ skilled workers from its rival with high salaries.", a: "Lure", choices: ["Seduce", "Charm", "Lure", "Entice"], explanation: "ใช้ Lure เพราะเป็นการล่อดึงพนักงานจากบริษัทคู่แข่งด้วยข้อเสนอ" },
+                { q: "The smell of fresh cookies from the bakery _______d passersby.", a: "Enticed", choices: ["Enticed", "Seduced", "Charmed", "Lured"], explanation: "ใช้ Entice เพราะเป็นการล่อใจด้วยกลิ่นที่น่าพึงพอใจ" },
+                { q: "The villain in the movie tries to _______ the hero into joining the dark side.", a: "Seduce", choices: ["Charm", "Lure", "Entice", "Seduce"], explanation: "ใช้ Seduce เพราะเป็นการชักจูงให้ทำในสิ่งที่ผิด" },
+                { q: "She has a natural _______ that makes everyone like her instantly.", a: "Charm", choices: ["Seduction", "Lure", "Enticement", "Charm"], explanation: "ใช้ Charm ในฐานะคำนามที่หมายถึงเสน่ห์ที่น่าดึงดูดใจ" }
+            ]
+        },
+        set03_plore: {
+            title: 'รากศัพท์ "plore"',
+            description: 'กลุ่มคำจากรากศัพท์ plore ที่แปลว่า "ร้องขอ, ค้นหา" (to cry out)',
+            colors: 'from-amber-500 to-orange-600',
+            lesson: [
+                { word: 'Explore', read: 'เอ็กซ์-<span class="stress">พลอร์</span>', pos: '(v.) สำรวจ', meaning: 'เดินทางไปในสถานที่ใหม่ๆ เพื่อค้นหาและเรียนรู้', example: 'Let\'s explore the old part of the city this afternoon.', ex_thai: 'บ่ายนี้เราไปสำรวจย่านเมืองเก่ากันเถอะ' },
+                { word: 'Implore', read: 'อิม-<span class="stress">พลอร์</span>', pos: '(v.) วิงวอน, อ้อนวอน', meaning: 'ขอร้องอย่างจริงจังและสิ้นหวัง', example: 'She implored the kidnappers to release her son.', ex_thai: 'เธอวิงวอนให้ผู้ลักพาตัวปล่อยลูกชายของเธอ' },
+                { word: 'Deplore', read: 'ดิ-<span class="stress">พลอร์</span>', pos: '(v.) ตำหนิอย่างรุนแรง, สังเวชใจ', meaning: 'แสดงความไม่เห็นด้วยหรือเสียใจอย่างยิ่งต่อบางสิ่ง', example: 'We deplore all acts of violence.', ex_thai: 'เราขอตำหนิการกระทำที่รุนแรงทุกรูปแบบ' }
+            ],
+            quiz: [
+                { q: "Scientists want to _______ the deepest parts of the ocean.", a: "Explore", choices: ["Implore", "Deplore", "Explore", "Adore"], explanation: "ใช้ Explore เพราะหมายถึงการสำรวจเพื่อค้นหาสิ่งใหม่ๆ" },
+                { q: "I _______ you to tell the truth, for your own sake.", a: "Implore", choices: ["Deplore", "Explore", "Restore", "Implore"], explanation: "ใช้ Implore เพราะเป็นการขอร้องอย่างจริงจัง" },
+                { q: "The charity _______s the terrible conditions in which the refugees are living.", a: "Deplores", choices: ["Explores", "Implores", "Deplores", "Restores"], explanation: "ใช้ Deplore เพราะเป็นการแสดงความเสียใจและไม่เห็นด้วยอย่างยิ่งต่อสภาพความเป็นอยู่" },
+                { q: "The young astronaut dreamed of _______ing new galaxies.", a: "Exploring", choices: ["Imploring", "Deploring", "Exploring", "Ignoring"], explanation: "ใช้ Exploring เพราะความฝันของนักบินอวกาศคือการสำรวจ" }
+            ]
+        },
+        set04_deform: {
+            title: 'ทำให้เสียโฉม',
+            description: 'กลุ่มคำที่เกี่ยวกับความผิดรูปและความพิการ',
+            colors: 'from-slate-600 to-gray-700',
+            lesson: [
+                { word: 'Deface', read: 'ดิ-<span class="stress">เฟส</span>', pos: '(v.) ทำให้เสียโฉม (พื้นผิว)', meaning: 'ทำลายรูปลักษณ์ภายนอกของบางสิ่ง โดยเฉพาะการขีดเขียนบนกำแพง', example: 'Someone had defaced the statue with graffiti.', ex_thai: 'มีคนมาขีดเขียนทำลายรูปปั้นด้วยกราฟฟิตี' },
+                { word: 'Deform', read: 'ดิ-<span class="stress">ฟอร์ม</span>', pos: '(v.) ทำให้ผิดรูป', meaning: 'ทำให้รูปร่างหรือโครงสร้างตามธรรมชาติเสียหาย', example: 'The accident had deformed his leg.', ex_thai: 'อุบัติเหตุทำให้ขาของเขาผิดรูป' },
+                { word: 'Disfigure', read: 'ดิส-<span class="stress">ฟิ</span>-เกอร์', pos: '(v.) ทำให้เสียโฉม (ใบหน้า/ร่างกาย)', meaning: 'ทำลายความสวยงามของรูปลักษณ์ภายนอก โดยเฉพาะใบหน้า', example: 'The fire badly disfigured his face.', ex_thai: 'ไฟไหม้ทำให้ใบหน้าของเขาเสียโฉมอย่างรุนแรง' },
+                { word: 'Deformity', read: 'ดิ-<span class="stress">ฟอร์</span>-มิ-ทิ', pos: '(n.) ความผิดรูป', meaning: 'ส่วนของร่างกายที่ไม่ได้มีรูปร่างตามธรรมชาติ', example: 'He was born with a slight deformity of the foot.', ex_thai: 'เขาเกิดมาพร้อมกับความผิดรูปเล็กน้อยที่เท้า' },
+                { word: 'Handicap', read: '<span class="stress">แฮน</span>-ดิ-แคพ', pos: '(n./v.) ความพิการ, เป็นอุปสรรค', meaning: '(n.) สภาพที่ทำให้การใช้ชีวิตยากลำบาก (adj.) ทำให้เสียเปรียบ', example: 'Being unable to read is a severe handicap.', ex_thai: 'การอ่านหนังสือไม่ออกเป็นอุปสรรคที่รุนแรง' }
+            ],
+            quiz: [
+                { q: "Vandals used spray paint to _______ the ancient monument.", a: "Deface", choices: ["Deform", "Disfigure", "Deface", "Handicap"], explanation: "ใช้ Deface เพราะเป็นการทำลายพื้นผิวภายนอกด้วยการขีดเขียน" },
+                { q: "The disease caused a serious _______ of his spine.", a: "Deformity", choices: ["Deformity", "Defacement", "Disfigurement", "Handicap"], explanation: "ใช้ Deformity ซึ่งเป็นคำนามหมายถึงความผิดปกติของรูปร่าง" },
+                { q: "A terrible scar from the accident _______d the model's appearance.", a: "Disfigured", choices: ["Defaced", "Deformed", "Disfigured", "Handicapped"], explanation: "ใช้ Disfigure เพราะเป็นการทำลายความสวยงามของรูปลักษณ์" },
+                { q: "Lack of experience can be a _______ when you are looking for a job.", a: "Handicap", choices: ["Deformity", "Handicap", "Defacement", "Disfigurement"], explanation: "ใช้ Handicap ในความหมายว่า เป็นอุปสรรคหรือข้อเสียเปรียบ" }
+            ]
+        },
+        set05_explode: {
+            title: 'ระเบิด',
+            description: 'กลุ่มกริยาที่เกี่ยวกับการระเบิดและปะทุ',
+            colors: 'from-red-600 to-yellow-500',
+            lesson: [
+                { word: 'Explode', read: 'เอ็กซ์-<span class="stress">โพลด</span>', pos: '(v.) ระเบิด', meaning: 'แตกออกเป็นชิ้นๆ อย่างรุนแรงและมีเสียงดัง (เป็นคำทั่วไป)', example: 'The bomb exploded without warning.', ex_thai: 'ระเบิดได้ระเบิดขึ้นโดยไม่มีการเตือน' },
+                { word: 'Detonate', read: '<span class="stress">เด</span>-โท-เนท', pos: '(v.) จุดชนวนระเบิด', meaning: 'ทำให้ระเบิดทำงาน (มักเป็นการกระทำโดยเจตนา)', example: 'The engineers will detonate the old building tomorrow.', ex_thai: 'ทีมวิศวกรจะจุดชนวนระเบิดตึกเก่าในวันพรุ่งนี้' },
+                { word: 'Erupt', read: 'อิ-<span class="stress">รัพท์</span>', pos: '(v.) ปะทุ', meaning: 'ระเบิดออกมา (ใช้กับภูเขาไฟ, ความโกรธ, เสียงหัวเราะ)', example: 'The volcano could erupt at any time.', ex_thai: 'ภูเขาไฟสามารถปะทุได้ทุกเมื่อ' },
+                { word: 'Burst out', read: 'เบิร์สท์ <span class="stress">เอาท์</span>', pos: '(phr. v.) ระเบิด (อารมณ์) ออกมา', meaning: 'เริ่มทำบางสิ่งอย่างกะทันหัน (หัวเราะ, ร้องไห้)', example: 'She burst out laughing when she saw his new haircut.', ex_thai: 'เธอระเบิดหัวเราะออกมาเมื่อเห็นทรงผมใหม่ของเขา' }
+            ],
+            quiz: [
+                { q: "When the comedian told the joke, the whole audience _______ laughing.", a: "Burst out", choices: ["Exploded", "Detonated", "Erupted", "Burst out"], explanation: "ใช้ Burst out laughing สำหรับการระเบิดเสียงหัวเราะออกมา" },
+                { q: "The army used a remote control to _______ the bomb safely.", a: "Detonate", choices: ["Explode", "Erupt", "Burst out", "Detonate"], explanation: "ใช้ Detonate เพราะเป็นการจงใจทำให้ระเบิดทำงาน" },
+                { q: "Mount Vesuvius _______ed in 79 AD, burying the city of Pompeii.", a: "Erupted", choices: ["Exploded", "Erupted", "Detonated", "Burst out"], explanation: "ใช้ Erupt สำหรับการปะทุของภูเขาไฟ" },
+                { q: "A gas leak can cause a house to _______ if there is a spark.", a: "Explode", choices: ["Erupt", "Detonate", "Explode", "Burst out"], explanation: "ใช้ Explode เป็นคำทั่วไปสำหรับการระเบิดที่รุนแรง" }
+            ]
+        },
+        set06_endorse: {
+            title: 'รับรอง / อนุมัติ',
+            description: 'กลุ่มกริยาเกี่ยวกับการให้การสนับสนุนหรืออนุมัติอย่างเป็นทางการ',
+            colors: 'from-emerald-500 to-green-600',
+            lesson: [
+                { word: 'Ratify', read: '<span class="stress">แร</span>-ทิ-ฟาย', pos: '(v.) ให้สัตยาบัน', meaning: 'ลงนามหรือให้ความเห็นชอบอย่างเป็นทางการ (ใช้กับสนธิสัญญา, ข้อตกลง)', example: 'The treaty was ratified by all member states.', ex_thai: 'สนธิสัญญานี้ได้รับการให้สัตยาบันจากทุกรัฐสมาชิก' },
+                { word: 'Endorse', read: 'เอน-<span class="stress">ดอร์ส</span>', pos: '(v.) รับรอง, สนับสนุน', meaning: 'ประกาศสนับสนุนบางสิ่งหรือบางคนอย่างเป็นทางการ (เช่น สินค้า, ผู้สมัคร)', example: 'The famous athlete was paid to endorse the new sports drink.', ex_thai: 'นักกีฬาชื่อดังได้รับเงินเพื่อรับรองเครื่องดื่มเกลือแร่ชนิดใหม่' },
+                { word: 'Sanction', read: '<span class="stress">แซงค์</span>-เชิน', pos: '(v.) อนุมัติ (n.) การคว่ำบาตร', meaning: '(v.) อนุญาตอย่างเป็นทางการ (n.) การลงโทษประเทศอื่น', example: 'The plan was sanctioned by the board of directors.', ex_thai: 'แผนนี้ได้รับการอนุมัติจากคณะกรรมการบริหาร' },
+                { word: 'Authorize', read: '<span class="stress">ออ</span>-เธอ-ไรซ์', pos: '(v.) ให้อำนาจ, อนุญาต', meaning: 'ให้สิทธิ์หรืออำนาจแก่ใครบางคนในการทำบางสิ่ง', example: 'Only managers can authorize refunds.', ex_thai: 'มีเพียงผู้จัดการเท่านั้นที่สามารถอนุญาตการคืนเงินได้' }
+            ],
+            quiz: [
+                { q: "Before the treaty can become law, the parliament must _______ it.", a: "Ratify", choices: ["Endorse", "Sanction", "Authorize", "Ratify"], explanation: "ใช้ Ratify สำหรับการให้ความเห็นชอบสนธิสัญญาอย่างเป็นทางการ" },
+                { q: "I cannot _______ this purchase without my supervisor's permission.", a: "Authorize", choices: ["Ratify", "Endorse", "Sanction", "Authorize"], explanation: "ใช้ Authorize เพราะเป็นการให้สิทธิ์หรืออำนาจในการทำบางสิ่ง" },
+                { q: "Many celebrities _______ products to earn extra income.", a: "Endorse", choices: ["Sanction", "Authorize", "Endorse", "Ratify"], explanation: "ใช้ Endorse สำหรับการรับรองสินค้าโดยบุคคลมีชื่อเสียง" },
+                { q: "The committee refused to _______ the new building project due to its high cost.", a: "Sanction", choices: ["Ratify", "Sanction", "Endorse", "Authorize"], explanation: "ใช้ Sanction ในความหมายว่า 'อนุมัติ' แผนการหรือโครงการ" }
+            ]
+        },
+        set07_rank: {
+            title: 'แถว / อันดับ / ขอบเขต',
+            description: 'กลุ่มคำนามที่เกี่ยวกับลำดับ, แถว, และขอบเขต',
+            colors: 'from-blue-500 to-indigo-600',
+            lesson: [
+                { word: 'Range', read: 'เรนจ์', pos: '(n.) ขอบเขต, พิสัย', meaning: 'ขอบเขตระหว่างค่าสูงสุดและต่ำสุด หรือระยะทาง', example: 'The price range for these houses is from $200,000 to $500,000.', ex_thai: 'ขอบเขตราคาสำหรับบ้านเหล่านี้อยู่ระหว่าง 200,000 ถึง 500,000 ดอลลาร์' },
+                { word: 'Rank', read: 'แรงค์', pos: '(n.) ยศ, อันดับ', meaning: 'ตำแหน่งในองค์กรหรือในสังคม', example: 'He holds the rank of captain in the army.', ex_thai: 'เขาดำรงตำแหน่งยศร้อยเอกในกองทัพ' },
+                { word: 'Row', read: 'โรว์', pos: '(n.) แถว (แนวนอน)', meaning: 'เส้นตรงของคนหรือสิ่งของที่เรียงกันไปด้านข้าง', example: 'We sat in the front row at the cinema.', ex_thai: 'เรานั่งแถวหน้าสุดในโรงภาพยนตร์' },
+                { word: 'Scope', read: 'สโคป', pos: '(n.) ขอบเขต (ของงาน/การศึกษา)', meaning: 'ขอบเขตของหัวข้อหรือกิจกรรมที่เกี่ยวข้อง', example: 'This issue is outside the scope of our investigation.', ex_thai: 'ประเด็นนี้อยู่นอกขอบเขตการสืบสวนของเรา' }
+            ],
+            quiz: [
+                { q: "The students sat in _______s facing the teacher.", a: "Rows", choices: ["Ranks", "Ranges", "Scopes", "Rows"], explanation: "ใช้ Rows เพราะเป็นการจัดเรียงเป็นแถวแนวนอน" },
+                { q: "What is the age _______ of the children in this class?", a: "Range", choices: ["Rank", "Scope", "Range", "Row"], explanation: "ใช้ Range เพื่อถามถึงขอบเขตของอายุ (ต่ำสุด-สูงสุด)" },
+                { q: "He was promoted to the _______ of general.", a: "Rank", choices: ["Scope", "Row", "Range", "Rank"], explanation: "ใช้ Rank เพราะหมายถึงยศหรือตำแหน่ง" },
+                { q: "Fixing the entire computer network is beyond the _______ of my job.", a: "Scope", choices: ["Row", "Rank", "Scope", "Range"], explanation: "ใช้ Scope เพราะหมายถึงขอบเขตของงานหรือความรับผิดชอบ" }
+            ]
+        },
+        set08_legacy: {
+            title: 'มรดก',
+            description: 'กลุ่มคำนามที่เกี่ยวกับสิ่งที่ตกทอดมาจากคนรุ่นก่อน',
+            colors: 'from-yellow-600 to-orange-700',
+            lesson: [
+                { word: 'Inheritance', read: 'อิน-<span class="stress">เฮ</span>-ริ-เทินซ์', pos: '(n.) มรดก (ทรัพย์สิน)', meaning: 'เงินหรือทรัพย์สินที่ได้รับจากผู้ที่เสียชีวิตไปแล้ว', example: 'He received a large inheritance from his grandfather.', ex_thai: 'เขาได้รับมรดกจำนวนมากจากปู่ของเขา' },
+                { word: 'Bequest', read: 'บิ-<span class="stress">เควสท์</span>', pos: '(n.) พินัยกรรม, มรดกที่ระบุในพินัยกรรม', meaning: 'ทรัพย์สินที่มอบให้ตามพินัยกรรม', example: 'The museum received a bequest of several valuable paintings.', ex_thai: 'พิพิธภัณฑ์ได้รับมรดกเป็นภาพวาดล้ำค่าหลายภาพตามพินัยกรรม' },
+                { word: 'Legacy', read: '<span class="stress">เล</span>-กา-ซิ', pos: '(n.) มรดก (ชื่อเสียง, ผลงาน)', meaning: 'สิ่งดีๆ ที่คนรุ่นก่อนทิ้งไว้ให้จดจำ เช่น ชื่อเสียง, ผลงาน', example: 'Nelson Mandela left behind a legacy of peace and reconciliation.', ex_thai: 'เนลสัน แมนเดลา ได้ทิ้งมรดกแห่งสันติภาพและการปรองดองไว้เบื้องหลัง' },
+                { word: 'Heritage', read: '<span class="stress">เฮ</span>-ริ-เทจ', pos: '(n.) มรดก (ทางวัฒนธรรม)', meaning: 'ประเพณี, ภาษา, หรืออาคารสถานที่สำคัญทางประวัติศาสตร์ที่สืบทอดกันมา', example: 'It is important to protect our national heritage.', ex_thai: 'การปกป้องมรดกของชาติเป็นสิ่งสำคัญ' }
+            ],
+            quiz: [
+                { q: "The old temples are part of our country's cultural _______.", a: "Heritage", choices: ["Inheritance", "Legacy", "Bequest", "Heritage"], explanation: "ใช้ Heritage เพราะวัดเก่าเป็นมรดกทางวัฒนธรรม" },
+                { q: "The scientist's _______ was her groundbreaking research that changed medicine.", a: "Legacy", choices: ["Bequest", "Legacy", "Heritage", "Inheritance"], explanation: "ใช้ Legacy เพราะหมายถึงผลงานหรือชื่อเสียงที่ทิ้งไว้ให้จดจำ" },
+                { q: "With his _______, he was able to buy a new house.", a: "Inheritance", choices: ["Heritage", "Legacy", "Inheritance", "Bequest"], explanation: "ใช้ Inheritance เพราะหมายถึงเงินหรือทรัพย์สินที่ได้รับมา" },
+                { q: "In her will, she made a generous _______ to her favorite charity.", a: "Bequest", choices: ["Bequest", "Heritage", "Legacy", "Inheritance"], explanation: "ใช้ Bequest เพราะเป็นทรัพย์สินที่ระบุไว้ในพินัยกรรมเพื่อมอบให้" }
+            ]
+        },
+        set09_criticize: {
+            title: 'วิจารณ์ / ตำหนิ',
+            description: 'กลุ่มกริยาเกี่ยวกับการวิจารณ์ และคำนามที่เกี่ยวข้อง',
+            colors: 'from-red-700 to-rose-800',
+            lesson: [
+                { word: 'Criticize', read: '<span class="stress">คริ</span>-ทิ-ไซซ์', pos: '(v.) วิจารณ์, ติเตียน', meaning: 'แสดงความไม่เห็นด้วยหรือชี้ข้อบกพร่อง (อาจจะสร้างสรรค์หรือไม่ก็ได้)', example: 'The coach criticized the team for their poor performance.', ex_thai: 'โค้ชวิจารณ์ทีมสำหรับฟอร์มการเล่นที่ย่ำแย่' },
+                { word: 'Scold', read: 'สโคลด์', pos: '(v.) ดุ, ว่ากล่าว', meaning: 'ตำหนิ (มักใช้กับผู้ใหญ่ดุเด็ก) ด้วยความโกรธ', example: 'The mother scolded her child for playing with matches.', ex_thai: 'แม่ดุลูกของเธอที่เล่นไม้ขีดไฟ' },
+                { word: 'Berate', read: 'บิ-<span class="stress">เรท</span>', pos: '(v.) ด่าทอ, ตำหนิอย่างรุนแรง', meaning: 'ดุด่าอย่างเกรี้ยวกราดและยาวนาน', example: 'He berated the waiter for a small mistake.', ex_thai: 'เขาด่าทอพนักงานเสิร์ฟสำหรับความผิดพลาดเล็กน้อย' },
+                { word: 'Reproach', read: 'รี-<span class="stress">โพรช</span>', pos: '(v.) ตำหนิ (อย่างผิดหวัง)', meaning: 'ตำหนิเพื่อแสดงความผิดหวังในการกระทำของใครบางคน', example: 'She looked at him with reproach in her eyes.', ex_thai: 'เธอมองเขาด้วยสายตาที่เต็มไปด้วยการตำหนิ' },
+                { word: 'Criticism', read: '<span class="stress">คริ</span>-ทิ-ซิ-ซึม', pos: '(n.) คำวิจารณ์', meaning: 'การวิเคราะห์และตัดสินข้อดีข้อเสีย', example: 'He does not respond well to criticism.', ex_thai: 'เขาไม่ค่อยรับคำวิจารณ์ได้ดีนัก' }
+            ],
+            quiz: [
+                { q: "Don't _______ me in front of everyone; it's embarrassing!", a: "Scold", choices: ["Berate", "Reproach", "Criticize", "Scold"], explanation: "ใช้ Scold เพราะเป็นการดุที่มักใช้ในสถานการณ์ที่ไม่เป็นทางการหรือส่วนตัว" },
+                { q: "The angry customer began to _______ the staff loudly.", a: "Berate", choices: ["Criticize", "Scold", "Berate", "Reproach"], explanation: "ใช้ Berate เพราะเป็นการด่าทออย่างรุนแรงและเกรี้ยวกราด" },
+                { q: "His parents _______d him for his laziness and lack of ambition.", a: "Reproached", choices: ["Reproached", "Berated", "Scolded", "Criticized"], explanation: "ใช้ Reproach เพราะเป็นการตำหนิที่แฝงด้วยความรู้สึกผิดหวัง" },
+                { q: "It's easy to _______, but it's harder to offer a better solution.", a: "Criticize", choices: ["Scold", "Berate", "Reproach", "Criticize"], explanation: "ใช้ Criticize เป็นคำกริยาทั่วไปที่หมายถึงการวิจารณ์หรือชี้ข้อเสีย" }
+            ]
+        },
+        set10_affirm: {
+            title: 'ยืนยัน / ยืนกราน',
+            description: 'กลุ่มกริยาที่เกี่ยวกับการยืนยันความจริงหรือความคิด',
+            colors: 'from-emerald-600 to-teal-700',
+            lesson: [
+                { word: 'Ascertain', read: 'แอส-เซอ-<span class="stress">เทน</span>', pos: '(v.) สืบให้แน่ใจ', meaning: 'ค้นหาบางสิ่งเพื่อให้แน่ใจว่าเป็นความจริง', example: 'The police are trying to ascertain the cause of the fire.', ex_thai: 'ตำรวจกำลังพยายามสืบให้แน่ใจถึงสาเหตุของไฟไหม้' },
+                { word: 'Assert', read: 'อะ-<span class="stress">เสิร์ท</span>', pos: '(v.) ยืนกราน, อ้างสิทธิ์', meaning: 'กล่าวอ้างหรือแสดงความคิดเห็นอย่างหนักแน่นและมั่นใจ', example: 'She asserted her right to see the documents.', ex_thai: 'เธอยืนกรานในสิทธิ์ของเธอที่จะดูเอกสาร' },
+                { word: 'Affirm', read: 'อะ-<span class="stress">เฟิร์ม</span>', pos: '(v.) ยืนยัน (สนับสนุน)', meaning: 'กล่าวยืนยันอย่างหนักแน่นว่าเป็นความจริง (มักเป็นการสนับสนุน)', example: 'The witness affirmed that he had seen the man at the scene.', ex_thai: 'พยานยืนยันว่าเขาเห็นชายคนนั้นในที่เกิดเหตุ' },
+                { word: 'Confirm', read: 'คัน-<span class="stress">เฟิร์ม</span>', pos: '(v.) ยืนยัน (ให้แน่นอน)', meaning: 'ทำให้บางสิ่งแน่นอนโดยการให้หลักฐานหรือตรวจสอบ', example: 'Please confirm your flight booking 24 hours in advance.', ex_thai: 'กรุณายืนยันการจองเที่ยวบินของคุณล่วงหน้า 24 ชั่วโมง' }
+            ],
+            quiz: [
+                { q: "Could you please call the hotel to _______ our reservation?", a: "Confirm", choices: ["Ascertain", "Assert", "Affirm", "Confirm"], explanation: "ใช้ Confirm เพราะเป็นการตรวจสอบเพื่อให้การจองแน่นอน" },
+                { q: "The detective's job is to _______ the facts of the case.", a: "Ascertain", choices: ["Assert", "Ascertain", "Affirm", "Confirm"], explanation: "ใช้ Ascertain เพราะเป็นการสืบสวนค้นหาเพื่อให้แน่ใจในข้อเท็จจริง" },
+                { q: "He _______ed his innocence, even though all evidence was against him.", a: "Asserted", choices: ["Affirmed", "Confirmed", "Ascertained", "Asserted"], explanation: "ใช้ Assert เพราะเป็นการยืนกรานในความคิดของตนอย่างหนักแน่น" },
+                { q: "The test results _______ed the doctor's diagnosis.", a: "Affirmed", choices: ["Asserted", "Ascertained", "Affirmed", "Confirmed"], explanation: "ใช้ Affirm (หรือ Confirm ก็ได้ แต่ Affirm เน้นการสนับสนุน) เพื่อบอกว่าผลลัพธ์ช่วยยืนยันการวินิจฉัย" }
+            ]
+        },
+        set11_sabotage: {
+            title: 'ก่อวินาศกรรม',
+            description: 'กลุ่มกริยาเกี่ยวกับการจงใจทำลายหรือขัดขวาง',
+            colors: 'from-orange-700 to-red-800',
+            lesson: [
+                { word: 'Sabotage', read: '<span class="stress">แซ</span>-บะ-ทาจ', pos: '(v.) ก่อวินาศกรรม, ขัดขวาง', meaning: 'จงใจทำลายหรือขัดขวางบางสิ่ง (เช่น แผนการ, เครื่องจักร) โดยเฉพาะเพื่อผลประโยชน์ทางการเมืองหรือการทหาร', example: 'The rebels tried to sabotage the railway line.', ex_thai: 'กลุ่มกบฏพยายามก่อวินาศกรรมเส้นทางรถไฟ' },
+                { word: 'Spoil', read: 'สปอยล์', pos: '(v.) ทำให้เสีย, ทำลาย', meaning: 'ทำให้บางสิ่งเสียหายหรือไม่น่าพอใจอีกต่อไป', example: 'The rain spoiled our picnic.', ex_thai: 'ฝนทำให้ปิกนิกของเราพัง' },
+                { word: 'Disrupt', read: 'ดิส-<span class="stress">รัพท์</span>', pos: '(v.) ทำให้หยุดชะงัก, ก่อกวน', meaning: 'ขัดขวางกิจกรรมหรือกระบวนการไม่ให้ดำเนินไปตามปกติ', example: 'A protestor tried to disrupt the president\'s speech.', ex_thai: 'ผู้ประท้วงพยายามก่อกวนสุนทรพจน์ของประธานาธิบดี' },
+                { word: 'Saboteur', read: 'แซ-บะ-<span class="stress">เทอร์</span>', pos: '(n.) ผู้ก่อวินาศกรรม', meaning: 'คนที่ก่อวินาศกรรม', example: 'The factory was shut down after a saboteur damaged the machinery.', ex_thai: 'โรงงานถูกปิดหลังจากผู้ก่อวินาศกรรมทำลายเครื่องจักร' }
+            ],
+            quiz: [
+                { q: "Don't tell him the ending of the movie, you'll _______ it for me!", a: "Spoil", choices: ["Sabotage", "Spoil", "Disrupt", "Ruin"], explanation: "ใช้ Spoil ในความหมายว่า 'สปอยล์' หรือทำให้เสียอรรถรส" },
+                { q: "The enemy sent a _______ to destroy the bridge.", a: "Saboteur", choices: ["Spoiler", "Disruptor", "Saboteur", "Rebel"], explanation: "ใช้ Saboteur ซึ่งเป็นคำนามหมายถึงผู้ก่อวินาศกรรม" },
+                { q: "The unexpected power cut _______ed the online conference.", a: "Disrupted", choices: ["Sabotaged", "Spoiled", "Disrupted", "Broke"], explanation: "ใช้ Disrupt เพราะทำให้การประชุมหยุดชะงัก" },
+                { q: "The workers were accused of deliberately _______ing the new production system.", a: "Sabotaging", choices: ["Spoiling", "Disrupting", "Sabotaging", "Breaking"], explanation: "ใช้ Sabotage เพราะเป็นการจงใจทำลายระบบเพื่อขัดขวาง" }
+            ]
+        },
+        set12_salient: {
+            title: 'โดดเด่น / เห็นได้ชัด',
+            description: 'กลุ่มคำคุณศัพท์ที่แปลว่าโดดเด่นและสังเกตเห็นได้ง่าย',
+            colors: 'from-violet-500 to-purple-600',
+            lesson: [
+                { word: 'Salient', read: '<span class="stress">เซ</span>-เลียนท์', pos: '(adj.) ที่โดดเด่นที่สุด', meaning: 'สำคัญหรือโดดเด่นที่สุด', example: 'The salient feature of his proposal is its low cost.', ex_thai: 'จุดเด่นที่สุดของข้อเสนอของเขาคือต้นทุนที่ต่ำ' },
+                { word: 'Striking', read: '<span class="stress">สไตร</span>-คิง', pos: '(adj.) น่าประทับใจ, โดดเด่น', meaning: 'ดึงดูดความสนใจเพราะความสวยงาม, ไม่ธรรมดา, หรือน่าทึ่ง', example: 'She has a striking resemblance to her mother.', ex_thai: 'เธอมีความคล้ายคลึงกับแม่ของเธออย่างน่าทึ่ง' },
+                { word: 'Noticeable', read: '<span class="stress">โน</span>-ทิ-ซะ-เบิล', pos: '(adj.) ที่สังเกตเห็นได้', meaning: 'ง่ายต่อการมองเห็นหรือสังเกต', example: 'There was a noticeable improvement in his grades.', ex_thai: 'มีพัฒนาการที่เห็นได้ชัดในผลการเรียนของเขา' },
+                { word: 'Prominent', read: '<span class="stress">พรอม</span>-มิ-เนินท์', pos: '(adj.) ที่มีชื่อเสียง, ที่เห็นชัด', meaning: 'สำคัญ, มีชื่อเสียง หรือยื่นออกมาจนเห็นได้ง่าย', example: 'He is a prominent figure in the business world.', ex_thai: 'เขาเป็นบุคคลที่มีชื่อเสียงในโลกธุรกิจ' },
+                { word: 'Conspicuous', read: 'คัน-<span class="stress">สพิ</span>-คิว-อัส', pos: '(adj.) ที่เห็นได้ชัด (จนเด่น)', meaning: 'เห็นได้ง่ายหรือดึงดูดความสนใจมาก (บางครั้งในทางที่ไม่ดี)', example: 'He felt very conspicuous in his bright yellow coat.', ex_thai: 'เขารู้สึกเป็นที่สังเกตมากในเสื้อโค้ทสีเหลืองสดของเขา' }
+            ],
+            quiz: [
+                { q: "The most _______ point in her argument was that the plan was too expensive.", a: "Salient", choices: ["Striking", "Noticeable", "Salient", "Prominent"], explanation: "ใช้ Salient เพื่อหมายถึงประเด็นที่สำคัญและโดดเด่นที่สุด" },
+                { q: "Her bright pink hair made her _______ in any crowd.", a: "Conspicuous", choices: ["Prominent", "Conspicuous", "Noticeable", "Salient"], explanation: "ใช้ Conspicuous เพราะการทำสีผมสดใสทำให้เป็นที่สังเกตได้ง่ายมาก" },
+                { q: "She is a _______ lawyer who has won many high-profile cases.", a: "Prominent", choices: ["Salient", "Striking", "Noticeable", "Prominent"], explanation: "ใช้ Prominent เพราะหมายถึงการเป็นบุคคลสำคัญและมีชื่อเสียง" },
+                { q: "The difference in quality between the two products was immediately _______.", a: "Striking", choices: ["Noticeable", "Prominent", "Striking", "Salient"], explanation: "ใช้ Striking เพื่อเน้นว่าความแตกต่างนั้นน่าทึ่งและชัดเจนมาก" }
+            ]
+        },
+        set13_scribe: {
+            title: 'รากศัพท์ "scribe"',
+            description: 'กลุ่มคำจากรากศัพท์ "scribe/script" ที่แปลว่า "เขียน" (to write)',
+            colors: 'from-cyan-600 to-teal-700',
+            lesson: [
+                { word: 'Inscribe', read: 'อิน-<span class="stress">สไครบ์</span>', pos: '(v.) จารึก', meaning: 'เขียนหรือแกะสลักคำลงบนบางสิ่งอย่างถาวร', example: 'They will inscribe the winner\'s name on the trophy.', ex_thai: 'พวกเขาจะจารึกชื่อผู้ชนะลงบนถ้วยรางวัล' },
+                { word: 'Describe', read: 'ดิ-<span class="stress">สไครบ์</span>', pos: '(v.) บรรยาย', meaning: 'บอกเล่าเกี่ยวกับลักษณะของบางสิ่งด้วยการเขียนหรือพูด', example: 'Can you describe the man you saw?', ex_thai: 'คุณช่วยบรรยายลักษณะของผู้ชายที่คุณเห็นได้ไหม?' },
+                { word: 'Proscribe', read: 'โพร-<span class="stress">สไครบ์</span>', pos: '(v.) ห้าม (อย่างเป็นทางการ)', meaning: 'ประกาศเป็นลายลักษณ์อักษรว่าบางสิ่งผิดกฎหมาย', example: 'The law proscribes the sale of certain drugs.', ex_thai: 'กฎหมายห้ามการขายยาบางชนิด' },
+                { word: 'Scribble', read: '<span class="stress">สคริ</span>-เบิล', pos: '(v.) เขียนหวัดๆ', meaning: 'เขียนอย่างรวดเร็วและไม่เรียบร้อย', example: 'He scribbled a note and left it on the table.', ex_thai: 'เขาเขียนโน้ตหวัดๆ แล้วทิ้งไว้บนโต๊ะ' },
+                { word: 'Manuscript', read: '<span class="stress">แม</span>-นิว-สคริปท์', pos: '(n.) ต้นฉบับ', meaning: 'หนังสือหรือเอกสารที่เขียนด้วยมือก่อนที่จะถูกพิมพ์', example: 'She sent the manuscript of her new novel to the publisher.', ex_thai: 'เธอส่งต้นฉบับนิยายเล่มใหม่ของเธอไปยังสำนักพิมพ์' }
+            ],
+            quiz: [
+                { q: "The government decided to _______ the use of plastic bags to protect the environment.", a: "Proscribe", choices: ["Inscribe", "Describe", "Scribble", "Proscribe"], explanation: "ใช้ Proscribe เพราะหมายถึงการสั่งห้ามอย่างเป็นทางการ" },
+                { q: "I quickly _______d his phone number on a napkin.", a: "Scribbled", choices: ["Inscribed", "Described", "Scribbled", "Proscribed"], explanation: "ใช้ Scribble เพราะเป็นการเขียนอย่างรวดเร็วและไม่เป็นระเบียบ" },
+                { q: "The author's original _______ was sold for a high price at auction.", a: "Manuscript", choices: ["Scription", "Scribble", "Description", "Manuscript"], explanation: "ใช้ Manuscript ซึ่งหมายถึงต้นฉบับที่เขียนด้วยมือ" },
+                { q: "Her name was _______d on the gold medal.", a: "Inscribed", choices: ["Described", "Proscribed", "Scribbled", "Inscribed"], explanation: "ใช้ Inscribe เพราะเป็นการจารึกชื่อลงบนวัตถุอย่างถาวร" }
+            ]
+        },
+        set14_punish: {
+            title: 'การลงโทษ',
+            description: 'คำศัพท์เกี่ยวกับการลงโทษในกระบวนการยุติธรรม',
+            colors: 'from-gray-800 to-black',
+            lesson: [
+                { word: 'Fine', read: 'ฟายน์', pos: '(n./v.) ค่าปรับ, ปรับเงิน', meaning: 'เงินที่ต้องจ่ายเป็นค่าลงโทษ', example: 'He had to pay a $100 fine for illegal parking.', ex_thai: 'เขาต้องจ่ายค่าปรับ 100 ดอลลาร์สำหรับการจอดรถผิดกฎหมาย' },
+                { word: 'Imprisonment', read: 'อิม-<span class="stress">พริ</span>-ซัน-เมินท์', pos: '(n.) การจำคุก', meaning: 'โทษจำคุกในเรือนจำ', example: 'He was sentenced to life imprisonment.', ex_thai: 'เขาถูกตัดสินให้จำคุกตลอดชีวิต' },
+                { word: 'Probation', read: 'โพร-<span class="stress">เบ</span>-เชิน', pos: '(n.) การคุมประพฤติ, ทัณฑ์บน', meaning: 'การปล่อยตัวนักโทษโดยมีเงื่อนไขและต้องรายงานตัวต่อเจ้าหน้าที่', example: 'She was released on probation.', ex_thai: 'เธอได้รับการปล่อยตัวโดยมีการคุมประพฤติ' },
+                { word: 'Capital Punishment', read: '<span class="stress">แค</span>-พิ-ทัล <span class="stress">พั</span>-นิช-เมินท์', pos: '(n.) โทษประหารชีวิต', meaning: 'โทษสูงสุดด้วยการทำให้เสียชีวิต', example: 'Some countries still have capital punishment.', ex_thai: 'บางประเทศยังมีโทษประหารชีวิตอยู่' },
+                { word: 'Execution', read: 'เอ็ก-ซิ-<span class="stress">คิว</span>-เชิน', pos: '(n.) การประหารชีวิต', meaning: 'การลงมือประหารชีวิตนักโทษ', example: 'The execution was scheduled for dawn.', ex_thai: 'การประหารชีวิตถูกกำหนดไว้ในตอนรุ่งสาง' }
+            ],
+            quiz: [
+                { q: "Instead of jail time for a minor offense, he was put on _______ for a year.", a: "Probation", choices: ["Imprisonment", "Execution", "Fine", "Probation"], explanation: "ใช้ Probation เพราะเป็นการลงโทษที่ไม่ต้องเข้าคุก แต่ต้องถูกคุมประพฤติ" },
+                { q: "The penalty for speeding is usually a _______. ", a: "Fine", choices: ["Fine", "Imprisonment", "Probation", "Execution"], explanation: "ใช้ Fine เพราะการขับรถเร็วเกินกำหนดมักมีโทษเป็นการปรับเงิน" },
+                { q: "The most severe sentence a court can give is _______.", a: "Capital Punishment", choices: ["Imprisonment", "Probation", "Fine", "Capital Punishment"], explanation: "ใช้ Capital Punishment ซึ่งเป็นคำทางการหมายถึงโทษประหารชีวิต" },
+                { q: "He was sentenced to ten years of _______ for his crime.", a: "Imprisonment", choices: ["Probation", "Fine", "Imprisonment", "Execution"], explanation: "ใช้ Imprisonment เพราะเป็นการระบุโทษจำคุกเป็นเวลาสิบปี" }
+            ]
+        },
+        set15_spread: {
+            title: 'เผยแพร่ / กระจาย',
+            description: 'กลุ่มกริยาเกี่ยวกับการทำให้บางสิ่งกระจายออกไปในวงกว้าง',
+            colors: 'from-sky-400 to-blue-500',
+            lesson: [
+                { word: 'Spread out', read: 'สเปรด <span class="stress">เอาท์</span>', pos: '(phr. v.) แผ่ออก, กระจายตัว', meaning: 'ทำให้ครอบคลุมพื้นที่ที่กว้างขึ้น', example: 'He spread out the map on the table.', ex_thai: 'เขากางแผนที่ออกบนโต๊ะ' },
+                { word: 'Propagate', read: '<span class="stress">พร</span>อ-พะ-เกท', pos: '(v.) เผยแพร่ (ความคิด), ขยายพันธุ์', meaning: 'เผยแพร่ความคิดหรือข้อมูลให้เป็นที่รู้จักในวงกว้าง หรือขยายพันธุ์พืช', example: 'They use social media to propagate their political ideas.', ex_thai: 'พวกเขาใช้โซเชียลมีเดียเพื่อเผยแพร่แนวคิดทางการเมืองของพวกเขา' },
+                { word: 'Disseminate', read: 'ดิ-<span class="stress">เซ</span>-มิ-เนท', pos: '(v.) เผยแพร่ (ข้อมูล)', meaning: 'กระจายข้อมูลหรือความรู้ให้ไปถึงคนจำนวนมาก', example: 'The organization\'s goal is to disseminate information about public health.', ex_thai: 'เป้าหมายขององค์กรคือการเผยแพร่ข้อมูลเกี่ยวกับสาธารณสุข' },
+                { word: 'Scatter', read: '<span class="stress">สแค</span>-เทอร์', pos: '(v.) ทำให้กระจัดกระจาย', meaning: 'โยนหรือทิ้งของให้กระจายไปในทิศทางต่างๆ อย่างไม่เป็นระเบียบ', example: 'She scattered breadcrumbs for the birds.', ex_thai: 'เธอโปรยเศษขนมปังให้เหล่านก' }
+            ],
+            quiz: [
+                { q: "The internet is a powerful tool to _______ information quickly.", a: "Disseminate", choices: ["Scatter", "Spread out", "Propagate", "Disseminate"], explanation: "ใช้ Disseminate สำหรับการเผยแพร่ข้อมูลข่าวสารอย่างเป็นระบบ" },
+                { q: "The wind _______ed the leaves all over the yard.", a: "Scattered", choices: ["Disseminated", "Propagated", "Scattered", "Spread out"], explanation: "ใช้ Scatter เพราะเป็นการทำให้กระจายไปอย่างไม่เป็นระเบียบ" },
+                { q: "The activist worked hard to _______ his message of peace.", a: "Propagate", choices: ["Scatter", "Propagate", "Spread out", "Disseminate"], explanation: "ใช้ Propagate สำหรับการเผยแพร่แนวคิดหรือความเชื่อ" },
+                { q: "Let's _______ the picnic blanket on the grass.", a: "Spread out", choices: ["Scatter", "Disseminate", "Propagate", "Spread out"], explanation: "ใช้ Spread out สำหรับการกางหรือแผ่วัตถุให้ออกไป" }
+            ]
+        },
+        set16_abundant: {
+            title: 'อุดมสมบูรณ์',
+            description: 'กลุ่มคำคุณศัพท์ที่หมายถึงการมีอยู่มากมาย',
+            colors: 'from-green-500 to-lime-500',
+            lesson: [
+                { word: 'Prolific', read: 'โพร-<span class="stress">ลิ</span>-ฟิค', pos: '(adj.) ที่มีผลงานมาก, ที่ออกลูกดก', meaning: 'สร้างผลงานหรือผลผลิตออกมาจำนวนมาก', example: 'She was a prolific writer, publishing three novels a year.', ex_thai: 'เธอเป็นนักเขียนที่มีผลงานมาก ตีพิมพ์นวนิยายปีละสามเล่ม' },
+                { word: 'Abundant', read: 'อะ-<span class="stress">บัน</span>-เดินท์', pos: '(adj.) มากมาย, อุดมสมบูรณ์', meaning: 'มีอยู่มากกว่าที่ต้องการ', example: 'Rainfall is abundant in this region.', ex_thai: 'ฝนมีอยู่มากมายในภูมิภาคนี้' },
+                { word: 'Fruitful', read: '<span class="stress">ฟรุท</span>-ฟูล', pos: '(adj.) ที่มีประโยชน์, ที่ออกผล', meaning: 'ให้ผลลัพธ์ที่ดีและมีประโยชน์', example: 'We had a fruitful discussion about the project.', ex_thai: 'เรามีการพูดคุยที่มีประโยชน์เกี่ยวกับโครงการนี้' },
+                { word: 'Plentiful', read: '<span class="stress">เพลน</span>-ทิ-ฟูล', pos: '(adj.) ล้นเหลือ, มากมาย', meaning: 'มีในปริมาณมากหรือเพียงพอ', example: 'Food was plentiful at the party.', ex_thai: 'มีอาหารมากมายในงานปาร์ตี้' },
+                { word: 'Fertile', read: '<span class="stress">เฟอ</span>-ไทล์', pos: '(adj.) อุดมสมบูรณ์ (ที่ดิน), ที่มีลูกได้', meaning: 'สามารถให้กำเนิดพืชผลหรือลูกได้ดี', example: 'This is fertile land, perfect for farming.', ex_thai: 'นี่คือที่ดินที่อุดมสมบูรณ์ เหมาะแก่การทำฟาร์ม' }
+            ],
+            quiz: [
+                { q: "The soil in this valley is very _______, so crops grow well here.", a: "Fertile", choices: ["Prolific", "Fruitful", "Fertile", "Abundant"], explanation: "ใช้ Fertile สำหรับที่ดินที่อุดมสมบูรณ์" },
+                { q: "Picasso was a _______ artist who created thousands of works.", a: "Prolific", choices: ["Abundant", "Plentiful", "Fruitful", "Prolific"], explanation: "ใช้ Prolific สำหรับศิลปินหรือนักเขียนที่มีผลงานจำนวนมาก" },
+                { q: "After the meeting, we had a _______ exchange of ideas.", a: "Fruitful", choices: ["Fertile", "Fruitful", "Prolific", "Plentiful"], explanation: "ใช้ Fruitful เพื่อบอกว่าการแลกเปลี่ยนความคิดนั้นมีประโยชน์และให้ผลดี" },
+                { q: "Wildlife is _______ in the national park.", a: "Abundant", choices: ["Prolific", "Fruitful", "Abundant", "Fertile"], explanation: "ใช้ Abundant เป็นคำคุณศัพท์ทั่วไปเพื่อบอกว่ามีบางสิ่งในปริมาณมาก" }
+            ]
+        },
+        set17_futile: {
+            title: 'ไร้ประโยชน์',
+            description: 'กลุ่มคำคุณศัพท์ที่หมายถึงสิ่งที่ไม่มีประโยชน์หรือไม่เกิดผล',
+            colors: 'from-gray-400 to-slate-500',
+            lesson: [
+                { word: 'Futile', read: '<span class="stress">ฟิว</span>-ไทล์', pos: '(adj.) เปล่าประโยชน์ (ความพยายาม)', meaning: 'ไม่มีโอกาสสำเร็จ ไม่ว่าจะพยายามแค่ไหน', example: 'It is futile to argue with him; he will never change his mind.', ex_thai: 'มันเปล่าประโยชน์ที่จะเถียงกับเขา เขาไม่มีวันเปลี่ยนใจ' },
+                { word: 'Useless', read: '<span class="stress">ยูส</span>-เลส', pos: '(adj.) ไร้ประโยชน์ (สิ่งของ/คน)', meaning: 'ไม่ทำงานหรือไม่มีประโยชน์ในทางปฏิบัติ', example: 'This broken pen is useless.', ex_thai: 'ปากกาที่หักด้ามนี้ไร้ประโยชน์' },
+                { word: 'Unproductive', read: 'อัน-โพร-<span class="stress">ดัค</span>-ทีฟว', pos: '(adj.) ไม่เกิดผล', meaning: 'ไม่สร้างหรือผลิตผลลัพธ์ที่ต้องการ', example: 'It was an unproductive meeting with no decisions made.', ex_thai: 'มันเป็นการประชุมที่ไม่เกิดผลและไม่มีการตัดสินใจใดๆ' },
+                { word: 'Vain', read: 'เวน', pos: '(adj.) ไร้ผล, หลงตัวเอง', meaning: 'ไม่ประสบผลสำเร็จ (in vain) หรือภูมิใจในรูปลักษณ์ตัวเองมากเกินไป', example: 'All our efforts were in vain.', ex_thai: 'ความพยายามทั้งหมดของพวกเราไร้ผล' }
+            ],
+            quiz: [
+                { q: "Trying to fix the old, rusty machine was a _______ task.", a: "Futile", choices: ["Useless", "Unproductive", "Futile", "Vain"], explanation: "ใช้ Futile เพื่อเน้นว่าความพยายามในการซ่อมนั้นไม่มีทางสำเร็จ" },
+                { q: "I spent the whole morning in _______ meetings.", a: "Unproductive", choices: ["Vain", "Futile", "Useless", "Unproductive"], explanation: "ใช้ Unproductive เพื่อบอกว่าการประชุมนั้นไม่ก่อให้เกิดผลลัพธ์ใดๆ" },
+                { q: "This old software is completely _______ on modern computers.", a: "Useless", choices: ["Futile", "Useless", "Unproductive", "Vain"], explanation: "ใช้ Useless เพื่อบอกว่าซอฟต์แวร์นั้นไม่มีประโยชน์หรือไม่ทำงาน" },
+                { q: "The rescue team made one last, _______ attempt to find survivors.", a: "Vain", choices: ["Unproductive", "Useless", "Vain", "Futile"], explanation: "ใช้ Vain ในสำนวน 'in vain' หรือใช้เป็น adj. ก็ได้ หมายถึงความพยายามที่ไม่ประสบผลสำเร็จ" }
+            ]
+        },
+        set18_strong: {
+            title: 'แข็งแกร่ง / ทรงพลัง',
+            description: 'กลุ่มคำคุณศัพท์ที่หมายถึงความแข็งแกร่งและอำนาจ',
+            colors: 'from-orange-500 to-red-600',
+            lesson: [
+                { word: 'Strong', read: 'สตรอง', pos: '(adj.) แข็งแรง', meaning: 'มีกำลังทางกายภาพหรือมีความทนทาน (คำทั่วไป)', example: 'He is strong enough to lift that box.', ex_thai: 'เขาแข็งแรงพอที่จะยกกล่องนั้น' },
+                { word: 'Dynamic', read: 'ได-<span class="stress">แน</span>-มิค', pos: '(adj.) คล่องแคล่ว, มีพลัง', meaning: 'เต็มไปด้วยพลังและความคิดใหม่ๆ มีการเปลี่ยนแปลงตลอดเวลา', example: 'She is a dynamic leader with a clear vision.', ex_thai: 'เธอเป็นผู้นำที่มีพลังและมีวิสัยทัศน์ที่ชัดเจน' },
+                { word: 'Potent', read: '<span class="stress">โพ</span>-เทินท์', pos: '(adj.) มีฤทธิ์แรง, ทรงอิทธิพล', meaning: 'มีผลกระทบหรืออิทธิพลอย่างมาก (ใช้กับยา, เหตุผล, อาวุธ)', example: 'This is a very potent sleeping pill.', ex_thai: 'นี่เป็นยานอนหลับที่ออกฤทธิ์แรงมาก' },
+                { word: 'Powerful', read: '<span class="stress">พาว</span>-เออร์-ฟูล', pos: '(adj.) ทรงพลัง, มีอำนาจ', meaning: 'มีความสามารถในการควบคุมและมีอิทธิพลต่อผู้คนหรือเหตุการณ์', example: 'He is one of the most powerful men in the country.', ex_thai: 'เขาเป็นหนึ่งในชายผู้ทรงอิทธิพลที่สุดในประเทศ' },
+                { word: 'Mighty', read: '<span class="stress">ไม</span>-ทิ', pos: '(adj.) ทรงพลัง (ยิ่งใหญ่)', meaning: 'แข็งแกร่งและน่าประทับใจมาก (มักใช้ในเชิงวรรณกรรม)', example: 'The mighty oak tree has stood for centuries.', ex_thai: 'ต้นโอ๊กที่ยิ่งใหญ่ต้นนี้ยืนหยัดมานานหลายศตวรรษ' }
+            ],
+            quiz: [
+                { q: "The medication was so _______ that it worked almost instantly.", a: "Potent", choices: ["Strong", "Dynamic", "Potent", "Mighty"], explanation: "ใช้ Potent เพราะเป็นการบอกว่ายามีฤทธิ์แรง" },
+                { q: "We need a _______ person to lead the new project, someone full of energy.", a: "Dynamic", choices: ["Mighty", "Strong", "Potent", "Dynamic"], explanation: "ใช้ Dynamic เพราะหมายถึงคนที่คล่องแคล่วและเต็มไปด้วยพลังความคิด" },
+                { q: "A hurricane is a _______ force of nature.", a: "Powerful", choices: ["Strong", "Potent", "Powerful", "Dynamic"], explanation: "ใช้ Powerful เพื่ออธิบายพลังอำนาจในการควบคุมหรือส่งผลกระทบอย่างรุนแรง" },
+                { q: "With a _______ roar, the lion asserted its dominance.", a: "Mighty", choices: ["Dynamic", "Potent", "Strong", "Mighty"], explanation: "ใช้ Mighty เพื่อให้ความรู้สึกยิ่งใหญ่และน่าเกรงขาม มักใช้ในเชิงพรรณนา" }
+            ]
+        },
+        set19_curious: {
+            title: 'อยากรู้อยากเห็น',
+            description: 'กลุ่มคำคุณศัพท์เกี่ยวกับความอยากรู้ (ทั้งในแง่ดีและไม่ดี)',
+            colors: 'from-yellow-500 to-lime-500',
+            lesson: [
+                { word: 'Curious', read: '<span class="stress">คิว</span>-เรียส', pos: '(adj.) อยากรู้อยากเห็น', meaning: 'ต้องการที่จะเรียนรู้หรือรู้เกี่ยวกับบางสิ่ง (ความหมายกลางๆ ถึงดี)', example: 'Cats are naturally curious animals.', ex_thai: 'แมวเป็นสัตว์ที่อยากรู้อยากเห็นโดยธรรมชาติ' },
+                { word: 'Inquisitive', read: 'อิน-<span class="stress">ควิ</span>-ซิ-ทีฟว', pos: '(adj.) ช่างซักช่างถาม', meaning: 'มีความอยากรู้และชอบถามคำถามจำนวนมาก', example: 'An inquisitive child learns very quickly.', ex_thai: 'เด็กที่ช่างซักถามจะเรียนรู้ได้เร็วมาก' },
+                { word: 'Prying', read: '<span class="stress">ไพร</span>-อิง', pos: '(adj.) ที่ชอบสอดรู้สอดเห็น', meaning: 'พยายามค้นหาเรื่องส่วนตัวของคนอื่นในทางที่น่ารำคาญ (ความหมายลบ)', example: 'I don\'t like her prying questions about my salary.', ex_thai: 'ฉันไม่ชอบคำถามสอดรู้สอดเห็นของเธอเกี่ยวกับเงินเดือนของฉัน' },
+                { word: 'Nosy', read: '<span class="stress">โน</span>-ซี่', pos: '(adj.) ที่ชอบยุ่งเรื่องชาวบ้าน', meaning: 'สนใจเรื่องของคนอื่นมากเกินไป (ความหมายลบ, ไม่เป็นทางการ)', example: 'Don\'t be so nosy, it\'s none of your business.', ex_thai: 'อย่าทำตัวเป็นคนชอบยุ่งเรื่องชาวบ้านสิ มันไม่ใช่เรื่องของคุณ' }
+            ],
+            quiz: [
+                { q: "My neighbor is so _______; she's always looking into our yard.", a: "Nosy", choices: ["Curious", "Inquisitive", "Prying", "Nosy"], explanation: "ใช้ Nosy ซึ่งเป็นคำไม่เป็นทางการเพื่อบรรยายคนที่ชอบยุ่งเรื่องส่วนตัวของเพื่อนบ้าน" },
+                { q: "A good journalist needs to have an _______ mind.", a: "Inquisitive", choices: ["Nosy", "Prying", "Inquisitive", "Curious"], explanation: "ใช้ Inquisitive เพราะนักข่าวที่ดีต้องเป็นคนช่างซักช่างถามเพื่อหาข้อมูล" },
+                { q: "She tried to avoid the reporter's _______ questions about her divorce.", a: "Prying", choices: ["Curious", "Inquisitive", "Prying", "Nosy"], explanation: "ใช้ Prying เพราะเป็นคำถามที่ล่วงล้ำเรื่องส่วนตัว" },
+                { q: "I was _______ to know what was inside the mysterious box.", a: "Curious", choices: ["Nosy", "Prying", "Inquisitive", "Curious"], explanation: "ใช้ Curious เป็นคำทั่วไปที่แสดงความอยากรู้โดยไม่มีความหมายแฝงในทางลบ" }
+            ]
+        },
+        set20_examine: {
+            title: 'ตรวจสอบ',
+            description: 'กลุ่มกริยาเกี่ยวกับการตรวจสอบอย่างละเอียด',
+            colors: 'from-blue-600 to-sky-700',
+            lesson: [
+                { word: 'Scrutinize', read: '<span class="stress">สครู</span>-ทิ-ไนซ์', pos: '(v.) ตรวจสอบอย่างละเอียด', meaning: 'ตรวจสอบบางสิ่งอย่างละเอียดและรอบคอบมากเพื่อหาข้อผิดพลาด', example: 'He scrutinized the contract before signing it.', ex_thai: 'เขาตรวจสอบสัญญาอย่างละเอียดก่อนที่จะเซ็น' },
+                { word: 'Examine', read: 'เอ็ก-<span class="stress">แซ</span>-มิน', pos: '(v.) ตรวจสอบ, พินิจพิเคราะห์', meaning: 'มองดูหรือพิจารณาบางสิ่งอย่างละเอียด (คำทั่วไป)', example: 'The doctor examined the patient carefully.', ex_thai: 'หมอได้ตรวจคนไข้อย่างระมัดระวัง' },
+                { word: 'Probe', read: 'โพรบ', pos: '(v./n.) ไต่สวน, สืบสวน', meaning: 'ค้นหาความจริงอย่างละเอียด โดยเฉพาะเรื่องที่เป็นความลับหรืออาชญากรรม', example: 'The police will probe the cause of the accident.', ex_thai: 'ตำรวจจะไต่สวนสาเหตุของอุบัติเหตุ' },
+                { word: 'Look into', read: 'ลุค <span class="stress">อิน</span>-ทู', pos: '(phr. v.) ตรวจสอบ, สอบสวน', meaning: 'ตรวจสอบข้อเท็จจริงเกี่ยวกับปัญหาหรือสถานการณ์', example: 'The manager promised to look into the customer\'s complaint.', ex_thai: 'ผู้จัดการสัญญาว่าจะตรวจสอบข้อร้องเรียนของลูกค้า' }
+            ],
+            quiz: [
+                { q: "The customs officer will _______ your luggage for any illegal items.", a: "Examine", choices: ["Scrutinize", "Examine", "Probe", "Look into"], explanation: "ใช้ Examine เป็นกริยาทั่วไปที่หมายถึงการตรวจสอบ" },
+                { q: "A special committee was formed to _______ the government's secret dealings.", a: "Probe", choices: ["Examine", "Scrutinize", "Probe", "Look into"], explanation: "ใช้ Probe เพราะเป็นการสืบสวนเชิงลึกในเรื่องที่เป็นความลับ" },
+                { q: "My boss asked me to _______ the sudden drop in sales.", a: "Look into", choices: ["Scrutinize", "Probe", "Examine", "Look into"], explanation: "ใช้ Look into ซึ่งเป็นกริยาวลีที่หมายถึงการตรวจสอบปัญหา" },
+                { q: "Every detail of the evidence was _______d by the lawyers.", a: "Scrutinized", choices: ["Looked into", "Probed", "Examined", "Scrutinized"], explanation: "ใช้ Scrutinize เพื่อเน้นการตรวจสอบที่ละเอียดถี่ถ้วนที่สุดเพื่อหาข้อผิดพลาด" }
+            ]
+        },
+        set21_sanctuary: {
+            title: 'ที่หลบภัย / ที่พักพิง',
+            description: 'กลุ่มคำนามที่หมายถึงสถานที่ปลอดภัย',
+            colors: 'from-teal-600 to-emerald-700',
+            lesson: [
+                { word: 'Sanctuary', read: '<span class="stress">แซงค์</span>-จู-เอ-รี่', pos: '(n.) เขตรักษาพันธุ์, ที่ลี้ภัย', meaning: 'สถานที่ให้ความคุ้มครองจากอันตราย หรือเขตอนุรักษ์สำหรับสัตว์', example: 'This island is a sanctuary for rare birds.', ex_thai: 'เกาะแห่งนี้เป็นเขตรักษาพันธุ์สำหรับนกหายาก' },
+                { word: 'Refuge', read: '<span class="stress">เร</span>-ฟิวจ์', pos: '(n.) ที่ลี้ภัย', meaning: 'สถานที่ที่ให้ความคุ้มครองจากอันตรายหรือความทุกข์ยาก (มักใช้กับคน)', example: 'They sought refuge from the storm in a cave.', ex_thai: 'พวกเขาหาที่ลี้ภัยจากพายุในถ้ำ' },
+                { word: 'Shelter', read: '<span class="stress">เชล</span>-เทอร์', pos: '(n.) ที่พักพิง, ที่กำบัง', meaning: 'อาคารหรือสถานที่ที่ให้ที่กำบังจากสภาพอากาศเลวร้ายหรืออันตราย (คำทั่วไป)', example: 'The homeless man found shelter for the night.', ex_thai: 'ชายไร้บ้านหาที่พักพิงสำหรับค่ำคืน' },
+                { word: 'Haven', read: '<span class="stress">เฮ</span>-เวิน', pos: '(n.) สวรรค์, ที่ปลอดภัย', meaning: 'สถานที่ที่สงบและปลอดภัย', example: 'The peaceful garden was a haven from the noisy city.', ex_thai: 'สวนอันเงียบสงบเป็นดั่งสวรรค์จากเมืองที่เสียงดัง' }
+            ],
+            quiz: [
+                { q: "During the war, many people sought _______ in neighboring countries.", a: "Refuge", choices: ["Sanctuary", "Shelter", "Refuge", "Haven"], explanation: "ใช้ Refuge เพราะเป็นการลี้ภัยจากอันตราย (สงคราม) โดยเฉพาะกับคน" },
+                { q: "A bus stop provides basic _______ from the rain.", a: "Shelter", choices: ["Sanctuary", "Shelter", "Refuge", "Haven"], explanation: "ใช้ Shelter เพราะเป็นคำทั่วไปสำหรับที่กำบังจากสภาพอากาศ" },
+                { q: "This national park is a _______ for endangered elephants.", a: "Sanctuary", choices: ["Sanctuary", "Shelter", "Refuge", "Haven"], explanation: "ใช้ Sanctuary เพราะหมายถึงเขตอนุรักษ์สำหรับสัตว์" },
+                { q: "Her library is her personal _______, a quiet place to read and relax.", a: "Haven", choices: ["Sanctuary", "Shelter", "Refuge", "Haven"], explanation: "ใช้ Haven เพื่อบรรยายสถานที่ที่ให้ความรู้สึกสงบและปลอดภัยเหมือนสวรรค์" }
+            ]
+        },
+        set22_seer: {
+            title: 'ผู้หยั่งรู้ / นักปราชญ์',
+            description: 'กลุ่มคำนามสำหรับผู้ที่มีสติปัญญาหรือความสามารถในการหยั่งรู้อนาคต',
+            colors: 'from-indigo-600 to-purple-700',
+            lesson: [
+                { word: 'Seer', read: 'เซียร์', pos: '(n.) ผู้หยั่งรู้อนาคต', meaning: 'คนที่สามารถมองเห็นเหตุการณ์ในอนาคต (มีความหมายคล้าย Prophet)', example: 'The old seer predicted a great victory.', ex_thai: 'ผู้หยั่งรู้อาวุโสได้ทำนายถึงชัยชนะอันยิ่งใหญ่' },
+                { word: 'Prophet', read: '<span class="stress">พร</span>อ-เฟท', pos: '(n.) ผู้พยากรณ์, ศาสดา', meaning: 'ผู้ที่พระเจ้าส่งมาสอนหรือผู้ที่ทำนายอนาคต', example: 'Moses was a great prophet in religious history.', ex_thai: 'โมเสสเป็นศาสดาผู้ยิ่งใหญ่ในประวัติศาสตร์ศาสนา' },
+                { word: 'Fortune-teller', read: '<span class="stress">ฟอร์</span>-จูน-เทล-เลอร์', pos: '(n.) หมอดู', meaning: 'คนที่ทำนายอนาคตของผู้อื่นเพื่อเป็นอาชีพ', example: 'She went to a fortune-teller to have her palm read.', ex_thai: 'เธอไปหาหมอดูเพื่อให้ดูลายมือ' },
+                { word: 'Sage', read: 'เสจ', pos: '(n.) นักปราชญ์, ฤาษี', meaning: 'คนที่มีสติปัญญาและประสบการณ์สูงมาก', example: 'People traveled from all over to seek advice from the old sage.', ex_thai: 'ผู้คนเดินทางมาจากทั่วสารทิศเพื่อขอคำแนะนำจากนักปราชญ์อาวุโส' }
+            ],
+            quiz: [
+                { q: "A wise man who lives alone in the mountains and gives advice is often called a _______.", a: "Sage", choices: ["Seer", "Prophet", "Fortune-teller", "Sage"], explanation: "ใช้ Sage สำหรับผู้มีปัญญาและประสบการณ์สูง" },
+                { q: "Nostradamus was a famous _______ who many believe predicted future events.", a: "Seer", choices: ["Sage", "Seer", "Fortune-teller", "Prophet"], explanation: "ใช้ Seer สำหรับผู้ที่มองเห็นอนาคต" },
+                { q: "The woman at the carnival who read my tarot cards was a _______.", a: "Fortune-teller", choices: ["Prophet", "Sage", "Seer", "Fortune-teller"], explanation: "ใช้ Fortune-teller สำหรับหมอดูที่เป็นอาชีพ" },
+                { q: "In many religions, a _______ is a person who speaks for God.", a: "Prophet", choices: ["Sage", "Seer", "Prophet", "Fortune-teller"], explanation: "ใช้ Prophet สำหรับผู้ที่เกี่ยวข้องกับศาสนาและเป็นผู้ส่งสารของพระเจ้า" }
+            ]
+        },
+    };
+
+    // --- Global Variables & App State ---
+    let currentSetKey = null;
+    let userAnswers = {};
+
+    // --- DOM Elements ---
+    const mainMenu = document.getElementById('main-menu-view');
+    const lessonView = document.getElementById('lesson-view');
+    const setSelectionGrid = document.getElementById('set-selection-grid');
+    const lessonTitle = document.getElementById('lesson-title');
+    const lessonContentWrapper = document.getElementById('lesson-content-wrapper');
+    const exerciseContentWrapper = document.getElementById('exercise-content-wrapper');
+    const lessonContent = document.getElementById('lesson-content');
+    const quizContainer = document.getElementById('quiz-container');
+    const checkBtn = document.getElementById('check-answers-btn');
+    const resetBtn = document.getElementById('reset-btn');
+    const lessonTabBtn = document.getElementById('tab-lesson-btn');
+    const exerciseTabBtn = document.getElementById('tab-exercise-btn');
+
+    // --- Core Functions ---
+    function initMainMenu() {
+        setSelectionGrid.innerHTML = '';
+        const sortedKeys = Object.keys(allSetsData).sort();
+
+        for (const key of sortedKeys) {
+            const set = allSetsData[key];
+            const cardWrapper = document.createElement('div');
+            cardWrapper.className = 'set-card-wrapper rounded-xl shadow-lg cursor-pointer';
+            cardWrapper.style.cssText = `--tw-gradient-from: ${set.colors.split(' ')[0]}; --tw-gradient-to: ${set.colors.split(' ')[1]};`;
+            cardWrapper.onclick = () => showLessonView(key);
+            
+            cardWrapper.innerHTML = `
+                <div class="bg-white/90 backdrop-blur-sm p-5 rounded-lg h-full flex flex-col justify-between">
+                    <div>
+                        <h2 class="text-2xl font-bold text-gray-800">${set.title}</h2>
+                        <p class="text-gray-600 font-normal mt-1 text-sm">${set.description}</p>
+                    </div>
+                    <div class="text-right font-semibold text-base text-blue-600 mt-2">เริ่มเรียน →</div>
+                </div>
+            `;
+            setSelectionGrid.appendChild(cardWrapper);
+        }
+    }
+
+    function showLessonView(setKey) {
+        currentSetKey = setKey;
+        const setData = allSetsData[setKey];
+        
+        mainMenu.classList.remove('active');
+        lessonView.classList.add('active');
+        window.scrollTo(0, 0);
+        
+        lessonTitle.textContent = setData.title;
+        
+        lessonContent.innerHTML = '';
+        setData.lesson.forEach(item => {
+            const card = document.createElement('div');
+            card.className = `vocab-card rounded-lg p-4`;
+            card.style.borderColor = setData.colors.split(' ')[0];
+            
+            card.innerHTML = `
+                <div class="flex justify-between items-baseline">
+                    <h3 class="text-2xl font-bold text-gray-800">${item.word}</h3>
+                    <span class="font-medium text-blue-600">${item.read}</span>
+                </div>
+                <p class="text-gray-500 text-sm mb-3">${item.pos}</p>
+                <p class="mb-3 text-gray-700"><strong>ความหมาย:</strong> ${item.meaning}</p>
+                <div class="text-sm bg-gray-50 p-3 rounded-md border border-gray-200">
+                    <p class="font-semibold">ตัวอย่าง:</p>
+                    <p class="text-gray-800">${item.example}</p>
+                    <p class="text-gray-600 mt-1">${item.ex_thai}</p>
+                </div>
+            `;
+            lessonContent.appendChild(card);
+        });
+
+        createQuiz();
+        showTab('lesson');
+    }
+
+    function showMainMenu() {
+        lessonView.classList.remove('active');
+        mainMenu.classList.add('active');
+        currentSetKey = null;
+    }
+
+    function showTab(tabName) {
+        const inactiveClasses = 'text-gray-500 hover:text-gray-700 border-transparent';
+        const activeClasses = 'text-white bg-blue-600';
+
+        if (tabName === 'lesson') {
+            lessonContentWrapper.classList.remove('hidden');
+            exerciseContentWrapper.classList.add('hidden');
+            lessonTabBtn.className = 'tab-button active whitespace-nowrap py-3 px-5 border-b-2 font-medium text-lg rounded-t-md ' + activeClasses;
+            exerciseTabBtn.className = 'tab-button whitespace-nowrap py-3 px-5 border-b-2 font-medium text-lg rounded-t-md ' + inactiveClasses;
+        } else {
+            lessonContentWrapper.classList.add('hidden');
+            exerciseContentWrapper.classList.remove('hidden');
+            lessonTabBtn.className = 'tab-button whitespace-nowrap py-3 px-5 border-b-2 font-medium text-lg rounded-t-md ' + inactiveClasses;
+            exerciseTabBtn.className = 'tab-button active whitespace-nowrap py-3 px-5 border-b-2 font-medium text-lg rounded-t-md ' + activeClasses;
+            resetQuiz();
+        }
+    }
+    
+    function createQuiz() {
+        const setData = allSetsData[currentSetKey];
+        quizContainer.innerHTML = '';
+        if (!setData.quiz || setData.quiz.length === 0) {
+            quizContainer.innerHTML = '<p class="text-center text-gray-500">ขออภัย, ยังไม่มีแบบฝึกหัดสำหรับชุดนี้</p>';
+            checkBtn.classList.add('hidden');
+            return;
+        }
+
+        setData.quiz.forEach((q, index) => {
+            const questionDiv = document.createElement('div');
+            questionDiv.className = "bg-white p-5 rounded-lg shadow-sm border border-gray-200";
+            questionDiv.id = `question-${index}`;
+
+            const sentence = document.createElement('p');
+            sentence.className = "text-lg text-gray-800 mb-4 font-medium";
+            sentence.innerHTML = `${index + 1}. ${q.q.replace('_______', '<span class="font-bold text-blue-600">_______</span>')}`;
+            questionDiv.appendChild(sentence);
+
+            const choicesDiv = document.createElement('div');
+            choicesDiv.className = "space-y-2";
+            const choiceLabels = ['a', 'b', 'c', 'd'];
+            q.choices.forEach((choice, choiceIndex) => {
+                const item = document.createElement('div');
+                item.className = 'choice-item flex items-center p-3 rounded-lg';
+                item.onclick = () => selectChoice(index, choice, item);
+                item.innerHTML = `
+                    <span class="font-bold text-gray-600 mr-3">${choiceLabels[choiceIndex]}.</span>
+                    <span class="text-gray-700">${choice}</span>
+                `;
+                choicesDiv.appendChild(item);
+            });
+            questionDiv.appendChild(choicesDiv);
+
+            const feedbackDiv = document.createElement('div');
+            feedbackDiv.id = `feedback-${index}`;
+            feedbackDiv.className = "hidden mt-3 p-3 rounded-lg text-sm font-medium";
+            questionDiv.appendChild(feedbackDiv);
+            
+            quizContainer.appendChild(questionDiv);
+        });
+        resetBtn.classList.add('hidden');
+        checkBtn.classList.remove('hidden');
+    }
+
+    function selectChoice(questionIndex, choice, button) {
+        if(checkBtn.classList.contains('hidden')) return;
+        userAnswers[questionIndex] = choice;
+        const parent = button.parentElement;
+        Array.from(parent.children).forEach(child => child.classList.remove('selected'));
+        button.classList.add('selected');
+    }
+
+    function checkAnswers() {
+        const setData = allSetsData[currentSetKey];
+        setData.quiz.forEach((q, index) => {
+            const feedbackDiv = document.getElementById(`feedback-${index}`);
+            const userAnswer = userAnswers[index];
+            
+            feedbackDiv.classList.remove('hidden', 'correct', 'incorrect');
+            
+            if (userAnswer === q.a) {
+                feedbackDiv.classList.add('correct');
+                feedbackDiv.innerHTML = `<strong>ถูกต้อง!</strong> 👍 ${q.explanation}`;
+            } else {
+                const selectedAnswerText = userAnswer ? `คุณเลือก "${userAnswer}"` : "คุณยังไม่ได้เลือกคำตอบ";
+                feedbackDiv.classList.add('incorrect');
+                feedbackDiv.innerHTML = `<strong>ยังไม่ถูกนะ!</strong> คำตอบที่ถูกต้องคือ <strong>${q.a}</strong> เพราะ${q.explanation.substring(q.explanation.indexOf('เพราะ') + 5)}`;
+            }
+        });
+        checkBtn.classList.add('hidden');
+        resetBtn.classList.remove('hidden');
+    }
+
+    function resetQuiz() {
+        userAnswers = {};
+        const setData = allSetsData[currentSetKey];
+        if (!setData.quiz || setData.quiz.length === 0) return;
+        setData.quiz.forEach((q, index) => {
+            const questionDiv = document.getElementById(`question-${index}`);
+            questionDiv.querySelectorAll('.choice-item').forEach(btn => btn.classList.remove('selected'));
+            const feedbackDiv = document.getElementById(`feedback-${index}`);
+            feedbackDiv.classList.add('hidden');
+        });
+        checkBtn.classList.remove('hidden');
+        resetBtn.classList.add('hidden');
+    }
+
+    // --- Initial Load ---
+    document.addEventListener('DOMContentLoaded', initMainMenu);
+    </script>
+</body>
+</html>

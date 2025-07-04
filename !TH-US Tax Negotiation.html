@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mr.News: Thailand-U.S. Tax Deal</title>
+    <style>
+        /* Import Google Fonts */
+        @import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@400;700&family=Teko:wght@500&display=swap');
+
+        /* Main Variables */
+        :root {
+            --primary-color: #004D40; /* Dark Teal */
+            --secondary-color: #E0F2F1; /* Light Teal Background */
+            --accent-color: #26A69A; /* Brighter Teal */
+            --text-color: #212121;
+            --light-text-color: #fff;
+            --border-color: #B2DFDB;
+            --shadow-color: rgba(0, 0, 0, 0.1);
+            --highlight-color: #00695C; /* Medium Teal */
+            --font-main: 'Sarabun', sans-serif;
+            --font-header: 'Teko', sans-serif;
+        }
+
+        /* Basic Reset */
+        body, h1, h2, h3, p {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background-color: var(--secondary-color);
+            color: var(--text-color);
+            line-height: 1.7;
+            padding: 20px;
+        }
+
+        /* App Container */
+        .app-container {
+            max-width: 800px;
+            margin: 20px auto;
+            background-color: var(--light-text-color);
+            border-radius: 15px;
+            box-shadow: 0 8px 25px var(--shadow-color);
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+        }
+
+        /* App Header */
+        .app-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            color: var(--light-text-color);
+            padding: 25px;
+            text-align: center;
+        }
+
+        .app-header h1 {
+            font-family: var(--font-header);
+            font-size: 3rem;
+            letter-spacing: 1.5px;
+            margin-bottom: 5px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .app-header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        /* Toggle Switch */
+        .toggle-container {
+            display: flex;
+            background-color: #CFD8DC;
+            padding: 5px;
+        }
+
+        .toggle-btn {
+            flex: 1;
+            padding: 15px 10px;
+            border: none;
+            background-color: transparent;
+            font-family: var(--font-main);
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: #546E7A;
+            border-radius: 8px;
+        }
+
+        .toggle-btn.active {
+            background-color: var(--primary-color);
+            color: var(--light-text-color);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .toggle-btn:not(.active):hover {
+            background-color: #B0BEC5;
+        }
+
+        /* Content Area */
+        .content-area {
+            padding: 25px 30px;
+        }
+
+        .content {
+            display: none; /* Hidden by default */
+        }
+
+        .content.active {
+            display: block; /* Shown when active */
+        }
+
+        .content h2 {
+            font-family: var(--font-main);
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            border-bottom: 2px solid var(--accent-color);
+            padding-bottom: 10px;
+        }
+        
+        /* Sentence Container & Boxes */
+        .sentence-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            counter-reset: sentence-counter;
+        }
+        
+        .sentence-box {
+            background-color: #F8F9F9;
+            padding: 15px 20px 15px 50px;
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+            font-size: 1.1rem;
+            position: relative;
+            counter-increment: sentence-counter;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .sentence-box:hover {
+            border-color: var(--accent-color);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.07);
+        }
+
+        .sentence-box::before {
+            content: counter(sentence-counter);
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: var(--accent-color);
+            color: var(--light-text-color);
+            font-weight: 700;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: 10px;
+            font-size: 1rem;
+        }
+
+        /* Highlighted Text */
+        .highlight {
+            color: var(--highlight-color);
+            font-weight: 700;
+            cursor: pointer;
+            text-decoration: none;
+            border-bottom: 2px dotted var(--highlight-color);
+            transition: background-color 0.3s ease;
+            padding: 0 2px;
+        }
+
+        .highlight:hover {
+            background-color: #E0F2F1;
+        }
+        
+        /* Modal Popup */
+        .modal {
+            display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0, 0, 0, 0.6); animation: fadeIn 0.4s;
+        }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        
+        .modal-content {
+            background-color: #fff; margin: 10% auto; padding: 30px; border: 1px solid #888; width: 90%; max-width: 550px; border-radius: 12px; box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2); position: relative; animation: slideIn 0.5s;
+        }
+        @keyframes slideIn { from { transform: translateY(-50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+        .close-btn {
+            color: #aaa; position: absolute; top: 10px; right: 20px; font-size: 32px; font-weight: bold; cursor: pointer; transition: color 0.3s;
+        }
+        .close-btn:hover, .close-btn:focus { color: #333; }
+        .popup-term { font-family: var(--font-main); font-size: 1.8rem; font-weight: 700; color: var(--primary-color); margin-bottom: 15px; }
+        .popup-section { margin-bottom: 15px; }
+        .popup-section h4 { font-size: 1.1rem; font-weight: 700; color: #555; margin-bottom: 5px; }
+        .popup-pronunciation { font-size: 1.2rem; font-style: italic; color: #d6336c; }
+        .popup-meaning, .popup-example { font-size: 1.1rem; }
+        .popup-example-translation { font-size: 1rem; color: #666; margin-top: 5px; }
+        
+        @media (max-width: 768px) {
+            body { padding: 10px; }
+            .app-header h1 { font-size: 2.5rem; }
+            .app-header p { font-size: 1rem; }
+            .content-area { padding: 20px; }
+            .modal-content { width: 95%; margin: 20% auto; padding: 25px; }
+            .popup-term { font-size: 1.5rem; }
+            .sentence-box { padding: 15px 15px 15px 45px; }
+            .sentence-box::before { width: 25px; height: 25px; font-size: 0.9rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+        <header class="app-header">
+            <h1>ดีลภาษีชี้ชะตาไทย-สหรัฐฯ</h1>
+            <p>คืนนี้... เดิมพันสูง!</p>
+        </header>
+
+        <div class="toggle-container">
+            <button id="btn-basic" class="toggle-btn active">ระดับพื้นฐาน (Basic)</button>
+            <button id="btn-advanced" class="toggle-btn">ระดับสูง (Advanced)</button>
+        </div>
+
+        <main class="content-area">
+            <div id="basic-content" class="content active">
+                <h2>เรื่องย่อ (ฉบับเข้าใจง่าย)</h2>
+                <div class="sentence-container">
+                    <div class="sentence-box">Thailand is having important <span class="highlight" data-term="negotiations">negotiations</span> with the U.S. about <span class="highlight" data-term="tax">tax</span> tonight.</div>
+                    <div class="sentence-box">This is because Vietnam, Thailand's neighbor, already made a <span class="highlight" data-term="deal">deal</span> with the U.S. for a 20% tax.</div>
+                    <div class="sentence-box">Thai business owners are <span class="highlight" data-term="worried">worried</span>.</div>
+                    <div class="sentence-box">They fear that if Thailand gets a tax rate higher than 20%, it will be hard to <span class="highlight" data-term="compete">compete</span>.</div>
+                    <div class="sentence-box">It is already cheaper to make products in Vietnam.</div>
+                    <div class="sentence-box">Everyone hopes the Thai team can get a good deal to protect the country's business.</div>
+                </div>
+            </div>
+
+            <div id="advanced-content" class="content">
+                <h2>Summary (Advanced Version)</h2>
+                <div class="sentence-container">
+                    <div class="sentence-box">Thailand is entering <span class="highlight" data-term="high_stakes">high-stakes</span> tax negotiations with the U.S. tonight.</div>
+                    <div class="sentence-box">The urgency comes after Vietnam secured a trade agreement, setting a new <span class="highlight" data-term="benchmark">benchmark</span> with a 20% tariff rate on its exports to the U.S.</div>
+                    <div class="sentence-box">The Thai <span class="highlight" data-term="private_sector">private sector</span> is concerned that Thailand will face a significant <span class="highlight" data-term="competitive_disadvantage">competitive disadvantage</span> if it receives a higher rate.</div>
+                    <div class="sentence-box">Vietnam already has lower production costs, and business leaders fear Thailand could be <span class="highlight" data-term="outmaneuvered">outmaneuvered</span>.</div>
+                    <div class="sentence-box">The chance of securing <span class="highlight" data-term="tariffs">tariffs</span> lower than 20% is considered very slim.</div>
+                    <div class="sentence-box">The outcome of tonight's negotiation is critical for protecting Thai exports and attracting foreign investment.</div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <div id="popup-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h3 id="popup-term" class="popup-term"></h3>
+            <div class="popup-section">
+                <h4>คำอ่าน (Pronunciation)</h4>
+                <p id="popup-pronunciation" class="popup-pronunciation"></p>
+            </div>
+            <div class="popup-section">
+                <h4>ความหมาย (Meaning)</h4>
+                <p id="popup-meaning" class="popup-meaning"></p>
+            </div>
+            <div class="popup-section">
+                <h4>ประโยคตัวอย่าง (Example)</h4>
+                <p id="popup-example" class="popup-example"></p>
+                <p id="popup-example-translation" class="popup-example-translation"></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Data for popups
+        const vocabularyData = {
+            negotiations: {
+                term: "Negotiations",
+                pronunciation: "นิ-โก-ชิ-<u>เอ</u>-ชั่นส์",
+                meaning: "การเจรจาต่อรองอย่างเป็นทางการเพื่อบรรลุข้อตกลง",
+                example: "The two companies are in negotiations for a possible merger.",
+                translation: "บริษัททั้งสองกำลังอยู่ระหว่างการเจรจาเพื่อควบรวมกิจการที่เป็นไปได้"
+            },
+            tax: {
+                term: "Tax",
+                pronunciation: "<u>แท็กซ์</u>",
+                meaning: "ภาษี, เงินที่รัฐบาลเรียกเก็บจากรายได้, สินค้า, และบริการ",
+                example: "The government will use the tax money to build new roads.",
+                translation: "รัฐบาลจะใช้เงินภาษีเพื่อสร้างถนนเส้นใหม่"
+            },
+            deal: {
+                term: "Deal",
+                pronunciation: "<u>ดีล</u>",
+                meaning: "ข้อตกลงทางธุรกิจหรือทางการเมือง",
+                example: "They finally made a deal after a long discussion.",
+                translation: "ในที่สุดพวกเขาก็บรรลุข้อตกลงหลังจากการหารือที่ยาวนาน"
+            },
+            worried: {
+                term: "Worried",
+                pronunciation: "<u>เวอ</u>-หรี่ด",
+                meaning: "กังวล, เป็นห่วง",
+                example: "He was worried that he might be late for the meeting.",
+                translation: "เขากังวลว่าอาจจะไปประชุมสาย"
+            },
+            compete: {
+                term: "Compete",
+                pronunciation: "คอม-<u>พีท</u>",
+                meaning: "แข่งขัน, แข่งขันเพื่อชิงชัยชนะหรือความสำเร็จ",
+                example: "Small bookstores find it hard to compete with large online retailers.",
+                translation: "ร้านหนังสือเล็กๆ พบว่าเป็นเรื่องยากที่จะแข่งขันกับผู้ค้าปลีกออนไลน์รายใหญ่"
+            },
+            high_stakes: {
+                term: "High-stakes",
+                pronunciation: "<u>ฮาย</u>-สเตคส์",
+                meaning: "มีความเสี่ยงสูง, มีผลกระทบหรือเดิมพันที่สำคัญอย่างยิ่ง",
+                example: "Playing the final match of the championship is a high-stakes situation for any team.",
+                translation: "การเล่นนัดชิงชนะเลิศของการแข่งขันเป็นสถานการณ์ที่มีเดิมพันสูงสำหรับทุกทีม"
+            },
+            benchmark: {
+                term: "Benchmark",
+                pronunciation: "<u>เบนช์</u>-มาร์ค",
+                meaning: "เกณฑ์มาตรฐาน, บรรทัดฐานที่ใช้ในการเปรียบเทียบหรือวัดผล",
+                example: "The new phone's performance will set a new benchmark for the industry.",
+                translation: "ประสิทธิภาพของโทรศัพท์รุ่นใหม่จะสร้างเกณฑ์มาตรฐานใหม่ให้กับวงการ"
+            },
+            private_sector: {
+                term: "Private sector",
+                pronunciation: "<u>ไพร</u>-เวท-<u>เซ็ค</u>-เทอร์",
+                meaning: "ภาคเอกชน, ส่วนของเศรษฐกิจที่ดำเนินงานโดยบุคคลหรือบริษัทเพื่อผลกำไร ไม่ใช่โดยรัฐบาล",
+                example: "The government is trying to encourage investment from the private sector.",
+                translation: "รัฐบาลกำลังพยายามส่งเสริมการลงทุนจากภาคเอกชน"
+            },
+            competitive_disadvantage: {
+                term: "Competitive disadvantage",
+                pronunciation: "คอม-<u>เพ็ท</u>-ทะ-ทีฟ-ดิส-แอด-<u>วาน</u>-เทจ",
+                meaning: "การเสียเปรียบในเชิงแข่งขัน, สถานการณ์ที่ทำให้บริษัทหรือประเทศแข่งขันกับผู้อื่นได้ยากขึ้น",
+                example: "Their outdated technology puts them at a competitive disadvantage.",
+                translation: "เทคโนโลยีที่ล้าสมัยของพวกเขาทำให้พวกเขาเสียเปรียบในการแข่งขัน"
+            },
+            outmaneuvered: {
+                term: "Outmaneuvered",
+                pronunciation: "เอาท์-มะ-<u>นู</u>-เวอร์ดฺ",
+                meaning: "ถูกชิงไหวชิงพริบ, เสียเปรียบเชิงกลยุทธ์, ถูกเอาชนะด้วยแผนการที่เหนือกว่า",
+                example: "The smaller company was outmaneuvered by its larger rival during the negotiations.",
+                translation: "บริษัทที่เล็กกว่าถูกคู่แข่งที่ใหญ่กว่าชิงไหวชิงพริบไปในระหว่างการเจรจา"
+            },
+            tariffs: {
+                term: "Tariffs",
+                pronunciation: "<u>แท</u>-ริฟส์",
+                meaning: "ภาษีศุลกากร, ภาษีที่เรียกเก็บจากการนำเข้าหรือส่งออกสินค้า",
+                example: "The government imposed new tariffs on imported steel.",
+                translation: "รัฐบาลได้กำหนดภาษีศุลกากรใหม่สำหรับเหล็กนำเข้า"
+            }
+        };
+
+        // Get elements and set up event listeners (No changes needed in this script block)
+        const modal = document.getElementById('popup-modal');
+        const closeBtn = document.querySelector('.close-btn');
+        const highlights = document.querySelectorAll('.highlight');
+        const btnBasic = document.getElementById('btn-basic');
+        const btnAdvanced = document.getElementById('btn-advanced');
+        const basicContent = document.getElementById('basic-content');
+        const advancedContent = document.getElementById('advanced-content');
+        
+        function showPopup(termKey) {
+            const data = vocabularyData[termKey];
+            if (data) {
+                document.getElementById('popup-term').innerHTML = data.term;
+                document.getElementById('popup-pronunciation').innerHTML = data.pronunciation;
+                document.getElementById('popup-meaning').textContent = data.meaning;
+                document.getElementById('popup-example').textContent = data.example;
+                document.getElementById('popup-example-translation').textContent = data.translation;
+                modal.style.display = 'block';
+            }
+        }
+
+        highlights.forEach(span => {
+            span.addEventListener('click', (event) => {
+                event.stopPropagation();
+                const termKey = span.getAttribute('data-term');
+                showPopup(termKey);
+            });
+        });
+
+        closeBtn.addEventListener('click', () => { modal.style.display = 'none'; });
+        window.addEventListener('click', (event) => { if (event.target == modal) { modal.style.display = 'none'; } });
+        document.addEventListener('keydown', (event) => { if (event.key === 'Escape') { modal.style.display = 'none'; } });
+
+        btnBasic.addEventListener('click', () => {
+            basicContent.classList.add('active');
+            advancedContent.classList.remove('active');
+            btnBasic.classList.add('active');
+            btnAdvanced.classList.remove('active');
+        });
+
+        btnAdvanced.addEventListener('click', () => {
+            advancedContent.classList.add('active');
+            basicContent.classList.remove('active');
+            btnAdvanced.classList.add('active');
+            btnBasic.classList.remove('active');
+        });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mr.Grammar: ถอดรหัสรากศัพท์ (ฉบับสมบูรณ์ v2.0)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@400;700&display=swap');
+        body {
+            font-family: 'Sarabun', sans-serif;
+            background-color: #f0f9ff;
+        }
+        .app-container {
+            background: linear-gradient(135deg, #2dd4bf 0%, #3b82f6 100%);
+        }
+        .content-box {
+            background-color: white;
+            border-radius: 1rem;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        .nav-button {
+            transition: all 0.2s ease-in-out;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .nav-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .nav-button:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+        .clickable-word {
+            transition: background-color 0.2s ease-in-out;
+        }
+        .modal-overlay {
+            background-color: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(5px);
+        }
+        .modal-content {
+            transform: scale(0.95);
+            opacity: 0;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .modal-overlay.active .modal-content {
+            transform: scale(1);
+            opacity: 1;
+        }
+        .set-header {
+            border-radius: 9999px;
+            padding: 0.25rem 1rem;
+            font-size: 0.875rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center min-h-screen p-4">
+
+    <div id="app-container" class="app-container container mx-auto max-w-4xl p-6 rounded-2xl shadow-2xl">
+        <div id="page-content" class="content-box p-6 sm:p-8 min-h-[500px] flex flex-col justify-between">
+            </div>
+
+        <div class="flex justify-between items-center mt-6">
+            <button id="prev-btn" class="nav-button bg-white text-gray-800 font-bold py-2 px-6 rounded-full">ย้อนกลับ</button>
+            <div id="page-indicator" class="text-white font-semibold"></div>
+            <button id="next-btn" class="nav-button bg-white text-gray-800 font-bold py-2 px-6 rounded-full">ต่อไป</button>
+        </div>
+    </div>
+
+    <div id="modal-container" class="fixed inset-0 z-50 items-center justify-center hidden modal-overlay">
+        <div class="modal-content bg-white w-11/12 max-w-md p-6 rounded-xl shadow-lg">
+            <div class="flex justify-between items-center mb-4 border-b pb-3">
+                <h3 id="modal-title" class="text-2xl font-bold text-gray-800"></h3>
+                <button id="close-modal-btn" class="text-gray-500 hover:text-gray-800 text-3xl font-light">&times;</button>
+            </div>
+            <div class="space-y-4 text-left">
+                <div>
+                    <h4 class="font-bold text-teal-600">รากศัพท์ที่เกี่ยวข้อง:</h4>
+                    <p id="modal-root" class="text-gray-700 font-semibold"></p>
+                </div>
+                <div>
+                    <h4 class="font-bold text-teal-600">เทคนิคช่วยจำ:</h4>
+                    <p id="modal-mnemonic" class="text-gray-700"></p>
+                </div>
+                <div>
+                    <h4 class="font-bold text-teal-600">ตัวอย่างประโยค:</h4>
+                    <p id="modal-example" class="text-gray-700 italic"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<script>
+// --- DATA (EXPANDED) ---
+const wordData = {
+    // Set 1
+    'alternative': { title: 'alternative (ออล-<u>เทอ</u>-นะ-ทิฟว)', root: 'alter (other)', mnemonic: 'ทางเลือกเป็นสิ่ง "อื่น" ที่เราสามารถเลือกได้', example: 'If the main road is blocked, we have to find an <strong>alternative</strong> route. (ถ้าถนนหลักถูกปิด เราต้องหาเส้นทางอื่น)' },
+    'alter_ego': { title: 'alter ego (<u>ออล</u>-เทอะ <u>อี</u>-โก)', root: 'alter (other) + ego (self)', mnemonic: 'คือ "ตัวตนอีกคนหนึ่ง" ของเรา', example: 'Superman is Clark Kent\'s <strong>alter ego</strong>. (ซูเปอร์แมนคือตัวตนอีกด้านหนึ่งของคลาร์ก เคนต์)' },
+    'alteration': { title: 'alteration (ออล-เทอ-<u>เร</u>-เชิน)', root: 'alter (change)', mnemonic: 'การ "เปลี่ยน" เสื้อผ้าให้พอดีตัว คือการแก้ไข', example: 'This dress is too long; it needs some <strong>alteration</strong>. (ชุดนี้ยาวเกินไป มันต้องมีการแก้ไข)' },
+    'altruism': { title: 'altruism (<u>แอล</u>-ทรู-อิส-ซึม)', root: 'al (other)', mnemonic: 'การคิดถึงคน "อื่น" โดยไม่หวังผลตอบแทน', example: 'The firefighter showed great <strong>altruism</strong>. (นักดับเพลิงแสดงความไม่เห็นแก่ตัวอย่างยิ่ง)' },
+    'alien': { title: 'alien (<u>เอ</u>-เลียน)', root: 'ali (other)', mnemonic: 'สิ่งมีชีวิตที่มาจากที่ "อื่น" ไม่ใช่โลกของเรา', example: 'The movie is about an <strong>alien</strong> invasion. (หนังเรื่องนี้เกี่ยวกับการรุกรานของมนุษย์ต่างดาว)' },
+    'alienate': { title: 'alienate (<u>เอ</u>-เลียน-เนท)', root: 'ali (other)', mnemonic: 'การทำให้ใครสักคนกลายเป็นคน "อื่น" หรือแปลกแยกออกไป', example: 'His rude comments could <strong>alienate</strong> his friends. (ความคิดเห็นที่หยาบคายของเขาอาจทำให้เพื่อนๆ ตีตัวออกห่าง)' },
+    'alternate': { title: 'alternate (<u>ออล</u>-เทอ-เนท)', root: 'alter (other)', mnemonic: 'การทำสลับกันไปมาระหว่างสิ่งหนึ่งกับสิ่ง "อื่น"', example: 'The pattern is black and white on <strong>alternate</strong> stripes. (ลวดลายเป็นสีขาวดำสลับกันในแต่ละแถบ)' },
+    'alias': { title: 'alias (<u>เอ</u>-เลียส)', root: 'ali (other)', mnemonic: 'ชื่อ "อื่น" ที่ใช้แทนชื่อจริง หรือ "นามแฝง"', example: 'The spy traveled under an <strong>alias</strong>. (สายลับเดินทางโดยใช้นามแฝง)' },
+    'alibi': { title: 'alibi (<u>แอล</u>-ลิ-บาย)', root: 'ali (other)', mnemonic: 'หลักฐานว่าในขณะเกิดเหตุ เราอยู่ที่ "อื่น" ไม่ใช่ที่เกิดเหตุ', example: 'The suspect had a solid <strong>alibi</strong> for the time of the crime. (ผู้ต้องสงสัยมีหลักฐานที่อยู่แน่นหนาสำหรับช่วงเวลาที่เกิดเหตุ)' },
+
+    'annual': { title: 'annual (<u>แอน</u>-นวล)', root: 'ann (year)', mnemonic: 'สิ่งที่เกิดขึ้น "ประจำปี" จะวนมาครบรอบทุกปี', example: 'Our company has an <strong>annual</strong> meeting every December.' },
+    'anniversary': { title: 'anniversary (แอน-นิ-<u>เวอ</u>-ซะ-รี)', root: 'ann (year) + vers (turn)', mnemonic: 'วันที่ "วน" กลับมาครบรอบ "ปี" อีกครั้ง', example: 'They are celebrating their tenth wedding <strong>anniversary</strong>.' },
+    'biennial': { title: 'biennial (ไบ-<u>เอ็น</u>-เนียล)', root: 'bi (two) + enn (year)', mnemonic: 'bi คือ 2 + enn คือปี รวมกันเป็น "ทุกๆ สองปี"', example: 'This art festival is a <strong>biennial</strong> event.' },
+    'millennium': { title: 'millennium (มิล-<u>เลน</u>-เนียม)', root: 'milli (thousand) + enn (year)', mnemonic: 'milli คือ 1000 + enn คือปี รวมกันเป็น "รอบหนึ่งพันปี"', example: 'The world celebrated the new <strong>millennium</strong> in the year 2000.' },
+    'annuity': { title: 'annuity (อะ-<u>นู</u>-อิ-ที)', root: 'ann (year)', mnemonic: 'เงินที่จ่ายให้เป็นราย "ปี" หรือเงินบำนาญ', example: 'He receives a small <strong>annuity</strong> from his retirement plan. (เขาได้รับเงินบำนาญรายปีจำนวนเล็กน้อยจากแผนการเกษียณของเขา)' },
+    'perennial': { title: 'perennial (เพอ-<u>เรน</u>-เนียล)', root: 'per (through) + enn (year)', mnemonic: 'สิ่งที่อยู่รอด "ตลอดทั้งปี" หรือเกิดขึ้นซ้ำๆ', example: 'Lack of funding is a <strong>perennial</strong> problem for the organization. (การขาดแคลนเงินทุนเป็นปัญหาที่เกิดขึ้นซ้ำๆ สำหรับองค์กรนี้)' },
+    'annals': { title: 'annals (<u>แอน</u>-เนิลซฺ)', root: 'ann (year)', mnemonic: 'บันทึกเหตุการณ์ที่เกิดขึ้นในแต่ละ "ปี" หรือ "พงศาวดาร"', example: 'The decline of the empire is recorded in the <strong>annals</strong> of history. (การล่มสลายของจักรวรรดิถูกบันทึกไว้ในพงศาวดารแห่งประวัติศาสตร์)' },
+    'centennial': { title: 'centennial (เซน-<u>เทน</u>-เนียล)', root: 'cent (hundred) + enn (year)', mnemonic: 'cent คือ 100 + enn คือปี รวมกันเป็น "ครบรอบ 100 ปี"', example: 'The city is preparing for its <strong>centennial</strong> celebration. (เมืองกำลังเตรียมการเฉลิมฉลองครบรอบ 100 ปี)' },
+    
+    'army': { title: 'army (<u>อา</u>-มี)', root: 'arm (weapon)', mnemonic: 'กลุ่มคนที่ถูกฝึกมาให้ใช้อาวุธ (arm) ก็คือ "กองทัพ"', example: 'He joined the <strong>army</strong> when he was eighteen.' },
+    'armour': { title: 'armour (<u>อา</u>-เมอะ)', root: 'arm (weapon)', mnemonic: 'สิ่งที่ใช้ป้องกัน "อาวุธ" ก็คือ "ชุดเกราะ"', example: 'The knight wore a full suit of <strong>armour</strong>.' },
+    'disarm': { title: 'disarm (ดิส-<u>อาม</u>)', root: 'dis (away) + arm (weapon)', mnemonic: 'การเอา "อาวุธ" ออกไป ก็คือ "การปลดอาวุธ"', example: 'The police managed to <strong>disarm</strong> the suspect.' },
+    'armistice': { title: 'armistice (<u>อา</u>-มิ-สติซ)', root: 'arm (weapon) + stice (stop)', mnemonic: 'การ "หยุด" ใช้ "อาวุธ" คือ "การสงบศึกชั่วคราว"', example: 'The two countries signed an <strong>armistice</strong>.' },
+    'armada': { title: 'armada (อา-<u>มา</u>-ดะ)', root: 'arm (weapon)', mnemonic: 'กองเรือที่เต็มไปด้วย "อาวุธ" หรือ "กองเรือรบ"', example: 'The Spanish <strong>Armada</strong> was a great fleet of ships. (กองเรืออาร์มาดาของสเปนเป็นกองเรือรบที่ยิ่งใหญ่)' },
+    'armament': { title: 'armament (<u>อา</u>-มะ-เมินทฺ)', root: 'arm (weapon)', mnemonic: 'อุปกรณ์ทางทหารและ "อาวุธยุทโธปกรณ์"', example: 'The country is spending millions on <strong>armament</strong>. (ประเทศกำลังใช้เงินหลายล้านไปกับอาวุธยุทโธปกรณ์)' },
+
+    'astronaut': { title: 'astronaut (<u>แอส</u>-โทร-นอท)', root: 'astro (star) + naut (sailor)', mnemonic: 'นักเดินทาง (naut) ไปยังดวงดาว (astro) ก็คือ "นักบินอวกาศ"', example: 'Neil Armstrong was the first <strong>astronaut</strong> to walk on the moon.' },
+    'astronomy': { title: 'astronomy (แอส-<u>ทรอน</u>-นะ-มี)', root: 'astro (star) + nomy (knowledge)', mnemonic: 'ศาสตร์ความรู้เกี่ยวกับ "ดวงดาว" คือ "ดาราศาสตร์"', example: 'He is studying <strong>astronomy</strong> at the university.' },
+    'disaster': { title: 'disaster (ดิ-<u>ซาส</u>-เตอะ)', root: 'dis (bad) + aster (star)', mnemonic: 'ตามความเชื่อโบราณ เมื่อตำแหน่งของ "ดวงดาว" ไม่ดี จะนำมาซึ่ง "หายนะ"', example: 'The earthquake was the worst <strong>disaster</strong> in the country\'s history.' },
+    'stellar': { title: 'stellar (<u>สเตล</u>-เลอะ)', root: 'stella (star)', mnemonic: 'เปรียบเทียบสิ่งที่ดีเลิศว่าสว่างไสวเหมือน "ดวงดาว" → "ยอดเยี่ยม"', example: 'She gave a <strong>stellar</strong> performance in the play.' },
+    'asteroid': { title: 'asteroid (<u>แอส</u>-เทอ-รอยดฺ)', root: 'aster (star) + oid (like)', mnemonic: 'สิ่งที่ "เหมือนดาว" (star-like) แต่ไม่ใช่ดาวเคราะห์ คือ "ดาวเคราะห์น้อย"', example: 'An <strong>asteroid</strong> is a small rocky body orbiting the sun. (ดาวเคราะห์น้อยเป็นวัตถุหินขนาดเล็กที่โคจรรอบดวงอาทิตย์)' },
+    'constellation': { title: 'constellation (คอน-สเตล-<u>เล</u>-เชิน)', root: 'con (together) + stella (star)', mnemonic: 'กลุ่ม "ดาว" ที่อยู่ "ด้วยกัน" เป็นรูปร่างต่างๆ หรือ "กลุ่มดาว"', example: 'Orion is a famous <strong>constellation</strong> visible in winter. (กลุ่มดาวนายพรานเป็นกลุ่มดาวที่มีชื่อเสียงซึ่งมองเห็นได้ในฤดูหนาว)' },
+    'asterisk': { title: 'asterisk (<u>แอส</u>-เทอ-ริสคฺ)', root: 'aster (star)', mnemonic: 'เครื่องหมายรูป "ดาว" เล็กๆ (*) หรือ "ดอกจัน"', example: 'Please note the terms marked with an <strong>asterisk</strong>. (โปรดสังเกตข้อกำหนดที่มีเครื่องหมายดอกจันกำกับ)' },
+    
+    'audience': { title: 'audience (<u>ออ</u>-เดียนซฺ)', root: 'audi (hear)', mnemonic: 'กลุ่มคนที่มาเพื่อ "ฟัง" หรือ "ชม" การแสดง คือ "ผู้ชม, ผู้ฟัง"', example: 'The <strong>audience</strong> applauded loudly after the concert.' },
+    'audition': { title: 'audition (ออ-<u>ดิ</u>-เชิน)', root: 'audit (hear)', mnemonic: 'การไปแสดงให้กรรมการ "ฟัง" เพื่อคัดเลือก คือ "การทดสอบความสามารถ"', example: 'She has an <strong>audition</strong> for a role in a new movie.' },
+    'inaudible': { title: 'inaudible (อิน-<u>ออ</u>-ดิ-เบิล)', root: 'in (not) + audi (hear)', mnemonic: 'in (ไม่) + audi (ได้ยิน) → "ไม่สามารถได้ยินได้"', example: 'His voice was almost <strong>inaudible</strong>.' },
+    'obey': { title: 'obey (โอ-<u>เบ</u>)', root: 'ob (to) + ey (listen)', mnemonic: 'การ "ฟัง" คำสั่ง คือการ "เชื่อฟัง"', example: 'You must <strong>obey</strong> the rules of the school.' },
+    'auditorium': { title: 'auditorium (ออ-ดิ-<u>ทอ</u>-เรียม)', root: 'audi (hear)', mnemonic: 'สถานที่ที่สร้างไว้สำหรับให้คนมา "ฟัง" การบรรยายหรือชมการแสดง หรือ "หอประชุม"', example: 'The lecture will take place in the main <strong>auditorium</strong>. (การบรรยายจะจัดขึ้นที่หอประชุมหลัก)' },
+    'auditory': { title: 'auditory (<u>ออ</u>-ดิ-ทอ-รี)', root: 'audi (hear)', mnemonic: 'ที่เกี่ยวข้องกับ "การได้ยิน" หรือ "โสตประสาท"', example: 'The patient has some <strong>auditory</strong> problems. (ผู้ป่วยมีปัญหาเกี่ยวกับโสตประสาท)' },
+    'survey': { title: 'survey (<u>เซอ</u>-เว)', root: 'sur (over) + vey (see/view)', mnemonic: 'การมอง "ภาพรวม" หรือ "การสำรวจ"', example: 'We conducted a <strong>survey</strong> to find out what our customers think. (เราได้ทำการสำรวจเพื่อค้นหาว่าลูกค้าของเราคิดอย่างไร)' },
+
+    'barrier': { title: 'barrier (<u>แบ</u>-ริ-เออะ)', root: 'bar (block)', mnemonic: 'สิ่งที่ทำหน้าที่เป็น "เครื่องกีดขวาง"', example: 'A language <strong>barrier</strong> can make communication difficult.' },
+    'barricade': { title: 'barricade (แบ-ริ-<u>เคด</u>)', root: 'bar (block)', mnemonic: 'สิ่งที่สร้างขึ้นเพื่อ "ปิดกั้น" หรือ "กีดขวาง" ทาง', example: 'The police set up a <strong>barricade</strong>.' },
+    'embargo': { title: 'embargo (เอม-<u>บา</u>-โก)', root: 'em (in) + bar (block)', mnemonic: 'การ "ปิดกั้น" ไม่ให้เรือเข้าออก คือ "การสั่งห้ามค้าขาย"', example: 'The government placed an <strong>embargo</strong> on all imports.' },
+    'barrister': { title: 'barrister (<u>แบ</u>-ริส-เตอะ)', root: 'bar (bar of court)', mnemonic: 'ทนายที่สามารถว่าความได้ถึง "หน้าบัลลังก์" ศาล (the bar)', example: 'A <strong>barrister</strong> is a type of lawyer in the UK. (Barrister คือทนายความประเภทหนึ่งในสหราชอาณาจักร)' },
+    'debar': { title: 'debar (ดิ-<u>บา</u>)', root: 'de (from) + bar (block)', mnemonic: 'การ "ปิดกั้น" จากการทำบางสิ่ง หรือ "ห้าม"', example: 'He was <strong>debar</strong>red from practicing law. (เขาถูกห้ามไม่ให้ประกอบอาชีพทนายความ)' },
+
+    'battle': { title: 'battle (<u>แบท</u>-เทิล)', root: 'bat (fight)', mnemonic: 'การ "ต่อสู้" หรือ "รบ" กัน คือ "การสู้รบ"', example: 'The two armies fought a long <strong>battle</strong>.' },
+    'combat': { title: 'combat (<u>คอม</u>-แบท)', root: 'com (together) + bat (fight)', mnemonic: 'การ "ต่อสู้" ร่วมกันในสนามรบ คือ "การรบ"', example: 'The soldiers were trained for close <strong>combat</strong>.' },
+    'debate': { title: 'debate (ดิ-<u>เบท</u>)', root: 'de (down) + bat (beat)', mnemonic: 'การ "ตี" ให้เหตุผลของอีกฝ่ายตกไป คือ "การโต้วาที"', example: 'There was a heated <strong>debate</strong> in parliament.' },
+    'rebate': { title: 'rebate (<u>รี</u>-เบท)', root: 're (back) + bat (beat)', mnemonic: 'การ "ตี" เงินกลับคืนมาให้ลูกค้า คือ "เงินคืน"', example: 'You can get a $50 <strong>rebate</strong> when you buy this phone.' },
+    'batter': { title: 'batter (<u>แบท</u>-เทอะ)', root: 'bat (beat)', mnemonic: 'การ "ทุบตี" ซ้ำๆ หรือผู้ตีในกีฬาเบสบอล', example: 'The storm began to <strong>batter</strong> the coast. (พายุเริ่มโหมกระหน่ำชายฝั่ง)' },
+    'abate': { title: 'abate (อะ-<u>เบท</u>)', root: 'a (to) + bat (beat)', mnemonic: 'การ "ตี" ให้ลดลง หรือ "บรรเทาลง"', example: 'We waited for the storm to <strong>abate</strong>. (เรารอให้พายุบรรเทาลง)' },
+    
+    // Set 2
+    'capital': { title: 'capital (<u>แค</u>-พิท-เทิล)', root: 'cap (head)', mnemonic: 'เมืองที่เป็น "หัว" หรือศูนย์กลางของประเทศ คือ "เมืองหลวง"', example: 'Bangkok is the <strong>capital</strong> of Thailand.' },
+    'captain': { title: 'captain (<u>แคป</u>-เทน)', root: 'cap (head)', mnemonic: 'คนที่ทำหน้าที่เป็น "หัวหน้า" ของทีมหรือเรือ', example: 'The <strong>captain</strong> of the ship gave the orders.' },
+    'decapitate': { title: 'decapitate (ดิ-<u>แค</u>-พิ-เทท)', root: 'de (off) + cap (head)', mnemonic: 'การเอา "หัว" ออกจากบ่า คือ "การตัดหัว"', example: 'In history, some monarchs would <strong>decapitate</strong> their enemies.' },
+    'caption': { title: 'caption (<u>แคพ</u>-เชิน)', root: 'cap (head)', mnemonic: 'ข้อความที่เป็น "หัวเรื่อง" ของรูปภาพหรือบทความ', example: 'The photo had a funny <strong>caption</strong> underneath it. (ภาพถ่ายมีคำบรรยายตลกๆ อยู่ข้างใต้)' },
+    'recapitulate': { title: 'recapitulate (รี-คะ-<u>พิ</u>-ทู-เลท)', root: 're (again) + cap (head)', mnemonic: 'การกลับไปที่ "หัวข้อ" อีกครั้ง คือ "การสรุปความ"', example: 'To <strong>recapitulate</strong>, the main points are on this slide. (เพื่อเป็นการสรุปประเด็นหลักๆ จะอยู่บนสไลด์นี้)' },
+
+    'proceed': { title: 'proceed (โพร-<u>ซีด</u>)', root: 'pro (forward) + cede (go)', mnemonic: 'การ "ไป" ข้างหน้า คือ "ดำเนินการต่อ"', example: 'Please <strong>proceed</strong> to Gate 25 for boarding.' },
+    'success': { title: 'success (ซัค-<u>เซส</u>)', root: 'suc (under) + cess (go)', mnemonic: 'การ "ไป" ถึงเป้าหมายที่อยู่ข้างใต้การทำงานหนัก คือ "ความสำเร็จ"', example: 'Hard work is the key to <strong>success</strong>.' },
+    'access': { title: 'access (<u>แอค</u>-เซส)', root: 'ac (to) + cess (go)', mnemonic: 'การ "ไป" ถึงบางสิ่งบางอย่าง คือ "การเข้าถึง"', example: 'You need a password to get <strong>access</strong> to the computer system.' },
+    'concede': { title: 'concede (คอน-<u>ซีด</u>)', root: 'con (with) + cede (yield)', mnemonic: 'การ "ยอม" ตามอีกฝ่าย คือ "การยอมรับความจริง, ยอมแพ้"', example: 'After losing the debate, he had to <strong>concede</strong> the point. (หลังจากแพ้การโต้วาที เขาก็ต้องยอมรับในประเด็นนั้น)' },
+    'recess': { title: 'recess (<u>รี</u>-เสซ)', root: 're (back) + cess (go)', mnemonic: 'การ "ถอยกลับ" จากการทำงาน คือ "เวลาพัก"', example: 'The children play outside during <strong>recess</strong>. (เด็กๆ เล่นข้างนอกในช่วงเวลาพัก)' },
+    'predecessor': { title: 'predecessor (<u>พรี</u>-ดิ-เซส-เซอะ)', root: 'pre (before) + de (from) + cess (go)', mnemonic: 'คนที่ "ไป" ก่อนหน้าเราในตำแหน่ง คือ "ผู้ดำรงตำแหน่งก่อนหน้า"', example: 'My <strong>predecessor</strong> retired last year. (ผู้ดำรงตำแหน่งก่อนหน้าฉันเกษียณไปเมื่อปีที่แล้ว)' },
+    
+    'receive': { title: 'receive (รี-<u>ซีฟว</u>)', root: 're (back) + ceive (take)', mnemonic: 'การ "รับ" บางสิ่งกลับมา', example: 'Did you <strong>receive</strong> my email?' },
+    'concept': { title: 'concept (<u>คอน</u>-เซปทฺ)', root: 'con (together) + cept (take)', mnemonic: 'การ "รวบรวม" ความคิดต่างๆ เข้าไว้ด้วยกันจนเกิดเป็น "แนวคิด"', example: 'It is a very simple <strong>concept</strong>.' },
+    'perceive': { title: 'perceive (เพอ-<u>ซีฟว</u>)', root: 'per (through) + ceive (take)', mnemonic: 'การ "รับ" รู้ผ่านประสาทสัมผัส คือ "การรับรู้, เข้าใจ"', example: 'Cats cannot <strong>perceive</strong> color in the same way that humans do.' },
+    'deceive': { title: 'deceive (ดิ-<u>ซีฟว</u>)', root: 'de (away from) + ceive (take)', mnemonic: 'การ "นำ" ความจริงออกไปจากคนอื่น คือ "การหลอกลวง"', example: 'He tried to <strong>deceive</strong> the police. (เขาพยายามหลอกลวงตำรวจ)' },
+    'intercept': { title: 'intercept (อิน-เทอ-<u>เซปทฺ</u>)', root: 'inter (between) + cept (take)', mnemonic: 'การเข้า "ยึด" หรือสกัด "ระหว่างทาง"', example: 'The military can <strong>intercept</strong> enemy communications. (กองทัพสามารถสกัดกั้นการสื่อสารของศัตรูได้)' },
+    'accept': { title: 'accept (แอค-<u>เซปทฺ</u>)', root: 'ac (to) + cept (take)', mnemonic: 'การ "รับ" สิ่งที่เสนอมา คือ "การยอมรับ"', example: 'Please <strong>accept</strong> my apology. (โปรดยอมรับคำขอโทษของฉันด้วย)' },
+    
+    'accelerate': { title: 'accelerate (แอค-<u>เซล</u>-เลอ-เรท)', root: 'ac (to) + celer (speed)', mnemonic: 'การเพิ่ม "ความเร็ว" ขึ้นไป', example: 'The driver began to <strong>accelerate</strong>.' },
+    'celebrity': { title: 'celebrity (เซ-<u>เลบ</u>-บริ-ที)', root: 'cel (high)', mnemonic: 'บุคคลที่มีชื่อเสียงโด่งดัง อยู่ในที่ "สูง" ในสังคม', example: 'Many <strong>celebrity</strong> guests attended the event.' },
+    'culminate': { title: 'culminate (<u>คัล</u>-มิ-เนท)', root: 'culmin (high point)', mnemonic: 'การไปถึง "จุดสูงสุด" ของเหตุการณ์', example: 'Their years of research <strong>culminate</strong>d in a groundbreaking discovery.' },
+    'celerity': { title: 'celerity (เซ-<u>เล</u>-ริ-ที)', root: 'celer (speed)', mnemonic: 'คำที่เป็นทางการของ "ความเร็ว"', example: 'The thief moved with surprising <strong>celerity</strong>. (ขโมยเคลื่อนไหวด้วยความเร็วที่น่าประหลาดใจ)' },
+
+    'central': { title: 'central (<u>เซน</u>-ทรัล)', root: 'centr (center)', mnemonic: 'สิ่งที่อยู่ "ตรงกลาง" หรือเป็นศูนย์กลาง', example: 'The <strong>central</strong> library is located in the city center.' },
+    'concentrate': { title: 'concentrate (<u>คอน</u>-เซน-เทรท)', root: 'con (together) + centr (center)', mnemonic: 'การรวบรวมความคิดมาไว้ที่ "จุดศูนย์กลาง" เดียว คือ "การมีสมาธิ"', example: 'I can\'t <strong>concentrate</strong> with all that noise.' },
+    'eccentric': { title: 'eccentric (เอค-<u>เซน</u>-ทริค)', root: 'ec (out) + centr (center)', mnemonic: 'คนที่ทำตัว "นอก" กรอบ หรือ "ห่างจากจุดศูนย์กลาง" ของสังคม คือ "คนพิลึก"', example: 'My neighbor is an <strong>eccentric</strong> old lady.' },
+    'geocentric': { title: 'geocentric (จี-โอ-<u>เซน</u>-ทริค)', root: 'geo (earth) + centr (center)', mnemonic: 'ความเชื่อที่ว่า "โลก" คือ "ศูนย์กลาง" ของจักรวาล', example: 'The <strong>geocentric</strong> model was the accepted theory for centuries. (แบบจำลองโลกเป็นศูนย์กลางเคยเป็นทฤษฎีที่ยอมรับกันมานานหลายศตวรรษ)' },
+
+    'exclaim': { title: 'exclaim (เอคซฺ-<u>เคลม</u>)', root: 'ex (out) + claim (shout)', mnemonic: 'การ "ตะโกน" หรืออุทานออกมา', example: '"You\'re late!" she <strong>exclaim</strong>ed.' },
+    'proclaim': { title: 'proclaim (โพร-<u>เคลม</u>)', root: 'pro (forth) + claim (shout)', mnemonic: 'การ "ตะโกน" บอกออกไปให้คนทั่วไปรู้ คือ "การประกาศอย่างเป็นทางการ"', example: 'The king <strong>proclaim</strong>ed a day of celebration.' },
+    'reclaim': { title: 'reclaim (รี-<u>เคลม</u>)', root: 're (back) + claim (shout)', mnemonic: 'การ "ร้อง" ขอคืน หรือ "เรียกคืน"', example: 'You can <strong>reclaim</strong> the tax on your purchases. (คุณสามารถขอคืนภาษีจากการซื้อของคุณได้)' },
+    'claimant': { title: 'claimant (<u>เคลม</u>-เมินทฺ)', root: 'claim (shout)', mnemonic: 'ผู้ "ร้อง" ขอ หรือ "ผู้เรียกร้องสิทธิ์"', example: 'The insurance company is reviewing the <strong>claimant</strong>\'s case. (บริษัทประกันกำลังตรวจสอบกรณีของผู้เรียกร้องสิทธิ์)' },
+    
+    'recline': { title: 'recline (รี-<u>ไคลน</u>)', root: 're (back) + clin (lean)', mnemonic: 'การ "เอน" ตัวไปข้างหลัง คือ "การเอนกาย, พิง"', example: 'He <strong>recline</strong>d his seat to take a nap.' },
+    'decline': { title: 'decline (ดิ-<u>ไคลน</u>)', root: 'de (down) + clin (lean)', mnemonic: 'การ "เอน" ลง หรือลดลง คือ "การปฏิเสธ, การลดลง"', example: 'There has been a <strong>decline</strong> in sales this quarter.' },
+    'incline': { title: 'incline (อิน-<u>ไคลน</u>)', root: 'in (in, towards) + clin (lean)', mnemonic: 'การ "เอน" เข้าหา หรือ "แนวโน้มที่จะ"', example: 'I <strong>incline</strong> to agree with you. (ฉันมีแนวโน้มที่จะเห็นด้วยกับคุณ)' },
+    'climate': { title: 'climate (<u>ไคล</u>-เมท)', root: 'clim (lean, slope)', mnemonic: 'ความ "ลาดเอียง" ของแกนโลกที่ทำให้เกิดสภาพอากาศต่างๆ คือ "ภูมิอากาศ"', example: 'The country has a tropical <strong>climate</strong>. (ประเทศนี้มีภูมิอากาศแบบเขตร้อน)' },
+
+    // Set 3 (Expansions)
+    'conclude': { title: 'conclude (คอน-<u>คลูด</u>)', root: 'con (together) + clude (shut)', mnemonic: 'การ "ปิด" เรื่องราวทั้งหมดเข้าด้วยกัน คือ "การสรุป"', example: 'The report <strong>conclude</strong>s that the product is safe.' },
+    'include': { title: 'include (อิน-<u>คลูด</u>)', root: 'in (in) + clude (shut)', mnemonic: 'การ "ปิด" หรือล้อมบางสิ่งเข้ามาข้างใน คือ "การรวมเข้าไว้ด้วย"', example: 'The price <strong>include</strong>s tax and service charge.' },
+    'claustrophobia': { title: 'claustrophobia (คลอส-โทร-<u>โฟ</u>-เบีย)', root: 'claus (close) + phobia (fear)', mnemonic: 'อาการกลัวการอยู่ในที่ "ปิด" หรือที่แคบ', example: 'He suffers from <strong>claustrophobia</strong>, so he avoids elevators.' },
+    'exclude': { title: 'exclude (เอคซฺ-<u>คลูด</u>)', root: 'ex (out) + clude (shut)', mnemonic: 'การ "ปิด" ใครบางคนไว้ข้างนอก คือ "การกีดกันออกไป"', example: 'The price <strong>exclude</strong>s drinks. (ราคานี้ไม่รวมเครื่องดื่ม)' },
+    'disclose': { title: 'disclose (ดิส-<u>โคลซ</u>)', root: 'dis (not) + close (close)', mnemonic: 'การทำให้ไม่ "ปิด" อีกต่อไป คือ "การเปิดเผย"', example: 'The company refused to <strong>disclose</strong> the details of the deal. (บริษัทปฏิเสธที่จะเปิดเผยรายละเอียดของข้อตกลง)' },
+
+    'record': { title: 'record (<u>เรค</u>-เคิด)', root: 're (again) + cord (heart)', mnemonic: 'การนำเรื่องราวกลับเข้ามาไว้ใน "ใจ" อีกครั้ง คือ "การบันทึก"', example: 'Please keep a <strong>record</strong> of all your expenses.' },
+    'accord': { title: 'accord (แอค-<u>คอด</u>)', root: 'ac (to) + cord (heart)', mnemonic: 'เมื่อ "หัวใจ" ตรงกัน คือ "ความตกลง, ความสอดคล้อง"', example: 'His actions are in <strong>accord</strong> with his words.' },
+    'core': { title: 'core (คอรฺ)', root: 'core (heart)', mnemonic: 'ส่วนที่เป็น "หัวใจ" หรือแก่นกลางของสิ่งต่างๆ', example: 'The <strong>core</strong> of the problem is a lack of communication.' },
+    'cordial': { title: 'cordial (<u>คอ</u>-เดียล)', root: 'cord (heart)', mnemonic: 'ที่มาจาก "หัวใจ" หรือ "เป็นกันเอง, อบอุ่น"', example: 'We received a <strong>cordial</strong> welcome from our hosts. (เราได้รับการต้อนรับอย่างอบอุ่นจากเจ้าบ้าน)' },
+    'discord': { title: 'discord (<u>ดิส</u>-คอด)', root: 'dis (apart) + cord (heart)', mnemonic: 'เมื่อ "หัวใจ" แยกจากกัน หรือ "ความขัดแย้ง"', example: 'There is a lot of <strong>discord</strong> within the team. (มีความขัดแย้งมากมายภายในทีม)' },
+
+    'discover': { title: 'discover (ดิส-<u>คัฟ</u>-เวอะ)', root: 'dis (not/un) + cover (cover)', mnemonic: 'การเอาสิ่งที่ "ปิดบัง" (cover) ออก คือ "การค้นพบ"', example: 'Scientists have <strong>discover</strong>ed a new species of fish.' },
+    'curfew': { title: 'curfew (<u>เคอ</u>-ฟิว)', root: 'cur (cover) + few (fire)', mnemonic: 'ในสมัยก่อนคือสัญญาณให้ "ดับไฟ" ตอนกลางคืน ปัจจุบันหมายถึง "เคอร์ฟิว"', example: 'The city was placed under a strict <strong>curfew</strong>.' },
+    'recover': { title: 'recover (รี-<u>คัฟ</u>-เวอะ)', root: 're (again) + cover (cover)', mnemonic: 'การ "คลุม" หรือได้กลับคืนมาอีกครั้ง คือ "การฟื้นตัว, ได้คืน"', example: 'It took him a long time to <strong>recover</strong> from the illness. (เขาใช้เวลานานในการฟื้นตัวจากความเจ็บป่วย)' },
+    
+    'create': { title: 'create (ครี-<u>เอท</u>)', root: 'cre (make, grow)', mnemonic: 'การ "สร้าง" หรือ "ทำให้เกิด" สิ่งใหม่ๆ', example: 'The artist likes to <strong>create</strong> sculptures from recycled materials.' },
+    'increase': { title: 'increase (อิน-<u>ครีส</u>)', root: 'in (in) + cre (grow)', mnemonic: 'การ "เติบโต" ขึ้น คือ "การเพิ่มขึ้น"', example: 'The population of the city continues to <strong>increase</strong>.' },
+    'recruit': { title: 'recruit (รี-<u>ครูท</u>)', root: 're (again) + cru (grow)', mnemonic: 'การทำให้ทีม "เติบโต" ขึ้นอีกครั้ง คือ "การรับสมัครคนใหม่"', example: 'The company is looking to <strong>recruit</strong> new software engineers.' },
+    'decrease': { title: 'decrease (ดี-<u>ครีส</u>)', root: 'de (down) + cre (grow)', mnemonic: 'การ "เติบโต" ลง คือ "การลดลง"', example: 'The number of students has <strong>decrease</strong>d this year. (จำนวนนักเรียนลดลงในปีนี้)' },
+    'concrete': { title: 'concrete (<u>คอน</u>-ครีท)', root: 'con (together) + cre (grow)', mnemonic: 'สิ่งที่ "เติบโต" หรือแข็งตัว "เข้าด้วยกัน" คือ "คอนกรีต, ที่เป็นรูปธรรม"', example: 'We need <strong>concrete</strong> evidence, not just theories. (เราต้องการหลักฐานที่เป็นรูปธรรม ไม่ใช่แค่ทฤษฎี)' },
+
+    'across': { title: 'across (อะ-<u>ครอส</u>)', root: 'cross (cross)', mnemonic: 'การเดินทาง "ข้าม" จากฝั่งหนึ่งไปอีกฝั่งหนึ่ง', example: 'The pharmacy is just <strong>across</strong> the street.' },
+    'crucial': { title: 'crucial (<u>ครู</u>-เชียล)', root: 'cruc (cross)', mnemonic: 'สิ่งที่สำคัญเหมือน "ทางแยก" (crossroads) ที่ต้องตัดสินใจ คือ "สำคัญอย่างยิ่ง"', example: 'It is <strong>crucial</strong> that you arrive on time for the interview.' },
+    'crucifix': { title: 'crucifix (<u>ครู</u>-ซิ-ฟิคซฺ)', root: 'cruc (cross) + fix (fasten)', mnemonic: 'สิ่งที่ "ยึด" ติดกับ "ไม้กางเขน"', example: 'She wears a small silver <strong>crucifix</strong> on a chain. (เธอสวมไม้กางเขนเงินเส้นเล็กๆ บนสร้อย)' },
+    
+    'current': { title: 'current (<u>เคอ</u>-เรนทฺ)', root: 'cur (run)', mnemonic: 'สิ่งที่ "ดำเนิน" อยู่ในปัจจุบัน หรือกระแสน้ำที่ "ไหล" ไป', example: 'What is your <strong>current</strong> address?' },
+    'occur': { title: 'occur (ออ-<u>เคอ</u>)', root: 'oc (against) + cur (run)', mnemonic: 'เหตุการณ์ที่ "วิ่ง" เข้ามาหาเรา คือ "การเกิดขึ้น"', example: 'The accident <strong>occur</strong>red at 10 PM.' },
+    'course': { title: 'course (คอรฺส)', root: 'cour (run)', mnemonic: 'เส้นทางที่ "วิ่ง" หรือดำเนินไป คือ "หลักสูตร, เส้นทาง"', example: 'I am taking a <strong>course</strong> in graphic design.' },
+    'courier': { title: 'courier (<u>คัว</u>-ริ-เออะ)', root: 'cour (run)', mnemonic: 'คนที่ "วิ่ง" ส่งของ คือ "ผู้ส่งสาร, บริษัทขนส่ง"', example: 'The package was delivered by a <strong>courier</strong>. (พัสดุถูกจัดส่งโดยบริษัทขนส่ง)' },
+    'precursor': { title: 'precursor (พรี-<u>เคอ</u>-เซอะ)', root: 'pre (before) + cur (run)', mnemonic: 'สิ่งที่ "วิ่ง" มาก่อน หรือ "ลางบอกเหตุ"', example: 'A sore throat is often a <strong>precursor</strong> to a cold. (อาการเจ็บคอเป็นลางบอกเหตุของโรคหวัด)' },
+
+    'secure': { title: 'secure (ซิ-<u>เคียว</u>)', root: 'se (without) + cur (care)', mnemonic: 'เมื่อ "ปราศจาก" ความกังวล (care) คือ "ปลอดภัย"', example: 'Make sure all the doors are <strong>secure</strong> before you leave.' },
+    'curious': { title: 'curious (<u>เคียว</u>-เรียส)', root: 'curi (care)', mnemonic: 'การใส่ "ใจ" ในรายละเอียดเรื่องต่างๆ มากเป็นพิเศษ คือ "ความอยากรู้อยากเห็น"', example: 'Children are naturally <strong>curious</strong> about the world around them.' },
+    'manicure': { title: 'manicure (<u>แมน</u>-นิ-เคียว)', root: 'mani (hand) + cur (care)', mnemonic: 'การ "ดูแล" (care) "มือ" (mani) คือ "การทำเล็บมือ"', example: 'She gets a <strong>manicure</strong> every two weeks.' },
+    'curator': { title: 'curator (คิว-<u>เร</u>-เทอะ)', root: 'cur (care)', mnemonic: 'ผู้ "ดูแล" พิพิธภัณฑ์หรือนิทรรศการ', example: 'The <strong>curator</strong> of the museum gave us a tour. (ภัณฑารักษ์ของพิพิธภัณฑ์พาเราทัวร์)' },
+
+    // Set 4 (Expansions)
+    'dictate': { title: 'dictate (<u>ดิค</u>-เทท)', root: 'dict (say)', mnemonic: 'การ "พูด" ให้คนอื่นจดตาม คือ "การบงการ, เขียนตามคำบอก"', example: 'The teacher will <strong>dictate</strong> a few sentences.' },
+    'predict': { title: 'predict (พรี-<u>ดิคทฺ</u>)', root: 'pre (before) + dict (say)', mnemonic: 'การ "พูด" หรือ "บอก" ล่วงหน้า คือ "การทำนาย"', example: 'It is difficult to <strong>predict</strong> the future.' },
+    'contradict': { title: 'contradict (คอน-ทรา-<u>ดิคทฺ</u>)', root: 'contra (against) + dict (say)', mnemonic: 'การ "พูด" แย้ง คือ "การโต้แย้ง, ขัดแย้ง"', example: 'His actions <strong>contradict</strong> his words.' },
+    'dictionary': { title: 'dictionary (<u>ดิค</u>-เชิน-เน-รี)', root: 'dict (say, word)', mnemonic: 'หนังสือที่รวบรวม "คำพูด" และความหมาย คือ "พจนานุกรม"', example: 'If you don\'t know the meaning, look it up in the <strong>dictionary</strong>. (ถ้าคุณไม่รู้ความหมาย ให้เปิดหาในพจนานุกรม)' },
+    'verdict': { title: 'verdict (<u>เวอ</u>-ดิคทฺ)', root: 'ver (true) + dict (say)', mnemonic: 'การ "พูด" ความจริงในศาล คือ "คำตัดสิน"', example: 'The jury reached a guilty <strong>verdict</strong>. (คณะลูกขุนได้มีคำตัดสินว่ามีความผิด)' },
+    
+    'conduct': { title: 'conduct (คอน-<u>ดัคทฺ</u>)', root: 'con (together) + duct (lead)', mnemonic: 'การ "นำ" วงดนตรีให้เล่นไปด้วยกัน คือ "การอำนวยเพลง, ความประพฤติ"', example: 'He will <strong>conduct</strong> the orchestra tonight.' },
+    'product': { title: 'product (<u>พรอด</u>-ดัคทฺ)', root: 'pro (forth) + duct (lead)', mnemonic: 'สิ่งที่ถูก "นำ" ออกมาสู่ตลาด คือ "ผลิตภัณฑ์"', example: 'This is our latest <strong>product</strong>.' },
+    'aqueduct': { title: 'aqueduct (<u>แอ</u>-ควี-ดัคทฺ)', root: 'aqua (water) + duct (lead)', mnemonic: 'สิ่งที่ "นำ" "น้ำ" จากที่หนึ่งไปยังอีกที่หนึ่ง คือ "ท่อส่งน้ำ"', example: 'The Romans were famous for building large <strong>aqueduct</strong>s.' },
+    'abduct': { title: 'abduct (แอบ-<u>ดัคทฺ</u>)', root: 'ab (away) + duct (lead)', mnemonic: 'การ "นำ" ตัวไป คือ "การลักพาตัว"', example: 'The millionaire\'s son was <strong>abduct</strong>ed. (ลูกชายของเศรษฐีถูกลักพาตัว)' },
+
+    'produce': { title: 'produce (โพร-<u>ดิวซฺ</u>)', root: 'pro (forth) + duce (lead)', mnemonic: 'การ "นำ" สิ่งใหม่ออกมา คือ "การผลิต"', example: 'The factory can <strong>produce</strong> 100 cars per day.' },
+    'reduce': { title: 'reduce (รี-<u>ดิวซฺ</u>)', root: 're (back) + duce (lead)', mnemonic: 'การ "นำ" กลับลงไป คือ "การลดลง"', example: 'We need to <strong>reduce</strong> our spending.' },
+    'induce': { title: 'induce (อิน-<u>ดิวซฺ</u>)', root: 'in (in) + duce (lead)', mnemonic: 'การ "ชักนำ" ให้เกิดบางสิ่งบางอย่าง', example: 'The doctor decided to <strong>induce</strong> labor. (หมอตัดสินใจที่จะชักนำให้เกิดการคลอด)' },
+    'deduce': { title: 'deduce (ดิ-<u>ดิวซฺ</u>)', root: 'de (down from) + duce (lead)', mnemonic: 'การ "นำ" ข้อเท็จจริงมาสู่ข้อสรุป คือ "การอนุมาน"', example: 'From the evidence, we can <strong>deduce</strong> that he is guilty. (จากหลักฐาน เราสามารถอนุมานได้ว่าเขามีความผิด)' },
+
+    'equal': { title: 'equal (<u>อี</u>-ควล)', root: 'equ (equal)', mnemonic: 'มีความหมายตรงตัวว่า "เท่ากัน"', example: 'All people should have <strong>equal</strong> rights.' },
+    'equation': { title: 'equation (อี-<u>เคว</u>-เชิน)', root: 'equ (equal)', mnemonic: 'สิ่งที่ทำให้สองข้าง "เท่ากัน" คือ "สมการ"', example: 'Can you solve this math <strong>equation</strong>?' },
+    'adequate': { title: 'adequate (<u>แอ</u>-ดิ-เควท)', root: 'ad (to) + equ (equal)', mnemonic: 'มีจนถึงระดับที่ "เท่ากับ" ความต้องการ คือ "เพียงพอ"', example: 'The food was <strong>adequate</strong> for the number of guests.' },
+    'equator': { title: 'equator (อี-<u>เคว</u>-เทอะ)', root: 'equ (equal)', mnemonic: 'เส้นที่แบ่งโลกออกเป็นสองซีก "เท่าๆ กัน" คือ "เส้นศูนย์สูตร"', example: 'Singapore is very close to the <strong>equator</strong>. (สิงคโปร์อยู่ใกล้กับเส้นศูนย์สูตรมาก)' },
+    'equilibrium': { title: 'equilibrium (อี-ควิ-<u>ลิบ</u>-เบรียม)', root: 'equi (equal) + libr (balance)', mnemonic: 'สภาวะที่ "สมดุล" "เท่ากัน" ทุกด้าน', example: 'The two forces are in <strong>equilibrium</strong>. (แรงทั้งสองอยู่ในสภาวะสมดุล)' },
+
+    'fable': { title: 'fable (<u>เฟ</u>-เบิล)', root: 'fa (speak)', mnemonic: 'เรื่องที่ "เล่า" สืบต่อกันมา คือ "นิทาน"', example: 'Have you read the <strong>fable</strong> of "The Tortoise and the Hare"?' },
+    'infant': { title: 'infant (<u>อิน</u>-เฟินทฺ)', root: 'in (not) + fa (speak)', mnemonic: 'วัยที่ยัง "พูด" ไม่ได้ คือ "ทารก"', example: 'The <strong>infant</strong> is sleeping peacefully.' },
+    'famous': { title: 'famous (<u>เฟ</u>-มัส)', root: 'fa (speak)', mnemonic: 'เป็นที่ "กล่าวขาน" ถึง คือ "มีชื่อเสียง"', example: 'He is a <strong>famous</strong> actor. (เขาเป็นนักแสดงที่มีชื่อเสียง)' },
+    'prophet': { title: 'prophet (<u>พร็อฟ</u>-เฟท)', root: 'pro (before) + phe (speak)', mnemonic: 'ผู้ที่ "พูด" บอกเหตุกาณ์ล่วงหน้า คือ "ผู้พยากรณ์"', example: 'The old man was considered a <strong>prophet</strong>. (ชายชราถูกนับถือว่าเป็นผู้พยากรณ์)' },
+    
+    'factory': { title: 'factory (<u>แฟค</u>-ทอ-รี)', root: 'fact (make)', mnemonic: 'สถานที่ที่ "ทำ" หรือ "ผลิต" สินค้า', example: 'He works in a car <strong>factory</strong>.' },
+    'artifact': { title: 'artifact (<u>อา</u>-ทิ-แฟคทฺ)', root: 'arte (skill) + fact (make)', mnemonic: 'สิ่งที่ "ทำ" ขึ้นด้วยทักษะฝีมือ คือ "สิ่งประดิษฐ์, โบราณวัตถุ"', example: 'The museum has many ancient Egyptian <strong>artifact</strong>s.' },
+    'manufacture': { title: 'manufacture (แมน-นิว-<u>แฟค</u>-เชอะ)', root: 'manu (hand) + fact (make)', mnemonic: 'การ "ทำ" ด้วย "มือ" (ในสมัยก่อน) ปัจจุบันคือ "การผลิต"', example: 'This company <strong>manufacture</strong>s computer parts. (บริษัทนี้ผลิตชิ้นส่วนคอมพิวเตอร์)' },
+    'benefactor': { title: 'benefactor (<u>เบน</u>-นิ-แฟค-เทอะ)', root: 'bene (good) + fact (do)', mnemonic: 'ผู้ "ทำ" ความดี หรือ "ผู้อุปถัมภ์"', example: 'An anonymous <strong>benefactor</strong> donated a million dollars to the charity. (ผู้อุปถัมภ์นิรนามบริจาคเงินหนึ่งล้านดอลลาร์ให้แก่องค์กรการกุศล)' },
+    
+    'affect': { title: 'affect (แอฟ-<u>เฟคทฺ</u>)', root: 'af (to) + fect (make)', mnemonic: 'การ "ทำ" ให้เกิดผล "ต่อ" บางสิ่ง คือ "ส่งผลกระทบ"', example: 'The weather will <strong>affect</strong> our travel plans.' },
+    'perfect': { title: 'perfect (<u>เพอ</u>-เฟคทฺ)', root: 'per (through) + fect (make)', mnemonic: 'การ "ทำ" จนทะลุปรุโปร่ง ไม่มีที่ติ คือ "สมบูรณ์แบบ"', example: 'She drew a <strong>perfect</strong> circle.' },
+    'infect': { title: 'infect (อิน-<u>เฟคทฺ</u>)', root: 'in (in) + fect (make)', mnemonic: 'การ "ทำ" ให้เชื้อโรคเข้าไปข้างใน คือ "ทำให้ติดเชื้อ"', example: 'The wound might get <strong>infect</strong>ed. (แผลอาจจะติดเชื้อได้)' },
+    'defect': { title: 'defect (<u>ดี</u>-เฟคทฺ)', root: 'de (away from) + fect (make)', mnemonic: 'สิ่งที่ "ทำ" ออกมาไม่ดี คือ "ข้อบกพร่อง"', example: 'The product was returned due to a <strong>defect</strong>. (สินค้าถูกส่งคืนเนื่องจากมีข้อบกพร่อง)' },
+
+    // Set 5 (Expansions)
+    'transfer': { title: 'transfer (แทรนซฺ-<u>เฟอ</u>)', root: 'trans (across) + fer (carry)', mnemonic: 'การ "ถือ" หรือ "ย้าย" ข้ามจากที่หนึ่งไปอีกที่หนึ่ง', example: 'I need to <strong>transfer</strong> some money to my savings account.' },
+    'refer': { title: 'refer (รี-<u>เฟอ</u>)', root: 're (back) + fer (carry)', mnemonic: 'การ "นำ" เรื่องกลับไปหา คือ "การอ้างถึง"', example: 'Please <strong>refer</strong> to page 10 for more details.' },
+    'infer': { title: 'infer (อิน-<u>เฟอ</u>)', root: 'in (in) + fer (carry)', mnemonic: 'การ "นำ" ความหมายที่ซ่อนอยู่ข้างในออกมา คือ "การอนุมาน"', example: 'From his silence, I <strong>infer</strong>red that he was not happy.' },
+    'prefer': { title: 'prefer (พรี-<u>เฟอ</u>)', root: 'pre (before) + fer (carry)', mnemonic: 'การ "ถือ" ว่าสิ่งหนึ่งอยู่ "ก่อน" หรือดีกว่าอีกสิ่ง คือ "ชอบมากกว่า"', example: 'I <strong>prefer</strong> coffee to tea. (ฉันชอบกาแฟมากกว่าชา)' },
+    'ferry': { title: 'ferry (<u>เฟอ</u>-รี)', root: 'fer (carry)', mnemonic: 'เรือที่ "ขน" คนหรือของข้ามฟาก', example: 'We took a <strong>ferry</strong> to the island. (เรานั่งเรือข้ามฟากไปยังเกาะ)' },
+
+    'sufficient': { title: 'sufficient (ซัฟ-<u>ฟิช</u>-เชินทฺ)', root: 'suf (under) + fic (make)', mnemonic: 'การ "ทำ" หรือมีจนถึงระดับพื้นฐาน คือ "เพียงพอ"', example: 'We have <strong>sufficient</strong> food for everyone.' },
+    'efficient': { title: 'efficient (เอฟ-<u>ฟิช</u>-เชินทฺ)', root: 'ef (out) + fic (make)', mnemonic: 'การ "ทำ" งานแล้วได้ผลออกมาดี โดยใช้ทรัพยากรน้อย คือ "มีประสิทธิภาพ"', example: 'The new machine is very <strong>efficient</strong>.' },
+    'proficient': { title: 'proficient (โพร-<u>ฟิช</u>-เชินทฺ)', root: 'pro (forward) + fic (make)', mnemonic: 'ผู้ที่ "ทำ" ได้ก้าวหน้า คือ "ชำนาญ"', example: 'She is <strong>proficient</strong> in several programming languages. (เธอชำนาญภาษาโปรแกรมมิ่งหลายภาษา)' },
+    'fiction': { title: 'fiction (<u>ฟิค</u>-เชิน)', root: 'fic (make)', mnemonic: 'เรื่องที่ "สร้าง" หรือ "แต่ง" ขึ้น ไม่ใช่เรื่องจริง', example: 'I enjoy reading science <strong>fiction</strong>. (ฉันชอบอ่านนิยายวิทยาศาสตร์)' },
+
+    'final': { title: 'final (<u>ไฟ</u>-เนิล)', root: 'fin (end)', mnemonic: 'สิ่งที่มาถึง "จุดสิ้นสุด"', example: 'This is the <strong>final</strong> chapter of the book.' },
+    'define': { title: 'define (ดิ-<u>ไฟน</u>)', root: 'de (completely) + fin (limit)', mnemonic: 'การกำหนด "ขอบเขต" ให้ชัดเจนโดยสมบูรณ์ คือ "การให้คำจำกัดความ"', example: 'Can you <strong>define</strong> the word "justice"?' },
+    'infinite': { title: 'infinite (<u>อิน</u>-ฟิ-นิท)', root: 'in (not) + fin (end)', mnemonic: 'ที่ "ไม่มี" "ที่สิ้นสุด"', example: 'The universe is vast and possibly <strong>infinite</strong>.' },
+    'confine': { title: 'confine (คอน-<u>ไฟน</u>)', root: 'con (together) + fin (limit)', mnemonic: 'การจำกัดให้อยู่ใน "ขอบเขต" เดียวกัน คือ "การกักขัง, จำกัด"', example: 'The prisoners were <strong>confine</strong>d to their cells. (นักโทษถูกกักตัวอยู่ในห้องขัง)' },
+    'finish': { title: 'finish (<u>ฟิ</u>-นิช)', root: 'fin (end)', mnemonic: 'การทำจนถึง "จุดสิ้นสุด"', example: 'Have you <strong>finish</strong>ed your homework? (คุณทำการบ้านเสร็จหรือยัง)' },
+    
+    'benefit': { title: 'benefit (<u>เบน</u>-นะ-ฟิท)', root: 'bene (good) + fit (make)', mnemonic: 'สิ่งที่ "ทำ" ให้เกิดผล "ดี"', example: 'Exercise has many health <strong>benefit</strong>s.' },
+    'profit': { title: 'profit (<u>พร็อฟ</u>-ฟิท)', root: 'pro (forward) + fit (make)', mnemonic: 'เงินที่ "ทำ" ได้เพิ่มขึ้นมา คือ "กำไร"', example: 'The company made a huge <strong>profit</strong> last year.' },
+    'misfit': { title: 'misfit (<u>มิส</u>-ฟิท)', root: 'mis (wrong) + fit (make)', mnemonic: 'คนที่ "เข้า" กับสังคมไม่ได้ หรือ "ไม่เหมาะสม"', example: 'He felt like a <strong>misfit</strong> at the party. (เขารู้สึกเหมือนเป็นส่วนเกินในงานปาร์ตี้)' },
+    'outfit': { title: 'outfit (<u>เอาทฺ</u>-ฟิท)', root: 'out + fit (make)', mnemonic: 'ชุดที่ "จัด" ออกมาให้เข้ากัน', example: 'She wore a beautiful <strong>outfit</strong> to the wedding. (เธอสวมชุดที่สวยงามไปงานแต่งงาน)' },
+    
+    'fluent': { title: 'fluent (<u>ฟลู</u>-เอินทฺ)', root: 'flu (flow)', mnemonic: 'การพูดได้ "ไหล" ลื่นไม่ติดขัด', example: 'She is <strong>fluent</strong> in three languages.' },
+    'influence': { title: 'influence (<u>อิน</u>-ฟลู-เอินซฺ)', root: 'in (in) + flu (flow)', mnemonic: 'สิ่งที่ "ไหล" เข้ามามีผลต่อความคิดหรือการกระทำ คือ "อิทธิพล"', example: 'Social media has a big <strong>influence</strong> on young people.' },
+    'fluid': { title: 'fluid (<u>ฟลู</u>-อิด)', root: 'flu (flow)', mnemonic: 'สิ่งที่ "ไหล" ได้ คือ "ของเหลว"', example: 'You should drink plenty of <strong>fluid</strong>s when you are sick. (คุณควรดื่มของเหลวมากๆ เวลาป่วย)' },
+    'affluent': { title: 'affluent (<u>แอฟ</u>-ฟลู-เอินทฺ)', root: 'af (to) + flu (flow)', mnemonic: 'ที่ซึ่งความมั่งคั่ง "ไหล" ไปรวมกัน คือ "ร่ำรวย"', example: 'They live in an <strong>affluent</strong> neighborhood. (พวกเขาอาศัยอยู่ในย่านที่ร่ำรวย)' },
+
+    'florist': { title: 'florist (<u>ฟลอ</u>-ริสทฺ)', root: 'flor (flower)', mnemonic: 'คนที่ทำงานเกี่ยวกับ "ดอกไม้"', example: 'I bought a beautiful bouquet from the <strong>florist</strong>.' },
+    'flourish': { title: 'flourish (<u>ฟลอ</u>-ริช)', root: 'flour (flower)', mnemonic: 'การเจริญงอกงามเหมือน "ดอกไม้" ที่เบ่งบาน', example: 'The arts began to <strong>flourish</strong> during that period.' },
+    'floral': { title: 'floral (<u>ฟลอ</u>-รัล)', root: 'flor (flower)', mnemonic: 'ที่เกี่ยวกับ "ดอกไม้" หรือมีลายดอกไม้', example: 'She wore a <strong>floral</strong> dress. (เธอสวมชุดลายดอกไม้)' },
+
+    'effort': { title: 'effort (<u>เอฟ</u>-เฟิท)', root: 'ef (out) + fort (strong)', mnemonic: 'การใช้ความ "แข็งแกร่ง" ออกมา คือ "ความพยายาม"', example: 'You need to make more <strong>effort</strong> if you want to succeed.' },
+    'comfort': { title: 'comfort (<u>คอม</u>-เฟิท)', root: 'com (with) + fort (strong)', mnemonic: 'การให้ความ "แข็งแกร่ง" กับจิตใจ คือ "ความสบายใจ, การปลอบโยน"', example: 'She tried to <strong>comfort</strong> the crying child.' },
+    'fortress': { title: 'fortress (<u>ฟอ</u>-เทรส)', root: 'fort (strong)', mnemonic: 'สถานที่ที่ "แข็งแกร่ง" ยากต่อการโจมตี คือ "ป้อมปราการ"', example: 'The ancient castle was a mighty <strong>fortress</strong>.' },
+    'fortify': { title: 'fortify (<u>ฟอ</u>-ทิ-ฟาย)', root: 'fort (strong)', mnemonic: 'การทำให้ "แข็งแกร่ง" ขึ้น', example: 'The city was <strong>fortified</strong> with high walls. (เมืองถูกทำให้แข็งแกร่งด้วยกำแพงสูง)' },
+    'force': { title: 'force (ฟอรฺซ)', root: 'forc (strong)', mnemonic: 'ความ "แข็งแกร่ง" หรือ "พละกำลัง"', example: 'The <strong>force</strong> of the wind was incredible. (แรงของลมนั้นน่าเหลือเชื่อมาก)' },
+    
+    'uniform': { title: 'uniform (<u>ยู</u>-นิ-ฟอรม)', root: 'uni (one) + form (shape)', mnemonic: 'เครื่องแต่งกายที่มี "รูปแบบ" "เดียว" กัน', example: 'All students must wear a school <strong>uniform</strong>.' },
+    'transform': { title: 'transform (แทรนซฺ-<u>ฟอรม</u>)', root: 'trans (across) + form (shape)', mnemonic: 'การเปลี่ยน "รูปทรง" ข้ามไปเป็นอีกแบบหนึ่ง คือ "การเปลี่ยนแปลง"', example: 'The caterpillar will <strong>transform</strong> into a butterfly.' },
+    'information': { title: 'information (อิน-ฟอ-<u>เม</u>-เชิน)', root: 'in (in) + form (shape)', mnemonic: 'สิ่งที่ "สร้างรูปแบบ" ความรู้ขึ้นมาข้างใน คือ "ข้อมูล"', example: 'I need more <strong>information</strong> about this topic. (ฉันต้องการข้อมูลเพิ่มเติมเกี่ยวกับหัวข้อนี้)' },
+    'reform': { title: 'reform (รี-<u>ฟอรม</u>)', root: 're (again) + form (shape)', mnemonic: 'การ "จัดรูปแบบ" ใหม่อีกครั้ง คือ "การปฏิรูป"', example: 'The government plans to <strong>reform</strong> the education system. (รัฐบาลวางแผนที่จะปฏิรูประบบการศึกษา)' },
+    
+    'refrigerator': { title: 'refrigerator (รี-<u>ฟริจ</u>-เจอ-เร-เทอะ)', root: 're (again) + frig (cold)', mnemonic: 'เครื่องที่ทำ "ความเย็น" ซ้ำๆ', example: 'Don\'t forget to put the milk back in the <strong>refrigerator</strong>.' },
+    'defrost': { title: 'defrost (ดี-<u>ฟรอสทฺ</u>)', root: 'de (remove) + frost (cold)', mnemonic: 'การเอา "ความเย็น" หรือน้ำแข็งออก คือ "การละลายน้ำแข็ง"', example: 'You need to <strong>defrost</strong> the freezer once a month.' },
+    'frigid': { title: 'frigid (<u>ฟริ</u>-จิด)', root: 'frig (cold)', mnemonic: 'ที่ "หนาวเย็น" มาก', example: 'The explorers faced <strong>frigid</strong> temperatures in the Arctic. (นักสำรวจเผชิญกับอุณหภูมิที่หนาวเย็นจัดในแถบอาร์กติก)' },
+    'frostbite': { title: 'frostbite (<u>ฟรอสทฺ</u>-ไบทฺ)', root: 'frost (cold) + bite', mnemonic: 'เมื่อ "ความเย็น" "กัด" เนื้อเยื่อ', example: 'He got <strong>frostbite</strong> on his toes from walking in the snow. (เขาถูกหิมะกัดที่นิ้วเท้าจากการเดินในหิมะ)' },
+};
+
+const pages = [
+    { type: 'intro', title: 'ถอดรหัสรากศัพท์ (ฉบับสมบูรณ์)', content: `<div class="text-center flex flex-col items-center justify-center h-full"><h1 class="text-4xl font-bold text-gray-800">ยินดีต้อนรับสู่บทเรียนรากศัพท์!</h1><p class="text-xl text-gray-600 mt-4">การเข้าใจรากศัพท์ (Root Words) เป็นกุญแจสำคัญที่ช่วยให้เราสามารถเดาความหมายของคำศัพท์ที่ไม่เคยเห็นมาก่อน และขยายคลังคำศัพท์ของเราได้อย่างรวดเร็ว</p><p class="mt-8 text-teal-600 font-semibold">บทเรียนนี้ครอบคลุมรากศัพท์ทั้งหมด 37 ตัว แบ่งเป็น 5 ชุด พร้อมแล้วกด "ต่อไป" เพื่อเริ่มได้เลย!</p></div>` },
+    // Set 1
+    { set: 1, title: '1. al, ali, alter', meaning: 'อื่น (other), เปลี่ยน (change)', words: ['alien', 'alienate', 'alibi', 'alias', 'alternate', 'alternative', 'alter_ego', 'alteration', 'altruism'] },
+    { set: 1, title: '2. ann, enn', meaning: 'ปี (year)', words: ['annual', 'annually', 'anniversary', 'annals', 'annuity', 'perennial', 'biennial', 'centennial'] },
+    { set: 1, title: '3. arm', meaning: 'อาวุธ (weapon)', words: ['army', 'armour', 'armament', 'armada', 'disarm', 'armistice'] },
+    { set: 1, title: '4. aster, astro, stella', meaning: 'ดาว (star)', words: ['asterisk', 'asteroid', 'astronaut', 'astronomy', 'constellation', 'disaster', 'stellar'] },
+    { set: 1, title: '5. audi, audit, ey', meaning: 'ได้ยิน, ฟัง (hear, listen)', words: ['audience', 'audition', 'auditorium', 'auditory', 'inaudible', 'obey', 'survey'] },
+    { set: 1, title: '6. bar', meaning: 'เครื่องกีดขวาง (barrier, block)', words: ['barrier', 'barricade', 'barrister', 'debar', 'embargo'] },
+    { set: 1, title: '7. bat, beat', meaning: 'ตี, ต่อสู้ (beat, fight)', words: ['battle', 'batter', 'combat', 'debate', 'rebate', 'abate'] },
+    // Set 2
+    { set: 2, title: '8. cap', meaning: 'หัว (head)', words: ['capital', 'captain', 'caption', 'decapitate', 'recapitulate'] },
+    { set: 2, title: '9. cede, cess', meaning: 'ไป, ยอม (go, yield)', words: ['access', 'concede', 'predecessor', 'proceed', 'recess', 'success'] },
+    { set: 2, title: '10. ceive, cept', meaning: 'รับ, เอา (take, receive)', words: ['accept', 'concept', 'deceive', 'intercept', 'perceive', 'receive'] },
+    { set: 2, title: '11. cel, celer, culmin', meaning: 'เร็ว, สูง (speed, high)', words: ['accelerate', 'celerity', 'celebrity', 'culminate'] },
+    { set: 2, title: '12. center, central, centri', meaning: 'ศูนย์กลาง (center)', words: ['central', 'concentrate', 'eccentric', 'geocentric'] },
+    { set: 2, title: '13. claim', meaning: 'ตะโกน, ร้อง (shout, cry out)', words: ['claimant', 'exclaim', 'proclaim', 'reclaim'] },
+    { set: 2, title: '14. clim, clin', meaning: 'เอน, ลาด (lean, slope)', words: ['climate', 'decline', 'incline', 'recline'] },
+    // Set 3
+    { set: 3, title: '15. close, clude', meaning: 'ปิด (shut, close)', words: ['claustrophobia', 'conclude', 'disclose', 'exclude', 'include'] },
+    { set: 3, title: '16. cord, core', meaning: 'หัวใจ (heart)', words: ['accord', 'core', 'cordial', 'discord', 'record'] },
+    { set: 3, title: '17. cover, cur', meaning: 'คลุม, ปิด (cover)', words: ['cover', 'curfew', 'discover', 'recover'] },
+    { set: 3, title: '18. cre, cru', meaning: 'สร้าง, โต (make, grow)', words: ['create', 'concrete', 'decrease', 'increase', 'recruit'] },
+    { set: 3, title: '19. cross', meaning: 'ข้าม, กากบาท (cross)', words: ['across', 'crossroads', 'crucial', 'crucifix'] },
+    { set: 3, title: '20. cur, cour', meaning: 'วิ่ง, ไป (run, go)', words: ['course', 'courier', 'current', 'occur', 'precursor'] },
+    { set: 3, title: '21. cur, curi', meaning: 'ดูแล, ใส่ใจ (care, attention)', words: ['curator', 'curious', 'manicure', 'secure'] },
+    // Set 4
+    { set: 4, title: '22. dic, dict', meaning: 'พูด, บอก (say, speak)', words: ['contradict', 'dictate', 'dictionary', 'predict', 'verdict'] },
+    { set: 4, title: '23. duct', meaning: 'นำ (lead)', words: ['abduct', 'aqueduct', 'conduct', 'product'] },
+    { set: 4, title: '24. duce', meaning: 'นำ (lead)', words: ['deduce', 'induce', 'produce', 'reduce'] },
+    { set: 4, title: '25. equ, equi', meaning: 'เท่ากัน (equal)', words: ['adequate', 'equal', 'equation', 'equator', 'equilibrium'] },
+    { set: 4, title: '26. fa, phe', meaning: 'พูด (speak)', words: ['fable', 'famous', 'infant', 'prophet'] },
+    { set: 4, title: '27. fac, fact', meaning: 'ทำ (make, do)', words: ['artifact', 'benefactor', 'factory', 'manufacture'] },
+    { set: 4, title: '28. fect', meaning: 'ทำ (make, do)', words: ['affect', 'defect', 'infect', 'perfect'] },
+    // Set 5
+    { set: 5, title: '29. fer', meaning: 'ถือ, แบก, นำมา (carry, bear)', words: ['ferry', 'infer', 'prefer', 'refer', 'transfer'] },
+    { set: 5, title: '30. fic', meaning: 'ทำ (make, do)', words: ['efficient', 'fiction', 'proficient', 'sufficient'] },
+    { set: 5, title: '31. fin', meaning: 'สิ้นสุด, ขอบเขต (end, limit)', words: ['confine', 'define', 'final', 'finish', 'infinite'] },
+    { set: 5, title: '32. fit', meaning: 'ทำ (make, do)', words: ['benefit', 'misfit', 'outfit', 'profit'] },
+    { set: 5, title: '33. flo, flu', meaning: 'ไหล (flow)', words: ['affluent', 'fluid', 'fluent', 'influence'] },
+    { set: 5, title: '34. flour, flor', meaning: 'ดอกไม้ (flower)', words: ['floral', 'florist', 'flourish'] },
+    { set: 5, title: '35. forc, fort', meaning: 'แข็งแรง (strong)', words: ['comfort', 'effort', 'force', 'fortify', 'fortress'] },
+    { set: 5, title: '36. form', meaning: 'รูปทรง (shape)', words: ['form', 'information', 'reform', 'transform', 'uniform'] },
+    { set: 5, title: '37. frig, frost, freeze', meaning: 'เย็น (cold)', words: ['defrost', 'frigid', 'frostbite', 'refrigerator'] },
+    { type: 'outro', title: 'บทเรียนรากศัพท์ฉบับสมบูรณ์', content: `<div class="text-center flex flex-col items-center justify-center h-full"><h1 class="text-4xl font-bold text-gray-800">ยอดเยี่ยมที่สุด!</h1><p class="text-xl text-gray-600 mt-4">คุณได้เรียนรู้รากศัพท์ครบทั้งหมด 37 ตัวแล้ว! การฝึกฝนและสังเกตคำเหล่านี้จะช่วยให้ทักษะภาษาอังกฤษของคุณพัฒนาไปอีกระดับอย่างแน่นอน</p><p class="mt-8 text-blue-600 font-semibold">ขอให้สนุกกับการเรียนรู้ต่อไป!</p></div>` }
+];
+
+const setColors = { 1: 'bg-sky-50 hover:bg-sky-100', 2: 'bg-orange-50 hover:bg-orange-100', 3: 'bg-rose-50 hover:bg-rose-100', 4: 'bg-violet-50 hover:bg-violet-100', 5: 'bg-lime-50 hover:bg-lime-100' };
+const setHeaderColors = { 1: 'bg-sky-100 text-sky-800', 2: 'bg-orange-100 text-orange-800', 3: 'bg-rose-100 text-rose-800', 4: 'bg-violet-100 text-violet-800', 5: 'bg-lime-100 text-lime-800' };
+
+// --- JAVASCRIPT LOGIC ---
+const pageContent = document.getElementById('page-content');
+const prevBtn = document.getElementById('prev-btn');
+const nextBtn = document.getElementById('next-btn');
+const pageIndicator = document.getElementById('page-indicator');
+const modalContainer = document.getElementById('modal-container');
+const closeModalBtn = document.getElementById('close-modal-btn');
+let currentPageIndex = 0;
+let lastRenderedSet = 0;
+
+function renderPage() {
+    const pageData = pages[currentPageIndex];
+    let contentHtml = '';
+    
+    if (pageData.type === 'intro' || pageData.type === 'outro') {
+        contentHtml = `
+            <div>
+                <h2 class="text-3xl font-bold text-center mb-2 text-gray-700">${pageData.title}</h2>
+                ${pageData.content}
+            </div>`;
+        lastRenderedSet = 0;
+    } else {
+        const wordGrid = pageData.words.map(word => 
+            `<div class="p-4 ${setColors[pageData.set]} rounded-lg cursor-pointer clickable-word" data-word="${word}">${word.replace(/_/g, ' ')}</div>`
+        ).join('');
+
+        let setHeader = '';
+        if (pageData.set !== lastRenderedSet) {
+            setHeader = `<div class="text-center"><span class="set-header ${setHeaderColors[pageData.set]}">ชุดที่ ${pageData.set}</span></div>`;
+            lastRenderedSet = pageData.set;
+        }
+
+        contentHtml = `
+            <div>
+                ${setHeader}
+                <h2 class="text-3xl font-bold text-center mb-2 text-gray-700">${pageData.title}</h2>
+                <p class="text-center text-lg text-gray-600 mb-6">มีความหมายว่า <strong>"${pageData.meaning}"</strong></p>
+                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 text-center font-semibold">
+                    ${wordGrid}
+                </div>
+            </div>`;
+    }
+
+    pageContent.innerHTML = `
+        ${contentHtml}
+        <div class="text-center text-xs text-gray-400 mt-8 pt-4 border-t border-gray-200">
+            จัดทำโดยครูสาลี่ อังกฤษฉบับคนเรียนไม่รู้เรื่อง
+        </div>
+    `;
+    
+    updateNavButtons();
+    addEventListenersForPage();
+}
+
+function updateNavButtons() {
+    prevBtn.disabled = currentPageIndex === 0;
+    nextBtn.disabled = currentPageIndex === pages.length - 1;
+    pageIndicator.textContent = `หน้า ${currentPageIndex + 1} / ${pages.length}`;
+}
+
+function addEventListenersForPage() {
+    const clickableWords = pageContent.querySelectorAll('.clickable-word');
+    clickableWords.forEach(wordEl => {
+        wordEl.addEventListener('click', (e) => {
+            const wordKey = e.currentTarget.dataset.word;
+            if (wordData[wordKey]) {
+                showModal(wordData[wordKey]);
+            }
+        });
+    });
+}
+
+function showModal(data) {
+    document.getElementById('modal-title').innerHTML = data.title;
+    document.getElementById('modal-root').innerHTML = data.root;
+    document.getElementById('modal-mnemonic').innerHTML = data.mnemonic;
+    document.getElementById('modal-example').innerHTML = data.example;
+    modalContainer.classList.remove('hidden');
+    modalContainer.classList.add('flex');
+    setTimeout(() => modalContainer.classList.add('active'), 10);
+}
+
+function hideModal() {
+    modalContainer.classList.remove('active');
+    setTimeout(() => {
+        modalContainer.classList.add('hidden');
+        modalContainer.classList.remove('flex');
+    }, 300);
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    prevBtn.addEventListener('click', () => {
+        if (currentPageIndex > 0) {
+            currentPageIndex--;
+            const pageData = pages[currentPageIndex];
+            const prevPageData = pages[currentPageIndex + 1];
+            if(pageData.set && prevPageData.set && pageData.set < prevPageData.set) {
+                lastRenderedSet = pageData.set - 1; 
+                if (lastRenderedSet < 0) lastRenderedSet = 0;
+            } else if (pageData.type === 'intro') {
+                lastRenderedSet = 0;
+            }
+            renderPage();
+        }
+    });
+
+    nextBtn.addEventListener('click', () => {
+        if (currentPageIndex < pages.length - 1) {
+            currentPageIndex++;
+            renderPage();
+        }
+    });
+    
+    closeModalBtn.addEventListener('click', hideModal);
+    modalContainer.addEventListener('click', (e) => {
+        if (e.target === modalContainer) {
+            hideModal();
+        }
+    });
+
+    renderPage();
+});
+</script>
+
+</body>
+</html>

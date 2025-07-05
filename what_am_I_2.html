@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What/Who Am I? Game - Hangman Edition</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sarabun:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', 'Sarabun', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .letter-box {
+            color: transparent; /* Hide letter initially */
+            transition: all 0.3s ease;
+        }
+        .letter-box.revealed {
+            color: #1f2937; /* Dark gray text */
+            background-color: #d1fae5; /* Light green background */
+            border-color: #10b981; /* Green border */
+        }
+        .letter-box.revealed.dark {
+             color: #f9fafb;
+             background-color: #374151;
+             border-color: #6ee7b7;
+        }
+        .word-spacer {
+            width: 1rem;
+        }
+        .incorrect-letter {
+            text-decoration: line-through;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 dark:bg-gray-900 flex items-center justify-center min-h-screen p-4">
+
+    <div class="w-full max-w-lg mx-auto">
+        <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg overflow-hidden">
+            <!-- Header with Teal theme -->
+            <div class="p-5 bg-teal-600 text-white">
+                <h1 id="question-title" class="text-2xl font-bold text-center">What Am I?</h1>
+                <p id="question-counter" class="text-center text-teal-200 text-sm font-medium mt-1">Question 1 / 50</p>
+            </div>
+
+            <div class="p-6 md:p-8">
+                <!-- Clues Section -->
+                <div class="mb-6 min-h-[120px]">
+                    <h2 class="text-lg font-semibold text-gray-800 dark:text-white mb-3">Clues:</h2>
+                    <ul id="clues-list" class="list-disc list-inside space-y-2 text-gray-600 dark:text-gray-300">
+                        <!-- Clues will be populated by JS -->
+                    </ul>
+                </div>
+
+                <!-- Guess Display Area -->
+                <div class="mb-6 min-h-[60px]">
+                    <div id="guess-container" class="flex flex-wrap justify-center items-center gap-1.5 md:gap-2">
+                        <!-- Letter boxes will be generated here -->
+                    </div>
+                </div>
+
+                <!-- Hangman Info Section -->
+                <div class="text-center mb-4 p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
+                    <p class="text-sm text-gray-500 dark:text-gray-400">Incorrect Guesses: <span id="incorrect-guesses" class="font-bold text-red-500 tracking-widest"></span></p>
+                    <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Guesses Left: <span id="guesses-left" class="font-bold text-teal-600 dark:text-teal-400">6</span></p>
+                </div>
+
+                <!-- Status Message -->
+                <div id="status-message" class="text-center h-6 mb-4 font-bold text-xl">
+                    <!-- e.g., "Correct!" or "Game Over!" -->
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="flex justify-center">
+                    <button id="reveal-btn" class="bg-amber-500 hover:bg-amber-600 text-white font-bold py-3 px-6 rounded-xl transition-transform transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-amber-300 dark:focus:ring-amber-800">
+                        Reveal Answer
+                    </button>
+                </div>
+            </div>
+
+            <!-- Navigation -->
+            <div class="bg-gray-50 dark:bg-gray-700/50 px-6 py-4 flex justify-between items-center">
+                <button id="prev-btn" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-6 rounded-lg transition disabled:opacity-50 disabled:cursor-not-allowed">
+                    Previous
+                </button>
+                <button id="next-btn" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-6 rounded-lg transition disabled:opacity-50 disabled:cursor-not-allowed">
+                    Next
+                </button>
+            </div>
+        </div>
+        <footer class="text-center mt-4 text-sm text-gray-500 dark:text-gray-400">
+            จัดทำโดยครูสาลี่ อังกฤษฉบับคนเรียนไม่รู้เรื่อง
+        </footer>
+    </div>
+
+    <script>
+        const riddles = [
+            { type: 'What am I?', clues: ["I have no voice, but I can repeat what you say.", "I live in valleys and empty halls, but I am never seen.", "The softer you speak, the harder I am to find."], answer: "An echo" },
+            { type: 'What am I?', clues: ["I have a fiery temper and a rocky heart.", "I sleep for centuries, then wake with a destructive roar.", "I can build islands and mountains."], answer: "A volcano" },
+            { type: 'What am I?', clues: ["I have an eye that can see for millions of miles.", "I let you see the past by looking at distant stars.", "I am blind without a user to look through me."], answer: "A telescope" },
+            { type: 'What am I?', clues: ["I have a heavy heart and a strong arm.", "My job is to stop others from drifting away.", "I am thrown away when needed and pulled back when not."], answer: "An anchor" },
+            { type: 'What am I?', clues: ["I visit you only at night, in the theater of your mind.", "I can be a wonderful story or a terrifying adventure.", "You forget most of me when you wake."], answer: "A dream" },
+            { type: 'What am I?', clues: ["I always point in one direction, no matter where you turn me.", "I have a needle but cannot sew.", "I am a lost traveler's best friend."], answer: "A compass" },
+            { type: 'What am I?', clues: ["I have a lot of money, but none of it is mine.", "I have many tellers, but they don't tell stories.", "I have vaults but no ceilings."], answer: "A bank" },
+            { type: 'What am I?', clues: ["I am a river of ice, moving slower than you can see.", "I carve mountains and create valleys over millennia.", "My melting is a sign of a warming world."], answer: "A glacier" },
+            { type: 'What am I?', clues: ["My skin is my canvas.", "I change my appearance to match my surroundings or my mood.", "I have a tongue that is twice as long as my body."], answer: "A chameleon" },
+            { type: 'What am I?', clues: ["The more people you tell, the less I am worth.", "I am heavy to carry alone.", "I am often whispered."], answer: "A secret" },
+            { type: 'Who am I?', clues: ["I work with dough but not with money.", "I wake up while you are still sleeping.", "The smell of my work is a comfort to many."], answer: "A baker" },
+            { type: 'What am I?', clues: ["I am a jacket you can't wear.", "I am a place for files you can't put on.", "I help you organize your digital work."], answer: "A folder" },
+            { type: 'What am I?', clues: ["I am a language spoken without a mouth.", "I am understood by computers, not by most people.", "I am made of ones and zeros."], answer: "Binary code" },
+            { type: 'What am I?', clues: ["I have a single horn, but I am a creature of myth.", "I am a symbol of purity and grace.", "I look like a horse but am much rarer."], answer: "A unicorn" },
+            { type: 'What am I?', clues: ["I am a line of people or cars, waiting for their turn.", "I am a test of patience.", "In Britain, they are very good at forming me."], answer: "A queue" },
+            { type: 'What am I?', clues: ["I am a forest in the sea.", "I am built by tiny animals over thousands of years.", "I am colorful and full of life, but I am very fragile."], answer: "A coral reef" },
+            { type: 'What am I?', clues: ["I have a head of red and a body of wood.", "The more I am used, the shorter I get.", "I create fire with a single strike."], answer: "A matchstick" },
+            { type: 'Who am I?', clues: ["I argue for a living, often in a courtroom.", "I speak for those who cannot speak for themselves.", "I wear a robe or a suit to work."], answer: "A lawyer" },
+            { type: 'What am I?', clues: ["I am a question that is also an answer.", "I am a statement of what is not known.", "I often begin with 'Who', 'What', or 'Where'."], answer: "A paradox" },
+            { type: 'What am I?', clues: ["I have a thousand stories but only one cover.", "I am published daily or weekly.", "My stories are only relevant for a short time."], answer: "A newspaper" },
+            { type: 'What am I?', clues: ["I am a hole in the sky, but I am not empty.", "My gravity is so strong that not even light can escape.", "I am the end of a star's life."], answer: "A black hole" },
+            { type: 'What am I?', clues: ["I am a dance of light in the polar skies.", "I am caused by particles from the sun hitting the atmosphere.", "I am also known as the Northern or Southern Lights."], answer: "An aurora" },
+            { type: 'What am I?', clues: ["I am a plant that eats insects.", "I have jaws but no mouth.", "I trap my prey with sweet nectar."], answer: "A venus flytrap" },
+            { type: 'What am I?', clues: ["I am a city that was lost to the sea.", "I am a legend of an advanced civilization.", "Plato wrote about me."], answer: "Atlantis" },
+            { type: 'What am I?', clues: ["I can be a bull or a bear, but I am not an animal.", "I am a place of fortune and despair.", "I am where people trade shares."], answer: "The stock market" },
+            { type: 'What am I?', clues: ["I am a feeling of great happiness and excitement.", "I am often felt after a great achievement.", "My name sounds like a continent."], answer: "Euphoria" },
+            { type: 'Who am I?', clues: ["I create worlds with words.", "I can make you feel love, fear, or joy for people who don't exist.", "I work with plots, characters, and settings."], answer: "An author" },
+            { type: 'What am I?', clues: ["I have a bark, but I cannot bite.", "I have rings that tell my age, but I have no fingers.", "I give shade in the summer."], answer: "A tree" },
+            { type: 'What am I?', clues: ["I am a room where art is born.", "I can be messy and chaotic, but from me comes beauty.", "A painter or sculptor calls me their workspace."], answer: "A studio" },
+            { type: 'What am I?', clues: ["I am a journey to a holy place.", "People undertake me for spiritual reasons.", "Mecca and Jerusalem are famous destinations for me."], answer: "A pilgrimage" },
+            { type: 'What am I?', clues: ["I am a weapon and a tool for a lumberjack.", "I have a single sharp blade and a wooden handle.", "I can be used to split wood or to fight."], answer: "An axe" },
+            { type: 'What am I?', clues: ["I am a giant wave caused by an earthquake under the sea.", "I can travel across entire oceans.", "My name is Japanese for 'harbor wave'."], answer: "A tsunami" },
+            { type: 'What am I?', clues: ["I have no beginning or end.", "I am a symbol of eternity and love.", "You wear me on your finger."], answer: "A ring" },
+            { type: 'Who am I?', clues: ["I am a ruler with absolute power.", "I often come to power through force, not by election.", "My rule is often harsh and oppressive."], answer: "A dictator" },
+            { type: 'What am I?', clues: ["I am a sweet substance made by bees.", "I never spoil.", "I am a natural food and medicine."], answer: "Honey" },
+            { type: 'What am I?', clues: ["I am a structure built to hold back water.", "I can create a lake and generate electricity.", "The Hoover is a famous example of me."], answer: "A dam" },
+            { type: 'What am I?', clues: ["I am a moment of sudden, brilliant understanding.", "I am often represented by a lightbulb turning on.", "Archimedes famously had one in his bath."], answer: "An epiphany" },
+            { type: 'What am I?', clues: ["I am a bird that can fly backward.", "I am tiny and my wings beat incredibly fast.", "I drink nectar from flowers."], answer: "A hummingbird" },
+            { type: 'What am I?', clues: ["I am a system of writing for the blind.", "I am read by touch, not by sight.", "I am made of raised dots."], answer: "Braille" },
+            { type: 'What am I?', clues: ["I am a period of inactivity for animals during winter.", "Bears are famous for doing this.", "It is like a very long, deep sleep."], answer: "Hibernation" },
+            { type: 'What am I?', clues: ["I am a cloud on the ground.", "I reduce visibility and make driving difficult.", "I am common in the morning in cool, damp weather."], answer: "Fog" },
+            { type: 'Who am I?', clues: ["I am a fictional detective who lives at 221B Baker Street.", "I am known for my powers of deduction.", "My companion is Dr. Watson."], answer: "Sherlock Holmes" },
+            { type: 'What am I?', clues: ["I am a type of pasta shaped like a butterfly.", "My name is Italian for my shape.", "I am good with light sauces."], answer: "Farfalle" },
+            { type: 'What am I?', clues: ["I am a fear of small, enclosed spaces.", "Being in an elevator can trigger me.", "I am a common phobia."], answer: "Claustrophobia" },
+            { type: 'What am I?', clues: ["I am a stone that floats on water.", "I am created from volcanic froth.", "People use me to scrub their feet."], answer: "Pumice" },
+            { type: 'What am I?', clues: ["I am a perfect, idealized world.", "I am a concept of a place where everything is perfect.", "My name means 'no-place' in Greek."], answer: "Utopia" },
+            { type: 'What am I?', clues: ["I am a musical instrument with 88 keys.", "I can be grand or upright.", "My keys are black and white."], answer: "A piano" },
+            { type: 'What am I?', clues: ["I am a spiral-shaped galaxy.", "Earth's solar system is located within me.", "You can see a band of me in the night sky."], answer: "The Milky Way" },
+            { type: 'Who am I?', clues: ["I was a physicist who developed the theory of relativity.", "My equation E=mc² is famous.", "I am known for my wild hair."], answer: "Albert Einstein" },
+            { type: 'What am I?', clues: ["I am a feeling of longing for the past.", "I can be triggered by a song, a smell, or an old photograph.", "It's a bittersweet emotion."], answer: "Nostalgia" }
+        ];
+
+        let currentRiddleIndex = 0;
+        let incorrectGuesses;
+        let correctGuesses;
+        let guessesLeft;
+        let isGameOver;
+
+        // DOM Elements
+        const questionTitle = document.getElementById('question-title');
+        const questionCounter = document.getElementById('question-counter');
+        const cluesList = document.getElementById('clues-list');
+        const guessContainer = document.getElementById('guess-container');
+        const statusMessage = document.getElementById('status-message');
+        const incorrectGuessesEl = document.getElementById('incorrect-guesses');
+        const guessesLeftEl = document.getElementById('guesses-left');
+        const revealBtn = document.getElementById('reveal-btn');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+
+        function cleanAnswer(answer) {
+            let cleaned = answer.split('/')[0].trim().toUpperCase();
+            const articles = ["A ", "AN ", "THE "];
+            for (const article of articles) {
+                if (cleaned.startsWith(article)) {
+                    cleaned = cleaned.substring(article.length);
+                    break;
+                }
+            }
+            return cleaned.replace(/[^A-Z\s]/g, ''); // Keep only letters and spaces
+        }
+        
+        function setupGame(index) {
+            isGameOver = false;
+            incorrectGuesses = [];
+            correctGuesses = [];
+            guessesLeft = 6;
+            
+            const riddle = riddles[index];
+            const cleanedAnswer = cleanAnswer(riddle.answer);
+
+            // Update static content
+            questionTitle.textContent = riddle.type;
+            questionCounter.textContent = `Question ${index + 1} / ${riddles.length}`;
+            statusMessage.textContent = '';
+            incorrectGuessesEl.textContent = '';
+            guessesLeftEl.textContent = guessesLeft;
+            
+            cluesList.innerHTML = '';
+            riddle.clues.forEach(clue => {
+                const li = document.createElement('li');
+                li.textContent = clue;
+                cluesList.appendChild(li);
+            });
+
+            // Generate letter boxes
+            guessContainer.innerHTML = '';
+            cleanedAnswer.split('').forEach((char) => {
+                if (char === ' ') {
+                    const space = document.createElement('div');
+                    space.className = 'word-spacer';
+                    guessContainer.appendChild(space);
+                    correctGuesses.push(' '); // Pre-add spaces to correct guesses
+                } else {
+                    const box = document.createElement('div');
+                    box.className = 'letter-box w-10 h-10 md:w-12 md:h-12 flex items-center justify-center text-2xl font-bold rounded-lg border-2 border-gray-300 dark:bg-gray-700 dark:text-white dark:border-gray-600';
+                    box.textContent = char;
+                    box.dataset.char = char;
+                    guessContainer.appendChild(box);
+                }
+            });
+
+            // Update button states
+            prevBtn.disabled = index === 0;
+            nextBtn.disabled = index === riddles.length - 1;
+        }
+
+        function handleKeyPress(e) {
+            if (isGameOver) return;
+
+            const key = e.key.toUpperCase();
+            if (key.match(/^[A-Z]$/)) { // Check if it's a letter
+                if (incorrectGuesses.includes(key) || correctGuesses.includes(key)) {
+                    return; // Already guessed
+                }
+
+                const answer = cleanAnswer(riddles[currentRiddleIndex].answer);
+                if (answer.includes(key)) {
+                    correctGuesses.push(key);
+                    revealLetters(key);
+                } else {
+                    incorrectGuesses.push(key);
+                    guessesLeft--;
+                    updateHangmanUI();
+                }
+                checkGameStatus();
+            }
+        }
+
+        function revealLetters(letter) {
+            const boxes = document.querySelectorAll(`.letter-box[data-char="${letter}"]`);
+            const isDark = document.body.classList.contains('dark');
+            boxes.forEach(box => {
+                 box.classList.add('revealed');
+                 if(isDark) box.classList.add('dark');
+            });
+        }
+
+        function updateHangmanUI() {
+            incorrectGuessesEl.textContent = incorrectGuesses.join(', ');
+            guessesLeftEl.textContent = guessesLeft;
+        }
+        
+        function checkGameStatus() {
+            const answer = cleanAnswer(riddles[currentRiddleIndex].answer);
+            const uniqueLetters = [...new Set(answer.replace(/\s/g, ''))];
+            
+            // Win condition
+            if (uniqueLetters.every(letter => correctGuesses.includes(letter))) {
+                statusMessage.textContent = 'Correct!';
+                statusMessage.className = 'text-center h-6 mb-4 font-bold text-xl text-green-500';
+                isGameOver = true;
+            }
+
+            // Loss condition
+            if (guessesLeft <= 0) {
+                statusMessage.textContent = 'Game Over!';
+                statusMessage.className = 'text-center h-6 mb-4 font-bold text-xl text-red-500';
+                isGameOver = true;
+                revealAllLetters(true); // Reveal all letters on loss
+            }
+        }
+        
+        function revealAllLetters(isLoss = false) {
+             const boxes = document.querySelectorAll('.letter-box');
+             const isDark = document.body.classList.contains('dark');
+             boxes.forEach(box => {
+                if (!box.classList.contains('revealed')) {
+                    box.classList.add('revealed');
+                    if(isDark) box.classList.add('dark');
+                    if (isLoss) {
+                        box.style.backgroundColor = '#fee2e2'; // Light red for missed letters
+                        box.style.borderColor = '#ef4444'; // Red border
+                    }
+                }
+             });
+        }
+
+        revealBtn.addEventListener('click', () => {
+            isGameOver = true;
+            statusMessage.textContent = '';
+            revealAllLetters(false);
+        });
+
+        prevBtn.addEventListener('click', () => {
+            if (currentRiddleIndex > 0) {
+                currentRiddleIndex--;
+                setupGame(currentRiddleIndex);
+            }
+        });
+
+        nextBtn.addEventListener('click', () => {
+            if (currentRiddleIndex < riddles.length - 1) {
+                currentRiddleIndex++;
+                setupGame(currentRiddleIndex);
+            }
+        });
+
+        // Global event listener for keyboard input
+        document.addEventListener('keydown', handleKeyPress);
+
+        // Initial display
+        window.onload = () => {
+            setupGame(currentRiddleIndex);
+        };
+    </script>
+</body>
+</html>

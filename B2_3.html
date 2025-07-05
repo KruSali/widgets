@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mr. Vocab: The Ultimate Edition - ชุดที่ 3</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Kanit', sans-serif;
+            background-color: #fdfaf6; /* Warm off-white */
+        }
+        .main-container { max-width: 1200px; margin: auto; }
+        .view { display: none; }
+        .view.active { display: block; }
+        .set-card-wrapper {
+            background: linear-gradient(135deg, var(--tw-gradient-from), var(--tw-gradient-to));
+            transition: all 0.3s ease;
+            padding: 8px;
+        }
+        .set-card-wrapper:hover { transform: scale(1.05); box-shadow: 0 10px 20px rgba(0,0,0,0.15); }
+        /* New Theme Color: Teal */
+        .theme-accent { color: #0d9488; /* teal-600 */ }
+        .theme-accent-bg { background-color: #0d9488; /* teal-600 */ }
+
+        .tab-button.active {
+            background-color: #0d9488; /* teal-600 */
+            color: white;
+            border-bottom-color: transparent;
+        }
+        .vocab-card {
+            background-color: white;
+            border-left-width: 5px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            transition: all 0.2s ease;
+        }
+        .vocab-card:hover { transform: translateY(-3px); box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+        .choice-item {
+            border: 2px solid #e5e7eb; /* gray-200 */
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+        .choice-item:hover { border-color: #5eead4; /* teal-300 */ background-color: #f0fdfa; /* teal-50 */ }
+        .choice-item.selected { border-color: #0d9488; /* teal-600 */ background-color: #ccfbf1; /* teal-200 */ }
+        .feedback.correct { background-color: #dcfce7; color: #166534; border-left: 4px solid #22c55e; }
+        .feedback.incorrect { background-color: #fee2e2; color: #991b1b; border-left: 4px solid #ef4444; }
+        .stress { text-decoration: underline; font-weight: 600; }
+    </style>
+</head>
+<body class="p-4 md:p-6">
+
+    <div class="main-container">
+        <div id="main-menu-view" class="view active">
+            <header class="text-center mb-8">
+                <h1 class="text-4xl md:text-5xl font-bold text-gray-800">Mr. Vocab: Ultimate Edition ☕️</h1>
+                <h2 class="text-2xl md:text-3xl font-bold theme-accent">ชุดที่ 3</h2>
+                <p class="text-gray-600 mt-2 text-lg">คลังศัพท์ชุดใหม่ในธีมสบายตา เลือกบทเรียนได้เลย!</p>
+            </header>
+            <div id="set-selection-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+                </div>
+        </div>
+
+        <div id="lesson-view" class="view">
+            <header class="flex items-center justify-between mb-4">
+                <button onclick="showMainMenu()" class="bg-white text-teal-600 hover:bg-teal-50 font-semibold flex items-center px-4 py-2 rounded-lg shadow-sm border border-gray-200">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" /></svg>
+                    เมนูหลัก
+                </button>
+                <h1 id="lesson-title" class="text-2xl md:text-3xl font-bold text-gray-800 text-right"></h1>
+            </header>
+            
+            <div class="bg-white/80 backdrop-blur-sm p-4 sm:p-6 rounded-2xl shadow-lg">
+                <div class="border-b border-gray-200">
+                    <nav class="-mb-px flex space-x-4" aria-label="Tabs">
+                        <button id="tab-lesson-btn" class="tab-button whitespace-nowrap py-3 px-4 border-b-2 font-medium text-lg" onclick="showTab('lesson')">บทเรียน</button>
+                        <button id="tab-exercise-btn" class="tab-button whitespace-nowrap py-3 px-4 border-b-2 font-medium text-lg text-gray-500" onclick="showTab('exercise')">แบบฝึกหัด</button>
+                    </nav>
+                </div>
+                
+                <div class="pt-6">
+                    <div id="lesson-content-wrapper">
+                        <div id="lesson-content" class="grid md:grid-cols-2 gap-5"></div>
+                    </div>
+                    <div id="exercise-content-wrapper" class="hidden">
+                        <p class="text-center text-gray-600 mb-6">เลือกคำตอบที่ถูกต้องที่สุด</p>
+                        <div class="space-y-6" id="quiz-container"></div>
+                        <div class="text-center mt-8">
+                            <button id="check-answers-btn" class="theme-accent-bg hover:bg-teal-700 text-white font-bold py-3 px-10 rounded-full text-lg shadow-md transition-transform hover:scale-105" onclick="checkAnswers()">ตรวจคำตอบ</button>
+                            <button id="reset-btn" class="hidden bg-gray-500 hover:bg-gray-600 text-white font-bold py-3 px-10 rounded-full text-lg" onclick="resetQuiz()">ลองอีกครั้ง</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+    // --- Data for All Vocabulary Sets (Set 3) ---
+    const allSetsData = {
+        set01_scare: {
+            title: 'ผู้สร้างความกลัว',
+            description: 'กลุ่มคำนามเกี่ยวกับคนหรือสิ่งที่สร้างความกลัวและความวุ่นวาย',
+            colors: 'from-slate-600 to-slate-800',
+            lesson: [
+                { word: 'Scarecrow', read: '<span class="stress">สแกร์</span>-โครว์', pos: '(n.) หุ่นไล่กา', meaning: 'หุ่นที่แต่งตัวเหมือนคนเพื่อไล่นกในทุ่งนา', example: 'The farmer put a scarecrow in the middle of the cornfield.', ex_thai: 'ชาวนาวางหุ่นไล่กาไว้กลางทุ่งข้าวโพด' },
+                { word: 'Scaremonger', read: '<span class="stress">สแกร์</span>-มัง-เกอร์', pos: '(n.) ผู้ปล่อยข่าวลือสร้างความกลัว', meaning: 'คนที่จงใจกระจายข่าวลือที่น่าตกใจเพื่อให้ผู้คนตื่นตระหนก', example: 'Don\'t listen to him, he\'s just a scaremonger.', ex_thai: 'อย่าไปฟังเขาเลย เขาเป็นแค่พวกชอบปล่อยข่าวลือให้คนกลัว' },
+                { word: 'Alarmist', read: 'อะ-<span class="stress">ลาม</span>-มิสต์', pos: '(n.) คนที่ชอบตีตนไปก่อนไข้', meaning: 'คนที่ทำให้ผู้คนตื่นตกใจเกินเหตุโดยไม่มีเหตุผลเพียงพอ', example: 'The media was accused of being alarmist about the new virus.', ex_thai: 'สื่อถูกกล่าวหาว่าตีตนไปก่อนไข้เกี่ยวกับไวรัสตัวใหม่' },
+                { word: 'Stirrer', read: '<span class="stress">สเตอร์</span>-เรอร์', pos: '(n.) ตัวปั่น, ผู้ก่อกวน', meaning: 'คนที่จงใจสร้างปัญหาหรือความขัดแย้งระหว่างผู้อื่น', example: 'She is known as a stirrer in the office, always creating drama.', ex_thai: 'เธอเป็นที่รู้จักว่าเป็นตัวปั่นในออฟฟิศ ชอบสร้างดราม่าอยู่เสมอ' }
+            ],
+            quiz: [
+                { q: "A person who deliberately spreads rumors to cause public panic is a _______.", a: "Scaremonger", choices: ["Scarecrow", "Alarmist", "Stirrer", "Scaremonger"], explanation: "ใช้ Scaremonger สำหรับคนที่จงใจปล่อยข่าวลือให้คนตื่นตระหนก" },
+                { q: "He's not really concerned; he's just an _______ who enjoys causing unnecessary worry.", a: "Alarmist", choices: ["Scarecrow", "Stirrer", "Alarmist", "Scaremonger"], explanation: "ใช้ Alarmist สำหรับคนที่ชอบทำให้คนอื่นตกใจเกินเหตุ" },
+                { q: "To protect the crops from birds, they set up a _______.", a: "Scarecrow", choices: ["Stirrer", "Scaremonger", "Alarmist", "Scarecrow"], explanation: "ใช้ Scarecrow เพราะเป็นหุ่นที่ใช้ไล่นกในทุ่งนา" },
+                { q: "Ignore him, he's a _______ who loves to cause arguments between friends.", a: "Stirrer", choices: ["Alarmist", "Scarecrow", "Stirrer", "Scaremonger"], explanation: "ใช้ Stirrer สำหรับคนที่จงใจสร้างความขัดแย้ง" }
+            ]
+        },
+        set02_die: {
+            title: 'การตาย',
+            description: 'กลุ่มคำและสำนวนที่เกี่ยวกับความตายในระดับความเป็นทางการต่างๆ',
+            colors: 'from-gray-700 to-black',
+            lesson: [
+                { word: 'Die', read: 'ดาย', pos: '(v.) ตาย', meaning: 'เสียชีวิต (เป็นคำกริยาทั่วไป)', example: 'The flowers will die without water.', ex_thai: 'ดอกไม้จะตายถ้าไม่มีน้ำ' },
+                { word: 'Death', read: 'เดธ', pos: '(n.) ความตาย', meaning: 'การสิ้นสุดของชีวิต', example: 'Death is a natural part of life.', ex_thai: 'ความตายเป็นส่วนหนึ่งของชีวิตตามธรรมชาติ' },
+                { word: 'Dead', read: 'เดด', pos: '(adj.) ที่ตายแล้ว', meaning: 'ไม่มีชีวิต', example: 'The battery in my phone is dead.', ex_thai: 'แบตเตอรี่ในโทรศัพท์ของฉันหมด' },
+                { word: 'Perish', read: '<span class="stress">เพ</span>-ริช', pos: '(v.) ตาย (อย่างทุกข์ทรมาน/ในอุบัติเหตุ)', meaning: 'เสียชีวิต (เป็นคำทางการ มักใช้กับสถานการณ์ที่รุนแรง)', example: 'Many people perished in the earthquake.', ex_thai: 'ผู้คนจำนวนมากเสียชีวิตในเหตุการณ์แผ่นดินไหว' },
+                { word: 'Pass away', read: 'พาส อะ-<span class="stress">เวย์</span>', pos: '(phr. v.) ถึงแก่กรรม', meaning: 'เสียชีวิต (เป็นคำสุภาพ)', example: 'My grandfather passed away peacefully last night.', ex_thai: 'คุณปู่ของฉันถึงแก่กรรมอย่างสงบเมื่อคืนนี้' },
+                { word: 'Kick the bucket', read: 'คิก เดอะ <span class="stress">บัค</span>-เก็ต', pos: '(idiom) ตาย (ไม่เป็นทางการ)', meaning: 'เสียชีวิต (เป็นสำนวนภาษาพูด ไม่สุภาพ)', example: 'I want to travel the world before I kick the bucket.', ex_thai: 'ฉันอยากจะเที่ยวรอบโลกก่อนที่ฉันจะตาย' }
+            ],
+            quiz: [
+                { q: "It's more polite to say someone has _______ than to say they have died.", a: "Passed away", choices: ["Kicked the bucket", "Perished", "Passed away", "Been dead"], explanation: "ใช้ Pass away เพราะเป็นคำที่สุภาพที่สุดในการกล่าวถึงการเสียชีวิต" },
+                { q: "All passengers and crew _______ed in the plane crash.", a: "Perished", choices: ["Died", "Perished", "Passed away", "Kicked the bucket"], explanation: "ใช้ Perish ซึ่งเป็นคำทางการและมักใช้กับการเสียชีวิตในอุบัติเหตุรุนแรง" },
+                { q: "My great-uncle, who was 98, finally _______ last week.", a: "Kicked the bucket", choices: ["Died", "Passed away", "Perished", "Kicked the bucket"], explanation: "ถ้าต้องการใช้สำนวนที่ไม่เป็นทางการและติดตลกเล็กน้อย จะใช้ Kick the bucket" },
+                { q: "Is this plant _______? All its leaves are brown.", a: "Dead", choices: ["Died", "Dead", "Death", "Perished"], explanation: "ใช้ Dead ซึ่งเป็นคำคุณศัพท์ (adj.) เพื่อขยายคำนาม plant" }
+            ]
+        },
+        set03_deadly: {
+            title: 'อันตรายถึงชีวิต',
+            description: 'กลุ่มคำคุณศัพท์ที่หมายถึงสิ่งที่อันตรายและอาจทำให้เสียชีวิตได้',
+            colors: 'from-red-700 to-red-900',
+            lesson: [
+                { word: 'Deadly', read: '<span class="stress">เดด</span>-ลิ', pos: '(adj.) ที่ถึงตาย', meaning: 'สามารถทำให้เสียชีวิตได้', example: 'The black mamba is one of the world\'s most deadly snakes.', ex_thai: 'งูแบล็คแมมบ้าเป็นหนึ่งในงูที่มีพิษร้ายแรงที่สุดในโลก' },
+                { word: 'Fatal', read: '<span class="stress">เฟ</span>-เทิล', pos: '(adj.) ที่ถึงแก่ความตาย (ผลลัพธ์)', meaning: 'ที่ส่งผลให้เกิดความตาย (มักใช้กับอุบัติเหตุ, การบาดเจ็บ)', example: 'He sustained a fatal injury in the car crash.', ex_thai: 'เขาได้รับบาดเจ็บถึงแก่ชีวิตในอุบัติเหตุรถชน' },
+                { word: 'Lethal', read: '<span class="stress">ลี</span>-เธิล', pos: '(adj.) ที่ร้ายแรงถึงตาย (สาร/อาวุธ)', meaning: 'ที่ถูกสร้างหรือมีขึ้นเพื่อฆ่า', example: 'He was executed by lethal injection.', ex_thai: 'เขาถูกประหารชีวิตด้วยการฉีดยาพิษ' },
+                { word: 'Mortal', read: '<span class="stress">มอร์</span>-เทิล', pos: '(adj.) ที่ต้องตาย (มนุษย์), ที่รุนแรง', meaning: '(มนุษย์) ที่ต้องตายในที่สุด หรือ (บาดแผล) ที่รุนแรงถึงชีวิต', example: 'All humans are mortal.', ex_thai: 'มนุษย์ทุกคนต้องตาย' },
+                { word: 'Hazardous', read: '<span class="stress">แฮ</span>-เซอ-ดัส', pos: '(adj.) ที่เป็นอันตราย', meaning: 'มีความเสี่ยงหรืออันตราย (มักใช้กับสารเคมี, สภาพแวดล้อม)', example: 'You must wear protective clothing when handling hazardous materials.', ex_thai: 'คุณต้องสวมชุดป้องกันเมื่อต้องจัดการกับวัตถุอันตราย' }
+            ],
+            quiz: [
+                { q: "A dose of this poison is _______ to humans.", a: "Lethal", choices: ["Fatal", "Mortal", "Lethal", "Deadly"], explanation: "ใช้ Lethal เพราะมักใช้กับสารพิษหรืออาวุธที่ถูกสร้างมาเพื่อฆ่า" },
+                { q: "The driver made a _______ error by falling asleep at the wheel.", a: "Fatal", choices: ["Deadly", "Fatal", "Lethal", "Hazardous"], explanation: "ใช้ Fatal เพราะหมายถึงความผิดพลาดที่นำไปสู่ความตาย" },
+                { q: "Cleaning with ammonia and bleach together can create _______ fumes.", a: "Hazardous", choices: ["Mortal", "Deadly", "Hazardous", "Fatal"], explanation: "ใช้ Hazardous เพราะเป็นการอธิบายถึงสารเคมีหรือสภาวะที่เป็นอันตราย" },
+                { q: "The two armies were engaged in _______ combat.", a: "Mortal", choices: ["Lethal", "Hazardous", "Mortal", "Fatal"], explanation: "ใช้ Mortal ในความหมายว่า รุนแรงถึงชีวิต ในบริบทของการต่อสู้" }
+            ]
+        },
+        set04_moral: {
+            title: 'ศีลธรรม',
+            description: 'กลุ่มคำศัพท์ที่เกี่ยวข้องกับหลักการความถูกและผิด',
+            colors: 'from-amber-400 to-orange-500',
+            lesson: [
+                { word: 'Moral', read: '<span class="stress">มอ</span>-รัล', pos: '(adj.) ที่มีศีลธรรม (n.) คติสอนใจ', meaning: 'เกี่ยวข้องกับหลักการของความประพฤติที่ถูกและผิด', example: 'It is not moral to steal.', ex_thai: 'การขโมยเป็นสิ่งไม่มีศีลธรรม' },
+                { word: 'Immoral', read: 'อิม-<span class="stress">มอ</span>-รัล', pos: '(adj.) ที่ผิดศีลธรรม', meaning: 'ไม่เป็นไปตามมาตรฐานทางศีลธรรม (รู้ว่าผิดแต่ยังทำ)', example: 'He was punished for his immoral behavior.', ex_thai: 'เขาถูกลงโทษสำหรับพฤติกรรมที่ผิดศีลธรรมของเขา' },
+                { word: 'Amoral', read: 'เอ-<span class="stress">มอ</span>-รัล', pos: '(adj.) ที่ไร้ศีลธรรม', meaning: 'ไม่เกี่ยวข้องหรือไม่สนใจในความถูกผิดทางศีลธรรม', example: 'Nature is amoral; a lion killing a zebra is not good or evil.', ex_thai: 'ธรรมชาติไม่มีศีลธรรม สิงโตฆ่าม้าลายไม่ใช่เรื่องดีหรือชั่ว' },
+                { word: 'Ethics', read: '<span class="stress">เอ</span>-ธิคส์', pos: '(n.) จริยศาสตร์, จรรยาบรรณ', meaning: 'หลักการทางศีลธรรมที่ควบคุมพฤติกรรมของบุคคลหรือกลุ่ม', example: 'Doctors must follow a strict code of medical ethics.', ex_thai: 'แพทย์ต้องปฏิบัติตามหลักจรรยาบรรณทางการแพทย์ที่เข้มงวด' },
+                { word: 'Dilemma', read: 'ได-<span class="stress">เล</span>-มะ', pos: '(n.) สภาวะกลืนไม่เข้าคายไม่ออก', meaning: 'สถานการณ์ที่ต้องเลือกระหว่างสองทางเลือกที่ไม่พึงประสงค์พอๆ กัน', example: 'She faced a moral dilemma over whether to report her friend.', ex_thai: 'เธอเผชิญกับสภาวะกลืนไม่เข้าคายไม่ออกทางศีลธรรมว่าจะรายงานเพื่อนของเธอดีหรือไม่' }
+            ],
+            quiz: [
+                { q: "A corporation that pollutes the environment without caring about the consequences could be described as _______.", a: "Amoral", choices: ["Immoral", "Moral", "Amoral", "Ethical"], explanation: "ใช้ Amoral เพราะเป็นการกระทำที่ไม่สนใจเรื่องศีลธรรมเลย" },
+                { q: "Lying to your parents is generally considered an _______ act.", a: "Immoral", choices: ["Amoral", "Moral", "Dilemma", "Immoral"], explanation: "ใช้ Immoral เพราะการโกหกเป็นสิ่งที่รู้ว่าผิดศีลธรรมแต่ก็ยังทำ" },
+                { q: "The story of 'The Boy Who Cried Wolf' has a clear _______ at the end.", a: "Moral", choices: ["Ethics", "Dilemma", "Moral", "Amoral"], explanation: "ใช้ Moral ในฐานะคำนามหมายถึงคติสอนใจของเรื่อง" },
+                { q: "Journalists have professional _______ that they must adhere to.", a: "Ethics", choices: ["Morals", "Dilemmas", "Ethics", "Amorals"], explanation: "ใช้ Ethics สำหรับหลักจรรยาบรรณของกลุ่มวิชาชีพ" }
+            ]
+        },
+        set05_predator: {
+            title: 'ผู้ล่าและเหยื่อ',
+            description: 'คำศัพท์พื้นฐานเกี่ยวกับห่วงโซ่อาหารในระบบนิเวศ',
+            colors: 'from-green-600 to-lime-600',
+            lesson: [
+                { word: 'Predator', read: '<span class="stress">เพร</span>-เด-เทอร์', pos: '(n.) ผู้ล่า', meaning: 'สัตว์ที่ล่าสัตว์อื่นเป็นอาหาร', example: 'Lions are fierce predators.', ex_thai: 'สิงโตเป็นผู้ล่าที่ดุร้าย' },
+                { word: 'Prey', read: 'เพรย์', pos: '(n.) เหยื่อ', meaning: 'สัตว์ที่ถูกสัตว์อื่นล่าเป็นอาหาร', example: 'The lion stalked its prey silently.', ex_thai: 'สิงโตย่องตามเหยื่อของมันอย่างเงียบเชียบ' },
+                { word: 'Carnivore', read: '<span class="stress">คา</span>-นิ-วอร์', pos: '(n.) สัตว์กินเนื้อ', meaning: 'สัตว์ที่กินเนื้อเป็นอาหารหลัก', example: 'The Tyrannosaurus Rex was a large carnivore.', ex_thai: 'ไทแรนโนซอรัส เร็กซ์ เป็นสัตว์กินเนื้อขนาดใหญ่' },
+                { word: 'Herbivore', read: '<span class="stress">เฮอ</span>-บิ-วอร์', pos: '(n.) สัตว์กินพืช', meaning: 'สัตว์ที่กินพืชเป็นอาหารหลัก', example: 'Cows and sheep are herbivores.', ex_thai: 'วัวและแกะเป็นสัตว์กินพืช' },
+                { word: 'Omnivore', read: '<span class="stress">ออม</span>-นิ-วอร์', pos: '(n.) สัตว์ที่กินทั้งพืชและสัตว์', meaning: 'สัตว์ที่กินทั้งพืชและเนื้อเป็นอาหาร', example: 'Humans are generally omnivores.', ex_thai: 'โดยทั่วไปแล้วมนุษย์เป็นสัตว์ที่กินทั้งพืชและสัตว์' }
+            ],
+            quiz: [
+                { q: "A rabbit is the _______ of a fox.", a: "Prey", choices: ["Predator", "Prey", "Carnivore", "Herbivore"], explanation: "ใช้ Prey เพราะกระต่ายเป็นสัตว์ที่ถูกสุนัขจิ้งจอกล่า" },
+                { q: "Because bears eat both berries and fish, they are classified as _______s.", a: "Omnivore", choices: ["Carnivore", "Herbivore", "Omnivore", "Predator"], explanation: "ใช้ Omnivore เพราะหมีกินทั้งพืช (เบอร์รี่) และสัตว์ (ปลา)" },
+                { q: "A shark is a top _______ in the ocean.", a: "Predator", choices: ["Prey", "Herbivore", "Predator", "Omnivore"], explanation: "ใช้ Predator เพราะฉลามเป็นผู้ล่า" },
+                { q: "A giraffe, which only eats leaves, is a type of _______.", a: "Herbivore", choices: ["Carnivore", "Omnivore", "Predator", "Herbivore"], explanation: "ใช้ Herbivore เพราะยีราฟกินแต่พืช" }
+            ]
+        },
+        set06_animal_parts: {
+            title: 'ส่วนต่างๆ ของสัตว์',
+            description: 'คำศัพท์เกี่ยวกับส่วนต่างๆ บนร่างกายของสัตว์แต่ละชนิด',
+            colors: 'from-amber-600 to-yellow-600',
+            lesson: [
+                { word: 'Horn', read: 'ฮอร์น', pos: '(n.) เขา (เดี่ยว, กลวง)', meaning: 'ส่วนที่งอกบนหัวสัตว์บางชนิด เช่น วัว, แรด (เป็นกระดูกชิ้นเดียว ไม่ผลัด)', example: 'A rhino has a large horn on its nose.', ex_thai: 'แรดมีเขาขนาดใหญ่บนจมูก' },
+                { word: 'Antler', read: '<span class="stress">แอนท์</span>-เลอร์', pos: '(n.) เขากวาง (แตกแขนง)', meaning: 'เขาของสัตว์จำพวกกวาง (เป็นแขนงและผลัดเขาทุกปี)', example: 'A male deer grows a new set of antlers each year.', ex_thai: 'กวางตัวผู้จะงอกเขาชุดใหม่ทุกปี' },
+                { word: 'Mane', read: 'เมน', pos: '(n.) แผงคอ', meaning: 'ขนยาวและหนาบริเวณคอของม้าหรือสิงโตตัวผู้', example: 'The lion shook its magnificent mane.', ex_thai: 'สิงโตสะบัดแผงคออันงดงามของมัน' },
+                { word: 'Tusk', read: 'ทัสค์', pos: '(n.) งา', meaning: 'ฟันที่ยาวและยื่นออกมานอกปาก เช่น งาช้าง, งาวอลรัส', example: 'Elephants use their tusks for defense.', ex_thai: 'ช้างใช้งาของมันเพื่อป้องกันตัว' },
+                { word: 'Whisker', read: '<span class="stress">วิส</span>-เกอร์', pos: '(n.) หนวด (ของสัตว์)', meaning: 'ขนยาวและแข็งที่ขึ้นบริเวณใบหน้าของสัตว์ เช่น แมว, หนู', example: 'A cat uses its whiskers to sense its surroundings.', ex_thai: 'แมวใช้หนวดของมันเพื่อรับความรู้สึกรอบตัว' },
+                 { word: 'Plumage', read: '<span class="stress">พลู</span>-มิจ', pos: '(n.) ขน (ของนก)', meaning: 'ขนทั้งหมดที่ปกคลุมตัวนก', example: 'The peacock has colorful plumage.', ex_thai: 'นกยูงมีขนที่มีสีสันสวยงาม' },
+            ],
+            quiz: [
+                { q: "The long, flowing hair on a lion's neck is called its _______.", a: "Mane", choices: ["Horn", "Antler", "Mane", "Plumage"], explanation: "ใช้ Mane สำหรับแผงคอของสิงโตหรือม้า" },
+                { q: "An elephant's long, curved teeth are known as _______s.", a: "Tusk", choices: ["Horn", "Antler", "Tusk", "Whisker"], explanation: "ใช้ Tusk สำหรับงาช้าง" },
+                { q: "A bull has a pair of sharp _______s on its head.", a: "Horn", choices: ["Antler", "Horn", "Tusk", "Mane"], explanation: "ใช้ Horn สำหรับเขาของวัวกระทิงซึ่งไม่แตกแขนง" },
+                { q: "Unlike horns, a deer's _______s fall off and regrow every year.", a: "Antler", choices: ["Tusk", "Mane", "Horn", "Antler"], explanation: "ใช้ Antler สำหรับเขากวางซึ่งมีลักษณะแตกแขนงและมีการผลัด" }
+            ]
+        },
+        set07_forensics: {
+            title: 'ศพและนิติวิทยาศาสตร์',
+            description: 'คำศัพท์ที่เกี่ยวข้องกับการเสียชีวิตและการสืบสวนทางวิทยาศาสตร์',
+            colors: 'from-indigo-800 to-slate-900',
+            lesson: [
+                { word: 'Corpse', read: 'คอร์พส์', pos: '(n.) ซากศพ (มนุษย์)', meaning: 'ร่างกายของมนุษย์ที่เสียชีวิตแล้ว', example: 'The corpse was discovered by a hiker.', ex_thai: 'ซากศพถูกค้นพบโดยนักเดินป่า' },
+                { word: 'Carcass', read: '<span class="stress">คา</span>-คัส', pos: '(n.) ซากศพ (สัตว์)', meaning: 'ร่างกายของสัตว์ที่เสียชีวิตแล้ว', example: 'Vultures were circling over the carcass of a dead buffalo.', ex_thai: 'อีแร้งกำลังบินวนอยู่เหนือซากควายที่ตายแล้ว' },
+                { word: 'Autopsy', read: '<span class="stress">ออ</span>-ท็อป-ซิ', pos: '(n.) การชันสูตรศพ', meaning: 'การผ่าศพเพื่อหาสาเหตุการเสียชีวิต', example: 'The autopsy revealed the cause of death.', ex_thai: 'การชันสูตรศพได้เปิดเผยสาเหตุการเสียชีวิต' },
+                { word: 'Forensics', read: 'ฟอ-<span class="stress">เรน</span>-ซิกส์', pos: '(n.) นิติวิทยาศาสตร์', meaning: 'การใช้วิธีการทางวิทยาศาสตร์เพื่อสืบสวนอาชญากรรม', example: 'Forensics helped the police identify the suspect.', ex_thai: 'นิติวิทยาศาสตร์ช่วยให้ตำรวจระบุตัวผู้ต้องสงสัยได้' },
+                { word: 'Morgue', read: 'มอร์ก', pos: '(n.) ห้องเก็บศพ', meaning: 'สถานที่สำหรับเก็บศพชั่วคราวก่อนการชันสูตรหรือฝัง', example: 'The body was taken to the city morgue.', ex_thai: 'ร่างถูกนำไปที่ห้องเก็บศพของเมือง' },
+            ],
+            quiz: [
+                { q: "The dead body of an animal is called a _______.", a: "Carcass", choices: ["Corpse", "Carcass", "Autopsy", "Morgue"], explanation: "ใช้ Carcass สำหรับซากศพของสัตว์" },
+                { q: "A doctor performs an _______ to determine how a person died.", a: "Autopsy", choices: ["Autopsy", "Forensics", "Morgue", "Corpse"], explanation: "ใช้ Autopsy สำหรับการผ่าพิสูจน์ศพ" },
+                { q: "The science of solving crimes is known as _______.", a: "Forensics", choices: ["Morgue", "Autopsy", "Carcass", "Forensics"], explanation: "ใช้ Forensics ซึ่งหมายถึงนิติวิทยาศาสตร์" },
+                { q: "The police identified the _______ and notified the family.", a: "Corpse", choices: ["Carcass", "Morgue", "Corpse", "Autopsy"], explanation: "ใช้ Corpse สำหรับซากศพของมนุษย์" }
+            ]
+        },
+        set08_sleep: {
+            title: 'การนอน',
+            description: 'คำศัพท์และสำนวนที่เกี่ยวกับอาการง่วงและการนอนหลับ',
+            colors: 'from-blue-800 to-indigo-900',
+            lesson: [
+                { word: 'Drowsy', read: '<span class="stress">เดรา</span>-ซี่', pos: '(adj.) ง่วงซึม', meaning: 'รู้สึกง่วงและอยากจะหลับ', example: 'This medicine might make you feel drowsy.', ex_thai: 'ยานี้อาจทำให้คุณรู้สึกง่วงซึม' },
+                { word: 'Doze off', read: 'โดซ <span class="stress">ออฟ</span>', pos: '(phr. v.) สัปหงก, เผลอหลับ', meaning: 'เริ่มหลับโดยไม่ได้ตั้งใจ โดยเฉพาะในเวลากลางวัน', example: 'I often doze off during long meetings.', ex_thai: 'ฉันมักจะเผลอหลับระหว่างการประชุมที่ยาวนาน' },
+                { word: 'Sleep like a log', read: 'สลีพ ไลค์ อะ <span class="stress">ล็อก</span>', pos: '(idiom) หลับสนิทเป็นตาย', meaning: 'นอนหลับลึกและสนิทมาก', example: 'After a long hike, I slept like a log.', ex_thai: 'หลังจากการเดินป่าระยะไกล ฉันหลับสนิทเป็นตาย' },
+                { word: 'Insomnia', read: 'อิน-<span class="stress">ซอม</span>-เนีย', pos: '(n.) โรคนอนไม่หลับ', meaning: 'ภาวะที่ไม่สามารถนอนหลับได้', example: 'He suffers from insomnia and is often awake all night.', ex_thai: 'เขาทรมานจากโรคนอนไม่หลับและมักจะตื่นตลอดทั้งคืน' },
+            ],
+            quiz: [
+                { q: "If you have trouble falling asleep every night, you might have _______.", a: "Insomnia", choices: ["Drowsiness", "Insomnia", "A log", "A nap"], explanation: "ใช้ Insomnia ซึ่งเป็นคำนามหมายถึงโรคนอนไม่หลับ" },
+                { q: "I was so tired that I _______ in front of the TV.", a: "Doze off", choices: ["Slept like a log", "Doze off", "Was drowsy", "Had insomnia"], explanation: "ใช้ Doze off (รูปอดีต Dozed off) เพราะเป็นการเผลอหลับไป" },
+                { q: "The long journey made all the passengers feel _______.", a: "Drowsy", choices: ["Insomnia", "Asleep", "Drowsy", "Dozing off"], explanation: "ใช้ Drowsy ซึ่งเป็นคำคุณศัพท์เพื่อบรรยายความรู้สึกง่วงซึม" },
+                { q: "Don't worry about making noise. When he's asleep, he _______.", a: "Sleeps like a log", choices: ["Dozes off", "Is drowsy", "Has insomnia", "Sleeps like a log"], explanation: "ใช้สำนวน Sleep like a log เพื่อบอกว่าหลับลึกมาก" }
+            ]
+        },
+        set09_stress: {
+            title: 'ความเครียด',
+            description: 'คำศัพท์ที่เกี่ยวข้องกับความเครียดและความกดดัน',
+            colors: 'from-orange-500 to-red-500',
+            lesson: [
+                { word: 'Stress', read: 'สเตรส', pos: '(n.) ความเครียด, ความกดดัน', meaning: 'ความรู้สึกกังวลหรือกดดันทางจิตใจ', example: 'He is under a lot of stress at work.', ex_thai: 'เขาอยู่ภายใต้ความเครียดอย่างมากในที่ทำงาน' },
+                { word: 'Stressed (out)', read: 'สเตรสท์ (<span class="stress">เอาท์</span>)', pos: '(adj.) ที่รู้สึกเครียด', meaning: 'รู้สึกเครียดหรือกังวล', example: 'I feel very stressed out about my upcoming exams.', ex_thai: 'ฉันรู้สึกเครียดมากเกี่ยวกับการสอบที่ใกล้เข้ามา' },
+                { word: 'Stressful', read: '<span class="stress">สเตรส</span>-ฟูล', pos: '(adj.) ที่น่าเครียด', meaning: 'ที่ก่อให้เกิดความเครียด', example: 'Moving to a new house can be a very stressful experience.', ex_thai: 'การย้ายไปบ้านใหม่อาจเป็นประสบการณ์ที่น่าเครียดมาก' },
+                { word: 'Strain', read: 'สเตรน', pos: '(n.) ความตึงเครียด, การใช้งานหนัก', meaning: 'ความกดดัน (จากการใช้งานหนักเกินไป ทั้งทางกายและใจ)', example: 'Reading in poor light can cause eye strain.', ex_thai: 'การอ่านหนังสือในที่แสงน้อยอาจทำให้เกิดอาการตาล้าได้' },
+                { word: 'Tension', read: '<span class="stress">เทน</span>-เชิน', pos: '(n.) ความตึงเครียด (ในความสัมพันธ์/บรรยากาศ)', meaning: 'ความรู้สึกไม่สบายใจหรือเป็นศัตรูระหว่างผู้คน', example: 'There was a lot of tension in the room before the announcement.', ex_thai: 'มีความตึงเครียดอย่างมากในห้องก่อนการประกาศ' },
+            ],
+            quiz: [
+                { q: "My job is so _______; I have too many deadlines.", a: "Stressful", choices: ["Stressed", "Stressful", "Strain", "Tension"], explanation: "ใช้ Stressful ซึ่งเป็น adj. เพื่อขยายคำนาม job ว่าเป็นงานที่น่าเครียด" },
+                { q: "You could feel the _______ between the two rival teams.", a: "Tension", choices: ["Stress", "Strain", "Tension", "Stressed"], explanation: "ใช้ Tension เพื่อบรรยายบรรยากาศความตึงเครียดระหว่างคนสองกลุ่ม" },
+                { q: "Lifting heavy boxes all day put a lot of _______ on his back.", a: "Strain", choices: ["Stress", "Strain", "Tension", "Stressful"], explanation: "ใช้ Strain เพราะเป็นความตึงเครียดทางกายภาพจากการใช้งานหนัก" },
+                { q: "She's feeling very _______ because she has too much work to do.", a: "Stressed", choices: ["Stressful", "Strain", "Tension", "Stressed"], explanation: "ใช้ Stressed ซึ่งเป็น adj. เพื่อบรรยายความรู้สึกของคน" }
+            ]
+        },
+        set10_rest: {
+            title: 'การพักผ่อน',
+            description: 'คำศัพท์และสำนวนที่เกี่ยวกับการพักผ่อนและฟื้นฟูพลังงาน',
+            colors: 'from-emerald-400 to-green-500',
+            lesson: [
+                { word: 'Rest', read: 'เรสท์', pos: '(v./n.) พักผ่อน', meaning: 'หยุดทำงานหรือกิจกรรมเพื่อผ่อนคลายหรือนอนหลับ', example: 'The doctor told me to get plenty of rest.', ex_thai: 'หมอบอกให้ฉันพักผ่อนเยอะๆ' },
+                { word: 'Relax', read: 'รี-<span class="stress">แลกซ์</span>', pos: '(v.) ผ่อนคลาย', meaning: 'ทำตัวสบายๆ และลดความกังวล', example: 'I like to relax by listening to music.', ex_thai: 'ฉันชอบที่จะผ่อนคลายด้วยการฟังเพลง' },
+                { word: 'Unwind', read: 'อัน-<span class="stress">ไวนด์</span>', pos: '(v.) ผ่อนคลาย (หลังจากเครียด)', meaning: 'ผ่อนคลายหลังจากทำงานหรือสถานการณ์ที่ตึงเครียด', example: 'A glass of wine helps me unwind after a long day.', ex_thai: 'ไวน์หนึ่งแก้วช่วยให้ฉันผ่อนคลายหลังจากวันที่ยาวนาน' },
+                { word: 'Recharge', read: 'รี-<span class="stress">ชาร์จ</span>', pos: '(v.) เติมพลัง', meaning: 'ฟื้นฟูพลังงานกลับมาอีกครั้ง', example: 'A short vacation is a great way to recharge your batteries.', ex_thai: 'การไปเที่ยวพักผ่อนสั้นๆ เป็นวิธีที่ดีในการเติมพลังให้กับตัวเอง' },
+                { word: 'Take a breather', read: 'เทค อะ <span class="stress">บรี</span>-เธอ', pos: '(idiom) พักหายใจ, พักสักครู่', meaning: 'หยุดพักจากสิ่งที่ทำอยู่ชั่วครู่', example: 'Let\'s take a breather before we continue working.', ex_thai: 'เรามาพักสักครู่กันก่อนที่จะทำงานต่อ' }
+            ],
+            quiz: [
+                { q: "After a stressful week at work, I just want to _______ this weekend.", a: "Unwind", choices: ["Recharge", "Unwind", "Rest", "Take a breather"], explanation: "ใช้ Unwind เพราะเป็นการผ่อนคลายจากความเครียดที่สะสมมา" },
+                { q: "We've been working for hours. Let's _______ for five minutes.", a: "Take a breather", choices: ["Rest", "Relax", "Recharge", "Take a breather"], explanation: "ใช้สำนวน Take a breather สำหรับการพักสั้นๆ ระหว่างทำงาน" },
+                { q: "I'm going to the spa to _______ and forget about my worries.", a: "Relax", choices: ["Recharge", "Rest", "Relax", "Unwind"], explanation: "ใช้ Relax เป็นคำทั่วไปที่หมายถึงการทำตัวสบายๆ เพื่อลดความกังวล" },
+                { q: "He went on a solo trip to _______ his mind and body.", a: "Recharge", choices: ["Unwind", "Rest", "Recharge", "Take a breather"], explanation: "ใช้ Recharge เพราะเป็นการฟื้นฟูพลังงานที่หมดไป" }
+            ]
+        },
+        set11_calm: {
+            title: 'สงบ',
+            description: 'กลุ่มคำคุณศัพท์ที่ใช้อธิบายความรู้สึกหรือบรรยากาศที่สงบ',
+            colors: 'from-sky-400 to-cyan-400',
+            lesson: [
+                { word: 'Calm', read: 'คาล์ม', pos: '(adj.) สงบ (จิตใจ, ทะเล)', meaning: 'ไม่กังวล, ไม่ตื่นเต้น หรือไม่มีคลื่นลม', example: 'Try to stay calm and don\'t panic.', ex_thai: 'พยายามใจเย็นๆ และอย่าตื่นตระหนก' },
+                { word: 'Peaceful', read: '<span class="stress">พีซ</span>-ฟูล', pos: '(adj.) สงบสุข', meaning: 'เงียบสงบและปราศจากความวุ่นวาย', example: 'The village is a peaceful place to live.', ex_thai: 'หมู่บ้านนี้เป็นสถานที่ที่สงบสุขน่าอยู่' },
+                { word: 'Restful', read: '<span class="stress">เรสท์</span>-ฟูล', pos: '(adj.) ที่น่าพักผ่อน', meaning: 'ที่ทำให้รู้สึกผ่อนคลายและได้พักผ่อน', example: 'I had a very restful night\'s sleep.', ex_thai: 'ฉันได้นอนหลับอย่างน่าพักผ่อนมากเมื่อคืนนี้' },
+                { word: 'Soothing', read: '<span class="stress">ซู</span>-ธิง', pos: '(adj.) ที่ช่วยปลอบประโลม', meaning: 'ที่ทำให้รู้สึกสงบและลดความเจ็บปวดหรือความกังวล', example: 'The sound of the rain is very soothing.', ex_thai: 'เสียงฝนนั้นช่วยปลอบประโลมได้ดีมาก' },
+                { word: 'Pacific', read: 'พะ-<span class="stress">ซิ</span>-ฟิค', pos: '(adj.) ที่สงบสุข (เป็นทางการ)', meaning: 'รักสงบ, ไม่ชอบความรุนแรง (เป็นคำทางการ)', example: 'They sought a pacific solution to the conflict.', ex_thai: 'พวกเขาแสวงหาทางแก้ไขความขัดแย้งอย่างสันติ' }
+            ],
+            quiz: [
+                { q: "The library should be a quiet and _______ place for studying.", a: "Peaceful", choices: ["Calm", "Peaceful", "Restful", "Soothing"], explanation: "ใช้ Peaceful เพื่อบรรยายสถานที่ที่เงียบสงบปราศจากความวุ่นวาย" },
+                { q: "Her _______ voice helped to calm the frightened child.", a: "Soothing", choices: ["Pacific", "Restful", "Peaceful", "Soothing"], explanation: "ใช้ Soothing เพราะเสียงนั้นช่วยปลอบประโลมให้หายกลัว" },
+                { q: "After the storm, the sea became _______ again.", a: "Calm", choices: ["Calm", "Restful", "Soothing", "Pacific"], explanation: "ใช้ Calm สำหรับทะเลที่ไม่มีคลื่นลม" },
+                { q: "We spent a _______ weekend at a cabin by the lake.", a: "Restful", choices: ["Peaceful", "Soothing", "Restful", "Pacific"], explanation: "ใช้ Restful เพื่อเน้นว่าวันหยุดสุดสัปดาห์นั้นทำให้ได้พักผ่อนอย่างเต็มที่" }
+            ]
+        },
+        set12_hair: {
+            title: 'คำศัพท์เกี่ยวกับผม',
+            description: 'กลุ่มคำและกริยาที่ใช้อธิบายลักษณะและการดูแลเส้นผม',
+            colors: 'from-amber-400 to-yellow-500',
+            lesson: [
+                { word: 'Gray hair', read: 'เกรย์ แฮร์', pos: '(n.) ผมหงอก', meaning: 'เส้นผมที่เปลี่ยนเป็นสีเทาหรือสีขาวเมื่ออายุมากขึ้น', example: 'He is starting to get a few gray hairs.', ex_thai: 'เขาเริ่มจะมีผมหงอกสองสามเส้นแล้ว' },
+                { word: 'Split ends', read: 'สปลิท <span class="stress">เอนดซ์</span>', pos: '(n.) ผมแตกปลาย', meaning: 'ปลายเส้นผมที่แตกออกเป็นสองแฉกหรือมากกว่า', example: 'You should trim your hair regularly to avoid split ends.', ex_thai: 'คุณควรเล็มผมเป็นประจำเพื่อหลีกเลี่ยงผมแตกปลาย' },
+                { word: 'Frizzy hair', read: '<span class="stress">ฟริ</span>-ซี่ แฮร์', pos: '(n.) ผมชี้ฟู', meaning: 'เส้นผมที่แห้ง, ชี้ฟู และไม่เป็นทรง', example: 'Humidity makes my hair frizzy.', ex_thai: 'ความชื้นทำให้ผมของฉันชี้ฟู' },
+                { word: 'Dye', read: 'ดาย', pos: '(v.) ย้อมผม', meaning: 'เปลี่ยนสีผมโดยใช้สารเคมี', example: 'She decided to dye her hair red.', ex_thai: 'เธอตัดสินใจย้อมผมเป็นสีแดง' },
+                { word: 'Perm', read: 'เพิร์ม', pos: '(v./n.) ดัดลอนผม', meaning: 'ทำให้ผมเป็นลอนถาวรโดยใช้น้ำยาเคมี', example: 'I\'m thinking of getting a perm.', ex_thai: 'ฉันกำลังคิดว่าจะไปดัดลอนผมน่ะ' },
+                { word: 'Straighten', read: '<span class="stress">สเตรท</span>-เทิน', pos: '(v.) ยืดผม', meaning: 'ทำให้ผมที่หยิกหรือเป็นลอนตรง', example: 'She uses a flat iron to straighten her hair every morning.', ex_thai: 'เธอใช้ที่หนีบผมเพื่อยืดผมให้ตรงทุกเช้า' }
+            ],
+            quiz: [
+                { q: "If your hair is naturally curly and you want it to be not curly, you _______ it.", a: "Straighten", choices: ["Perm", "Dye", "Straighten", "Bleach"], explanation: "ใช้ Straighten สำหรับการทำให้ผมตรง" },
+                { q: "To change your hair color from brown to blonde, you need to _______ it.", a: "Dye", choices: ["Perm", "Straighten", "Trim", "Dye"], explanation: "ใช้ Dye สำหรับการเปลี่ยนสีผม" },
+                { q: "My hair gets very _______ when the weather is damp.", a: "Frizzy", choices: ["Gray", "Sleek", "Frizzy", "Split ends"], explanation: "ใช้ Frizzy สำหรับผมที่ชี้ฟู" },
+                { q: "To make your straight hair curly for a long time, you can get a _______.", a: "Perm", choices: ["Dye", "Straightening", "Perm", "Cut"], explanation: "ใช้ Perm สำหรับการดัดลอนผมถาวร" }
+            ]
+        },
+        set13_illness: {
+            title: 'ความเจ็บป่วย',
+            description: 'กลุ่มคำนามที่เกี่ยวกับความเจ็บป่วยและภาวะผิดปกติทางร่างกาย',
+            colors: 'from-rose-600 to-pink-700',
+            lesson: [
+                { word: 'Illness', read: '<span class="stress">อิล</span>-เนส', pos: '(n.) ความเจ็บป่วย (ทั่วไป)', meaning: 'สภาวะของการไม่สบายทางกายหรือใจ', example: 'He missed a week of school due to illness.', ex_thai: 'เขาขาดเรียนหนึ่งสัปดาห์เนื่องจากความเจ็บป่วย' },
+                { word: 'Sickness', read: '<span class="stress">ซิค</span>-เนส', pos: '(n.) อาการป่วย, อาการคลื่นไส้', meaning: 'ความเจ็บป่วย (มักใช้กับอาการป่วยที่ไม่รุนแรง) หรืออาการคลื่นไส้อยากอาเจียน', example: 'Morning sickness is common in early pregnancy.', ex_thai: 'อาการแพ้ท้องเป็นเรื่องปกติในช่วงแรกของการตั้งครรภ์' },
+                { word: 'Ailment', read: '<span class="stress">เอล</span>-เมินท์', pos: '(n.) อาการป่วย (ไม่รุนแรง)', meaning: 'ความเจ็บป่วยที่ไม่ร้ายแรง มักเป็นอาการเรื้อรัง', example: 'She suffers from a minor ailment that causes her frequent headaches.', ex_thai: 'เธอทุกข์ทรมานจากอาการป่วยเล็กน้อยที่ทำให้เธอปวดหัวบ่อยครั้ง' },
+                { word: 'Disorder', read: 'ดิส-<span class="stress">ออ</span>-เดอร์', pos: '(n.) ความผิดปกติ (ทางร่างกาย/จิตใจ)', meaning: 'สภาวะที่ส่วนใดส่วนหนึ่งของร่างกายหรือจิตใจทำงานไม่ปกติ', example: 'An eating disorder is a serious mental health condition.', ex_thai: 'โรคการกินผิดปกติเป็นภาวะสุขภาพจิตที่ร้ายแรง' },
+                { word: 'Disability', read: 'ดิส-อะ-<span class="stress">บิ</span>-ลิ-ทิ', pos: '(n.) ความพิการ', meaning: 'สภาวะทางกายหรือใจที่จำกัดการเคลื่อนไหวหรือกิจกรรมของบุคคล', example: 'The building has ramp access for people with a disability.', ex_thai: 'อาคารมีทางลาดสำหรับผู้มีความพิการ' }
+            ],
+            quiz: [
+                { q: "Anxiety is a common mental health _______.", a: "Disorder", choices: ["Ailment", "Sickness", "Disorder", "Disability"], explanation: "ใช้ Disorder สำหรับความผิดปกติในการทำงานของจิตใจ" },
+                { q: "For older people, arthritis is a common _______. ", a: "Ailment", choices: ["Disorder", "Disability", "Sickness", "Ailment"], explanation: "ใช้ Ailment เพราะโรคข้ออักเสบเป็นอาการป่วยเรื้อรังที่ไม่ถึงขั้นร้ายแรงสำหรับหลายๆ คน" },
+                { q: "He has a physical _______ that makes it difficult for him to walk.", a: "Disability", choices: ["Illness", "Sickness", "Ailment", "Disability"], explanation: "ใช้ Disability เพราะเป็นสภาวะที่จำกัดความสามารถทางกายภาพ" },
+                { q: "I think I'm getting a cold; I have all the usual _______s.", a: "Sickness", choices: ["Disorder", "Sickness", "Disability", "Ailment"], explanation: "ใช้ Sickness ในความหมายทั่วไปของอาการป่วยที่ไม่รุนแรง" }
+            ]
+        },
+        set14_misfortune: {
+            title: 'โชคร้าย / ดวงกุด',
+            description: 'คำและสำนวนที่เกี่ยวกับความโชคร้าย',
+            colors: 'from-slate-500 to-gray-600',
+            lesson: [
+                { word: 'Misfortune', read: 'มิส-<span class="stress">ฟอร์</span>-จูน', pos: '(n.) โชคร้าย, เคราะห์ร้าย', meaning: 'โชคไม่ดี หรือเหตุการณ์ที่โชคร้าย', example: 'He had the misfortune to break his leg on the first day of his vacation.', ex_thai: 'เขาโชคร้ายที่ขาหักในวันแรกของวันหยุด' },
+                { word: 'Mishap', read: '<span class="stress">มิส</span>-แฮพ', pos: '(n.) อุบัติเหตุเล็กน้อย', meaning: 'อุบัติเหตุหรือเหตุการณ์โชคร้ายที่ไม่รุนแรง', example: 'We had a slight mishap with the car, but no one was hurt.', ex_thai: 'เราประสบอุบัติเหตุเล็กน้อยกับรถ แต่ไม่มีใครได้รับบาดเจ็บ' },
+                { word: 'Adversity', read: 'แอด-<span class="stress">เวอ</span>-ซิ-ทิ', pos: '(n.) ความทุกข์ยาก, อุปสรรค', meaning: 'สถานการณ์ที่ยากลำบากหรือโชคร้าย', example: 'She showed great courage in the face of adversity.', ex_thai: 'เธอแสดงความกล้าหาญอย่างยิ่งเมื่อเผชิญกับความทุกข์ยาก' },
+                { word: 'Down on one\'s luck', read: 'ดาวน์ ออน วันส์ <span class="stress">ลัค</span>', pos: '(idiom) ดวงตก', meaning: 'กำลังอยู่ในช่วงเวลาที่โชคไม่ดีและมีปัญหา (โดยเฉพาะเรื่องเงิน)', example: 'After losing his job, he was really down on his luck.', ex_thai: 'หลังจากตกงาน เขาก็ดวงตกจริงๆ' }
+            ],
+            quiz: [
+                { q: "The company faced great _______ during the economic crisis.", a: "Adversity", choices: ["Mishap", "Adversity", "Misfortune", "Luck"], explanation: "ใช้ Adversity สำหรับสถานการณ์ที่ยากลำบากและเป็นอุปสรรคในระยะยาว" },
+                { q: "Losing my wallet was a real _______.", a: "Misfortune", choices: ["Mishap", "Adversity", "Misfortune", "Jinx"], explanation: "ใช้ Misfortune เป็นคำทั่วไปสำหรับเหตุการณ์โชคร้าย" },
+                { q: "Apart from a few minor _______s, the trip was a great success.", a: "Mishap", choices: ["Adversities", "Misfortunes", "Mishaps", "Jinxes"], explanation: "ใช้ Mishap สำหรับอุบัติเหตุหรือเหตุการณ์โชคร้ายที่ไม่รุนแรง" },
+                { q: "He's been _______ ever since he lost that important contract.", a: "Down on his luck", choices: ["In mishap", "In misfortune", "Under adversity", "Down on his luck"], explanation: "ใช้สำนวน Down on his luck เพื่อบอกว่ากำลังอยู่ในช่วงดวงตก" }
+            ]
+        },
+        set15_motion_sickness: {
+            title: 'การเมายานพาหนะ',
+            description: 'คำศัพท์ที่ใช้อธิบายอาการป่วยจากการเดินทาง',
+            colors: 'from-cyan-400 to-blue-400',
+            lesson: [
+                { word: 'Motion sickness', read: '<span class="stress">โม</span>-เชิน <span class="stress">ซิค</span>-เนส', pos: '(n.) อาการเมารถเมาเรือ', meaning: 'อาการคลื่นไส้ที่เกิดจากการเคลื่อนไหวของยานพาหนะ', example: 'She takes medication to prevent motion sickness.', ex_thai: 'เธอทานยาเพื่อป้องกันอาการเมารถเมาเรือ' },
+                { word: 'Seasick', read: '<span class="stress">ซี</span>-ซิค', pos: '(adj.) เมาเรือ', meaning: 'รู้สึกคลื่นไส้จากการโดยสารเรือ', example: 'Many passengers became seasick during the storm.', ex_thai: 'ผู้โดยสารหลายคนเมาเรือระหว่างเกิดพายุ' },
+                { word: 'Carsick', read: '<span class="stress">คา</span>-ซิค', pos: '(adj.) เมารถ', meaning: 'รู้สึกคลื่นไส้จากการโดยสารรถยนต์', example: 'I always feel carsick if I read in the car.', ex_thai: 'ฉันจะรู้สึกเมารถเสมอถ้าอ่านหนังสือในรถ' },
+                { word: 'Airsick', read: '<span class="stress">แอร์</span>-ซิค', pos: '(adj.) เมาเครื่องบิน', meaning: 'รู้สึกคลื่นไส้จากการโดยสารเครื่องบิน', example: 'The flight was so turbulent that I started to feel airsick.', ex_thai: 'เที่ยวบินตกหลุมอากาศมากจนฉันเริ่มรู้สึกเมาเครื่องบิน' }
+            ],
+            quiz: [
+                { q: "The rough waves made me feel _______. ", a: "Seasick", choices: ["Carsick", "Airsick", "Seasick", "Motion sick"], explanation: "ใช้ Seasick เพราะคลื่นที่รุนแรงเกิดในทะเล" },
+                { q: "My little brother gets _______ on long road trips.", a: "Carsick", choices: ["Airsick", "Seasick", "Homesick", "Carsick"], explanation: "ใช้ Carsick สำหรับการเดินทางโดยรถยนต์" },
+                { q: "During takeoff, some people might feel a bit _______.", a: "Airsick", choices: ["Carsick", "Seasick", "Airsick", "Lovesick"], explanation: "ใช้ Airsick สำหรับการเดินทางโดยเครื่องบิน" },
+                { q: "Dramamine is a popular medicine for _______. ", a: "Motion sickness", choices: ["Carsickness", "Airsickness", "Seasickness", "Motion sickness"], explanation: "ใช้ Motion sickness เป็นคำนามทั่วไปที่ครอบคลุมอาการเมายานพาหนะทุกประเภท" }
+            ]
+        },
+        set16_pain: {
+            title: 'ความเจ็บปวด',
+            description: 'กลุ่มคำที่ใช้อธิบายระดับต่างๆ ของความเจ็บปวดทางกาย',
+            colors: 'from-rose-500 to-red-600',
+            lesson: [
+                { word: 'Pain', read: 'เพน', pos: '(n.) ความเจ็บปวด', meaning: 'ความรู้สึกไม่สบายทางกายที่เกิดจากการบาดเจ็บหรือเจ็บป่วย (คำทั่วไป)', example: 'I have a sharp pain in my back.', ex_thai: 'ฉันมีอาการเจ็บแปลบที่หลัง' },
+                { word: 'Ache', read: 'เอค', pos: '(n./v.) อาการปวด (ต่อเนื่อง)', meaning: 'ความเจ็บปวดที่ไม่รุนแรงแต่ต่อเนื่อง', example: 'After the gym, my muscles ache.', ex_thai: 'หลังจากไปยิม กล้ามเนื้อของฉันก็ปวด' },
+                { word: 'Agony', read: '<span class="stress">แอ</span>-โก-นี่', pos: '(n.) ความเจ็บปวดอย่างรุนแรง', meaning: 'ความเจ็บปวดทางกายหรือใจที่รุนแรงอย่างยิ่ง', example: 'He was in agony after breaking his leg.', ex_thai: 'เขาเจ็บปวดอย่างรุนแรงหลังจากขาหัก' },
+                { word: 'Anguish', read: '<span class="stress">แอง</span>-กวิช', pos: '(n.) ความทุกข์ทรมาน (ทางใจ)', meaning: 'ความเจ็บปวดทางจิตใจอย่างรุนแรง', example: 'She was in anguish over her son\'s disappearance.', ex_thai: 'เธอทุกข์ทรมานใจอย่างยิ่งกับการหายตัวไปของลูกชาย' },
+                { word: 'Swell', read: 'สเวล', pos: '(v.) บวม', meaning: 'มีขนาดใหญ่ขึ้นเนื่องจากการสะสมของของเหลว', example: 'My ankle began to swell after I sprained it.', ex_thai: 'ข้อเท้าของฉันเริ่มบวมหลังจากที่มันแพลง' }
+            ],
+            quiz: [
+                { q: "A dull, continuous pain is usually called an _______.", a: "Ache", choices: ["Agony", "Anguish", "Ache", "Pain"], explanation: "ใช้ Ache สำหรับอาการปวดที่ไม่รุนแรงแต่ต่อเนื่อง" },
+                { q: "The patient was screaming in _______ as the doctor set his broken bone.", a: "Agony", choices: ["Anguish", "Pain", "Ache", "Agony"], explanation: "ใช้ Agony เพื่อบรรยายความเจ็บปวดทางกายในระดับสูงสุด" },
+                { q: "The news of her best friend's death caused her deep _______. ", a: "Anguish", choices: ["Pain", "Agony", "Anguish", "Ache"], explanation: "ใช้ Anguish เพราะเป็นความทุกข์ทรมานทางจิตใจ" },
+                { q: "After the bee sting, my hand started to _______ up.", a: "Swell", choices: ["Ache", "Swell", "Agonize", "Pain"], explanation: "ใช้ Swell ซึ่งเป็นกริยาหมายถึงอาการบวม" }
+            ]
+        },
+        set17_disease: {
+            title: 'เนื้องอกและแผล',
+            description: 'คำศัพท์เกี่ยวกับความผิดปกติของเนื้อเยื่อและแผลติดเชื้อ',
+            colors: 'from-purple-700 to-indigo-800',
+            lesson: [
+                { word: 'Fester', read: '<span class="stress">เฟส</span>-เทอร์', pos: '(v.) เป็นหนอง, อักเสบ', meaning: '(แผล) ที่ติดเชื้อและมีหนอง', example: 'If you don\'t clean the wound, it might fester.', ex_thai: 'ถ้าคุณไม่ทำความสะอาดแผล มันอาจจะเป็นหนองได้' },
+                { word: 'Ulcer', read: '<span class="stress">อัล</span>-เซอร์', pos: '(n.) แผลเปื่อย, แผลในกระเพาะ', meaning: 'แผลเปิดที่ผิวหนังหรือเยื่อบุภายในร่างกายที่ไม่หายง่ายๆ', example: 'Stress can sometimes cause a stomach ulcer.', ex_thai: 'ความเครียดบางครั้งอาจทำให้เกิดแผลในกระเพาะอาหารได้' },
+                { word: 'Cancer', read: '<span class="stress">แคน</span>-เซอร์', pos: '(n.) มะเร็ง', meaning: 'โรคที่เกิดจากเซลล์ผิดปกติที่เติบโตอย่างควบคุมไม่ได้', example: 'Lung cancer is often caused by smoking.', ex_thai: 'มะเร็งปอดมักเกิดจากการสูบบุหรี่' },
+                { word: 'Tumor', read: '<span class="stress">ทู</span>-เมอร์', pos: '(n.) เนื้องอก', meaning: 'ก้อนของเนื้อเยื่อที่ผิดปกติ (อาจเป็นมะเร็งหรือไม่ก็ได้)', example: 'The doctor found a small tumor in her lung.', ex_thai: 'หมอพบเนื้องอกขนาดเล็กในปอดของเธอ' },
+                { word: 'Cyst', read: 'ซิสต์', pos: '(n.) ถุงน้ำ, ซีสต์', meaning: 'ถุงที่ผิดปกติในร่างกายซึ่งมักจะมีของเหลวอยู่ข้างใน', example: 'A cyst is usually not cancerous.', ex_thai: 'โดยปกติแล้วซีสต์ไม่ใช่มะเร็ง' }
+            ],
+            quiz: [
+                { q: "A growth of abnormal cells can be a _______, which might be benign or malignant.", a: "Tumor", choices: ["Ulcer", "Cyst", "Tumor", "Fester"], explanation: "ใช้ Tumor สำหรับก้อนเนื้อที่ผิดปกติ" },
+                { q: "He has a painful _______ on his foot that won't heal.", a: "Ulcer", choices: ["Cancer", "Tumor", "Cyst", "Ulcer"], explanation: "ใช้ Ulcer สำหรับแผลเปิดที่ไม่ยอมหาย" },
+                { q: "A fluid-filled sac under the skin is often a _______.", a: "Cyst", choices: ["Tumor", "Cyst", "Ulcer", "Cancer"], explanation: "ใช้ Cyst สำหรับถุงน้ำที่ผิดปกติ" },
+                { q: "It's important to keep a cut clean so it doesn't _______.", a: "Fester", choices: ["Swell", "Ulcerate", "Fester", "Tumor"], explanation: "ใช้ Fester ซึ่งเป็นกริยาหมายถึงการที่แผลอักเสบเป็นหนอง" }
+            ]
+        },
+        set18_epidemic: {
+            title: 'โรคระบาด',
+            description: 'คำศัพท์ที่เกี่ยวข้องกับการแพร่กระจายของโรค',
+            colors: 'from-red-800 to-rose-900',
+            lesson: [
+                { word: 'Outbreak', read: '<span class="stress">เอาท์</span>-เบรค', pos: '(n.) การระบาด (เริ่มต้น)', meaning: 'การเกิดขึ้นอย่างกะทันหันของโรค', example: 'There was an outbreak of food poisoning at the school.', ex_thai: 'มีการระบาดของอาหารเป็นพิษที่โรงเรียน' },
+                { word: 'Epidemic', read: 'เอ-พิ-<span class="stress">เด</span>-มิค', pos: '(n.) โรคระบาด (ในพื้นที่)', meaning: 'การแพร่กระจายอย่างรวดเร็วของโรคในกลุ่มประชากรหรือพื้นที่ขนาดใหญ่', example: 'The flu epidemic of 1918 killed millions.', ex_thai: 'โรคไข้หวัดใหญ่ระบาดในปี 1918 คร่าชีวิตคนไปหลายล้านคน' },
+                { word: 'Pandemic', read: 'แพน-<span class="stress">เด</span>-มิค', pos: '(n.) โรคระบาดใหญ่ (ทั่วโลก)', meaning: 'โรคระบาดที่แพร่กระจายไปทั่วประเทศหรือทั่วโลก', example: 'COVID-19 was declared a global pandemic in 2020.', ex_thai: 'โควิด-19 ถูกประกาศให้เป็นโรคระบาดใหญ่ทั่วโลกในปี 2020' },
+                { word: 'Quarantine', read: '<span class="stress">ควอ</span>-เริน-ทีน', pos: '(n./v.) การกักตัว, กักกัน', meaning: 'การแยกผู้ที่อาจติดเชื้อออกจากผู้อื่นเพื่อป้องกันการแพร่กระจายของโรค', example: 'Travelers had to be in quarantine for 14 days.', ex_thai: 'นักเดินทางต้องถูกกักตัวเป็นเวลา 14 วัน' },
+                { word: 'Plague', read: 'เพลก', pos: '(n.) กาฬโรค, โรคระบาดร้ายแรง', meaning: 'โรคติดต่อร้ายแรงที่ทำให้คนตายจำนวนมาก', example: 'The Black Death was a devastating plague in the 14th century.', ex_thai: 'มรณะดำเป็นกาฬโรคที่ทำลายล้างอย่างรุนแรงในศตวรรษที่ 14' }
+            ],
+            quiz: [
+                { q: "When a disease spreads across the entire world, it is called a _______.", a: "Pandemic", choices: ["Outbreak", "Epidemic", "Pandemic", "Plague"], explanation: "ใช้ Pandemic สำหรับโรคระบาดที่กระจายไปทั่วโลก" },
+                { q: "To stop the spread of the virus, the city was put under _______. ", a: "Quarantine", choices: ["Outbreak", "Plague", "Epidemic", "Quarantine"], explanation: "ใช้ Quarantine ซึ่งหมายถึงการกักกันเพื่อควบคุมโรค" },
+                { q: "A sudden increase of a disease in a specific city is an _______.", a: "Epidemic", choices: ["Outbreak", "Epidemic", "Pandemic", "Plague"], explanation: "ใช้ Epidemic เพราะเป็นการระบาดในพื้นที่หรือประชากรกลุ่มใหญ่" },
+                { q: "Health officials quickly responded to the cholera _______.", a: "Outbreak", choices: ["Outbreak", "Pandemic", "Quarantine", "Plague"], explanation: "ใช้ Outbreak สำหรับการเริ่มต้นระบาดของโรค" }
+            ]
+        },
+        set19_talk: {
+            title: 'รูปแบบการพูด',
+            description: 'กลุ่มคำกริยาที่อธิบายลักษณะการพูดในรูปแบบต่างๆ',
+            colors: 'from-amber-500 to-red-500',
+            lesson: [
+                { word: 'Exaggerate', read: 'เอ็ก-<span class="stress">แซ</span>-เจอะ-เรท', pos: '(v.) พูดเกินจริง', meaning: 'ทำให้บางสิ่งดูใหญ่กว่า, ดีกว่า, หรือแย่กว่าความเป็นจริง', example: 'He tends to exaggerate the size of the fish he caught.', ex_thai: 'เขามักจะพูดเกินจริงเรื่องขนาดของปลาที่เขาจับได้' },
+                { word: 'Ramble', read: '<span class="stress">แรม</span>-เบิล', pos: '(v.) พูดเพ้อเจ้อ, พูดไม่หยุด', meaning: 'พูดหรือเขียนเป็นเวลานานโดยไม่มีเป้าหมายและเปลี่ยนเรื่องไปมา', example: 'He started to ramble on about his childhood.', ex_thai: 'เขาเริ่มพูดเพ้อเจ้อเกี่ยวกับวัยเด็กของเขา' },
+                { word: 'Reiterate', read: 'รี-<span class="stress">อิ</span>-เทอ-เรท', pos: '(v.) พูดซ้ำ (เพื่อเน้น)', meaning: 'พูดหรือทำบางสิ่งซ้ำอีกครั้งเพื่อเน้นย้ำหรือทำให้ชัดเจนขึ้น', example: 'Let me reiterate the most important point.', ex_thai: 'ขอให้ฉันพูดซ้ำประเด็นที่สำคัญที่สุดอีกครั้ง' },
+                { word: 'Brag', read: 'แบรก', pos: '(v.) ขี้โม้, โอ้อวด', meaning: 'พูดเกี่ยวกับความสำเร็จหรือสมบัติของตนเองด้วยความภาคภูมิใจมากเกินไป', example: 'He\'s always bragging about his new car.', ex_thai: 'เขาเอาแต่ขี้โม้เรื่องรถใหม่ของเขาอยู่เสมอ' },
+                { word: 'Curse', read: 'เคิร์ส', pos: '(v./n.) สบถ, ด่า, คำสาป', meaning: 'ใช้คำหยาบคายเพื่อแสดงความโกรธ หรือสาปแช่ง', example: 'He cursed loudly when he hit his thumb with the hammer.', ex_thai: 'เขาสบถเสียงดังเมื่อเขาเอาค้อนทุบโดนนิ้วโป้งตัวเอง' }
+            ],
+            quiz: [
+                { q: "To make sure everyone understood, the teacher _______d the instructions.", a: "Reiterated", choices: ["Exaggerated", "Rambled", "Bragged", "Reiterated"], explanation: "ใช้ Reiterate เพราะเป็นการพูดซ้ำเพื่อความชัดเจน" },
+                { q: "He claimed he fought a shark, but I think he's _______ing.", a: "Exaggerating", choices: ["Rambling", "Bragging", "Exaggerating", "Cursing"], explanation: "ใช้ Exaggerate เพราะเป็นการพูดเกินจริง" },
+                { q: "She loves to _______ about how much money she makes.", a: "Brag", choices: ["Curse", "Ramble", "Brag", "Reiterate"], explanation: "ใช้ Brag เพราะเป็นการโอ้อวดเกี่ยวกับเงินที่เธอหาได้" },
+                { q: "The old man just _______d on and on, and we couldn't understand his point.", a: "Rambled", choices: ["Bragged", "Rambled", "Exaggerated", "Reiterated"], explanation: "ใช้ Ramble เพราะเป็นการพูดไปเรื่อยๆ อย่างไม่มีจุดหมาย" }
+            ]
+        },
+        set20_expectation: {
+            title: 'ความคาดหวัง',
+            description: 'กลุ่มคำนามที่มีความหมายใกล้เคียงกันเกี่ยวกับความคาดหวัง',
+            colors: 'from-fuchsia-500 to-purple-600',
+            lesson: [
+                { word: 'Expectation', read: 'เอ็ก-สเปค-<span class="stress">เท</span>-เชิน', pos: '(n.) ความคาดหวัง (สิ่งที่จะเกิด)', meaning: 'ความเชื่ออย่างแรงกล้าว่าบางสิ่งจะเกิดขึ้นหรือควรจะเป็นเช่นนั้น', example: 'The movie did not live up to my expectations.', ex_thai: 'หนังเรื่องนี้ไม่เป็นไปตามความคาดหวังของฉันเลย' },
+                { word: 'Expectancy', read: 'เอ็ก-<span class="stress">สเปค</span>-เทิน-ซิ', pos: '(n.) ความคาดหมาย (ความรู้สึก)', meaning: 'ความรู้สึกตื่นเต้นว่าบางสิ่งกำลังจะเกิดขึ้น', example: 'There was an air of expectancy in the crowd before the concert.', ex_thai: 'มีบรรยากาศของความคาดหมายในกลุ่มฝูงชนก่อนคอนเสิร์ต' },
+                { word: 'Anticipation', read: 'แอน-ทิ-ซิ-<span class="stress">เพ</span>-เชิน', pos: '(n.) การรอคอยอย่างคาดหวัง', meaning: 'ความรู้สึกตื่นเต้นและรอคอยบางสิ่งที่จะเกิดขึ้นในอนาคต', example: 'She waited in great anticipation for the results.', ex_thai: 'เธอรอคอยผลลัพธ์อย่างคาดหวังอย่างยิ่ง' },
+                { word: 'Intention', read: 'อิน-<span class="stress">เทน</span>-เชิน', pos: '(n.) ความตั้งใจ', meaning: 'สิ่งที่คุณวางแผนหรือตั้งใจที่จะทำ', example: 'It was not my intention to hurt your feelings.', ex_thai: 'มันไม่ใช่ความตั้งใจของฉันที่จะทำให้เธอเสียใจ' }
+            ],
+            quiz: [
+                { q: "My _______ is to finish this project by Friday.", a: "Intention", choices: ["Expectation", "Expectancy", "Anticipation", "Intention"], explanation: "ใช้ Intention เพราะเป็นสิ่งที่วางแผนหรือตั้งใจจะทำ" },
+                { q: "The children were filled with _______ on Christmas Eve.", a: "Anticipation", choices: ["Intention", "Expectancy", "Anticipation", "Expectation"], explanation: "ใช้ Anticipation เพราะเป็นการรอคอยบางสิ่งอย่างตื่นเต้น" },
+                { q: "Life _______ is the average number of years a person is expected to live.", a: "Expectancy", choices: ["Expectation", "Expectancy", "Anticipation", "Intention"], explanation: "ใช้ Expectancy ในสำนวน 'Life Expectancy' หมายถึงอายุขัยโดยเฉลี่ยที่คาดหมาย" },
+                { q: "He has high _______s for his son's future.", a: "Expectations", choices: ["Intentions", "Expectancies", "Anticipations", "Expectations"], explanation: "ใช้ Expectation เพราะเป็นความเชื่อว่าอนาคตของลูกชายควรจะเป็นอย่างไร" }
+            ]
+        },
+        set21_cryptic: {
+            title: 'ลึกลับ / ซ่อนเร้น',
+            description: 'กลุ่มคำที่เกี่ยวกับความลับและความลึกลับ',
+            colors: 'from-indigo-500 to-blue-600',
+            lesson: [
+                { word: 'Crypt', read: 'คริปท์', pos: '(n.) ห้องใต้ดิน (เก็บศพ)', meaning: 'ห้องใต้ดินของโบสถ์ที่ใช้สำหรับฝังศพ', example: 'The ancient kings were buried in the crypt.', ex_thai: 'กษัตริย์โบราณถูกฝังอยู่ในห้องใต้ดินของโบสถ์' },
+                { word: 'Cryptic', read: '<span class="stress">คริป</span>-ทิค', pos: '(adj.) ที่เป็นปริศนา, ลึกลับ', meaning: 'มีความหมายที่ซ่อนเร้นและเข้าใจยาก', example: 'He left a cryptic message on my desk.', ex_thai: 'เขาทิ้งข้อความที่เป็นปริศนาไว้บนโต๊ะของฉัน' },
+                { word: 'Secret', read: '<span class="stress">ซี</span>-เคร็ต', pos: '(n./adj.) ความลับ, ที่เป็นความลับ', meaning: 'สิ่งที่ไม่ได้เปิดเผยหรือเป็นที่รู้จักโดยทั่วไป', example: 'Can you keep a secret?', ex_thai: 'เธอเก็บความลับได้ไหม?' },
+                { word: 'Mystic', read: '<span class="stress">มิส</span>-ทิค', pos: '(adj./n.) เกี่ยวกับเวทมนตร์, ลี้ลับ', meaning: 'เกี่ยวข้องกับพลังทางจิตวิญญาณหรือเวทมนตร์ที่ไม่สามารถอธิบายได้', example: 'She is interested in mystic traditions from the East.', ex_thai: 'เธอสนใจในประเพณีอันลี้ลับจากโลกตะวันออก' },
+                { word: 'Mysterious', read: 'มิส-<span class="stress">เทีย</span>-เรียส', pos: '(adj.) ลึกลับ, น่าพิศวง', meaning: 'ยากหรือเป็นไปไม่ได้ที่จะเข้าใจหรืออธิบาย', example: 'A mysterious stranger arrived in town.', ex_thai: 'ชายแปลกหน้าผู้ลึกลับได้มาถึงเมือง' }
+            ],
+            quiz: [
+                { q: "Her text message was so _______ that I didn't know what she meant.", a: "Cryptic", choices: ["Crypt", "Secret", "Mystic", "Cryptic"], explanation: "ใช้ Cryptic เพื่อบรรยายข้อความที่เป็นปริศนา" },
+                { q: "The old castle has many _______ passages.", a: "Secret", choices: ["Mystic", "Cryptic", "Secret", "Crypt"], explanation: "ใช้ Secret เพื่อบรรยายทางเดินที่เป็นความลับ" },
+                { q: "The reason for his sudden disappearance remains _______.", a: "Mysterious", choices: ["Cryptic", "Mysterious", "Mystic", "Secret"], explanation: "ใช้ Mysterious เพื่อบรรยายสิ่งที่ยากจะเข้าใจหรืออธิบาย" },
+                { q: "A monk who spends his life in meditation might be considered a _______.", a: "Mystic", choices: ["Crypt", "Secret", "Mystic", "Cryptic"], explanation: "ใช้ Mystic ในฐานะคำนามหมายถึงบุคคลที่เกี่ยวข้องกับเรื่องลี้ลับทางจิตวิญญาณ" }
+            ]
+        },
+        set22_hide: {
+            title: 'ปกปิด / ซ่อน',
+            description: 'กลุ่มกริยาที่เกี่ยวกับการซ่อนหรือปิดบังบางสิ่ง',
+            colors: 'from-slate-700 to-gray-800',
+            lesson: [
+                { word: 'Hide', read: 'ไฮด์', pos: '(v.) ซ่อน', meaning: 'เก็บตัวเองหรือบางสิ่งไว้ในที่ที่คนอื่นหาไม่เจอ (คำทั่วไป)', example: 'The cat likes to hide under the bed.', ex_thai: 'แมวชอบซ่อนอยู่ใต้เตียง' },
+                { word: 'Conceal', read: 'คัน-<span class="stress">ซีล</span>', pos: '(v.) ปกปิด (ความจริง/วัตถุ)', meaning: 'ซ่อนบางสิ่งอย่างตั้งใจเพื่อไม่ให้ถูกค้นพบ (เป็นทางการกว่า hide)', example: 'He tried to conceal the evidence from the police.', ex_thai: 'เขาพยายามปกปิดหลักฐานจากตำรวจ' },
+                { word: 'Disguise', read: 'ดิส-<span class="stress">ไกซ์</span>', pos: '(v./n.) ปลอมตัว, การปลอมตัว', meaning: 'เปลี่ยนแปลงรูปลักษณ์เพื่อไม่ให้คนอื่นจำได้', example: 'The spy disguised himself as a waiter.', ex_thai: 'สายลับปลอมตัวเป็นพนักงานเสิร์ฟ' },
+                { word: 'Lurk', read: 'เลิร์ค', pos: '(v.) ซุ่ม, แอบซ่อน', meaning: 'ซ่อนตัวอยู่ (มักมีความตั้งใจที่ไม่ดี)', example: 'A crocodile was lurking beneath the surface of the water.', ex_thai: 'จระเข้ตัวหนึ่งกำลังซุ่มอยู่ใต้ผิวน้ำ' }
+            ],
+            quiz: [
+                { q: "She used makeup to _______ the scar on her cheek.", a: "Conceal", choices: ["Hide", "Conceal", "Disguise", "Lurk"], explanation: "ใช้ Conceal เพราะเป็นการตั้งใจปกปิดรอยแผลเป็น" },
+                { q: "The children played a game of _______ and seek.", a: "Hide", choices: ["Hide", "Conceal", "Disguise", "Lurk"], explanation: "ใช้ Hide ในสำนวน 'hide-and-seek' (ซ่อนหา)" },
+                { q: "A strange figure was _______ing in the shadows.", a: "Lurking", choices: ["Hiding", "Concealing", "Disguising", "Lurking"], explanation: "ใช้ Lurk เพราะเป็นการแอบซ่อนที่ให้ความรู้สึกว่ามีเจตนาร้าย" },
+                { q: "He wore a wig and glasses as a _______. ", a: "Disguise", choices: ["Concealment", "Hiding", "Disguise", "Lurk"], explanation: "ใช้ Disguise ในฐานะคำนามหมายถึงการปลอมตัว" }
+            ]
+        },
+    };
+
+    // --- Global Variables & App State ---
+    let currentSetKey = null;
+    let userAnswers = {};
+
+    // --- DOM Elements ---
+    const mainMenu = document.getElementById('main-menu-view');
+    const lessonView = document.getElementById('lesson-view');
+    const setSelectionGrid = document.getElementById('set-selection-grid');
+    const lessonTitle = document.getElementById('lesson-title');
+    const lessonContentWrapper = document.getElementById('lesson-content-wrapper');
+    const exerciseContentWrapper = document.getElementById('exercise-content-wrapper');
+    const lessonContent = document.getElementById('lesson-content');
+    const quizContainer = document.getElementById('quiz-container');
+    const checkBtn = document.getElementById('check-answers-btn');
+    const resetBtn = document.getElementById('reset-btn');
+    const lessonTabBtn = document.getElementById('tab-lesson-btn');
+    const exerciseTabBtn = document.getElementById('tab-exercise-btn');
+
+    // --- Core Functions ---
+    function initMainMenu() {
+        setSelectionGrid.innerHTML = '';
+        const sortedKeys = Object.keys(allSetsData).sort();
+
+        for (const key of sortedKeys) {
+            const set = allSetsData[key];
+            const cardWrapper = document.createElement('div');
+            cardWrapper.className = 'set-card-wrapper rounded-xl shadow-lg cursor-pointer';
+            cardWrapper.style.cssText = `background: linear-gradient(135deg, ${set.colors.split(' ')[0]}, ${set.colors.split(' ')[1]});`;
+            cardWrapper.onclick = () => showLessonView(key);
+            
+            cardWrapper.innerHTML = `
+                <div class="bg-white/90 backdrop-blur-sm p-5 rounded-lg h-full flex flex-col justify-between">
+                    <div>
+                        <h2 class="text-2xl font-bold text-gray-800">${set.title}</h2>
+                        <p class="text-gray-600 font-normal mt-1 text-sm">${set.description}</p>
+                    </div>
+                    <div class="text-right font-semibold text-base theme-accent mt-2">เริ่มเรียน →</div>
+                </div>
+            `;
+            setSelectionGrid.appendChild(cardWrapper);
+        }
+    }
+
+    function showLessonView(setKey) {
+        currentSetKey = setKey;
+        const setData = allSetsData[setKey];
+        
+        mainMenu.classList.remove('active');
+        lessonView.classList.add('active');
+        window.scrollTo(0, 0);
+        
+        lessonTitle.textContent = setData.title;
+        
+        lessonContent.innerHTML = '';
+        setData.lesson.forEach(item => {
+            const card = document.createElement('div');
+            card.className = `vocab-card rounded-lg p-4`;
+            card.style.borderColor = setData.colors.split(' ')[0];
+            
+            card.innerHTML = `
+                <div class="flex justify-between items-baseline">
+                    <h3 class="text-2xl font-bold text-gray-800">${item.word}</h3>
+                    <span class="font-medium theme-accent">${item.read}</span>
+                </div>
+                <p class="text-gray-500 text-sm mb-3">${item.pos}</p>
+                <p class="mb-3 text-gray-700"><strong>ความหมาย:</strong> ${item.meaning}</p>
+                <div class="text-sm bg-gray-50 p-3 rounded-md border border-gray-200">
+                    <p class="font-semibold">ตัวอย่าง:</p>
+                    <p class="text-gray-800">${item.example}</p>
+                    <p class="text-gray-600 mt-1">${item.ex_thai}</p>
+                </div>
+            `;
+            lessonContent.appendChild(card);
+        });
+
+        createQuiz();
+        showTab('lesson');
+    }
+
+    function showMainMenu() {
+        lessonView.classList.remove('active');
+        mainMenu.classList.add('active');
+        currentSetKey = null;
+    }
+
+    function showTab(tabName) {
+        const inactiveClasses = 'text-gray-500 hover:text-gray-700 border-transparent';
+        const activeClasses = 'text-white theme-accent-bg';
+
+        if (tabName === 'lesson') {
+            lessonContentWrapper.classList.remove('hidden');
+            exerciseContentWrapper.classList.add('hidden');
+            lessonTabBtn.className = 'tab-button active whitespace-nowrap py-3 px-5 border-b-2 font-medium text-lg rounded-t-md ' + activeClasses;
+            exerciseTabBtn.className = 'tab-button whitespace-nowrap py-3 px-5 border-b-2 font-medium text-lg rounded-t-md ' + inactiveClasses;
+        } else {
+            lessonContentWrapper.classList.add('hidden');
+            exerciseContentWrapper.classList.remove('hidden');
+            lessonTabBtn.className = 'tab-button whitespace-nowrap py-3 px-5 border-b-2 font-medium text-lg rounded-t-md ' + inactiveClasses;
+            exerciseTabBtn.className = 'tab-button active whitespace-nowrap py-3 px-5 border-b-2 font-medium text-lg rounded-t-md ' + activeClasses;
+            resetQuiz();
+        }
+    }
+    
+    function createQuiz() {
+        const setData = allSetsData[currentSetKey];
+        quizContainer.innerHTML = '';
+        if (!setData.quiz || setData.quiz.length === 0) {
+            quizContainer.innerHTML = '<p class="text-center text-gray-500">ขออภัย, ยังไม่มีแบบฝึกหัดสำหรับชุดนี้</p>';
+            checkBtn.classList.add('hidden');
+            return;
+        }
+
+        setData.quiz.forEach((q, index) => {
+            const questionDiv = document.createElement('div');
+            questionDiv.className = "bg-white p-5 rounded-lg shadow-sm border border-gray-200";
+            questionDiv.id = `question-${index}`;
+
+            const sentence = document.createElement('p');
+            sentence.className = "text-lg text-gray-800 mb-4 font-medium";
+            sentence.innerHTML = `${index + 1}. ${q.q.replace('_______', '<span class="font-bold theme-accent">_______</span>')}`;
+            questionDiv.appendChild(sentence);
+
+            const choicesDiv = document.createElement('div');
+            choicesDiv.className = "space-y-2";
+            const choiceLabels = ['a', 'b', 'c', 'd'];
+            q.choices.forEach((choice, choiceIndex) => {
+                const item = document.createElement('div');
+                item.className = 'choice-item flex items-center p-3 rounded-lg';
+                item.onclick = () => selectChoice(index, choice, item);
+                item.innerHTML = `
+                    <span class="font-bold text-gray-600 mr-3">${choiceLabels[choiceIndex]}.</span>
+                    <span class="text-gray-700">${choice}</span>
+                `;
+                choicesDiv.appendChild(item);
+            });
+            questionDiv.appendChild(choicesDiv);
+
+            const feedbackDiv = document.createElement('div');
+            feedbackDiv.id = `feedback-${index}`;
+            feedbackDiv.className = "hidden mt-3 p-3 rounded-lg text-sm font-medium";
+            questionDiv.appendChild(feedbackDiv);
+            
+            quizContainer.appendChild(questionDiv);
+        });
+        resetBtn.classList.add('hidden');
+        checkBtn.classList.remove('hidden');
+    }
+
+    function selectChoice(questionIndex, choice, button) {
+        if(checkBtn.classList.contains('hidden')) return;
+        userAnswers[questionIndex] = choice;
+        const parent = button.parentElement;
+        Array.from(parent.children).forEach(child => child.classList.remove('selected'));
+        button.classList.add('selected');
+    }
+
+    function checkAnswers() {
+        const setData = allSetsData[currentSetKey];
+        setData.quiz.forEach((q, index) => {
+            const feedbackDiv = document.getElementById(`feedback-${index}`);
+            const userAnswer = userAnswers[index];
+            
+            feedbackDiv.classList.remove('hidden', 'correct', 'incorrect');
+            
+            if (userAnswer === q.a) {
+                feedbackDiv.classList.add('correct');
+                feedbackDiv.innerHTML = `<strong>ถูกต้อง!</strong> 👍 ${q.explanation}`;
+            } else {
+                const selectedAnswerText = userAnswer ? `คุณเลือก "${userAnswer}"` : "คุณยังไม่ได้เลือกคำตอบ";
+                feedbackDiv.classList.add('incorrect');
+                feedbackDiv.innerHTML = `<strong>ยังไม่ถูกนะ!</strong> คำตอบที่ถูกต้องคือ <strong>${q.a}</strong> เพราะ${q.explanation.substring(q.explanation.indexOf('เพราะ') + 5)}`;
+            }
+        });
+        checkBtn.classList.add('hidden');
+        resetBtn.classList.remove('hidden');
+    }
+
+    function resetQuiz() {
+        userAnswers = {};
+        const setData = allSetsData[currentSetKey];
+        if (!setData.quiz || setData.quiz.length === 0) return;
+        setData.quiz.forEach((q, index) => {
+            const questionDiv = document.getElementById(`question-${index}`);
+            questionDiv.querySelectorAll('.choice-item').forEach(btn => btn.classList.remove('selected'));
+            const feedbackDiv = document.getElementById(`feedback-${index}`);
+            feedbackDiv.classList.add('hidden');
+        });
+        checkBtn.classList.remove('hidden');
+        resetBtn.classList.add('hidden');
+    }
+
+    // --- Initial Load ---
+    document.addEventListener('DOMContentLoaded', initMainMenu);
+    </script>
+</body>
+</html>

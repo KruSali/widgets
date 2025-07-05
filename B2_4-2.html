@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mr. Vocab: The Ultimate Edition - ชุดที่ 4 (Part 2)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Kanit', sans-serif;
+            background-color: #f1f5f9; /* slate-100 */
+        }
+        .main-container { max-width: 1200px; margin: auto; }
+        .view { display: none; }
+        .view.active { display: block; }
+        .set-card-wrapper {
+            background: linear-gradient(135deg, var(--tw-gradient-from), var(--tw-gradient-to));
+            transition: all 0.3s ease;
+            padding: 8px;
+        }
+        .set-card-wrapper:hover { transform: scale(1.05); box-shadow: 0 10px 20px rgba(0,0,0,0.15); }
+        /* Theme Color: Slate & Amber */
+        .theme-accent { color: #f59e0b; /* amber-500 */ }
+        .theme-accent-bg { background-color: #f59e0b; /* amber-500 */ }
+        .theme-accent-bg-hover:hover { background-color: #d97706; /* amber-600 */ }
+
+        .tab-button.active {
+            background-color: #334155; /* slate-700 */
+            color: white;
+            border-bottom-color: transparent;
+        }
+        .vocab-card {
+            background-color: white;
+            border-left-width: 5px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .choice-item {
+            border: 2px solid #e2e8f0; /* slate-200 */
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+        .choice-item:hover { border-color: #fcd34d; /* amber-300 */ background-color: #fffbeb; /* amber-50 */ }
+        .choice-item.selected { border-color: #f59e0b; /* amber-500 */ background-color: #fef3c7; /* amber-200 */ }
+        .feedback.correct { background-color: #dcfce7; color: #166534; border-left: 4px solid #22c55e; }
+        .feedback.incorrect { background-color: #fee2e2; color: #991b1b; border-left: 4px solid #ef4444; }
+        .stress { text-decoration: underline; font-weight: 600; }
+    </style>
+</head>
+<body class="p-4 md:p-6">
+
+    <div class="main-container">
+        <div id="main-menu-view" class="view active">
+            <header class="text-center mb-8">
+                <h1 class="text-4xl md:text-5xl font-bold text-gray-800">Mr. Vocab: Ultimate Edition 💼</h1>
+                <h2 class="text-2xl md:text-3xl font-bold theme-accent">ชุดที่ 4 (ส่วนที่ 2)</h2>
+                <p class="text-gray-600 mt-2 text-lg">บทเรียนส่วนสุดท้ายของชุดที่ 4 เลือกหัวข้อที่สนใจได้เลย!</p>
+            </header>
+            <div id="main-menu-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+                </div>
+        </div>
+
+        <div id="sub-menu-view" class="view">
+             <header class="mb-8">
+                <button onclick="showMainMenu()" class="bg-white text-slate-700 hover:bg-slate-100 font-semibold flex items-center px-4 py-2 rounded-lg shadow-sm border border-gray-200 mb-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" /></svg>
+                    กลับไปเมนูหลัก
+                </button>
+                <div class="text-center">
+                    <h1 id="sub-menu-title" class="text-3xl md:text-4xl font-bold text-gray-800"></h1>
+                    <p id="sub-menu-description" class="text-gray-600 mt-2 text-lg"></p>
+                </div>
+            </header>
+            <div id="sub-menu-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+                </div>
+        </div>
+
+        <div id="lesson-view" class="view">
+            <header class="flex items-center justify-between mb-4">
+                <button id="back-to-submenu-btn" class="bg-white text-slate-700 hover:bg-slate-100 font-semibold flex items-center px-4 py-2 rounded-lg shadow-sm border border-gray-200">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" /></svg>
+                    กลับไปหมวดหมู่
+                </button>
+                <h1 id="lesson-title" class="text-2xl md:text-3xl font-bold text-gray-800 text-right"></h1>
+            </header>
+            
+            <div class="bg-white/80 backdrop-blur-sm p-4 sm:p-6 rounded-2xl shadow-lg">
+                <div class="border-b border-gray-200">
+                    <nav class="-mb-px flex space-x-4" aria-label="Tabs">
+                        <button id="tab-lesson-btn" class="tab-button whitespace-nowrap py-3 px-4 border-b-2 font-medium text-lg" onclick="showTab('lesson')">บทเรียน</button>
+                        <button id="tab-exercise-btn" class="tab-button whitespace-nowrap py-3 px-4 border-b-2 font-medium text-lg text-gray-500" onclick="showTab('exercise')">แบบฝึกหัด</button>
+                    </nav>
+                </div>
+                
+                <div class="pt-6">
+                    <div id="lesson-content-wrapper">
+                        <div id="lesson-content" class="grid md:grid-cols-2 gap-5"></div>
+                    </div>
+                    <div id="exercise-content-wrapper" class="hidden">
+                        <p class="text-center text-gray-600 mb-6">เลือกคำตอบที่ถูกต้องที่สุด</p>
+                        <div class="space-y-6" id="quiz-container"></div>
+                        <div class="text-center mt-8">
+                            <button id="check-answers-btn" class="theme-accent-bg theme-accent-bg-hover text-white font-bold py-3 px-10 rounded-full text-lg shadow-md transition-transform hover:scale-105" onclick="checkAnswers()">ตรวจคำตอบ</button>
+                            <button id="reset-btn" class="hidden bg-gray-500 hover:bg-gray-600 text-white font-bold py-3 px-10 rounded-full text-lg" onclick="resetQuiz()">ลองอีกครั้ง</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+    // --- Data for All Vocabulary Sets (Set 4, Part 2) ---
+    const allSetsData = {
+        set14_necessary: {
+            type: 'standard',
+            title: "จำเป็น / สำคัญยิ่ง",
+            description: "กลุ่มคำคุณศัพท์ที่เน้นย้ำถึงความสำคัญในระดับต่างๆ",
+            colors: "from-sky-500 to-blue-600",
+            lesson: [
+                { word: 'Necessary', read: '<span class="stress">เน</span>-เซส-เซ-รี่', pos: '(adj.) จำเป็น', meaning: 'ที่ต้องการเพื่อให้บรรลุผลบางอย่าง (เป็นคำทั่วไป)', example: 'Food and water are necessary for survival.', ex_thai: 'อาหารและน้ำจำเป็นต่อการอยู่รอด' },
+                { word: 'Essential', read: 'เอส-<span class="stress">เซน</span>-เชียล', pos: '(adj.) สำคัญและจำเป็นอย่างยิ่ง', meaning: 'จำเป็นอย่างที่สุด, เป็นหัวใจสำคัญที่ขาดไม่ได้', example: 'A good diet is essential for your health.', ex_thai: 'อาหารที่ดีมีความสำคัญอย่างยิ่งต่อสุขภาพของคุณ' },
+                { word: 'Vital', read: '<span class="stress">ไว</span>-เทิล', pos: '(adj.) สำคัญต่อชีวิต', meaning: 'จำเป็นอย่างยิ่งต่อการดำรงอยู่หรือความสำเร็จของบางสิ่ง', example: 'The heart is a vital organ.', ex_thai: 'หัวใจเป็นอวัยวะที่สำคัญต่อชีวิต' },
+                { word: 'Indispensable', read: 'อิน-ดิส-<span class="stress">เพน</span>-ซะ-เบิล', pos: '(adj.) ที่ขาดไม่ได้เลย', meaning: 'จำเป็นมากจนไม่สามารถทำสิ่งต่างๆ ได้หากไม่มี', example: 'For many people, a smartphone is an indispensable tool.', ex_thai: 'สำหรับหลายๆ คน สมาร์ทโฟนเป็นเครื่องมือที่ขาดไม่ได้เลย' },
+                { word: 'Crucial', read: '<span class="stress">ครู</span>-เชียล', pos: '(adj.) สำคัญยิ่ง (ในการตัดสินใจ)', meaning: 'มีความสำคัญอย่างยิ่งยวดต่อผลลัพธ์ของสถานการณ์', example: 'It is crucial that we make a decision today.', ex_thai: 'มันสำคัญอย่างยิ่งที่เราต้องตัดสินใจในวันนี้' },
+            ],
+            quiz: [
+                { q: "His testimony was _______ to the outcome of the trial.", a: "Crucial", choices: ["Necessary", "Essential", "Vital", "Crucial"], explanation: "ใช้ Crucial เพราะคำให้การนั้นมีความสำคัญอย่างยิ่งยวดต่อผลการตัดสินคดี" },
+                { q: "Oxygen is _______ for all forms of animal life.", a: "Vital", choices: ["Indispensable", "Necessary", "Vital", "Crucial"], explanation: "ใช้ Vital เพราะออกซิเจนจำเป็นต่อการดำรงชีวิต" },
+                { q: "He has become _______ to the team; we can't win without him.", a: "Indispensable", choices: ["Essential", "Indispensable", "Vital", "Necessary"], explanation: "ใช้ Indispensable เพื่อเน้นว่าทีมไม่สามารถทำได้หากไม่มีเขา" },
+                { q: "It is _______ to have a basic understanding of mathematics in daily life.", a: "Essential", choices: ["Essential", "Vital", "Indispensable", "Crucial"], explanation: "ใช้ Essential เพื่อบอกว่าความเข้าใจพื้นฐานเป็นหัวใจสำคัญที่จำเป็น" }
+            ]
+        },
+        set15_endanger: {
+            type: 'standard',
+            title: "ทำให้เป็นอันตราย",
+            description: "กลุ่มคำกริยาที่หมายถึงการทำให้ตกอยู่ในความเสี่ยงหรืออันตราย",
+            colors: "from-red-500 to-orange-600",
+            lesson: [
+                { word: 'Endanger', read: 'เอน-<span class="stress">เดน</span>-เจอร์', pos: '(v.) ทำให้เป็นอันตราย', meaning: 'ทำให้ใครหรือบางสิ่งตกอยู่ในสถานการณ์ที่อาจได้รับอันตราย', example: 'Smoking can endanger your health.', ex_thai: 'การสูบบุหรี่สามารถทำให้สุขภาพของคุณเป็นอันตรายได้' },
+                { word: 'Imperil', read: 'อิม-<span class="stress">เพ</span>-ริล', pos: '(v.) ทำให้ตกอยู่ในอันตรายร้ายแรง', meaning: 'ทำให้ตกอยู่ในอันตรายที่ร้ายแรง (เป็นคำทางการ)', example: 'The toxic spill imperiled the entire ecosystem.', ex_thai: 'การรั่วไหลของสารพิษทำให้ระบบนิเวศทั้งหมดตกอยู่ในอันตรายร้ายแรง' },
+                { word: 'Jeopardize', read: '<span class="stress">เจ๊</span>-เพอ-ไดซ์', pos: '(v.) ทำให้เสี่ยงต่อความล้มเหลว', meaning: 'ทำให้แผนการหรือสถานการณ์ที่ดีมีความเสี่ยงที่จะล้มเหลวหรือเสียหาย', example: 'Don\'t jeopardize your career by making a stupid mistake.', ex_thai: 'อย่าทำให้อาชีพการงานของคุณต้องเสี่ยงโดยการทำผิดโง่ๆ' },
+                { word: 'Threaten', read: '<span class="stress">เธรท</span>-เทิน', pos: '(v.) คุกคาม, ขู่', meaning: 'เป็นสัญญาณของอันตราย หรือขู่ว่าจะทำร้าย', example: 'The storm threatens to destroy the coastal towns.', ex_thai: 'พายุกำลังคุกคามที่จะทำลายเมืองชายฝั่ง' },
+            ],
+            quiz: [
+                { q: "His reckless driving _______ed the lives of his passengers.", a: "Endangered", choices: ["Imperiled", "Jeopardized", "Threatened", "Endangered"], explanation: "ใช้ Endanger เป็นคำทั่วไปที่หมายถึงการทำให้ชีวิตตกอยู่ในอันตราย" },
+                { q: "A scandal could _______ the company's reputation.", a: "Jeopardize", choices: ["Imperil", "Endanger", "Jeopardize", "Threaten"], explanation: "ใช้ Jeopardize เพราะเรื่องอื้อฉาวทำให้ชื่อเสียงมีความเสี่ยงที่จะเสียหาย" },
+                { q: "The spread of the disease _______s the entire population.", a: "Threatens", choices: ["Imperils", "Jeopardizes", "Endangers", "Threatens"], explanation: "ใช้ Threaten ในความหมายว่าเป็นสัญญาณของอันตรายที่กำลังจะมาถึง" },
+                { q: "The war has _______ed the future of a whole generation.", a: "Imperiled", choices: ["Endangered", "Imperiled", "Jeopardized", "Threatened"], explanation: "ใช้ Imperil ซึ่งเป็นคำทางการเพื่อเน้นถึงอันตรายที่ร้ายแรงต่ออนาคต" }
+            ]
+        },
+        set16_start: {
+            type: 'standard',
+            title: "การเริ่มต้น",
+            description: "กลุ่มคำกริยาและสำนวนที่เกี่ยวกับการเริ่มต้นสิ่งต่างๆ",
+            colors: "from-lime-500 to-green-500",
+            lesson: [
+                { word: 'Start up', read: 'สตาร์ท <span class="stress">อัพ</span>', pos: '(phr. v.) เริ่มต้น (ธุรกิจ/เครื่องยนต์)', meaning: 'เริ่มต้นธุรกิจใหม่ หรือทำให้เครื่องยนต์เริ่มทำงาน', example: 'She decided to start up her own coffee shop.', ex_thai: 'เธอตัดสินใจที่จะเริ่มต้นร้านกาแฟของตัวเอง' },
+                { word: 'Start off', read: 'สตาร์ท <span class="stress">ออฟ</span>', pos: '(phr. v.) เริ่มต้น (กิจกรรม/การเดินทาง)', meaning: 'เริ่มต้นการเดินทางหรือกิจกรรม', example: 'Let\'s start off the meeting with a review of last week\'s minutes.', ex_thai: 'เรามาเริ่มต้นการประชุมด้วยการทบทวนรายงานการประชุมของสัปดาห์ที่แล้วกัน' },
+                { word: 'Trigger (off)', read: '<span class="stress">ทริก</span>-เกอร์ (ออฟ)', pos: '(v.) กระตุ้นให้เกิด', meaning: 'เป็นสาเหตุให้บางสิ่ง (มักเป็นสิ่งไม่ดี) เกิดขึ้นอย่างฉับพลัน', example: 'The allergic reaction was triggered by peanuts.', ex_thai: 'อาการแพ้ถูกกระตุ้นโดยถั่วลิสง' },
+                { word: 'Burst into', read: 'เบิร์สท์ <span class="stress">อิน</span>-ทู', pos: '(phr. v.) ระเบิด (อารมณ์) ออกมา', meaning: 'เริ่มทำบางสิ่งอย่างกะทันหันและรุนแรง (เช่น หัวเราะ, ร้องไห้, ลุกเป็นไฟ)', example: 'The car burst into flames.', ex_thai: 'รถยนต์ลุกเป็นไฟอย่างฉับพลัน' },
+            ],
+            quiz: [
+                { q: "The loud noise _______ a panic among the crowd.", a: "Triggered", choices: ["Started up", "Started off", "Triggered", "Burst into"], explanation: "ใช้ Trigger เพราะเสียงดังเป็นตัวกระตุ้นให้เกิดความตื่นตระหนก" },
+                { q: "Upon hearing the good news, she _______ tears of joy.", a: "Burst into", choices: ["Started up", "Started off", "Triggered", "Burst into"], explanation: "ใช้ Burst into tears สำหรับการร้องไห้ออกมาอย่างกะทันหัน" },
+                { q: "He plans to _______ his new company next year.", a: "Start up", choices: ["Start up", "Start off", "Trigger", "Burst into"], explanation: "ใช้ Start up สำหรับการเริ่มต้นธุรกิจใหม่" },
+                { q: "We _______ early in the morning for our trip to the beach.", a: "Started off", choices: ["Started up", "Started off", "Triggered", "Burst into"], explanation: "ใช้ Start off สำหรับการเริ่มต้นการเดินทาง" }
+            ]
+        },
+        set18_launch: {
+            type: 'standard',
+            title: "ริเริ่ม / เริ่มโครงการ",
+            description: "กลุ่มคำกริยาที่เป็นทางการเกี่ยวกับการเริ่มต้นสิ่งสำคัญ",
+            colors: "from-teal-500 to-cyan-500",
+            lesson: [
+                { word: 'Launch', read: 'ลอนช์', pos: '(v.) เปิดตัว, ปล่อย (จรวด)', meaning: 'เริ่มต้นกิจกรรมหรือโครงการสำคัญ หรือปล่อยจรวด/เรือ', example: 'The company will launch its new product next month.', ex_thai: 'บริษัทจะเปิดตัวผลิตภัณฑ์ใหม่ในเดือนหน้า' },
+                { word: 'Initiate', read: 'อิ-<span class="stress">นิ</span>-ชิ-เอท', pos: '(v.) ริเริ่ม', meaning: 'ทำให้กระบวนการหรือการกระทำเริ่มต้นขึ้น (เป็นทางการ)', example: 'The government initiated a program to improve public schools.', ex_thai: 'รัฐบาลได้ริเริ่มโครงการเพื่อปรับปรุงโรงเรียนรัฐบาล' },
+                { word: 'Inaugurate', read: 'อิน-<span class="stress">ออ</span>-กิว-เรท', pos: '(v.) เปิดงาน, เข้ารับตำแหน่ง', meaning: 'เริ่มต้นบางสิ่งที่สำคัญอย่างเป็นทางการด้วยพิธีการ เช่น การเปิดอาคาร, การที่ประธานาธิบดีเข้ารับตำแหน่ง', example: 'The new president will be inaugurated in January.', ex_thai: 'ประธานาธิบดีคนใหม่จะเข้ารับตำแหน่งในเดือนมกราคม' },
+                { word: 'Instigate', read: '<span class="stress">อิน</span>-สติ-เกท', pos: '(v.) ยุยง, ปลุกปั่น', meaning: 'ทำให้บางสิ่ง (มักเป็นสิ่งไม่ดี เช่น การโต้เถียง, จลาจล) เริ่มต้นขึ้น', example: 'He was accused of instigating the riot.', ex_thai: 'เขาถูกกล่าวหาว่าเป็นผู้ยุยงให้เกิดการจลาจล' },
+            ],
+            quiz: [
+                { q: "The mayor will _______ the new library with a ribbon-cutting ceremony.", a: "Inaugurate", choices: ["Launch", "Initiate", "Inaugurate", "Instigate"], explanation: "ใช้ Inaugurate เพราะเป็นการเปิดอาคารอย่างเป็นทางการพร้อมพิธีการ" },
+                { q: "Apple is expected to _______ a new iPhone model this fall.", a: "Launch", choices: ["Initiate", "Inaugurate", "Instigate", "Launch"], explanation: "ใช้ Launch สำหรับการเปิดตัวผลิตภัณฑ์ใหม่" },
+                { q: "The police believe the fight was _______d by a small group of troublemakers.", a: "Instigated", choices: ["Launched", "Initiated", "Inaugurated", "Instigated"], explanation: "ใช้ Instigate เพราะเป็นการยุยงให้เกิดเรื่องไม่ดี (การทะเลาะวิวาท)" },
+                { q: "Who _______d the idea of this project in the first place?", a: "Initiated", choices: ["Launched", "Initiated", "Inaugurated", "Instigated"], explanation: "ใช้ Initiate ซึ่งเป็นคำทางการหมายถึงการเป็นผู้ริเริ่มกระบวนการหรือแนวคิด" }
+            ]
+        },
+        set19_land: {
+            type: 'standard',
+            title: "ประเภทของที่ดิน",
+            description: 'คำศัพท์ที่ลงท้ายด้วย -land เพื่ออธิบายลักษณะของพื้นที่ต่างๆ',
+            colors: 'from-green-600 to-lime-700',
+            lesson: [
+                { word: 'Lowland', read: '<span class="stress">โลว์</span>-แลนด์', pos: '(n.) ที่ราบลุ่ม', meaning: 'พื้นที่ที่อยู่ระดับต่ำ ไม่สูงชัน', example: 'The river flows through the fertile lowland.', ex_thai: 'แม่น้ำไหลผ่านที่ราบลุ่มอันอุดมสมบูรณ์' },
+                { word: 'Highland', read: '<span class="stress">ไฮ</span>-แลนด์', pos: '(n.) ที่ราบสูง, เขตภูเขา', meaning: 'พื้นที่ที่เป็นภูเขาหรืออยู่สูงกว่าระดับน้ำทะเลมาก', example: 'Scotland is famous for its beautiful highlands.', ex_thai: 'สกอตแลนด์มีชื่อเสียงด้านที่ราบสูงที่สวยงาม' },
+                { word: 'Woodland', read: '<span class="stress">วูด</span>-แลนด์', pos: '(n.) ป่าละเมาะ', meaning: 'พื้นที่ที่ปกคลุมไปด้วยต้นไม้ (ไม่หนาทึบเท่า forest)', example: 'We went for a walk in the ancient woodland.', ex_thai: 'เราไปเดินเล่นในป่าละเมาะโบราณ' },
+                { word: 'Marshland', read: '<span class="stress">มาร์ช</span>-แลนด์', pos: '(n.) ที่ลุ่มชื้นแฉะ', meaning: 'พื้นที่ต่ำที่เปียกและมีน้ำท่วมขังเป็นประจำ มีหญ้าและต้นกกขึ้น', example: 'Marshlands are important habitats for wading birds.', ex_thai: 'ที่ลุ่มชื้นแฉะเป็นแหล่งที่อยู่อาศัยที่สำคัญของนกน้ำ' },
+                { word: 'Swampland', read: '<span class="stress">สวอมพ์</span>-แลนด์', pos: '(n.) ที่หนองบึง', meaning: 'พื้นที่ที่เปียกและเต็มไปด้วยน้ำตลอดเวลา มีต้นไม้ขึ้น (ต่างจาก marshland)', example: 'Alligators are often found in the swampland of Florida.', ex_thai: 'จระเข้มักพบได้ในบริเวณหนองบึงของฟลอริดา' },
+            ],
+            quiz: [
+                { q: "An area of low, wet ground, often with trees, is called a _______.", a: "Swampland", choices: ["Lowland", "Highland", "Woodland", "Swampland"], explanation: "ใช้ Swampland สำหรับพื้นที่หนองบึงที่มีน้ำขังและมีต้นไม้" },
+                { q: "The mountainous region in the north of the country is known as the _______.", a: "Highlands", choices: ["Lowlands", "Highlands", "Woodlands", "Marshlands"], explanation: "ใช้ Highlands สำหรับเขตภูเขาหรือที่ราบสูง" },
+                { q: "This area is a _______, so it's very wet and not suitable for building houses.", a: "Marshland", choices: ["Woodland", "Highland", "Marshland", "Lowland"], explanation: "ใช้ Marshland สำหรับพื้นที่ลุ่มชื้นแฉะที่มักมีน้ำท่วมขัง" },
+                { q: "A forest-like area with many trees but less dense than a jungle is a _______.", a: "Woodland", choices: ["Swampland", "Woodland", "Highland", "Marshland"], explanation: "ใช้ Woodland สำหรับพื้นที่ป่าละเมาะ" }
+            ]
+        },
+        set21_planets: {
+            type: 'mega',
+            title: "ดาราศาสตร์และราศี",
+            description: "ท่องโลกแห่งดวงดาว จักรราศี และวัตถุบนท้องฟ้า",
+            colors: "from-indigo-600 to-purple-800",
+            subSets: {
+                z01_objects: {
+                    title: "วัตถุท้องฟ้าและปรากฏการณ์", lesson: [
+                        { word: 'Meteor', read: '<span class="stress">มี</span>-ที-ออร์', pos: '(n.) ดาวตก', meaning: 'วัตถุจากอวกาศที่ลุกไหม้เมื่อเข้าสู่ชั้นบรรยากาศโลก', example: 'We made a wish upon a shooting star, which is another name for a meteor.', ex_thai: 'เราอธิษฐานกับดาวตก ซึ่งเป็นอีกชื่อหนึ่งของเมทิเออร์' },
+                        { word: 'Comet', read: '<span class="stress">คอ</span>-เมท', pos: '(n.) ดาวหาง', meaning: 'ก้อนน้ำแข็งและฝุ่นในอวกาศที่มีหางยาวเมื่อเข้าใกล้ดวงอาทิตย์', example: 'Halley\'s Comet is visible from Earth every 76 years.', ex_thai: 'ดาวหางฮัลเลย์สามารถมองเห็นได้จากโลกทุกๆ 76 ปี' },
+                        { word: 'Asteroid', read: '<span class="stress">แอส</span>-เทอ-รอยด์', pos: '(n.) ดาวเคราะห์น้อย', meaning: 'ก้อนหินขนาดใหญ่ที่โคจรรอบดวงอาทิตย์ ส่วนใหญ่อยู่ระหว่างดาวอังคารและดาวพฤหัส', example: 'Scientists are tracking a large asteroid that will pass near Earth.', ex_thai: 'นักวิทยาศาสตร์กำลังติดตามดาวเคราะห์น้อยขนาดใหญ่ที่จะผ่านใกล้โลก' },
+                        { word: 'Orbit', read: '<span class="stress">ออร์</span>-บิท', pos: '(n./v.) วงโคจร, โคจร', meaning: 'เส้นทางโค้งที่ดาวเคราะห์หรือดาวเทียมเคลื่อนที่ไปรอบๆ วัตถุอื่น', example: 'The Earth is in orbit around the Sun.', ex_thai: 'โลกโคจรรอบดวงอาทิตย์' },
+                        { word: 'Eclipse', read: 'อิ-<span class="stress">คลิปส์</span>', pos: '(n.) สุริยุปราคา/จันทรุปราคา', meaning: 'ปรากฏการณ์ที่ดวงจันทร์หรือโลกบังแสงจากดวงอาทิตย์', example: 'It is dangerous to look directly at a solar eclipse.', ex_thai: 'การมองดูสุริยุปราคาโดยตรงเป็นอันตราย' }
+                    ], quiz: [
+                        { q: "A bright streak of light in the sky, also called a shooting star, is a _______.", a: "Meteor", choices: ["Comet", "Asteroid", "Meteor", "Orbit"], explanation: "ใช้ Meteor สำหรับดาวตก" },
+                        { q: "A celestial body with a long, bright tail is a _______.", a: "Comet", choices: ["Asteroid", "Comet", "Meteor", "Planet"], explanation: "ใช้ Comet สำหรับดาวหาง" },
+                        { q: "The Moon's path around the Earth is its _______.", a: "Orbit", choices: ["Eclipse", "Asteroid", "Comet", "Orbit"], explanation: "ใช้ Orbit สำหรับวงโคจร" },
+                        { q: "The _______ Belt, located between Mars and Jupiter, contains many rocky bodies.", a: "Asteroid", choices: ["Comet", "Meteor", "Eclipse", "Asteroid"], explanation: "ใช้ Asteroid สำหรับดาวเคราะห์น้อย" }
+                    ]
+                },
+                z02_fields: {
+                    title: "ศาสตร์และบุคคล", lesson: [
+                        { word: 'Astronomy', read: 'แอส-<span class="stress">ทรอ</span>-โน-มี่', pos: '(n.) ดาราศาสตร์', meaning: 'การศึกษาทางวิทยาศาสตร์เกี่ยวกับดวงดาว, ดาวเคราะห์, และอวกาศ', example: 'Astronomy is a fascinating field of science.', ex_thai: 'ดาราศาสตร์เป็นสาขาวิทยาศาสตร์ที่น่าทึ่ง' },
+                        { word: 'Astronomer', read: 'แอส-<span class="stress">ทรอ</span>-โน-เมอร์', pos: '(n.) นักดาราศาสตร์', meaning: 'นักวิทยาศาสตร์ที่ศึกษาดาราศาสตร์', example: 'Galileo was a famous astronomer.', ex_thai: 'กาลิเลโอเป็นนักดาราศาสตร์ผู้มีชื่อเสียง' },
+                        { word: 'Astrology', read: 'แอส-<span class="stress">ทรอ</span>-โล-จี', pos: '(n.) โหราศาสตร์', meaning: 'ความเชื่อที่ว่าตำแหน่งของดวงดาวมีอิทธิพลต่อชีวิตมนุษย์', example: 'Astrology is not considered a science.', ex_thai: 'โหราศาสตร์ไม่ถือว่าเป็นวิทยาศาสตร์' },
+                        { word: 'Astrologer', read: 'แอส-<span class="stress">ทรอ</span>-โล-เจอร์', pos: '(n.) โหร, นักโหราศาสตร์', meaning: 'คนที่ทำนายอนาคตโดยใช้โหราศาสตร์', example: 'An astrologer read her horoscope.', ex_thai: 'โหรได้อ่านดวงชะตาของเธอ' },
+                        { word: 'Constellation', read: 'คอน-สเทล-<span class="stress">เล</span>-เชิน', pos: '(n.) กลุ่มดาว', meaning: 'กลุ่มของดวงดาวที่มองเห็นเป็นรูปร่างบนท้องฟ้า', example: 'Orion is a well-known constellation.', ex_thai: 'โอไรออนเป็นกลุ่มดาวที่เป็นที่รู้จักกันดี' }
+                    ], quiz: [
+                        { q: "A person who uses a telescope to study planets and stars is an _______.", a: "Astronomer", choices: ["Astrologer", "Astronomer", "Horoscope", "Constellation"], explanation: "ใช้ Astronomer สำหรับนักดาราศาสตร์ที่เป็นนักวิทยาศาสตร์" },
+                        { q: "The study of the movements of celestial bodies in the belief that they influence human affairs is _______. ", a: "Astrology", choices: ["Astronomy", "Astrology", "Zodiac", "Constellation"], explanation: "ใช้ Astrology สำหรับโหราศาสตร์" },
+                        { q: "A group of stars forming a recognizable pattern is a _______.", a: "Constellation", choices: ["Zodiac", "Horoscope", "Constellation", "Galaxy"], explanation: "ใช้ Constellation สำหรับกลุ่มดาว" },
+                        { q: "The scientific study of the universe is called _______.", a: "Astronomy", choices: ["Astrology", "Astronomy", "Horoscope", "Zodiac"], explanation: "ใช้ Astronomy สำหรับดาราศาสตร์ซึ่งเป็นวิทยาศาสตร์" }
+                    ]
+                }
+            }
+        },
+        set22_keen: {
+            type: 'standard',
+            title: "กระตือรือร้น",
+            description: "กลุ่มคำคุณศัพท์ที่หมายถึงความกระตือรือร้นและความหลงใหล",
+            colors: "from-amber-400 to-yellow-500",
+            lesson: [
+                { word: 'Keen', read: 'คีน', pos: '(adj.) กระตือรือร้น, สนใจอย่างยิ่ง', meaning: 'มีความกระตือรือร้นหรือสนใจในบางสิ่งอย่างมาก', example: 'He is a keen supporter of the local football team.', ex_thai: 'เขาเป็นผู้สนับสนุนตัวยงของทีมฟุตบอลท้องถิ่น' },
+                { word: 'Enthusiastic', read: 'เอน-ธู-ซิ-<span class="stress">แอส</span>-ทิค', pos: '(adj.) กระตือรือร้น', meaning: 'แสดงความสนใจและความสุขอย่างมากเกี่ยวกับบางสิ่ง', example: 'The children were enthusiastic about the school trip.', ex_thai: 'เด็กๆ รู้สึกกระตือรือร้นเกี่ยวกับทัศนศึกษาของโรงเรียน' },
+                { word: 'Zestful', read: '<span class="stress">เซสท์</span>-ฟูล', pos: '(adj.) กระปรี้กระเปร่า, มีชีวิตชีวา', meaning: 'เต็มไปด้วยพลังงานและความกระตือรือร้น', example: 'She has a very zestful personality.', ex_thai: 'เธอมีบุคลิกที่กระปรี้กระเปร่ามาก' },
+                { word: 'Zealous', read: '<span class="stress">เซ</span>-ลัส', pos: '(adj.) กระตือรือร้น (อย่างมาก)', meaning: 'มีความกระตือรือร้นหรือความเชื่อที่แรงกล้ามาก (บางครั้งมากเกินไป)', example: 'He is a zealous advocate for human rights.', ex_thai: 'เขาเป็นผู้สนับสนุนสิทธิมนุษยชนอย่างแรงกล้า' },
+                { word: 'Passionate', read: '<span class="stress">แพช</span>-เชิน-เนท', pos: '(adj.) ที่หลงใหล', meaning: 'มีความรู้สึกที่รุนแรงและแรงกล้าต่อบางสิ่ง', example: 'She is passionate about environmental protection.', ex_thai: 'เธอหลงใหลเกี่ยวกับการปกป้องสิ่งแวดล้อม' },
+            ],
+            quiz: [
+                { q: "A _______ fan is someone who supports their team with great energy and belief.", a: "Zealous", choices: ["Keen", "Zestful", "Zealous", "Enthusiastic"], explanation: "ใช้ Zealous เพื่อแสดงความกระตือรือร้นที่มาจากความเชื่ออันแรงกล้า" },
+                { q: "He gave a _______ performance, full of energy and excitement.", a: "Zestful", choices: ["Passionate", "Zestful", "Keen", "Zealous"], explanation: "ใช้ Zestful เพื่อบรรยายการแสดงที่เต็มไปด้วยพลังงานและความมีชีวิตชีวา" },
+                { q: "She is _______ about music and practices the piano for hours every day.", a: "Passionate", choices: ["Keen", "Enthusiastic", "Passionate", "Zestful"], explanation: "ใช้ Passionate เพราะเป็นการแสดงถึงความรู้สึกที่แรงกล้าและความรักในสิ่งนั้น" },
+                { q: "The students were very _______ when the teacher announced a pizza party.", a: "Enthusiastic", choices: ["Keen", "Enthusiastic", "Zestful", "Zealous"], explanation: "ใช้ Enthusiastic เป็นคำทั่วไปเพื่อแสดงความกระตือรือร้นและความดีใจ" }
+            ]
+        },
+        money: {
+            type: 'mega',
+            title: "การเงินและเศรษฐกิจ",
+            description: "คำศัพท์สำคัญเกี่ยวกับเรื่องเงินๆ ทองๆ และภาพรวมเศรษฐกิจ",
+            colors: "from-green-600 to-teal-700",
+            subSets: {
+                m01_concepts: {
+                    title: "แนวคิดทางเศรษฐกิจ", lesson: [
+                        { word: 'Fiscal year', read: '<span class="stress">ฟิส</span>-คัล เยียร์', pos: '(n.) ปีงบประมาณ', meaning: 'รอบระยะเวลา 12 เดือนที่บริษัทหรือรัฐบาลใช้ในการคำนวณทางการเงิน', example: 'The company\'s fiscal year ends in June.', ex_thai: 'ปีงบประมาณของบริษัทสิ้นสุดในเดือนมิถุนายน' },
+                        { word: 'Economic recession', read: 'อี-โค-<span class="stress">นอ</span>-มิค ริ-<span class="stress">เซ</span>-เชิน', pos: '(n.) ภาวะเศรษฐกิจถดถอย', meaning: 'ช่วงเวลาที่กิจกรรมทางเศรษฐกิจของประเทศลดลง', example: 'Many people lost their jobs during the recession.', ex_thai: 'ผู้คนจำนวนมากตกงานในช่วงภาวะเศรษฐกิจถดถอย' },
+                        { word: 'Slump', read: 'สลัมพ์', pos: '(n./v.) การตกต่ำอย่างรวดเร็ว', meaning: 'การลดลงอย่างรวดเร็วและรุนแรงของราคา, มูลค่า, หรือกิจกรรมทางธุรกิจ', example: 'There was a slump in car sales this year.', ex_thai: 'ยอดขายรถยนต์มีการตกต่ำอย่างรวดเร็วในปีนี้' },
+                        { word: 'Turmoil', read: '<span class="stress">เทอร์</span>-มอยล์', pos: '(n.) ความสับสนวุ่นวาย', meaning: 'สภาวะของความไม่แน่นอน, ความสับสน, หรือความวุ่นวายอย่างยิ่ง', example: 'The country is in a state of political turmoil.', ex_thai: 'ประเทศกำลังอยู่ในสภาวะความสับสนวุ่นวายทางการเมือง' },
+                        { word: 'I.M.F.', read: 'ไอ เอ็ม <span class="stress">เอฟ</span>', pos: '(n.) กองทุนการเงินระหว่างประเทศ', meaning: 'International Monetary Fund องค์กรระหว่างประเทศที่ส่งเสริมเสถียรภาพทางการเงิน', example: 'Thailand received a loan from the I.M.F. during the 1997 crisis.', ex_thai: 'ประเทศไทยได้รับเงินกู้จากไอเอ็มเอฟในช่วงวิกฤตปี 2540' }
+                    ], quiz: [
+                        { q: "A period when a country's economy is doing poorly is called an _______.", a: "Economic recession", choices: ["Fiscal year", "Economic recession", "Slump", "Turmoil"], explanation: "ใช้ Economic recession สำหรับภาวะเศรษฐกิจถดถอย" },
+                        { q: "A sudden and severe fall in business activity is known as a _______.", a: "Slump", choices: ["Turmoil", "Recession", "Fiscal year", "Slump"], explanation: "ใช้ Slump สำหรับการตกต่ำอย่างรวดเร็ว" },
+                        { q: "The country was in political _______ after the election results were announced.", a: "Turmoil", choices: ["Slump", "Recession", "Turmoil", "Fiscal year"], explanation: "ใช้ Turmoil สำหรับสภาวะที่สับสนวุ่นวาย" },
+                        { q: "A company's financial reporting period, which may not be the same as the calendar year, is its _______.", a: "Fiscal year", choices: ["Recession", "Fiscal year", "Turmoil", "Slump"], explanation: "ใช้ Fiscal year สำหรับปีงบประมาณ" }
+                    ]
+                },
+                m02_earnings: {
+                    title: "รายรับและค่าตอบแทน", lesson: [
+                        { word: 'Wages', read: '<span class="stress">เว</span>-เจส', pos: '(n.) ค่าจ้าง (รายชั่วโมง/สัปดาห์)', meaning: 'เงินที่จ่ายเป็นประจำตามชั่วโมงหรือสัปดาห์ที่ทำงาน', example: 'He earns a good wage at the factory.', ex_thai: 'เขาได้รับค่าจ้างที่ดีที่โรงงาน' },
+                        { word: 'Salary', read: '<span class="stress">แซ</span>-เลอ-รี่', pos: '(n.) เงินเดือน', meaning: 'เงินที่จ่ายเป็นจำนวนคงที่ทุกเดือนหรือทุกปี', example: 'She receives a monthly salary of 50,000 baht.', ex_thai: 'เธอได้รับเงินเดือน 50,000 บาทต่อเดือน' },
+                        { word: 'Fee', read: 'ฟี', pos: '(n.) ค่าธรรมเนียม, ค่าบริการ', meaning: 'เงินที่จ่ายสำหรับบริการจากผู้เชี่ยวชาญ เช่น ทนาย, แพทย์', example: 'The lawyer\'s fee was very high.', ex_thai: 'ค่าบริการของทนายความสูงมาก' },
+                        { word: 'Income', read: '<span class="stress">อิน</span>-คัม', pos: '(n.) รายได้', meaning: 'เงินทั้งหมดที่ได้รับจากการทำงานหรือการลงทุน', example: 'You must declare all your income on your tax form.', ex_thai: 'คุณต้องแจ้งรายได้ทั้งหมดของคุณในแบบฟอร์มภาษี' },
+                        { word: 'Pension', read: '<span class="stress">เพน</span>-เชิน', pos: '(n.) เงินบำนาญ', meaning: 'เงินที่จ่ายเป็นประจำให้กับผู้ที่เกษียณอายุ', example: 'My grandfather lives on his state pension.', ex_thai: 'คุณปู่ของฉันดำรงชีวิตด้วยเงินบำนาญของรัฐ' }
+                    ], quiz: [
+                        { q: "An office worker who is paid the same amount each month receives a _______.", a: "Salary", choices: ["Wages", "Salary", "Fee", "Pension"], explanation: "ใช้ Salary สำหรับเงินเดือนที่จ่ายเป็นรายเดือน" },
+                        { q: "A factory worker who is paid by the hour earns _______.", a: "Wages", choices: ["Salary", "Wages", "Income", "Fee"], explanation: "ใช้ Wages สำหรับค่าจ้างที่คิดเป็นรายชั่วโมงหรือรายสัปดาห์" },
+                        { q: "After she retired, she received a monthly _______ from the government.", a: "Pension", choices: ["Salary", "Income", "Fee", "Pension"], explanation: "ใช้ Pension สำหรับเงินบำนาญหลังเกษียณ" },
+                        { q: "You pay a doctor a _______ for their professional service.", a: "Fee", choices: ["Wages", "Salary", "Pension", "Fee"], explanation: "ใช้ Fee สำหรับค่าบริการของผู้เชี่ยวชาญ" }
+                    ]
+                }
+            }
+        },
+        business: {
+            type: 'mega',
+            title: "ธุรกิจและการทำงาน",
+            description: "คำศัพท์ครอบจักรวาล ตั้งแต่การจ้างงานไปจนถึงการค้าขาย",
+            colors: "from-blue-700 to-indigo-800",
+            subSets: {
+                b01_work: {
+                    title: "งานและอาชีพ", lesson: [
+                        { word: 'Work', read: 'เวิร์ค', pos: '(n./v.) งาน, ทำงาน', meaning: 'กิจกรรมที่ต้องใช้ความพยายามเพื่อบรรลุเป้าหมาย (คำทั่วไป)', example: 'I have a lot of work to do.', ex_thai: 'ฉันมีงานต้องทำเยอะมาก' },
+                        { word: 'Job', read: 'จ็อบ', pos: '(n.) งาน, ตำแหน่งงาน', meaning: 'งานประจำที่ได้รับค่าจ้าง', example: 'He is looking for a new job.', ex_thai: 'เขากำลังหางานใหม่' },
+                        { word: 'Career', read: 'คะ-<span class="stress">เรียร์</span>', pos: '(n.) อาชีพ, สายอาชีพ', meaning: 'งานหรืออาชีพที่ทำในช่วงชีวิตการทำงานที่ยาวนาน', example: 'She has a successful career in law.', ex_thai: 'เธอมีอาชีพที่ประสบความสำเร็จในด้านกฎหมาย' },
+                        { word: 'Profession', read: 'โพร-<span class="stress">เฟ</span>-เชิน', pos: '(n.) วิชาชีพ', meaning: 'งานที่ต้องอาศัยการศึกษาหรือการฝึกอบรมในระดับสูง เช่น แพทย์, วิศวกร', example: 'Teaching is a rewarding profession.', ex_thai: 'การสอนเป็นวิชาชีพที่คุ้มค่า' },
+                        { word: 'Occupation', read: 'ออค-คิว-<span class="stress">เพ</span>-เชิน', pos: '(n.) อาชีพ (เป็นทางการ)', meaning: 'งานหรืออาชีพของบุคคล (มักใช้ในเอกสารทางการ)', example: 'Please state your name, age, and occupation.', ex_thai: 'กรุณาระบุชื่อ, อายุ, และอาชีพของคุณ' }
+                    ], quiz: [
+                        { q: "What is your father's _______? He is a doctor.", a: "Profession", choices: ["Job", "Work", "Career", "Profession"], explanation: "ใช้ Profession เพราะการเป็นแพทย์เป็นวิชาชีพชั้นสูง" },
+                        { q: "On a form, you might be asked to write your name and ______.", a: "Occupation", choices: ["Career", "Job", "Work", "Occupation"], explanation: "ใช้ Occupation ซึ่งเป็นคำทางการที่มักใช้ในเอกสาร" },
+                        { q: "She wants to build a long and successful _______ in marketing.", a: "Career", choices: ["Job", "Work", "Career", "Profession"], explanation: "ใช้ Career สำหรับสายอาชีพในระยะยาว" },
+                        { q: "I'm looking for a part-time _______ while I'm a student.", a: "Job", choices: ["Career", "Profession", "Occupation", "Job"], explanation: "ใช้ Job สำหรับตำแหน่งงานเฉพาะที่ได้รับค่าจ้าง" }
+                    ]
+                },
+                 b02_hiring: {
+                    title: "การจ้างและเลิกจ้าง", lesson: [
+                        { word: 'Recruit', read: 'รี-<span class="stress">ครูท</span>', pos: '(v.) สรรหาบุคลากร', meaning: 'ชักชวนใครบางคนให้มาทำงานหรือเข้าร่วมองค์กร', example: 'The company needs to recruit more engineers.', ex_thai: 'บริษัทจำเป็นต้องสรรหาวิศวกรเพิ่ม' },
+                        { word: 'Hire', read: 'ไฮ-เออร์', pos: '(v.) จ้าง', meaning: 'จ้างใครบางคนให้ทำงาน', example: 'We decided to hire him for the position.', ex_thai: 'เราตัดสินใจจ้างเขาสำหรับตำแหน่งนี้' },
+                        { word: 'Dismiss / Fire', read: 'ดิส-<span class="stress">มิส</span> / ไฟ-เออร์', pos: '(v.) ไล่ออก (เพราะทำผิด)', meaning: 'ไล่ใครบางคนออกจากงาน (มักเป็นเพราะความผิดพลาด)', example: 'He was fired for stealing from the company.', ex_thai: 'เขาถูกไล่ออกเพราะขโมยของจากบริษัท' },
+                        { word: 'Lay off', read: 'เลย์ <span class="stress">ออฟ</span>', pos: '(phr. v.) เลิกจ้าง (เพราะเหตุผลทางธุรกิจ)', meaning: 'ทำให้ใครบางคนต้องออกจากงานเพราะไม่มีงานให้ทำ ไม่ใช่ความผิดของพนักงาน', example: 'The factory laid off 100 workers due to low sales.', ex_thai: 'โรงงานเลิกจ้างคนงาน 100 คนเนื่องจากยอดขายต่ำ' },
+                        { word: 'Resign', read: 'รี-<span class="stress">ไซน์</span>', pos: '(v.) ลาออก', meaning: 'ลาออกจากงานอย่างเป็นทางการด้วยตนเอง', example: 'She resigned from her job to start her own business.', ex_thai: 'เธอลาออกจากงานเพื่อไปเริ่มต้นธุรกิจของตัวเอง' }
+                    ], quiz: [
+                        { q: "When a company is losing money, it may have to _______ some employees.", a: "Lay off", choices: ["Fire", "Dismiss", "Lay off", "Resign"], explanation: "ใช้ Lay off เพราะเป็นการเลิกจ้างเนื่องจากเหตุผลทางธุรกิจ ไม่ใช่ความผิดของพนักงาน" },
+                        { q: "If you are caught sleeping at your desk, your boss might _______ you.", a: "Fire", choices: ["Lay off", "Resign", "Recruit", "Fire"], explanation: "ใช้ Fire (หรือ Dismiss) เพราะเป็นการไล่ออกเนื่องจากทำผิด" },
+                        { q: "I am not happy here, so I am going to _______ next month.", a: "Resign", choices: ["Be laid off", "Be fired", "Resign", "Be recruited"], explanation: "ใช้ Resign เพราะเป็นการตัดสินใจลาออกด้วยตนเอง" },
+                        { q: "Our HR department is trying to _______ the best graduates from top universities.", a: "Recruit", choices: ["Hire", "Recruit", "Fire", "Resign"], explanation: "ใช้ Recruit สำหรับกระบวนการสรรหาบุคลากร" }
+                    ]
+                },
+                 b03_commerce: {
+                    title: "การค้าและสินค้า", lesson: [
+                        { word: 'Goods', read: 'กูดส์', pos: '(n.) สินค้า', meaning: 'สิ่งของที่ผลิตขึ้นเพื่อขาย', example: 'The store sells a variety of household goods.', ex_thai: 'ร้านค้าขายสินค้าในครัวเรือนหลากหลายชนิด' },
+                        { word: 'Merchandise', read: '<span class="stress">เมอ</span>-เชิน-ไดซ์', pos: '(n.) สินค้า (ในร้านค้า)', meaning: 'สินค้าที่นำมาขายในร้านค้าหรือธุรกิจ', example: 'All merchandise must be paid for before leaving the store.', ex_thai: 'สินค้าทั้งหมดต้องชำระเงินก่อนออกจากร้าน' },
+                        { word: 'Cargo', read: '<span class="stress">คา</span>-โก', pos: '(n.) สินค้าที่ขนส่งทางเรือ/เครื่องบิน', meaning: 'สินค้าที่บรรทุกบนเรือ, เครื่องบิน, หรือยานพาหนะขนาดใหญ่', example: 'The ship was carrying a cargo of oil.', ex_thai: 'เรือลำนั้นกำลังบรรทุกสินค้าน้ำมัน' },
+                        { word: 'Invoice', read: '<span class="stress">อิน</span>-วอยซ์', pos: '(n.) ใบแจ้งหนี้', meaning: 'รายการสินค้าหรือบริการพร้อมราคาที่ต้องชำระ', example: 'Please pay the invoice within 30 days.', ex_thai: 'กรุณาชำระใบแจ้งหนี้ภายใน 30 วัน' },
+                        { word: 'Receipt', read: 'รี-<span class="stress">ซีท</span>', pos: '(n.) ใบเสร็จ', meaning: 'เอกสารที่พิสูจน์ว่าคุณได้ชำระเงินสำหรับสินค้าหรือบริการแล้ว', example: 'Always keep your receipt as proof of purchase.', ex_thai: 'ควรเก็บใบเสร็จของคุณไว้เป็นหลักฐานการซื้อเสมอ' }
+                    ], quiz: [
+                        { q: "After you pay for your items, the cashier gives you a _______.", a: "Receipt", choices: ["Invoice", "Cargo", "Goods", "Receipt"], explanation: "ใช้ Receipt สำหรับใบเสร็จซึ่งเป็นหลักฐานการชำระเงิน" },
+                        { q: "The company sent us an _______ for the services provided.", a: "Invoice", choices: ["Receipt", "Invoice", "Merchandise", "Cargo"], explanation: "ใช้ Invoice สำหรับใบแจ้งหนี้ที่ต้องชำระ" },
+                        { q: "The port was busy unloading _______ from the large ship.", a: "Cargo", choices: ["Goods", "Merchandise", "Receipt", "Cargo"], explanation: "ใช้ Cargo สำหรับสินค้าที่ขนส่งทางเรือ" },
+                        { q: "The official band _______ includes T-shirts and posters.", a: "Merchandise", choices: ["Goods", "Cargo", "Merchandise", "Invoice"], explanation: "ใช้ Merchandise สำหรับสินค้าที่ผลิตขึ้นเพื่อขายเกี่ยวกับแบรนด์หรือศิลปิน" }
+                    ]
+                }
+            }
+        },
+        education: {
+            type: 'mega',
+            title: "การศึกษา",
+            description: "สำรวจโลกของคำศัพท์ที่เกี่ยวข้องกับการเรียนการสอน",
+            colors: "from-amber-500 to-yellow-600",
+            subSets: {
+                e01_schools: {
+                    title: "ประเภทของโรงเรียน", lesson: [
+                        { word: 'Coeducational school', read: 'โค-เอ็ด-จู-<span class="stress">เค</span>-เชิน-นัล สคูล', pos: '(n.) โรงเรียนสหศึกษา', meaning: 'โรงเรียนที่สอนทั้งนักเรียนชายและหญิงด้วยกัน', example: 'Most modern schools are coeducational.', ex_thai: 'โรงเรียนสมัยใหม่ส่วนใหญ่เป็นโรงเรียนสหศึกษา' },
+                        { word: 'Single-sex school', read: '<span class="stress">ซิง</span>-เกิล-เซ็กส์ สคูล', pos: '(n.) โรงเรียนชายล้วน/หญิงล้วน', meaning: 'โรงเรียนที่สอนเฉพาะนักเรียนเพศเดียว', example: 'He went to an all-boys single-sex school.', ex_thai: 'เขาไปโรงเรียนชายล้วน' },
+                        { word: 'Primary school', read: '<span class="stress">ไพร</span>-เมอ-รี่ สคูล', pos: '(n.) โรงเรียนประถม', meaning: 'โรงเรียนสำหรับเด็กอายุประมาณ 5-11 ปี', example: 'Children learn to read and write in primary school.', ex_thai: 'เด็กๆ เรียนรู้ที่จะอ่านและเขียนในโรงเรียนประถม' },
+                        { word: 'Secondary school', read: '<span class="stress">เซ</span>-เคิน-เด-รี่ สคูล', pos: '(n.) โรงเรียนมัธยม', meaning: 'โรงเรียนสำหรับเด็กอายุประมาณ 11-18 ปี', example: 'She is studying for her final exams at secondary school.', ex_thai: 'เธอกำลังเรียนเพื่อสอบไล่ในระดับมัธยม' },
+                        { word: 'Private school', read: '<span class="stress">ไพร</span>-เวท สคูล', pos: '(n.) โรงเรียนเอกชน', meaning: 'โรงเรียนที่ไม่ได้รับทุนจากรัฐบาลและต้องจ่ายค่าเล่าเรียน', example: 'The tuition fees at private schools can be very high.', ex_thai: 'ค่าเล่าเรียนที่โรงเรียนเอกชนอาจสูงมาก' }
+                    ], quiz: [
+                        { q: "A school for both boys and girls is called a _______.", a: "Coeducational school", choices: ["Single-sex school", "Primary school", "Coeducational school", "Private school"], explanation: "ใช้ Coeducational school สำหรับโรงเรียนสหศึกษา" },
+                        { q: "In the UK, a school for students aged 11 to 18 is a _______.", a: "Secondary school", choices: ["Primary school", "Nursery school", "Secondary school", "University"], explanation: "ใช้ Secondary school สำหรับโรงเรียนระดับมัธยม" },
+                        { q: "A school that is funded by the government is a state school, but one that requires fees is a _______.", a: "Private school", choices: ["Coeducational school", "Single-sex school", "Public school (US)", "Private school"], explanation: "ใช้ Private school สำหรับโรงเรียนเอกชน" },
+                        { q: "A school that teaches only girls is a type of _______.", a: "Single-sex school", choices: ["Primary school", "Single-sex school", "Coeducational school", "Private school"], explanation: "ใช้ Single-sex school สำหรับโรงเรียนที่แยกเพศ" }
+                    ]
+                },
+                 e02_people: {
+                    title: "บุคคลในแวดวงการศึกษา", lesson: [
+                        { word: 'Lecturer', read: '<span class="stress">เลค</span>-เชอ-เรอร์', pos: '(n.) อาจารย์มหาวิทยาลัย', meaning: 'คนที่สอนในมหาวิทยาลัยหรือวิทยาลัย', example: 'Dr. Smith is a lecturer in the history department.', ex_thai: 'ดร.สมิธเป็นอาจารย์ในภาควิชาประวัติศาสตร์' },
+                        { word: 'Professor', read: 'โพร-<span class="stress">เฟ</span>-เซอร์', pos: '(n.) ศาสตราจารย์', meaning: 'อาจารย์มหาวิทยาลัยในตำแหน่งสูงสุด', example: 'She is a professor of physics at Cambridge.', ex_thai: 'เธอเป็นศาสตราจารย์ด้านฟิสิกส์ที่เคมบริดจ์' },
+                        { word: 'Dean', read: 'ดีน', pos: '(n.) คณบดี', meaning: 'หัวหน้าของคณะในมหาวิทยาลัย', example: 'The dean of the Faculty of Arts will give a speech.', ex_thai: 'คณบดีคณะอักษรศาสตร์จะกล่าวสุนทรพจน์' },
+                        { word: 'Tutor', read: '<span class="stress">ทู</span>-เทอร์', pos: '(n.) ติวเตอร์, ผู้สอนพิเศษ', meaning: 'ครูที่สอนแบบส่วนตัวหรือกลุ่มเล็กๆ', example: 'My parents hired a math tutor for me.', ex_thai: 'พ่อแม่ของฉันจ้างติวเตอร์คณิตศาสตร์ให้ฉัน' }
+                    ], quiz: [
+                        { q: "The head of a university faculty is the _______.", a: "Dean", choices: ["Lecturer", "Professor", "Tutor", "Dean"], explanation: "ใช้ Dean สำหรับตำแหน่งคณบดี" },
+                        { q: "A university teacher of the highest rank is a _______.", a: "Professor", choices: ["Tutor", "Lecturer", "Master", "Professor"], explanation: "ใช้ Professor สำหรับศาสตราจารย์ซึ่งเป็นตำแหน่งสูงสุด" },
+                        { q: "If you need extra help with a subject, you can hire a _______.", a: "Tutor", choices: ["Dean", "Professor", "Lecturer", "Tutor"], explanation: "ใช้ Tutor สำหรับผู้สอนพิเศษ" },
+                        { q: "Anyone who teaches at a university is generally called a _______.", a: "Lecturer", choices: ["Professor", "Dean", "Tutor", "Lecturer"], explanation: "ใช้ Lecturer เป็นคำทั่วไปสำหรับอาจารย์มหาวิทยาลัย" }
+                    ]
+                },
+                 e03_qualifications: {
+                    title: "วุฒิการศึกษาและความขยัน", lesson: [
+                        { word: 'Certificate', read: 'เซอ-<span class="stress">ทิ</span>-ฟิ-เคท', pos: '(n.) ประกาศนียบัตร', meaning: 'เอกสารทางการที่แสดงว่าคุณผ่านการอบรมหรือหลักสูตร', example: 'She received a certificate for completing the first-aid course.', ex_thai: 'เธอได้รับประกาศนียบัตรสำหรับการจบหลักสูตรปฐมพยาบาล' },
+                        { word: 'Diploma', read: 'ดิ-<span class="stress">โพล</span>-มะ', pos: '(n.) อนุปริญญา, ประกาศนียบัตรวิชาชีพ', meaning: 'วุฒิการศึกษาจากวิทยาลัยหรือโรงเรียนเทคนิคที่ใช้เวลเรียน 1-2 ปี', example: 'He earned a diploma in computer programming.', ex_thai: 'เขาได้รับอนุปริญญาด้านการเขียนโปรแกรมคอมพิวเตอร์' },
+                        { word: 'Degree', read: 'ดิ-<span class="stress">กรี</span>', pos: '(n.) ปริญญา', meaning: 'วุฒิการศึกษาที่ได้รับจากมหาวิทยาลัย (เช่น ปริญญาตรี, โท, เอก)', example: 'She has a degree in economics.', ex_thai: 'เธอมีวุฒิปริญญาด้านเศรษฐศาสตร์' },
+                        { word: 'Diligent', read: '<span class="stress">ดิ</span>-ลิ-เจินท์', pos: '(adj.) ขยันหมั่นเพียร', meaning: 'ที่ทำงานหรือเรียนอย่างใส่ใจและสม่ำเสมอ', example: 'She is a very diligent student who always does her homework.', ex_thai: 'เธอเป็นนักเรียนที่ขยันหมั่นเพียรมากและทำการบ้านเสมอ' },
+                        { word: 'Industrious', read: 'อิน-<span class="stress">ดัส</span>-เทรียส', pos: '(adj.) อุตสาหะ', meaning: 'ที่ทำงานหนักอย่างต่อเนื่อง', example: 'The industrious workers finished the project ahead of schedule.', ex_thai: 'คนงานที่อุตสาหะทำโครงการเสร็จก่อนกำหนด' }
+                    ], quiz: [
+                        { q: "After four years at university, he graduated with a _______ in engineering.", a: "Degree", choices: ["Certificate", "Diploma", "Degree", "Paper"], explanation: "ใช้ Degree สำหรับวุฒิการศึกษาจากมหาวิทยาลัย" },
+                        { q: "He is an _______ student, always studying and working hard.", a: "Industrious", choices: ["Diligent", "Industrious", "Laborious", "Asiduous"], explanation: "ใช้ Industrious หรือ Diligent ก็ได้ แต่ Industrious เน้นการทำงานหนักต่อเนื่อง" },
+                        { q: "I got a _______ for attending the one-day workshop.", a: "Certificate", choices: ["Diploma", "Degree", "Certificate", "Report"], explanation: "ใช้ Certificate สำหรับเอกสารที่รับรองการเข้าอบรม" },
+                        { q: "A two-year course at a technical college often leads to a _______.", a: "Diploma", choices: ["Degree", "Certificate", "Diploma", "License"], explanation: "ใช้ Diploma สำหรับวุฒิอนุปริญญาหรือประกาศนียบัตรวิชาชีพ" }
+                    ]
+                }
+            }
+        },
+    };
+
+    // --- Global Variables & App State ---
+    let currentMegaSetKey = null;
+    let currentSubSetKey = null;
+    let userAnswers = {};
+
+    // --- DOM Elements ---
+    const allViews = document.querySelectorAll('.view');
+    const mainMenu = document.getElementById('main-menu-view');
+    const subMenu = document.getElementById('sub-menu-view');
+    const lessonView = document.getElementById('lesson-view');
+    
+    const mainMenuGrid = document.getElementById('main-menu-grid');
+    const subMenuTitle = document.getElementById('sub-menu-title');
+    const subMenuDescription = document.getElementById('sub-menu-description');
+    const subMenuGrid = document.getElementById('sub-menu-grid');
+
+    const lessonTitle = document.getElementById('lesson-title');
+    const backToSubMenuBtn = document.getElementById('back-to-submenu-btn');
+    const lessonContentWrapper = document.getElementById('lesson-content-wrapper');
+    const exerciseContentWrapper = document.getElementById('exercise-content-wrapper');
+    const lessonContent = document.getElementById('lesson-content');
+    const quizContainer = document.getElementById('quiz-container');
+    const checkBtn = document.getElementById('check-answers-btn');
+    const resetBtn = document.getElementById('reset-btn');
+    const lessonTabBtn = document.getElementById('tab-lesson-btn');
+    const exerciseTabBtn = document.getElementById('tab-exercise-btn');
+
+    // --- Core Functions ---
+    function switchView(viewId) {
+        allViews.forEach(view => {
+            if (view.id === viewId) {
+                view.classList.add('active');
+            } else {
+                view.classList.remove('active');
+            }
+        });
+        window.scrollTo(0, 0);
+    }
+
+    function initMainMenu() {
+        mainMenuGrid.innerHTML = '';
+        const sortedKeys = Object.keys(allSetsData).sort();
+
+        for (const key of sortedKeys) {
+            const set = allSetsData[key];
+            const cardWrapper = document.createElement('div');
+            cardWrapper.className = 'set-card-wrapper rounded-xl shadow-lg cursor-pointer';
+            cardWrapper.style.cssText = `background: linear-gradient(135deg, ${set.colors.split(' ')[0]}, ${set.colors.split(' ')[1]});`;
+            
+            if (set.type === 'mega') {
+                cardWrapper.onclick = () => showSubMenu(key);
+            } else {
+                cardWrapper.onclick = () => showLessonView(key, null);
+            }
+            
+            cardWrapper.innerHTML = `
+                <div class="bg-white/90 backdrop-blur-sm p-5 rounded-lg h-full flex flex-col justify-between">
+                    <div>
+                        <h2 class="text-2xl font-bold text-gray-800">${set.title}</h2>
+                        <p class="text-gray-600 font-normal mt-1 text-sm">${set.description}</p>
+                    </div>
+                    <div class="text-right font-semibold text-base theme-accent mt-2">เริ่มเรียน →</div>
+                </div>
+            `;
+            mainMenuGrid.appendChild(cardWrapper);
+        }
+    }
+
+    function showSubMenu(megaSetKey) {
+        currentMegaSetKey = megaSetKey;
+        const megaSet = allSetsData[megaSetKey];
+        subMenuTitle.textContent = megaSet.title;
+        subMenuDescription.textContent = megaSet.description;
+        subMenuGrid.innerHTML = '';
+
+        Object.keys(megaSet.subSets).forEach(subSetKey => {
+            const subSet = megaSet.subSets[subSetKey];
+            const cardWrapper = document.createElement('div');
+            cardWrapper.className = 'set-card-wrapper rounded-xl shadow-lg cursor-pointer';
+            cardWrapper.style.cssText = `background: linear-gradient(135deg, ${megaSet.colors.split(' ')[0]}, ${megaSet.colors.split(' ')[1]});`;
+            cardWrapper.onclick = () => showLessonView(megaSetKey, subSetKey);
+            
+            cardWrapper.innerHTML = `
+                <div class="bg-white/90 backdrop-blur-sm p-5 rounded-lg h-full flex flex-col justify-between">
+                    <div>
+                        <h2 class="text-xl font-bold text-gray-800">${subSet.title}</h2>
+                    </div>
+                    <div class="text-right font-semibold text-base theme-accent mt-2">เริ่มเรียน →</div>
+                </div>
+            `;
+            subMenuGrid.appendChild(cardWrapper);
+        });
+        
+        switchView('sub-menu-view');
+    }
+
+    function showLessonView(megaSetKey, subSetKey) {
+        currentMegaSetKey = megaSetKey;
+        currentSubSetKey = subSetKey;
+        const setData = subSetKey ? allSetsData[megaSetKey].subSets[subSetKey] : allSetsData[megaSetKey];
+        
+        lessonTitle.textContent = setData.title;
+        
+        const isMega = allSetsData[megaSetKey].type === 'mega';
+        backToSubMenuBtn.onclick = isMega ? () => showSubMenu(megaSetKey) : () => showMainMenu();
+        
+        lessonContent.innerHTML = '';
+        setData.lesson.forEach(item => {
+            const card = document.createElement('div');
+            card.className = `vocab-card rounded-lg p-4`;
+            card.style.borderColor = allSetsData[megaSetKey].colors.split(' ')[0];
+            
+            card.innerHTML = `
+                <div class="flex justify-between items-baseline">
+                    <h3 class="text-2xl font-bold text-gray-800">${item.word}</h3>
+                    <span class="font-medium theme-accent">${item.read}</span>
+                </div>
+                <p class="text-gray-500 text-sm mb-3">${item.pos}</p>
+                <p class="mb-3 text-gray-700"><strong>ความหมาย:</strong> ${item.meaning}</p>
+                <div class="text-sm bg-gray-50 p-3 rounded-md border border-gray-200">
+                    <p class="font-semibold">ตัวอย่าง:</p>
+                    <p class="text-gray-800">${item.example}</p>
+                    <p class="text-gray-600 mt-1">${item.ex_thai}</p>
+                </div>
+            `;
+            lessonContent.appendChild(card);
+        });
+
+        createQuiz();
+        showTab('lesson');
+        switchView('lesson-view');
+    }
+
+    function showMainMenu() {
+        switchView('main-menu-view');
+    }
+
+    function showTab(tabName) {
+        const inactiveClasses = 'text-gray-500 hover:text-gray-700 border-transparent';
+        const activeClasses = 'text-white theme-accent-bg';
+
+        if (tabName === 'lesson') {
+            lessonContentWrapper.classList.remove('hidden');
+            exerciseContentWrapper.classList.add('hidden');
+            lessonTabBtn.className = 'tab-button active whitespace-nowrap py-3 px-5 border-b-2 font-medium text-lg rounded-t-md ' + activeClasses;
+            exerciseTabBtn.className = 'tab-button whitespace-nowrap py-3 px-5 border-b-2 font-medium text-lg rounded-t-md ' + inactiveClasses;
+        } else {
+            lessonContentWrapper.classList.add('hidden');
+            exerciseContentWrapper.classList.remove('hidden');
+            lessonTabBtn.className = 'tab-button whitespace-nowrap py-3 px-5 border-b-2 font-medium text-lg rounded-t-md ' + inactiveClasses;
+            exerciseTabBtn.className = 'tab-button active whitespace-nowrap py-3 px-5 border-b-2 font-medium text-lg rounded-t-md ' + activeClasses;
+            resetQuiz();
+        }
+    }
+    
+    function createQuiz() {
+        const setData = currentSubSetKey ? allSetsData[currentMegaSetKey].subSets[currentSubSetKey] : allSetsData[currentMegaSetKey];
+        quizContainer.innerHTML = '';
+        if (!setData.quiz || setData.quiz.length === 0) {
+            quizContainer.innerHTML = '<p class="text-center text-gray-500">ขออภัย, ยังไม่มีแบบฝึกหัดสำหรับชุดนี้</p>';
+            checkBtn.classList.add('hidden');
+            return;
+        }
+
+        setData.quiz.forEach((q, index) => {
+            const questionDiv = document.createElement('div');
+            questionDiv.className = "bg-white p-5 rounded-lg shadow-sm border border-gray-200";
+            questionDiv.id = `question-${index}`;
+
+            const sentence = document.createElement('p');
+            sentence.className = "text-lg text-gray-800 mb-4 font-medium";
+            sentence.innerHTML = `${index + 1}. ${q.q.replace('_______', '<span class="font-bold theme-accent">_______</span>')}`;
+            questionDiv.appendChild(sentence);
+
+            const choicesDiv = document.createElement('div');
+            choicesDiv.className = "space-y-2";
+            const choiceLabels = ['a', 'b', 'c', 'd'];
+            q.choices.forEach((choice, choiceIndex) => {
+                const item = document.createElement('div');
+                item.className = 'choice-item flex items-center p-3 rounded-lg';
+                item.onclick = () => selectChoice(index, choice, item);
+                item.innerHTML = `
+                    <span class="font-bold text-gray-600 mr-3">${choiceLabels[choiceIndex]}.</span>
+                    <span class="text-gray-700">${choice}</span>
+                `;
+                choicesDiv.appendChild(item);
+            });
+            questionDiv.appendChild(choicesDiv);
+
+            const feedbackDiv = document.createElement('div');
+            feedbackDiv.id = `feedback-${index}`;
+            feedbackDiv.className = "hidden mt-3 p-3 rounded-lg text-sm font-medium";
+            questionDiv.appendChild(feedbackDiv);
+            
+            quizContainer.appendChild(questionDiv);
+        });
+        resetBtn.classList.add('hidden');
+        checkBtn.classList.remove('hidden');
+    }
+
+    function selectChoice(questionIndex, choice, button) {
+        if(checkBtn.classList.contains('hidden')) return;
+        userAnswers[questionIndex] = choice;
+        const parent = button.parentElement;
+        Array.from(parent.children).forEach(child => child.classList.remove('selected'));
+        button.classList.add('selected');
+    }
+
+    function checkAnswers() {
+        const setData = currentSubSetKey ? allSetsData[currentMegaSetKey].subSets[currentSubSetKey] : allSetsData[currentMegaSetKey];
+        setData.quiz.forEach((q, index) => {
+            const feedbackDiv = document.getElementById(`feedback-${index}`);
+            const userAnswer = userAnswers[index];
+            
+            feedbackDiv.classList.remove('hidden', 'correct', 'incorrect');
+            
+            if (userAnswer === q.a) {
+                feedbackDiv.classList.add('correct');
+                feedbackDiv.innerHTML = `<strong>ถูกต้อง!</strong> 👍 ${q.explanation}`;
+            } else {
+                const selectedAnswerText = userAnswer ? `คุณเลือก "${userAnswer}"` : "คุณยังไม่ได้เลือกคำตอบ";
+                feedbackDiv.classList.add('incorrect');
+                feedbackDiv.innerHTML = `<strong>ยังไม่ถูกนะ!</strong> คำตอบที่ถูกต้องคือ <strong>${q.a}</strong> เพราะ${q.explanation.substring(q.explanation.indexOf('เพราะ') + 5)}`;
+            }
+        });
+        checkBtn.classList.add('hidden');
+        resetBtn.classList.remove('hidden');
+    }
+
+    function resetQuiz() {
+        userAnswers = {};
+        const setData = currentSubSetKey ? allSetsData[currentMegaSetKey].subSets[currentSubSetKey] : allSetsData[currentMegaSetKey];
+        if (!setData.quiz || setData.quiz.length === 0) return;
+        setData.quiz.forEach((q, index) => {
+            const questionDiv = document.getElementById(`question-${index}`);
+            questionDiv.querySelectorAll('.choice-item').forEach(btn => btn.classList.remove('selected'));
+            const feedbackDiv = document.getElementById(`feedback-${index}`);
+            feedbackDiv.classList.add('hidden');
+        });
+        checkBtn.classList.remove('hidden');
+        resetBtn.classList.add('hidden');
+    }
+
+    // --- Initial Load ---
+    document.addEventListener('DOMContentLoaded', initMainMenu);
+    </script>
+</body>
+</html>

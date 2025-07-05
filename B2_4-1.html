@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mr. Vocab: The Ultimate Edition - ชุดที่ 4 (Part 1)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Kanit', sans-serif;
+            background-color: #f1f5f9; /* slate-100 */
+        }
+        .main-container { max-width: 1200px; margin: auto; }
+        .view { display: none; }
+        .view.active { display: block; }
+        .set-card-wrapper {
+            background: linear-gradient(135deg, var(--tw-gradient-from), var(--tw-gradient-to));
+            transition: all 0.3s ease;
+            padding: 8px;
+        }
+        .set-card-wrapper:hover { transform: scale(1.05); box-shadow: 0 10px 20px rgba(0,0,0,0.15); }
+        /* New Theme Color: Slate & Amber */
+        .theme-accent { color: #f59e0b; /* amber-500 */ }
+        .theme-accent-bg { background-color: #f59e0b; /* amber-500 */ }
+        .theme-accent-bg-hover:hover { background-color: #d97706; /* amber-600 */ }
+
+        .tab-button.active {
+            background-color: #334155; /* slate-700 */
+            color: white;
+            border-bottom-color: transparent;
+        }
+        .vocab-card {
+            background-color: white;
+            border-left-width: 5px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .choice-item {
+            border: 2px solid #e2e8f0; /* slate-200 */
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+        .choice-item:hover { border-color: #fcd34d; /* amber-300 */ background-color: #fffbeb; /* amber-50 */ }
+        .choice-item.selected { border-color: #f59e0b; /* amber-500 */ background-color: #fef3c7; /* amber-200 */ }
+        .feedback.correct { background-color: #dcfce7; color: #166534; border-left: 4px solid #22c55e; }
+        .feedback.incorrect { background-color: #fee2e2; color: #991b1b; border-left: 4px solid #ef4444; }
+        .stress { text-decoration: underline; font-weight: 600; }
+    </style>
+</head>
+<body class="p-4 md:p-6">
+
+    <div class="main-container">
+        <div id="main-menu-view" class="view active">
+            <header class="text-center mb-8">
+                <h1 class="text-4xl md:text-5xl font-bold text-gray-800">Mr. Vocab: Ultimate Edition 💼</h1>
+                <h2 class="text-2xl md:text-3xl font-bold theme-accent">ชุดที่ 4 (ส่วนที่ 1)</h2>
+                <p class="text-gray-600 mt-2 text-lg">คลังศัพท์ชุดใหม่ในธีม "Slate & Amber" เลือกหมวดหมู่ที่สนใจได้เลย!</p>
+            </header>
+            <div id="main-menu-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+                </div>
+        </div>
+
+        <div id="sub-menu-view" class="view">
+             <header class="mb-8">
+                <button onclick="showMainMenu()" class="bg-white text-slate-700 hover:bg-slate-100 font-semibold flex items-center px-4 py-2 rounded-lg shadow-sm border border-gray-200 mb-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" /></svg>
+                    กลับไปเมนูหลัก
+                </button>
+                <div class="text-center">
+                    <h1 id="sub-menu-title" class="text-3xl md:text-4xl font-bold text-gray-800"></h1>
+                    <p id="sub-menu-description" class="text-gray-600 mt-2 text-lg"></p>
+                </div>
+            </header>
+            <div id="sub-menu-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+                </div>
+        </div>
+
+        <div id="lesson-view" class="view">
+            <header class="flex items-center justify-between mb-4">
+                <button id="back-to-submenu-btn" class="bg-white text-slate-700 hover:bg-slate-100 font-semibold flex items-center px-4 py-2 rounded-lg shadow-sm border border-gray-200">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" /></svg>
+                    กลับไปหมวดหมู่
+                </button>
+                <h1 id="lesson-title" class="text-2xl md:text-3xl font-bold text-gray-800 text-right"></h1>
+            </header>
+            
+            <div class="bg-white/80 backdrop-blur-sm p-4 sm:p-6 rounded-2xl shadow-lg">
+                <div class="border-b border-gray-200">
+                    <nav class="-mb-px flex space-x-4" aria-label="Tabs">
+                        <button id="tab-lesson-btn" class="tab-button whitespace-nowrap py-3 px-4 border-b-2 font-medium text-lg" onclick="showTab('lesson')">บทเรียน</button>
+                        <button id="tab-exercise-btn" class="tab-button whitespace-nowrap py-3 px-4 border-b-2 font-medium text-lg text-gray-500" onclick="showTab('exercise')">แบบฝึกหัด</button>
+                    </nav>
+                </div>
+                
+                <div class="pt-6">
+                    <div id="lesson-content-wrapper">
+                        <div id="lesson-content" class="grid md:grid-cols-2 gap-5"></div>
+                    </div>
+                    <div id="exercise-content-wrapper" class="hidden">
+                        <p class="text-center text-gray-600 mb-6">เลือกคำตอบที่ถูกต้องที่สุด</p>
+                        <div class="space-y-6" id="quiz-container"></div>
+                        <div class="text-center mt-8">
+                            <button id="check-answers-btn" class="theme-accent-bg theme-accent-bg-hover text-white font-bold py-3 px-10 rounded-full text-lg shadow-md transition-transform hover:scale-105" onclick="checkAnswers()">ตรวจคำตอบ</button>
+                            <button id="reset-btn" class="hidden bg-gray-500 hover:bg-gray-600 text-white font-bold py-3 px-10 rounded-full text-lg" onclick="resetQuiz()">ลองอีกครั้ง</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+    const allSetsData = {
+        diseases: {
+            type: 'mega',
+            title: "คำศัพท์เกี่ยวกับโรค",
+            description: "เรียนรู้คำศัพท์เกี่ยวกับโรคภัยไข้เจ็บ อาการ และการรักษา",
+            colors: "from-rose-500 to-red-600",
+            subSets: {
+                d01_infectious: {
+                    title: "โรคติดเชื้อทางเดินหายใจ", lesson: [
+                        { word: 'Influenza (Flu)', read: 'อิน-ฟลู-<span class="stress">เอน</span>-ซะ (ฟลู)', pos: '(n.) ไข้หวัดใหญ่', meaning: 'โรคติดเชื้อไวรัสที่ทำให้มีไข้สูง ปวดเมื่อยกล้ามเนื้อ ไอ และเจ็บคอ', example: 'Getting a flu shot every year can protect you from influenza.', ex_thai: 'การฉีดวัคซีนไข้หวัดใหญ่ทุกปีสามารถป้องกันคุณจากไข้หวัดใหญ่ได้' },
+                        { word: 'Pneumonia', read: 'นิว-<span class="stress">โม</span>-เนีย', pos: '(n.) โรคปอดบวม', meaning: 'การติดเชื้อที่ทำให้ถุงลมในปอดอักเสบและเต็มไปด้วยของเหลว', example: 'Pneumonia can be very serious, especially for the elderly.', ex_thai: 'โรคปอดบวมอาจร้ายแรงมาก โดยเฉพาะสำหรับผู้สูงอายุ' },
+                        { word: 'Bronchitis', read: 'บรอน-<span class="stress">ไค</span>-ทิส', pos: '(n.) โรคหลอดลมอักเสบ', meaning: 'การอักเสบของเยื่อบุหลอดลม ทำให้มีอาการไอและมีเสมหะ', example: 'Chronic bronchitis is often caused by smoking.', ex_thai: 'โรคหลอดลมอักเสบเรื้อรังมักเกิดจากการสูบบุหรี่' },
+                        { word: 'Tuberculosis (TB)', read: 'ทู-เบอ-คิว-<span class="stress">โล</span>-ซิส', pos: '(n.) วัณโรค', meaning: 'โรคติดเชื้อแบคทีเรียที่ร้ายแรงซึ่งส่วนใหญ่โจมตีปอด', example: 'Tuberculosis is a contagious disease.', ex_thai: 'วัณโรคเป็นโรคติดต่อ' },
+                        { word: 'Asthma', read: '<span class="stress">แอซ</span>-มะ', pos: '(n.) โรคหอบหืด', meaning: 'โรคทางเดินหายใจเรื้อรังที่ทำให้หายใจลำบาก', example: 'He uses an inhaler to control his asthma.', ex_thai: 'เขาใช้ยาพ่นเพื่อควบคุมอาการหอบหืดของเขา' },
+                    ], quiz: [
+                        { q: "A serious infection that inflames the air sacs in the lungs is known as _______.", a: "Pneumonia", choices: ["Influenza", "Bronchitis", "Pneumonia", "Tuberculosis"], explanation: "ใช้ Pneumonia สำหรับโรคปอดบวมหรือปอดอักเสบ" },
+                        { q: "A common symptom of _______ is a persistent cough with mucus.", a: "Bronchitis", choices: ["Pneumonia", "Bronchitis", "Asthma", "Tuberculosis"], explanation: "ใช้ Bronchitis สำหรับโรคหลอดลมอักเสบ ซึ่งมีอาการไอและมีเสมหะเป็นหลัก" },
+                        { q: "This respiratory condition causes difficulty in breathing and is often managed with an inhaler.", a: "Asthma", choices: ["Influenza", "Pneumonia", "Bronchitis", "Asthma"], explanation: "ใช้ Asthma สำหรับโรคหอบหืดที่ต้องใช้ยาพ่น" },
+                        { q: "_______ is a dangerous bacterial infection that primarily affects the lungs.", a: "Tuberculosis", choices: ["Influenza", "Tuberculosis", "Pneumonia", "Bronchitis"], explanation: "ใช้ Tuberculosis สำหรับวัณโรค ซึ่งเกิดจากเชื้อแบคทีเรียและโจมตีปอด" },
+                    ]
+                },
+                d02_childhood: {
+                    title: "โรคติดต่อในเด็ก", lesson: [
+                         { word: 'Measles', read: '<span class="stress">มี</span>-เซิลส์', pos: '(n.) โรคหัด', meaning: 'โรคติดเชื้อไวรัสที่ทำให้เกิดไข้ ไอ และผื่นแดงทั่วตัว', example: 'The measles vaccine is highly effective.', ex_thai: 'วัคซีนป้องกันโรคหัดมีประสิทธิภาพสูงมาก' },
+                         { word: 'Chickenpox', read: '<span class="stress">ชิ</span>-เคิน-พอคซ์', pos: '(n.) โรคอีสุกอีใส', meaning: 'โรคติดเชื้อไวรัสที่ทำให้เกิดตุ่มน้ำใสๆ คันทั่วร่างกาย', example: 'When I was a child, all my siblings got chickenpox.', ex_thai: 'ตอนฉันเป็นเด็ก พี่น้องของฉันทุกคนเป็นโรคอีสุกอีใส' },
+                         { word: 'Mumps', read: 'มัมพส์', pos: '(n.) โรคคางทูม', meaning: 'โรคติดเชื้อไวรัสที่ทำให้ต่อมน้ำลายบริเวณข้างแก้มบวม', example: 'Mumps can cause swelling in the cheeks and jaw.', ex_thai: 'โรคคางทูมสามารถทำให้แก้มและกรามบวมได้' },
+                         { word: 'Whooping cough', read: '<span class="stress">วู</span>-พิง คอฟ', pos: '(n.) โรคไอกรน', meaning: 'โรคติดเชื้อแบคทีเรียทางเดินหายใจที่ทำให้ไออย่างรุนแรงและต่อเนื่อง', example: 'Babies are vaccinated against whooping cough.', ex_thai: 'ทารกจะได้รับวัคซีนป้องกันโรคไอกรน' },
+                    ], quiz: [
+                        { q: "A disease that causes an itchy rash of blisters all over the body is _______.", a: "Chickenpox", choices: ["Measles", "Mumps", "Chickenpox", "Whooping cough"], explanation: "ใช้ Chickenpox สำหรับโรคอีสุกอีใสที่มีลักษณะเป็นตุ่มน้ำใส" },
+                        { q: "The main symptom of _______ is the painful swelling of the salivary glands.", a: "Mumps", choices: ["Measles", "Mumps", "Chickenpox", "Whooping cough"], explanation: "ใช้ Mumps สำหรับโรคคางทูมที่ทำให้แก้มบวม" },
+                        { q: "_______ is characterized by severe coughing fits followed by a high-pitched intake of breath.", a: "Whooping cough", choices: ["Measles", "Mumps", "Chickenpox", "Whooping cough"], explanation: "ใช้ Whooping cough สำหรับโรคไอกรนที่มีเสียงไอเป็นลักษณะเฉพาะ" },
+                        { q: "A red, blotchy skin rash is a classic sign of _______.", a: "Measles", choices: ["Measles", "Mumps", "Chickenpox", "Whooping cough"], explanation: "ใช้ Measles สำหรับโรคหัดที่มีผื่นแดงขึ้นตามตัว" }
+                    ]
+                },
+                d03_chronic: {
+                    title: "โรคเรื้อรังและภาวะผิดปกติ", lesson: [
+                         { word: 'Diabetes', read: 'ได-อะ-<span class="stress">บี</span>-ทิส', pos: '(n.) โรคเบาหวาน', meaning: 'โรคที่ร่างกายไม่สามารถควบคุมระดับน้ำตาลในเลือดได้', example: 'People with diabetes need to monitor their blood sugar levels.', ex_thai: 'ผู้ที่เป็นโรคเบาหวานต้องตรวจวัดระดับน้ำตาลในเลือด' },
+                         { word: 'Arthritis', read: 'อา-<span class="stress">ไธร</span>-ทิส', pos: '(n.) โรคข้ออักเสบ', meaning: 'การอักเสบของข้อต่อที่ทำให้เกิดความเจ็บปวดและบวม', example: 'My grandmother suffers from arthritis in her hands.', ex_thai: 'คุณย่าของฉันทุกข์ทรมานจากโรคข้ออักเสบที่มือ' },
+                         { word: 'Heart disease', read: 'ฮาร์ท ดิ-<span class="stress">ซีส</span>', pos: '(n.) โรคหัวใจ', meaning: 'ภาวะต่างๆ ที่ส่งผลต่อการทำงานของหัวใจ', example: 'A healthy diet can reduce the risk of heart disease.', ex_thai: 'การกินอาหารที่ดีต่อสุขภาพสามารถลดความเสี่ยงของโรคหัวใจได้' },
+                         { word: 'Anemia', read: 'อะ-<span class="stress">นี</span>-เมีย', pos: '(n.) โรคโลหิตจาง', meaning: 'ภาวะที่ร่างกายมีเซลล์เม็ดเลือดแดงน้อยกว่าปกติ', example: 'Feeling tired all the time can be a symptom of anemia.', ex_thai: 'การรู้สึกเหนื่อยตลอดเวลาอาจเป็นอาการของโรคโลหิตจาง' },
+                         { word: 'High blood pressure', read: 'ไฮ บลัด <span class="stress">เพรช</span>-เชอร์', pos: '(n.) โรคความดันโลหิตสูง', meaning: 'ภาวะที่แรงดันเลือดในหลอดเลือดแดงสูงเกินไป', example: 'He takes medication for his high blood pressure.', ex_thai: 'เขาทานยาสำหรับโรคความดันโลหิตสูง' }
+                    ], quiz: [
+                        { q: "A condition where joints become painful and inflamed is known as _______.", a: "Arthritis", choices: ["Diabetes", "Anemia", "Arthritis", "Heart disease"], explanation: "ใช้ Arthritis สำหรับโรคข้ออักเสบ" },
+                        { q: "A disease that affects the body's ability to regulate sugar is _______.", a: "Diabetes", choices: ["Anemia", "Diabetes", "Arthritis", "Heart disease"], explanation: "ใช้ Diabetes สำหรับโรคเบาหวาน" },
+                        { q: "A low number of red blood cells causes a condition called _______.", a: "Anemia", choices: ["Arthritis", "Anemia", "Diabetes", "Heart disease"], explanation: "ใช้ Anemia สำหรับโรคโลหิตจาง" },
+                        { q: "To prevent _______, one should exercise and avoid salty food.", a: "High blood pressure", choices: ["Diabetes", "Anemia", "Arthritis", "High blood pressure"], explanation: "การออกกำลังกายและเลี่ยงอาหารเค็มช่วยป้องกันโรคความดันโลหิตสูง" }
+                    ]
+                },
+                d04_symptoms: {
+                    title: "อาการและภาวะต่างๆ", lesson: [
+                         { word: 'Hemorrhage', read: '<span class="stress">เฮ</span>-มะ-ริดจ์', pos: '(n.) การตกเลือด', meaning: 'การสูญเสียเลือดออกจากหลอดเลือดที่ฉีกขาดอย่างรุนแรง', example: 'A brain hemorrhage is a medical emergency.', ex_thai: 'อาการตกเลือดในสมองเป็นภาวะฉุกเฉินทางการแพทย์' },
+                         { word: 'Paralysis', read: 'พะ-<span class="stress">แร</span>-ลิ-ซิส', pos: '(n.) อัมพาต', meaning: 'การสูญเสียความสามารถในการเคลื่อนไหวส่วนใดส่วนหนึ่งของร่างกาย', example: 'The accident left him with paralysis from the waist down.', ex_thai: 'อุบัติเหตุทำให้เขาเป็นอัมพาตตั้งแต่ช่วงเอวลงไป' },
+                         { word: 'Constipation', read: 'คอน-สทิ-<span class="stress">เพ</span>-เชิน', pos: '(n.) อาการท้องผูก', meaning: 'ภาวะที่ขับถ่ายอุจจาระได้ยาก', example: 'Eating more fiber can help relieve constipation.', ex_thai: 'การกินไฟเบอร์มากขึ้นสามารถช่วยบรรเทาอาการท้องผูกได้' },
+                         { word: 'Diarrhea', read: 'ได-อะ-<span class="stress">รี</span>-อะ', pos: '(n.) อาการท้องร่วง', meaning: 'ภาวะที่อุจจาระมีลักษณะเหลวและขับถ่ายบ่อย', example: 'Food poisoning often causes diarrhea.', ex_thai: 'อาหารเป็นพิษมักทำให้เกิดอาการท้องร่วง' },
+                         { word: 'Allergy', read: '<span class="stress">แอ</span>-เลอ-จี', pos: '(n.) อาการแพ้', meaning: 'ปฏิกิริยาของระบบภูมิคุ้มกันต่อสารที่ปกติไม่เป็นอันตราย', example: 'She has an allergy to peanuts.', ex_thai: 'เธอมีอาการแพ้ถั่วลิสง' }
+                    ], quiz: [
+                        { q: "Difficulty in passing stools is called _______.", a: "Constipation", choices: ["Diarrhea", "Hemorrhage", "Paralysis", "Constipation"], explanation: "ใช้ Constipation สำหรับอาการท้องผูก" },
+                        { q: "A severe loss of blood from a damaged blood vessel is a _______.", a: "Hemorrhage", choices: ["Paralysis", "Constipation", "Hemorrhage", "Diarrhea"], explanation: "ใช้ Hemorrhage สำหรับการตกเลือดอย่างรุนแรง" },
+                        { q: "A runny nose and itchy eyes can be signs of an _______.", a: "Allergy", choices: ["Allergy", "Paralysis", "Diarrhea", "Constipation"], explanation: "ใช้ Allergy สำหรับอาการแพ้" },
+                        { q: "The inability to move a part of your body is known as _______.", a: "Paralysis", choices: ["Hemorrhage", "Constipation", "Paralysis", "Diarrhea"], explanation: "ใช้ Paralysis สำหรับอัมพาต" }
+                    ]
+                },
+                d05_recovery: {
+                    title: "การฟื้นตัวและบรรเทา", lesson: [
+                         { word: 'Soothe', read: 'ซูธ', pos: '(v.) ปลอบประโลม, บรรเทา', meaning: 'ทำให้ความเจ็บปวดหรือความไม่สบายลดลงอย่างนุ่มนวล', example: 'Aloe vera can soothe sunburn.', ex_thai: 'ว่านหางจระเข้สามารถบรรเทาอาการผิวไหม้แดดได้' },
+                         { word: 'Alleviate', read: 'อะ-<span class="stress">ลี</span>-วิ-เอท', pos: '(v.) บรรเทา (ความทุกข์)', meaning: 'ทำให้ความเจ็บปวดหรือปัญหารุนแรงน้อยลง', example: 'These pills should alleviate your suffering.', ex_thai: 'ยาเหล่านี้ควรจะช่วยบรรเทาความทุกข์ทรมานของคุณได้' },
+                         { word: 'Recover', read: 'รี-<span class="stress">คั</span>-เวอร์', pos: '(v.) ฟื้นตัว', meaning: 'กลับสู่สภาวะปกติหลังจากเจ็บป่วยหรือประสบปัญหา', example: 'It took him a long time to recover from the surgery.', ex_thai: 'เขาใช้เวลานานในการฟื้นตัวจากการผ่าตัด' },
+                         { word: 'Recuperate', read: 'รี-<span class="stress">คู</span>-เพอ-เรท', pos: '(v.) พักฟื้น', meaning: 'พักผ่อนเพื่อฟื้นฟูสุขภาพและพละกำลังหลังจากเจ็บป่วย', example: 'She is recuperating at home after her illness.', ex_thai: 'เธอกำลังพักฟื้นอยู่ที่บ้านหลังจากอาการป่วย' },
+                         { word: 'Pull through', read: 'พูล <span class="stress">ธรู</span>', pos: '(phr. v.) รอดชีวิต, ผ่านพ้นวิกฤต', meaning: 'รอดชีวิตจากอาการป่วยหรือการบาดเจ็บที่รุนแรง', example: 'With the doctor\'s help, he managed to pull through.', ex_thai: 'ด้วยความช่วยเหลือของหมอ เขาสามารถรอดชีวิตมาได้' }
+                    ], quiz: [
+                        { q: "A hot bath can help to _______ sore muscles.", a: "Soothe", choices: ["Recover", "Recuperate", "Soothe", "Alleviate"], explanation: "ใช้ Soothe เพราะเป็นการบรรเทาอาการปวดอย่างนุ่มนวล" },
+                        { q: "The government took measures to _______ the effects of the economic crisis.", a: "Alleviate", choices: ["Soothe", "Alleviate", "Recover", "Recuperate"], explanation: "ใช้ Alleviate สำหรับการบรรเทาปัญหาหรือความทุกข์ยาก" },
+                        { q: "You need to rest for a few weeks to _______ properly.", a: "Recuperate", choices: ["Soothe", "Pull through", "Recuperate", "Alleviate"], explanation: "ใช้ Recuperate ซึ่งหมายถึงการพักผ่อนเพื่อฟื้นฟูร่างกาย" },
+                        { q: "It was a serious accident, but the doctors think she will _______.", a: "Pull through", choices: ["Recover", "Soothe", "Alleviate", "Pull through"], explanation: "ใช้ Pull through ซึ่งเป็นสำนวนหมายถึงการรอดชีวิตจากสภาวะที่รุนแรง" }
+                    ]
+                }
+            }
+        },
+        politics: {
+            type: 'mega',
+            title: "คำศัพท์การเมือง",
+            description: "เรียนรู้คำศัพท์สำคัญในแวดวงการเมือง การปกครอง และการเลือกตั้ง",
+            colors: "from-slate-500 to-slate-700",
+            subSets: {
+                p01_people: {
+                    title: "บุคคลและตำแหน่ง", lesson: [
+                        { word: 'Prime Minister', read: 'ไพรม์ <span class="stress">มิ</span>-นิส-เทอร์', pos: '(n.) นายกรัฐมนตรี', meaning: 'ผู้นำรัฐบาลในระบบรัฐสภา', example: 'The Prime Minister of the UK lives at 10 Downing Street.', ex_thai: 'นายกรัฐมนตรีของสหราชอาณาจักรอาศัยอยู่ที่บ้านเลขที่ 10 ถนนดาวนิง' },
+                        { word: 'President', read: '<span class="stress">เพร</span>-ซิ-เดนท์', pos: '(n.) ประธานาธิบดี', meaning: 'ประมุขของรัฐในระบบสาธารณรัฐ', example: 'The President of the United States is also the commander-in-chief.', ex_thai: 'ประธานาธิบดีของสหรัฐอเมริกายังเป็นผู้บัญชาการทหารสูงสุดด้วย' },
+                        { word: 'Candidate', read: '<span class="stress">แคน</span>-ดิ-เดท', pos: '(n.) ผู้สมัครรับเลือกตั้ง', meaning: 'บุคคลที่ลงแข่งขันในการเลือกตั้ง', example: 'There are three candidates running for mayor.', ex_thai: 'มีผู้สมัครรับเลือกตั้งนายกเทศมนตรีสามคน' },
+                        { word: 'Voter', read: '<span class="stress">โว</span>-เทอร์', pos: '(n.) ผู้มีสิทธิ์เลือกตั้ง', meaning: 'พลเมืองที่มีสิทธิ์ในการลงคะแนนเสียง', example: 'Every eligible voter should participate in the election.', ex_thai: 'ผู้มีสิทธิ์เลือกตั้งทุกคนควรมีส่วนร่วมในการเลือกตั้ง' },
+                        { word: 'Opponent', read: 'อะ-<span class="stress">โพ</span>-เนินท์', pos: '(n.) ฝ่ายตรงข้าม, คู่แข่ง', meaning: 'คนที่แข่งขันหรือมีความเห็นตรงข้ามกับคุณ', example: 'He defeated his opponent in the final debate.', ex_thai: 'เขาเอาชนะคู่แข่งของเขาในการโต้วาทีรอบสุดท้าย' }
+                    ], quiz: [
+                        { q: "A person who is competing in an election is a _______.", a: "Candidate", choices: ["Voter", "President", "Candidate", "Opponent"], explanation: "ใช้ Candidate สำหรับผู้สมัครรับเลือกตั้ง" },
+                        { q: "In Thailand, the head of the government is the _______.", a: "Prime Minister", choices: ["President", "Prime Minister", "Opponent", "Voter"], explanation: "ใช้ Prime Minister สำหรับนายกรัฐมนตรีในระบบรัฐสภา" },
+                        { q: "A person you compete against in a debate or election is your _______.", a: "Opponent", choices: ["Candidate", "Voter", "Opponent", "President"], explanation: "ใช้ Opponent สำหรับคู่แข่งหรือฝ่ายตรงข้าม" },
+                        { q: "On election day, each _______ goes to the polling station to cast their vote.", a: "Voter", choices: ["Opponent", "Candidate", "Prime Minister", "Voter"], explanation: "ใช้ Voter สำหรับผู้ที่มีสิทธิ์ลงคะแนน" }
+                    ]
+                },
+                p02_actions: {
+                    title: "การกระทำและกระบวนการ", lesson: [
+                        { word: 'Reform', read: 'รี-<span class="stress">ฟอร์ม</span>', pos: '(v./n.) ปฏิรูป', meaning: 'ทำการเปลี่ยนแปลงเพื่อปรับปรุงระบบหรือองค์กร', example: 'The government promised to reform the education system.', ex_thai: 'รัฐบาลสัญญาว่าจะปฏิรูประบบการศึกษา' },
+                        { word: 'Protest', read: '<span class="stress">โพร</span>-เทสท์', pos: '(v./n.) ประท้วง', meaning: 'แสดงความไม่เห็นด้วยอย่างยิ่งต่อบางสิ่งอย่างเปิดเผย', example: 'Citizens gathered to protest against the new law.', ex_thai: 'ประชาชนรวมตัวกันเพื่อประท้วงกฎหมายใหม่' },
+                        { word: 'Nominate', read: '<span class="stress">นอ</span>-มิ-เนท', pos: '(v.) เสนอชื่อ', meaning: 'เสนอชื่อบุคคลอย่างเป็นทางการเพื่อรับตำแหน่งหรืองาน', example: 'The party will nominate its candidate for president next week.', ex_thai: 'พรรคจะเสนอชื่อผู้สมัครชิงตำแหน่งประธานาธิบดีในสัปดาห์หน้า' },
+                        { word: 'Vote', read: 'โหวต', pos: '(v./n.) ลงคะแนน', meaning: 'แสดงตัวเลือกของคุณอย่างเป็นทางการในการเลือกตั้ง', example: 'I will vote for the candidate with the best environmental policy.', ex_thai: 'ฉันจะลงคะแนนให้ผู้สมัครที่มีนโยบายสิ่งแวดล้อมดีที่สุด' },
+                        { word: 'Elect', read: 'อิ-<span class="stress">เลคท์</span>', pos: '(v.) เลือกตั้ง', meaning: 'เลือกใครบางคนให้ดำรงตำแหน่งโดยการลงคะแนน', example: 'The people will elect a new president every four years.', ex_thai: 'ประชาชนจะเลือกตั้งประธานาธิบดีคนใหม่ทุกสี่ปี' }
+                    ], quiz: [
+                        { q: "If you want to improve a broken system, you need to _______ it.", a: "Reform", choices: ["Protest", "Nominate", "Reform", "Vote"], explanation: "ใช้ Reform สำหรับการปฏิรูปเพื่อปรับปรุงให้ดีขึ้น" },
+                        { q: "The first step in an election is to _______ the candidates.", a: "Nominate", choices: ["Elect", "Vote", "Protest", "Nominate"], explanation: "ใช้ Nominate สำหรับการเสนอชื่อผู้สมัคร" },
+                        { q: "Citizens have the right to _______ against unfair government policies.", a: "Protest", choices: ["Reform", "Elect", "Nominate", "Protest"], explanation: "ใช้ Protest สำหรับการแสดงความไม่เห็นด้วยอย่างเปิดเผย" },
+                        { q: "After the debate, the members will _______ to choose a leader.", a: "Vote", choices: ["Protest", "Reform", "Vote", "Elect"], explanation: "ใช้ Vote เป็นกริยาหมายถึงการลงคะแนนเพื่อตัดสินใจ" }
+                    ]
+                },
+                 p03_concepts: {
+                    title: "แนวคิดและเหตุการณ์", lesson: [
+                        { word: 'Parliament', read: '<span class="stress">พา</span>-เลีย-เมินท์', pos: '(n.) รัฐสภา', meaning: 'กลุ่มคนที่ได้รับเลือกตั้งมาเพื่อออกกฎหมายของประเทศ', example: 'The new law must be approved by parliament.', ex_thai: 'กฎหมายใหม่ต้องได้รับการอนุมัติจากรัฐสภา' },
+                        { word: 'Coup (d\'état)', read: 'คู (เด-ทา)', pos: '(n.) รัฐประหาร', meaning: 'การยึดอำนาจการปกครองอย่างผิดกฎหมายและฉับพลันโดยใช้กำลัง', example: 'The military staged a coup and seized control of the country.', ex_thai: 'กองทัพก่อการรัฐประหารและยึดอำนาจควบคุมประเทศ' },
+                        { word: 'Revolution', read: 'เร-โว-<span class="stress">ลู</span>-เชิน', pos: '(n.) การปฏิวัติ', meaning: 'การพยายามเปลี่ยนแปลงระบบการปกครองอย่างสิ้นเชิงโดยประชาชน', example: 'The French Revolution changed the course of European history.', ex_thai: 'การปฏิวัติฝรั่งเศสได้เปลี่ยนเส้นทางประวัติศาสตร์ของยุโรป' },
+                        { word: 'Franchise', read: '<span class="stress">แฟรน</span>-ไชส์', pos: '(n.) สิทธิในการเลือกตั้ง', meaning: 'สิทธิ์ในการลงคะแนนเสียงในการเลือกตั้งสาธารณะ', example: 'Women in many countries fought for the franchise.', ex_thai: 'ผู้หญิงในหลายประเทศต่อสู้เพื่อสิทธิในการเลือกตั้ง' },
+                        { word: 'Public hearing', read: '<span class="stress">พับ</span>-ลิค <span class="stress">เฮีย</span>-ริง', pos: '(n.) ประชาพิจารณ์', meaning: 'การประชุมที่เปิดให้สาธารณชนแสดงความคิดเห็นเกี่ยวกับแผนหรือกฎหมาย', example: 'A public hearing was held for the new airport project.', ex_thai: 'มีการจัดประชาพิจารณ์สำหรับโครงการสนามบินใหม่' }
+                    ], quiz: [
+                        { q: "A sudden, illegal seizure of power by the army is called a _______.", a: "Coup", choices: ["Revolution", "Election", "Parliament", "Coup"], explanation: "ใช้ Coup สำหรับการรัฐประหารโดยกองทัพ" },
+                        { q: "A complete and often violent overthrow of a government by the people is a _______.", a: "Revolution", choices: ["Coup", "Revolution", "Franchise", "Public hearing"], explanation: "ใช้ Revolution สำหรับการปฏิวัติโดยประชาชน" },
+                        { q: "The right to vote is also known as the _______. ", a: "Franchise", choices: ["Parliament", "Coup", "Franchise", "Revolution"], explanation: "ใช้ Franchise เป็นคำที่เป็นทางการหมายถึงสิทธิในการเลือกตั้ง" },
+                        { q: "In a democracy, laws are made by the _______. ", a: "Parliament", choices: ["Coup", "Public hearing", "Parliament", "Revolution"], explanation: "ใช้ Parliament ซึ่งหมายถึงรัฐสภาที่มีหน้าที่ออกกฎหมาย" }
+                    ]
+                },
+                 p04_elections: {
+                    title: "ศัพท์เฉพาะการเลือกตั้ง", lesson: [
+                        { word: 'General election', read: '<span class="stress">เจ</span>-เนอ-รัล อิ-<span class="stress">เลค</span>-เชิน', pos: '(n.) การเลือกตั้งทั่วไป', meaning: 'การเลือกตั้งสมาชิกรัฐสภาทั่วประเทศ', example: 'A general election is held every four years.', ex_thai: 'การเลือกตั้งทั่วไปจัดขึ้นทุกสี่ปี' },
+                        { word: 'Polling day', read: '<span class="stress">โพ</span>-ลิง เดย์', pos: '(n.) วันเลือกตั้ง', meaning: 'วันที่กำหนดไว้สำหรับการลงคะแนนเสียง', example: 'All sales of alcohol are banned on polling day.', ex_thai: 'การขายเครื่องดื่มแอลกอฮอล์ทั้งหมดเป็นสิ่งต้องห้ามในวันเลือกตั้ง' },
+                        { word: 'Polling station', read: '<span class="stress">โพ</span>-ลิง <span class="stress">สเต</span>-เชิน', pos: '(n.) หน่วยเลือกตั้ง', meaning: 'สถานที่ที่ผู้คนไปลงคะแนนเสียง', example: 'The local school is used as a polling station.', ex_thai: 'โรงเรียนในท้องถิ่นถูกใช้เป็นหน่วยเลือกตั้ง' },
+                        { word: 'To cast a ballot', read: 'ทู คาสท์ อะ <span class="stress">แบ</span>-ล็อต', pos: '(v. phr.) หย่อนบัตรลงคะแนน', meaning: 'การลงคะแนนเสียงโดยการใส่บัตรลงในหีบ', example: 'Millions of citizens are expected to cast a ballot tomorrow.', ex_thai: 'คาดว่าพลเมืองหลายล้านคนจะไปหย่อนบัตรลงคะแนนในวันพรุ่งนี้' },
+                        { word: 'Smearing campaign', read: '<span class="stress">สเมีย</span>-ริง แคม-<span class="stress">เปน</span>', pos: '(n.) การรณรงค์ใส่ร้าย', meaning: 'การพยายามทำลายชื่อเสียงของคู่ต่อสู้ทางการเมือง', example: 'He was the victim of a smearing campaign.', ex_thai: 'เขาตกเป็นเหยื่อของการรณรงค์ใส่ร้าย' }
+                    ], quiz: [
+                        { q: "The place where you go to vote is called a _______.", a: "Polling station", choices: ["Polling day", "Polling station", "Ballot box", "Campaign"], explanation: "ใช้ Polling station สำหรับหน่วยเลือกตั้งซึ่งเป็นสถานที่" },
+                        { q: "An election for all the seats in the parliament is a _______.", a: "General election", choices: ["By-election", "Primary election", "General election", "Local election"], explanation: "ใช้ General election สำหรับการเลือกตั้งทั่วไปทั่วประเทศ" },
+                        { q: "During the election, his opponents launched a _______ to damage his reputation.", a: "Smearing campaign", choices: ["Voting campaign", "Smearing campaign", "General campaign", "Polling campaign"], explanation: "ใช้ Smearing campaign สำหรับการรณรงค์เพื่อใส่ร้ายป้ายสี" },
+                        { q: "On _______, you go to the polling booth to _______.", a: "Polling day, cast a ballot", choices: ["Campaign day, smear", "Polling day, cast a ballot", "Election, protest", "Voting, nominate"], explanation: "ในวันเลือกตั้ง (Polling day) เราไปหย่อนบัตรลงคะแนน (cast a ballot)" }
+                    ]
+                }
+            }
+        },
+        set03_destroy: {
+            type: 'standard',
+            title: 'ทำลาย / กำจัด',
+            description: 'กลุ่มคำกริยาที่หมายถึงการทำลายในระดับความรุนแรงต่างๆ',
+            colors: 'from-red-600 to-orange-700',
+            lesson: [
+                { word: 'Destroy', read: 'ดิ-<span class="stress">สตรอย</span>', pos: '(v.) ทำลาย', meaning: 'ทำให้เสียหายรุนแรงจนใช้การไม่ได้อีกต่อไป', example: 'The fire completely destroyed the building.', ex_thai: 'ไฟได้ทำลายอาคารทั้งหลังอย่างสิ้นเชิง' },
+                { word: 'Obliterate', read: 'อะ-<span class="stress">บลิ</span>-เทอ-เรท', pos: '(v.) ทำลายล้าง (จนไม่เหลือซาก)', meaning: 'ทำลายจนหมดสิ้น ไม่เหลือร่องรอยใดๆ', example: 'The atomic bomb obliterated the city.', ex_thai: 'ระเบิดปรมาณูได้ทำลายล้างเมืองจนไม่เหลือซาก' },
+                { word: 'Eradicate', read: 'อิ-<span class="stress">แร</span>-ดิ-เคท', pos: '(v.) กำจัดให้สิ้นซาก, ขจัด', meaning: 'กำจัดบางสิ่งที่ไม่ดีให้หมดไปอย่างสิ้นเชิง (เช่น โรค, ปัญหา)', example: 'Scientists are working to eradicate polio.', ex_thai: 'นักวิทยาศาสตร์กำลังพยายามขจัดโรคโปลิโอให้หมดไป' },
+                { word: 'Annihilate', read: 'อะ-<span class="stress">ไน</span>-อะ-เลท', pos: '(v.) ทำลายล้าง (กลุ่มคน/กองทัพ)', meaning: 'ทำลายกลุ่มคน, สถานที่, หรือกองทัพจนหมดสิ้น', example: 'The invading army annihilated the enemy forces.', ex_thai: 'กองทัพผู้รุกรานได้ทำลายล้างกองกำลังของศัตรู' },
+                { word: 'Get rid of', read: 'เกท <span class="stress">ริด</span> ออฟ', pos: '(phr. v.) กำจัด, เอาออกไป', meaning: 'นำบางสิ่งที่ไม่ต้องการออกไป (เป็นสำนวนทั่วไป)', example: 'I need to get rid of these old clothes.', ex_thai: 'ฉันต้องกำจัดเสื้อผ้าเก่าๆ พวกนี้' },
+            ],
+            quiz: [
+                { q: "The goal of the vaccination program is to completely _______ the disease.", a: "Eradicate", choices: ["Destroy", "Annihilate", "Obliterate", "Eradicate"], explanation: "ใช้ Eradicate เพราะมักใช้กับการกำจัดโรคหรือปัญหาให้หมดสิ้น" },
+                { q: "A single meteor strike could _______ all life on Earth.", a: "Annihilate", choices: ["Get rid of", "Annihilate", "Eradicate", "Destroy"], explanation: "ใช้ Annihilate เพราะเป็นการทำลายล้างสิ่งมีชีวิตจนหมดสิ้น" },
+                { q: "The ancient library was _______d by a fire, and all the books were lost.", a: "Destroyed", choices: ["Eradicated", "Annihilated", "Destroyed", "Obliterated"], explanation: "ใช้ Destroy เป็นคำทั่วไปสำหรับการทำลายจนเสียหายอย่างหนัก" },
+                { q: "The memory of that terrible day was _______d from his mind.", a: "Obliterated", choices: ["Obliterated", "Destroyed", "Annihilated", "Eradicated"], explanation: "ใช้ Obliterate เพื่อเน้นการทำลายจนไม่เหลือร่องรอย แม้แต่ในความทรงจำ" }
+            ]
+        },
+        set04_promote: {
+            type: 'standard',
+            title: 'ส่งเสริม / ลดตำแหน่ง',
+            description: 'กลุ่มคำกริยาที่ตรงข้ามกันเกี่ยวกับการเลื่อนตำแหน่งและลดตำแหน่ง',
+            colors: 'from-emerald-500 to-green-600',
+            lesson: [
+                { word: 'Promote', read: 'โพร-<span class="stress">โมท</span>', pos: '(v.) เลื่อนตำแหน่ง, ส่งเสริม', meaning: 'ยกระดับให้สูงขึ้น หรือส่งเสริมการขาย/การรับรู้', example: 'She was promoted to senior manager.', ex_thai: 'เธอได้รับการเลื่อนตำแหน่งเป็นผู้จัดการอาวุโส' },
+                { word: 'Encourage', read: 'เอน-<span class="stress">เคอ</span>-ริจ', pos: '(v.) ให้กำลังใจ, สนับสนุน', meaning: 'ให้การสนับสนุนหรือความมั่นใจแก่ใครบางคน', example: 'My parents always encouraged me to follow my dreams.', ex_thai: 'พ่อแม่ของฉันให้กำลังใจฉันให้ทำตามความฝันเสมอ' },
+                { word: 'Demote', read: 'ดิ-<span class="stress">โมท</span>', pos: '(v.) ลดตำแหน่ง', meaning: 'ลดระดับตำแหน่งของใครบางคนให้ต่ำลง', example: 'He was demoted for his poor performance.', ex_thai: 'เขาถูกลดตำแหน่งเนื่องจากผลงานที่ย่ำแย่' },
+                { word: 'Discourage', read: 'ดิส-<span class="stress">เคอ</span>-ริจ', pos: '(v.) ทำให้ท้อแท้, ไม่สนับสนุน', meaning: 'ทำให้ใครบางคนหมดความมั่นใจหรือความกระตือรือร้น', example: 'Don\'t let a small failure discourage you.', ex_thai: 'อย่าให้ความล้มเหลวเล็กน้อยมาทำให้คุณท้อแท้' },
+            ],
+            quiz: [
+                { q: "After years of hard work, he was finally _______d to a higher position.", a: "Promote", choices: ["Encourage", "Demote", "Promote", "Discourage"], explanation: "ใช้ Promote สำหรับการเลื่อนตำแหน่ง" },
+                { q: "His lack of success began to _______ him.", a: "Discourage", choices: ["Promote", "Encourage", "Demote", "Discourage"], explanation: "ใช้ Discourage เพราะความล้มเหลวทำให้ท้อแท้" },
+                { q: "A good teacher should _______ students to ask questions.", a: "Encourage", choices: ["Encourage", "Demote", "Promote", "Discourage"], explanation: "ใช้ Encourage สำหรับการให้กำลังใจและสนับสนุน" },
+                { q: "If you break the company rules, you might be _______d.", a: "Demote", choices: ["Promote", "Encourage", "Demote", "Discourage"], explanation: "ใช้ Demote สำหรับการลดตำแหน่งซึ่งเป็นการลงโทษ" }
+            ]
+        },
+        set05_succession: {
+            type: 'standard',
+            title: 'การสืบทอดและลำดับ',
+            description: 'คำศัพท์ที่เกี่ยวกับความสำเร็จ การสืบทอด และลำดับเหตุการณ์',
+            colors: 'from-blue-500 to-indigo-600',
+            lesson: [
+                { word: 'Succeed', read: 'ซัค-<span class="stress">ซีด</span>', pos: '(v.) ประสบความสำเร็จ, สืบทอด', meaning: 'ทำบางสิ่งได้สำเร็จ หรือรับตำแหน่งต่อจากคนอื่น', example: 'If you work hard, you will succeed.', ex_thai: 'ถ้าคุณทำงานหนัก คุณจะประสบความสำเร็จ' },
+                { word: 'Success', read: 'ซัค-<span class="stress">เซส</span>', pos: '(n.) ความสำเร็จ', meaning: 'การบรรลุเป้าหมายหรือผลลัพธ์ที่ต้องการ', example: 'Her success was the result of dedication.', ex_thai: 'ความสำเร็จของเธอเป็นผลมาจากความทุ่มเท' },
+                { word: 'Successor', read: 'ซัค-<span class="stress">เซ</span>-เซอร์', pos: '(n.) ผู้สืบทอด', meaning: 'บุคคลที่รับตำแหน่งหรือหน้าที่ต่อจากคนอื่น', example: 'The CEO named his daughter as his successor.', ex_thai: 'CEO ได้แต่งตั้งลูกสาวของเขาเป็นผู้สืบทอด' },
+                { word: 'Successive', read: 'ซัค-<span class="stress">เซ</span>-ซิฟว', pos: '(adj.) ที่ต่อเนื่องกัน', meaning: 'ที่เกิดขึ้นตามลำดับทีละอย่าง', example: 'The team won five successive games.', ex_thai: 'ทีมชนะการแข่งขันห้าครั้งติดต่อกัน' },
+                { word: 'Subsequent', read: '<span class="stress">ซับ</span>-ซิ-เควินท์', pos: '(adj.) ที่ตามมา, ภายหลัง', meaning: 'ที่เกิดขึ้นหลังจากบางสิ่ง', example: 'The original plan failed, but subsequent attempts were successful.', ex_thai: 'แผนเดิมล้มเหลว แต่ความพยายามครั้งต่อๆ มาประสบความสำเร็จ' },
+            ],
+            quiz: [
+                { q: "Who will be the _______ to the throne?", a: "Successor", choices: ["Success", "Succeed", "Successor", "Successive"], explanation: "ใช้ Successor ซึ่งเป็นคำนามหมายถึงผู้สืบทอด" },
+                { q: "The company has enjoyed three _______ years of record profits.", a: "Successive", choices: ["Successful", "Subsequent", "Successive", "Success"], explanation: "ใช้ Successive เพื่อบอกว่าสามปีนั้นเกิดขึ้นต่อเนื่องกัน" },
+                { q: "The meeting was cancelled due to a lack of interest. _______ events proved this was a mistake.", a: "Subsequent", choices: ["Successful", "Successive", "Subsequent", "Succeeding"], explanation: "ใช้ Subsequent เพื่อบอกว่าเหตุการณ์ที่เกิดขึ้นภายหลังพิสูจน์ว่าการตัดสินใจนั้นผิด" },
+                { q: "Hard work is the key to _______.", a: "Success", choices: ["Succeed", "Success", "Successor", "Successive"], explanation: "ใช้ Success ซึ่งเป็นคำนามหมายถึงความสำเร็จ" }
+            ]
+        },
+        set07_serve: {
+            type: 'standard',
+            title: 'รากศัพท์ "-serve"',
+            description: 'กลุ่มคำจากรากศัพท์ "-serve" ที่แปลว่า "เก็บรักษา, ดูแล" (to keep)',
+            colors: 'from-teal-500 to-emerald-600',
+            lesson: [
+                { word: 'Conserve', read: 'คัน-<span class="stress">เซิร์ฟว</span>', pos: '(v.) อนุรักษ์', meaning: 'ปกป้องบางสิ่ง (โดยเฉพาะสิ่งแวดล้อม) จากความเสียหายหรือการสูญเสีย', example: 'We must conserve water and electricity.', ex_thai: 'เราต้องอนุรักษ์น้ำและไฟฟ้า' },
+                { word: 'Preserve', read: 'พรี-<span class="stress">เซิร์ฟว</span>', pos: '(v.) ถนอม, สงวน', meaning: 'ดูแลรักษาสภาพดั้งเดิมของบางสิ่งไว้ (เช่น อาหาร, อาคาร)', example: 'They use salt to preserve fish.', ex_thai: 'พวกเขาใช้เกลือเพื่อถนอมปลา' },
+                { word: 'Reserve', read: 'รี-<span class="stress">เซิร์ฟว</span>', pos: '(v.) จอง, สำรอง', meaning: 'เก็บหรือจัดเตรียมบางสิ่งไว้สำหรับใช้ในอนาคต', example: 'I\'d like to reserve a table for two.', ex_thai: 'ฉันต้องการจองโต๊ะสำหรับสองที่' },
+                { word: 'Observe', read: 'อับ-<span class="stress">เซิร์ฟว</span>', pos: '(v.) สังเกต', meaning: 'เฝ้าดูบางสิ่งอย่างตั้งใจเพื่อเรียนรู้', example: 'Scientists observe the behavior of animals in the wild.', ex_thai: 'นักวิทยาศาสตร์สังเกตพฤติกรรมของสัตว์ในป่า' },
+                { word: 'Deserve', read: 'ดิ-<span class="stress">เซิร์ฟว</span>', pos: '(v.) สมควรได้รับ', meaning: 'คู่ควรที่จะได้รับบางสิ่ง (ทั้งดีและไม่ดี) เพราะการกระทำหรือคุณสมบัติ', example: 'After all his hard work, he deserves a vacation.', ex_thai: 'หลังจากการทำงานหนักทั้งหมดของเขา เขาสมควรที่จะได้ไปพักร้อน' },
+            ],
+            quiz: [
+                { q: "You have been so helpful; you _______ a big thank you.", a: "Deserve", choices: ["Conserve", "Preserve", "Reserve", "Deserve"], explanation: "ใช้ Deserve เพราะหมายถึงการสมควรได้รับ" },
+                { q: "It's important to _______ historical buildings for future generations.", a: "Preserve", choices: ["Conserve", "Preserve", "Reserve", "Observe"], explanation: "ใช้ Preserve สำหรับการรักษาสภาพดั้งเดิมของอาคาร" },
+                { q: "Turning off lights when you leave a room helps to _______ energy.", a: "Conserve", choices: ["Conserve", "Preserve", "Deserve", "Observe"], explanation: "ใช้ Conserve สำหรับการอนุรักษ์พลังงานซึ่งเป็นทรัพยากร" },
+                { q: "I will call the restaurant to _______ a seat for tonight.", a: "Reserve", choices: ["Deserve", "Observe", "Conserve", "Reserve"], explanation: "ใช้ Reserve สำหรับการจอง" }
+            ]
+        },
+        set08_tend: {
+            type: 'standard',
+            title: 'รากศัพท์ "-tend"',
+            description: 'กลุ่มคำจากรากศัพท์ "-tend" ที่แปลว่า "ยืด, เอน" (to stretch)',
+            colors: 'from-amber-600 to-red-700',
+            lesson: [
+                { word: 'Attend', read: 'อะ-<span class="stress">เท็นด์</span>', pos: '(v.) เข้าร่วม, ดูแล', meaning: 'ไปปรากฏตัวในงาน หรือให้ความสนใจดูแล', example: 'Are you going to attend the meeting?', ex_thai: 'คุณจะเข้าร่วมการประชุมไหม?' },
+                { word: 'Pretend', read: 'พรี-<span class="stress">เท็นด์</span>', pos: '(v.) เสแสร้ง, แกล้งทำ', meaning: 'ทำตัวเหมือนว่าบางสิ่งเป็นความจริงทั้งที่ไม่ใช่', example: 'The children pretended to be pirates.', ex_thai: 'เด็กๆ แกล้งทำเป็นโจรสลัด' },
+                { word: 'Contend', read: 'คัน-<span class="stress">เท็นด์</span>', pos: '(v.) แข่งขัน, โต้แย้ง', meaning: 'แข่งขันเพื่อชิงบางสิ่ง หรือยืนยันความคิดเห็นในการโต้เถียง', example: 'Three teams are contending for the championship.', ex_thai: 'มีสามทีมกำลังแข่งขันกันเพื่อชิงตำแหน่งแชมป์' },
+                { word: 'Portend', read: 'พอร์-<span class="stress">เท็นด์</span>', pos: '(v.) เป็นลางบอกเหตุ', meaning: 'เป็นสัญญาณหรือลางบอกเหตุว่าบางสิ่ง (มักไม่ดี) กำลังจะเกิดขึ้น', example: 'The dark clouds portend a storm.', ex_thai: 'เมฆดำเป็นลางบอกเหตุของพายุ' },
+                { word: 'Intend', read: 'อิน-<span class="stress">เท็นด์</span>', pos: '(v.) ตั้งใจ', meaning: 'วางแผนหรือมีเป้าหมายที่จะทำบางสิ่ง', example: 'I intend to start my own business.', ex_thai: 'ฉันตั้งใจที่จะเริ่มธุรกิจของตัวเอง' },
+            ],
+            quiz: [
+                { q: "What do you _______ to do after you graduate?", a: "Intend", choices: ["Attend", "Pretend", "Contend", "Intend"], explanation: "ใช้ Intend เพราะเป็นการถามถึงความตั้งใจหรือแผนในอนาคต" },
+                { q: "He's not really sick; he's just _______ing to avoid the exam.", a: "Pretending", choices: ["Attending", "Pretending", "Contending", "Portending"], explanation: "ใช้ Pretend เพราะเป็นการแกล้งทำ" },
+                { q: "Several athletes will _______ for the gold medal in this event.", a: "Contend", choices: ["Attend", "Pretend", "Contend", "Intend"], explanation: "ใช้ Contend เพราะหมายถึงการแข่งขัน" },
+                { q: "Many people believe that a black cat crossing your path _______s bad luck.", a: "Portends", choices: ["Attends", "Pretends", "Contends", "Portends"], explanation: "ใช้ Portend เพราะหมายถึงการเป็นลางบอกเหตุ" }
+            ]
+        },
+        set09_inter: {
+            type: 'standard',
+            title: 'คำอุปสรรค "inter-"',
+            description: 'กลุ่มคำที่ขึ้นต้นด้วย "inter-" ที่แปลว่า "ระหว่าง, ท่ามกลาง" (between, among)',
+            colors: 'from-cyan-500 to-blue-600',
+            lesson: [
+                { word: 'Interact', read: 'อิน-เทอร์-<span class="stress">แอคท์</span>', pos: '(v.) มีปฏิสัมพันธ์', meaning: 'สื่อสารหรือทำกิจกรรมร่วมกัน', example: 'Teachers need to interact well with their students.', ex_thai: 'คุณครูจำเป็นต้องมีปฏิสัมพันธ์ที่ดีกับนักเรียน' },
+                { word: 'Interfere', read: 'อิน-เทอร์-<span class="stress">เฟียร์</span>', pos: '(v.) แทรกแซง, ก้าวก่าย', meaning: 'เข้าไปยุ่งเกี่ยวกับสถานการณ์ที่ไม่ใช่เรื่องของตนเอง', example: 'Please don\'t interfere in my personal life.', ex_thai: 'กรุณาอย่าก้าวก่ายชีวิตส่วนตัวของฉัน' },
+                { word: 'Interrupt', read: 'อิน-เทอ-<span class="stress">รัพท์</span>', pos: '(v.) ขัดจังหวะ', meaning: 'หยุดการกระทำหรือคำพูดของใครบางคนชั่วคราว', example: 'It\'s rude to interrupt when someone is speaking.', ex_thai: 'การพูดขัดจังหวะขณะที่คนอื่นกำลังพูดอยู่เป็นเรื่องหยาบคาย' },
+                { word: 'Intercept', read: 'อิน-เทอร์-<span class="stress">เซปท์</span>', pos: '(v.) สกัด, ดัก', meaning: 'หยุดหรือยึดบางสิ่งที่กำลังเดินทางจากที่หนึ่งไปยังอีกที่หนึ่ง', example: 'The police intercepted a package of illegal drugs.', ex_thai: 'ตำรวจได้สกัดพัสดุยาเสพติดผิดกฎหมาย' },
+                { word: 'Intervene', read: 'อิน-เทอ-<span class="stress">วีน</span>', pos: '(v.) เข้าแทรกแซง (เพื่อช่วย)', meaning: 'เข้าไปมีส่วนร่วมในสถานการณ์ที่ยากลำบากเพื่อช่วยเหลือหรือป้องกันไม่ให้แย่ลง', example: 'The teacher had to intervene in the students\' argument.', ex_thai: 'คุณครูต้องเข้าแทรกแซงการโต้เถียงของนักเรียน' },
+            ],
+            quiz: [
+                { q: "The referee had to _______ to stop the players from fighting.", a: "Intervene", choices: ["Interact", "Intercept", "Interrupt", "Intervene"], explanation: "ใช้ Intervene เพราะเป็นการเข้าแทรกแซงเพื่อหยุดยั้งสถานการณ์ไม่ให้แย่ลง" },
+                { q: "I'm sorry to _______, but there's an urgent phone call for you.", a: "Interrupt", choices: ["Interfere", "Intercept", "Interrupt", "Interact"], explanation: "ใช้ Interrupt เพราะเป็นการขัดจังหวะการพูด" },
+                { q: "The security guard _______ed the message passed between the prisoners.", a: "Intercepted", choices: ["Interfered", "Interrupted", "Intercepted", "Intervened"], explanation: "ใช้ Intercept เพราะเป็นการดักจับข้อความที่กำลังถูกส่ง" },
+                { q: "Parents should not _______ in their children's arguments all the time.", a: "Interfere", choices: ["Interact", "Interfere", "Intercept", "Interrupt"], explanation: "ใช้ Interfere เพราะเป็นการเข้าไปยุ่งหรือก้าวก่ายในเรื่องที่ไม่ใช่ของตน" }
+            ]
+        },
+        set10_intimidate: {
+            type: 'standard',
+            title: 'ทำให้กลัว',
+            description: 'กลุ่มคำกริยาที่หมายถึงการทำให้ผู้อื่นรู้สึกกลัว',
+            colors: 'from-slate-700 to-black',
+            lesson: [
+                { word: 'Intimidate', read: 'อิน-<span class="stress">ทิ</span>-มิ-เดท', pos: '(v.) ข่มขู่, ทำให้กลัว', meaning: 'ทำให้ใครบางคนกลัวเพื่อบังคับให้ทำบางสิ่ง', example: 'The bully tried to intimidate the smaller children.', ex_thai: 'เด็กเกเรพยายามข่มขู่เด็กที่ตัวเล็กกว่า' },
+                { word: 'Frighten', read: '<span class="stress">ไฟร</span>-เทิน', pos: '(v.) ทำให้ตกใจกลัว', meaning: 'ทำให้รู้สึกกลัวอย่างกะทันหัน', example: 'The loud thunder frightened the dog.', ex_thai: 'เสียงฟ้าร้องที่ดังทำให้สุนัขตกใจกลัว' },
+                { word: 'Terrorize', read: '<span class="stress">เท</span>-เรอ-ไรซ์', pos: '(v.) ทำให้หวาดกลัวอย่างยิ่ง', meaning: 'ทำให้ใครบางคนหรือกลุ่มคนรู้สึกหวาดกลัวอย่างต่อเนื่องโดยใช้ความรุนแรง', example: 'The gang terrorized the neighborhood for months.', ex_thai: 'แก๊งค์นี้ทำให้คนในละแวกหวาดกลัวอย่างยิ่งเป็นเวลาหลายเดือน' },
+                { word: 'Alarm', read: 'อะ-<span class="stress">ลาม</span>', pos: '(v.) ทำให้ตื่นตระหนก', meaning: 'ทำให้รู้สึกกังวลหรือกลัวว่าจะมีอันตรายเกิดขึ้น', example: 'The news of the approaching hurricane alarmed the residents.', ex_thai: 'ข่าวพายุเฮอริเคนที่กำลังใกล้เข้ามาทำให้ชาวเมืองตื่นตระหนก' },
+                { word: 'Scare', read: 'สแกร์', pos: '(v.) ทำให้กลัว', meaning: 'ทำให้รู้สึกกลัว (เป็นคำทั่วไปที่สุด)', example: 'Horror movies don\'t scare me.', ex_thai: 'หนังผีไม่ได้ทำให้ฉันกลัว' },
+            ],
+            quiz: [
+                { q: "The large, barking dog _______d the little girl.", a: "Frightened", choices: ["Intimidated", "Terrorized", "Alarmed", "Frightened"], explanation: "ใช้ Frighten สำหรับความกลัวที่เกิดขึ้นอย่างกะทันหัน" },
+                { q: "He tried to _______ the witness so she wouldn't testify in court.", a: "Intimidate", choices: ["Alarm", "Scare", "Intimidate", "Frighten"], explanation: "ใช้ Intimidate เพราะเป็นการทำให้กลัวเพื่อหวังผลบางอย่าง (ไม่ให้การ)" },
+                { q: "The government's warning about a possible attack _______d the public.", a: "Alarmed", choices: ["Terrorized", "Scared", "Intimidated", "Alarmed"], explanation: "ใช้ Alarm เพราะเป็นการทำให้กังวลหรือตื่นตระหนกถึงอันตรายที่อาจเกิดขึ้น" },
+                { q: "For years, the dictator _______d the population into silence.", a: "Terrorized", choices: ["Alarmed", "Frightened", "Terrorized", "Scared"], explanation: "ใช้ Terrorize เพราะเป็นการสร้างความหวาดกลัวอย่างต่อเนื่องและรุนแรง" }
+            ]
+        },
+        set11_diminish: {
+            type: 'standard',
+            title: 'การลดน้อยลง',
+            description: 'กลุ่มคำที่เกี่ยวกับการลดลงของขนาด, ปริมาณ, หรือมูลค่า',
+            colors: 'from-indigo-400 to-purple-500',
+            lesson: [
+                { word: 'Diminish', read: 'ดิ-<span class="stress">มิ</span>-นิช', pos: '(v.) ทำให้ลดลง, เสื่อมลง', meaning: 'ทำให้หรือกลายเป็นเล็กลง, น้อยลง, หรือมีความสำคัญน้อยลง', example: 'Our food supply is diminishing rapidly.', ex_thai: 'เสบียงอาหารของเรากำลังลดลงอย่างรวดเร็ว' },
+                { word: 'Dwindle', read: '<span class="stress">ดวิน</span>-เดิล', pos: '(v.) หดตัว, ร่อยหรอ', meaning: 'ค่อยๆ ลดลงจนเหลือน้อยมากหรือหมดไป', example: 'The number of tigers in the wild has dwindled.', ex_thai: 'จำนวนเสือในป่าได้ลดน้อยลงจนร่อยหรอ' },
+                { word: 'Decline', read: 'ดิ-<span class="stress">ไคลน์</span>', pos: '(v./n.) ลดลง, ปฏิเสธ', meaning: 'ลดลง (ในแง่จำนวน, คุณภาพ) หรือปฏิเสธข้อเสนอ', example: 'The company\'s profits have declined this year.', ex_thai: 'กำไรของบริษัทลดลงในปีนี้' },
+                { word: 'Shrink', read: 'ชริงค์', pos: '(v.) หด', meaning: 'มีขนาดเล็กลง (มักเกิดจากการซักหรือความเย็น)', example: 'My sweater shrank in the wash.', ex_thai: 'เสื้อสเวตเตอร์ของฉันหดเมื่อนำไปซัก' },
+                { word: 'Condense', read: 'คัน-<span class="stress">เดนส์</span>', pos: '(v.) ย่อ, ควบแน่น', meaning: 'ทำให้สั้นลง หรือเปลี่ยนจากก๊าซเป็นของเหลว', example: 'Please condense this long report into a one-page summary.', ex_thai: 'กรุณาย่อรายงานฉบับยาวนี้ให้เหลือหนึ่งหน้า' },
+            ],
+            quiz: [
+                { q: "If you wash a wool sweater in hot water, it will probably _______.", a: "Shrink", choices: ["Diminish", "Dwindle", "Decline", "Shrink"], explanation: "ใช้ Shrink สำหรับการหดตัวของเสื้อผ้า" },
+                { q: "Hopes of finding survivors began to _______ as days passed.", a: "Dwindle", choices: ["Shrink", "Condense", "Dwindle", "Decline"], explanation: "ใช้ Dwindle เพราะความหวังค่อยๆ ลดลงจนใกล้จะหมด" },
+                { q: "The author was asked to _______ her 500-page book into a shorter version.", a: "Condense", choices: ["Shrink", "Diminish", "Decline", "Condense"], explanation: "ใช้ Condense เพราะหมายถึงการย่อให้สั้นลง" },
+                { q: "The power of the king gradually _______d over the years.", a: "Diminished", choices: ["Shrank", "Dwindled", "Declined", "Diminished"], explanation: "ใช้ Diminish เป็นคำทั่วไปที่หมายถึงอำนาจหรือความสำคัญที่เสื่อมลง" }
+            ]
+        },
+        set13_difficult: {
+            type: 'standard',
+            title: 'ยากลำบาก',
+            description: 'กลุ่มคำคุณศัพท์ที่หมายถึงความยากในรูปแบบต่างๆ',
+            colors: 'from-orange-400 to-red-500',
+            lesson: [
+                { word: 'Difficult', read: '<span class="stress">ดิ</span>-ฟิ-คัลท์', pos: '(adj.) ยาก', meaning: 'ต้องใช้ความพยายาม, ทักษะ, หรือความรู้ในการทำ (คำทั่วไป)', example: 'This is a very difficult math problem.', ex_thai: 'นี่เป็นโจทย์คณิตศาสตร์ที่ยากมาก' },
+                { word: 'Hard', read: 'ฮาร์ด', pos: '(adj.) ยาก, หนัก', meaning: 'ยาก (คล้าย difficult แต่มักใช้ในภาษาพูดมากกว่า) หรืองานหนัก', example: 'It was hard work, but we finished on time.', ex_thai: 'มันเป็นงานหนัก แต่เราก็ทำเสร็จทันเวลา' },
+                { word: 'Tough', read: 'ทัฟ', pos: '(adj.) ยาก, ทนทาน', meaning: 'ยากและต้องใช้ความแข็งแกร่งทางกายหรือใจ', example: 'He had a tough childhood.', ex_thai: 'เขามีวัยเด็กที่ยากลำบาก' },
+                { word: 'Arduous', read: '<span class="stress">อา</span>-ดู-อัส', pos: '(adj.) ยากลำบาก (ต้องใช้แรง)', meaning: 'ต้องใช้ความพยายามทางกายอย่างมากและยาวนาน', example: 'Climbing Mount Everest is an arduous journey.', ex_thai: 'การปีนเขาเอเวอเรสต์คือการเดินทางที่ยากลำบากแสนสาหัส' },
+                { word: 'Awkward', read: '<span class="stress">ออค</span>-เวิร์ด', pos: '(adj.) ที่น่าอึดอัด, งุ่มง่าม', meaning: 'ที่ทำให้รู้สึกไม่สบายใจ, อาย หรือเคลื่อนไหวไม่สะดวก', example: 'There was an awkward silence after he made the joke.', ex_thai: 'เกิดความเงียบที่น่าอึดอัดขึ้นหลังจากที่เขาเล่นมุก' },
+            ],
+            quiz: [
+                { q: "The hike up the steep mountain was long and _______.", a: "Arduous", choices: ["Difficult", "Hard", "Tough", "Arduous"], explanation: "ใช้ Arduous เพราะเน้นความยากลำบากทางกายที่ต้องใช้ความพยายามสูง" },
+                { q: "Making new friends can be _______ when you move to a new city.", a: "Tough", choices: ["Arduous", "Awkward", "Tough", "Hard"], explanation: "ใช้ Tough เพื่อบอกว่าเป็นเรื่องที่ยากและต้องใช้ความแข็งแกร่งทางใจ" },
+                { q: "I accidentally called my teacher 'mom'. It was so _______!", a: "Awkward", choices: ["Difficult", "Arduous", "Tough", "Awkward"], explanation: "ใช้ Awkward สำหรับสถานการณ์ที่น่าอึดอัดใจ" },
+                { q: "Learning a new language is _______ but rewarding.", a: "Difficult", choices: ["Difficult", "Awkward", "Arduous", "Tough"], explanation: "ใช้ Difficult เป็นคำคุณศัพท์ทั่วไปที่หมายถึงความยาก" }
+            ]
+        },
+    };
+
+    // --- Global Variables & App State ---
+    let currentMegaSetKey = null;
+    let currentSubSetKey = null;
+    let userAnswers = {};
+
+    // --- DOM Elements ---
+    const allViews = document.querySelectorAll('.view');
+    const mainMenu = document.getElementById('main-menu-view');
+    const subMenu = document.getElementById('sub-menu-view');
+    const lessonView = document.getElementById('lesson-view');
+    
+    const mainMenuGrid = document.getElementById('main-menu-grid');
+    const subMenuTitle = document.getElementById('sub-menu-title');
+    const subMenuDescription = document.getElementById('sub-menu-description');
+    const subMenuGrid = document.getElementById('sub-menu-grid');
+
+    const lessonTitle = document.getElementById('lesson-title');
+    const backToSubMenuBtn = document.getElementById('back-to-submenu-btn');
+    const lessonContentWrapper = document.getElementById('lesson-content-wrapper');
+    const exerciseContentWrapper = document.getElementById('exercise-content-wrapper');
+    const lessonContent = document.getElementById('lesson-content');
+    const quizContainer = document.getElementById('quiz-container');
+    const checkBtn = document.getElementById('check-answers-btn');
+    const resetBtn = document.getElementById('reset-btn');
+    const lessonTabBtn = document.getElementById('tab-lesson-btn');
+    const exerciseTabBtn = document.getElementById('tab-exercise-btn');
+
+    // --- Core Functions ---
+    function switchView(viewId) {
+        allViews.forEach(view => {
+            if (view.id === viewId) {
+                view.classList.add('active');
+            } else {
+                view.classList.remove('active');
+            }
+        });
+        window.scrollTo(0, 0);
+    }
+
+    function initMainMenu() {
+        mainMenuGrid.innerHTML = '';
+        const sortedKeys = Object.keys(allSetsData).sort();
+
+        for (const key of sortedKeys) {
+            const set = allSetsData[key];
+            const cardWrapper = document.createElement('div');
+            cardWrapper.className = 'set-card-wrapper rounded-xl shadow-lg cursor-pointer';
+            cardWrapper.style.cssText = `background: linear-gradient(135deg, ${set.colors.split(' ')[0]}, ${set.colors.split(' ')[1]});`;
+            
+            if (set.type === 'mega') {
+                cardWrapper.onclick = () => showSubMenu(key);
+            } else {
+                cardWrapper.onclick = () => showLessonView(key, null);
+            }
+            
+            cardWrapper.innerHTML = `
+                <div class="bg-white/90 backdrop-blur-sm p-5 rounded-lg h-full flex flex-col justify-between">
+                    <div>
+                        <h2 class="text-2xl font-bold text-gray-800">${set.title}</h2>
+                        <p class="text-gray-600 font-normal mt-1 text-sm">${set.description}</p>
+                    </div>
+                    <div class="text-right font-semibold text-base theme-accent mt-2">เริ่มเรียน →</div>
+                </div>
+            `;
+            mainMenuGrid.appendChild(cardWrapper);
+        }
+    }
+
+    function showSubMenu(megaSetKey) {
+        currentMegaSetKey = megaSetKey;
+        const megaSet = allSetsData[megaSetKey];
+        subMenuTitle.textContent = megaSet.title;
+        subMenuDescription.textContent = megaSet.description;
+        subMenuGrid.innerHTML = '';
+
+        Object.keys(megaSet.subSets).forEach(subSetKey => {
+            const subSet = megaSet.subSets[subSetKey];
+            const cardWrapper = document.createElement('div');
+            cardWrapper.className = 'set-card-wrapper rounded-xl shadow-lg cursor-pointer';
+            cardWrapper.style.cssText = `background: linear-gradient(135deg, ${megaSet.colors.split(' ')[0]}, ${megaSet.colors.split(' ')[1]});`;
+            cardWrapper.onclick = () => showLessonView(megaSetKey, subSetKey);
+            
+            cardWrapper.innerHTML = `
+                <div class="bg-white/90 backdrop-blur-sm p-5 rounded-lg h-full flex flex-col justify-between">
+                    <div>
+                        <h2 class="text-xl font-bold text-gray-800">${subSet.title}</h2>
+                    </div>
+                    <div class="text-right font-semibold text-base theme-accent mt-2">เริ่มเรียน →</div>
+                </div>
+            `;
+            subMenuGrid.appendChild(cardWrapper);
+        });
+        
+        switchView('sub-menu-view');
+    }
+
+    function showLessonView(megaSetKey, subSetKey) {
+        currentMegaSetKey = megaSetKey;
+        currentSubSetKey = subSetKey;
+        const setData = subSetKey ? allSetsData[megaSetKey].subSets[subSetKey] : allSetsData[megaSetKey];
+        
+        lessonTitle.textContent = setData.title;
+        backToSubMenuBtn.onclick = setData.type === 'mega' ? () => showSubMenu(megaSetKey) : () => showMainMenu();
+        if (setData.type === 'mega') {
+             backToSubMenuBtn.onclick = () => showSubMenu(megaSetKey);
+        } else {
+             backToSubMenuBtn.onclick = () => showMainMenu();
+        }
+
+        lessonContent.innerHTML = '';
+        setData.lesson.forEach(item => {
+            const card = document.createElement('div');
+            card.className = `vocab-card rounded-lg p-4`;
+            card.style.borderColor = allSetsData[megaSetKey].colors.split(' ')[0];
+            
+            card.innerHTML = `
+                <div class="flex justify-between items-baseline">
+                    <h3 class="text-2xl font-bold text-gray-800">${item.word}</h3>
+                    <span class="font-medium theme-accent">${item.read}</span>
+                </div>
+                <p class="text-gray-500 text-sm mb-3">${item.pos}</p>
+                <p class="mb-3 text-gray-700"><strong>ความหมาย:</strong> ${item.meaning}</p>
+                <div class="text-sm bg-gray-50 p-3 rounded-md border border-gray-200">
+                    <p class="font-semibold">ตัวอย่าง:</p>
+                    <p class="text-gray-800">${item.example}</p>
+                    <p class="text-gray-600 mt-1">${item.ex_thai}</p>
+                </div>
+            `;
+            lessonContent.appendChild(card);
+        });
+
+        createQuiz();
+        showTab('lesson');
+        switchView('lesson-view');
+    }
+
+    function showMainMenu() {
+        switchView('main-menu-view');
+    }
+
+    function showTab(tabName) {
+        const inactiveClasses = 'text-gray-500 hover:text-gray-700 border-transparent';
+        const activeClasses = 'text-white theme-accent-bg';
+
+        if (tabName === 'lesson') {
+            lessonContentWrapper.classList.remove('hidden');
+            exerciseContentWrapper.classList.add('hidden');
+            lessonTabBtn.className = 'tab-button active whitespace-nowrap py-3 px-5 border-b-2 font-medium text-lg rounded-t-md ' + activeClasses;
+            exerciseTabBtn.className = 'tab-button whitespace-nowrap py-3 px-5 border-b-2 font-medium text-lg rounded-t-md ' + inactiveClasses;
+        } else {
+            lessonContentWrapper.classList.add('hidden');
+            exerciseContentWrapper.classList.remove('hidden');
+            lessonTabBtn.className = 'tab-button whitespace-nowrap py-3 px-5 border-b-2 font-medium text-lg rounded-t-md ' + inactiveClasses;
+            exerciseTabBtn.className = 'tab-button active whitespace-nowrap py-3 px-5 border-b-2 font-medium text-lg rounded-t-md ' + activeClasses;
+            resetQuiz();
+        }
+    }
+    
+    function createQuiz() {
+        const setData = currentSubSetKey ? allSetsData[currentMegaSetKey].subSets[currentSubSetKey] : allSetsData[currentMegaSetKey];
+        quizContainer.innerHTML = '';
+        if (!setData.quiz || setData.quiz.length === 0) {
+            quizContainer.innerHTML = '<p class="text-center text-gray-500">ขออภัย, ยังไม่มีแบบฝึกหัดสำหรับชุดนี้</p>';
+            checkBtn.classList.add('hidden');
+            return;
+        }
+
+        setData.quiz.forEach((q, index) => {
+            const questionDiv = document.createElement('div');
+            questionDiv.className = "bg-white p-5 rounded-lg shadow-sm border border-gray-200";
+            questionDiv.id = `question-${index}`;
+
+            const sentence = document.createElement('p');
+            sentence.className = "text-lg text-gray-800 mb-4 font-medium";
+            sentence.innerHTML = `${index + 1}. ${q.q.replace('_______', '<span class="font-bold theme-accent">_______</span>')}`;
+            questionDiv.appendChild(sentence);
+
+            const choicesDiv = document.createElement('div');
+            choicesDiv.className = "space-y-2";
+            const choiceLabels = ['a', 'b', 'c', 'd'];
+            q.choices.forEach((choice, choiceIndex) => {
+                const item = document.createElement('div');
+                item.className = 'choice-item flex items-center p-3 rounded-lg';
+                item.onclick = () => selectChoice(index, choice, item);
+                item.innerHTML = `
+                    <span class="font-bold text-gray-600 mr-3">${choiceLabels[choiceIndex]}.</span>
+                    <span class="text-gray-700">${choice}</span>
+                `;
+                choicesDiv.appendChild(item);
+            });
+            questionDiv.appendChild(choicesDiv);
+
+            const feedbackDiv = document.createElement('div');
+            feedbackDiv.id = `feedback-${index}`;
+            feedbackDiv.className = "hidden mt-3 p-3 rounded-lg text-sm font-medium";
+            questionDiv.appendChild(feedbackDiv);
+            
+            quizContainer.appendChild(questionDiv);
+        });
+        resetBtn.classList.add('hidden');
+        checkBtn.classList.remove('hidden');
+    }
+
+    function selectChoice(questionIndex, choice, button) {
+        if(checkBtn.classList.contains('hidden')) return;
+        userAnswers[questionIndex] = choice;
+        const parent = button.parentElement;
+        Array.from(parent.children).forEach(child => child.classList.remove('selected'));
+        button.classList.add('selected');
+    }
+
+    function checkAnswers() {
+        const setData = currentSubSetKey ? allSetsData[currentMegaSetKey].subSets[currentSubSetKey] : allSetsData[currentMegaSetKey];
+        setData.quiz.forEach((q, index) => {
+            const feedbackDiv = document.getElementById(`feedback-${index}`);
+            const userAnswer = userAnswers[index];
+            
+            feedbackDiv.classList.remove('hidden', 'correct', 'incorrect');
+            
+            if (userAnswer === q.a) {
+                feedbackDiv.classList.add('correct');
+                feedbackDiv.innerHTML = `<strong>ถูกต้อง!</strong> 👍 ${q.explanation}`;
+            } else {
+                const selectedAnswerText = userAnswer ? `คุณเลือก "${userAnswer}"` : "คุณยังไม่ได้เลือกคำตอบ";
+                feedbackDiv.classList.add('incorrect');
+                feedbackDiv.innerHTML = `<strong>ยังไม่ถูกนะ!</strong> คำตอบที่ถูกต้องคือ <strong>${q.a}</strong> เพราะ${q.explanation.substring(q.explanation.indexOf('เพราะ') + 5)}`;
+            }
+        });
+        checkBtn.classList.add('hidden');
+        resetBtn.classList.remove('hidden');
+    }
+
+    function resetQuiz() {
+        userAnswers = {};
+        const setData = currentSubSetKey ? allSetsData[currentMegaSetKey].subSets[currentSubSetKey] : allSetsData[currentMegaSetKey];
+        if (!setData.quiz || setData.quiz.length === 0) return;
+        setData.quiz.forEach((q, index) => {
+            const questionDiv = document.getElementById(`question-${index}`);
+            questionDiv.querySelectorAll('.choice-item').forEach(btn => btn.classList.remove('selected'));
+            const feedbackDiv = document.getElementById(`feedback-${index}`);
+            feedbackDiv.classList.add('hidden');
+        });
+        checkBtn.classList.remove('hidden');
+        resetBtn.classList.add('hidden');
+    }
+
+    // --- Initial Load ---
+    document.addEventListener('DOMContentLoaded', initMainMenu);
+    </script>
+</body>
+</html>

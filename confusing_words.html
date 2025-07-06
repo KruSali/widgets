@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mr. Vocab: Confusing Words Game Box</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* NEON POP THEME - IMPROVED */
+        body {
+            font-family: 'Kanit', sans-serif;
+            background-color: #111827; /* gray-900 */
+        }
+        .text-glow {
+            text-shadow: 0 0 8px rgba(255, 255, 255, 0.3), 0 0 12px rgba(34, 211, 238, 0.5);
+        }
+        .pair-button {
+            transition: all 0.2s ease-in-out;
+            color: white;
+            font-weight: 600;
+            border-radius: 0.75rem;
+            padding: 1.5rem 1rem;
+            text-align: center;
+            cursor: pointer;
+            border: 2px solid transparent;
+            font-size: 1.125rem; /* text-lg - Increased font size */
+            line-height: 1.75rem;
+        }
+        .pair-button:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.3);
+        }
+        /* Modal Styles */
+        .modal {
+            transition: opacity 0.25s ease;
+        }
+        .modal-content {
+            transition: transform 0.25s ease;
+            transform: translateY(-20px);
+        }
+        .modal.open .modal-content {
+            transform: translateY(0);
+        }
+        .stress { text-decoration: underline; font-weight: 600; color: #a5f3fc; }
+        .nuance-box { background-color: rgba(34, 211, 238, 0.1); border-left: 4px solid #22d3ee; padding: 1rem; margin-top: 1rem; border-radius: 0.5rem; }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+
+    <div class="max-w-7xl mx-auto">
+        <header class="text-center mb-10">
+            <h1 class="text-4xl md:text-5xl font-bold text-white text-glow">Confusing Words Game Box</h1>
+            <p class="text-gray-400 mt-2 text-lg">เลือกคู่คำศัพท์ที่สับสน แล้วมาไขข้อข้องใจกันเลย!</p>
+            <p class="text-slate-400 text-sm mt-4">จัดทำโดย ครูสาลี่ - อังกฤษฉบับคนเรียนไม่รู้เรื่อง</p>
+        </header>
+
+        <div id="word-pair-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+            </div>
+    </div>
+
+    <div id="main-modal" class="modal fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-70 backdrop-blur-sm hidden opacity-0" onclick="closeModal()">
+        <div class="modal-content relative bg-slate-800 rounded-2xl shadow-xl w-full max-w-2xl mx-auto overflow-hidden border border-slate-600" onclick="event.stopPropagation()">
+            <button onclick="closeModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white text-2xl font-bold">&times;</button>
+            
+            <div class="p-6 sm:p-8 space-y-6">
+                <div id="word1-container">
+                    <h2 class="text-3xl font-bold text-white"><span id="word1-term"></span> <span id="word1-pos" class="text-xl font-normal text-slate-400"></span></h2>
+                    <p class="text-cyan-300 font-medium" id="word1-read"></p>
+                    <p class="mt-2 text-slate-200" id="word1-def"></p>
+                    <p class="mt-2 text-sm bg-slate-700 p-3 rounded-md"><strong>ตัวอย่าง:</strong> <span id="word1-ex" class="text-cyan-300 font-medium"></span></p>
+                </div>
+                
+                <hr class="border-slate-600">
+
+                <div id="word2-container">
+                    <h2 class="text-3xl font-bold text-white"><span id="word2-term"></span> <span id="word2-pos" class="text-xl font-normal text-slate-400"></span></h2>
+                    <p class="text-cyan-300 font-medium" id="word2-read"></p>
+                    <p class="mt-2 text-slate-200" id="word2-def"></p>
+                    <p class="mt-2 text-sm bg-slate-700 p-3 rounded-md"><strong>ตัวอย่าง:</strong> <span id="word2-ex" class="text-cyan-300 font-medium"></span></p>
+                </div>
+
+                <div class="nuance-box">
+                    <h3 class="font-bold text-cyan-300">💡 ข้อแตกต่างที่สำคัญ</h3>
+                    <p class="text-cyan-100" id="explanation"></p>
+                </div>
+            </div>
+            
+            <footer class="p-3 bg-slate-900 text-center text-xs text-slate-400">
+                <p>จัดทำโดย ครูสาลี่ - อังกฤษฉบับคนเรียนไม่รู้เรื่อง</p>
+            </footer>
+        </div>
+    </div>
+    
+    <script>
+    const wordPairs = [
+        { pairId: 'dam_damn', word1: { term: 'Dam', read: 'แดม', pos: '(n.)', definition: 'เขื่อน, สิ่งก่อสร้างที่ใช้กั้นน้ำ', example: 'The new dam will generate electricity.' }, word2: { term: 'Damn', read: '<span class="stress">แดมน์</span>', pos: '(interj./v.)', definition: 'คำสบถแสดงความผิดหวัง, สาปแช่ง (ไม่สุภาพ)', example: 'Damn! I forgot my wallet again.' }, explanation: '<strong>Dam</strong> คือ "เขื่อน" (คำนาม) ในขณะที่ <strong>Damn</strong> เป็น "คำสบถ" แสดงอารมณ์ (คำอุทาน)' },
+        { pairId: 'study_sturdy', word1: { term: 'Study', read: '<span class="stress">สทั</span>-ดิ', pos: '(v./n.)', definition: 'เรียน, การศึกษา', example: 'You need to study hard for the exam.' }, word2: { term: 'Sturdy', read: '<span class="stress">สเทอ</span>-ดิ', pos: '(adj.)', definition: 'แข็งแรง, ทนทาน, บึกบึน', example: 'That chair looks very sturdy.' }, explanation: '<strong>Study</strong> คือการ "เรียน" (กริยา) ส่วน <strong>Sturdy</strong> คือ "ความแข็งแรงทนทาน" (คุณศัพท์)' },
+        { pairId: 'banish_burnish', word1: { term: 'Banish', read: '<span class="stress">แบ</span>-นิช', pos: '(v.)', definition: 'เนรเทศ, ขับไล่', example: 'The king decided to banish the traitor from his kingdom.' }, word2: { term: 'Burnish', read: '<span class="stress">เบอ</span>-นิช', pos: '(v.)', definition: 'ขัดให้เป็นเงา, พัฒนาให้ดีขึ้น', example: 'He burnished his reputation with a series of successful projects.' }, explanation: '<strong>Banish</strong> คือ "ขับไล่" ส่วน <strong>Burnish</strong> คือ "ขัดเงา" หรือ "พัฒนาให้ดีขึ้น"' },
+        { pairId: 'audible_edible', word1: { term: 'Audible', read: '<span class="stress">ออ</span>-ดิ-เบิล', pos: '(adj.)', definition: 'ที่ได้ยิน, ดังพอที่จะได้ยิน', example: 'His whisper was barely audible.' }, word2: { term: 'Edible', read: '<span class="stress">เอ</span>-ดิ-เบิล', pos: '(adj.)', definition: 'ที่กินได้, สามารถบริโภคได้', example: 'Are these mushrooms edible?' }, explanation: '<strong>Audible</strong> เกี่ยวกับ "การได้ยิน" (Audio) ส่วน <strong>Edible</strong> เกี่ยวกับ "การกินได้" (Eat)' },
+        { pairId: 'aspire_inspire', word1: { term: 'Aspire', read: 'อะ-<span class="stress">สไพร์</span>', pos: '(v.)', definition: 'ปรารถนา, ใฝ่ฝัน (ที่จะเป็นหรือทำบางสิ่ง)', example: 'She aspires to be a great scientist.' }, word2: { term: 'Inspire', read: 'อิน-<span class="stress">สไพร์</span>', pos: '(v.)', definition: 'เป็นแรงบันดาลใจให้', example: 'Her story inspired millions of people.' }, explanation: '<strong>Aspire</strong> คือการที่เรา "อยากจะเป็น" (มองไปข้างหน้า) ส่วน <strong>Inspire</strong> คือการที่คนอื่นหรือสิ่งอื่น "เป็นแรงผลักดัน" ให้เรา' },
+        { pairId: 'accomplice_accomplish', word1: { term: 'Accomplice', read: 'อะ-<span class="stress">คอม</span>-พลิซ', pos: '(n.)', definition: 'ผู้สมรู้ร่วมคิด (ในการทำผิด)', example: 'The police are looking for his accomplice.' }, word2: { term: 'Accomplish', read: 'อะ-<span class="stress">คอม</span>-พลิช', pos: '(v.)', definition: 'ทำสำเร็จ', example: 'We have a lot to accomplish today.' }, explanation: '<strong>Accomplice</strong> คือ "คน" ที่ร่วมทำผิด (คำนาม) ส่วน <strong>Accomplish</strong> คือ "การทำสำเร็จ" (กริยา)' },
+        { pairId: 'breadth_breath', word1: { term: 'Breadth', read: 'เบรดธ์', pos: '(n.)', definition: 'ความกว้าง', example: 'The breadth of the river is amazing.' }, word2: { term: 'Breath', read: 'เบรธ', pos: '(n.)', definition: 'ลมหายใจ', example: 'Take a deep breath and relax.' }, explanation: '<strong>Breadth</strong> (มี d) คือ "ความกว้าง" ส่วน <strong>Breath</strong> (ไม่มี d) คือ "ลมหายใจ"' },
+        { pairId: 'wary_weary', word1: { term: 'Wary', read: '<span class="stress">แว</span>-รี่', pos: '(adj.)', definition: 'ระมัดระวัง, ไม่ไว้ใจ', example: 'You should be wary of strangers.' }, word2: { term: 'Weary', read: '<span class="stress">เวีย</span>-รี่', pos: '(adj.)', definition: 'เหนื่อยล้า, อ่อนเพลีย', example: 'I feel weary after a long day of work.' }, explanation: '<strong>Wary</strong> คือ "ระวัง" ส่วน <strong>Weary</strong> คือ "เหนื่อย"' },
+        { pairId: 'waste_waist', word1: { term: 'Waste', read: 'เวสต์', pos: '(v./n.)', definition: 'สูญเปล่า, สิ้นเปลือง, ของเสีย', example: 'Don\'t waste your money on that.' }, word2: { term: 'Waist', read: 'เวสต์', pos: '(n.)', definition: 'เอว', example: 'This belt is too tight for my waist.' }, explanation: '<strong>Waste</strong> คือ "ของเสีย" หรือ "การสิ้นเปลือง" ส่วน <strong>Waist</strong> คือ "เอว"' },
+        { pairId: 'vacation_vocation', word1: { term: 'Vacation', read: 'เว-<span class="stress">เค</span>-เชิน', pos: '(n.)', definition: 'วันหยุดพักผ่อน', example: 'We are going on vacation to Japan.' }, word2: { term: 'Vocation', read: 'โว-<span class="stress">เค</span>-เชิน', pos: '(n.)', definition: 'อาชีพ, งานที่เป็นพรสวรรค์', example: 'She considers teaching her true vocation.' }, explanation: '<strong>Vacation</strong> คือ "วันหยุด" ส่วน <strong>Vocation</strong> คือ "อาชีพ" (ที่ทำด้วยใจรัก)' },
+        { pairId: 'principle_principal', word1: { term: 'Principle', read: '<span class="stress">พริน</span>-ซิ-เพิล', pos: '(n.)', definition: 'หลักการ, กฎเกณฑ์', example: 'He is a man of high principles.' }, word2: { term: 'Principal', read: '<span class="stress">พริน</span>-ซิ-เพิล', pos: '(n./adj.)', definition: 'ครูใหญ่, อาจารย์ใหญ่, ที่สำคัญที่สุด', example: 'The principal reason for our success is teamwork.' }, explanation: '<strong>Principle</strong> (ลงท้ายด้วย ple) คือ "หลักการ" ส่วน <strong>Principal</strong> (ลงท้ายด้วย pal) คือ "ครูใหญ่" หรือ "สิ่งที่สำคัญที่สุด"' },
+        { pairId: 'respectful_respectable', word1: { term: 'Respectful', read: 'รี-<span class="stress">สเปคท์</span>-ฟูล', pos: '(adj.)', definition: 'ที่แสดงความเคารพ', example: 'You should be respectful to your elders.' }, word2: { term: 'Respectable', read: 'รี-<span class="stress">สเปค</span>-ทะ-เบิล', pos: '(adj.)', definition: 'ที่น่าเคารพ, น่านับถือ', example: 'He comes from a very respectable family.' }, explanation: '<strong>Respectful</strong> คือการกระทำ "ที่เราแสดงออก" เพื่อเคารพผู้อื่น ส่วน <strong>Respectable</strong> คือคุณสมบัติ "ของคนอื่น" ที่ทำให้เราเคารพ' },
+        { pairId: 'vain_vane_vein', word1: { term: 'Vain', read: 'เวน', pos: '(adj.)', definition: 'ที่ไร้ผล, ที่หลงตัวเอง', example: 'All his efforts were in vain.' }, word2: { term: 'Vane', read: 'เวน', pos: '(n.)', definition: 'ใบพัด, กังหันลม', example: 'The weather vane on the roof shows the wind direction.' }, explanation: '<strong>Vain</strong> คือ "ไร้ผล" หรือ "หลงตัวเอง" (adj.) | <strong>Vane</strong> คือ "ใบพัด" (n.) | <strong>Vein</strong> (อีกคำที่เสียงเหมือนกัน) คือ "เส้นเลือด" (n.)' },
+        { pairId: 'superficial_superfluous', word1: { term: 'Superficial', read: 'ซู-เพอ-<span class="stress">ฟิ</span>-เชียล', pos: '(adj.)', definition: 'ผิวเผิน, ตื้นๆ', example: 'Their conversation was very superficial.' }, word2: { term: 'Superfluous', read: 'ซู-<span class="stress">เพอ</span>-ฟลู-อัส', pos: '(adj.)', definition: 'ที่เกินความจำเป็น, ฟุ่มเฟือย', example: 'Please remove any superfluous details from the report.' }, explanation: '<strong>Superficial</strong> คือ "ไม่ลึกซึ้ง" ส่วน <strong>Superfluous</strong> คือ "เกินจำเป็น"' },
+        { pairId: 'spectator_audience', word1: { term: 'Spectator', read: '<span class="stress">สเปค</span>-เท-เทอร์', pos: '(n.)', definition: 'ผู้ชม (การแข่งขันกีฬา, อีเวนต์)', example: 'The spectators cheered for their team.' }, word2: { term: 'Audience', read: '<span class="stress">ออ</span>-เดียนซ์', pos: '(n.)', definition: 'ผู้ชม, ผู้ฟัง (การแสดง, คอนเสิร์ต, การบรรยาย)', example: 'The audience applauded at the end of the play.' }, explanation: '<strong>Spectator</strong> มักใช้กับ "ผู้ชมกีฬา" หรือเหตุการณ์ที่เกิดขึ้นกลางแจ้ง ส่วน <strong>Audience</strong> ใช้กับ "ผู้ชมการแสดง" ในโรงละครหรือห้องประชุม' },
+        { pairId: 'sensible_sensitive', word1: { term: 'Sensible', read: '<span class="stress">เซน</span>-ซิ-เบิล', pos: '(adj.)', definition: 'มีเหตุผล, สมเหตุสมผล', example: 'That was a very sensible decision.' }, word2: { term: 'Sensitive', read: '<span class="stress">เซน</span>-ซิ-ทีฟว', pos: '(adj.)', definition: 'อ่อนไหว, รู้สึกง่าย', example: 'My skin is very sensitive to the sun.' }, explanation: '<strong>Sensible</strong> คือ "มีเหตุผล" (เกี่ยวกับความคิด) ส่วน <strong>Sensitive</strong> คือ "อ่อนไหว" (เกี่ยวกับความรู้สึกหรือการรับสัมผัส)' },
+        { pairId: 'posterity_prosperity', word1: { term: 'Posterity', read: 'พอส-<span class="stress">เท</span>-ริ-ทิ', pos: '(n.)', definition: 'คนรุ่นหลัง, อนุชนรุ่นหลัง', example: 'We must preserve these forests for posterity.' }, word2: { term: 'Prosperity', read: 'พรอส-<span class="stress">เพ</span>-ริ-ทิ', pos: '(n.)', definition: 'ความเจริญรุ่งเรือง, ความมั่งคั่ง', example: 'The country enjoyed a period of peace and prosperity.' }, explanation: '<strong>Posterity</strong> คือ "คนในอนาคต" ส่วน <strong>Prosperity</strong> คือ "ความรุ่งเรือง"' },
+        { pairId: 'possible_plausible', word1: { term: 'Possible', read: '<span class="stress">พอ</span>-ซิ-เบิล', pos: '(adj.)', definition: 'เป็นไปได้ (อาจจะเกิดหรือไม่ก็ได้)', example: 'It\'s possible to get there by train.' }, word2: { term: 'Plausible', read: '<span class="stress">พลอ</span>-ซิ-เบิล', pos: '(adj.)', definition: 'เป็นไปได้, ฟังขึ้น, น่าเชื่อถือ', example: 'Her excuse sounds plausible, but I\'m not sure I believe it.' }, explanation: '<strong>Possible</strong> บอกว่าบางสิ่ง "สามารถเกิดขึ้นได้" แต่ <strong>Plausible</strong> บอกว่าบางสิ่ง "ฟังดูสมเหตุสมผลและน่าเชื่อถือ"' },
+        { pairId: 'accept_except', word1: { term: 'Accept', read: 'แอค-<span class="stress">เซปท์</span>', pos: '(v.)', definition: 'ยอมรับ', example: 'I accept your apology.' }, word2: { term: 'Except', read: 'เอ็ก-<span class="stress">เซปท์</span>', pos: '(prep.)', definition: 'ยกเว้น', example: 'Everyone is here except for Tom.' }, explanation: '<strong>Accept</strong> คือ "การยอมรับ" (กริยา) ส่วน <strong>Except</strong> คือ "การยกเว้น" (บุพบท)' },
+        { pairId: 'affect_effect', word1: { term: 'Affect', read: 'อะ-<span class="stress">เฟคท์</span>', pos: '(v.)', definition: 'ส่งผลกระทบต่อ', example: 'The rain will affect the traffic.' }, word2: { term: 'Effect', read: 'เอฟ-<span class="stress">เฟคท์</span>', pos: '(n.)', definition: 'ผลกระทบ, ผลลัพธ์', example: 'The effect of the medicine was immediate.' }, explanation: 'ส่วนใหญ่ <strong>Affect</strong> จะเป็น "กริยา" (ส่งผล) ส่วน <strong>Effect</strong> จะเป็น "คำนาม" (ผลกระทบ)' },
+        { pairId: 'allusion_illusion', word1: { term: 'Allusion', read: 'อะ-<span class="stress">ลู</span>-เชิน', pos: '(n.)', definition: 'การพาดพิง, การกล่าวถึงโดยนัย', example: 'The book is full of allusions to Shakespeare.' }, word2: { term: 'Illusion', read: 'อิล-<span class="stress">ลู</span>-เชิน', pos: '(n.)', definition: 'ภาพลวงตา, สิ่งลวงตา', example: 'The magician created the illusion of a floating woman.' }, explanation: '<strong>Allusion</strong> คือ "การพาดพิง" ถึงสิ่งอื่น ส่วน <strong>Illusion</strong> คือ "ภาพลวงตา" ที่หลอกการรับรู้' },
+        { pairId: 'altar_alter', word1: { term: 'Altar', read: '<span class="stress">ออล</span>-ทาร์', pos: '(n.)', definition: 'แท่นบูชา', example: 'They made an offering at the altar.' }, word2: { term: 'Alter', read: '<span class="stress">ออล</span>-เทอร์', pos: '(v.)', definition: 'เปลี่ยนแปลง, แก้ไข', example: 'I need to alter these pants; they are too long.' }, explanation: '<strong>Altar</strong> คือ "แท่นบูชา" (คำนาม) ส่วน <strong>Alter</strong> คือ "การเปลี่ยนแปลง" (กริยา)' },
+        { pairId: 'bare_bear', word1: { term: 'Bare', read: 'แบร์', pos: '(adj.)', definition: 'เปลือยเปล่า, โล่งเตียน', example: 'He walked on the beach with bare feet.' }, word2: { term: 'Bear', read: 'แบร์', pos: '(n./v.)', definition: 'หมี, อดทน', example: 'I can\'t bear this heat.' }, explanation: '<strong>Bare</strong> คือ "ความว่างเปล่า" (คุณศัพท์) ส่วน <strong>Bear</strong> คือ "หมี" หรือ "การอดทน"' },
+        { pairId: 'brake_break', word1: { term: 'Brake', read: 'เบรค', pos: '(n./v.)', definition: 'เบรก, หยุด', example: 'He slammed on the brakes.' }, word2: { term: 'Break', read: 'เบรค', pos: '(v./n.)', definition: 'ทำให้แตก, หยุดพัก', example: 'Be careful not to break the glass.' }, explanation: '<strong>Brake</strong> ใช้กับ "การหยุดรถ" ส่วน <strong>Break</strong> ใช้กับ "การแตกหัก" หรือ "การหยุดพัก"' },
+        { pairId: 'complement_compliment', word1: { term: 'Complement', read: '<span class="stress">คอม</span>-พลี-เมินท์', pos: '(v./n.)', definition: 'ส่วนเสริม, ทำให้สมบูรณ์', example: 'The wine complements the cheese perfectly.' }, word2: { term: 'Compliment', read: '<span class="stress">คอม</span>-พลิ-เมินท์', pos: '(v./n.)', definition: 'คำชม, ชมเชย', example: 'She gave me a nice compliment on my new dress.' }, explanation: '<strong>Compl<u>e</u>ment</strong> (มี e) คือ "ส่วนเสริม" ให้สมบูรณ์ ส่วน <strong>Compl<u>i</u>ment</strong> (มี i) คือ "คำชม"' },
+        { pairId: 'desert_dessert', word1: { term: 'Desert', read: '<span class="stress">เด</span>-เซิร์ท', pos: '(n.)', definition: 'ทะเลทราย', example: 'The Sahara is a vast desert.' }, word2: { term: 'Dessert', read: 'ดิ-<span class="stress">เซิร์ท</span>', pos: '(n.)', definition: 'ของหวาน', example: 'What\'s for dessert tonight?' }, explanation: '<strong>Desert</strong> (เน้นพยางค์แรก) คือ "ทะเลทราย" ส่วน <strong>Dessert</strong> (เน้นพยางค์หลัง) คือ "ของหวาน"' },
+        { pairId: 'elicit_illicit', word1: { term: 'Elicit', read: 'อิ-<span class="stress">ลิ</span>-ซิท', pos: '(v.)', definition: 'ดึงออกมา (ข้อมูล, คำตอบ)', example: 'The lawyer tried to elicit the truth from the witness.' }, word2: { term: 'Illicit', read: 'อิล-<span class="stress">ลิ</span>-ซิท', pos: '(adj.)', definition: 'ที่ผิดกฎหมาย', example: 'He was arrested for selling illicit drugs.' }, explanation: '<strong>Elicit</strong> คือ "การดึงข้อมูลออกมา" ส่วน <strong>Illicit</strong> คือ "สิ่งที่ผิดกฎหมาย"' },
+        { pairId: 'farther_further', word1: { term: 'Farther', read: '<span class="stress">ฟา</span>-เธอร์', pos: '(adv./adj.)', definition: 'ไกลออกไป (ในเชิงระยะทางที่วัดได้)', example: 'The gas station is farther down the road.' }, word2: { term: 'Further', read: '<span class="stress">เฟอ</span>-เธอร์', pos: '(adv./adj.)', definition: 'ไกลออกไป, เพิ่มเติม (ในเชิงนามธรรม)', example: 'We need to discuss this matter further.' }, explanation: '<strong>Farther</strong> ใช้กับ "ระยะทาง" ที่จับต้องได้ ส่วน <strong>Further</strong> ใช้กับ "ระดับ" หรือ "ขอบเขต" ที่เป็นนามธรรม' },
+        { pairId: 'its_its_con', word1: { term: 'Its', read: 'อิทส์', pos: '(possessive adj.)', definition: 'ของมัน', example: 'The dog wagged its tail.' }, word2: { term: 'It\'s', read: 'อิทส์', pos: '(contraction)', definition: 'มันคือ (ย่อมาจาก it is)', example: 'It\'s a beautiful day.' }, explanation: '<strong>Its</strong> (ไม่มี apostrophe) แสดงความเป็นเจ้าของ ส่วน <strong>It\'s</strong> (มี apostrophe) คือรูปย่อของ "it is" หรือ "it has"' },
+        { pairId: 'lay_lie', word1: { term: 'Lay', read: 'เลย์', pos: '(v.)', definition: 'วาง (ต้องมีกรรม)', example: 'Please lay the book on the table.' }, word2: { term: 'Lie', read: 'ลาย', pos: '(v.)', definition: 'นอนลง, โกหก (ไม่ต้องมีกรรม)', example: 'I\'m going to lie down for a nap.' }, explanation: '<strong>Lay</strong> คือ "วางบางสิ่งลง" (lay something) ส่วน <strong>Lie</strong> คือ "การนอนลง" ของตัวเอง (lie down)' },
+        { pairId: 'loose_lose', word1: { term: 'Loose', read: 'ลูส', pos: '(adj.)', definition: 'หลวม', example: 'My pants are too loose.' }, word2: { term: 'Lose', read: 'ลูซ', pos: '(v.)', definition: 'ทำหาย, แพ้', example: 'Don\'t lose your keys.' }, explanation: '<strong>Loose</strong> (มีเสียง s) คือ "หลวม" (คุณศัพท์) ส่วน <strong>Lose</strong> (มีเสียง z) คือ "ทำหาย" หรือ "แพ้" (กริยา)' },
+        { pairId: 'precede_proceed', word1: { term: 'Precede', read: 'พรี-<span class="stress">ซีด</span>', pos: '(v.)', definition: 'มาก่อน, นำหน้า', example: 'Lightning always precedes thunder.' }, word2: { term: 'Proceed', read: 'โพร-<span class="stress">ซีด</span>', pos: '(v.)', definition: 'ดำเนินการต่อไป', example: 'Please proceed with your presentation.' }, explanation: '<strong>Precede</strong> (pre = ก่อน) คือ "มาก่อน" ส่วน <strong>Proceed</strong> คือ "เดินหน้าต่อไป"' },
+        { pairId: 'than_then', word1: { term: 'Than', read: 'แดน', pos: '(conj.)', definition: 'กว่า (ใช้เปรียบเทียบ)', example: 'He is taller than me.' }, word2: { term: 'Then', read: 'เด็น', pos: '(adv.)', definition: 'หลังจากนั้น, งั้นก็', example: 'First we eat, then we watch a movie.' }, explanation: '<strong>Than</strong> (มี a) ใช้ "เปรียบเทียบ" ส่วน <strong>Then</strong> (มี e) ใช้กับ "เวลา" หรือ "ลำดับเหตุการณ์"' },
+        { pairId: 'weather_whether', word1: { term: 'Weather', read: '<span class="stress">เว</span>-เธอร์', pos: '(n.)', definition: 'สภาพอากาศ', example: 'The weather is nice today.' }, word2: { term: 'Whether', read: '<span class="stress">เว</span>-เธอร์', pos: '(conj.)', definition: 'หรือไม่', example: 'I don\'t know whether to go or not.' }, explanation: '<strong>Weather</strong> คือ "สภาพอากาศ" ส่วน <strong>Whether</strong> ใช้ในประโยคที่แสดง "ทางเลือก"' },
+        { pairId: 'advice_advise', word1: { term: 'Advice', read: 'แอด-<span class="stress">ไวซ์</span>', pos: '(n.)', definition: 'คำแนะนำ', example: 'Can you give me some advice?' }, word2: { term: 'Advise', read: 'แอด-<span class="stress">ไวซ์</span>', pos: '(v.)', definition: 'แนะนำ, ให้คำปรึกษา', example: 'I advise you to be careful.' }, explanation: '<strong>Advice</strong> (เสียง s) เป็น "คำนาม" ส่วน <strong>Advise</strong> (เสียง z) เป็น "กริยา"' },
+        { pairId: 'council_counsel', word1: { term: 'Council', read: '<span class="stress">เคาน์</span>-ซิล', pos: '(n.)', definition: 'สภา, คณะกรรมการ', example: 'The city council will meet tomorrow.' }, word2: { term: 'Counsel', read: '<span class="stress">เคาน์</span>-เซิล', pos: '(n./v.)', definition: 'คำปรึกษา, ให้คำปรึกษา', example: 'He needs legal counsel.' }, explanation: '<strong>Council</strong> คือ "สภา" หรือ "กลุ่มคน" ส่วน <strong>Counsel</strong> คือ "คำปรึกษา" หรือ "การให้คำปรึกษา"' },
+        { pairId: 'elude_allude', word1: { term: 'Elude', read: 'อิ-<span class="stress">ลูด</span>', pos: '(v.)', definition: 'หลบหลีก, หนีรอด', example: 'The clever fox eluded the hunters.' }, word2: { term: 'Allude', read: 'อะ-<span class="stress">ลูด</span>', pos: '(v.)', definition: 'พาดพิงถึง', example: 'She didn\'t mention his name, but she alluded to him.' }, explanation: '<strong>Elude</strong> คือ "การหลบหลีก" ส่วน <strong>Allude</strong> คือ "การพาดพิงถึง"' },
+        { pairId: 'ensure_insure', word1: { term: 'Ensure', read: 'เอน-<span class="stress">ชัวร์</span>', pos: '(v.)', definition: 'ทำให้แน่ใจ, รับรอง', example: 'Please ensure all the doors are locked.' }, word2: { term: 'Insure', read: 'อิน-<span class="stress">ชัวร์</span>', pos: '(v.)', definition: 'ประกัน, ทำประกัน', example: 'You should insure your house against fire.' }, explanation: '<strong>Ensure</strong> คือ "ทำให้แน่ใจ" ส่วน <strong>Insure</strong> คือ "การทำประกันภัย"' },
+        { pairId: 'eminent_imminent', word1: { term: 'Eminent', read: '<span class="stress">เอ</span>-มิ-เนินท์', pos: '(adj.)', definition: 'ที่มีชื่อเสียง, โดดเด่น', example: 'He is an eminent professor.' }, word2: { term: 'Imminent', read: '<span class="stress">อิ</span>-มิ-เนินท์', pos: '(adj.)', definition: 'ที่กำลังจะเกิดขึ้น, จวนตัว', example: 'A storm is imminent.' }, explanation: '<strong>Eminent</strong> คือ "ความโดดเด่น" ส่วน <strong>Imminent</strong> คือ "สิ่งที่กำลังจะมาถึง"' },
+        { pairId: 'gorilla_guerilla', word1: { term: 'Gorilla', read: 'กอ-<span class="stress">ริ</span>-ล่า', pos: '(n.)', definition: 'ลิงกอริลลา', example: 'The gorilla is a powerful primate.' }, word2: { term: 'Guerrilla', read: 'เกอ-<span class="stress">ริ</span>-ล่า', pos: '(n.)', definition: 'กองโจร', example: 'Guerrilla fighters attacked the army base.' }, explanation: '<strong>Gorilla</strong> คือ "ลิง" ส่วน <strong>Guerrilla</strong> คือ "นักรบกองโจร"' },
+        { pairId: 'historic_historical', word1: { term: 'Historic', read: 'ฮิส-<span class="stress">ทอ</span>-ริค', pos: '(adj.)', definition: 'ที่สำคัญในประวัติศาสตร์', example: 'This was a historic moment.' }, word2: { term: 'Historical', read: 'ฮิส-<span class="stress">ทอ</span>-ริ-เคิล', pos: '(adj.)', definition: 'ที่เกี่ยวกับประวัติศาสตร์', example: 'I enjoy reading historical novels.' }, explanation: '<strong>Historic</strong> คือ "เหตุการณ์ที่สำคัญ" ในประวัติศาสตร์ ส่วน <strong>Historical</strong> คือ "อะไรก็ได้ที่เกี่ยวข้อง" กับประวัติศาสตร์' },
+        { pairId: 'human_humane', word1: { term: 'Human', read: '<span class="stress">ฮิว</span>-เมิน', pos: '(n./adj.)', definition: 'มนุษย์, เกี่ยวกับมนุษย์', example: 'This is a basic human right.' }, word2: { term: 'Humane', read: 'ฮิว-<span class="stress">เมน</span>', pos: '(adj.)', definition: 'ที่มีมนุษยธรรม, ใจดี', example: 'We need a more humane way to treat animals.' }, explanation: '<strong>Human</strong> คือ "มนุษย์" ส่วน <strong>Humane</strong> คือ "ความมีมนุษยธรรม"' },
+        { pairId: 'prescribe_proscribe', word1: { term: 'Prescribe', read: 'พรี-<span class="stress">สไครบ์</span>', pos: '(v.)', definition: 'สั่งยา, กำหนด', example: 'The doctor prescribed some antibiotics.' }, word2: { term: 'Proscribe', read: 'โพร-<span class="stress">สไครบ์</span>', pos: '(v.)', definition: 'สั่งห้าม (อย่างเป็นทางการ)', example: 'The government proscribed the use of that chemical.' }, explanation: '<strong>Prescribe</strong> (pre = ก่อน) คือ "การสั่งยา" หรือ "กำหนด" ส่วน <strong>Proscribe</strong> (pro = แทน) คือ "การสั่งห้าม"' },
+        { pairId: 'raise_raze', word1: { term: 'Raise', read: 'เรซ', pos: '(v.)', definition: 'ยกขึ้น, เพิ่มขึ้น', example: 'Please raise your hand.' }, word2: { term: 'Raze', read: 'เรซ', pos: '(v.)', definition: 'ทำลายจนราบเป็นหน้ากลอง', example: 'The old buildings were razed to make way for a new mall.' }, explanation: '<strong>Raise</strong> คือ "การยกขึ้น" ส่วน <strong>Raze</strong> คือ "การทำลายจนเรียบ"' },
+        { pairId: 'stationery_stationary', word1: { term: 'Stationery', read: '<span class="stress">สเต</span>-เชิน-เน-รี่', pos: '(n.)', definition: 'เครื่องเขียน', example: 'I need to buy some new stationery.' }, word2: { term: 'Stationary', read: '<span class="stress">สเต</span>-เชิน-เน-รี่', pos: '(adj.)', definition: 'ที่หยุดนิ่ง, ไม่เคลื่อนที่', example: 'The car was stationary in traffic.' }, explanation: '<strong>Station<u>e</u>ry</strong> (มี e) คือ "เครื่องเขียน" ส่วน <strong>Station<u>a</u>ry</strong> (มี a) คือ "หยุดนิ่ง"' },
+        { pairId: 'thorough_through', word1: { term: 'Thorough', read: '<span class="stress">เธอ</span>-โร', pos: '(adj.)', definition: 'อย่างละเอียดถี่ถ้วน', example: 'He did a thorough search of the room.' }, word2: { term: 'Through', read: 'ธรู', pos: '(prep.)', definition: 'ผ่าน, ทะลุ', example: 'We drove through the tunnel.' }, explanation: '<strong>Thorough</strong> คือ "ความละเอียดถี่ถ้วน" ส่วน <strong>Through</strong> คือ "การผ่านไป"' },
+    ];
+
+    // --- JavaScript Logic ---
+    const grid = document.getElementById('word-pair-grid');
+    const modal = document.getElementById('main-modal');
+    const colors = [
+        'bg-pink-500', 'bg-purple-500', 'bg-blue-500',
+        'bg-emerald-500', 'bg-amber-500', 'bg-cyan-500', 'bg-rose-500'
+    ];
+
+    function createButtons() {
+        wordPairs.forEach((pair, index) => {
+            const button = document.createElement('button');
+            button.className = 'pair-button ' + colors[index % colors.length];
+            button.textContent = `${pair.word1.term} / ${pair.word2.term}`;
+            button.onclick = () => openModal(pair.pairId);
+            grid.appendChild(button);
+        });
+    }
+    
+    function openModal(pairId) {
+        const pairData = wordPairs.find(p => p.pairId === pairId);
+        if (!pairData) return;
+
+        // Populate Word 1
+        document.getElementById('word1-term').textContent = pairData.word1.term;
+        document.getElementById('word1-pos').textContent = pairData.word1.pos;
+        document.getElementById('word1-read').innerHTML = pairData.word1.read;
+        document.getElementById('word1-def').textContent = pairData.word1.definition;
+        document.getElementById('word1-ex').textContent = pairData.word1.example;
+
+        // Populate Word 2
+        document.getElementById('word2-container').style.display = 'block';
+        if (pairData.word2) {
+            document.getElementById('word2-term').textContent = pairData.word2.term;
+            document.getElementById('word2-pos').textContent = pairData.word2.pos;
+            document.getElementById('word2-read').innerHTML = pairData.word2.read;
+            document.getElementById('word2-def').textContent = pairData.word2.definition;
+            document.getElementById('word2-ex').textContent = pairData.word2.example;
+        } else {
+             document.getElementById('word2-container').style.display = 'none';
+        }
+
+        // Populate Explanation
+        document.getElementById('explanation').innerHTML = pairData.explanation;
+
+        // Show Modal
+        modal.classList.remove('hidden');
+        setTimeout(() => modal.classList.add('opacity-100', 'open'), 10);
+    }
+
+    function closeModal() {
+        modal.classList.remove('open', 'opacity-100');
+        setTimeout(() => modal.classList.add('hidden'), 250);
+    }
+
+    // Initial button creation
+    document.addEventListener('DOMContentLoaded', createButtons);
+
+    // Close with Escape key
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && !modal.classList.contains('hidden')) {
+            closeModal();
+        }
+    });
+    </script>
+</body>
+</html>

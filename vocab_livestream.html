@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mr. Vocab: Livestream Vocabulary Hub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Kanit', sans-serif;
+            background-color: #111827; /* gray-900 */
+        }
+        .main-container {
+            max-width: 900px;
+            margin: auto;
+        }
+        .text-glow {
+            text-shadow: 0 0 8px rgba(255, 255, 255, 0.3), 0 0 12px rgba(236, 72, 153, 0.5);
+        }
+        .card {
+            color: white;
+            padding: 1.5rem;
+            border-radius: 1rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+        .card-header {
+            font-size: 1.5rem; /* text-2xl */
+            font-weight: 700; /* font-bold */
+            border-bottom: 2px solid;
+            padding-bottom: 0.75rem;
+            margin-bottom: 1rem;
+            color: white; /* Changed header text to white */
+        }
+        .highlight {
+            font-weight: 600;
+            padding: 0.1rem 0.4rem;
+            border-radius: 0.25rem;
+        }
+        
+        /* Gradient Colors for Cards and Highlights */
+        .card-verbs { border-image: linear-gradient(to right, #22d3ee, #a5f3fc) 1; }
+        .highlight-verbs { background-color: #0891b2; color: #f0f9ff; }
+
+        .card-nouns { border-image: linear-gradient(to right, #a78bfa, #c4b5fd) 1; }
+        .highlight-nouns { background-color: #6d28d9; color: #f5f3ff; }
+
+        .card-scripts { border-image: linear-gradient(to right, #f472b6, #fbcfe8) 1; }
+        .highlight-scripts { background-color: #be185d; color: #fce7f3; }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+
+    <div class="main-container">
+        <header class="text-center mb-10">
+            <h1 class="text-4xl md:text-5xl font-bold text-white text-glow">🎤 Livestream Vocabulary Hub 🎬</h1>
+            <p class="text-gray-400 mt-2 text-lg">รวมทุกคำศัพท์และสคริปต์ที่ต้องรู้เกี่ยวกับการไลฟ์สด!</p>
+        </header>
+
+        <div>
+            <h2 class="card-header card-verbs">💥 กริยา (Verbs) ที่ต้องรู้!</h2>
+            <div class="card space-y-4">
+                <p class="text-xl font-semibold"><span class="highlight highlight-verbs">Go live / Start a livestream</span>: ออกอากาศสด, เริ่มไลฟ์</p>
+                <p class="pl-4 border-l-2 border-cyan-400">"I'm going to **go live** on Instagram tonight at 8 PM to answer your questions."<br><span class="text-gray-400">(คืนนี้ฉันจะ **ไลฟ์สด** ในไอจีตอนสองทุ่มเพื่อตอบคำถามนะคะ)</span></p>
+            </div>
+            <div class="card space-y-4">
+                <p class="text-xl font-semibold"><span class="highlight highlight-verbs">Host a livestream</span>: เป็นผู้จัดไลฟ์สด (ให้ความรู้สึกเป็นทางการขึ้นมาหน่อย)</p>
+                <p class="pl-4 border-l-2 border-cyan-400">"The company will **host a livestream** to launch their new product."<br><span class="text-gray-400">(บริษัทจะ **จัดไลฟ์สด** เพื่อเปิดตัวสินค้าใหม่)</span></p>
+            </div>
+            <div class="card space-y-4">
+                <p class="text-xl font-semibold"><span class="highlight highlight-verbs">Watch / Join a livestream</span>: ดูไลฟ์สด / เข้าร่วมดูไลฟ์สด</p>
+                <p class="pl-4 border-l-2 border-cyan-400">"Thousands of fans are expected to **join the livestream** of the final match."<br><span class="text-gray-400">(คาดว่าแฟนๆ หลายพันคนจะ **เข้าร่วมดูไลฟ์สด** การแข่งขันนัดชิงชนะเลิศ)</span></p>
+            </div>
+        </div>
+
+        <div class="mt-12">
+            <h2 class="card-header card-nouns">📝 คำนาม (Nouns) และวลีอื่นๆ</h2>
+            <div class="card space-y-4">
+                <p class="text-xl font-semibold"><span class="highlight highlight-nouns">Live broadcast</span>: การถ่ายทอดสด (ให้ความรู้สึกเป็นทางการ)</p>
+                <p class="pl-4 border-l-2 border-violet-400">"Welcome to our special **live broadcast** from the heart of Bangkok!"<br><span class="text-gray-400">(ยินดีต้อนรับสู่ **การถ่ายทอดสด** สุดพิเศษของเราจากใจกลางกรุงเทพมหานคร!)</span></p>
+            </div>
+            <div class="card space-y-4">
+                <p class="text-xl font-semibold"><span class="highlight highlight-nouns">Live session</span>: ช่วงเวลาไลฟ์สด (เหมาะกับการไลฟ์ที่มีหัวข้อเฉพาะ)</p>
+                <p class="pl-4 border-l-2 border-violet-400">"Join our **live session** tomorrow for an exclusive Q&A with the author."<br><span class="text-gray-400">(เข้าร่วม **ไลฟ์สด** ของเราในวันพรุ่งนี้เพื่อช่วงถาม-ตอบสุดพิเศษกับนักเขียน)</span></p>
+            </div>
+             <div class="card space-y-4">
+                <p class="text-xl font-semibold"><span class="highlight highlight-nouns">Real-time streaming</span>: การสตรีมแบบเรียลไทม์ (เป็นคำที่ค่อนข้างเทคนิค)</p>
+                <p class="pl-4 border-l-2 border-violet-400">"**Real-time streaming** has changed how we consume media."<br><span class="text-gray-400">(**การสตรีมแบบเรียลไทม์** ได้เปลี่ยนวิธีที่เราบริโภคสื่อไปแล้ว)</span></p>
+            </div>
+        </div>
+        
+        <div class="mt-12">
+            <h2 class="card-header card-scripts">✍️ ตัวอย่างสคริปต์สำหรับ MC ไลฟ์สด</h2>
+            <div class="card space-y-6">
+                <div>
+                    <h3 class="text-xl font-bold text-pink-400 mb-2">Script 1: ประกาศไลฟ์แบบสบายๆ (Casual Announcement)</h3>
+                    <p><strong>🇬🇧 English:</strong> "Hey everyone! Quick announcement: I'm planning to <strong class="highlight highlight-scripts">go live</strong> this Friday night at 7 PM. We'll be unboxing some new gadgets and I'd love for you all to <strong class="highlight highlight-scripts">join the livestream</strong>! See you there!"</p>
+                    <p class="mt-2"><strong>🇹🇭 Thai:</strong> "สวัสดีค่าทุกคน! ประกาศสั้นๆ นะคะ ศุกร์นี้ 1 ทุ่ม มีนัดกันน้าาา ครูจะ <strong class="highlight highlight-scripts">ไลฟ์สด</strong> แกะกล่องของเล่นใหม่ค่ะ อยากให้ทุกคนมา <strong class="highlight highlight-scripts">เข้าร่วมไลฟ์</strong> ด้วยกันเยอะๆ เลย! แล้วเจอกันค่ะ!"</p>
+                </div>
+                <hr class="border-gray-700">
+                <div>
+                    <h3 class="text-xl font-bold text-pink-400 mb-2">Script 2: แนะนำไลฟ์อีเวนต์ที่เป็นทางการ (Formal Event Intro)</h3>
+                    <p><strong>🇬🇧 English:</strong> "Good evening and welcome everyone. We're excited to <strong class="highlight highlight-scripts">host this livestream</strong> to unveil our latest collection. This special <strong class="highlight highlight-scripts">live broadcast</strong> will feature exclusive interviews and a behind-the-scenes look. We're glad you could join this <strong class="highlight highlight-scripts">live session</strong>."</p>
+                    <p class="mt-2"><strong>🇹🇭 Thai:</strong> "สวัสดีครับและยินดีต้อนรับทุกท่านครับ เราตื่นเต้นอย่างยิ่งที่ได้ <strong class="highlight highlight-scripts">จัดไลฟ์สดนี้ขึ้น</strong> เพื่อเปิดตัวคอลเลคชั่นล่าสุดของเราครับ สำหรับ <strong class="highlight highlight-scripts">การถ่ายทอดสด</strong> สุดพิเศษครั้งนี้ จะมีการสัมภาษณ์และภาพเบื้องหลังสุดเอ็กซ์คลูซีฟ เรายินดีอย่างยิ่งที่ทุกท่านได้เข้าร่วม <strong class="highlight highlight-scripts">ไลฟ์สดช่วง</strong> นี้นะครับ"</p>
+                </div>
+                <hr class="border-gray-700">
+                 <div>
+                    <h3 class="text-xl font-bold text-pink-400 mb-2">Script 3: ทักทายผู้ชมระหว่างไลฟ์ (Mid-stream Engagement)</h3>
+                    <p><strong>🇬🇧 English:</strong> "Hello to everyone who is just joining! Thank you for tuning in to <strong class="highlight highlight-scripts">watch our livestream</strong>. For those who just arrived, we're talking about the 5 keys to effective communication. It's great to see so many of you here for this <strong class="highlight highlight-scripts">live stream</strong>!"</p>
+                    <p class="mt-2"><strong>🇹🇭 Thai:</strong> "สวัสดีทุกๆ คนที่เพิ่งเข้ามานะคะ! ขอบคุณที่เข้ามา <strong class="highlight highlight-scripts">ดูไลฟ์สดของเรา</strong> นะคะ สำหรับคนที่เพิ่งมา ตอนนี้เรากำลังคุยกันถึง 5 กุญแจสำคัญของการสื่อสารอย่างมีประสิทธิภาพค่ะ ดีใจที่ได้เห็นทุกคนใน <strong class="highlight highlight-scripts">live stream</strong> นี้นะคะ!"</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>

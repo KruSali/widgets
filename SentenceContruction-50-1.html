@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kru Sali's English Explorer Cards (Master)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <style>
+        body { font-family: 'Kanit', sans-serif; background-color: #f8f9fa; display: flex; flex-direction: column; align-items: center; padding: 20px; }
+        .sentence-card { background-color: #ffffff; border: 1px solid #dee2e6; border-radius: 20px; padding: 30px; margin-bottom: 25px; max-width: 700px; width: 100%; box-shadow: 0 8px 16px rgba(0, 0, 0, 0.05); }
+        .card-header { font-size: 1.7rem; font-weight: 700; color: #343a40; border-bottom: 3px solid #fd7e14; padding-bottom: 15px; margin-bottom: 20px; }
+        .prompt { font-size: 1.1rem; color: #495057; margin-bottom: 15px; line-height: 1.6; }
+        .word-bank { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 25px; padding: 15px; background-color: #fff4e6; border-radius: 10px; }
+        .word-bank span { padding: 6px 14px; border-radius: 20px; font-size: 1rem; font-weight: 500; border: 1px solid transparent; }
+        .word-noun { background-color: #e7f5ff; color: #1c7ed6; border-color: #a5d8ff;}
+        .word-verb { background-color: #fff0f6; color: #d6336c; border-color: #f783ac;}
+        .word-adjective { background-color: #fff9e0; color: #f59f00; border-color: #ffd43b;}
+        .word-adverb { background-color: #ebfbee; color: #2f9e44; border-color: #8ce99a;}
+        .word-preposition { background-color: #e3fafc; color: #0b7285; border-color: #66d9e8;}
+        textarea { width: 100%; height: 100px; padding: 12px; border: 1px solid #ced4da; border-radius: 8px; font-family: 'Kanit', sans-serif; font-size: 1.1rem; box-sizing: border-box; resize: vertical; margin-bottom: 15px; }
+        .button-container { display: flex; }
+        button { background-color: #fa5252; color: white; border: none; padding: 12px 25px; font-size: 1rem; font-weight: 500; border-radius: 8px; cursor: pointer; transition: background-color 0.2s; }
+        button:hover { background-color: #c92a2a; }
+        .results-area { margin-top: 25px; }
+        .all-possible-answers { background-color: #e9ecef; padding: 20px; margin-top: 20px; border-radius: 8px; display: none; }
+        .all-possible-answers h4 { margin-top: 0; color: #343a40; }
+        .all-possible-answers ul { padding-left: 20px; }
+        .card-footer { text-align: right; font-size: 0.85rem; color: #868e96; margin-top: 25px; border-top: 1px solid #e9ecef; padding-top: 15px; }
+    </style>
+</head>
+<body>
+
+    <h1>การ์ดสำรวจประโยคภาษาอังกฤษ</h1>
+
+    <div class="sentence-card">
+        <h2 class="card-header">Card 1: Casual Conversation</h2>
+        <p class="prompt">ลองสำรวจดูว่าคำศัพท์เหล่านี้สร้างประโยคอะไรได้บ้าง</p>
+        <div class="word-bank"><span class="word-noun">the weather</span><span class="word-noun">the movie</span><span class="word-noun">your day</span><span class="word-preposition">I</span><span class="word-preposition">you</span><span class="word-verb">is</span><span class="word-verb">was</span><span class="word-verb">do</span><span class="word-verb">think</span><span class="word-verb">see</span><span class="word-adjective">good</span><span class="word-adjective">nice</span><span class="word-adjective">interesting</span><span class="word-adverb">really</span><span class="word-adverb">not</span><span class="word-preposition">and</span><span class="word-preposition">but</span><span class="word-preposition">what</span><span class="word-preposition">how</span></div>
+        <textarea placeholder="ลองพิมพ์ประโยคเพื่อฝึกฝนที่นี่..."></textarea>
+        <div class="button-container"><button onclick="toggleAllAnswers1()">แสดงประโยคตัวอย่าง</button></div>
+        <div class="results-area"><div id="all-possible-answers-1" class="all-possible-answers"><h4>ประโยคตัวอย่างที่เป็นไปได้</h4><ul id="possible-answers-list-1"></ul></div></div>
+        <div class="card-footer">จัดทำโดยครูสาลี่ อังกฤษฉบับคนเรียนไม่รู้เรื่อง</div>
+    </div>
+    <div class="sentence-card">
+        <h2 class="card-header">Card 2: Planning a Weekend</h2>
+        <p class="prompt">ลองสำรวจดูว่าคำศัพท์เหล่านี้สร้างประโยคอะไรได้บ้าง</p>
+        <div class="word-bank"><span class="word-noun">the beach</span><span class="word-noun">the park</span><span class="word-noun">friends</span><span class="word-preposition">we</span><span class="word-preposition">they</span><span class="word-verb">can</span><span class="word-verb">should</span><span class="word-verb">go to</span><span class="word-verb">meet</span><span class="word-verb">are</span><span class="word-adjective">fun</span><span class="word-adjective">busy</span><span class="word-adjective">free</span><span class="word-adverb">not</span><span class="word-adverb">maybe</span><span class="word-preposition">or</span><span class="word-preposition">so</span><span class="word-preposition">where</span><span class="word-preposition">when</span></div>
+        <textarea placeholder="ลองพิมพ์ประโยคเพื่อฝึกฝนที่นี่..."></textarea>
+        <div class="button-container"><button onclick="toggleAllAnswers2()">แสดงประโยคตัวอย่าง</button></div>
+        <div class="results-area"><div id="all-possible-answers-2" class="all-possible-answers"><h4>ประโยคตัวอย่างที่เป็นไปได้</h4><ul id="possible-answers-list-2"></ul></div></div>
+        <div class="card-footer">จัดทำโดยครูสาลี่ อังกฤษฉบับคนเรียนไม่รู้เรื่อง</div>
+    </div>
+    <div class="sentence-card">
+        <h2 class="card-header">Card 3: At a Restaurant</h2>
+        <p class="prompt">ลองสำรวจดูว่าคำศัพท์เหล่านี้สร้างประโยคอะไรได้บ้าง</p>
+        <div class="word-bank"><span class="word-noun">the food</span><span class="word-noun">the menu</span><span class="word-noun">water</span><span class="word-preposition">I</span><span class="word-preposition">we</span><span class="word-verb">would like</span><span class="word-verb">can</span><span class="word-verb">have</span><span class="word-verb">is</span><span class="word-verb">order</span><span class="word-adjective">delicious</span><span class="word-adjective">ready</span><span class="word-adjective">spicy</span><span class="word-adverb">not</span><span class="word-adverb">please</span><span class="word-preposition">and</span><span class="word-preposition">what</span></div>
+        <textarea placeholder="ลองพิมพ์ประโยคเพื่อฝึกฝนที่นี่..."></textarea>
+        <div class="button-container"><button onclick="toggleAllAnswers3()">แสดงประโยคตัวอย่าง</button></div>
+        <div class="results-area"><div id="all-possible-answers-3" class="all-possible-answers"><h4>ประโยคตัวอย่างที่เป็นไปได้</h4><ul id="possible-answers-list-3"></ul></div></div>
+        <div class="card-footer">จัดทำโดยครูสาลี่ อังกฤษฉบับคนเรียนไม่รู้เรื่อง</div>
+    </div>
+    <div class="sentence-card">
+        <h2 class="card-header">Card 4: Describing People</h2>
+        <p class="prompt">ลองสำรวจดูว่าคำศัพท์เหล่านี้สร้างประโยคอะไรได้บ้าง</p>
+        <div class="word-bank"><span class="word-noun">my brother</span><span class="word-noun">your friend</span><span class="word-preposition">he</span><span class="word-preposition">she</span><span class="word-verb">is</span><span class="word-verb">has</span><span class="word-verb">seems</span><span class="word-adjective">tall</span><span class="word-adjective">kind</span><span class="word-adjective">funny</span><span class="word-adjective">a good smile</span><span class="word-adverb">very</span><span class="word-adverb">not</span><span class="word-preposition">and</span><span class="word-preposition">but</span><span class="word-preposition">who</span><span class="word-preposition">what</span></div>
+        <textarea placeholder="ลองพิมพ์ประโยคเพื่อฝึกฝนที่นี่..."></textarea>
+        <div class="button-container"><button onclick="toggleAllAnswers4()">แสดงประโยคตัวอย่าง</button></div>
+        <div class="results-area"><div id="all-possible-answers-4" class="all-possible-answers"><h4>ประโยคตัวอย่างที่เป็นไปได้</h4><ul id="possible-answers-list-4"></ul></div></div>
+        <div class="card-footer">จัดทำโดยครูสาลี่ อังกฤษฉบับคนเรียนไม่รู้เรื่อง</div>
+    </div>
+    <div class="sentence-card">
+        <h2 class="card-header">Card 5: Shopping for Clothes</h2>
+        <p class="prompt">ลองสำรวจดูว่าคำศัพท์เหล่านี้สร้างประโยคอะไรได้บ้าง</p>
+        <div class="word-bank"><span class="word-noun">this shirt</span><span class="word-noun">that jacket</span><span class="word-noun">the price</span><span class="word-preposition">it</span><span class="word-preposition">I</span><span class="word-verb">like</span><span class="word-verb">love</span><span class="word-verb">is</span><span class="word-verb">costs</span><span class="word-verb">do</span><span class="word-adjective">expensive</span><span class="word-adjective">nice</span><span class="word-adjective">blue</span><span class="word-adverb">too</span><span class="word-adverb">not</span><span class="word-preposition">but</span><span class="word-preposition">how much</span></div>
+        <textarea placeholder="ลองพิมพ์ประโยคเพื่อฝึกฝนที่นี่..."></textarea>
+        <div class="button-container"><button onclick="toggleAllAnswers5()">แสดงประโยคตัวอย่าง</button></div>
+        <div class="results-area"><div id="all-possible-answers-5" class="all-possible-answers"><h4>ประโยคตัวอย่างที่เป็นไปได้</h4><ul id="possible-answers-list-5"></ul></div></div>
+        <div class="card-footer">จัดทำโดยครูสาลี่ อังกฤษฉบับคนเรียนไม่รู้เรื่อง</div>
+    </div>
+<div class="sentence-card">
+        <h2 class="card-header">Card 6: Health: At the Pharmacy</h2>
+        <p class="prompt">ลองสำรวจดูว่าคำศัพท์เหล่านี้สร้างประโยคอะไรได้บ้าง</p>
+        <div class="word-bank"><span class="word-preposition">I</span><span class="word-preposition">you</span><span class="word-noun">a headache</span><span class="word-noun">medicine</span><span class="word-noun">something</span><span class="word-verb">have</span><span class="word-verb">need</span><span class="word-verb">can</span><span class="word-verb">is</span><span class="word-verb">do</span><span class="word-adverb">not</span><span class="word-adjective">strong</span><span class="word-preposition">for</span><span class="word-preposition">what</span></div>
+        <textarea placeholder="ลองพิมพ์ประโยคเพื่อฝึกฝนที่นี่..."></textarea>
+        <div class="button-container"><button onclick="toggleAllAnswers6()">แสดงประโยคตัวอย่าง</button></div>
+        <div class="results-area"><div id="all-possible-answers-6" class="all-possible-answers"><h4>ประโยคตัวอย่างที่เป็นไปได้</h4><ul id="possible-answers-list-6"></ul></div></div>
+        <div class="card-footer">จัดทำโดยครูสาลี่ อังกฤษฉบับคนเรียนไม่รู้เรื่อง</div>
+    </div>
+    <div class="sentence-card">
+        <h2 class="card-header">Card 7: Hobbies: Talking about Music</h2>
+        <p class="prompt">ลองสำรวจดูว่าคำศัพท์เหล่านี้สร้างประโยคอะไรได้บ้าง</p>
+        <div class="word-bank"><span class="word-preposition">she</span><span class="word-noun">her favorite band</span><span class="word-noun">a new song</span><span class="word-noun">music</span><span class="word-verb">listens to</span><span class="word-verb">likes</span><span class="word-verb">is</span><span class="word-verb">does</span><span class="word-adverb">not</span><span class="word-adjective">rock</span><span class="word-adjective">pop</span><span class="word-preposition">what kind of</span><span class="word-preposition">and</span><span class="word-preposition">but</span></div>
+        <textarea placeholder="ลองพิมพ์ประโยคเพื่อฝึกฝนที่นี่..."></textarea>
+        <div class="button-container"><button onclick="toggleAllAnswers7()">แสดงประโยคตัวอย่าง</button></div>
+        <div class="results-area"><div id="all-possible-answers-7" class="all-possible-answers"><h4>ประโยคตัวอย่างที่เป็นไปได้</h4><ul id="possible-answers-list-7"></ul></div></div>
+        <div class="card-footer">จัดทำโดยครูสาลี่ อังกฤษฉบับคนเรียนไม่รู้เรื่อง</div>
+    </div>
+    <div class="sentence-card">
+        <h2 class="card-header">Card 8: Travel: At the Airport</h2>
+        <p class="prompt">ลองสำรวจดูว่าคำศัพท์เหล่านี้สร้างประโยคอะไรได้บ้าง</p>
+        <div class="word-bank"><span class="word-preposition">we</span><span class="word-noun">our flight</span><span class="word-noun">the gate</span><span class="word-noun">our bags</span><span class="word-verb">is</span><span class="word-verb">are</span><span class="word-verb">check in</span><span class="word-verb">find</span><span class="word-verb">can</span><span class="word-adverb">not</span><span class="word-adjective">delayed</span><span class="word-adjective">heavy</span><span class="word-preposition">where</span><span class="word-preposition">why</span></div>
+        <textarea placeholder="ลองพิมพ์ประโยคเพื่อฝึกฝนที่นี่..."></textarea>
+        <div class="button-container"><button onclick="toggleAllAnswers8()">แสดงประโยคตัวอย่าง</button></div>
+        <div class="results-area"><div id="all-possible-answers-8" class="all-possible-answers"><h4>ประโยคตัวอย่างที่เป็นไปได้</h4><ul id="possible-answers-list-8"></ul></div></div>
+        <div class="card-footer">จัดทำโดยครูสาลี่ อังกฤษฉบับคนเรียนไม่รู้เรื่อง</div>
+    </div>
+    <div class="sentence-card">
+        <h2 class="card-header">Card 9: Work: Writing an Email</h2>
+        <p class="prompt">ลองสำรวจดูว่าคำศัพท์เหล่านี้สร้างประโยคอะไรได้บ้าง</p>
+        <div class="word-bank"><span class="word-preposition">he</span><span class="word-noun">an email</span><span class="word-noun">an attachment</span><span class="word-noun">his report</span><span class="word-verb">sends</span><span class="word-verb">writes</span><span class="word-verb">forgets</span><span class="word-verb">attaches</span><span class="word-verb">did</span><span class="word-adverb">not</span><span class="word-adjective">important</span><span class="word-adjective">urgent</span><span class="word-preposition">to</span><span class="word-preposition">about</span><span class="word-preposition">why</span></div>
+        <textarea placeholder="ลองพิมพ์ประโยคเพื่อฝึกฝนที่นี่..."></textarea>
+        <div class="button-container"><button onclick="toggleAllAnswers9()">แสดงประโยคตัวอย่าง</button></div>
+        <div class="results-area"><div id="all-possible-answers-9" class="all-possible-answers"><h4>ตัวอย่างประโยคที่เป็นไปได้</h4><ul id="possible-answers-list-9"></ul></div></div>
+        <div class="card-footer">จัดทำโดยครูสาลี่ อังกฤษฉบับคนเรียนไม่รู้เรื่อง</div>
+    </div>
+    <div class="sentence-card">
+        <h2 class="card-header">Card 10: Home: Talking about Pets</h2>
+        <p class="prompt">ลองสำรวจดูว่าคำศัพท์เหล่านี้สร้างประโยคอะไรได้บ้าง</p>
+        <div class="word-bank"><span class="word-preposition">they</span><span class="word-noun">a dog</span><span class="word-noun">a cat</span><span class="word-noun">its name</span><span class="word-verb">is</span><span class="word-verb">have</span><span class="word-verb">love</span><span class="word-verb">do</span><span class="word-adverb">not</span><span class="word-adjective">playful</span><span class="word-adjective">lazy</span><span class="word-adjective">cute</span><span class="word-preposition">and</span><span class="word-preposition">what</span></div>
+        <textarea placeholder="ลองพิมพ์ประโยคเพื่อฝึกฝนที่นี่..."></textarea>
+        <div class="button-container"><button onclick="toggleAllAnswers10()">แสดงประโยคตัวอย่าง</button></div>
+        <div class="results-area"><div id="all-possible-answers-10" class="all-possible-answers"><h4>ประโยคตัวอย่างที่เป็นไปได้</h4><ul id="possible-answers-list-10"></ul></div></div>
+        <div class="card-footer">จัดทำโดยครูสาลี่ อังกฤษฉบับคนเรียนไม่รู้เรื่อง</div>
+    </div>
+<div class="sentence-card">
+        <h2 class="card-header">Card 11: Travel: Asking for Directions</h2>
+        <p class="prompt">ลองสำรวจดูว่าคำศัพท์เหล่านี้สร้างประโยคอะไรได้บ้าง</p>
+        <div class="word-bank"><span class="word-noun">the museum</span><span class="word-noun">the train station</span><span class="word-noun">a bank</span><span class="word-preposition">I</span><span class="word-preposition">it</span><span class="word-verb">is</span><span class="word-verb">can</span><span class="word-verb">go</span><span class="word-verb">tell me</span><span class="word-verb">am</span><span class="word-adjective">lost</span><span class="word-adjective">far</span><span class="word-adverb">not</span><span class="word-preposition">where</span><span class="word-preposition">how</span><span class="word-preposition">near here</span></div>
+        <textarea placeholder="ลองพิมพ์ประโยคเพื่อฝึกฝนที่นี่..."></textarea>
+        <div class="button-container"><button onclick="toggleAllAnswers11()">แสดงประโยคตัวอย่าง</button></div>
+        <div class="results-area"><div id="all-possible-answers-11" class="all-possible-answers"><h4>ประโยคตัวอย่างที่เป็นไปได้</h4><ul id="possible-answers-list-11"></ul></div></div>
+        <div class="card-footer">จัดทำโดยครูสาลี่ อังกฤษฉบับคนเรียนไม่รู้เรื่อง</div>
+    </div>
+    <div class="sentence-card">
+        <h2 class="card-header">Card 12: Health: Describing Pain</h2>
+        <p class="prompt">ลองสำรวจดูว่าคำศัพท์เหล่านี้สร้างประโยคอะไรได้บ้าง</p>
+        <div class="word-bank"><span class="word-noun">my head</span><span class="word-noun">my back</span><span class="word-noun">a sharp pain</span><span class="word-preposition">I</span><span class="word-preposition">it</span><span class="word-verb">hurts</span><span class="word-verb">have</span><span class="word-verb">is</span><span class="word-verb">does</span><span class="word-adverb">not</span><span class="word-adjective">dull</span><span class="word-adjective">constant</span><span class="word-preposition">where</span><span class="word-preposition">in</span></div>
+        <textarea placeholder="ลองพิมพ์ประโยคเพื่อฝึกฝนที่นี่..."></textarea>
+        <div class="button-container"><button onclick="toggleAllAnswers12()">แสดงประโยคตัวอย่าง</button></div>
+        <div class="results-area"><div id="all-possible-answers-12" class="all-possible-answers"><h4>ประโยคตัวอย่างที่เป็นไปได้</h4><ul id="possible-answers-list-12"></ul></div></div>
+        <div class="card-footer">จัดทำโดยครูสาลี่ อังกฤษฉบับคนเรียนไม่รู้เรื่อง</div>
+    </div>
+    <div class="sentence-card">
+        <h2 class="card-header">Card 13: Work: In a Meeting</h2>
+        <p class="prompt">ลองสำรวจดูว่าคำศัพท์เหล่านี้สร้างประโยคอะไรได้บ้าง</p>
+        <div class="word-bank"><span class="word-noun">the project</span><span class="word-noun">an idea</span><span class="word-noun">the presentation</span><span class="word-preposition">we</span><span class="word-preposition">I</span><span class="word-verb">discuss</span><span class="word-verb">agree</span><span class="word-verb">is</span><span class="word-verb">do</span><span class="word-adverb">not</span><span class="word-adjective">important</span><span class="word-adjective">good</span><span class="word-preposition">what</span><span class="word-preposition">about</span><span class="word-preposition">with</span></div>
+        <textarea placeholder="ลองพิมพ์ประโยคเพื่อฝึกฝนที่นี่..."></textarea>
+        <div class="button-container"><button onclick="toggleAllAnswers13()">แสดงประโยคตัวอย่าง</button></div>
+        <div class="results-area"><div id="all-possible-answers-13" class="all-possible-answers"><h4>ประโยคตัวอย่างที่เป็นไปได้</h4><ul id="possible-answers-list-13"></ul></div></div>
+        <div class="card-footer">จัดทำโดยครูสาลี่ อังกฤษฉบับคนเรียนไม่รู้เรื่อง</div>
+    </div>
+    <div class="sentence-card">
+        <h2 class="card-header">Card 14: Socializing: Making New Friends</h2>
+        <p class="prompt">ลองสำรวจดูว่าคำศัพท์เหล่านี้สร้างประโยคอะไรได้บ้าง</p>
+        <div class="word-bank"><span class="word-noun">your name</span><span class="word-noun">my name</span><span class="word-noun">a coffee</span><span class="word-preposition">you</span><span class="word-preposition">we</span><span class="word-verb">is</span><span class="word-verb">are</span><span class="word-verb">do</span><span class="word-verb">should</span><span class="word-verb">get</span><span class="word-adjective">new here</span><span class="word-adverb">not</span><span class="word-preposition">what</span><span class="word-preposition">sometime</span></div>
+        <textarea placeholder="ลองพิมพ์ประโยคเพื่อฝึกฝนที่นี่..."></textarea>
+        <div class="button-container"><button onclick="toggleAllAnswers14()">แสดงประโยคตัวอย่าง</button></div>
+        <div class="results-area"><div id="all-possible-answers-14" class="all-possible-answers"><h4>ประโยคตัวอย่างที่เป็นไปได้</h4><ul id="possible-answers-list-14"></ul></div></div>
+        <div class="card-footer">จัดทำโดยครูสาลี่ อังกฤษฉบับคนเรียนไม่รู้เรื่อง</div>
+    </div>
+    <div class="sentence-card">
+        <h2 class="card-header">Card 15: Hobbies: Talking About Movies</h2>
+        <p class="prompt">ลองสำรวจดูว่าคำศัพท์เหล่านี้สร้างประโยคอะไรได้บ้าง</p>
+        <div class="word-bank"><span class="word-noun">a good movie</span><span class="word-noun">the story</span><span class="word-noun">the actor</span><span class="word-preposition">you</span><span class="word-preposition">it</span><span class="word-verb">was</span><span class="word-verb">liked</span><span class="word-verb">have seen</span><span class="word-verb">did</span><span class="word-adverb">not</span><span class="word-adjective">funny</span><span class="word-adjective">boring</span><span class="word-preposition">what</span><span class="word-preposition">about</span></div>
+        <textarea placeholder="ลองพิมพ์ประโยคเพื่อฝึกฝนที่นี่..."></textarea>
+        <div class="button-container"><button onclick="toggleAllAnswers15()">แสดงประโยคตัวอย่าง</button></div>
+        <div class="results-area"><div id="all-possible-answers-15" class="all-possible-answers"><h4>ประโยคตัวอย่างที่เป็นไปได้</h4><ul id="possible-answers-list-15"></ul></div></div>
+        <div class="card-footer">จัดทำโดยครูสาลี่ อังกฤษฉบับคนเรียนไม่รู้เรื่อง</div>
+    </div>
+<div class="sentence-card">
+        <h2 class="card-header">Card 16: Technology: Using a Smartphone</h2>
+        <p class="prompt">ลองสำรวจดูว่าคำศัพท์เหล่านี้สร้างประโยคอะไรได้บ้าง</p>
+        <div class="word-bank"><span class="word-noun">my phone</span><span class="word-noun">the battery</span><span class="word-noun">a new app</span><span class="word-noun">a photo</span><span class="word-preposition">I</span><span class="word-preposition">it</span><span class="word-verb">is</span><span class="word-verb">has</span><span class="word-verb">take</span><span class="word-verb">download</span><span class="word-verb">can</span><span class="word-adverb">not</span><span class="word-adjective">low</span><span class="word-adjective">full</span><span class="word-preposition">why</span><span class="word-preposition">how</span></div>
+        <textarea placeholder="ลองพิมพ์ประโยคเพื่อฝึกฝนที่นี่..."></textarea>
+        <div class="button-container"><button onclick="toggleAllAnswers16()">แสดงประโยคตัวอย่าง</button></div>
+        <div class="results-area"><div id="all-possible-answers-16" class="all-possible-answers"><h4>ประโยคตัวอย่างที่เป็นไปได้</h4><ul id="possible-answers-list-16"></ul></div></div>
+        <div class="card-footer">จัดทำโดยครูสาลี่ อังกฤษฉบับคนเรียนไม่รู้เรื่อง</div>
+    </div>
+    <div class="sentence-card">
+        <h2 class="card-header">Card 17: Weather: Talking about Seasons</h2>
+        <p class="prompt">ลองสำรวจดูว่าคำศัพท์เหล่านี้สร้างประโยคอะไรได้บ้าง</p>
+        <div class="word-bank"><span class="word-noun">the weather</span><span class="word-noun">the summer</span><span class="word-noun">the winter</span><span class="word-preposition">I</span><span class="word-preposition">you</span><span class="word-verb">is</span><span class="word-verb">like</span><span class="word-verb">do</span><span class="word-adverb">not</span><span class="word-adjective">hot</span><span class="word-adjective">cold</span><span class="word-adjective">rainy</span><span class="word-preposition">which season</span><span class="word-preposition">because</span></div>
+        <textarea placeholder="ลองพิมพ์ประโยคเพื่อฝึกฝนที่นี่..."></textarea>
+        <div class="button-container"><button onclick="toggleAllAnswers17()">แสดงประโยคตัวอย่าง</button></div>
+        <div class="results-area"><div id="all-possible-answers-17" class="all-possible-answers"><h4>ประโยคตัวอย่างที่เป็นไปได้</h4><ul id="possible-answers-list-17"></ul></div></div>
+        <div class="card-footer">จัดทำโดยครูสาลี่ อังกฤษฉบับคนเรียนไม่รู้เรื่อง</div>
+    </div>
+    <div class="sentence-card">
+        <h2 class="card-header">Card 18: Socializing: Giving Compliments</h2>
+        <p class="prompt">ลองสำรวจดูว่าคำศัพท์เหล่านี้สร้างประโยคอะไรได้บ้าง</p>
+        <div class="word-bank"><span class="word-noun">your dress</span><span class="word-noun">your hair</span><span class="word-noun">your shoes</span><span class="word-preposition">it</span><span class="word-preposition">they</span><span class="word-verb">looks</span><span class="word-verb">is</span><span class="word-verb">are</span><span class="word-preposition">I</span><span class="word-adverb">really</span><span class="word-verb">like</span><span class="word-verb">love</span><span class="word-adverb">not</span><span class="word-adjective">new</span><span class="word-adjective">beautiful</span><span class="word-preposition">where</span><span class="word-verb">did</span><span class="word-verb">get</span></div>
+        <textarea placeholder="ลองพิมพ์ประโยคเพื่อฝึกฝนที่นี่..."></textarea>
+        <div class="button-container"><button onclick="toggleAllAnswers18()">แสดงประโยคตัวอย่าง</button></div>
+        <div class="results-area"><div id="all-possible-answers-18" class="all-possible-answers"><h4>ประโยคตัวอย่างที่เป็นไปได้</h4><ul id="possible-answers-list-18"></ul></div></div>
+        <div class="card-footer">จัดทำโดยครูสาลี่ อังกฤษฉบับคนเรียนไม่รู้เรื่อง</div>
+    </div>
+    <div class="sentence-card">
+        <h2 class="card-header">Card 19: Work: Talking about a Colleague</h2>
+        <p class="prompt">ลองสำรวจดูว่าคำศัพท์เหล่านี้สร้างประโยคอะไรได้บ้าง</p>
+        <div class="word-bank"><span class="word-noun">my colleague</span><span class="word-noun">the new employee</span><span class="word-preposition">he</span><span class="word-preposition">she</span><span class="word-verb">is</span><span class="word-verb">works</span><span class="word-verb">seems</span><span class="word-verb">does</span><span class="word-adverb">not</span><span class="word-adjective">helpful</span><span class="word-adjective">friendly</span><span class="word-adjective">hard</span><span class="word-adverb">very</span><span class="word-preposition">who</span><span class="word-preposition">what</span></div>
+        <textarea placeholder="ลองพิมพ์ประโยคเพื่อฝึกฝนที่นี่..."></textarea>
+        <div class="button-container"><button onclick="toggleAllAnswers19()">แสดงประโยคตัวอย่าง</button></div>
+        <div class="results-area"><div id="all-possible-answers-19" class="all-possible-answers"><h4>ประโยคตัวอย่างที่เป็นไปได้</h4><ul id="possible-answers-list-19"></ul></div></div>
+        <div class="card-footer">จัดทำโดยครูสาลี่ อังกฤษฉบับคนเรียนไม่รู้เรื่อง</div>
+    </div>
+    <div class="sentence-card">
+        <h2 class="card-header">Card 20: Home: Household Problems</h2>
+        <p class="prompt">ลองสำรวจดูว่าคำศัพท์เหล่านี้สร้างประโยคอะไรได้บ้าง</p>
+        <div class="word-bank"><span class="word-noun">the sink</span><span class="word-noun">the air conditioner</span><span class="word-noun">the roof</span><span class="word-preposition">it</span><span class="word-preposition">I</span><span class="word-verb">is</span><span class="word-verb">works</span><span class="word-verb">leaks</span><span class="word-verb">can</span><span class="word-adverb">not</span><span class="word-adjective">broken</span><span class="word-verb">fix</span><span class="word-preposition">who</span><span class="word-preposition">why</span></div>
+        <textarea placeholder="ลองพิมพ์ประโยคเพื่อฝึกฝนที่นี่..."></textarea>
+        <div class="button-container"><button onclick="toggleAllAnswers20()">แสดงประโยคตัวอย่าง</button></div>
+        <div class="results-area"><div id="all-possible-answers-20" class="all-possible-answers"><h4>ประโยคตัวอย่างที่เป็นไปได้</h4><ul id="possible-answers-list-20"></ul></div></div>
+        <div class="card-footer">จัดทำโดยครูสาลี่ อังกฤษฉบับคนเรียนไม่รู้เรื่อง</div>
+    </div>
+<div class="sentence-card">
+        <h2 class="card-header">Card 21: Socializing: Agreeing & Disagreeing</h2>
+        <p class="prompt">ลองสำรวจดูว่าคำศัพท์เหล่านี้สร้างประโยคอะไรได้บ้าง</p>
+        <div class="word-bank"><span class="word-preposition">I</span><span class="word-preposition">you</span><span class="word-noun">your idea</span><span class="word-noun">that point</span><span class="word-verb">agree</span><span class="word-verb">see</span><span class="word-verb">think so</span><span class="word-verb">is</span><span class="word-verb">do</span><span class="word-adverb">not</span><span class="word-adjective">good</span><span class="word-adjective">right</span><span class="word-preposition">with</span><span class="word-preposition">but</span><span class="word-preposition">why</span></div>
+        <textarea placeholder="ลองพิมพ์ประโยคเพื่อฝึกฝนที่นี่..."></textarea>
+        <div class="button-container"><button onclick="toggleAllAnswers21()">แสดงประโยคตัวอย่าง</button></div>
+        <div class="results-area"><div id="all-possible-answers-21" class="all-possible-answers"><h4>ประโยคตัวอย่างที่เป็นไปได้</h4><ul id="possible-answers-list-21"></ul></div></div>
+        <div class="card-footer">จัดทำโดยครูสาลี่ อังกฤษฉบับคนเรียนไม่รู้เรื่อง</div>
+    </div>
+    <div class="sentence-card">
+        <h2 class="card-header">Card 22: Work: Asking for Help</h2>
+        <p class="prompt">ลองสำรวจดูว่าคำศัพท์เหล่านี้สร้างประโยคอะไรได้บ้าง</p>
+        <div class="word-bank"><span class="word-preposition">you</span><span class="word-preposition">I</span><span class="word-noun">a minute</span><span class="word-noun">this task</span><span class="word-verb">can</span><span class="word-verb">have</span><span class="word-verb">help me</span><span class="word-verb">are</span><span class="word-verb">do</span><span class="word-adverb">not</span><span class="word-adjective">busy</span><span class="word-adjective">difficult</span><span class="word-preposition">with</span><span class="word-adverb">please</span></div>
+        <textarea placeholder="ลองพิมพ์ประโยคเพื่อฝึกฝนที่นี่..."></textarea>
+        <div class="button-container"><button onclick="toggleAllAnswers22()">แสดงประโยคตัวอย่าง</button></div>
+        <div class="results-area"><div id="all-possible-answers-22" class="all-possible-answers"><h4>ประโยคตัวอย่างที่เป็นไปได้</h4><ul id="possible-answers-list-22"></ul></div></div>
+        <div class="card-footer">จัดทำโดยครูสาลี่ อังกฤษฉบับคนเรียนไม่รู้เรื่อง</div>
+    </div>
+    <div class="sentence-card">
+        <h2 class="card-header">Card 23: Travel: At a Souvenir Shop</h2>
+        <p class="prompt">ลองสำรวจดูว่าคำศัพท์เหล่านี้สร้างประโยคอะไรได้บ้าง</p>
+        <div class="word-bank"><span class="word-noun">a postcard</span><span class="word-noun">a magnet</span><span class="word-noun">this souvenir</span><span class="word-preposition">I</span><span class="word-preposition">it</span><span class="word-verb">will take</span><span class="word-verb">like</span><span class="word-verb">is</span><span class="word-verb">costs</span><span class="word-adverb">not</span><span class="word-adjective">expensive</span><span class="word-adjective">local</span><span class="word-preposition">how much</span></div>
+        <textarea placeholder="ลองพิมพ์ประโยคเพื่อฝึกฝนที่นี่..."></textarea>
+        <div class="button-container"><button onclick="toggleAllAnswers23()">แสดงประโยคตัวอย่าง</button></div>
+        <div class="results-area"><div id="all-possible-answers-23" class="all-possible-answers"><h4>ประโยคตัวอย่างที่เป็นไปได้</h4><ul id="possible-answers-list-23"></ul></div></div>
+        <div class="card-footer">จัดทำโดยครูสาลี่ อังกฤษฉบับคนเรียนไม่รู้เรื่อง</div>
+    </div>
+    <div class="sentence-card">
+        <h2 class="card-header">Card 24: Food: Talking about Allergies</h2>
+        <p class="prompt">ลองสำรวจดูว่าคำศัพท์เหล่านี้สร้างประโยคอะไรได้บ้าง</p>
+        <div class="word-bank"><span class="word-preposition">he</span><span class="word-noun">an allergy</span><span class="word-noun">peanuts</span><span class="word-noun">seafood</span><span class="word-noun">this dish</span><span class="word-verb">has</span><span class="word-verb">is</span><span class="word-verb">can</span><span class="word-verb">eat</span><span class="word-adjective">allergic</span><span class="word-adverb">not</span><span class="word-preposition">to</span><span class="word-preposition">what</span><span class="word-preposition">in</span></div>
+        <textarea placeholder="ลองพิมพ์ประโยคเพื่อฝึกฝนที่นี่..."></textarea>
+        <div class="button-container"><button onclick="toggleAllAnswers24()">แสดงประโยคตัวอย่าง</button></div>
+        <div class="results-area"><div id="all-possible-answers-24" class="all-possible-answers"><h4>ประโยคตัวอย่างที่เป็นไปได้</h4><ul id="possible-answers-list-24"></ul></div></div>
+        <div class="card-footer">จัดทำโดยครูสาลี่ อังกฤษฉบับคนเรียนไม่รู้เรื่อง</div>
+    </div>
+    <div class="sentence-card">
+        <h2 class="card-header">Card 25: Health: Making a Doctor's Appointment</h2>
+        <p class="prompt">ลองสำรวจดูว่าคำศัพท์เหล่านี้สร้างประโยคอะไรได้บ้าง</p>
+        <div class="word-bank"><span class="word-preposition">I</span><span class="word-noun">an appointment</span><span class="word-noun">the doctor</span><span class="word-verb">would like to make</span><span class="word-verb">see</span><span class="word-verb">is</span><span class="word-verb">can</span><span class="word-adjective">available</span><span class="word-adverb">not</span><span class="word-preposition">with</span><span class="word-preposition">when</span><span class="word-preposition">what time</span></div>
+        <textarea placeholder="ลองพิมพ์ประโยคเพื่อฝึกฝนที่นี่..."></textarea>
+        <div class="button-container"><button onclick="toggleAllAnswers25()">แสดงประโยคตัวอย่าง</button></div>
+        <div class="results-area"><div id="all-possible-answers-25" class="all-possible-answers"><h4>ประโยคตัวอย่างที่เป็นไปได้</h4><ul id="possible-answers-list-25"></ul></div></div>
+        <div class="card-footer">จัดทำโดยครูสาลี่ อังกฤษฉบับคนเรียนไม่รู้เรื่อง</div>
+    </div>
+    <div class="sentence-card">
+        <h2 class="card-header">Card 26: Home: Cleaning the House</h2>
+        <p class="prompt">ลองสำรวจดูว่าคำศัพท์เหล่านี้สร้างประโยคอะไรได้บ้าง</p>
+        <div class="word-bank"><span class="word-preposition">we</span><span class="word-noun">the house</span><span class="word-noun">the living room</span><span class="word-noun">the bathroom</span><span class="word-verb">need to clean</span><span class="word-verb">is</span><span class="word-verb">are</span><span class="word-verb">can</span><span class="word-adjective">messy</span><span class="word-adjective">clean</span><span class="word-adverb">not</span><span class="word-adverb">very</span><span class="word-preposition">why</span><span class="word-preposition">today</span></div>
+        <textarea placeholder="ลองพิมพ์ประโยคเพื่อฝึกฝนที่นี่..."></textarea>
+        <div class="button-container"><button onclick="toggleAllAnswers26()">แสดงประโยคตัวอย่าง</button></div>
+        <div class="results-area"><div id="all-possible-answers-26" class="all-possible-answers"><h4>ประโยคตัวอย่างที่เป็นไปได้</h4><ul id="possible-answers-list-26"></ul></div></div>
+        <div class="card-footer">จัดทำโดยครูสาลี่ อังกฤษฉบับคนเรียนไม่รู้เรื่อง</div>
+    </div>
+    <div class="sentence-card">
+        <h2 class="card-header">Card 27: Hobbies: Talking about Books</h2>
+        <p class="prompt">ลองสำรวจดูว่าคำศัพท์เหล่านี้สร้างประโยคอะไรได้บ้าง</p>
+        <div class="word-bank"><span class="word-preposition">you</span><span class="word-noun">a good book</span><span class="word-noun">the author</span><span class="word-noun">the story</span><span class="word-verb">read</span><span class="word-verb">is</span><span class="word-verb">was</span><span class="word-verb">did</span><span class="word-adjective">interesting</span><span class="word-adjective">famous</span><span class="word-adverb">not</span><span class="word-preposition">who</span><span class="word-preposition">about</span></div>
+        <textarea placeholder="ลองพิมพ์ประโยคเพื่อฝึกฝนที่นี่..."></textarea>
+        <div class="button-container"><button onclick="toggleAllAnswers27()">แสดงประโยคตัวอย่าง</button></div>
+        <div class="results-area"><div id="all-possible-answers-27" class="all-possible-answers"><h4>ประโยคตัวอย่างที่เป็นไปได้</h4><ul id="possible-answers-list-27"></ul></div></div>
+        <div class="card-footer">จัดทำโดยครูสาลี่ อังกฤษฉบับคนเรียนไม่รู้เรื่อง</div>
+    </div>
+    <div class="sentence-card">
+        <h2 class="card-header">Card 28: Technology: Internet & Wi-Fi</h2>
+        <p class="prompt">ลองสำรวจดูว่าคำศัพท์เหล่านี้สร้างประโยคอะไรได้บ้าง</p>
+        <div class="word-bank"><span class="word-noun">the Wi-Fi</span><span class="word-noun">the password</span><span class="word-noun">the connection</span><span class="word-preposition">I</span><span class="word-preposition">it</span><span class="word-verb">is</span><span class="word-verb">works</span><span class="word-verb">can</span><span class="word-verb">connect</span><span class="word-verb">have</span><span class="word-adverb">not</span><span class="word-adjective">slow</span><span class="word-adjective">strong</span><span class="word-preposition">what</span><span class="word-preposition">why</span></div>
+        <textarea placeholder="ลองพิมพ์ประโยคเพื่อฝึกฝนที่นี่..."></textarea>
+        <div class="button-container"><button onclick="toggleAllAnswers28()">แสดงประโยคตัวอย่าง</button></div>
+        <div class="results-area"><div id="all-possible-answers-28" class="all-possible-answers"><h4>ประโยคตัวอย่างที่เป็นไปได้</h4><ul id="possible-answers-list-28"></ul></div></div>
+        <div class="card-footer">จัดทำโดยครูสาลี่ อังกฤษฉบับคนเรียนไม่รู้เรื่อง</div>
+    </div>
+    <div class="sentence-card">
+        <h2 class="card-header">Card 29: Daily Life: A Lost Item</h2>
+        <p class="prompt">ลองสำรวจดูว่าคำศัพท์เหล่านี้สร้างประโยคอะไรได้บ้าง</p>
+        <div class="word-bank"><span class="word-preposition">I</span><span class="word-noun">my keys</span><span class="word-noun">my phone</span><span class="word-preposition">it</span><span class="word-verb">have lost</span><span class="word-verb">find</span><span class="word-verb">see</span><span class="word-verb">can</span><span class="word-verb">did</span><span class="word-adverb">not</span><span class="word-adverb">somewhere</span><span class="word-adjective">here</span><span class="word-preposition">where</span><span class="word-verb">help me</span></div>
+        <textarea placeholder="ลองพิมพ์ประโยคเพื่อฝึกฝนที่นี่..."></textarea>
+        <div class="button-container"><button onclick="toggleAllAnswers29()">แสดงประโยคตัวอย่าง</button></div>
+        <div class="results-area"><div id="all-possible-answers-29" class="all-possible-answers"><h4>ประโยคตัวอย่างที่เป็นไปได้</h4><ul id="possible-answers-list-29"></ul></div></div>
+        <div class="card-footer">จัดทำโดยครูสาลี่ อังกฤษฉบับคนเรียนไม่รู้เรื่อง</div>
+    </div>
+    <div class="sentence-card">
+        <h2 class="card-header">Card 30: Personal Feelings: Expressing Emotions</h2>
+        <p class="prompt">ลองสำรวจดูว่าคำศัพท์เหล่านี้สร้างประโยคอะไรได้บ้าง</p>
+        <div class="word-bank"><span class="word-preposition">you</span><span class="word-preposition">I</span><span class="word-noun">the news</span><span class="word-verb">feel</span><span class="word-verb">am</span><span class="word-verb">are</span><span class="word-verb">look</span><span class="word-adjective">happy</span><span class="word-adjective">sad</span><span class="word-adjective">surprised</span><span class="word-adverb">not</span><span class="word-adverb">so</span><span class="word-preposition">why</span><span class="word-preposition">about</span></div>
+        <textarea placeholder="ลองพิมพ์ประโยคเพื่อฝึกฝนที่นี่..."></textarea>
+        <div class="button-container"><button onclick="toggleAllAnswers30()">แสดงประโยคตัวอย่าง</button></div>
+        <div class="results-area"><div id="all-possible-answers-30" class="all-possible-answers"><h4>ประโยคตัวอย่างที่เป็นไปได้</h4><ul id="possible-answers-list-30"></ul></div></div>
+        <div class="card-footer">จัดทำโดยครูสาลี่ อังกฤษฉบับคนเรียนไม่รู้เรื่อง</div>
+    </div>
+<div class="sentence-card">
+        <h2 class="card-header">Card 31: Socializing: Agreeing & Disagreeing</h2>
+        <p class="prompt">ลองสำรวจดูว่าคำศัพท์เหล่านี้สร้างประโยคอะไรได้บ้าง</p>
+        <div class="word-bank"><span class="word-preposition">I</span><span class="word-preposition">you</span><span class="word-noun">your idea</span><span class="word-noun">that point</span><span class="word-verb">agree</span><span class="word-verb">see</span><span class="word-verb">think so</span><span class="word-verb">is</span><span class="word-verb">do</span><span class="word-adverb">not</span><span class="word-adjective">good</span><span class="word-adjective">right</span><span class="word-preposition">with</span><span class="word-preposition">but</span><span class="word-preposition">why</span></div>
+        <textarea placeholder="ลองพิมพ์ประโยคเพื่อฝึกฝนที่นี่..."></textarea>
+        <div class="button-container"><button onclick="toggleAllAnswers31()">แสดงประโยคตัวอย่าง</button></div>
+        <div class="results-area"><div id="all-possible-answers-31" class="all-possible-answers"><h4>ประโยคตัวอย่างที่เป็นไปได้</h4><ul id="possible-answers-list-31"></ul></div></div>
+        <div class="card-footer">จัดทำโดยครูสาลี่ อังกฤษฉบับคนเรียนไม่รู้เรื่อง</div>
+    </div>
+    <div class="sentence-card">
+        <h2 class="card-header">Card 32: Work: Asking for Help</h2>
+        <p class="prompt">ลองสำรวจดูว่าคำศัพท์เหล่านี้สร้างประโยคอะไรได้บ้าง</p>
+        <div class="word-bank"><span class="word-preposition">you</span><span class="word-preposition">I</span><span class="word-noun">a minute</span><span class="word-noun">this task</span><span class="word-verb">can</span><span class="word-verb">have</span><span class="word-verb">help me</span><span class="word-verb">are</span><span class="word-verb">do</span><span class="word-adverb">not</span><span class="word-adjective">busy</span><span class="word-adjective">difficult</span><span class="word-preposition">with</span><span class="word-adverb">please</span></div>
+        <textarea placeholder="ลองพิมพ์ประโยคเพื่อฝึกฝนที่นี่..."></textarea>
+        <div class="button-container"><button onclick="toggleAllAnswers32()">แสดงประโยคตัวอย่าง</button></div>
+        <div class="results-area"><div id="all-possible-answers-32" class="all-possible-answers"><h4>ประโยคตัวอย่างที่เป็นไปได้</h4><ul id="possible-answers-list-32"></ul></div></div>
+        <div class="card-footer">จัดทำโดยครูสาลี่ อังกฤษฉบับคนเรียนไม่รู้เรื่อง</div>
+    </div>
+    <div class="sentence-card">
+        <h2 class="card-header">Card 33: Travel: At a Souvenir Shop</h2>
+        <p class="prompt">ลองสำรวจดูว่าคำศัพท์เหล่านี้สร้างประโยคอะไรได้บ้าง</p>
+        <div class="word-bank"><span class="word-noun">a postcard</span><span class="word-noun">a magnet</span><span class="word-noun">this souvenir</span><span class="word-preposition">I</span><span class="word-preposition">it</span><span class="word-verb">will take</span><span class="word-verb">like</span><span class="word-verb">is</span><span class="word-verb">costs</span><span class="word-adverb">not</span><span class="word-adjective">expensive</span><span class="word-adjective">local</span><span class="word-preposition">how much</span></div>
+        <textarea placeholder="ลองพิมพ์ประโยคเพื่อฝึกฝนที่นี่..."></textarea>
+        <div class="button-container"><button onclick="toggleAllAnswers33()">แสดงประโยคตัวอย่าง</button></div>
+        <div class="results-area"><div id="all-possible-answers-33" class="all-possible-answers"><h4>ประโยคตัวอย่างที่เป็นไปได้</h4><ul id="possible-answers-list-33"></ul></div></div>
+        <div class="card-footer">จัดทำโดยครูสาลี่ อังกฤษฉบับคนเรียนไม่รู้เรื่อง</div>
+    </div>
+    <div class="sentence-card">
+        <h2 class="card-header">Card 34: Food: Talking about Allergies</h2>
+        <p class="prompt">ลองสำรวจดูว่าคำศัพท์เหล่านี้สร้างประโยคอะไรได้บ้าง</p>
+        <div class="word-bank"><span class="word-preposition">he</span><span class="word-noun">an allergy</span><span class="word-noun">peanuts</span><span class="word-noun">seafood</span><span class="word-noun">this dish</span><span class="word-verb">has</span><span class="word-verb">is</span><span class="word-verb">can</span><span class="word-verb">eat</span><span class="word-adjective">allergic</span><span class="word-adverb">not</span><span class="word-preposition">to</span><span class="word-preposition">what</span><span class="word-preposition">in</span></div>
+        <textarea placeholder="ลองพิมพ์ประโยคเพื่อฝึกฝนที่นี่..."></textarea>
+        <div class="button-container"><button onclick="toggleAllAnswers34()">แสดงประโยคตัวอย่าง</button></div>
+        <div class="results-area"><div id="all-possible-answers-34" class="all-possible-answers"><h4>ประโยคตัวอย่างที่เป็นไปได้</h4><ul id="possible-answers-list-34"></ul></div></div>
+        <div class="card-footer">จัดทำโดยครูสาลี่ อังกฤษฉบับคนเรียนไม่รู้เรื่อง</div>
+    </div>
+    <div class="sentence-card">
+        <h2 class="card-header">Card 35: Health: Making a Doctor's Appointment</h2>
+        <p class="prompt">ลองสำรวจดูว่าคำศัพท์เหล่านี้สร้างประโยคอะไรได้บ้าง</p>
+        <div class="word-bank"><span class="word-preposition">I</span><span class="word-noun">an appointment</span><span class="word-noun">the doctor</span><span class="word-verb">would like to make</span><span class="word-verb">see</span><span class="word-verb">is</span><span class="word-verb">can</span><span class="word-adjective">available</span><span class="word-adverb">not</span><span class="word-preposition">with</span><span class="word-preposition">when</span><span class="word-preposition">what time</span></div>
+        <textarea placeholder="ลองพิมพ์ประโยคเพื่อฝึกฝนที่นี่..."></textarea>
+        <div class="button-container"><button onclick="toggleAllAnswers35()">แสดงประโยคตัวอย่าง</button></div>
+        <div class="results-area"><div id="all-possible-answers-35" class="all-possible-answers"><h4>ประโยคตัวอย่างที่เป็นไปได้</h4><ul id="possible-answers-list-35"></ul></div></div>
+        <div class="card-footer">จัดทำโดยครูสาลี่ อังกฤษฉบับคนเรียนไม่รู้เรื่อง</div>
+    </div>
+    <div class="sentence-card">
+        <h2 class="card-header">Card 36: Home: Cleaning the House</h2>
+        <p class="prompt">ลองสำรวจดูว่าคำศัพท์เหล่านี้สร้างประโยคอะไรได้บ้าง</p>
+        <div class="word-bank"><span class="word-preposition">we</span><span class="word-noun">the house</span><span class="word-noun">the living room</span><span class="word-noun">the bathroom</span><span class="word-verb">need to clean</span><span class="word-verb">is</span><span class="word-verb">are</span><span class="word-verb">can</span><span class="word-adjective">messy</span><span class="word-adjective">clean</span><span class="word-adverb">not</span><span class="word-adverb">very</span><span class="word-preposition">why</span><span class="word-preposition">today</span></div>
+        <textarea placeholder="ลองพิมพ์ประโยคเพื่อฝึกฝนที่นี่..."></textarea>
+        <div class="button-container"><button onclick="toggleAllAnswers36()">แสดงประโยคตัวอย่าง</button></div>
+        <div class="results-area"><div id="all-possible-answers-36" class="all-possible-answers"><h4>ประโยคตัวอย่างที่เป็นไปได้</h4><ul id="possible-answers-list-36"></ul></div></div>
+        <div class="card-footer">จัดทำโดยครูสาลี่ อังกฤษฉบับคนเรียนไม่รู้เรื่อง</div>
+    </div>
+    <div class="sentence-card">
+        <h2 class="card-header">Card 37: Hobbies: Talking about Books</h2>
+        <p class="prompt">ลองสำรวจดูว่าคำศัพท์เหล่านี้สร้างประโยคอะไรได้บ้าง</p>
+        <div class="word-bank"><span class="word-preposition">you</span><span class="word-noun">a good book</span><span class="word-noun">the author</span><span class="word-noun">the story</span><span class="word-verb">read</span><span class="word-verb">is</span><span class="word-verb">was</span><span class="word-verb">did</span><span class="word-adjective">interesting</span><span class="word-adjective">famous</span><span class="word-adverb">not</span><span class="word-preposition">who</span><span class="word-preposition">about</span></div>
+        <textarea placeholder="ลองพิมพ์ประโยคเพื่อฝึกฝนที่นี่..."></textarea>
+        <div class="button-container"><button onclick="toggleAllAnswers37()">แสดงประโยคตัวอย่าง</button></div>
+        <div class="results-area"><div id="all-possible-answers-37" class="all-possible-answers"><h4>ประโยคตัวอย่างที่เป็นไปได้</h4><ul id="possible-answers-list-37"></ul></div></div>
+        <div class="card-footer">จัดทำโดยครูสาลี่ อังกฤษฉบับคนเรียนไม่รู้เรื่อง</div>
+    </div>
+    <div class="sentence-card">
+        <h2 class="card-header">Card 38: Technology: Internet & Wi-Fi</h2>
+        <p class="prompt">ลองสำรวจดูว่าคำศัพท์เหล่านี้สร้างประโยคอะไรได้บ้าง</p>
+        <div class="word-bank"><span class="word-noun">the Wi-Fi</span><span class="word-noun">the password</span><span class="word-noun">the connection</span><span class="word-preposition">I</span><span class="word-preposition">it</span><span class="word-verb">is</span><span class="word-verb">works</span><span class="word-verb">can</span><span class="word-verb">connect</span><span class="word-verb">have</span><span class="word-adverb">not</span><span class="word-adjective">slow</span><span class="word-adjective">strong</span><span class="word-preposition">what</span><span class="word-preposition">why</span></div>
+        <textarea placeholder="ลองพิมพ์ประโยคเพื่อฝึกฝนที่นี่..."></textarea>
+        <div class="button-container"><button onclick="toggleAllAnswers38()">แสดงประโยคตัวอย่าง</button></div>
+        <div class="results-area"><div id="all-possible-answers-38" class="all-possible-answers"><h4>ประโยคตัวอย่างที่เป็นไปได้</h4><ul id="possible-answers-list-38"></ul></div></div>
+        <div class="card-footer">จัดทำโดยครูสาลี่ อังกฤษฉบับคนเรียนไม่รู้เรื่อง</div>
+    </div>
+    <div class="sentence-card">
+        <h2 class="card-header">Card 39: Daily Life: A Lost Item</h2>
+        <p class="prompt">ลองสำรวจดูว่าคำศัพท์เหล่านี้สร้างประโยคอะไรได้บ้าง</p>
+        <div class="word-bank"><span class="word-preposition">I</span><span class="word-noun">my keys</span><span class="word-noun">my phone</span><span class="word-preposition">it</span><span class="word-verb">have lost</span><span class="word-verb">find</span><span class="word-verb">see</span><span class="word-verb">can</span><span class="word-verb">did</span><span class="word-adverb">not</span><span class="word-adverb">somewhere</span><span class="word-adjective">here</span><span class="word-preposition">where</span><span class="word-verb">help me</span></div>
+        <textarea placeholder="ลองพิมพ์ประโยคเพื่อฝึกฝนที่นี่..."></textarea>
+        <div class="button-container"><button onclick="toggleAllAnswers39()">แสดงประโยคตัวอย่าง</button></div>
+        <div class="results-area"><div id="all-possible-answers-39" class="all-possible-answers"><h4>ประโยคตัวอย่างที่เป็นไปได้</h4><ul id="possible-answers-list-39"></ul></div></div>
+        <div class="card-footer">จัดทำโดยครูสาลี่ อังกฤษฉบับคนเรียนไม่รู้เรื่อง</div>
+    </div>
+    <div class="sentence-card">
+        <h2 class="card-header">Card 40: Personal Feelings: Expressing Emotions</h2>
+        <p class="prompt">ลองสำรวจดูว่าคำศัพท์เหล่านี้สร้างประโยคอะไรได้บ้าง</p>
+        <div class="word-bank"><span class="word-preposition">you</span><span class="word-preposition">I</span><span class="word-noun">the news</span><span class="word-verb">feel</span><span class="word-verb">am</span><span class="word-verb">are</span><span class="word-verb">look</span><span class="word-adjective">happy</span><span class="word-adjective">sad</span><span class="word-adjective">surprised</span><span class="word-adverb">not</span><span class="word-adverb">so</span><span class="word-preposition">why</span><span class="word-preposition">about</span></div>
+        <textarea placeholder="ลองพิมพ์ประโยคเพื่อฝึกฝนที่นี่..."></textarea>
+        <div class="button-container"><button onclick="toggleAllAnswers40()">แสดงประโยคตัวอย่าง</button></div>
+        <div class="results-area"><div id="all-possible-answers-40" class="all-possible-answers"><h4>ประโยคตัวอย่างที่เป็นไปได้</h4><ul id="possible-answers-list-40"></ul></div></div>
+        <div class="card-footer">จัดทำโดยครูสาลี่ อังกฤษฉบับคนเรียนไม่รู้เรื่อง</div>
+    </div>
+<div class="sentence-card">
+        <h2 class="card-header">Card 41: Describing a City</h2>
+        <p class="prompt">ลองสำรวจดูว่าคำศัพท์เหล่านี้สร้างประโยคอะไรได้บ้าง</p>
+        <div class="word-bank"><span class="word-noun">this city</span><span class="word-noun">the people</span><span class="word-noun">the food</span><span class="word-noun">many parks</span><span class="word-preposition">I</span><span class="word-verb">is</span><span class="word-verb">are</span><span class="word-verb">has</span><span class="word-verb">like</span><span class="word-verb">do</span><span class="word-adverb">not</span><span class="word-adjective">big</span><span class="word-adjective">friendly</span><span class="word-adjective">delicious</span><span class="word-preposition">what</span><span class="word-preposition">because</span></div>
+        <textarea placeholder="ลองพิมพ์ประโยคเพื่อฝึกฝนที่นี่..."></textarea>
+        <div class="button-container"><button onclick="toggleAllAnswers41()">แสดงประโยคตัวอย่าง</button></div>
+        <div class="results-area"><div id="all-possible-answers-41" class="all-possible-answers"><h4>ประโยคตัวอย่างที่เป็นไปได้</h4><ul id="possible-answers-list-41"></ul></div></div>
+        <div class="card-footer">จัดทำโดยครูสาลี่ อังกฤษฉบับคนเรียนไม่รู้เรื่อง</div>
+    </div>
+    <div class="sentence-card">
+        <h2 class="card-header">Card 42: Asking for Prices</h2>
+        <p class="prompt">ลองสำรวจดูว่าคำศัพท์เหล่านี้สร้างประโยคอะไรได้บ้าง</p>
+        <div class="word-bank"><span class="word-noun">this watch</span><span class="word-noun">that bag</span><span class="word-noun">these shoes</span><span class="word-noun">the price</span><span class="word-preposition">it</span><span class="word-preposition">they</span><span class="word-verb">is</span><span class="word-verb">are</span><span class="word-verb">costs</span><span class="word-verb">do</span><span class="word-adverb">not</span><span class="word-adjective">expensive</span><span class="word-adjective">on sale</span><span class="word-preposition">how much</span><span class="word-preposition">why</span></div>
+        <textarea placeholder="ลองพิมพ์ประโยคเพื่อฝึกฝนที่นี่..."></textarea>
+        <div class="button-container"><button onclick="toggleAllAnswers42()">แสดงประโยคตัวอย่าง</button></div>
+        <div class="results-area"><div id="all-possible-answers-42" class="all-possible-answers"><h4>ประโยคตัวอย่างที่เป็นไปได้</h4><ul id="possible-answers-list-42"></ul></div></div>
+        <div class="card-footer">จัดทำโดยครูสาลี่ อังกฤษฉบับคนเรียนไม่รู้เรื่อง</div>
+    </div>
+    <div class="sentence-card">
+        <h2 class="card-header">Card 43: Making an Apology</h2>
+        <p class="prompt">ลองสำรวจดูว่าคำศัพท์เหล่านี้สร้างประโยคอะไรได้บ้าง</p>
+        <div class="word-bank"><span class="word-preposition">I</span><span class="word-noun">my mistake</span><span class="word-noun">the delay</span><span class="word-verb">am</span><span class="word-verb">apologize</span><span class="word-verb">mean to</span><span class="word-verb">did</span><span class="word-adverb">not</span><span class="word-adjective">sorry</span><span class="word-adjective">late</span><span class="word-preposition">for</span><span class="word-adverb">so</span></div>
+        <textarea placeholder="ลองพิมพ์ประโยคเพื่อฝึกฝนที่นี่..."></textarea>
+        <div class="button-container"><button onclick="toggleAllAnswers43()">แสดงประโยคตัวอย่าง</button></div>
+        <div class="results-area"><div id="all-possible-answers-43" class="all-possible-answers"><h4>ประโยคตัวอย่างที่เป็นไปได้</h4><ul id="possible-answers-list-43"></ul></div></div>
+        <div class="card-footer">จัดทำโดยครูสาลี่ อังกฤษฉบับคนเรียนไม่รู้เรื่อง</div>
+    </div>
+    <div class="sentence-card">
+        <h2 class="card-header">Card 44: At the Movies</h2>
+        <p class="prompt">ลองสำรวจดูว่าคำศัพท์เหล่านี้สร้างประโยคอะไรได้บ้าง</p>
+        <div class="word-bank"><span class="word-noun">the movie</span><span class="word-noun">the tickets</span><span class="word-noun">popcorn</span><span class="word-preposition">we</span><span class="word-preposition">you</span><span class="word-verb">starts</span><span class="word-verb">buy</span><span class="word-verb">want</span><span class="word-verb">is</span><span class="word-verb">should</span><span class="word-adverb">not</span><span class="word-adjective">scary</span><span class="word-adjective">exciting</span><span class="word-preposition">what time</span><span class="word-preposition">and</span></div>
+        <textarea placeholder="ลองพิมพ์ประโยคเพื่อฝึกฝนที่นี่..."></textarea>
+        <div class="button-container"><button onclick="toggleAllAnswers44()">แสดงประโยคตัวอย่าง</button></div>
+        <div class="results-area"><div id="all-possible-answers-44" class="all-possible-answers"><h4>ประโยคตัวอย่างที่เป็นไปได้</h4><ul id="possible-answers-list-44"></ul></div></div>
+        <div class="card-footer">จัดทำโดยครูสาลี่ อังกฤษฉบับคนเรียนไม่รู้เรื่อง</div>
+    </div>
+    <div class="sentence-card">
+        <h2 class="card-header">Card 45: Talking about Future Plans</h2>
+        <p class="prompt">ลองสำรวจดูว่าคำศัพท์เหล่านี้สร้างประโยคอะไรได้บ้าง</p>
+        <div class="word-bank"><span class="word-preposition">I</span><span class="word-preposition">you</span><span class="word-noun">a new job</span><span class="word-noun">a new country</span><span class="word-verb">will</span><span class="word-verb">want to</span><span class="word-verb">find</span><span class="word-verb">travel to</span><span class="word-verb">be</span><span class="word-adverb">not</span><span class="word-adjective">a teacher</span><span class="word-preposition">what</span><span class="word-preposition">where</span></div>
+        <textarea placeholder="ลองพิมพ์ประโยคเพื่อฝึกฝนที่นี่..."></textarea>
+        <div class="button-container"><button onclick="toggleAllAnswers45()">แสดงประโยคตัวอย่าง</button></div>
+        <div class="results-area"><div id="all-possible-answers-45" class="all-possible-answers"><h4>ประโยคตัวอย่างที่เป็นไปได้</h4><ul id="possible-answers-list-45"></ul></div></div>
+        <div class="card-footer">จัดทำโดยครูสาลี่ อังกฤษฉบับคนเรียนไม่รู้เรื่อง</div>
+    </div>
+    <div class="sentence-card">
+        <h2 class="card-header">Card 46: At the Gym</h2>
+        <p class="prompt">ลองสำรวจดูว่าคำศัพท์เหล่านี้สร้างประโยคอะไรได้บ้าง</p>
+        <div class="word-bank"><span class="word-preposition">he</span><span class="word-noun">weights</span><span class="word-noun">the treadmill</span><span class="word-noun">a personal trainer</span><span class="word-verb">lifts</span><span class="word-verb">runs on</span><span class="word-verb">has</span><span class="word-verb">is</span><span class="word-verb">does</span><span class="word-adverb">not</span><span class="word-adjective">strong</span><span class="word-adjective">tired</span><span class="word-preposition">how often</span></div>
+        <textarea placeholder="ลองพิมพ์ประโยคเพื่อฝึกฝนที่นี่..."></textarea>
+        <div class="button-container"><button onclick="toggleAllAnswers46()">แสดงประโยคตัวอย่าง</button></div>
+        <div class="results-area"><div id="all-possible-answers-46" class="all-possible-answers"><h4>ประโยคตัวอย่างที่เป็นไปได้</h4><ul id="possible-answers-list-46"></ul></div></div>
+        <div class="card-footer">จัดทำโดยครูสาลี่ อังกฤษฉบับคนเรียนไม่รู้เรื่อง</div>
+    </div>
+    <div class="sentence-card">
+        <h2 class="card-header">Card 47: Giving Opinions</h2>
+        <p class="prompt">ลองสำรวจดูว่าคำศัพท์เหล่านี้สร้างประโยคอะไรได้บ้าง</p>
+        <div class="word-bank"><span class="word-noun">this idea</span><span class="word-noun">that plan</span><span class="word-noun">your opinion</span><span class="word-preposition">I</span><span class="word-preposition">it</span><span class="word-verb">is</span><span class="word-verb">think</span><span class="word-verb">believe</span><span class="word-verb">sounds</span><span class="word-verb">do</span><span class="word-adverb">not</span><span class="word-adjective">good</span><span class="word-adjective">crazy</span><span class="word-preposition">what</span><span class="word-preposition">like</span></div>
+        <textarea placeholder="ลองพิมพ์ประโยคเพื่อฝึกฝนที่นี่..."></textarea>
+        <div class="button-container"><button onclick="toggleAllAnswers47()">แสดงประโยคตัวอย่าง</button></div>
+        <div class="results-area"><div id="all-possible-answers-47" class="all-possible-answers"><h4>ประโยคตัวอย่างที่เป็นไปได้</h4><ul id="possible-answers-list-47"></ul></div></div>
+        <div class="card-footer">จัดทำโดยครูสาลี่ อังกฤษฉบับคนเรียนไม่รู้เรื่อง</div>
+    </div>
+    <div class="sentence-card">
+        <h2 class="card-header">Card 48: On the Phone</h2>
+        <p class="prompt">ลองสำรวจดูว่าคำศัพท์เหล่านี้สร้างประโยคอะไรได้บ้าง</p>
+        <div class="word-bank"><span class="word-preposition">I</span><span class="word-preposition">you</span><span class="word-noun">a bad connection</span><span class="word-verb">can</span><span class="word-verb">hear</span><span class="word-verb">speak</span><span class="word-verb">have</span><span class="word-verb">am</span><span class="word-adverb">not</span><span class="word-adjective">loudly</span><span class="word-adjective">clearly</span><span class="word-adverb">please</span><span class="word-preposition">who</span><span class="word-verb">is speaking</span></div>
+        <textarea placeholder="ลองพิมพ์ประโยคเพื่อฝึกฝนที่นี่..."></textarea>
+        <div class="button-container"><button onclick="toggleAllAnswers48()">แสดงประโยคตัวอย่าง</button></div>
+        <div class="results-area"><div id="all-possible-answers-48" class="all-possible-answers"><h4>ประโยคตัวอย่างที่เป็นไปได้</h4><ul id="possible-answers-list-48"></ul></div></div>
+        <div class="card-footer">จัดทำโดยครูสาลี่ อังกฤษฉบับคนเรียนไม่รู้เรื่อง</div>
+    </div>
+    <div class="sentence-card">
+        <h2 class="card-header">Card 49: Describing a Holiday</h2>
+        <p class="prompt">ลองสำรวจดูว่าคำศัพท์เหล่านี้สร้างประโยคอะไรได้บ้าง</p>
+        <div class="word-bank"><span class="word-noun">our holiday</span><span class="word-noun">the hotel</span><span class="word-noun">the food</span><span class="word-preposition">we</span><span class="word-preposition">it</span><span class="word-verb">was</span><span class="word-verb">had</span><span class="word-verb">went</span><span class="word-verb">did</span><span class="word-adverb">not</span><span class="word-adjective">relaxing</span><span class="word-adjective">amazing</span><span class="word-preposition">to the beach</span><span class="word-preposition">where</span></div>
+        <textarea placeholder="ลองพิมพ์ประโยคเพื่อฝึกฝนที่นี่..."></textarea>
+        <div class="button-container"><button onclick="toggleAllAnswers49()">แสดงประโยคตัวอย่าง</button></div>
+        <div class="results-area"><div id="all-possible-answers-49" class="all-possible-answers"><h4>ประโยคตัวอย่างที่เป็นไปได้</h4><ul id="possible-answers-list-49"></ul></div></div>
+        <div class="card-footer">จัดทำโดยครูสาลี่ อังกฤษฉบับคนเรียนไม่รู้เรื่อง</div>
+    </div>
+    <div class="sentence-card">
+        <h2 class="card-header">Card 50: Offering Help</h2>
+        <p class="prompt">ลองสำรวจดูว่าคำศัพท์เหล่านี้สร้างประโยคอะไรได้บ้าง</p>
+        <div class="word-bank"><span class="word-preposition">I</span><span class="word-preposition">you</span><span class="word-noun">that bag</span><span class="word-noun">the door</span><span class="word-noun">some help</span><span class="word-verb">can</span><span class="word-verb">need</span><span class="word-verb">looks</span><span class="word-verb">let me</span><span class="word-verb">do</span><span class="word-adverb">not</span><span class="word-adjective">heavy</span><span class="word-preposition">with</span></div>
+        <textarea placeholder="ลองพิมพ์ประโยคเพื่อฝึกฝนที่นี่..."></textarea>
+        <div class="button-container"><button onclick="toggleAllAnswers50()">แสดงประโยคตัวอย่าง</button></div>
+        <div class="results-area"><div id="all-possible-answers-50" class="all-possible-answers"><h4>ประโยคตัวอย่างที่เป็นไปได้</h4><ul id="possible-answers-list-50"></ul></div></div>
+        <div class="card-footer">จัดทำโดยครูสาลี่ อังกฤษฉบับคนเรียนไม่รู้เรื่อง</div>
+    </div>
+
+
+    <script>
+    // DATA SETS FOR EXPLORER CARDS
+    const exampleSentences1 = ["How was your day?","My day was good.","The weather is nice today.","What do you think about the movie?","I think the movie was interesting.","I do not think the movie was good.","The movie was really nice.","The weather is good and the movie is interesting.","I see you, but you do not see me."];
+    const exampleSentences2 = ["Where should we go on the weekend?","We can go to the beach or the park.","They are not free on the weekend.","When can we meet our friends?","We are busy, so maybe we can meet later.","Is the beach fun?","I think the park is not busy.","Should we go to the beach?"];
+    const exampleSentences3 = ["Can I have the menu, please?","We are ready to order now.","What would you like to have?","I would like some water and a cake.","The food is delicious but it is spicy.","This food is not spicy.","Is the water free?"];
+    const exampleSentences4 = ["Who is your friend?","My brother is very tall and funny.","She seems kind, but she is not my friend.","He has a very good smile.","What is he like?","Is your brother tall?","He is not very funny."];
+    const exampleSentences5 = ["How much is this shirt?","I like that blue jacket.","It is not too expensive.","I love it, but the price is too high.","Do you like this shirt?","This blue shirt is very nice.","The jacket costs too much."];
+
+const exampleSentences6 = ["Can I have some medicine for a headache?","I need something strong, please.","Do you have medicine for a headache?","This medicine is not strong.","What do you have for a headache?","I do not need strong medicine."];
+    const exampleSentences7 = ["What kind of music does she like?","She likes pop music but not rock music.","Her favorite band is not famous.","Does she listen to the new song?","The new song is pop and rock.","She listens to pop music."];
+    const exampleSentences8 = ["Where is the gate?","Our flight is not delayed.","Can we check in our bags here?","Why are our bags heavy?","We can not find the flight gate.","Our flight is delayed."];
+    const exampleSentences9 = ["He sends an important email to his boss.","Did he attach the report?","He did not forget the attachment.","The email is urgent.","Why is the report not in the email?","He writes about his report."];
+    const exampleSentences10 = ["Do they have a pet?","They have a playful dog and a lazy cat.","What is its name?","Their cat is not very playful.","The dog is very cute.","They do not have a dog."];
+const exampleSentences11 = ["Excuse me, where is the train station?","How can I go to the museum?","The bank is not far from here.","I am lost.","Can you tell me where the bank is?","Is the museum near here?"];
+    const exampleSentences12 = ["Where does it hurt?","My back hurts.","I have a sharp pain in my head.","It is a constant, dull ache.","It does not hurt now.","Does your head hurt?"];
+    const exampleSentences13 = ["What is this meeting about?","We need to discuss the new project.","I do not agree with this idea.","The presentation is very important.","Is this a good idea?","We do not agree with the project."];
+    const exampleSentences14 = ["What is your name?","My name is Sali.","Are you new here?","I am not new here.","Should we get a coffee sometime?","Do you want to get a coffee?"];
+    const exampleSentences15 = ["Have you seen a good movie?","What was the story about?","I liked the actor.","The story was not boring, it was funny.","Did you like the movie?","I have not seen that movie."];
+const exampleSentences16 = ["Why is the battery low?","I can not take a photo.","The memory on my phone is full.","How can I download a new app?","My phone is not new.","I need to charge the battery."];
+    const exampleSentences17 = ["Which season do you like?","I like the winter because it is cold.","The summer is very hot.","I do not like the rainy season.","Is it hot today?","The weather is not cold today."];
+    const exampleSentences18 = ["I really like your new dress!","Where did you get your shoes?","Your hair looks beautiful today.","They are not new shoes.","Is that a new dress?","I love your hair."];
+    const exampleSentences19 = ["Who is the new employee?","My colleague is very helpful.","She does not seem friendly.","He works very hard.","What is he like?","Is she the new employee?"];
+    const exampleSentences20 = ["The air conditioner is not working.","Who can fix the sink?","The roof is leaking.","I can not fix it.","Why is the sink broken?","The air conditioner is broken."];
+const exampleSentences21 = ["I agree with you.","I do not think so.","Why do you think that?","That is a good point.","I see your point, but I do not agree.","Are you sure that is right?","Your idea is not good."];
+    const exampleSentences22 = ["Are you busy?","Can you help me with this task, please?","I do not have a minute.","This task is very difficult.","Do you have a minute to help me?","I can not help you."];
+    const exampleSentences23 = ["How much is this souvenir?","I would like to buy a postcard.","This magnet is a local souvenir.","It is not expensive.","I will take this one, please.","How much does it cost?"];
+    const exampleSentences24 = ["He has an allergy to seafood.","He is not allergic to peanuts.","What is in this dish?","Can he eat this dish?","This dish has peanuts in it.","He can not eat seafood."];
+    const exampleSentences25 = ["I would like to make an appointment with the doctor.","When is the doctor available?","What time can I see the doctor?","The doctor is not available today.","Can I make an appointment for today?"];
+    const exampleSentences26 = ["We need to clean the house today.","The living room is very messy.","Why is the bathroom not clean?","Can you clean the bathroom?","The house is not clean.","We are cleaning today."];
+    const exampleSentences27 = ["Have you read a good book?","Who is the author of this book?","The story was not very interesting.","What was the book about?","The author is famous, but the story is boring."];
+    const exampleSentences28 = ["Why is the Wi-Fi not working?","The connection is very slow.","What is the Wi-Fi password?","I can not connect to the Wi-Fi.","The connection is not strong here.","Can I have the password?"];
+    const exampleSentences29 = ["I have lost my keys!","Did you see my phone somewhere?","I can not find my keys.","Where did I lose my phone?","It is not here.","Can you help me find my keys?"];
+    const exampleSentences30 = ["Why do you look so sad?","I am not sad, I am happy.","The news makes me feel surprised.","Are you happy about the news?","I feel so sad about the news."];
+const exampleSentences31 = ["I agree with you.","I do not think so.","Why do you think that?","That is a good point.","I see your point, but I do not agree.","Are you sure that is right?","Your idea is not good."];
+    const exampleSentences32 = ["Are you busy?","Can you help me with this task, please?","I do not have a minute.","This task is very difficult.","Do you have a minute to help me?","I can not help you."];
+    const exampleSentences33 = ["How much is this souvenir?","I would like to buy a postcard.","This magnet is a local souvenir.","It is not expensive.","I will take this one, please.","How much does it cost?"];
+    const exampleSentences34 = ["He has an allergy to seafood.","He is not allergic to peanuts.","What is in this dish?","Can he eat this dish?","This dish has peanuts in it.","He can not eat seafood."];
+    const exampleSentences35 = ["I would like to make an appointment with the doctor.","When is the doctor available?","What time can I see the doctor?","The doctor is not available today.","Can I make an appointment for today?"];
+    const exampleSentences36 = ["We need to clean the house today.","The living room is very messy.","Why is the bathroom not clean?","Can you clean the bathroom?","The house is not clean.","We are cleaning today."];
+    const exampleSentences37 = ["Have you read a good book?","Who is the author of this book?","The story was not very interesting.","What was the book about?","The author is famous, but the story is boring."];
+    const exampleSentences38 = ["Why is the Wi-Fi not working?","The connection is very slow.","What is the Wi-Fi password?","I can not connect to the Wi-Fi.","The connection is not strong here.","Can I have the password?"];
+    const exampleSentences39 = ["I have lost my keys!","Did you see my phone somewhere?","I can not find my keys.","Where did I lose my phone?","It is not here.","Can you help me find my keys?"];
+    const exampleSentences40 = ["Why do you look so sad?","I am not sad, I am happy.","The news makes me feel surprised.","Are you happy about the news?","I feel so sad about the news."];
+const exampleSentences41 = ["What do you like about this city?","This city is not very big.","I like the food because it is delicious.","The people are very friendly.","Does this city have many parks?","The food is not delicious."];
+    const exampleSentences42 = ["How much is this watch?","How much are these shoes?","That bag is not expensive.","Why is the price so high?","Are these shoes on sale?","It costs a lot."];
+    const exampleSentences43 = ["I am so sorry for the delay.","I apologize for my mistake.","I did not mean to be late.","Please accept my apology.","It was not my mistake.","I am sorry."];
+    const exampleSentences44 = ["What time does the movie start?","Should we buy popcorn and a drink?","The movie is not scary.","I think the movie is exciting.","Do you want to watch a scary movie?"];
+    const exampleSentences45 = ["What will you do in the future?","I want to find a new job.","I will not be a teacher.","Where do you want to travel to?","She will travel to a new country."];
+    const exampleSentences46 = ["He is very strong.","He lifts heavy weights.","How often does he go to the gym?","He is not tired.","He runs on the treadmill.","Does he have a personal trainer?"];
+    const exampleSentences47 = ["What is your opinion?","I think this idea is good.","I do not believe that plan works.","It sounds like a crazy idea.","Do you like this plan?","That does not sound good."];
+    const exampleSentences48 = ["Who is speaking, please?","I can not hear you clearly.","Can you speak more loudly, please?","We have a bad connection.","I am not you, who is this?"];
+    const exampleSentences49 = ["How was your holiday?","Our holiday was very relaxing.","The hotel was amazing, but the food was not.","Where did you go?","We did not go to the beach."];
+    const exampleSentences50 = ["Do you need some help?","That bag looks heavy.","Let me help you with that bag.","Can I open the door for you?","I do not need help, but thank you."];
+
+
+
+
+    // == วาง DATA (exampleSentences) ของการ์ดชุดต่อไปตรงนี้ ==
+
+    // GENERIC FUNCTION
+    function toggleAllAnswers(cardNumber, sentencesArray) {
+        if (!sentencesArray) return;
+        const answersDiv = document.getElementById(`all-possible-answers-${cardNumber}`);
+        const answersList = document.getElementById(`possible-answers-list-${cardNumber}`);
+        if (!answersDiv || !answersList) return;
+        if(answersList.children.length === 0) {
+            sentencesArray.forEach(sentence => {
+                const li = document.createElement('li');
+                li.textContent = sentence;
+                answersList.appendChild(li);
+            });
+        }
+        if (answersDiv.style.display === 'none' || answersDiv.style.display === '') {
+            answersDiv.style.display = 'block';
+        } else {
+            answersDiv.style.display = 'none';
+        }
+    }
+
+    // FUNCTIONS FOR EACH CARD
+    function toggleAllAnswers1() { toggleAllAnswers(1, exampleSentences1); }
+    function toggleAllAnswers2() { toggleAllAnswers(2, exampleSentences2); }
+    function toggleAllAnswers3() { toggleAllAnswers(3, exampleSentences3); }
+    function toggleAllAnswers4() { toggleAllAnswers(4, exampleSentences4); }
+    function toggleAllAnswers5() { toggleAllAnswers(5, exampleSentences5); }
+    
+function toggleAllAnswers6() { toggleAllAnswers(6, exampleSentences6); }
+    function toggleAllAnswers7() { toggleAllAnswers(7, exampleSentences7); }
+    function toggleAllAnswers8() { toggleAllAnswers(8, exampleSentences8); }
+    function toggleAllAnswers9() { toggleAllAnswers(9, exampleSentences9); }
+    function toggleAllAnswers10() { toggleAllAnswers(10, exampleSentences10); }
+
+function toggleAllAnswers11() { toggleAllAnswers(11, exampleSentences11); }
+    function toggleAllAnswers12() { toggleAllAnswers(12, exampleSentences12); }
+    function toggleAllAnswers13() { toggleAllAnswers(13, exampleSentences13); }
+    function toggleAllAnswers14() { toggleAllAnswers(14, exampleSentences14); }
+    function toggleAllAnswers15() { toggleAllAnswers(15, exampleSentences15); }
+function toggleAllAnswers16() { toggleAllAnswers(16, exampleSentences16); }
+    function toggleAllAnswers17() { toggleAllAnswers(17, exampleSentences17); }
+    function toggleAllAnswers18() { toggleAllAnswers(18, exampleSentences18); }
+    function toggleAllAnswers19() { toggleAllAnswers(19, exampleSentences19); }
+    function toggleAllAnswers20() { toggleAllAnswers(20, exampleSentences20); }
+function toggleAllAnswers21() { toggleAllAnswers(21, exampleSentences21); }
+    function toggleAllAnswers22() { toggleAllAnswers(22, exampleSentences22); }
+    function toggleAllAnswers23() { toggleAllAnswers(23, exampleSentences23); }
+    function toggleAllAnswers24() { toggleAllAnswers(24, exampleSentences24); }
+    function toggleAllAnswers25() { toggleAllAnswers(25, exampleSentences25); }
+    function toggleAllAnswers26() { toggleAllAnswers(26, exampleSentences26); }
+    function toggleAllAnswers27() { toggleAllAnswers(27, exampleSentences27); }
+    function toggleAllAnswers28() { toggleAllAnswers(28, exampleSentences28); }
+    function toggleAllAnswers29() { toggleAllAnswers(29, exampleSentences29); }
+    function toggleAllAnswers30() { toggleAllAnswers(30, exampleSentences30); }
+function toggleAllAnswers31() { toggleAllAnswers(31, exampleSentences31); }
+    function toggleAllAnswers32() { toggleAllAnswers(32, exampleSentences32); }
+    function toggleAllAnswers33() { toggleAllAnswers(33, exampleSentences33); }
+    function toggleAllAnswers34() { toggleAllAnswers(34, exampleSentences34); }
+    function toggleAllAnswers35() { toggleAllAnswers(35, exampleSentences35); }
+    function toggleAllAnswers36() { toggleAllAnswers(36, exampleSentences36); }
+    function toggleAllAnswers37() { toggleAllAnswers(37, exampleSentences37); }
+    function toggleAllAnswers38() { toggleAllAnswers(38, exampleSentences38); }
+    function toggleAllAnswers39() { toggleAllAnswers(39, exampleSentences39); }
+    function toggleAllAnswers40() { toggleAllAnswers(40, exampleSentences40); }
+function toggleAllAnswers41() { toggleAllAnswers(41, exampleSentences41); }
+    function toggleAllAnswers42() { toggleAllAnswers(42, exampleSentences42); }
+    function toggleAllAnswers43() { toggleAllAnswers(43, exampleSentences43); }
+    function toggleAllAnswers44() { toggleAllAnswers(44, exampleSentences44); }
+    function toggleAllAnswers45() { toggleAllAnswers(45, exampleSentences45); }
+    function toggleAllAnswers46() { toggleAllAnswers(46, exampleSentences46); }
+    function toggleAllAnswers47() { toggleAllAnswers(47, exampleSentences47); }
+    function toggleAllAnswers48() { toggleAllAnswers(48, exampleSentences48); }
+    function toggleAllAnswers49() { toggleAllAnswers(49, exampleSentences49); }
+    function toggleAllAnswers50() { toggleAllAnswers(50, exampleSentences50); }
+
+    // == วาง FUNCTIONS (toggleAllAnswers) ของการ์ดชุดต่อไปตรงนี้ ==
+
+    </script>
+</body>
+</html>

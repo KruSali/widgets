@@ -1,0 +1,1045 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ข่าวการปะทะชายแดนไทย-กัมพูชา</title>
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* General Body and Container Styles */
+        body {
+            font-family: 'Sarabun', sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f0f8ff; /* Alice Blue - very light, airy blue */
+            color: #333333; /* Darker grey text for better readability */
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+        }
+        .app-container {
+            background-color: #ffffff;
+            border-radius: 25px; /* Slightly more rounded */
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.18); /* Stronger, softer shadow */
+            width: 100%;
+            max-width: 950px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            animation: fadeIn 0.8s ease-out;
+            margin-top: 30px;
+            margin-bottom: 30px;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Header Styles */
+        .header {
+            background: linear-gradient(135deg, #4CAF50, #8BC34A); /* Green gradient */
+            color: white;
+            padding: 35px 45px; /* Increased padding */
+            text-align: center;
+            font-weight: 700;
+            border-bottom: 8px solid #388E3C; /* Darker green border */
+            letter-spacing: 1px; /* Slightly more spacing */
+            border-top-left-radius: 25px;
+            border-top-right-radius: 25px;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 2.2em; /* Larger title */
+            line-height: 1.2;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); /* Text shadow */
+        }
+        .header p {
+            margin: 10px 0 0;
+            font-size: 1.2em; /* Larger subtitle */
+            opacity: 0.95;
+        }
+
+        /* Navigation Buttons */
+        .nav-buttons {
+            display: flex;
+            justify-content: center;
+            padding: 20px 0; /* Increased padding */
+            background-color: #DCEDC8; /* Light green for button background */
+            border-bottom: 1px solid #C5E1A5;
+            flex-wrap: wrap;
+        }
+        .nav-button {
+            background-color: #8BC34A; /* Main green */
+            color: white;
+            border: none;
+            padding: 15px 35px; /* Larger buttons */
+            margin: 8px 15px; /* More space between buttons */
+            border-radius: 40px; /* More rounded */
+            cursor: pointer;
+            font-size: 1.2em; /* Larger font */
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25); /* Enhanced shadow */
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .nav-button:hover {
+            background-color: #689F38; /* Darker green on hover */
+            transform: translateY(-4px); /* More pronounced lift */
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+        .nav-button.active {
+            background-color: #FFC107; /* Amber for active state */
+            box-shadow: 0 8px 20px rgba(255, 193, 7, 0.7); /* Stronger amber shadow */
+            transform: scale(1.1); /* More pronounced scale */
+            color: #333333; /* Dark text for active button */
+            border: 2px solid #FFECB3; /* Light amber border */
+        }
+
+        /* Content Sections */
+        .content-section {
+            padding: 40px; /* Increased padding */
+            line-height: 2; /* Increased line height for readability */
+            font-size: 1.1em; /* Slightly adjusted font size */
+            color: #424242; /* Slightly softer dark grey */
+        }
+        .content-section p {
+            margin-bottom: 2em; /* More space between paragraphs */
+            text-align: justify;
+            padding: 25px; /* Increased padding */
+            border-radius: 12px; /* More rounded */
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); /* Subtle shadow for paragraphs */
+        }
+        .content-section p:hover {
+            transform: translateY(-2px); /* Slight lift on hover */
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.12);
+        }
+        /* Alternating background colors for paragraphs */
+        .content-section p:nth-child(odd) {
+            background-color: #E8F5E9; /* Very light green */
+            border-left: 8px solid #A5D6A7; /* Medium green accent */
+        }
+        .content-section p:nth-child(even) {
+            background-color: #FFFDE7; /* Very light yellow */
+            border-left: 8px solid #FFECB3; /* Light amber accent */
+        }
+        .content-section p + p {
+            margin-top: 2.5em; /* More space between paragraphs */
+        }
+
+        /* Highlighted Words */
+        .highlight {
+            position: relative;
+            text-decoration: underline;
+            text-decoration-color: #FF8F00; /* Amber underline */
+            text-decoration-thickness: 3px;
+            cursor: pointer;
+            font-weight: bold;
+            color: #01579B; /* Dark blue for highlight text */
+            transition: color 0.2s ease, text-decoration-color 0.2s ease, transform 0.1s ease;
+        }
+        .highlight:hover {
+            color: #0288D1; /* Lighter blue on hover */
+            text-decoration-color: #FF6F00; /* Brighter orange on hover */
+            transform: translateY(-2px); /* Slight lift on hover */
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1000; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgba(0, 0, 0, 0.75); /* Darker overlay */
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.4s ease-out;
+        }
+        .modal.show {
+            display: flex; /* Changed from none to flex when 'show' class is added */
+            opacity: 1;
+        }
+        .modal-content {
+            background-color: #fefefe;
+            padding: 40px; /* Increased padding */
+            border-radius: 20px; /* More rounded */
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.4); /* Stronger modal shadow */
+            position: relative;
+            width: 90%;
+            max-width: 650px; /* Slightly wider max-width */
+            animation: slideIn 0.4s ease-out;
+            color: #333;
+            border: 3px solid #FFB300; /* Thicker amber border */
+        }
+        @keyframes slideIn {
+            from { transform: translateY(-80px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px; /* More space */
+            border-bottom: 4px solid #FFCC80; /* Thicker light amber border */
+            padding-bottom: 20px; /* Increased padding */
+        }
+        .modal-header h3 {
+            margin: 0;
+            color: #2E7D32; /* Darker green for modal title */
+            font-size: 2em; /* Larger modal title */
+            font-weight: bold;
+        }
+        .close-button {
+            color: #BDBDBD; /* Softer grey for close button */
+            font-size: 42px; /* Larger close button */
+            font-weight: bold;
+            transition: color 0.2s, transform 0.2s;
+            cursor: pointer;
+        }
+        .close-button:hover,
+        .close-button:focus {
+            color: #E53935; /* Red on hover */
+            transform: rotate(180deg); /* Full rotation on close for fun */
+        }
+        .modal-body p {
+            margin-bottom: 20px; /* More space */
+            line-height: 1.8; /* Increased line height */
+            font-size: 1.1em; /* Slightly larger text */
+        }
+        .modal-body strong {
+            color: #388E3C; /* Dark green for bold text */
+        }
+        .modal-body .thai-pronunciation {
+            font-style: italic;
+            color: #757575; /* Medium grey for pronunciation */
+            font-size: 1.05em; /* Slightly larger pronunciation */
+            margin-top: 10px;
+            display: block;
+            background-color: #F5F5F5;
+            padding: 10px 15px;
+            border-radius: 8px; /* More rounded */
+        }
+        .modal-body .example-sentence {
+            background-color: #F0F4C3; /* Light lime green for example box */
+            border-left: 8px solid #CDDC39; /* Lime green accent */
+            padding: 20px 25px; /* Increased padding */
+            margin-top: 25px; /* More space */
+            border-radius: 10px; /* More rounded */
+            font-size: 1em; /* Adjusted font size */
+        }
+        .modal-body .example-sentence .translation {
+            display: block;
+            font-style: italic;
+            margin-top: 10px;
+            color: #616161; /* Dark grey for translation */
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            body {
+                padding: 15px;
+            }
+            .app-container {
+                margin: 15px;
+                border-radius: 20px;
+            }
+            .header {
+                font-size: 1.6em;
+                padding: 30px;
+                border-bottom: 6px solid #388E3C;
+                border-top-left-radius: 20px;
+                border-top-right-radius: 20px;
+            }
+            .header h1 {
+                font-size: 1.5em;
+            }
+            .header p {
+                font-size: 1em;
+            }
+            .nav-button {
+                padding: 12px 25px;
+                font-size: 1em;
+                margin: 6px 10px;
+            }
+            .content-section {
+                padding: 30px;
+                font-size: 0.95em;
+            }
+            .content-section p {
+                padding: 20px;
+            }
+            .modal-content {
+                padding: 30px;
+                width: 95%;
+                border-radius: 15px;
+            }
+            .modal-header h3 {
+                font-size: 1.8em;
+            }
+            .close-button {
+                font-size: 36px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .nav-buttons {
+                flex-direction: column;
+                align-items: center;
+                padding: 15px 0;
+            }
+            .nav-button {
+                width: 90%;
+                margin-bottom: 12px;
+                padding: 14px 20px;
+            }
+            .content-section {
+                padding: 20px;
+            }
+            .content-section p {
+                padding: 15px;
+                margin-bottom: 1.5em;
+            }
+            .modal-content {
+                padding: 25px;
+            }
+            .modal-header h3 {
+                font-size: 1.6em;
+            }
+            .close-button {
+                font-size: 32px;
+            }
+            .modal-body .thai-pronunciation {
+                font-size: 0.95em;
+            }
+            .modal-body .example-sentence {
+                padding: 15px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <div class="header">
+            <h1>Thai-Cambodia Border Clash: Ongoing Conflict Affects Thai Civilians</h1>
+            <p>ข่าว: การปะทะชายแดนไทย-กัมพูชา: ความขัดแย้งยังคงดำเนิน กระทบพลเรือนไทย</p>
+            <p>ครูสาลี่ -- อังกฤษฉบับคนเรียนไม่รู้เรื่อง</p>
+        </div>
+        <div class="nav-buttons">
+            <button class="nav-button active" id="beginner-btn">ระดับพื้นฐาน</button>
+            <button class="nav-button" id="advanced-beginner-btn">ระดับเริ่มต้นขั้นสูง</button>
+        </div>
+
+        <div class="content-section beginner" id="beginner-content">
+            <p>
+                There was fighting between Thailand and Cambodia near Ta Muen Thom Temple. This fighting has hurt people in Thailand.
+                The 2nd Army Area Operation Center said the fighting did not stop today, July 24, 2025.
+                Cambodian soldiers <span class="highlight" data-term="started-shooting-beginner">started shooting</span> near Moo Pa Base. Thai soldiers <span class="highlight" data-term="shot-back-beginner">shot back</span>.
+            </p>
+            <p>
+                In an area near Don Tual Temple, two Cambodian tanks were <span class="highlight" data-term="damaged-beginner">damaged</span>. Cambodian soldiers also used rockets to shoot at Kantaralak District in Sisaket Province, hitting a gas station.
+                Near Preah Vihear Temple, there was fighting from Wat Kaeo to Phu Makheua. Both sides are still in their <span class="highlight" data-term="positions-beginner">positions</span>.
+            </p>
+            <p>
+                At Chong Chom, Cambodian soldiers <span class="highlight" data-term="fired-weapons-beginner">fired weapons</span> to help attack Thai <span class="highlight" data-term="civilian-beginner">civilians</span> areas. These areas include Sangkha <span class="highlight" data-term="vocational-college-beginner">Vocational College</span> in Surin, the Thai-Cambodian Border Development Center, and Thai homes.
+                At Ta Muen Thom Temple, after tourism was closed, Cambodian soldiers <span class="highlight" data-term="attacked-thai-soldiers-beginner">attacked Thai soldiers</span> and kept shooting at civilian areas. The fighting has not stopped.
+            </p>
+            <p>
+                Because of the fighting, 11 areas in Thailand were <span class="highlight" data-term="affected-beginner">affected</span>. For example, Nong Raet Village in Surin had 10 <span class="highlight" data-term="artillery-shells-beginner">artillery shells</span> fall.
+                Sadly, 32 people were <span class="highlight" data-term="impacted-beginner">impacted</span>. 20 people were <span class="highlight" data-term="injured-beginner">injured</span>, and 12 people <span class="highlight" data-term="died-beginner">died</span>.
+            </p>
+            <p>
+                The 2nd Army Area Operation Center asks Cambodia to <span class="highlight" data-term="cease-beginner">cease</span> attacking Thai civilian areas. They say this goes against <span class="highlight" data-term="international-law-beginner">international law</span> that protects people.
+                Thailand will only attack military targets. Thailand believes in the rule of law and human rights, but will not let anyone <span class="highlight" data-term="violate-sovereignty-beginner">violate its sovereignty</span> or harm its <span class="highlight" data-term="national-pride-beginner">national pride</span>.
+            </p>
+            <!-- New content for Beginner level (Day 2) -->
+            <p>
+                Today, July 25, is the second day of fighting. Cambodian soldiers <span class="highlight" data-term="opened-fire-beginner">opened fire</span> again this morning. The 2nd Army Area told people to <span class="highlight" data-term="avoid-beginner">avoid</span> the border areas because of many clashes.
+            </p>
+            <p>
+                Reporters said that there was <span class="highlight" data-term="continuous-clashes-beginner">continuous clashes</span> from yesterday evening (July 24) until late at night. Then at 3:25 AM today (July 25), an incident <span class="highlight" data-term="occurred-beginner">occurred</span> near Preah Vihear Temple in Sisaket Province, with fighting.
+            </p>
+            <p>
+                In Kantaralak District, Sisaket Province, people were told to <span class="highlight" data-term="evacuate-beginner">evacuate</span>. They moved to <span class="highlight" data-term="shelter-centers-beginner">shelter centers</span> for safety. Now, <span class="highlight" data-term="villagers-beginner">villagers</span> need essential <span class="highlight" data-term="personal-items-beginner">personal items</span> like toothpaste, soap, and dry food. Drinking water <span class="highlight" data-term="supplies-beginner">supplies</span> are <span class="highlight" data-term="ample-beginner">ample</span>.
+            </p>
+            <p>
+                At 9:00 AM today, the Army got a report that <span class="highlight" data-term="hostilities-beginner">hostilities</span> <span class="highlight" data-term="commenced-beginner">commenced</span> at 4:00 AM in Chong Bok, Ubon Ratchathani, and Phu Makheua, Sisaket. It also happened in Phanom Dong Rak District, Surin. Cambodian soldiers <span class="highlight" data-term="launched-heavy-weapons-beginner">launched heavy weapons</span>, <span class="highlight" data-term="field-artillery-beginner">field artillery</span>, and <span class="highlight" data-term="BM-21-beginner">BM-21</span> rockets. Thai soldiers <span class="highlight" data-term="retaliated-with-supporting-fire-beginner">retaliated with supporting fire</span> as the situation <span class="highlight" data-term="dictated-beginner">dictated</span>.
+            </p>
+            <p>
+                The Army asks people in these areas to <span class="highlight" data-term="refrain-from-beginner">refrain from</span> entering the fighting zones.
+            </p>
+            <p>
+                General Pana Klaewplodtook, the Army Commander, is leading an operation called "Yuthabodin." It is still ongoing, <span class="highlight" data-term="utilizing-beginner">utilizing</span> <span class="highlight" data-term="ground-forces-beginner">ground forces</span> and air support in the <span class="highlight" data-term="operational-zones-beginner">operational zones</span>.
+            </p>
+        </div>
+
+        <div class="content-section advanced-beginner" id="advanced-beginner-content" style="display:none;">
+            <p>
+                A <span class="highlight" data-term="border-conflict-adv-beg">border conflict</span> has <span class="highlight" data-term="occurred-adv-beg">occurred</span> between Thailand and Cambodia near Ta Muen Thom Temple, causing <span class="highlight" data-term="damage-and-injuries-adv-beg">damage and injuries</span> on the Thai side.
+                The 2nd Army Area Operation Center reported on July 24, 2025, that the <span class="highlight" data-term="situation-remains-tense-adv-beg">situation remains tense</span>.
+                Cambodian troops <span class="highlight" data-term="initiated-gunfire-adv-beg">initiated gunfire</span> near Moo Pa Base, prompting Thai soldiers to <span class="highlight" data-term="return-fire-adv-beg">return fire</span>.
+            </p>
+            <p>
+                Near Don Tual Temple, two Cambodian tanks were <span class="highlight" data-term="rendered-inoperable-adv-beg">rendered inoperable</span>. Cambodian forces also launched <span class="highlight" data-term="BM-21-adv-beg">BM-21</span> rockets into Kantaralak District, Sisaket Province, hitting a gas station.
+                Heavy fighting also took place from Wat Kaeo to Phu Makheua near Preah Vihear Temple. Both sides are currently <span class="highlight" data-term="holding-their-ground-adv-beg">holding their ground</span>.
+            </p>
+            <p>
+                At Chong Chom, Cambodian soldiers used <span class="highlight" data-term="supporting-fire-adv-beg">supporting fire</span> against Thai <span class="highlight" data-term="civilian-adv-beg">civilian</span> locations, including Sangkha <span class="highlight" data-term="vocational-college-adv-beg">Vocational College</span> in Surin, the Thai-Cambodian Border Development Center, and homes.
+                After tourism was closed at Ta Muen Thom Temple, Cambodian forces <span class="highlight" data-term="launched-an-offensive-adv-beg">launched an offensive</span> against Thai positions and continued <span class="highlight" data-term="to-shell-civilian-areas-adv-beg">to shell civilian areas</span>. There is no sign of the conflict ending soon.
+            </p>
+            <p>
+                The conflict has <span class="highlight" data-term="affected-adv-beg">affected</span> 11 areas in Thailand. For instance, Nong Raet Village in Surin experienced 10 <span class="highlight" data-term="artillery-shells-adv-beg">artillery shells</span> impacts.
+                In total, 32 Thai civilians have been <span class="highlight" data-term="impacted-adv-beg">impacted</span>, with 20 <span class="highlight" data-term="sustaining-non-fatal-injuries-adv-beg">sustaining non-fatal injuries</span> and 12 <span class="highlight" data-term="fatalities-reported-adv-beg">fatalities reported</span>.
+            </p>
+            <p>
+                The 2nd Army Area Operation Center has <span class="highlight" data-term="urged-cambodia-adv-beg">urged Cambodia</span> to <span class="highlight" data-term="cease-adv-beg">cease</span> attacks on Thai civilian areas, stating that such actions <span class="highlight" data-term="violate-humanitarian-law-adv-beg">violate humanitarian law</span>.
+                Thailand <span class="highlight" data-term="maintains-adv-beg">maintains</span> its commitment to the rule of law and human rights, but will not allow its <span class="highlight" data-term="sovereignty-to-be-violated-adv-beg">sovereignty to be violated</span> or its <span class="highlight" data-term="national-dignity-undermined-adv-beg">national dignity undermined</span>.
+            </p>
+            <!-- New content for Advanced Beginner level (Day 2) -->
+            <p>
+                Entering its second day, Cambodian forces <span class="highlight" data-term="resumed-firing-adv-beg">resumed firing</span> this morning, July 25. The 2nd Army Area has issued a <span class="highlight" data-term="warning-to-the-public-adv-beg">warning to the public</span> to <span class="highlight" data-term="avoid-adv-beg">avoid</span> border areas following multiple clashes.
+            </p>
+            <p>
+                Reporters noted that from yesterday evening (July 24) until late into the night, <span class="highlight" data-term="consistent-clashes-adv-beg">consistent clashes</span> were heard along the border. By 3:25 AM today (July 25), intense <span class="highlight" data-term="hostilities-adv-beg">hostilities</span> were reported near Preah Vihear Temple in Sisaket Province.
+            </p>
+            <p>
+                Kantaralak District in Sisaket Province has been declared an <span class="highlight" data-term="evacuation-zone-adv-beg">evacuation zone</span>, with <span class="highlight" data-term="residents-adv-beg">residents</span> directed to relocate to <span class="highlight" data-term="shelter-centers-adv-beg">shelter centers</span> for their safety. Currently, <span class="highlight" data-term="villagers-adv-beg">villagers</span> are in need of essential <span class="highlight" data-term="personal-items-adv-beg">personal items</span> such as toothpaste, soap, and dried food, though drinking water <span class="highlight" data-term="supplies-adv-beg">supplies</span> are <span class="highlight" data-term="ample-adv-beg">ample</span>.
+            </p>
+            <p>
+                As of 9:00 AM today, the Royal Thai Army received reports from ground units indicating that <span class="highlight" data-term="hostilities-adv-beg">hostilities</span> <span class="highlight" data-term="commenced-adv-beg">commenced</span> at 4:00 AM in Chong Bok, Ubon Ratchathani, Phu Makheua, Sisaket, and Phanom Dong Rak District, Surin. Cambodian forces <span class="highlight" data-term="intensified-their-barrage-adv-beg">intensified their barrage</span> with heavy weaponry, <span class="highlight" data-term="field-artillery-pieces-adv-beg">field artillery pieces</span>, and continuous <span class="highlight" data-term="BM-21-adv-beg">BM-21</span> rocket fire. The Thai side <span class="highlight" data-term="responded-with-support-fire-adv-beg">responded with support fire</span> as the situation <span class="highlight" data-term="dictated-adv-beg">dictated</span>.
+            </p>
+            <p>
+                The Royal Thai Army reiterates its <span class="highlight" data-term="advisory-to-civilians-adv-beg">advisory to civilians</span> to <span class="highlight" data-term="refrain-from-adv-beg">refrain from</span> entering active combat areas.
+            </p>
+            <p>
+                Furthermore, reports indicate that Operation Yuthabodin, under the command of Army Commander Gen. Pana Klaewplodtook as the Incident Commander, remains ongoing, <span class="highlight" data-term="utilizing-adv-beg">utilizing</span> <span class="highlight" data-term="ground-forces-adv-beg">ground forces</span> and air support in the <span class="highlight" data-term="operational-zones-adv-beg">operational zones</span>.
+            </p>
+        </div>
+
+        <div id="myModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 id="modal-title"></h3>
+                    <span class="close-button">&times;</span>
+                </div>
+                <div class="modal-body">
+                    <p><strong>ความหมาย:</strong> <span id="modal-meaning"></span></p>
+                    <p><strong>คำอ่าน (IPA):</strong> <span class="thai-pronunciation" id="modal-pronunciation"></span></p>
+                    <div class="example-sentence">
+                        <p id="modal-example"></p>
+                        <span class="translation" id="modal-translation"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // Data for popups
+        const terms = {
+            // Beginner Version
+            "started-shooting-beginner": {
+                title: "Started shooting",
+                meaning: "เริ่มยิงปืน, เปิดฉากยิง",
+                pronunciation: "/ˈstɑːrtɪd ˈʃuːtɪŋ/",
+                example: "The soldiers started shooting when they saw the enemy.",
+                translation: "ทหารเริ่มยิงเมื่อพวกเขาเห็นศัตรู"
+            },
+            "shot-back-beginner": {
+                title: "Shot back",
+                meaning: "ยิงตอบโต้",
+                pronunciation: "/ʃɒt bæk/",
+                example: "When they were attacked, the soldiers shot back.",
+                translation: "เมื่อพวกเขาถูกโจมตี ทหารก็ยิงตอบโต้"
+            },
+            "damaged-beginner": {
+                title: "Damaged",
+                meaning: "เสียหาย, ถูกทำลาย",
+                pronunciation: "/ˈdæmɪdʒd/",
+                example: "The car was damaged in the accident.",
+                translation: "รถได้รับความเสียหายจากอุบัติเหตุ"
+            },
+            "positions-beginner": {
+                title: "Positions",
+                meaning: "ตำแหน่งที่ตั้ง, ที่มั่น",
+                pronunciation: "/pəˈzɪʃənz/",
+                example: "Both armies are holding their positions.",
+                translation: "กองทัพทั้งสองยังคงอยู่ในที่ตั้งของตน"
+            },
+            "fired-weapons-beginner": {
+                title: "Fired weapons",
+                meaning: "ยิงอาวุธ",
+                pronunciation: "/ˈfaɪərd ˈwɛpənz/",
+                example: "They fired weapons at the target.",
+                translation: "พวกเขายิงอาวุธใส่เป้าหมาย"
+            },
+            "attacked-thai-soldiers-beginner": {
+                title: "Attacked Thai soldiers",
+                meaning: "โจมตีทหารไทย",
+                pronunciation: "/əˈtækt taɪ ˈsoʊldʒərz/",
+                example: "The enemy attacked Thai soldiers in the morning.",
+                translation: "ศัตรูโจมตีทหารไทยในตอนเช้า"
+            },
+            "affected-beginner": {
+                title: "Affected",
+                meaning: "ได้รับผลกระทบ",
+                pronunciation: "/əˈfɛktɪd/",
+                example: "Many homes were affected by the storm.",
+                translation: "บ้านหลายหลังได้รับผลกระทบจากพายุ"
+            },
+            "artillery-shells-beginner": {
+                title: "Artillery shells",
+                meaning: "กระสุนปืนใหญ่",
+                pronunciation: "/ɑːrˈtɪləri ʃɛlz/",
+                example: "The village was hit by several artillery shells.",
+                translation: "หมู่บ้านถูกโจมตีด้วยกระสุนปืนใหญ่หลายลูก"
+            },
+            "impacted-beginner": {
+                title: "Impacted",
+                meaning: "ได้รับผลกระทบ",
+                pronunciation: "/ɪmˈpæktɪd/",
+                example: "The new policy impacted many small businesses.",
+                translation: "นโยบายใหม่ส่งผลกระทบต่อธุรกิจขนาดเล็กจำนวนมาก"
+            },
+            "injured-beginner": {
+                title: "Injured",
+                meaning: "ได้รับบาดเจ็บ",
+                pronunciation: "/ˈɪndʒərd/",
+                example: "Several people were injured in the accident.",
+                translation: "มีหลายคนได้รับบาดเจ็บจากอุบัติเหตุ"
+            },
+            "died-beginner": {
+                title: "Died",
+                meaning: "เสียชีวิต",
+                pronunciation: "/daɪd/",
+                example: "Sadly, three people died in the fire.",
+                translation: "น่าเศร้าที่คนสามคนเสียชีวิตในกองไฟ"
+            },
+            "cease-beginner": {
+                title: "Cease",
+                meaning: "หยุด, ยุติ",
+                pronunciation: "/siːs/",
+                example: "The army was ordered to cease fire.",
+                translation: "กองทัพได้รับคำสั่งให้หยุดยิง"
+            },
+            "international-law-beginner": {
+                title: "International law",
+                meaning: "กฎหมายระหว่างประเทศ",
+                pronunciation: "/ˌɪntərˈnæʃənəl lɔː/",
+                example: "Countries must follow international law.",
+                translation: "ประเทศต่างๆ ต้องปฏิบัติตามกฎหมายระหว่างประเทศ"
+            },
+            "violate-sovereignty-beginner": {
+                title: "Violate its sovereignty",
+                meaning: "ละเมิดอธิปไตย",
+                pronunciation: "/ˈvaɪəleɪt ɪts ˈsɒvrənti/",
+                example: "Invading another country can violate its sovereignty.",
+                translation: "การรุกรานประเทศอื่นสามารถละเมิดอธิปไตยของประเทศนั้นได้"
+            },
+            "civilian-beginner": {
+                title: "Civilian",
+                meaning: "พลเรือน",
+                pronunciation: "/ˈsɪvɪliən/",
+                example: "A civilian is a person who is not a member of the armed forces.",
+                translation: "พลเรือนคือบุคคลที่ไม่ใช่สมาชิกของกองทัพ"
+            },
+            "vocational-college-beginner": {
+                title: "Vocational College",
+                meaning: "วิทยาลัยอาชีวศึกษา",
+                pronunciation: "/voʊˈkeɪʃənəl ˈkɒlɪdʒ/",
+                example: "She studies mechanics at a vocational college.",
+                translation: "เธอเรียนช่างที่วิทยาลัยอาชีวศึกษา"
+            },
+            "national-pride-beginner": {
+                title: "National pride",
+                meaning: "ศักดิ์ศรีของชาติ",
+                pronunciation: "/ˈnæʃənəl praɪd/",
+                example: "Winning the Olympics filled the country with national pride.",
+                translation: "การชนะโอลิมปิกทำให้ประเทศเต็มไปด้วยศักดิ์ศรีของชาติ"
+            },
+            "BM-21-beginner": {
+                title: "BM-21",
+                meaning: "จรวด BM-21",
+                pronunciation: "/ˌbiː ɛm ˈtwɛnti wʌn/",
+                example: "The BM-21 is a type of rocket launcher.",
+                translation: "BM-21 คือเครื่องยิงจรวดชนิดหนึ่ง"
+            },
+            "avoid-beginner": {
+                title: "Avoid",
+                meaning: "หลีกเลี่ยง",
+                pronunciation: "/əˈvɔɪd/",
+                example: "You should avoid eating too much sugar.",
+                translation: "คุณควรหลีกเลี่ยงการกินน้ำตาลมากเกินไป"
+            },
+            "ground-forces-beginner": {
+                title: "Ground forces",
+                meaning: "กำลังภาคพื้นดิน",
+                pronunciation: "/ɡraʊnd ˈfɔːrsɪz/",
+                example: "The army dispatched its ground forces to the battlefield.",
+                translation: "กองทัพส่งกำลังภาคพื้นดินไปยังสนามรบ"
+            },
+            "occurred-beginner": {
+                title: "Occurred",
+                meaning: "เกิดขึ้น",
+                pronunciation: "/əˈkɜːrd/",
+                example: "The incident occurred late at night.",
+                translation: "เหตุการณ์เกิดขึ้นเมื่อกลางดึก"
+            },
+            "maintain-beginner": { // Note: This term isn't directly highlighted in beginner text, but included in data.
+                title: "Maintain",
+                meaning: "รักษาไว้, ดำรงไว้",
+                pronunciation: "/meɪnˈteɪn/",
+                example: "It's important to maintain a healthy diet.",
+                translation: "การรักษาสุขภาพที่ดีเป็นสิ่งสำคัญ"
+            },
+            "residents-beginner": { // Note: This term isn't directly highlighted in beginner text, but included in data.
+                title: "Residents",
+                meaning: "ผู้อยู่อาศัย",
+                pronunciation: "/ˈrɛzɪdənts/",
+                example: "Local residents were asked to cooperate.",
+                translation: "ผู้อยู่อาศัยในท้องถิ่นถูกขอให้ให้ความร่วมมือ"
+            },
+            "villagers-beginner": {
+                title: "Villagers",
+                meaning: "ชาวบ้าน",
+                pronunciation: "/ˈvɪlɪdʒərz/",
+                example: "The villagers gathered at the town hall.",
+                translation: "ชาวบ้านรวมตัวกันที่ศาลาว่าการเมือง"
+            },
+            "personal-items-beginner": {
+                title: "Personal items",
+                meaning: "ของใช้ส่วนตัว",
+                pronunciation: "/ˈpɜːrsənl ˈaɪtəmz/",
+                example: "Please pack your personal items in a small bag.",
+                translation: "โปรดเก็บของใช้ส่วนตัวของคุณในกระเป๋าเล็กๆ"
+            },
+            "supplies-beginner": {
+                title: "Supplies",
+                meaning: "เสบียง, สิ่งของจำเป็น",
+                pronunciation: "/səˈplaɪz/",
+                example: "We received emergency supplies after the flood.",
+                translation: "เราได้รับเสบียงฉุกเฉินหลังน้ำท่วม"
+            },
+            "ample-beginner": {
+                title: "Ample",
+                meaning: "เพียงพอ, อุดมสมบูรณ์",
+                pronunciation: "/ˈæmpl/",
+                example: "They have ample space for all their guests.",
+                translation: "พวกเขามีพื้นที่เพียงพอสำหรับแขกทุกคน"
+            },
+            "hostilities-beginner": {
+                title: "Hostilities",
+                meaning: "การสู้รบ, ความเป็นศัตรู",
+                pronunciation: "/hɒˈstɪlətiz/",
+                example: "The ceasefire helped to end hostilities.",
+                translation: "การหยุดยิงช่วยยุติการสู้รบ"
+            },
+            "commenced-beginner": {
+                title: "Commenced",
+                meaning: "เริ่มต้น",
+                pronunciation: "/kəˈmɛnst/",
+                example: "The meeting commenced at 10 AM.",
+                translation: "การประชุมเริ่มต้นเมื่อเวลา 10 โมงเช้า"
+            },
+            "dictated-beginner": {
+                title: "Dictated",
+                meaning: "กำหนด, บงการ",
+                pronunciation: "/ˈdɪkteɪtɪd/",
+                example: "His actions were dictated by his conscience.",
+                translation: "การกระทำของเขากำหนดโดยจิตสำนึกของเขา"
+            },
+            "refrain-from-beginner": {
+                title: "Refrain from",
+                meaning: "งดเว้นจาก, ละเว้น",
+                pronunciation: "/rɪˈfreɪn frɒm/",
+                example: "Please refrain from smoking in this area.",
+                translation: "กรุณางดเว้นจากการสูบบุหรี่ในบริเวณนี้"
+            },
+            "utilizing-beginner": {
+                title: "Utilizing",
+                meaning: "การใช้ประโยชน์จาก",
+                pronunciation: "/ˈjuːtəlaɪzɪŋ/",
+                example: "They are utilizing new technology.",
+                translation: "พวกเขากำลังใช้ประโยชน์จากเทคโนโลยีใหม่"
+            },
+            "operational-zones-beginner": {
+                title: "Operational zones",
+                meaning: "เขตปฏิบัติการ",
+                pronunciation: "/ˌɒpəˈreɪʃənl zoʊnz/",
+                example: "Soldiers were deployed to the operational zones.",
+                translation: "ทหารถูกส่งไปยังเขตปฏิบัติการ"
+            },
+
+            // Advanced Beginner Version
+            "border-conflict-adv-beg": {
+                title: "Border conflict",
+                meaning: "ความขัดแย้งบริเวณชายแดน",
+                pronunciation: "/ˈbɔːrdər ˈkɒnflɪkt/",
+                example: "The ongoing border conflict has displaced many families.",
+                translation: "ความขัดแย้งบริเวณชายแดนที่กำลังดำเนินอยู่ทำให้หลายครอบครัวต้องพลัดถิ่น"
+            },
+            "damage-and-injuries-adv-beg": {
+                title: "Damage and injuries",
+                meaning: "ความเสียหายและการบาดเจ็บ",
+                pronunciation: "/ˈdæmɪdʒ ænd ˈɪndʒəriz/",
+                example: "The earthquake caused extensive damage and many injuries.",
+                translation: "แผ่นดินไหวสร้างความเสียหายอย่างกว้างขวางและมีผู้บาดเจ็บจำนวนมาก"
+            },
+            "situation-remains-tense-adv-beg": {
+                title: "Situation remains tense",
+                meaning: "สถานการณ์ยังคงตึงเครียด",
+                pronunciation: "/ˌsɪtʃuˈeɪʃən rɪˈmeɪnz tɛns/",
+                example: "Despite negotiations, the situation remains tense.",
+                translation: "แม้จะมีการเจรจา แต่สถานการณ์ก็ยังคงตึงเครียด"
+            },
+            "initiated-gunfire-adv-beg": {
+                title: "Initiated gunfire",
+                meaning: "เริ่มยิงปืน",
+                pronunciation: "/ɪˈnɪʃieɪtɪd ˈɡʌnfaɪər/",
+                example: "The patrol unit initiated gunfire after being ambushed.",
+                translation: "หน่วยลาดตระเวนเริ่มยิงปืนหลังจากถูกซุ่มโจมตี"
+            },
+            "return-fire-adv-beg": {
+                title: "Return fire",
+                meaning: "ยิงโต้ตอบ",
+                pronunciation: "/rɪˈtɜːrn ˈfaɪər/",
+                example: "They had no choice but to return fire.",
+                translation: "พวกเขาไม่มีทางเลือกนอกจากต้องยิงโต้ตอบ"
+            },
+            "rendered-inoperable-adv-beg": {
+                title: "Rendered inoperable",
+                meaning: "ทำให้ใช้การไม่ได้",
+                pronunciation: "/ˈrɛndərd ɪnˈɒpərəbəl/",
+                example: "The faulty engine rendered the machine inoperable.",
+                translation: "เครื่องยนต์ที่ชำรุดทำให้เครื่องจักรใช้การไม่ได้"
+            },
+            "holding-their-ground-adv-beg": {
+                title: "Holding their ground",
+                meaning: "ยึดที่มั่นไว้, ไม่ถอย",
+                pronunciation: "/ˈhoʊldɪŋ ðɛər ɡraʊnd/",
+                example: "The defenders were determined to hold their ground.",
+                translation: "ผู้ป้องกันตั้งใจแน่วแน่ที่จะยึดที่มั่นไว้"
+            },
+            "supporting-fire-adv-beg": {
+                title: "Supporting fire",
+                meaning: "การยิงคุ้มกัน, การยิงสนับสนุน",
+                pronunciation: "/səˈpɔːrtɪŋ ˈfaɪər/",
+                example: "The troops advanced under heavy supporting fire.",
+                translation: "กองทัพรุกคืบภายใต้การยิงคุ้มกันอย่างหนัก"
+            },
+            "launched-an-offensive-adv-beg": {
+                title: "Launched an offensive",
+                meaning: "เปิดฉากการโจมตี",
+                pronunciation: "/lɔːntʃt ən əˈfɛnsɪv/",
+                example: "The army launched an offensive against rebel strongholds.",
+                translation: "กองทัพเปิดฉากการโจมตีฐานที่มั่นของกลุ่มกบฏ"
+            },
+            "to-shell-civilian-areas-adv-beg": {
+                title: "To shell civilian areas",
+                meaning: "ยิงปืนใหญ่ใส่พื้นที่พลเรือน",
+                pronunciation: "/tuː ʃɛl sɪˈvɪliən ˈɛəriəz/",
+                example: "It is a war crime to shell civilian areas.",
+                translation: "การยิงปืนใหญ่ใส่พื้นที่พลเรือนเป็นอาชญากรรมสงคราม"
+            },
+            "affected-adv-beg": {
+                title: "Affected",
+                meaning: "ได้รับผลกระทบ",
+                pronunciation: "/əˈfɛktɪd/",
+                example: "The drought affected agricultural production across the region.",
+                translation: "ภัยแล้งส่งผลกระทบต่อผลผลิตทางการเกษตรทั่วทั้งภูมิภาค"
+            },
+            "artillery-shells-adv-beg": {
+                title: "Artillery shells",
+                meaning: "กระสุนปืนใหญ่",
+                pronunciation: "/ɑːrˈtɪləri ʃɛlz/",
+                example: "The town was heavily shelled with artillery shells.",
+                translation: "เมืองถูกยิงด้วยกระสุนปืนใหญ่อย่างหนัก"
+            },
+            "impacted-adv-beg": {
+                title: "Impacted",
+                meaning: "ได้รับผลกระทบ, ส่งผลกระทบ",
+                pronunciation: "/ɪmˈpæktɪd/",
+                example: "The new regulations greatly impacted small businesses.",
+                translation: "กฎระเบียบใหม่ส่งผลกระทบอย่างมากต่อธุรกิจขนาดเล็ก"
+            },
+            "sustaining-non-fatal-injuries-adv-beg": {
+                title: "Sustaining non-fatal injuries",
+                meaning: "ได้รับบาดเจ็บแต่ไม่ถึงชีวิต",
+                pronunciation: "/səsˈteɪnɪŋ nɒn-ˈfeɪtl ˈɪndʒəriz/",
+                example: "Most passengers sustained non-fatal injuries in the train derailment.",
+                translation: "ผู้โดยสารส่วนใหญ่ได้รับบาดเจ็บแต่ไม่ถึงชีวิตจากเหตุรถไฟตกราง"
+            },
+            "fatalities-reported-adv-beg": {
+                title: "Fatalities reported",
+                meaning: "มีผู้เสียชีวิตรายงาน",
+                pronunciation: "/fəˈtælɪtiz rɪˈpɔːrtɪd/",
+                example: "No fatalities were reported despite the severe accident.",
+                translation: "ไม่มีผู้เสียชีวิตรายงานแม้เกิดอุบัติเหตุร้ายแรง"
+            },
+            "cease-adv-beg": {
+                title: "Cease",
+                meaning: "ยุติ, หยุดยั้ง",
+                pronunciation: "/siːs/",
+                example: "Negotiations aim to bring about a complete cease-fire.",
+                translation: "การเจรจามีเป้าหมายเพื่อให้เกิดการหยุดยิงอย่างสมบูรณ์"
+            },
+            "urged-cambodia-adv-beg": {
+                title: "Urged Cambodia",
+                meaning: "เรียกร้องให้กัมพูชา",
+                pronunciation: "/ɜːrdʒd ˌkæmˈboʊdiə/",
+                example: "The UN urged Cambodia to adhere to the peace treaty.",
+                translation: "UN เรียกร้องให้กัมพูชาปฏิบัติตามสนธิสัญญาสันติภาพ"
+            },
+            "violate-humanitarian-law-adv-beg": {
+                title: "Violate humanitarian law",
+                meaning: "ละเมิดกฎหมายมนุษยธรรม",
+                pronunciation: "/ˈvaɪəleɪt ˌhjuːmənɪˈtɛəriən lɔː/",
+                example: "Targeting civilians violates humanitarian law.",
+                translation: "การกำหนดเป้าหมายพลเรือนเป็นการละเมิดกฎหมายมนุษยธรรม"
+            },
+            "sovereignty-to-be-violated-adv-beg": {
+                title: "Sovereignty to be violated",
+                meaning: "อธิปไตยถูกละเมิด",
+                pronunciation: "/ˈsɒvrənti tuː bi ˈvaɪəleɪtɪd/",
+                example: "Any unauthorized entry would mean sovereignty to be violated.",
+                translation: "การเข้าโดยไม่ได้รับอนุญาตใดๆ จะหมายถึงอธิปไตยถูกละเมิด"
+            },
+            "national-dignity-undermined-adv-beg": {
+                title: "National dignity undermined",
+                meaning: "ศักดิ์ศรีของชาติถูกบ่อนทำลาย",
+                pronunciation: "/ˈnæʃənəl ˈdɪɡnɪti ˌʌndərˈmaɪnd/",
+                example: "These actions could lead to national dignity undermined.",
+                translation: "การกระทำเหล่านี้อาจนำไปสู่การที่ศักดิ์ศรีของชาติถูกบ่อนทำลาย"
+            },
+            "civilian-adv-beg": {
+                title: "Civilian",
+                meaning: "พลเรือน",
+                pronunciation: "/ˈsɪvɪliən/",
+                example: "The military prioritizes the safety of civilians during conflict.",
+                translation: "กองทัพให้ความสำคัญกับความปลอดภัยของพลเรือนในระหว่างความขัดแย้ง"
+            },
+            "vocational-college-adv-beg": {
+                title: "Vocational College",
+                meaning: "วิทยาลัยอาชีวศึกษา",
+                pronunciation: "/voʊˈkeɪʃənəl ˈkɒlɪdʒ/",
+                example: "Graduates from the vocational college are highly sought after in technical industries.",
+                translation: "ผู้สำเร็จการศึกษาจากวิทยาลัยอาชีวศึกษาเป็นที่ต้องการอย่างมากในอุตสาหกรรมเทคนิค"
+            },
+            "national-pride-adv-beg": {
+                title: "National pride",
+                meaning: "ศักดิ์ศรีของชาติ",
+                pronunciation: "/ˈnæʃənəl praɪd/",
+                example: "Preserving national pride is crucial for a country's identity.",
+                translation: "การรักษาศักดิ์ศรีของชาติเป็นสิ่งสำคัญสำหรับเอกลักษณ์ของประเทศ"
+            },
+            "BM-21-adv-beg": {
+                title: "BM-21",
+                meaning: "จรวด BM-21",
+                pronunciation: "/ˌbiː ɛm ˈtwɛnti wʌn/",
+                example: "The BM-21 rocket system is known for its multiple launch capability.",
+                translation: "ระบบจรวด BM-21 เป็นที่รู้จักจากความสามารถในการยิงหลายนัด"
+            },
+            "avoid-adv-beg": {
+                title: "Avoid",
+                meaning: "หลีกเลี่ยง",
+                pronunciation: "/əˈvɔɪd/",
+                example: "It is advisable to avoid unnecessary travel during the alert period.",
+                translation: "ควรหลีกเลี่ยงการเดินทางที่ไม่จำเป็นในช่วงเวลาเตือนภัย"
+            },
+            "ground-forces-adv-beg": {
+                title: "Ground forces",
+                meaning: "กำลังภาคพื้นดิน",
+                pronunciation: "/ɡraʊnd ˈfɔːrsɪz/",
+                example: "The operation relied heavily on the swift deployment of ground forces.",
+                translation: "ปฏิบัติการพึ่งพาการส่งกำลังภาคพื้นดินอย่างรวดเร็วเป็นอย่างมาก"
+            },
+            "occurred-adv-beg": {
+                title: "Occurred",
+                meaning: "เกิดขึ้น",
+                pronunciation: "/əˈkɜːrd/",
+                example: "The incident occurred during the early hours of the morning.",
+                translation: "เหตุการณ์เกิดขึ้นในช่วงเช้าตรู่"
+            },
+            "maintains-adv-beg": {
+                title: "Maintains",
+                meaning: "รักษาไว้, ดำรงไว้",
+                pronunciation: "/meɪnˈteɪnz/",
+                example: "The government maintains strict control over border security.",
+                translation: "รัฐบาลรักษาการควบคุมความมั่นคงชายแดนอย่างเข้มงวด"
+            },
+            "residents-adv-beg": {
+                title: "Residents",
+                meaning: "ผู้อยู่อาศัย",
+                pronunciation: "/ˈrɛzɪdənts/",
+                example: "Local residents were advised to stay indoors.",
+                translation: "ผู้อยู่อาศัยในท้องถิ่นได้รับคำแนะนำให้อยู่ในบ้าน"
+            },
+            "villagers-adv-beg": {
+                title: "Villagers",
+                meaning: "ชาวบ้าน",
+                pronunciation: "/ˈvɪlɪdʒərz/",
+                example: "The villagers are working together to rebuild their homes.",
+                translation: "ชาวบ้านกำลังทำงานร่วมกันเพื่อสร้างบ้านเรือนของพวกเขาขึ้นใหม่"
+            },
+            "personal-items-adv-beg": {
+                title: "Personal items",
+                meaning: "ของใช้ส่วนตัว",
+                pronunciation: "/ˈpɜːrsənl ˈaɪtəmz/",
+                example: "Evacuees were encouraged to bring only essential personal items.",
+                translation: "ผู้ถูกอพยพได้รับการสนับสนุนให้นำมาเฉพาะของใช้ส่วนตัวที่จำเป็น"
+            },
+            "supplies-adv-beg": {
+                title: "Supplies",
+                meaning: "เสบียง, สิ่งของจำเป็น",
+                pronunciation: "/səˈplaɪz/",
+                example: "Humanitarian aid organizations are delivering supplies to affected regions.",
+                translation: "องค์กรช่วยเหลือด้านมนุษยธรรมกำลังส่งมอบเสบียงไปยังพื้นที่ที่ได้รับผลกระทบ"
+            },
+            "ample-adv-beg": {
+                title: "Ample",
+                meaning: "เพียงพอ, อุดมสมบูรณ์",
+                pronunciation: "/ˈæmpl/",
+                example: "The shelter has ample space to accommodate more people.",
+                translation: "ศูนย์พักพิงมีพื้นที่เพียงพอที่จะรองรับผู้คนได้มากขึ้น"
+            },
+            "hostilities-adv-beg": {
+                title: "Hostilities",
+                meaning: "การสู้รบ, ความเป็นศัตรู",
+                pronunciation: "/hɒˈstɪlətiz/",
+                example: "A truce was declared to end hostilities between the two factions.",
+                translation: "มีการประกาศการพักรบเพื่อยุติการสู้รบระหว่างสองฝ่าย"
+            },
+            "commenced-adv-beg": {
+                title: "Commenced",
+                meaning: "เริ่มต้น",
+                pronunciation: "/kəˈmɛnst/",
+                example: "The evacuation process commenced immediately after the warning.",
+                translation: "กระบวนการอพยพเริ่มต้นทันทีหลังจากคำเตือน"
+            },
+            "dictated-adv-beg": {
+                title: "Dictated",
+                meaning: "กำหนด, บงการ",
+                pronunciation: "/ˈdɪkteɪtɪd/",
+                example: "The emergency response was dictated by the severity of the disaster.",
+                translation: "การตอบสนองฉุกเฉินถูกกำหนดโดยความรุนแรงของภัยพิบัติ"
+            },
+            "refrain-from-adv-beg": {
+                title: "Refrain from",
+                meaning: "งดเว้นจาก, ละเว้น",
+                pronunciation: "/rɪˈfreɪn frɒm/",
+                example: "Civilians are urged to refrain from approaching unauthorized zones.",
+                translation: "พลเรือนได้รับการเรียกร้องให้งดเว้นจากการเข้าใกล้เขตหวงห้าม"
+            },
+            "utilizing-adv-beg": {
+                title: "Utilizing",
+                meaning: "การใช้ประโยชน์จาก",
+                pronunciation: "/ˈjuːtəlaɪzɪŋ/",
+                example: "The team is utilizing advanced analytics to improve their strategy.",
+                translation: "ทีมกำลังใช้ประโยชน์จากการวิเคราะห์ขั้นสูงเพื่อปรับปรุงกลยุทธ์ของพวกเขา"
+            },
+            "operational-zones-adv-beg": {
+                title: "Operational zones",
+                meaning: "เขตปฏิบัติการ",
+                pronunciation: "/ˌɒpəˈreɪʃənl zoʊnz/",
+                example: "Strict security measures are enforced within the operational zones.",
+                translation: "มีการบังคับใช้มาตรการรักษาความปลอดภัยอย่างเข้มงวดภายในเขตปฏิบัติการ"
+            }
+        };
+
+        const beginnerBtn = document.getElementById('beginner-btn');
+        const advancedBeginnerBtn = document.getElementById('advanced-beginner-btn');
+
+        const beginnerContent = document.getElementById('beginner-content');
+        const advancedBeginnerContent = document.getElementById('advanced-beginner-content');
+
+        const modal = document.getElementById('myModal');
+        const closeButton = document.querySelector('.close-button');
+        const modalTitle = document.getElementById('modal-title');
+        const modalMeaning = document.getElementById('modal-meaning');
+        const modalPronunciation = document.getElementById('modal-pronunciation');
+        const modalExample = document.getElementById('modal-example');
+        const modalTranslation = document.getElementById('modal-translation');
+
+        // Function to switch content levels
+        function switchContent(level) {
+            // Hide all content sections first
+            beginnerContent.style.display = 'none';
+            advancedBeginnerContent.style.display = 'none';
+
+            // Remove active class from all buttons
+            beginnerBtn.classList.remove('active');
+            advancedBeginnerBtn.classList.remove('active');
+
+            // Show the selected content and add active class to its button
+            if (level === 'beginner') {
+                beginnerContent.style.display = 'block';
+                beginnerBtn.classList.add('active');
+            } else if (level === 'advanced-beginner') {
+                advancedBeginnerContent.style.display = 'block';
+                advancedBeginnerBtn.classList.add('active');
+            }
+            // Re-attach highlight listeners for the newly visible content
+            attachHighlightListeners();
+        }
+
+        // Function to attach event listeners to highlighted terms
+        function attachHighlightListeners() {
+            // Get all current highlights from the DOM
+            const currentHighlights = document.querySelectorAll('.highlight');
+
+            // Remove existing listeners to prevent duplicates (important if content changes dynamically)
+            currentHighlights.forEach(oldHighlight => {
+                oldHighlight.removeEventListener('click', handleHighlightClick);
+            });
+
+            // Add new listeners to all currently visible highlights
+            currentHighlights.forEach(highlight => {
+                highlight.addEventListener('click', handleHighlightClick);
+            });
+        }
+
+        // Handler function for when a highlighted term is clicked
+        function handleHighlightClick(event) {
+            const termKey = event.target.dataset.term; // Get the data-term attribute value
+            const termData = terms[termKey]; // Look up the term data in the 'terms' object
+
+            if (termData) {
+                // Populate the modal with the term's information
+                modalTitle.textContent = termData.title;
+                modalMeaning.textContent = termData.meaning;
+                // IPA will be displayed directly
+                modalPronunciation.textContent = termData.pronunciation;
+                modalExample.textContent = termData.example;
+                modalTranslation.textContent = termData.translation;
+                modal.classList.add('show'); // Show the modal
+            }
+        }
+
+        // Event listeners for navigation buttons
+        beginnerBtn.addEventListener('click', () => switchContent('beginner'));
+        advancedBeginnerBtn.addEventListener('click', () => switchContent('advanced-beginner'));
+
+        // Event listener for closing the modal via the close button
+        closeButton.addEventListener('click', () => {
+            modal.classList.remove('show');
+        });
+
+        // Event listener for closing the modal when clicking outside of it
+        window.addEventListener('click', (event) => {
+            if (event.target === modal) {
+                modal.classList.remove('show');
+            }
+        });
+
+        // Initialize content display and attach listeners on page load
+        switchContent('beginner');
+    </script>
+</body>
+</html>

@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>สรุปข่าวไทย-กัมพูชา 27 ก.ค. 2568</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Kanit', sans-serif; /* ใช้ฟอนต์ Kanit เพื่อความแตกต่าง */
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(to bottom right, #2c3e50, #4a69bd); /* พื้นหลังสีเข้มไล่โทน */
+            color: #ecf0f1; /* สีตัวอักษรเริ่มต้น */
+        }
+        .container {
+            background-color: #f5f6fa; /* สีพื้นหลังกล่องหลัก */
+            border-radius: 25px; /* มุมโค้งมนมากขึ้น */
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4); /* เงาเข้มขึ้น */
+            max-width: 950px; /* ขยายความกว้าง */
+            width: 95%;
+            padding: 40px;
+            margin: 20px auto;
+            border: 2px solid #5d6d7e; /* ขอบเข้มขึ้น */
+            position: relative;
+            overflow: hidden;
+            color: #34495e; /* สีตัวอักษรในกล่องหลัก */
+        }
+        h1 {
+            color: #f39c12; /* สีส้มสดใสสำหรับหัวข้อหลัก */
+            text-align: center;
+            font-weight: 700;
+            margin-bottom: 8px;
+            font-size: 3.2em; /* เพิ่มขนาดใหญ่มาก */
+            letter-spacing: 1px; /* เพิ่มระยะห่างตัวอักษร */
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2); /* เงาคมชัดขึ้น */
+        }
+        .subtitle {
+            color: #8e44ad; /* สีม่วงสำหรับคำบรรยายรอง */
+            text-align: center;
+            font-weight: 600;
+            font-size: 1.3em;
+            margin-bottom: 25px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+        .news-date {
+            color: #95a5a6; /* สีเทาอ่อนสำหรับวันที่ */
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 1em;
+            font-style: italic;
+        }
+        h2 {
+            font-weight: 700;
+            margin-top: 35px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid; /* ขีดเส้นใต้หนาขึ้น */
+            font-size: 1.8em;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+        .beginner-section h2 {
+            color: #3498db; /* สีน้ำเงินสดใสสำหรับหัวข้อ Beginners */
+            border-color: #3498db;
+        }
+        .advanced-beginner-section h2 {
+            color: #e74c3c; /* สีแดงสดใสสำหรับหัวข้อ Advanced Beginners */
+            border-color: #e74c3c;
+        }
+        .summary-paragraph {
+            background-color: #ffffff; /* สีขาวสำหรับกล่องย่อหน้า */
+            border-radius: 12px; /* มุมโค้งมนเล็กน้อย */
+            padding: 20px 25px;
+            margin-bottom: 20px;
+            line-height: 1.8;
+            font-size: 1.1em;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08); /* เงาเล็กน้อย */
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        }
+        .summary-paragraph:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+        .highlighted-word {
+            cursor: pointer;
+            font-weight: 700; /* ตัวหนาขึ้น */
+            position: relative;
+            padding: 3px 8px;
+            border-radius: 8px;
+            transition: background-color 0.2s ease-in-out, transform 0.1s ease-in-out, box-shadow 0.2s ease-in-out;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.15); /* เงาโดดเด่น */
+        }
+        .highlighted-word:hover {
+            transform: scale(1.05); /* ขยายเล็กน้อยเมื่อ hover */
+            box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+        }
+        .popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.85); /* พื้นหลังป็อปอัพเข้มขึ้น */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            backdrop-filter: blur(8px); /* เบลอมากขึ้น */
+            -webkit-backdrop-filter: blur(8px);
+        }
+        .popup-box {
+            background-color: #2c3e50; /* สีพื้นหลังป็อปอัพเข้ม */
+            color: #ecf0f1; /* สีตัวอักษรป็อปอัพ */
+            border-radius: 20px;
+            padding: 35px;
+            max-width: 550px;
+            width: 90%;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6); /* เงาคมชัด */
+            position: relative;
+            text-align: center;
+            animation: fadeIn 0.4s ease-out; /* แอนิเมชันเร็วขึ้น */
+            border: 3px solid #3498db; /* ขอบป็อปอัพ */
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .popup-box h3 {
+            font-size: 2.2em; /* ขนาดตัวอักษรในป็อปอัพใหญ่ขึ้น */
+            font-weight: 700;
+            color: #f1c40f; /* สีเหลืองสดใสสำหรับคำในป็อปอัพ */
+            margin-bottom: 15px;
+            letter-spacing: 1px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+        .popup-box p {
+            font-size: 1.2em; /* ขนาดตัวอักษรในป็อปอัพใหญ่ขึ้น */
+            margin-bottom: 10px;
+        }
+        .popup-box .ipa {
+            font-family: 'Times New Roman', serif;
+            font-size: 1.5em; /* ขนาด IPA ใหญ่ขึ้น */
+            color: #2ecc71; /* สีเขียวสดใสสำหรับ IPA */
+            font-weight: 600;
+            margin-top: 10px;
+            margin-bottom: 15px;
+        }
+        .popup-box .example {
+            font-style: italic;
+            font-size: 1.05em;
+            color: #bdc3c7; /* สีเทาอ่อนสำหรับตัวอย่างประโยค */
+            padding-top: 15px;
+            border-top: 1px solid rgba(255,255,255,0.3); /* เส้นแบ่งจางๆ */
+            margin-top: 15px;
+        }
+        .popup-close {
+            background-color: #e74c3c; /* ปุ่มปิดสีแดง */
+            color: white;
+            border: none;
+            border-radius: 12px;
+            padding: 12px 25px;
+            cursor: pointer;
+            font-size: 1.2em;
+            font-weight: 700;
+            margin-top: 25px;
+            transition: background-color 0.3s ease-in-out, transform 0.2s ease-in-out;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        .popup-close:hover {
+            background-color: #c0392b;
+            transform: translateY(-2px) scale(1.02);
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.85); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        /* Tab specific styles */
+        .tab-buttons {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+            background-color: #4a69bd; /* สีพื้นหลังแท็บ */
+            border-radius: 15px;
+            padding: 8px;
+            box-shadow: inset 0 3px 10px rgba(0,0,0,0.3); /* เงาแท็บ */
+            overflow: hidden; /* Ensure rounded corners are respected */
+        }
+        .tab-button {
+            padding: 15px 30px;
+            border: none;
+            background-color: transparent;
+            cursor: pointer;
+            font-size: 1.2em;
+            font-weight: 600;
+            color: #bdc3c7; /* สีตัวอักษรแท็บไม่ใช้งาน */
+            border-radius: 10px; /* มุมโค้งมนปุ่มแท็บ */
+            transition: all 0.3s ease-in-out;
+            flex: 1;
+            text-align: center;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+        .tab-button.active {
+            background-color: #f39c12; /* สีส้มสดใสสำหรับแท็บที่ใช้งาน */
+            color: white;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.25);
+            transform: translateY(-3px) scale(1.02);
+            font-weight: 700;
+        }
+        .tab-button:hover:not(.active) {
+            background-color: rgba(255,255,255,0.1); /* สีจางๆ เมื่อ hover แท็บไม่ใช้งาน */
+            color: #ecf0f1;
+        }
+        .tab-content {
+            display: none;
+            animation: fadeInContent 0.6s ease-out;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        @keyframes fadeInContent {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .container {
+                padding: 25px;
+                margin: 15px auto;
+                border-radius: 15px;
+            }
+            h1 {
+                font-size: 2.5em;
+            }
+            .subtitle {
+                font-size: 1em;
+            }
+            .news-date {
+                font-size: 0.85em;
+            }
+            h2 {
+                font-size: 1.6em;
+            }
+            .summary-paragraph {
+                font-size: 1em;
+                padding: 15px 20px;
+                border-radius: 10px;
+            }
+            .popup-box {
+                padding: 25px;
+                max-width: 95%;
+                border-radius: 15px;
+            }
+            .popup-box h3 {
+                font-size: 1.8em;
+            }
+            .popup-box p {
+                font-size: 1em;
+            }
+            .popup-box .ipa {
+                font-size: 1.2em;
+            }
+            .popup-close {
+                padding: 10px 20px;
+                font-size: 1em;
+                border-radius: 10px;
+            }
+            .tab-button {
+                padding: 12px 18px;
+                font-size: 1em;
+                border-radius: 8px;
+            }
+            .tab-buttons {
+                border-radius: 12px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 2em;
+            }
+            .subtitle {
+                font-size: 0.9em;
+            }
+            .summary-paragraph {
+                font-size: 0.9em;
+            }
+            .popup-box h3 {
+                font-size: 1.4em;
+            }
+            .popup-box p {
+                font-size: 0.9em;
+            }
+            .popup-box .ipa {
+                font-size: 1.1em;
+            }
+            .tab-button {
+                font-size: 0.9em;
+                padding: 10px 10px;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-gray-900 to-blue-900 min-h-screen flex items-center justify-center p-4">
+    <div class="container">
+        <h1>สรุปสถานการณ์ไทย-กัมพูชา</h1>
+        <p class="subtitle">ครูสาลี่ -- อังกฤษฉบับคนเรียนไม่รู้เรื่อง</p>
+        <p class="news-date">อัปเดตล่าสุด: 27 กรกฎาคม 2568 (รายงานสดจากชายแดน)</p>
+
+        <div class="tab-buttons">
+            <button class="tab-button active" onclick="openTab('beginner')">สำหรับผู้เริ่มต้น (Beginners)</button>
+            <button class="tab-button" onclick="openTab('advanced-beginner')">สำหรับผู้เริ่มต้นระดับกลาง (Advanced Beginners)</button>
+        </div>
+
+        <div id="beginner" class="tab-content active">
+            <h2 class="text-2xl font-semibold mb-4">สำหรับผู้เริ่มต้น (Beginners)</h2>
+            <div class="summary-paragraph">
+                The <span class="highlighted-word" data-word="fight" data-thai="การปะทะ" data-ipa="/faɪt/" data-example="The **fight** between the two groups lasted for hours.">fight</span> between Thailand and Cambodia is now on its <span class="highlighted-word" data-word="4th day" data-thai="วันที่ 4" data-ipa="/fɔːrθ deɪ/" data-example="Today is the **4th day** of the school holidays.">4th day</span>.
+            </div>
+            <div class="summary-paragraph">
+                Donald Trump <span class="highlighted-word" data-word="asked" data-thai="เรียกร้อง/ขอ" data-ipa="/æskd/" data-example="She **asked** him to help her with her homework.">asked</span> both sides to <span class="highlighted-word" data-word="stop fighting" data-thai="หยุดยิง" data-ipa="/stɒp ˈfaɪtɪŋ/" data-example="The leaders agreed to **stop fighting** and talk.">stop fighting</span> and then <span class="highlighted-word" data-word="talk about trade" data-thai="เจรจาข้อตกลงการค้า" data-ipa="/tɔːk əˈbaʊt treɪd/" data-example="They will meet to **talk about trade** agreements.">talk about trade</span>.
+            </div>
+            <div class="summary-paragraph">
+                But Thai soldiers will <span class="highlighted-word" data-word="only stop" data-thai="จะหยุดก็ต่อเมื่อ" data-ipa="/ˈoʊnli stɒp/" data-example="We will **only stop** when the job is done.">only stop</span> if Cambodia <span class="highlighted-word" data-word="asks to talk first" data-thai="เป็นฝ่ายมาขอเจรจาเท่านั้น" data-ipa="/æks tuː tɔːk fɜːrst/" data-example="The teacher said she would listen if he **asks to talk first**.">asks to talk first</span>.
+            </div>
+            <div class="summary-paragraph">
+                The <span class="highlighted-word" data-word="fighting started" data-thai="สถานการณ์การปะทะ" data-ipa="/ˈfaɪtɪŋ ˈstɑːrtɪd/" data-example="The **fighting started** unexpectedly in the morning.">fighting started</span> when Cambodia <span class="highlighted-word" data-word="shot at" data-thai="เปิดฉากยิงเข้าใส่" data-ipa="/ʃɒt æt/" data-example="The enemy **shot at** the fortress walls.">shot at</span> a Thai army base in Surin on July 24. Later, the fighting spread to Chanthaburi and Trat.
+            </div>
+            <div class="summary-paragraph">
+                Thailand and Cambodia will <span class="highlighted-word" data-word="talk in Malaysia tomorrow" data-thai="จะหารือที่มาเลเซียพรุ่งนี้" data-ipa="/tɔːk ɪn məˈleɪʒə təˈmɒrəʊ/" data-example="The delegates will **talk in Malaysia tomorrow** to find a solution.">talk in Malaysia tomorrow</span>.
+            </div>
+            <div class="summary-paragraph">
+                A Cambodian <span class="highlighted-word" data-word="rocket hit" data-thai="จรวดตกในพื้นที่" data-ipa="/ˈrɒkɪt hɪt/" data-example="A **rocket hit** an empty field, causing no harm.">rocket hit</span> Sisaket, killing 1 person and hurting 1. A casino near the border was <span class="highlighted-word" data-word="shot at (casino)" data-thai="ถูกยิง" data-ipa="/ʃɒt æt/" data-example="The **casino was shot at**, leading to a lot of smoke.">shot at</span>, causing smoke.
+            </div>
+            <div class="summary-paragraph">
+                Thai soldiers <span class="highlighted-word" data-word="returned 12 dead Cambodian soldiers" data-thai="ส่งร่างทหารกัมพูชา 12 นาย ที่เสียชีวิต" data-ipa="/rɪˈtɜːrnd twɛlv dɛd kæmˈboʊdiən ˈsoʊldʒərz/" data-example="The army **returned 12 dead Cambodian soldiers** to their families for burial.">returned 12 dead Cambodian soldiers</span> to Cambodia. The fighting is still <span class="highlighted-word" data-word="very tense" data-thai="มีความตึงเครียดสูง" data-ipa="/ˈvɛri tɛns/" data-example="The atmosphere in the room was **very tense** before the announcement.">very tense</span>. Thai soldiers <span class="highlighted-word" data-word="took back" data-thai="ยึดคืนพื้นที่" data-ipa="/tʊk bæk/" data-example="They successfully **took back** the lost territory after a long battle.">took back</span> a key area.
+            </div>
+            <div class="summary-paragraph">
+                The Thai Air Force <span class="highlighted-word" data-word="asked people not to share" data-thai="ขอความร่วมมืองดเผยแพร่" data-ipa="/æskd ˈpiːpl nɒt tuː ʃɛər/" data-example="The company **asked people not to share** private customer information.">asked people not to share</span> details about their weapons. People are <span class="highlighted-word" data-word="leaving Cambodia" data-thai="หลั่งไหลแห่เดินทางกลับประเทศ" data-ipa="/ˈliːvɪŋ kæmˈboʊdiə/" data-example="Many tourists were **leaving Cambodia** after the holidays due to new regulations.">leaving Cambodia</span> and going back to Thailand.
+            </div>
+            <div class="summary-paragraph">
+                Some hospitals and schools near the border are <span class="highlighted-word" data-word="closed" data-thai="ปิดไม่มีกำหนด" data-ipa="/kloʊzd/" data-example="The shop will be **closed** until further notice due to renovations.">closed</span> or <span class="highlighted-word" data-word="moving patients" data-thai="อพยพผู้ป่วย" data-ipa="/ˈmuːvɪŋ ˈpeɪʃənts/" data-example="The hospital started **moving patients** to a safer area during the storm.">moving patients</span>.
+            </div>
+            <div class="summary-paragraph">
+                The UN <span class="highlighted-word" data-word="wants both sides to stop fighting" data-thai="เรียกร้องให้ทั้งสองฝ่ายหยุดยิง" data-ipa="/wɒnts boʊθ saɪdz tuː stɒp ˈfaɪtɪŋ/" data-example="The UN **wants both sides to stop fighting** for peace in the region.">wants both sides to stop fighting</span> and talk. Cambodian Prime Minister Hun Manet <span class="highlighted-word" data-word="agreed to Trump's ceasefire idea" data-thai="รับข้อเสนอหยุดยิงของโดนัลด์ ทรัมป์" data-ipa="/əˈɡriːd tuː trʌmps ˈsiːsfaɪər aɪˈdiːə/" data-example="The leaders **agreed to Trump's ceasefire idea** to bring peace to the region.">agreed to Trump's ceasefire idea</span>. The Philippines <span class="highlighted-word" data-word="offered to help" data-thai="พร้อมช่วยเหลือ" data-ipa="/ˈɒfərd tuː hɛlp/" data-example="She **offered to help** her friend with the heavy boxes.">offered to help</span> Thailand and Cambodia.
+            </div>
+        </div>
+
+        <div id="advanced-beginner" class="tab-content">
+            <h2 class="text-2xl font-semibold mb-4">สำหรับผู้เริ่มต้นระดับกลาง (Advanced Beginners)</h2>
+            <div class="summary-paragraph">
+                The <span class="highlighted-word" data-word="conflict" data-thai="การปะทะ" data-ipa="/ˈkɒnflɪkt/" data-example="The recent **conflict** caused a lot of damage and displacement.">conflict</span> between Thailand and Cambodia has <span class="highlighted-word" data-word="escalated" data-thai="ขยาย/ทวีความรุนแรง" data-ipa="/ˈɛskəleɪtɪd/" data-example="The situation quickly **escalated** after the argument became heated.">escalated</span> into its <span class="highlighted-word" data-word="fourth day" data-thai="วันที่ 4" data-ipa="/fɔːrθ deɪ/" data-example="This is the **fourth day** of our journey across the desert.">fourth day</span>.
+            </div>
+            <div class="summary-paragraph">
+                Donald Trump <span class="highlighted-word" data-word="urged" data-thai="เรียกร้อง" data-ipa="/ɜːrdʒd/" data-example="The police **urged** witnesses to come forward with any information.">urged</span> both nations to <span class="highlighted-word" data-word="implement an immediate ceasefire" data-thai="หาทางหยุดยิงในทันที" data-ipa="/ˈɪmplɪmɛnt ən ɪˈmiːdiət ˈsiːsfaɪər/" data-example="The UN pushed to **implement an immediate ceasefire** to save lives.">implement an immediate ceasefire</span> and then <span class="highlighted-word" data-word="resume trade negotiations" data-thai="กลับมาร่วมโต๊ะเจรจาข้อตกลงการค้า" data-ipa="/rɪˈzuːm treɪd nɪˌɡoʊʃiˈeɪʃənz/" data-example="They hope to **resume trade negotiations** next month to reach an agreement.">resume trade negotiations</span>.
+            </div>
+            <div class="summary-paragraph">
+                However, the Thai army stated that troops would <span class="highlighted-word" data-word="only cease fire" data-thai="จะหยุดยิงก็ต่อเมื่อ" data-ipa="/ˈoʊnli siːs ˈfaɪər/" data-example="The soldiers will **only cease fire** if the enemy retreats from the territory.">only cease fire</span> if Cambodia <span class="highlighted-word" data-word="initiated negotiations" data-thai="เป็นฝ่ายมาขอเจรจาเท่านั้น" data-ipa="/ɪˈnɪʃiˌeɪtɪd nɪˌɡoʊʃiˈeɪʃənz/" data-example="The company **initiated negotiations** to buy the smaller firm last week.">initiated negotiations</span>.
+            </div>
+            <div class="summary-paragraph">
+                The <span class="highlighted-word" data-word="hostilities began" data-thai="สถานการณ์การปะทะ" data-ipa="/hɒˈstɪlɪtiz bɪˈɡæn/" data-example="The **hostilities began** with an unexpected attack early in the morning.">hostilities began</span> on July 24, when Cambodian forces <span class="highlighted-word" data-word="fired upon" data-thai="เปิดฉากยิงเข้าใส่" data-ipa="/ˈfaɪərd əˈpɒn/" data-example="The guards **fired upon** the approaching vehicle after it refused to stop.">fired upon</span> a Thai military base in Surin. The fighting subsequently <span class="highlighted-word" data-word="extended" data-thai="ขยายแนวการปะทะ" data-ipa="/ɪkˈstɛndɪd/" data-example="The forest fire **extended** over a larger area due to strong winds.">extended</span> to Chanthaburi and Trat provinces.
+            </div>
+            <div class="summary-paragraph">
+                Thailand and Cambodia are <span class="highlighted-word" data-word="scheduled to hold talks" data-thai="จะหารือ" data-ipa="/ˈskɛdʒuːld tuː hoʊld tɔːks/" data-example="The presidents are **scheduled to hold talks** next week to discuss global issues.">scheduled to hold talks</span> in Malaysia tomorrow.
+            </div>
+            <div class="summary-paragraph">
+                A Cambodian BM21 rocket <span class="highlighted-word" data-word="landed" data-thai="ตกในพื้นที่" data-ipa="/ˈlændɪd/" data-example="The airplane **landed** safely on the runway despite the bad weather.">landed</span> in Sisaket, resulting in 1 fatality and 1 injury. A border casino was <span class="highlighted-word" data-word="shelled" data-thai="ถูกยิง/ถล่มด้วยปืนใหญ่" data-ipa="/ʃɛld/" data-example="The old fortress was heavily **shelled** during the siege.">shelled</span>, causing smoke to rise.
+            </div>
+            <div class="summary-paragraph">
+                Thai forces <span class="highlighted-word" data-word="repatriated the bodies of 12 deceased Cambodian soldiers" data-thai="ส่งร่างทหารกัมพูชา 12 นาย ที่เสียชีวิต" data-ipa="/riːˈpeɪtriˌeɪtɪd ðə ˈbɒdiz ɒv twɛlv dɪˈsiːst kæmˈboʊdiən ˈsoʊldʒərz/" data-example="The country **repatriated the bodies of 12 deceased Cambodian soldiers** as a sign of goodwill.">repatriated the bodies of 12 deceased Cambodian soldiers</span> to Cambodian authorities. The border situation remains <span class="highlighted-word" data-word="highly tense" data-thai="มีความตึงเครียดสูง" data-ipa="/ˈhaɪli tɛns/" data-example="The situation in the region remained **highly tense** following the recent clashes.">highly tense</span>, with Thai soldiers <span class="highlighted-word" data-word="recapturing" data-thai="ยึดคืนพื้นที่" data-ipa="/riːˈkæptʃərɪŋ/" data-example="The army was successful in **recapturing** the town from enemy forces.">recapturing</span> a strategic area.
+            </div>
+            <div class="summary-paragraph">
+                The Royal Thai Air Force <span class="highlighted-word" data-word="urged the public to refrain from sharing" data-thai="ขอความร่วมมืองดเผยแพร่" data-ipa="/ɜːrdʒd ðə ˈpʌblɪk tuː rɪˈfreɪn frɒm ˈʃɛərɪŋ/" data-example="Officials **urged the public to refrain from sharing** unverified information online.">urged the public to refrain from sharing</span> sensitive military information. Large numbers of Cambodian citizens are <span class="highlighted-word" data-word="returning to their country" data-thai="หลั่งไหลแห่เดินทางกลับประเทศ" data-ipa="/rɪˈtɜːrnɪŋ tuː ðɛər ˈkʌntri/" data-example="Many refugees are **returning to their country** now that the conflict has ended.">returning to their country</span> through border checkpoints.
+            </div>
+            <div class="summary-paragraph">
+                Border hospitals and schools are either <span class="highlighted-word" data-word="closed indefinitely" data-thai="ปิดไม่มีกำหนด" data-ipa="/kloʊzd ɪnˈdɛfɪnɪtli/" data-example="The factory will be **closed indefinitely** until safety inspections are complete.">closed indefinitely</span> or <span class="highlighted-word" data-word="evacuating patients" data-thai="อพยพผู้ป่วย" data-ipa="/ɪˈvækjueɪtɪtɪŋ ˈpeɪʃənts/" data-example="The hospital began **evacuating patients** to a safer facility due to the fire.">evacuating patients</span>.
+            </div>
+            <div class="summary-paragraph">
+                The United Nations <span class="highlighted-word" data-word="called for a ceasefire" data-thai="เรียกร้องให้หยุดยิง" data-ipa="/kɔːld fɔːr ə ˈsiːsfaɪər/" data-example="The international community **called for a ceasefire** in the conflict zone.">called for a ceasefire</span> and peaceful negotiations between the two nations. Cambodian Prime Minister Hun Manet <span class="highlighted-word" data-word="accepted Donald Trump's ceasefire proposal" data-thai="รับข้อเสนอหยุดยิงของโดนัลด์ ทรัมป์" data-ipa="/əkˈsɛptɪd ˈdɒnəld trʌmps ˈsiːsfaɪər prəˈpoʊzl/" data-example="Both sides **accepted Donald Trump's ceasefire proposal** to end the violence.">accepted Donald Trump's ceasefire proposal</span>. The Philippines has <span class="highlighted-word" data-word="offered assistance" data-thai="พร้อมช่วยเหลือ" data-ipa="/ˈɒfərd əˈsɪstəns/" data-example="The neighbor **offered assistance** to clear the fallen tree after the storm.">offered assistance</span> in de-escalating tensions and restoring peace.
+            </div>
+        </div>
+    </div>
+
+    <!-- Pop-up Overlay -->
+    <div id="popup-overlay" class="popup-overlay hidden">
+        <div class="popup-box">
+            <h3 id="popup-word"></h3>
+            <p id="popup-thai"></p>
+            <p class="ipa" id="popup-ipa"></p>
+            <p class="example" id="popup-example"></p>
+            <button id="popup-close" class="popup-close">ปิด</button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const highlightedWords = document.querySelectorAll('.highlighted-word');
+            const popupOverlay = document.getElementById('popup-overlay');
+            const popupWord = document.getElementById('popup-word');
+            const popupThai = document.getElementById('popup-thai');
+            const popupIpa = document.getElementById('popup-ipa');
+            const popupExample = document.getElementById('popup-example');
+            const popupCloseBtn = document.getElementById('popup-close');
+
+            // Define diverse highlight colors for each section
+            // These colors are chosen to be vibrant and provide good contrast with the surrounding text and page background.
+            const highlightColorPalette = [
+                { bg: '#F1C40F', text: '#34495e' }, // Sunflower Yellow with Dark Blue text
+                { bg: '#2ECC71', text: '#ecf0f1' }, // Emerald with White text
+                { bg: '#3498DB', text: '#ecf0f1' }, // Peter River with White text
+                { bg: '#9B59B6', text: '#ecf0f1' }, // Amethyst with White text
+                { bg: '#E67E22', text: '#34495e' }, // Carrot with Dark Blue text
+                { bg: '#1ABC9C', text: '#ecf0f1' }, // Turquoise with White text
+                { bg: '#C0392B', text: '#ecf0f1' }, // Pomegranate with White text
+                { bg: '#D35400', text: '#ecf0f1' }, // Pumpkin with White text
+                { bg: '#FAD7A0', text: '#8B4513' }, // Peach with Saddle Brown text
+                { bg: '#85C1E9', text: '#1A5276' }, // Light Blue with Dark Cerulean text
+                { bg: '#AF7AC5', text: '#4A235A' }, // Lavender with Dark Violet text
+                { bg: '#F4D03F', text: '#7D6608' }, // Goldenrod with Dark Yellow text
+                { bg: '#58D68D', text: '#145A32' }, // Medium Aquamarine with Dark Green text
+                { bg: '#FCF3CF', text: '#9A7D0A' }, // Cream with Dark Goldenrod text
+                { bg: '#AAB7B8', text: '#4D5656' }, // Silver with Dark Grey text
+                { bg: '#CD6155', text: '#641E16' }  // Brick Red with Dark Maroon text
+            ];
+
+            let colorIndex = 0; // Single index to cycle through the combined palette
+
+            highlightedWords.forEach(wordSpan => {
+                const color = highlightColorPalette[colorIndex % highlightColorPalette.length];
+                wordSpan.style.backgroundColor = color.bg;
+                wordSpan.style.color = color.text;
+                colorIndex++; // Increment for the next word
+                
+
+                wordSpan.addEventListener('click', () => {
+                    // Populate pop-up with data from attributes
+                    popupWord.textContent = wordSpan.dataset.word;
+                    popupThai.textContent = `แปล: ${wordSpan.dataset.thai}`;
+                    popupIpa.textContent = `การออกเสียง: ${wordSpan.dataset.ipa}`;
+                    popupExample.innerHTML = `ตัวอย่างประโยค: ${wordSpan.dataset.example.replace(wordSpan.dataset.word, `<strong>${wordSpan.dataset.word}</strong>`)}`;
+                    
+                    // Show the pop-up
+                    popupOverlay.classList.remove('hidden');
+                });
+            });
+
+            popupCloseBtn.addEventListener('click', () => {
+                // Hide the pop-up
+                popupOverlay.classList.add('hidden');
+            });
+
+            // Hide pop-up if clicked outside the box
+            popupOverlay.addEventListener('click', (event) => {
+                if (event.target === popupOverlay) {
+                    popupOverlay.classList.add('hidden');
+                }
+            });
+
+            // Tab functionality
+            window.openTab = function(tabName) {
+                const tabContents = document.querySelectorAll('.tab-content');
+                tabContents.forEach(content => {
+                    content.classList.remove('active');
+                });
+
+                const tabButtons = document.querySelectorAll('.tab-button');
+                tabButtons.forEach(button => {
+                    button.classList.remove('active');
+                });
+
+                document.getElementById(tabName).classList.add('active');
+                event.currentTarget.classList.add('active');
+            }
+        });
+    </script>
+</body>
+</html>

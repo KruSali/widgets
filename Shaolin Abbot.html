@@ -1,0 +1,1247 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mr.News: The Shaolin Temple Business Empire Scandal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Sarabun', sans-serif;
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .app-container {
+            background-color: #ffffff;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 900px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            min-height: 600px;
+        }
+        .header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            font-size: 2em;
+            font-weight: 700;
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
+        }
+        .nav-buttons {
+            display: flex;
+            justify-content: center;
+            padding: 15px;
+            background-color: #e0f2f1;
+            border-bottom: 1px solid #c8e6c9;
+        }
+        .nav-button {
+            background-color: #66bb6a;
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            margin: 0 10px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1.1em;
+            font-weight: 700;
+            transition: background-color 0.3s, transform 0.2s;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .nav-button:hover {
+            background-color: #43a047;
+            transform: translateY(-2px);
+        }
+        .nav-button.active {
+            background-color: #2e7d32;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2) inset;
+        }
+        .content-section {
+            padding: 30px;
+            overflow-y: auto;
+            flex-grow: 1;
+        }
+        .content-section p {
+            line-height: 1.8;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+            color: #333;
+        }
+        .content-section h3 {
+            color: #2e7d32;
+            margin-top: 0;
+            margin-bottom: 20px;
+            font-size: 1.6em;
+            text-align: center;
+        }
+        .highlight {
+            cursor: pointer;
+            text-decoration: underline dotted #4CAF50;
+            font-weight: bold;
+            color: #00796b;
+        }
+        .paragraph-box {
+            background-color: #f7fcfc; /* Lightest teal */
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            border: 1px solid #e0f2f1;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        .paragraph-box:nth-child(odd) {
+            background-color: #e8f5e9; /* Lightest green */
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(5px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: auto;
+            padding: 30px;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            position: relative;
+            animation: fadeIn 0.3s ease-out;
+            border: 2px solid #4CAF50;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .close-button {
+            color: #aaa;
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 30px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+        .close-button:hover,
+        .close-button:focus {
+            color: #4CAF50;
+            text-decoration: none;
+        }
+        .modal-content h4 {
+            color: #2e7d32;
+            margin-top: 0;
+            margin-bottom: 15px;
+            font-size: 1.4em;
+        }
+        .modal-content p {
+            font-size: 1em;
+            margin-bottom: 10px;
+            color: #555;
+        }
+        .thai-pronunciation {
+            color: #e65100;
+            font-weight: bold;
+        }
+        .example-sentence {
+            font-style: italic;
+            color: #00796b;
+            border-left: 3px solid #00796b;
+            padding-left: 10px;
+            margin-top: 15px;
+        }
+        @media (max-width: 768px) {
+            .header {
+                font-size: 1.6em;
+                padding: 15px;
+            }
+            .nav-button {
+                padding: 8px 15px;
+                font-size: 1em;
+            }
+            .content-section {
+                padding: 20px;
+            }
+            .content-section p {
+                font-size: 1em;
+            }
+            .modal-content {
+                padding: 20px;
+            }
+            .close-button {
+                font-size: 25px;
+                top: 10px;
+                right: 15px;
+            }
+        }
+        @media (max-width: 480px) {
+            .nav-buttons {
+                flex-direction: column;
+                gap: 10px;
+            }
+            .nav-button {
+                width: 80%;
+                margin: 0 auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <div class="header">
+            ข่าว Mr.News: แฉอาณาจักรธุรกิจ "วัดเส้าหลิน"
+        </div>
+        <div class="nav-buttons">
+            <button class="nav-button active" id="basicBtn">ระดับพื้นฐาน (Basic)</button>
+            <button class="nav-button" id="advancedBtn">ระดับสูง (Advanced)</button>
+        </div>
+        <div class="content-section" id="basicContent">
+            <h3>Basic Version: Shaolin Abbot Under Investigation</h3>
+
+            <div class="paragraph-box">
+                <p>On July 27, the <span class="highlight" data-term="Shaolin_Temple">Shaolin Temple</span> <span class="highlight" data-term="announced">announced</span> that <span class="highlight" data-term="Shi_Yongxin">Shi Yongxin</span>, its abbot, is being <span class="highlight" data-term="investigated">investigated</span>. The <span class="highlight" data-term="investigation">investigation</span> is about money and his <span class="highlight" data-term="personal_life">personal life</span>.</p>
+                <p>He is <span class="highlight" data-term="accused">accused</span> of <span class="highlight" data-term="taking_temple_money">taking temple money for himself</span> from different <span class="highlight" data-term="projects">projects</span>. He is also said to have <span class="highlight" data-term="broken_rules">broken Buddhist rules</span> by having <span class="highlight" data-term="secret_relationships">secret relationships</span> with several women and having children.</p>
+            </div>
+
+            <div class="paragraph-box">
+                <p>Shi Yongxin was <span class="highlight" data-term="born">born</span> in 1965 and <span class="highlight" data-term="became_monk">became a monk</span> at Shaolin Temple in 1981. He <span class="highlight" data-term="became_abbot">became the abbot</span> in 1999.</p>
+                <p>He was the first Chinese monk to get an <span class="highlight" data-term="MBA">MBA</span>. He started doing <span class="highlight" data-term="business">business</span> in 1998, <span class="highlight" data-term="covering">covering</span> tourism, culture, herbal medicine, and <span class="highlight" data-term="online_sales">online sales</span>.</p>
+            </div>
+
+            <div class="paragraph-box">
+                <p>In 2004, he <span class="highlight" data-term="reopened">reopened</span> the "Shaolin Pharmacy." They <span class="highlight" data-term="sold">sold</span> old herbal <span class="highlight" data-term="products">products</span> like pain relief <span class="highlight" data-term="patches">patches</span> and special teas, which brought in a lot of <span class="highlight" data-term="money">money</span> for the temple.</p>
+                <p>In 2008, he also opened an <span class="highlight" data-term="online_shop">online shop</span> on Taobao. He sold religious items and "Zen lifestyle" products, <span class="highlight" data-term="making_sales">making a lot of sales</span>.</p>
+                <p>He also <span class="highlight" data-term="used_platform">used platform</span> Douyin (China's TikTok) in 2021 to teach <span class="highlight" data-term="martial_arts">martial arts</span> and <span class="highlight" data-term="sell_live">sell products live</span>.</p>
+            </div>
+
+            <div class="paragraph-box">
+                <p>Shi Yongxin <span class="highlight" data-term="led_troupes">used to lead Shaolin martial arts monks</span> to <span class="highlight" data-term="perform">perform</span> around the world over 200 times a year. Each <span class="highlight" data-term="show">show</span> could <span class="highlight" data-term="earn">earn</span> up to $50,000 USD.</p>
+                <p>He also <span class="highlight" data-term="allowed">allowed</span> others to <span class="highlight" data-term="use_name">use the "Shaolin" name</span> for online games, music, and even "blessed" phone numbers to <span class="highlight" data-term="raise_money">raise money</span>.</p>
+            </div>
+
+            <div class="paragraph-box">
+                <p>The Shaolin Temple has almost 800 <span class="highlight" data-term="registered_trademarks_basic">registered trademarks</span> in many <span class="highlight" data-term="areas">areas</span>, like food, clothes, and hotels. Some <span class="highlight" data-term="sources">sources</span> say the temple <span class="highlight" data-term="earns">earns</span> about 300 million yuan a year from these <span class="highlight" data-term="businesses">businesses</span>.</p>
+                <p>Shi Yongxin once <span class="highlight" data-term="controlled">controlled</span> 18 companies. But now, he has <span class="highlight" data-term="stepped_down">stepped down</span> from most of them.</p>
+            </div>
+
+            <div class="paragraph-box">
+                <p>In 2022, one of his <span class="highlight" data-term="related_companies">related companies</span> bought <span class="highlight" data-term="expensive_land">expensive land</span>, which <span class="highlight" data-term="led_to">led to</span> a lot of <span class="highlight" data-term="criticism">criticism</span>. So, he <span class="highlight" data-term="removed_name">removed his name</span> from the company that year.</p>
+                <p>He was also <span class="highlight" data-term="accused_before">accused of similar personal issues</span> in 2015, but Chinese <span class="highlight" data-term="officials">officials</span> said it was <span class="highlight" data-term="not_true">not true</span> then. However, in 2025, he was <span class="highlight" data-term="officially_charged">officially charged</span> with <span class="highlight" data-term="criminal_offenses">criminal offenses</span> for the first time.</p>
+            </div>
+        </div>
+
+        <div class="content-section" id="advancedContent" style="display: none;">
+            <h3>Advanced Version: The Allegations Against Shaolin Abbot Shi Yongxin</h3>
+
+            <div class="paragraph-box">
+                <p>On July 27, the <span class="highlight" data-term="Shaolin_Temple_adv">Shaolin Temple</span> <span class="highlight" data-term="issued_statement">issued a statement</span> <span class="highlight" data-term="confirming">confirming</span> that <span class="highlight" data-term="Shi_Yongxin_adv">Shi Yongxin</span>, its <span class="highlight" data-term="revered_abbot">revered abbot</span>, is currently <span class="highlight" data-term="under_investigation">under investigation</span> by <span class="highlight" data-term="multiple_authorities">multiple authorities</span> for <span class="highlight" data-term="serious_criminal_allegations">serious criminal allegations</span>.</p>
+                <p>The <span class="highlight" data-term="accusations">accusations</span> include <span class="highlight" data-term="embezzlement_adv">embezzlement</span> of <span class="highlight" data-term="temple_assets">temple assets</span> from various <span class="highlight" data-term="projects_adv">projects</span> and <span class="highlight" data-term="severe_violations">severe violations</span> of <span class="highlight" data-term="monastic_discipline">monastic discipline</span>, specifically involving <span class="highlight" data-term="clandestine_relationships">clandestine relationships</span> with multiple women and <span class="highlight" data-term="fathering_children">fathering children</span>.</p>
+            </div>
+
+            <div class="paragraph-box">
+                <p>Shi Yongxin, originally <span class="highlight" data-term="named">named</span> Liu Yingcheng, was <span class="highlight" data-term="born_adv">born</span> in 1965. He was <span class="highlight" data-term="ordained">ordained</span> at the Shaolin Temple in 1981 and <span class="highlight" data-term="ascended_position">ascended to the position</span> of abbot in 1999.</p>
+                <p>He is <span class="highlight" data-term="recognized">recognized</span> as a <span class="highlight" data-term="pioneering_figure">pioneering figure</span> in China's <span class="highlight" data-term="commercialized_buddhism">commercialized Buddhism</span>, being the first Chinese monk to <span class="highlight" data-term="obtain_mba">obtain an MBA</span>. His <span class="highlight" data-term="commercial_ventures">commercial ventures</span> began in 1998, <span class="highlight" data-term="encompassing">encompassing</span> tourism, culture, herbal medicine, publishing, and <span class="highlight" data-term="e_commerce">e-commerce</span>.</p>
+            </div>
+
+            <div class="paragraph-box">
+                <p>In 2004, he <span class="highlight" data-term="revitalized">revitalized</span> the "Shaolin Pharmacy," <span class="highlight" data-term="adapting_formulas">adapting ancient formulas</span> into <span class="highlight" data-term="products_adv">products</span> like medicated plasters and Ganoderma lucidum tea, <span class="highlight" data-term="generating_revenue">generating over 80 million yuan in revenue</span> by 2019.</p>
+                <p>By 2008, he <span class="highlight" data-term="launched_store">launched an online store</span> on Taobao, selling <span class="highlight" data-term="religious_artifacts">religious artifacts</span> and "Zen lifestyle" products, <span class="highlight" data-term="achieving_sales">achieving sales exceeding 23 million yuan</span> by 2020.</p>
+                <p>He further <span class="highlight" data-term="expanded_new_media">expanded into new media</span>, <span class="highlight" data-term="utilizing">utilizing</span> Douyin (China's TikTok) in 2021 to share <span class="highlight" data-term="martial_arts_knowledge">martial arts knowledge</span> and <span class="highlight" data-term="conduct_live_streamed_sales">conduct live-streamed sales personally</span>.</p>
+            </div>
+
+            <div class="paragraph-box">
+                <p>Shi Yongxin previously <span class="highlight" data-term="led_troupes_adv">led Shaolin warrior monk troupes</span> on over 200 <span class="highlight" data-term="international_tours">international tours</span> annually, with individual performances recently <span class="highlight" data-term="fetching">fetching</span> up to $50,000 USD.</p>
+                <p>He also <span class="highlight" data-term="licensed_brand">licensed the "Shaolin" brand</span> for online games, music, and even "blessed" mobile phone numbers for <span class="highlight" data-term="auction">auction</span>, <span class="highlight" data-term="generating_additional_revenue">generating additional revenue</span>.</p>
+            </div>
+
+            <div class="paragraph-box">
+                <p>Records <span class="highlight" data-term="indicate">indicate</span> the Shaolin Temple has <span class="highlight" data-term="registered_795_trademarks">registered 795 trademarks</span> across <span class="highlight" data-term="diverse_sectors">diverse sectors</span> including food, apparel, education, and hospitality.</p>
+                <p><span class="highlight" data-term="sources_adv">Sources</span> suggest the temple's <span class="highlight" data-term="annual_commercial_revenue">annual commercial revenue</span> <span class="highlight" data-term="approaches">approaches</span> 300 million yuan.</p>
+                <p>Shi Yongxin once <span class="highlight" data-term="wielded_control">wielded control</span> over 18 companies, playing a <span class="highlight" data-term="significant_role">significant role</span> in <span class="highlight" data-term="managing_assets">managing cultural assets</span>, <span class="highlight" data-term="art_exchange_services">art exchange services</span>, <span class="highlight" data-term="tourism_planning">tourism planning</span>, and <span class="highlight" data-term="investments">investments</span> in various enterprises like tea and cultural arts.</p>
+            </div>
+
+            <div class="paragraph-box">
+                <p>In 2022, a <span class="highlight" data-term="subsidiary_bid">subsidiary's successful bid</span> for land in Zhengzhou <span class="highlight" data-term="valued">valued</span> at 452 million yuan <span class="highlight" data-term="sparked_criticism">sparked widespread criticism</span>, <span class="highlight" data-term="leading_to">leading to</span> his <span class="highlight" data-term="divestment">divestment</span> from the company's <span class="highlight" data-term="shareholding">shareholding</span> in April of the same year.</p>
+                <p><span class="highlight" data-term="post_2022">Post-2022</span>, Shi Yongxin has <span class="highlight" data-term="progressively_divested">progressively divested</span> from various companies. Currently, he remains a <span class="highlight" data-term="legal_representative">legal representative</span> for only five <span class="highlight" data-term="monastic_associations">monastic or Buddhist associations</span>, with half of his previously <span class="highlight" data-term="associated_companies">associated companies</span> having been <span class="highlight" data-term="revoked_dissolved">revoked or dissolved</span>.</p>
+                <p>While Shi Yongxin faced <span class="highlight" data-term="similar_allegations">similar allegations</span> regarding a wife and child in 2015, Chinese <span class="highlight" data-term="authorities">authorities</span> at the time <span class="highlight" data-term="dismissed">dismissed</span> them as false. However, 2025 marks the first <span class="highlight" data-term="official_criminal_indictment">official criminal indictment</span> against him.</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="myModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <h4 id="modalTitle"></h4>
+            <p><strong>ความหมาย:</strong> <span id="modalMeaning"></span></p>
+            <p><strong>คำอ่าน:</strong> <span class="thai-pronunciation" id="modalPronunciation"></span></p>
+            <p><strong>ประโยคตัวอย่าง:</strong></p>
+            <p class="example-sentence" id="modalExample"></p>
+            <p id="modalTranslation" class="example-sentence"></p>
+        </div>
+    </div>
+
+    <script>
+        const basicContent = document.getElementById('basicContent');
+        const advancedContent = document.getElementById('advancedContent');
+        const basicBtn = document.getElementById('basicBtn');
+        const advancedBtn = document.getElementById('advancedBtn');
+        const modal = document.getElementById('myModal');
+        const closeButton = document.querySelector('.close-button');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalMeaning = document.getElementById('modalMeaning');
+        const modalPronunciation = document.getElementById('modalPronunciation');
+        const modalExample = document.getElementById('modalExample');
+        const modalTranslation = document.getElementById('modalTranslation');
+
+        // Data for pop-up modals
+        const vocabData = {
+            // Basic Version
+            "Shaolin_Temple": {
+                title: "Shaolin Temple (n.)",
+                meaning: "วัดเส้าหลิน, วัดพุทธที่สำคัญและมีชื่อเสียงด้านกังฟูในประเทศจีน",
+                pronunciation: "วัด-เส้า-หลิ<u>น</u>",
+                example: "The Shaolin Temple is famous for its martial arts.",
+                translation: "วัดเส้าหลินมีชื่อเสียงด้านศิลปะการต่อสู้"
+            },
+            "announced": {
+                title: "announced (v.)",
+                meaning: "ประกาศ, แถลงให้ทราบอย่างเป็นทางการ",
+                pronunciation: "อะ-<u>นาว</u>นฺซด",
+                example: "The school announced the holiday.",
+                translation: "โรงเรียนประกาศวันหยุด"
+            },
+            "Shi_Yongxin": {
+                title: "Shi Yongxin (n.)",
+                meaning: "ซื่อ หย่งซิ่น, เจ้าอาวาสรูปปัจจุบันของวัดเส้าหลิน",
+                pronunciation: "ซื่อ-ห<u>ย่ง</u>-ซิ่<u>น</u>",
+                example: "Shi Yongxin is the abbot of Shaolin Temple.",
+                translation: "ซื่อ หย่งซิ่นเป็นเจ้าอาวาสวัดเส้าหลิน"
+            },
+            "investigated": {
+                title: "investigated (v.)",
+                meaning: "ถูกสอบสวน, ถูกตรวจสอบอย่างละเอียดเพื่อหาข้อเท็จจริง",
+                pronunciation: "อิน-เวส-ติ-เ<u>ก</u>ท-เถิด",
+                example: "The police investigated the crime scene.",
+                translation: "ตำรวจสอบสวนที่เกิดเหตุอาชญากรรม"
+            },
+            "investigation": {
+                title: "investigation (n.)",
+                meaning: "การสอบสวน, การตรวจสอบหาข้อเท็จจริง",
+                pronunciation: "อิน-เวส-ติ-เ<u>ก</u>-ชั่น",
+                example: "The police started an investigation into the accident.",
+                translation: "ตำรวจเริ่มการสอบสวนอุบัติเหตุ"
+            },
+            "personal_life": {
+                title: "personal life (n.)",
+                meaning: "ชีวิตส่วนตัว, เรื่องราวส่วนตัวที่ไม่ได้เกี่ยวข้องกับหน้าที่การงานหรือสาธารณะ",
+                pronunciation: "<u>เพอร์</u>-เซิน-นัล ไลฟ์",
+                example: "He keeps his personal life very private.",
+                translation: "เขาเก็บเรื่องชีวิตส่วนตัวเป็นความลับมาก"
+            },
+            "accused": {
+                title: "accused (v.)",
+                meaning: "ถูกกล่าวหา, ถูกฟ้องร้องว่าทำผิด",
+                pronunciation: "อะ-<u>คิ้ว</u>ซด",
+                example: "She was accused of stealing the money.",
+                translation: "เธอถูกกล่าวหาว่าขโมยเงิน"
+            },
+            "taking_temple_money": { /* Renamed key for consistency */
+                title: "taking temple money for himself (phr.)",
+                meaning: "ยักยอก, เอาเงินหรือทรัพย์สินที่ได้รับมอบหมายให้ดูแลไปเป็นของตนเองอย่างผิดกฎหมาย",
+                pronunciation: "เท<u>ค</u>-คิ่ง เท็ม-เพิล มั<u>น</u>-นี่ ฟอร์ ฮิม-<u>เซลฟ์</u>",
+                example: "He was accused of taking company funds for himself.",
+                translation: "เขาถูกกล่าวหาว่าเอาเงินบริษัทไปใช้ส่วนตัว"
+            },
+            "projects": {
+                title: "projects (n.)",
+                meaning: "โครงการ, งานหรือแผนการที่วางแผนไว้",
+                pronunciation: "<u>พร้อด</u>-เจ็คทส์",
+                example: "They are working on new building projects.",
+                translation: "พวกเขากำลังทำงานในโครงการก่อสร้างใหม่"
+            },
+            "broken_rules": {
+                title: "broken Buddhist rules (phr.)",
+                meaning: "ทำผิดกฎของพระสงฆ์, ไม่ปฏิบัติตามวินัยสงฆ์",
+                pronunciation: "<u>โบร</u>-เคิน <u>บุ๊ด</u>-ดิสท์ รูลส์",
+                example: "The monk was punished for breaking Buddhist rules.",
+                translation: "พระถูกลงโทษฐานทำผิดกฎของพระสงฆ์"
+            },
+            "secret_relationships": {
+                title: "secret relationships (n.)",
+                meaning: "ความสัมพันธ์ลับๆ, การคบหาหรือมีความสัมพันธ์กับผู้อื่นโดยปกปิดไม่ให้คนทั่วไปรู้",
+                pronunciation: "ซี้-เ<u>คร็ท</u> รี-เ<u>ล</u>-ชั่น-ฉิปส์",
+                example: "The celebrity's secret relationships were exposed by the media.",
+                translation: "ความสัมพันธ์ลับๆ ของดาราถูกสื่อเปิดเผย"
+            },
+            "born": {
+                title: "born (v.)",
+                meaning: "เกิด, กำเนิด",
+                pronunciation: "บอร์น",
+                example: "He was born in Thailand.",
+                translation: "เขาเกิดในประเทศไทย"
+            },
+            "became_monk": {
+                title: "became a monk (phr.)",
+                meaning: "บวชเป็นพระ, เข้าร่วมคณะสงฆ์",
+                pronunciation: "บิ-<u>เคม</u> อะ มังค์",
+                example: "He became a monk after finishing university.",
+                translation: "เขาบวชเป็นพระหลังจากเรียนจบมหาวิทยาลัย"
+            },
+            "became_abbot": {
+                title: "became the abbot (phr.)",
+                meaning: "ขึ้นเป็นเจ้าอาวาส, ได้รับตำแหน่งเจ้าอาวาส",
+                pronunciation: "บิ-<u>เคม</u> เดอะ <u>แอ็บ</u>-บอท",
+                example: "He became the abbot of the temple last year.",
+                translation: "เขาขึ้นเป็นเจ้าอาวาสของวัดเมื่อปีที่แล้ว"
+            },
+            "MBA": {
+                title: "MBA (n.)",
+                meaning: "ปริญญาโทบริหารธุรกิจ (Master of Business Administration), วุฒิการศึกษาด้านการบริหารธุรกิจ",
+                pronunciation: "เอ็ม-บี-เอ",
+                example: "Many people study for an MBA to get better jobs.",
+                translation: "หลายคนเรียน MBA เพื่อให้ได้งานที่ดีขึ้น"
+            },
+            "business": {
+                title: "business (n.)",
+                meaning: "ธุรกิจ, กิจการค้า",
+                pronunciation: "<u>บิส</u>-เนส",
+                example: "He started a new business last year.",
+                translation: "เขาเริ่มธุรกิจใหม่เมื่อปีที่แล้ว"
+            },
+            "covering": {
+                title: "covering (v.)",
+                meaning: "ครอบคลุม, รวมไปถึง",
+                pronunciation: "<u>คัฟ</u>-เวอ-ริ่ง",
+                example: "The report is covering many topics.",
+                translation: "รายงานครอบคลุมหลายหัวข้อ"
+            },
+            "online_sales": {
+                title: "online sales (n.)",
+                meaning: "การขายของออนไลน์, การขายสินค้าผ่านอินเทอร์เน็ต",
+                pronunciation: "<u>ออน</u>-ไลน์ เซลส์",
+                example: "Online sales have increased a lot recently.",
+                translation: "การขายของออนไลน์เพิ่มขึ้นมากเมื่อเร็วๆ นี้"
+            },
+            "reopened": {
+                title: "reopened (v.)",
+                meaning: "เปิดอีกครั้ง, เปิดทำการใหม่",
+                pronunciation: "รี-<u>โอ</u>-เพิ่นด",
+                example: "The shop reopened after renovations.",
+                translation: "ร้านค้าเปิดอีกครั้งหลังจากการปรับปรุง"
+            },
+            "sold": {
+                title: "sold (v. past of sell)",
+                meaning: "ขายไปแล้ว, จำหน่าย",
+                pronunciation: "โซลด์",
+                example: "They sold their old car.",
+                translation: "พวกเขาขายรถเก่าของพวกเขาไปแล้ว"
+            },
+            "products": {
+                title: "products (n.)",
+                meaning: "ผลิตภัณฑ์, สินค้า",
+                pronunciation: "<u>พร้อด</u>-ดักทส์",
+                example: "This company makes good products.",
+                translation: "บริษัทนี้ผลิตสินค้าดี"
+            },
+            "patches": {
+                title: "patches (n.)",
+                meaning: "แผ่นแปะ, ยาแปะเส้น",
+                pronunciation: "<u>แพ็ท</u>-เชส",
+                example: "She put a pain relief patch on her back.",
+                translation: "เธอแปะยาแก้ปวดที่หลังของเธอ"
+            },
+            "money": {
+                title: "money (n.)",
+                meaning: "เงิน, ทรัพย์สิน",
+                pronunciation: "<u>มั่ล</u>-นี่",
+                example: "He needs more money to buy a new car.",
+                translation: "เขาต้องการเงินเพิ่มเพื่อซื้อรถใหม่"
+            },
+            "online_shop": {
+                title: "online shop (n.)",
+                meaning: "ร้านค้าออนไลน์, เว็บไซต์สำหรับซื้อขายสินค้า",
+                pronunciation: "<u>ออน</u>-ไลน์ ช้อป",
+                example: "I bought this from an online shop.",
+                translation: "ฉันซื้อสิ่งนี้จากร้านค้าออนไลน์"
+            },
+            "making_sales": {
+                title: "making a lot of sales (phr.)",
+                meaning: "ทำยอดขายได้มาก, ขายสินค้าได้เยอะ",
+                pronunciation: "เม<u>ค</u>-คิ่ง อะ ลอท ออฟ เซลส์",
+                example: "The new product is making a lot of sales.",
+                translation: "ผลิตภัณฑ์ใหม่กำลังทำยอดขายได้มาก"
+            },
+            "used_platform": {
+                title: "used platform (phr.)",
+                meaning: "ใช้แพลตฟอร์ม, ใช้ช่องทางสื่อสาร/ธุรกิจ",
+                pronunciation: "ยูซด <u>แพลท</u>-ฟอร์ม",
+                example: "They used a social media platform to promote their event.",
+                translation: "พวกเขาใช้แพลตฟอร์มโซเชียลมีเดียเพื่อโปรโมทงานของพวกเขา"
+            },
+            "martial_arts": {
+                title: "martial arts (n.)",
+                meaning: "ศิลปะการต่อสู้, วิชาการต่อสู้ป้องกันตัว",
+                pronunciation: "<u>มาร์</u>-เชิล อาร์ทส์",
+                example: "Kung Fu is a famous martial art.",
+                translation: "กังฟูเป็นศิลปะการต่อสู้ที่มีชื่อเสียง"
+            },
+            "sell_live": {
+                title: "sell products live (phr.)",
+                meaning: "ขายสินค้าสด (ผ่านการถ่ายทอดสด), ไลฟ์สดขายของ",
+                pronunciation: "เซลล์ <u>พร้อด</u>-ดักทส์ ไลฟ์",
+                example: "Many influencers sell products live on TikTok.",
+                translation: "อินฟลูเอนเซอร์หลายคนไลฟ์สดขายสินค้าบน TikTok"
+            },
+            "led_troupes": {
+                title: "used to lead Shaolin martial arts monks (phr.)",
+                meaning: "เคยนำคณะพระนักสู้วัดเส้าหลิน",
+                pronunciation: "ยูซด ทู ลี<u>ด</u> ฉ่าว-ลิ<u>น</u> <u>มาร์</u>-เชิล อาร์ทส์ มังคส์",
+                example: "He used to lead a team of dancers.",
+                translation: "เขาเคยนำคณะนักเต้น"
+            },
+            "perform": {
+                title: "perform (v.)",
+                meaning: "แสดง, เล่น (ดนตรี, ละคร)",
+                pronunciation: "เพอร์-<u>ฟอร์ม</u>",
+                example: "The band will perform tonight.",
+                translation: "วงดนตรีจะแสดงคืนนี้"
+            },
+            "show": {
+                title: "show (n.)",
+                meaning: "การแสดง, โชว์",
+                pronunciation: "โชว์",
+                example: "The magic show was amazing.",
+                translation: "การแสดงมายากลน่าทึ่งมาก"
+            },
+            "earn": {
+                title: "earn (v.)",
+                meaning: "ได้รับ (เงิน), มีรายได้",
+                pronunciation: "เอิร์น",
+                example: "He earns a good salary.",
+                translation: "เขามีรายได้ดี"
+            },
+            "allowed": {
+                title: "allowed (v.)",
+                meaning: "อนุญาต, ยินยอมให้",
+                pronunciation: "อะ-<u>ลาว</u>ด",
+                example: "My parents allowed me to go to the party.",
+                translation: "พ่อแม่ของฉันอนุญาตให้ฉันไปงานปาร์ตี้"
+            },
+            "use_name": {
+                title: "use the 'Shaolin' name (phr.)",
+                meaning: "ใช้ชื่อ 'เส้าหลิน'",
+                pronunciation: "ยูซ เดอะ ฉ่าว-ลิ<u>น</u> เนม",
+                example: "They want to use the brand name for their new product.",
+                translation: "พวกเขาต้องการใช้ชื่อแบรนด์สำหรับผลิตภัณฑ์ใหม่ของพวกเขา"
+            },
+            "raise_money": {
+                title: "raise money (phr.)",
+                meaning: "ระดมทุน, หาเงิน",
+                pronunciation: "เรซ <u>มั่ล</u>-นี่",
+                example: "They are raising money for charity.",
+                translation: "พวกเขากำลังระดมทุนเพื่อการกุศล"
+            },
+            "registered_trademarks_basic": { /* Corrected key for basic version */
+                title: "registered trademarks (n.)",
+                meaning: "เครื่องหมายการค้าที่จดทะเบียน, ชื่อหรือสัญลักษณ์ที่ได้รับการคุ้มครองทางกฎหมายเพื่อใช้กับสินค้าหรือบริการ",
+                pronunciation: "เ<u>ร</u>-จิส-เตөрд เทรด-มาร์คส์",
+                example: "Many big companies protect their brands with registered trademarks.",
+                translation: "บริษัทใหญ่ๆ หลายแห่งปกป้องแบรนด์ของตนด้วยเครื่องหมายการค้าที่จดทะเบียน"
+            },
+            "areas": {
+                title: "areas (n.)",
+                meaning: "พื้นที่, สาขา, ด้าน",
+                pronunciation: "<u>แอ</u>-เรียส",
+                example: "He specializes in the area of finance.",
+                translation: "เขาเชี่ยวชาญในด้านการเงิน"
+            },
+            "sources": {
+                title: "sources (n.)",
+                meaning: "แหล่งข่าว, แหล่งข้อมูล",
+                pronunciation: "<u>ซอร์ส</u>-เซส",
+                example: "News reports often cite their sources.",
+                translation: "รายงานข่าวอ้างอิงแหล่งที่มาบ่อยครั้ง"
+            },
+            "earns": {
+                title: "earns (v.)",
+                meaning: "ทำรายได้, มีรายได้",
+                pronunciation: "เอิร์นส",
+                example: "The company earns millions every year.",
+                translation: "บริษัททำรายได้หลายล้านทุกปี"
+            },
+            "businesses": {
+                title: "businesses (n.)",
+                meaning: "ธุรกิจ, กิจการ",
+                pronunciation: "<u>บิส</u>-เนส-เซส",
+                example: "Small businesses are important for the economy.",
+                translation: "ธุรกิจขนาดเล็กมีความสำคัญต่อเศรษฐกิจ"
+            },
+            "controlled": {
+                title: "controlled (v.)",
+                meaning: "ควบคุม, มีอำนาจเหนือ",
+                pronunciation: "คัน-<u>โทรล</u>ด",
+                example: "He controlled a large network of companies.",
+                translation: "เขาควบคุมเครือข่ายบริษัทขนาดใหญ่"
+            },
+            "stepped_down": { /* Changed from 'withdrawn' for basic version readability */
+                title: "stepped down (phr. v.)",
+                meaning: "ถอนตัวออกไป, ถอนออก, เลิกเกี่ยวข้อง",
+                pronunciation: "สเต็ป-พฺด-ดาวน์",
+                example: "She has stepped down from the competition.",
+                translation: "เธอถอนตัวจากการแข่งขัน"
+            },
+            "related_companies": {
+                title: "related companies (n.)",
+                meaning: "บริษัทในเครือ, บริษัทที่เกี่ยวข้อง",
+                pronunciation: "รี-<u>เลท</u>-เท็ด <u>คัม</u>-พะ-นี่ส์",
+                example: "The parent company and its related companies are expanding.",
+                translation: "บริษัทแม่และบริษัทในเครือกำลังขยายตัว"
+            },
+            "expensive_land": {
+                title: "expensive land (n.)",
+                meaning: "ที่ดินราคาแพง",
+                pronunciation: "อิก-<u>สเพน</u>-ซิฟ แลนด",
+                example: "They bought expensive land in the city center.",
+                translation: "พวกเขาซื้อที่ดินราคาแพงในใจกลางเมือง"
+            },
+            "led_to": {
+                title: "led to (phr. v.)",
+                meaning: "นำไปสู่, ก่อให้เกิด",
+                pronunciation: "เล็ด ทู",
+                example: "His decision led to many changes.",
+                translation: "การตัดสินใจของเขานำไปสู่การเปลี่ยนแปลงมากมาย"
+            },
+            "criticism": {
+                title: "criticism (n.)",
+                meaning: "การวิจารณ์, ข้อวิพากษ์วิจารณ์",
+                pronunciation: "<u>คริ</u>-ติ-ซิซ-ซึม",
+                example: "The project received a lot of criticism.",
+                translation: "โครงการนี้ได้รับการวิพากษ์วิจารณ์อย่างมาก"
+            },
+            "removed_name": {
+                title: "removed his name (phr.)",
+                meaning: "ถอนชื่อออก, เอาชื่อออก",
+                pronunciation: "รี-<u>มูฟ</u>ด ฮิซ เนม",
+                example: "He removed his name from the list.",
+                translation: "เขาถอนชื่อของเขาออกจากรายชื่อ"
+            },
+            "accused_before": {
+                title: "accused of similar personal issues (phr.)",
+                meaning: "เคยถูกกล่าวหาเรื่องส่วนตัวในลักษณะเดียวกัน",
+                pronunciation: "อะ-<u>คิ้ว</u>ซด ออฟ <u>ซิ</u>-มิ-ลาร์ <u>เพอร์</u>-เซิน-นัล <u>อิช</u>-ชูส์",
+                example: "He was accused of similar personal issues in the past.",
+                translation: "เขาถูกกล่าวหาเรื่องส่วนตัวในลักษณะเดียวกันในอดีต"
+            },
+            "officials": {
+                title: "officials (n.)",
+                meaning: "เจ้าหน้าที่, ผู้มีอำนาจ",
+                pronunciation: "ออฟ-<u>ฟิช</u>-เชิลส์",
+                example: "Government officials attended the meeting.",
+                translation: "เจ้าหน้าที่รัฐบาลเข้าร่วมการประชุม"
+            },
+            "not_true": {
+                title: "not true (phr.)",
+                meaning: "ไม่เป็นความจริง, ไม่ใช่เรื่องจริง",
+                pronunciation: "นอท ทรู",
+                example: "The rumors are not true.",
+                translation: "ข่าวลือไม่เป็นความจริง"
+            },
+            "officially_charged": { /* Corrected key for basic version */
+                title: "officially charged (phr.)",
+                meaning: "ถูกเปิดเผยอย่างเป็นทางการ, ถูกเปิดโปงหรือเปิดเผยสู่สาธารณะโดยหน่วยงานหรือผู้มีอำนาจ",
+                pronunciation: "ออฟ-ฟิ-เชียล-ลี่ ชาร์จด",
+                example: "The scandal was officially charged by the government.",
+                translation: "เรื่องอื้อฉาวถูกรัฐบาลฟ้องร้องอย่างเป็นทางการ"
+            },
+            "criminal_offenses": {
+                title: "criminal offenses (n.)",
+                meaning: "ข้อหาทางอาญา, ความผิดทางอาญา",
+                pronunciation: "<u>คริม</u>-มิ-นัล ออฟ-<u>เฟน</u>-เซส",
+                example: "He was charged with several criminal offenses.",
+                translation: "เขาถูกตั้งข้อหาทางอาญาหลายข้อหา"
+            },
+
+            // Advanced Version
+            "Shaolin_Temple_adv": {
+                title: "Shaolin Temple (n.)",
+                meaning: "วัดเส้าหลิน, ศูนย์กลางพุทธศาสนาและศิลปะการต่อสู้ที่มีชื่อเสียงระดับโลกในจีน",
+                pronunciation: "ฉ่าว-ลิ<u>น</u> เท็ม-เพิล",
+                example: "The Shaolin Temple is globally renowned for its unique blend of Chan Buddhism and kung fu.",
+                translation: "วัดเส้าหลินมีชื่อเสียงระดับโลกจากการผสมผสานที่เป็นเอกลักษณ์ของพุทธศาสนานิกายเซนและกังฟู"
+            },
+            "issued_statement": {
+                title: "issued a statement (phr.)",
+                meaning: "ออกแถลงการณ์, ประกาศอย่างเป็นทางการ",
+                pronunciation: "อิช-<u>ชู</u>ด อะ สเตท-เม้นท์",
+                example: "The company issued a statement regarding the incident.",
+                translation: "บริษัทออกแถลงการณ์เกี่ยวกับเหตุการณ์ดังกล่าว"
+            },
+            "confirming": {
+                title: "confirming (v.)",
+                meaning: "ยืนยัน, รับรองความถูกต้อง",
+                pronunciation: "คัน-<u>เฟิร์ม</u>-มิ่ง",
+                example: "The spokesperson is confirming the news.",
+                translation: "โฆษกกำลังยืนยันข่าว"
+            },
+            "Shi_Yongxin_adv": {
+                title: "Shi Yongxin (n.)",
+                meaning: "ซื่อ หย่งซิ่น, เจ้าอาวาสวัดเส้าหลินผู้เป็นที่เคารพ (revered abbot) ซึ่งมีบทบาทสำคัญในการผลักดันวัดสู่ธุรกิจและนานาชาติ",
+                pronunciation: "ซื่อ-ห<u>ย่ง</u>-ซิ่<u>น</u>",
+                example: "Shi Yongxin, the revered abbot, has been instrumental in modernizing the Shaolin Temple's outreach.",
+                translation: "ซื่อ หย่งซิ่น เจ้าอาวาสผู้เป็นที่เคารพ มีบทบาทสำคัญในการปรับปรุงการเผยแผ่ของวัดเส้าหลินให้ทันสมัย"
+            },
+            "revered_abbot": {
+                title: "revered abbot (n.)",
+                meaning: "เจ้าอาวาสผู้เป็นที่เคารพ, พระผู้ใหญ่ที่ได้รับการนับถืออย่างสูง",
+                pronunciation: "รี-<u>เวียร์ด</u> <u>แอ็บ</u>-บอท",
+                example: "The revered abbot gave a sermon to the community.",
+                translation: "เจ้าอาวาสผู้เป็นที่เคารพได้เทศนาแก่ชุมชน"
+            },
+            "under_investigation": {
+                title: "under investigation (phr.)",
+                meaning: "อยู่ระหว่างการสอบสวน, กำลังถูกตรวจสอบหรือสืบสวนโดยหน่วยงานที่มีอำนาจ",
+                pronunciation: "อั<u>น</u>-เดอร์ อิน-เวส-ติ-เ<u>ก</u>-ชั่น",
+                example: "The CEO is currently under investigation for financial irregularities.",
+                translation: "ประธานเจ้าหน้าที่บริหารกำลังอยู่ระหว่างการสอบสวนกรณีความผิดปกติทางการเงิน"
+            },
+            "multiple_authorities": {
+                title: "multiple authorities (n.)",
+                meaning: "หน่วยงานหลายแห่ง, เจ้าหน้าที่หลายฝ่าย",
+                pronunciation: "<u>มัล</u>-ทิ-เพิล ออ-<u>ทอ</u>-ริ-ตี้ส์",
+                example: "The case is being handled by multiple authorities.",
+                translation: "คดีนี้กำลังถูกจัดการโดยหน่วยงานหลายแห่ง"
+            },
+            "serious_criminal_allegations": {
+                title: "serious criminal allegations (n.)",
+                meaning: "ข้อกล่าวหาทางอาญาที่ร้ายแรง, การถูกกล่าวหาว่ากระทำผิดอาญาร้ายแรง",
+                pronunciation: "<u>ซี</u>-เรียส <u>คริม</u>-มิ-นัล แอล-ลิ-เ<u>ก</u>-ชั่นส์",
+                example: "He faces serious criminal allegations.",
+                translation: "เขาเผชิญหน้ากับข้อกล่าวหาทางอาญาที่ร้ายแรง"
+            },
+            "accusations": {
+                title: "accusations (n.)",
+                meaning: "ข้อกล่าวหา, การกล่าวโทษ",
+                pronunciation: "แอ็ค-คิว-<u>เซ</u>-ชั่นส์",
+                example: "The accusations against him are very serious.",
+                translation: "ข้อกล่าวหาต่อเขาเป็นเรื่องร้ายแรงมาก"
+            },
+            "embezzlement_adv": {
+                title: "embezzlement (n.)",
+                meaning: "การยักยอกทรัพย์, การฉ้อโกงเงินหรือทรัพย์สินที่ได้รับความไว้วางใจให้ดูแล",
+                pronunciation: "เอ็ม-เบ<u>ส</u>-เซิล-เม่นท์",
+                example: "The company suffered huge losses due to embezzlement by a senior executive.",
+                translation: "บริษัทประสบความสูญเสียครั้งใหญ่เนื่องจากการยักยอกทรัพย์โดยผู้บริหารระดับสูง"
+            },
+            "temple_assets": {
+                title: "temple assets (n.)",
+                meaning: "ทรัพย์สินของวัด, ของมีค่าหรือเงินทองที่เป็นของวัด",
+                pronunciation: "เท็ม-เพิล <u>แอส</u>-เซ็ทส์",
+                example: "The temple assets are used for charitable purposes.",
+                translation: "ทรัพย์สินของวัดถูกนำไปใช้เพื่อการกุศล"
+            },
+            "projects_adv": {
+                title: "projects (n.)",
+                meaning: "โครงการ, แผนงานขนาดใหญ่",
+                pronunciation: "<u>พร้อด</u>-เจ็คทส์",
+                example: "They undertook several large-scale projects.",
+                translation: "พวกเขาดำเนินโครงการขนาดใหญ่หลายโครงการ"
+            },
+            "severe_violations": {
+                title: "severe violations (n.)",
+                meaning: "การละเมิดอย่างร้ายแรง, การฝ่าฝืนอย่างรุนแรง",
+                pronunciation: "ซิ-<u>เวียร์</u> ไว-โอ-<u>เล</u>-ชั่นส์",
+                example: "Severe violations of the law will be punished.",
+                translation: "การละเมิดกฎหมายอย่างร้ายแรงจะถูกลงโทษ"
+            },
+            "monastic_discipline": {
+                title: "monastic discipline (n.)",
+                meaning: "วินัยสงฆ์, ข้อปฏิบัติของพระภิกษุ",
+                pronunciation: "มอ-<u>แนส</u>-ติก <u>ดิส</u>-ซิ-พลิน",
+                example: "He adhered strictly to monastic discipline.",
+                translation: "เขายึดมั่นในวินัยสงฆ์อย่างเคร่งครัด"
+            },
+            "clandestine_relationships": {
+                title: "clandestine relationships (n.)",
+                meaning: "ความสัมพันธ์ที่ปกปิดเป็นความลับ, ความสัมพันธ์ที่ทำอย่างลับๆ หรือเป็นส่วนตัวอย่างยิ่ง มักเกี่ยวข้องกับสิ่งผิดปกติหรือไม่เหมาะสม",
+                pronunciation: "แคลน-เ<u>ดส</u>-ทิน รี-เ<u>ล</u>-ชั่น-ฉิปส์",
+                example: "His clandestine relationships became public, leading to a scandal.",
+                translation: "ความสัมพันธ์ลับๆ ของเขากลายเป็นที่เปิดเผยต่อสาธารณะ นำไปสู่เรื่องอื้อฉาว"
+            },
+            "fathering_children": {
+                title: "fathering children (phr.)",
+                meaning: "การมีบุตร (ในฐานะพ่อ), การให้กำเนิดบุตร",
+                pronunciation: "<u>ฟา</u>-เธอร์-ริ่ง <u>ชิล</u>-เดรน",
+                example: "The allegations included fathering children outside of marriage.",
+                translation: "ข้อกล่าวหารวมถึงการมีบุตรนอกสมรส"
+            },
+            "named": {
+                title: "named (v.)",
+                meaning: "มีชื่อว่า, ถูกตั้งชื่อว่า",
+                pronunciation: "เนมด",
+                example: "The company is named after its founder.",
+                translation: "บริษัทนี้ตั้งชื่อตามผู้ก่อตั้ง"
+            },
+            "born_adv": {
+                title: "born (v.)",
+                meaning: "เกิด, กำเนิด",
+                pronunciation: "บอร์น",
+                example: "He was born in the capital city.",
+                translation: "เขาเกิดในเมืองหลวง"
+            },
+            "ordained": {
+                title: "ordained (v.)",
+                meaning: "บวช, อุปสมบท",
+                pronunciation: "ออร์-<u>เดน</u>ด",
+                example: "He was ordained as a priest at a young age.",
+                translation: "เขาบวชเป็นบาทหลวงตั้งแต่อายุน้อย"
+            },
+            "ascended_position": {
+                title: "ascended to the position (phr.)",
+                meaning: "ขึ้นสู่ตำแหน่ง, ได้รับตำแหน่งที่สูงขึ้น",
+                pronunciation: "อะ-เ<u>สน</u>-ดิด ทู เดอะ พะ-<u>ซิช</u>-ชั่น",
+                example: "She ascended to the position of CEO within five years.",
+                translation: "เธอขึ้นสู่ตำแหน่งประธานเจ้าหน้าที่บริหารภายในห้าปี"
+            },
+            "recognized": {
+                title: "recognized (v.)",
+                meaning: "เป็นที่ยอมรับ, ได้รับการยกย่อง",
+                pronunciation: "<u>เรค</u>-คอก-ไนซด",
+                example: "He is recognized for his contributions to science.",
+                translation: "เขาได้รับการยกย่องจากการมีส่วนร่วมในวงการวิทยาศาสตร์"
+            },
+            "pioneering_figure": {
+                title: "pioneering figure (n.)",
+                meaning: "ผู้บุกเบิก, บุคคลสำคัญที่เริ่มสิ่งใหม่ๆ หรือพัฒนาแนวคิดใหม่ๆ เป็นคนแรกๆ",
+                pronunciation: "ไพ-โอ-เ<u>นี</u>ย-ริ่ง ฟิก-เกอร์",
+                example: "Marie Curie was a pioneering figure in the field of radioactivity.",
+                translation: "มารี คูรีเป็นผู้บุกเบิกในสาขาวิทยุรังสี"
+            },
+            "commercialized_buddhism": {
+                title: "commercialized Buddhism (n.)",
+                meaning: "พุทธศาสนาเชิงพาณิชย์, การนำหลักการหรือสัญลักษณ์ของพุทธศาสนามาใช้ในเชิงธุรกิจ",
+                pronunciation: "คะ-<u>เมอร์</u>-เชิล-ไลซด <u>บุ๊ด</u>-ดิซึม",
+                example: "Some criticize the trend of commercialized Buddhism.",
+                translation: "บางคนวิจารณ์กระแสพุทธศาสนาเชิงพาณิชย์"
+            },
+            "obtain_mba": {
+                title: "obtain an MBA (phr.)",
+                meaning: "ได้รับปริญญาโทบริหารธุรกิจ, สำเร็จการศึกษา MBA",
+                pronunciation: "ออบ-<u>เทน</u> แอน เอ็ม-บี-เอ",
+                example: "He worked hard to obtain an MBA from a top university.",
+                translation: "เขาทำงานหนักเพื่อสำเร็จการศึกษา MBA จากมหาวิทยาลัยชั้นนำ"
+            },
+            "commercial_ventures": {
+                title: "commercial ventures (n.)",
+                meaning: "การร่วมลงทุนเชิงพาณิชย์, กิจการทางธุรกิจ",
+                pronunciation: "คะ-<u>เมอร์</u>-เชิล <u>เวน</u>-เชอร์ส",
+                example: "The company expanded with new commercial ventures.",
+                translation: "บริษัทขยายตัวด้วยกิจการทางธุรกิจใหม่ๆ"
+            },
+            "encompassing": {
+                title: "encompassing (v.)",
+                meaning: "ครอบคลุม, รวบรวม",
+                pronunciation: "เอน-<u>คัม</u>-พะ-ซิ่ง",
+                example: "The new policy is encompassing all aspects of public safety.",
+                translation: "นโยบายใหม่ครอบคลุมทุกด้านของความปลอดภัยสาธารณะ"
+            },
+            "e_commerce": {
+                title: "e-commerce (n.)",
+                meaning: "พาณิชย์อิเล็กทรอนิกส์, การซื้อขายสินค้าและบริการผ่านอินเทอร์เน็ต",
+                pronunciation: "อี-<u>คอม</u>-เมิร์ซ",
+                example: "E-commerce has grown rapidly in recent years.",
+                translation: "พาณิชย์อิเล็กทรอนิกส์เติบโตอย่างรวดเร็วในช่วงหลายปีที่ผ่านมา"
+            },
+            "revitalized": {
+                title: "revitalized (v.)",
+                meaning: "ฟื้นฟู, ทำให้กลับมามีชีวิตชีวาอีกครั้ง, ทำให้กลับมามีพลังหรือประสิทธิภาพ",
+                pronunciation: "รี-ไว-ทัล-<u>ไล้</u>ซด",
+                example: "The city council plans to revitalize the downtown area.",
+                translation: "สภาเมืองวางแผนที่จะฟื้นฟูพื้นที่ใจกลางเมือง"
+            },
+            "adapting_formulas": {
+                title: "adapting ancient formulas (phr.)",
+                meaning: "การปรับสูตรโบราณ, การนำสูตรเก่าแก่มาดัดแปลง",
+                pronunciation: "อะ-<u>แด็ป</u>-ติ้ง <u>เอน</u>-เชียนท์ <u>ฟอร์</u>-มิว-ลัส",
+                example: "The chef is adapting ancient recipes for modern tastes.",
+                translation: "เชฟกำลังปรับสูตรอาหารโบราณให้เข้ากับรสนิยมสมัยใหม่"
+            },
+            "products_adv": {
+                title: "products (n.)",
+                meaning: "ผลิตภัณฑ์, สินค้า (ในบริบทที่ซับซ้อนขึ้น)",
+                pronunciation: "<u>พร้อด</u>-ดักทส์",
+                example: "Their latest products are innovative and high-quality.",
+                translation: "ผลิตภัณฑ์ล่าสุดของพวกเขานั้นล้ำสมัยและมีคุณภาพสูง"
+            },
+            "generating_revenue": {
+                title: "generating over 80 million yuan in revenue (phr.)",
+                meaning: "สร้างรายได้กว่า 80 ล้านหยวน",
+                pronunciation: "<u>เจน</u>-เนอ-เรท-ติ้ง <u>โอ</u>-เว่อร์ <u>เอท</u>-ตี้ <u>มิล</u>-เลี่ยน ยวน อิน <u>เรฟ</u>-วะ-นิว",
+                example: "The new business model is generating significant revenue.",
+                translation: "รูปแบบธุรกิจใหม่กำลังสร้างรายได้อย่างมีนัยสำคัญ"
+            },
+            "launched_store": {
+                title: "launched an online store (phr.)",
+                meaning: "เปิดร้านค้าออนไลน์, เริ่มดำเนินกิจการร้านค้าออนไลน์",
+                pronunciation: "ลอนช์ด แอน <u>ออน</u>-ไลน์ สตอร์",
+                example: "The fashion brand launched an online store last month.",
+                translation: "แบรนด์แฟชั่นเปิดร้านค้าออนไลน์เมื่อเดือนที่แล้ว"
+            },
+            "religious_artifacts": {
+                title: "religious artifacts (n.)",
+                meaning: "วัตถุทางศาสนา, โบราณวัตถุทางศาสนา",
+                pronunciation: "<u>รี</u>-ลิ-เจิส <u>อาร์</u>-ติ-แฟ็คทส์",
+                example: "The museum has a collection of ancient religious artifacts.",
+                translation: "พิพิธภัณฑ์มีชุดสะสมวัตถุทางศาสนาโบราณ"
+            },
+            "achieving_sales": {
+                title: "achieving sales exceeding 23 million yuan (phr.)",
+                meaning: "ทำยอดขายได้เกิน 23 ล้านหยวน, ประสบความสำเร็จในการขาย",
+                pronunciation: "อะ-<u>ชีฟ</u>-วิ่ง เซลส์ อิก-<u>ซีด</u>-ดิ้ง ทเวน-ตี้-ธรี <u>มิล</u>-เลี่ยน ยวน",
+                example: "The company achieved sales exceeding expectations.",
+                translation: "บริษัททำยอดขายได้เกินความคาดหมาย"
+            },
+            "expanded_new_media": {
+                title: "expanded into new media (phr.)",
+                meaning: "ขยายเข้าสู่สื่อใหม่, ขยายธุรกิจไปสู่แพลตฟอร์มสื่อสมัยใหม่",
+                pronunciation: "อิก-<u>สแพน</u>-ดิด อิน-ทู นิว <u>มี</u>-เดีย",
+                example: "The campaign expanded into new media channels.",
+                translation: "แคมเปญขยายไปสู่ช่องทางสื่อใหม่ๆ"
+            },
+            "utilizing": {
+                title: "utilizing (v.)",
+                meaning: "ใช้ประโยชน์จาก, นำมาใช้",
+                pronunciation: "<u>ยู</u>-ทิ-ไลซ-ซิ่ง",
+                example: "The team is utilizing new technology.",
+                translation: "ทีมกำลังใช้ประโยชน์จากเทคโนโลยีใหม่"
+            },
+            "martial_arts_knowledge": {
+                title: "martial arts knowledge (n.)",
+                meaning: "ความรู้ด้านศิลปะการต่อสู้",
+                pronunciation: "<u>มาร์</u>-เชิล อาร์ทส์ <u>นอล</u>-ลิจ",
+                example: "He has extensive martial arts knowledge.",
+                translation: "เขามีความรู้ด้านศิลปะการต่อสู้ที่กว้างขวาง"
+            },
+            "conduct_live_streamed_sales": {
+                title: "conduct live-streamed sales personally (phr.)",
+                meaning: "ดำเนินการขายสินค้าผ่านการถ่ายทอดสดด้วยตนเอง, ไลฟ์สดขายของด้วยตัวเอง",
+                pronunciation: "คัน-<u>ดักท</u> ไลฟ์-สตรีมด เซลส์ <u>เพอร์</u>-เซิน-นัล-ลี่",
+                example: "The CEO decided to conduct live-streamed sales personally.",
+                translation: "CEO ตัดสินใจไลฟ์สดขายสินค้าด้วยตนเอง"
+            },
+            "led_troupes_adv": {
+                title: "led Shaolin warrior monk troupes (phr.)",
+                meaning: "นำคณะพระนักสู้วัดเส้าหลิน",
+                pronunciation: "เล็ด ฉ่าว-ลิ<u>น</u> <u>วอร์</u>-เรียร์ มังค์ ทรูปส์",
+                example: "The master led the warrior monk troupes on their journey.",
+                translation: "อาจารย์นำคณะพระนักสู้ออกเดินทาง"
+            },
+            "international_tours": {
+                title: "international tours (n.)",
+                meaning: "การแสดงทัวร์ต่างประเทศ, การเดินทางแสดงในหลายประเทศ",
+                pronunciation: "อิน-เทอร์-<u>แนช</u>-เชิน-นัล ทัวร์ส",
+                example: "The band went on several international tours.",
+                translation: "วงดนตรีออกทัวร์ต่างประเทศหลายครั้ง"
+            },
+            "fetching": {
+                title: "fetching (v.)",
+                meaning: "ทำเงินได้, นำมาซึ่ง (รายได้), ได้รับ (ราคา)",
+                pronunciation: "เ<u>ฟท</u>-ชิ่ง",
+                example: "The rare painting fetched a high price at the auction.",
+                translation: "ภาพวาดหายากทำเงินได้ราคาสูงในการประมูล"
+            },
+            "licensed_brand": {
+                title: "licensed the 'Shaolin' brand (phr.)",
+                meaning: "ให้สิทธิ์การใช้ชื่อแบรนด์ 'เส้าหลิน'",
+                pronunciation: "<u>ไล</u>-เซนซด เดอะ ฉ่าว-ลิ<u>น</u> แบรนด",
+                example: "They licensed the brand to another company.",
+                translation: "พวกเขาให้สิทธิ์การใช้แบรนด์แก่บริษัทอื่น"
+            },
+            "auction": {
+                title: "auction (n.)",
+                meaning: "การประมูล, การขายโดยวิธีประมูล",
+                pronunciation: "<u>ออค</u>-ชั่น",
+                example: "The antique vase was sold at an auction.",
+                translation: "แจกันโบราณถูกขายในการประมูล"
+            },
+            "generating_additional_revenue": {
+                title: "generating additional revenue (phr.)",
+                meaning: "สร้างรายได้เพิ่มเติม, ทำให้เกิดรายได้ส่วนเพิ่ม",
+                pronunciation: "<u>เจน</u>-เนอ-เรท-ติ้ง อะ-<u>ดิช</u>-เชิน-นัล <u>เรฟ</u>-วะ-นิว",
+                example: "The new service is generating additional revenue for the company.",
+                translation: "บริการใหม่กำลังสร้างรายได้เพิ่มเติมให้กับบริษัท"
+            },
+            "indicate": {
+                title: "indicate (v.)",
+                meaning: "บ่งชี้, แสดงให้เห็น",
+                pronunciation: "<u>อิน</u>-ดิ-เคท",
+                example: "The survey results indicate a trend.",
+                translation: "ผลสำรวจบ่งชี้ถึงแนวโน้ม"
+            },
+            "registered_795_trademarks": {
+                title: "registered 795 trademarks (phr.)",
+                meaning: "จดทะเบียนเครื่องหมายการค้า 795 รายการ, การดำเนินการทางกฎหมายเพื่อคุ้มครองชื่อหรือสัญลักษณ์เฉพาะสำหรับสินค้าหรือบริการจำนวนมาก",
+                pronunciation: "เ<u>ร</u>-จิส-เตөрд เซ-เว่น-ไนน์-ตี้-ไฟฟ์ เทรด-มาร์คส์",
+                example: "The company has registered 795 trademarks to protect its vast product lines.",
+                translation: "บริษัทได้จดทะเบียนเครื่องหมายการค้า 795 รายการเพื่อปกป้องสายผลิตภัณฑ์จำนวนมากของตน"
+            },
+            "diverse_sectors": {
+                title: "diverse sectors (n.)",
+                meaning: "ภาคส่วนที่หลากหลาย, อุตสาหกรรมหรือหมวดหมู่ที่แตกต่างกัน",
+                pronunciation: "ได-<u>เวิร์ส</u> <u>เซ็ค</u>-เทอร์ส",
+                example: "The economy relies on diverse sectors.",
+                translation: "เศรษฐกิจพึ่งพาภาคส่วนที่หลากหลาย"
+            },
+            "sources_adv": {
+                title: "sources (n.)",
+                meaning: "แหล่งข่าว, แหล่งข้อมูล (ในบริบทที่ซับซ้อนขึ้น)",
+                pronunciation: "<u>ซอร์ส</u>-เซส",
+                example: "Reliable sources confirmed the information.",
+                translation: "แหล่งข่าวที่เชื่อถือได้ยืนยันข้อมูลแล้ว"
+            },
+            "annual_commercial_revenue": {
+                title: "annual commercial revenue (n.)",
+                meaning: "รายได้เชิงพาณิชย์ต่อปี, รายได้รวมจากการดำเนินธุรกิจในหนึ่งปี",
+                pronunciation: "<u>แอ</u>น-นวล คะ-<u>เมอร์</u>-เชิล <u>เรฟ</u>-วะ-นิว",
+                example: "The company reported a significant increase in annual commercial revenue.",
+                translation: "บริษัทรายงานการเพิ่มขึ้นอย่างมีนัยสำคัญของรายได้เชิงพาณิชย์ต่อปี"
+            },
+            "approaches": {
+                title: "approaches (v.)",
+                meaning: "ใกล้ถึง, เข้าใกล้, เกือบจะถึง (ระดับหรือจำนวนหนึ่ง)",
+                pronunciation: "แอ็พ-<u>โปรช</u>-เชส",
+                example: "The company's revenue approaches a billion dollars this year.",
+                translation: "รายได้ของบริษัทเกือบจะถึงพันล้านดอลลาร์ในปีนี้"
+            },
+            "wielded_control": {
+                title: "wielded control (phr.)",
+                meaning: "ใช้อำนาจควบคุม, มีอำนาจควบคุม",
+                pronunciation: "วีลด์-ดิด คัน-<u>โทรล</u>",
+                example: "He wielded control over a vast empire.",
+                translation: "เขาใช้อำนาจควบคุมอาณาจักรอันกว้างใหญ่"
+            },
+            "significant_role": {
+                title: "significant role (n.)",
+                meaning: "บทบาทสำคัญ, หน้าที่ที่มีความสำคัญมาก",
+                pronunciation: "ซิก-<u>นิฟ</u>-ฟิ-คันท์ โรล",
+                example: "She played a significant role in the success of the project.",
+                translation: "เธอมีบทบาทสำคัญในความสำเร็จของโครงการ"
+            },
+            "managing_assets": {
+                title: "managing cultural assets (phr.)",
+                meaning: "บริหารจัดการทรัพย์สินทางวัฒนธรรม, ดูแลทรัพย์สินที่มีคุณค่าทางวัฒนธรรม",
+                pronunciation: "<u>แมน</u>-นิจ-จิ้ง <u>คัล</u>-เชอร์-รัล <u>แอส</u>-เซ็ทส์",
+                example: "The organization is responsible for managing cultural assets.",
+                translation: "องค์กรนี้รับผิดชอบการบริหารจัดการทรัพย์สินทางวัฒนธรรม"
+            },
+            "art_exchange_services": {
+                title: "art exchange services (n.)",
+                meaning: "บริการแลกเปลี่ยนศิลปะ, บริการที่เกี่ยวข้องกับการแลกเปลี่ยนงานศิลปะ",
+                pronunciation: "อาร์ท อิก-<u>เชนจ์</u> <u>เซอร์</u>-วิส-เซส",
+                example: "They offer art exchange services for collectors.",
+                translation: "พวกเขาเสนอบริการแลกเปลี่ยนศิลปะสำหรับนักสะสม"
+            },
+            "tourism_planning": {
+                title: "tourism planning (n.)",
+                meaning: "การวางแผนการท่องเที่ยว, การจัดทำแผนงานด้านการท่องเที่ยว",
+                pronunciation: "<u>ทัวร์</u>-ริซึม <u>แพลน</u>-นิ่ง",
+                example: "The government is investing in tourism planning.",
+                translation: "รัฐบาลกำลังลงทุนในการวางแผนการท่องเที่ยว"
+            },
+            "investments": {
+                title: "investments (n.)",
+                meaning: "การลงทุน, เงินลงทุน",
+                pronunciation: "อิน-<u>เวสท</u>-เม้นทส์",
+                example: "His investments have grown significantly.",
+                translation: "การลงทุนของเขาเติบโตอย่างมีนัยสำคัญ"
+            },
+            "subsidiary_bid": {
+                title: "a subsidiary's successful bid (phr.)",
+                meaning: "การประมูลที่ประสบความสำเร็จของบริษัทในเครือ",
+                pronunciation: "อะ ซับ-<u>ซิด</u>-เดีย-รีส์ ซัก-<u>เซส</u>-ฟูล บิด",
+                example: "The parent company benefited from a subsidiary's successful bid.",
+                translation: "บริษัทแม่ได้รับประโยชน์จากการประมูลที่ประสบความสำเร็จของบริษัทในเครือ"
+            },
+            "valued": {
+                title: "valued (v.)",
+                meaning: "มีมูลค่า, ถูกประเมินค่า",
+                pronunciation: "<u>แวล</u>-ยูด",
+                example: "The property is valued at over a million dollars.",
+                translation: "ทรัพย์สินมีมูลค่าเกินหนึ่งล้านดอลลาร์"
+            },
+            "sparked_criticism": {
+                title: "sparked widespread criticism (phr.)",
+                meaning: "ก่อให้เกิดการวิพากษ์วิจารณ์อย่างกว้างขวาง, เป็นชนวนให้เกิดการวิจารณ์ในวงกว้าง",
+                pronunciation: "สปาร์คด <u>ไวล์ด</u>-สเปรด <u>คริ</u>-ติ-ซิซึม",
+                example: "The new policy sparked widespread criticism.",
+                translation: "นโยบายใหม่ก่อให้เกิดการวิพากษ์วิจารณ์อย่างกว้างขวาง"
+            },
+            "leading_to": {
+                title: "leading to (phr. v.)",
+                meaning: "นำไปสู่, ก่อให้เกิด (ผลลัพธ์)",
+                pronunciation: "ลี<u>ด</u>-ดิ้ง ทู",
+                example: "His actions leading to unexpected results.",
+                translation: "การกระทำของเขานำไปสู่ผลลัพธ์ที่ไม่คาดคิด"
+            },
+            "divestment": {
+                title: "divestment (n.)",
+                meaning: "การถอนการลงทุน, การขายทิ้ง, หรือการเลิกถือครองหุ้น/ทรัพย์สิน",
+                pronunciation: "ได-เ<u>วส</u>-เม้นท์",
+                example: "The company's divestment of non-core assets was a strategic move.",
+                translation: "การถอนการลงทุนในสินทรัพย์ที่ไม่ใช่ธุรกิจหลักของบริษัทเป็นการเคลื่อนไหวเชิงกลยุทธ์"
+            },
+            "shareholding": {
+                title: "shareholding (n.)",
+                meaning: "การถือหุ้น, หุ้นส่วน",
+                pronunciation: "<u>แชร์</u>-โฮล-ดิ้ง",
+                example: "He reduced his shareholding in the company.",
+                translation: "เขาลดสัดส่วนการถือหุ้นในบริษัท"
+            },
+            "post_2022": {
+                title: "Post-2022 (phr.)",
+                meaning: "หลังปี 2022, นับตั้งแต่ปี 2022 เป็นต้นมา",
+                pronunciation: "โพสท์ ทู-เธา-ซันด์-ทเวน-ตี้-ทู",
+                example: "Post-2022, many new regulations came into effect.",
+                translation: "หลังปี 2022 กฎระเบียบใหม่หลายอย่างมีผลบังคับใช้"
+            },
+            "progressively_divested": {
+                title: "progressively divested (phr.)",
+                meaning: "ทยอยถอนการลงทุน, ค่อยๆ ขายทิ้งหรือเลิกถือครอง",
+                pronunciation: "โพร-<u>เกรส</u>-ซิฟ-ลี่ ได-เ<u>วส</u>-เต็ด",
+                example: "The government progressively divested its stake in state-owned enterprises.",
+                translation: "รัฐบาลทยอยถอนการลงทุนในรัฐวิสาหกิจ"
+            },
+            "legal_representative": {
+                title: "legal representative (n.)",
+                meaning: "ตัวแทนทางกฎหมาย, ผู้มีอำนาจกระทำการแทนตามกฎหมาย",
+                pronunciation: "<u>ลี</u>-เกิล <u>เร็บ</u>-พริ-เซน-ทะ-ทิฟ",
+                example: "He acts as a legal representative for his client.",
+                translation: "เขาทำหน้าที่เป็นตัวแทนทางกฎหมายให้แก่ลูกความ"
+            },
+            "monastic_associations": {
+                title: "monastic or Buddhist associations (n.)",
+                meaning: "สมาคมพระพุทธศาสนา, องค์กรของสงฆ์หรือพุทธศาสนิกชน",
+                pronunciation: "มอ-<u>แนส</u>-ติก ออร์ <u>บุ๊ด</u>-ดิสท์ แอส-โซ-ซิ-เ<u>อ</u>-ชั่นส์",
+                example: "These monastic associations promote Buddhist teachings.",
+                translation: "สมาคมพระพุทธศาสนาเหล่านี้ส่งเสริมคำสอนทางพุทธศาสนา"
+            },
+            "associated_companies": {
+                title: "associated companies (n.)",
+                meaning: "บริษัทในเครือ, บริษัทที่เกี่ยวข้อง",
+                pronunciation: "แอส-โซ-ซิ-เ<u>อท</u>-ทิด <u>คัม</u>-พะ-นี่ส์",
+                example: "The main firm and its associated companies operate globally.",
+                translation: "บริษัทหลักและบริษัทในเครือดำเนินงานทั่วโลก"
+            },
+            "revoked_dissolved": {
+                title: "revoked or dissolved (phr.)",
+                meaning: "ถูกเพิกถอนหรือยุบกิจการ, ถูกยกเลิกหรือเลิกดำเนินการ",
+                pronunciation: "รี-<u>โวค</u>ด ออร์ ดิ-<u>โซลฟ์</u>ด",
+                example: "The license was revoked and the company dissolved.",
+                translation: "ใบอนุญาตถูกเพิกถอนและบริษัทถูกยุบกิจการ"
+            },
+            "similar_allegations": {
+                title: "similar allegations (n.)",
+                meaning: "ข้อกล่าวหาที่คล้ายกัน, การถูกกล่าวโทษในลักษณะที่ใกล้เคียงกัน",
+                pronunciation: "<u>ซิ</u>-มิ-ลาร์ แอล-ลิ-เ<u>ก</u>-ชั่นส์",
+                example: "She faced similar allegations in her previous job.",
+                translation: "เธอเคยเผชิญข้อกล่าวหาที่คล้ายกันในงานก่อนหน้า"
+            },
+            "authorities": {
+                title: "authorities (n.)",
+                meaning: "ทางการ, เจ้าหน้าที่ผู้มีอำนาจ",
+                pronunciation: "ออ-<u>ทอ</u>-ริ-ตี้ส์",
+                example: "The authorities are investigating the matter.",
+                translation: "ทางการกำลังสอบสวนเรื่องนี้"
+            },
+            "dismissed": {
+                title: "dismissed (v.)",
+                meaning: "ยกฟ้อง, ปฏิเสธ (ข้อกล่าวหา)",
+                pronunciation: "ดิส-<u>มิส</u>ด",
+                example: "The judge dismissed the case.",
+                translation: "ผู้พิพากษายกฟ้องคดี"
+            },
+            "official_criminal_indictment": {
+                title: "official criminal indictment (n.)",
+                meaning: "การฟ้องร้องคดีอาญาอย่างเป็นทางการ, การตั้งข้อหาทางอาญาอย่างเป็นทางการ",
+                pronunciation: "ออฟ-<u>ฟิช</u>-เชิล <u>คริม</u>-มิ-นัล อิน-<u>ดาย</u>ด-เม้นท์",
+                example: "This is his first official criminal indictment.",
+                translation: "นี่คือการฟ้องร้องคดีอาญาอย่างเป็นทางการครั้งแรกของเขา"
+            }
+        };
+
+        // Function to show/hide content sections
+        function showContent(contentType) {
+            if (contentType === 'basic') {
+                basicContent.style.display = 'block';
+                advancedContent.style.display = 'none';
+                basicBtn.classList.add('active');
+                advancedBtn.classList.remove('active');
+            } else {
+                basicContent.style.display = 'none';
+                advancedContent.style.display = 'block';
+                basicBtn.classList.remove('active');
+                advancedBtn.classList.add('active');
+            }
+        }
+
+        // Event listeners for navigation buttons
+        basicBtn.addEventListener('click', () => showContent('basic'));
+        advancedBtn.addEventListener('click', () => showContent('advanced'));
+
+        // Function to open the modal with specific content
+        function openModal(termKey) {
+            const data = vocabData[termKey];
+            if (data) {
+                modalTitle.textContent = data.title;
+                modalMeaning.textContent = data.meaning;
+                modalPronunciation.innerHTML = data.pronunciation; // Use innerHTML to allow underline tag
+                modalExample.textContent = data.example;
+                modalTranslation.textContent = data.translation;
+                modal.style.display = 'flex'; // Use flex to center the modal
+            }
+        }
+
+        // Event listeners for highlighted words
+        document.querySelectorAll('.highlight').forEach(item => {
+            item.addEventListener('click', event => {
+                const termKey = event.target.dataset.term;
+                openModal(termKey);
+            });
+        });
+
+        // Event listener for close button
+        closeButton.addEventListener('click', () => {
+            modal.style.display = 'none';
+        });
+
+        // Close modal when clicking outside of it
+        window.addEventListener('click', (event) => {
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+
+        // Initial display - Hide modal on load
+        showContent('basic');
+        modal.style.display = 'none'; // Ensure modal is hidden on initial load
+    </script>
+</body>
+</html>

@@ -1,0 +1,1544 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>การจำนำ iCloud: มิจฉาชีพแนวใหม่</title>
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@400;700&display=swap');
+
+        :root {
+            --primary-color: #6A1B9A; /* Deep Purple */
+            --secondary-color: #D1C4E9; /* Light Purple */
+            --accent-color: #FFC107; /* Amber */
+            --text-color: #333;
+            --background-color: #F3E5F5; /* Lighter Purple */
+            --modal-bg: rgba(0, 0, 0, 0.7);
+            --border-radius: 12px;
+            --box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+            --light-green: #E8F5E9; /* For content boxes */
+            --light-blue: #E3F2FD; /* For content boxes */
+        }
+
+        body {
+            font-family: 'Sarabun', sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            box-sizing: border-box;
+        }
+
+        .app-container {
+            background-color: #FFFFFF;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            max-width: 900px;
+            width: 100%;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--primary-color), #8E24AA);
+            color: white;
+            padding: 25px 30px;
+            text-align: center;
+            border-top-left-radius: var(--border-radius);
+            border-top-right-radius: var(--border-radius);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 2.2em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .header h2 {
+            margin-top: 8px;
+            font-size: 1.5em;
+            opacity: 0.9;
+        }
+        
+        .header h3 {
+            margin-top: 10px;
+            font-size: 1.1em;
+            opacity: 0.9;
+            color: #FFECB3; /* Lighter shade for contrast */
+        }
+
+        .tabs {
+            display: flex;
+            justify-content: center;
+            background-color: var(--secondary-color);
+            padding: 0;
+            border-bottom: 2px solid var(--primary-color);
+        }
+
+        .tab-button {
+            background-color: transparent;
+            border: none;
+            padding: 15px 25px;
+            font-size: 1.1em;
+            font-weight: bold;
+            color: var(--primary-color);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            outline: none;
+            flex-grow: 1;
+            text-align: center;
+        }
+
+        .tab-button:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .tab-button.active {
+            background-color: var(--primary-color);
+            color: white;
+            border-bottom: 4px solid var(--accent-color);
+            padding-bottom: 11px; /* Adjust for border */
+        }
+
+        .content {
+            padding: 30px;
+            min-height: 400px; /* Increased min-height */
+            display: none;
+            animation: slideIn 0.5s ease-out;
+            font-size: 1.05em;
+            line-height: 1.8;
+            word-wrap: break-word;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .content.active {
+            display: block;
+        }
+
+        .content-section {
+            background-color: var(--light-blue);
+            padding: 20px;
+            border-radius: var(--border-radius);
+            margin-bottom: 20px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+        }
+        
+        .content-section.alt-color {
+            background-color: var(--light-green);
+        }
+
+        .content-section h3 {
+            color: var(--primary-color);
+            margin-top: 0;
+            font-size: 1.4em;
+            border-bottom: 2px solid var(--secondary-color);
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+        }
+
+        .highlight {
+            color: var(--primary-color);
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: underline dotted var(--primary-color) 2px;
+            transition: color 0.2s ease, text-decoration-color 0.2s ease;
+        }
+
+        .highlight:hover {
+            color: #4A148C; /* Darker purple */
+            text-decoration-color: #4A148C;
+        }
+
+        .modal {
+            display: none; /* Changed from 'display: none;' for initial hide */
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: var(--modal-bg);
+            justify-content: center; /* Use flex properties for centering */
+            align-items: center; /* Use flex properties for centering */
+            backdrop-filter: blur(5px);
+            animation: fadeInModal 0.3s ease-out;
+        }
+
+        @keyframes fadeInModal {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: auto;
+            padding: 30px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            max-width: 550px;
+            width: 90%;
+            position: relative;
+            animation: zoomIn 0.3s ease-out;
+            color: var(--text-color);
+        }
+
+        @keyframes zoomIn {
+            from { transform: scale(0.9); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .close-button {
+            color: #aaa;
+            float: right;
+            font-size: 32px;
+            font-weight: bold;
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .close-button:hover,
+        .close-button:focus {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .modal-title {
+            color: var(--primary-color);
+            margin-top: 0;
+            margin-bottom: 15px;
+            font-size: 1.8em;
+            border-bottom: 2px solid var(--secondary-color);
+            padding-bottom: 10px;
+        }
+
+        .modal-meaning {
+            font-size: 1.1em;
+            margin-bottom: 10px;
+        }
+
+        .modal-pronunciation {
+            font-family: 'Times New Roman', serif; /* IPA often looks better in serif fonts */
+            font-size: 1.05em;
+            color: #666;
+            margin-bottom: 15px;
+        }
+
+        .modal-pronunciation .underline {
+            text-decoration: underline;
+        }
+
+        .modal-example {
+            background-color: #F0F4C3; /* Light green-yellow */
+            border-left: 5px solid var(--accent-color);
+            padding: 15px;
+            border-radius: 8px;
+            font-style: italic;
+            font-size: 0.95em;
+        }
+
+        .modal-example p {
+            margin: 0;
+        }
+
+        .modal-example .translation {
+            margin-top: 5px;
+            font-size: 0.9em;
+            color: #555;
+        }
+
+        .footer {
+            padding: 20px;
+            text-align: center;
+            font-size: 0.9em;
+            color: #777;
+            border-top: 1px solid #eee;
+            background-color: #f9f9f9;
+            border-bottom-left-radius: var(--border-radius);
+            border-bottom-right-radius: var(--border-radius);
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            .app-container {
+                margin-top: 10px;
+            }
+            .header h1 {
+                font-size: 1.8em;
+            }
+            .header h2 {
+                font-size: 1.2em;
+            }
+            .header h3 {
+                font-size: 0.9em;
+            }
+            .tabs {
+                flex-direction: column;
+            }
+            .tab-button {
+                padding: 12px 15px;
+                font-size: 1em;
+            }
+            .content {
+                padding: 20px;
+                font-size: 0.95em;
+            }
+            .content-section {
+                padding: 15px;
+            }
+            .content-section h3 {
+                font-size: 1.2em;
+            }
+            .modal-content {
+                padding: 20px;
+                width: 95%;
+            }
+            .modal-title {
+                font-size: 1.5em;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+        <div class="header">
+            <h1>การจำนำ iCloud: มิจฉาชีพแนวใหม่</h1>
+            <h2>iCloud Pledging: A New Age Scam</h2>
+            <h3>ครูสาลี่ -- อังกฤษสำหรับคนเรียนไม่รู้เรื่อง</h3>
+        </div>
+
+        <div class="tabs">
+            <button class="tab-button active" onclick="openTab('basic')">ระดับพื้นฐาน</button>
+            <button class="tab-button" onclick="openTab('advanced')">ระดับสูง</button>
+        </div>
+
+        <div id="basic" class="content active">
+            <div class="content-section">
+                <h3>เกิดอะไรขึ้น? (What's Happening?)</h3>
+                <p>Have you <span class="highlight" data-term="heard_about_basic">heard about</span> <span class="highlight" data-term="iCloud_Pledging_Basic">iCloud pledging</span>? It's a new and dangerous type of <span class="highlight" data-term="scam_Basic">scam</span> that is happening <span class="highlight" data-term="often_basic">often</span>. Recently in Thailand, specifically in June, the **Central Investigation Bureau (CIB)** <span class="highlight" data-term="raided_basic">raided</span> four places in Bangkok and Samut Prakan. These places were companies <span class="highlight" data-term="involved_in">involved in</span> iCloud pledging, offering <span class="highlight" data-term="loans_basic">loans</span> with <span class="highlight" data-term="very_high_interest_rates">very high interest rates</span>, over 365% per year! Bad people <span class="highlight" data-term="try_to_trick">try to trick</span> others, especially those who own iPhones, to <span class="highlight" data-term="lose_access_to_their_device">lose access to their device</span> and data.</p>
+            </div>
+
+            <div class="content-section alt-color">
+                <h3>วิธีการของมิจฉาชีพ (How the Scammers Work)</h3>
+                <p>Here's how it <span class="highlight" data-term="often_works">often works</span>: A person <span class="highlight" data-term="needs_money">needs money</span> quickly and wants to <span class="highlight" data-term="pawn_their_phone_Basic">pawn their phone</span>. The <span class="highlight" data-term="scammer_person">scammer</span> (the bad person) <span class="highlight" data-term="pretends_to_be">pretends to be</span> a helpful <span class="highlight" data-term="pawn_shop">pawn shop</span> owner or a <span class="highlight" data-term="loan_provider">loan provider</span>. They <span class="highlight" data-term="advertise_basic">advertise</span> on <span class="highlight" data-term="social_media">social media</span>. They tell the <span class="highlight" data-term="victim_basic">victim</span> to <span class="highlight" data-term="log_in_to_iCloud_Basic">log in to iCloud</span> using the scammer's own phone or computer. They would <span class="highlight" data-term="collect_basic">collect</span> the victim's <span class="highlight" data-term="important_personal_data">important personal data</span>, including their <span class="highlight" data-term="Apple_ID_Basic">Apple ID</span> and <span class="highlight" data-term="password_basic">password</span>. Sometimes, they ask the victim to <span class="highlight" data-term="enable_find_my_iphone">enable "Find My iPhone"</span> on their device while the scammer holds it.</p>
+                <p>Once the victim <span class="highlight" data-term="logs_in">logs in</span> or <span class="highlight" data-term="activates_the_feature">activates the feature</span>, the scammer uses the "Find My iPhone" service to <span class="highlight" data-term="remotely_lock_the_device_Basic">remotely lock the device</span>. This means the victim <span class="highlight" data-term="cannot_use">cannot use</span> their phone anymore. If the victim misses a payment for 7 days, their phone gets locked. A <span class="highlight" data-term="message_appears">message often appears</span> on the locked screen, asking for more money to unlock it.</p>
+            </div>
+
+            <div class="content-section">
+                <h3>ผลกระทบและสิ่งของกลางที่ยึดได้ (The Impact & Seized Items)</h3>
+                <p><span class="highlight" data-term="later_basic">Later</span>, when the victim <span class="highlight" data-term="tries_to_regain">tries to regain</span> <span class="highlight" data-term="possession_basic">possession</span> of their phone or <span class="highlight" data-term="pay_back_the_loan">pay back the loan</span>, the scammers <span class="highlight" data-term="refuse_to_unlock_Basic">refuse to unlock</span> the iCloud. They <span class="highlight" data-term="demand_more_money">demand more money</span>, an extra <span class="highlight" data-term="ransom_Basic">ransom</span>, to <span class="highlight" data-term="release_the_phone">release the phone</span>. This <span class="highlight" data-term="leaves_the_owner_in">leaves the phone owner in</span> a <span class="highlight" data-term="difficult_situation">difficult situation</span>, <span class="highlight" data-term="unable_to_access">unable to access</span> their <span class="highlight" data-term="data_basic">data</span> or use their device.</p>
+                <p>The police <span class="highlight" data-term="seized_basic">seized</span> items like computers, mobile phones, and pawn documents. They found that there were over 5,000 <span class="highlight" data-term="customers_basic">customers</span> or victims. The police are now <span class="highlight" data-term="pressing_charges">pressing charges</span> for <span class="highlight" data-term="charging_illegal_interest_rates">charging illegal interest rates</span> and <span class="highlight" data-term="operating_a_loan_business_without_a_license">operating a loan business without a license</span>.</p>
+            </div>
+
+            <div class="content-section alt-color">
+                <h3>วิธีป้องกัน (How to Protect Yourself)</h3>
+                <p>The **Economic Crime Suppression Division (ECD)** of the police <span class="highlight" data-term="warns_basic">warns</span> everyone to <span class="highlight" data-term="only_borrow_money_from">only borrow money from</span> <span class="highlight" data-term="legally_certified">legally certified</span> financial places. It's very <span class="highlight" data-term="important_basic">important</span> to <span class="highlight" data-term="be_extremely_cautious">be extremely cautious</span>. Never <span class="highlight" data-term="share_your_apple_id">share your Apple ID</span> and <span class="highlight" data-term="password_basic">password</span> with <span class="highlight" data-term="anyone_basic">anyone</span>. Your iCloud <span class="highlight" data-term="account_basic">account</span> is like a <span class="highlight" data-term="key_to">key to</span> all your <span class="highlight" data-term="personal_information">personal information</span> and devices. If someone asks you to log into your iCloud on their device, or asks for your password, it's a big <span class="highlight" data-term="red_flag_Basic">red flag</span>. You risk being <span class="highlight" data-term="spied_on">spied on</span>, <span class="highlight" data-term="having_data_hacked">having data hacked</span>, or even <span class="highlight" data-term="blackmailed_basic">blackmailed</span> without knowing it. Always <span class="highlight" data-term="keep_your_digital">keep your digital life</span> safe!</p>
+            </div>
+        </div>
+
+        <div id="advanced" class="content">
+            <div class="content-section">
+                <h3>ประเด็นเร่งด่วน (A Pressing Issue)</h3>
+                <p>The <span class="highlight" data-term="proliferation_advanced">proliferation</span> of <span class="highlight" data-term="iCloud_pledging_scams_Advanced">iCloud pledging scams</span> has emerged as a <span class="highlight" data-term="significant_cybercrime_trend">significant cybercrime trend</span>, primarily <span class="highlight" data-term="preying_on_vulnerable_individuals_Advanced">preying on vulnerable individuals</span> who are in <span class="highlight" data-term="urgent_need">urgent need</span> of <span class="highlight" data-term="financial_liquidity">financial liquidity</span>. A recent and prominent case in Thailand, reported in June, involved a raid by the **Central Investigation Bureau (CIB)'s Economic Crime Suppression Division (ECD)**. They launched "Operation iLockdown," targeting four locations in Bangkok and Samut Prakan linked to iCloud pledging operations. These companies were found to be <span class="highlight" data-term="extending_loans">extending loans</span> with <span class="highlight" data-term="exorbitant_interest_rates">exorbitant interest rates</span>, <span class="highlight" data-term="exceeding_advanced">exceeding</span> 365% per annum. This elaborate form of <span class="highlight" data-term="digital_extortion_Advanced">digital extortion</span> <span class="highlight" data-term="disproportionately_affects">disproportionately affects</span> iPhone users due to the <span class="highlight" data-term="integrated_nature">integrated nature</span> of Apple's <span class="highlight" data-term="ecosystem_advanced">ecosystem</span>.</p>
+            </div>
+            
+            <div class="content-section alt-color">
+                <h3>กลวิธีของมิจฉาชีพ (Scammers' Modus Operandi)</h3>
+                <p>The typical <span class="highlight" data-term="modus_operandi_Advanced">modus operandi</span> involves <span class="highlight" data-term="fraudsters_advanced">fraudsters</span>, often <span class="highlight" data-term="posing_as">posing as</span> <span class="highlight" data-term="legitimate_advanced">legitimate</span> <span class="highlight" data-term="pawn_brokers">pawn brokers</span> or <span class="highlight" data-term="lending_agents">lending agents</span>, <span class="highlight" data-term="convincing_advanced">convincing</span> victims to <span class="highlight" data-term="use_iCloud_as_collateral">use their iCloud account as collateral</span> for the loan. They <span class="highlight" data-term="widely_advertised">widely advertised</span> their services through <span class="highlight" data-term="social_media_platforms">social media platforms</span>. Crucially, they would <span class="highlight" data-term="compel_victims">compel victims</span> to <span class="highlight" data-term="furnish_their_Apple_ID_and_password">furnish their Apple ID and password</span>, or to <span class="highlight" data-term="authenticate_their_iCloud_accounts_Advanced">authenticate their iCloud accounts</span> on a <span class="highlight" data-term="third_party_device">third-party device</span> (<span class="highlight" data-term="controlled_by">controlled by</span> the scammer), or to <span class="highlight" data-term="enable_the_find_my_iphone_feature">enable the "Find My iPhone" feature</span> while the victim's device is in the scammer's <span class="highlight" data-term="temporary_possession">temporary possession</span>. Upon <span class="highlight" data-term="gaining_access">gaining access</span>, the criminals swiftly <span class="highlight" data-term="remotely_lock_the_device_Advanced">remotely lock the device</span> using the Find My service. If a <span class="highlight" data-term="default_on_payment">default on payment</span> occurred for 7 days, the device would be locked. This remote lock effectively <span class="highlight" data-term="transforms_the_device">transforms the device</span> into a <span class="highlight" data-term="digital_hostage">digital hostage</span>, <span class="highlight" data-term="displaying_a_custom_message">displaying a custom message</span> that <span class="highlight" data-term="demands_payment">demands payment</span> for its release. This <span class="highlight" data-term="critical_step">critical step</span> <span class="highlight" data-term="forms_the_foundation">forms the foundation</span> of their <span class="highlight" data-term="subsequent_extortion_attempts">subsequent extortion attempts</span>.</p>
+            </div>
+
+            <div class="content-section">
+                <h3>ผลลัพธ์และความยากลำบากทางกฎหมาย (Consequences and Legal Predicament)</h3>
+                <p>When victims <span class="highlight" data-term="return_to">return to</span> <span class="highlight" data-term="redeem_their_device">redeem their device</span> as <span class="highlight" data-term="per_the_initial_agreement">per the initial agreement</span>, the scammers then <span class="highlight" data-term="withhold_the_iCloud_unlock">withhold the iCloud unlock</span>, <span class="highlight" data-term="demanding_additional_payments">demanding additional payments</span> – often a <span class="highlight" data-term="hefty_ransom">hefty ransom</span> – beyond the <span class="highlight" data-term="agreed_upon_pawn_amount">agreed-upon pawn amount</span>. This <span class="highlight" data-term="leaves_the_victims_in">leaves the victims in</span> a <span class="highlight" data-term="severe_predicament">severe predicament</span>, as their <span class="highlight" data-term="personal_device">personal device</span>, along with all its <span class="highlight" data-term="stored_data">stored data</span>, <span class="highlight" data-term="becomes_inaccessible">becomes inaccessible</span>, <span class="highlight" data-term="creating_significant_distress">creating significant financial and personal distress</span>.</p>
+                <p>During the recent operation, authorities <span class="highlight" data-term="confiscated_advanced">confiscated</span> key evidence including computers, mobile phones, and pawn documents. Investigations revealed a staggering number of over 5,000 <span class="highlight" data-term="clients_advanced">clients</span> affected. The perpetrators are being <span class="highlight" data-term="prosecuted_advanced">prosecuted</span> for serious offenses, including <span class="highlight" data-term="charging_interest_rates_exceeding_legal_limits">charging interest rates exceeding legal limits</span> and <span class="highlight" data-term="operating_a_lending_business_without_a_proper_license">operating a lending business without a proper license</span>.</p>
+            </div>
+
+            <div class="content-section alt-color">
+                <h3>มาตรการป้องกัน (Preventive Measures)</h3>
+                <p>The **Economic Crime Suppression Division (ECD)** emphatically <span class="highlight" data-term="advises_advanced">advises</span> the public to <span class="highlight" data-term="procure_loans">procure loans</span> exclusively from <span class="highlight" data-term="duly_certified_financial_institutions">duly certified financial institutions</span>. This scam <span class="highlight" data-term="underscores_the_paramount_importance">underscores the paramount importance</span> of <span class="highlight" data-term="heightened_cybersecurity_awareness">heightened cybersecurity awareness</span>. Users must <span class="highlight" data-term="exercise_extreme_vigilance">exercise extreme vigilance</span> and <span class="highlight" data-term="diligently_safeguard">diligently safeguard</span> their <span class="highlight" data-term="login_credentials">login credentials</span> for all <span class="highlight" data-term="cloud_services">cloud services</span>, especially those <span class="highlight" data-term="linked_to_sensitive_personal_data">linked to sensitive personal data</span> like Apple ID. Any <span class="highlight" data-term="unsolicited_request">unsolicited request</span> to <span class="highlight" data-term="authenticate_accounts">authenticate your personal accounts</span> on an <span class="highlight" data-term="unfamiliar_device">unfamiliar device</span>, or to <span class="highlight" data-term="share_passwords">share your passwords</span>, should be immediately <span class="highlight" data-term="recognized_as">recognized as</span> a <span class="highlight" data-term="serious_security_risk_Advanced">serious security risk</span> and <span class="highlight" data-term="vehemently_declined">vehemently declined</span>. Failure to do so risks <span class="highlight" data-term="unauthorized_surveillance">unauthorized surveillance</span>, <span class="highlight" data-term="data_breaches_advanced">data breaches</span>, or even <span class="highlight" data-term="unwitting_blackmail">unwitting blackmail</span>. <span class="highlight" data-term="prioritizing_security">Prioritizing the security</span> of your Apple ID and <span class="highlight" data-term="understanding_the_implications">understanding the implications</span> of <span class="highlight" data-term="granting_access">granting access</span> to your cloud data are <span class="highlight" data-term="fundamental_steps">fundamental steps</span> in <span class="highlight" data-term="mitigating_these_risks_Advanced">mitigating these risks</span> and <span class="highlight" data-term="proactively_preventing">proactively preventing</span> future <span class="highlight" data-term="instances_of_fraud">instances of such digital fraud</span>.</p>
+            </div>
+        </div>
+
+        <div class="footer">
+            สร้างสรรค์โดย Mr.News และ ครูสาลี่ -- อังกฤษสำหรับคนเรียนไม่รู้เรื่อง
+        </div>
+    </div>
+
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <h3 class="modal-title" id="modalTitle"></h3>
+            <p class="modal-meaning" id="modalMeaning"></p>
+            <p class="modal-pronunciation" id="modalPronunciation"></p>
+            <div class="modal-example">
+                <p id="modalExample"></p>
+                <p class="translation" id="modalExampleTranslation"></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Data for pop-up modals
+        const vocabData = {
+            // Basic Version A2 Level Additions
+            heard_about_basic: {
+                title: "heard about",
+                meaning: "ได้ยินเกี่ยวกับ",
+                pronunciation: "hɜːrd əˈbaʊt",
+                example: "Have you heard about the new movie?",
+                example_th: "คุณได้ยินเกี่ยวกับหนังเรื่องใหม่หรือยัง?"
+            },
+            often_basic: {
+                title: "often",
+                meaning: "บ่อยครั้ง",
+                pronunciation: "ˈɒfən",
+                example: "It often rains in the afternoon here.",
+                example_th: "ที่นี่ฝนตกบ่อยครั้งในช่วงบ่าย"
+            },
+            raided_basic: {
+                title: "raided",
+                meaning: "บุกค้น",
+                pronunciation: "ˈreɪdɪd",
+                example: "The police raided the illegal gambling den.",
+                example_th: "ตำรวจบุกค้นบ่อนการพนันผิดกฎหมาย"
+            },
+            involved_in: {
+                title: "involved in",
+                meaning: "เกี่ยวข้องกับ",
+                pronunciation: "ɪnˈvɒlvd ɪn",
+                example: "She is involved in many school activities.",
+                example_th: "เธอเกี่ยวข้องกับกิจกรรมโรงเรียนหลายอย่าง"
+            },
+            loans_basic: {
+                title: "loans",
+                meaning: "เงินกู้",
+                pronunciation: "loʊnz",
+                example: "He took out several loans to start his business.",
+                example_th: "เขาเอาเงินกู้หลายก้อนมาเริ่มต้นธุรกิจของเขา"
+            },
+            very_high_interest_rates: {
+                title: "very high interest rates",
+                meaning: "อัตราดอกเบี้ยที่สูงมาก",
+                pronunciation: "ˈvɛri haɪ ˈɪntrɪst reɪts",
+                example: "Avoid lenders with very high interest rates.",
+                example_th: "หลีกเลี่ยงผู้ให้กู้ที่มีอัตราดอกเบี้ยสูงมาก"
+            },
+            try_to_trick: {
+                title: "try to trick",
+                meaning: "พยายามหลอกลวง",
+                pronunciation: "traɪ tuː trɪk",
+                example: "The salesperson tried to trick me into buying something expensive.",
+                example_th: "พนักงานขายพยายามหลอกให้ฉันซื้อของแพงๆ"
+            },
+            needs_money: {
+                title: "needs money",
+                meaning: "ต้องการเงิน",
+                pronunciation: "niːdz ˈmʌni",
+                example: "He needs money to pay for his rent.",
+                example_th: "เขาต้องการเงินเพื่อจ่ายค่าเช่า"
+            },
+            scammer_person: {
+                title: "scammer",
+                meaning: "มิจฉาชีพ, คนโกง",
+                pronunciation: "ˈskæmər",
+                example: "The scammer sent a fake email.",
+                example_th: "มิจฉาชีพส่งอีเมลปลอมมา"
+            },
+            pretends_to_be: {
+                title: "pretends to be",
+                meaning: "แกล้งทำเป็น",
+                pronunciation: "prɪˈtɛndz tuː biː",
+                example: "He pretends to be sick to avoid going to school.",
+                example_th: "เขาแกล้งทำเป็นป่วยเพื่อเลี่ยงการไปโรงเรียน"
+            },
+            pawn_shop: {
+                title: "pawn shop",
+                meaning: "โรงรับจำนำ",
+                pronunciation: "pɔːn ʃɒp",
+                example: "You can pawn your old jewelry at a pawn shop.",
+                example_th: "คุณสามารถจำนำเครื่องประดับเก่าๆ ที่โรงรับจำนำได้"
+            },
+            loan_provider: {
+                title: "loan provider",
+                meaning: "ผู้ให้กู้",
+                pronunciation: "loʊn prəˈvaɪdər",
+                example: "The bank is a common loan provider.",
+                example_th: "ธนาคารเป็นผู้ให้กู้ทั่วไป"
+            },
+            advertise_basic: {
+                title: "advertise",
+                meaning: "โฆษณา",
+                pronunciation: "ˈædvərˌtaɪz",
+                example: "They advertise their products on TV.",
+                example_th: "พวกเขาโฆษณาสินค้าของตนทางทีวี"
+            },
+            social_media: {
+                title: "social media",
+                meaning: "สื่อสังคมออนไลน์",
+                pronunciation: "ˈsoʊʃəl ˈmiːdiə",
+                example: "Many people use social media every day.",
+                example_th: "ผู้คนจำนวนมากใช้สื่อสังคมออนไลน์ทุกวัน"
+            },
+            victim_basic: {
+                title: "victim",
+                meaning: "เหยื่อ",
+                pronunciation: "ˈvɪktɪm",
+                example: "The scammer's victim lost all her savings.",
+                example_th: "เหยื่อของมิจฉาชีพสูญเสียเงินเก็บทั้งหมด"
+            },
+            collect_basic: {
+                title: "collect",
+                meaning: "เก็บรวบรวม",
+                pronunciation: "kəˈlɛkt",
+                example: "The company collects customer feedback.",
+                example_th: "บริษัทเก็บรวบรวมความคิดเห็นของลูกค้า"
+            },
+            important_personal_data: {
+                title: "important personal data",
+                meaning: "ข้อมูลส่วนตัวที่สำคัญ",
+                pronunciation: "ɪmˈpɔːrtənt ˈpɜːrsənl ˈdeɪtə",
+                example: "Always protect your important personal data.",
+                example_th: "ปกป้องข้อมูลส่วนตัวที่สำคัญของคุณเสมอ"
+            },
+            enable_find_my_iphone: {
+                title: "enable 'Find My iPhone'",
+                meaning: "เปิดใช้งาน 'Find My iPhone'",
+                pronunciation: "ɪˈneɪbl faɪnd maɪ ˈaɪfoʊn",
+                example: "Remember to enable 'Find My iPhone' in case you lose your device.",
+                example_th: "อย่าลืมเปิดใช้งาน 'Find My iPhone' เผื่อทำอุปกรณ์หาย"
+            },
+            logs_in: {
+                title: "logs in",
+                meaning: "เข้าสู่ระบบ",
+                pronunciation: "lɒɡz ɪn",
+                example: "He logs in to his account every morning.",
+                example_th: "เขาเข้าสู่ระบบบัญชีของเขาทุกเช้า"
+            },
+            activates_the_feature: {
+                title: "activates the feature",
+                meaning: "เปิดใช้งานคุณสมบัติ",
+                pronunciation: "ˈæktɪveɪts ðə ˈfiːtʃər",
+                example: "You need to activate the feature in the settings.",
+                example_th: "คุณต้องเปิดใช้งานคุณสมบัตินี้ในการตั้งค่า"
+            },
+            cannot_use: {
+                title: "cannot use",
+                meaning: "ไม่สามารถใช้ได้",
+                pronunciation: "ˈkænɒt juːz",
+                example: "I cannot use this computer because it's broken.",
+                example_th: "ฉันไม่สามารถใช้คอมพิวเตอร์เครื่องนี้ได้เพราะมันเสีย"
+            },
+            message_appears: {
+                title: "message appears",
+                meaning: "ข้อความปรากฏขึ้น",
+                pronunciation: "ˈmɛsɪdʒ əˈpɪərz",
+                example: "A warning message appears on the screen.",
+                example_th: "ข้อความเตือนปรากฏขึ้นบนหน้าจอ"
+            },
+            later_basic: {
+                title: "later",
+                meaning: "ภายหลัง",
+                pronunciation: "ˈleɪtər",
+                example: "I will call you later.",
+                example_th: "ฉันจะโทรหาคุณทีหลัง"
+            },
+            tries_to_regain: {
+                title: "tries to regain",
+                meaning: "พยายามจะกลับมาได้",
+                pronunciation: "traɪz tuː rɪˈɡeɪn",
+                example: "He tries to regain his strength after being sick.",
+                example_th: "เขาพยายามจะกลับมาแข็งแรงหลังจากการเจ็บป่วย"
+            },
+            possession_basic: {
+                title: "possession",
+                meaning: "การครอบครอง",
+                pronunciation: "pəˈzɛʃən",
+                example: "The car is in my possession.",
+                example_th: "รถคันนี้อยู่ในการครอบครองของฉัน"
+            },
+            pay_back_the_loan: {
+                title: "pay back the loan",
+                meaning: "ชำระคืนเงินกู้",
+                pronunciation: "peɪ bæk ðə loʊn",
+                example: "It's important to pay back the loan on time.",
+                example_th: "การชำระคืนเงินกู้ตรงเวลาเป็นสิ่งสำคัญ"
+            },
+            demand_more_money: {
+                title: "demand more money",
+                meaning: "เรียกร้องเงินเพิ่ม",
+                pronunciation: "dɪˈmænd mɔːr ˈmʌni",
+                example: "They demanded more money for the service.",
+                example_th: "พวกเขาเรียกร้องเงินเพิ่มสำหรับบริการ"
+            },
+            release_the_phone: {
+                title: "release the phone",
+                meaning: "ปล่อยโทรศัพท์",
+                pronunciation: "rɪˈliːs ðə foʊn",
+                example: "The police will release the phone after their investigation.",
+                example_th: "ตำรวจจะปล่อยโทรศัพท์หลังจากสอบสวนเสร็จสิ้น"
+            },
+            leaves_the_owner_in: {
+                title: "leaves the owner in",
+                meaning: "ทิ้งเจ้าของให้อยู่ใน",
+                pronunciation: "liːvz ðə ˈoʊnər ɪn",
+                example: "This problem leaves the owner in a difficult situation.",
+                example_th: "ปัญหานี้ทิ้งเจ้าของให้อยู่ในสถานการณ์ที่ยากลำบาก"
+            },
+            difficult_situation: {
+                title: "difficult situation",
+                meaning: "สถานการณ์ที่ยากลำบาก",
+                pronunciation: "ˈdɪfɪkəlt ˌsɪtʃuˈeɪʃən",
+                example: "He found himself in a difficult situation.",
+                example_th: "เขาพบว่าตัวเองอยู่ในสถานการณ์ที่ยากลำบาก"
+            },
+            unable_to_access: {
+                title: "unable to access",
+                meaning: "ไม่สามารถเข้าถึงได้",
+                pronunciation: "ʌnˈeɪbl tuː ˈæksɛs",
+                example: "I am unable to access my email.",
+                example_th: "ฉันไม่สามารถเข้าถึงอีเมลของฉันได้"
+            },
+            data_basic: {
+                title: "data",
+                meaning: "ข้อมูล",
+                pronunciation: "ˈdeɪtə",
+                example: "My phone stores a lot of personal data.",
+                example_th: "โทรศัพท์ของฉันเก็บข้อมูลส่วนตัวไว้มากมาย"
+            },
+            seized_basic: {
+                title: "seized",
+                meaning: "ยึด (สิ่งของ)",
+                pronunciation: "siːzd",
+                example: "The police seized illegal weapons.",
+                example_th: "ตำรวจยึดอาวุธผิดกฎหมาย"
+            },
+            customers_basic: {
+                title: "customers",
+                meaning: "ลูกค้า",
+                pronunciation: "ˈkʌstəmərz",
+                example: "The shop has many loyal customers.",
+                example_th: "ร้านค้ามีลูกค้าประจำจำนวนมาก"
+            },
+            pressing_charges: {
+                title: "pressing charges",
+                meaning: "ดำเนินคดี, ตั้งข้อหา",
+                pronunciation: "ˈprɛsɪŋ ˈʧɑːrdʒɪz",
+                example: "The victim is pressing charges against the suspect.",
+                example_th: "เหยื่อกำลังดำเนินคดีกับผู้ต้องสงสัย"
+            },
+            charging_illegal_interest_rates: {
+                title: "charging illegal interest rates",
+                meaning: "เรียกดอกเบี้ยเกินกฎหมายกำหนด",
+                pronunciation: "ˈʧɑːrdʒɪŋ ɪˈliːɡəl ˈɪntrɪst reɪts",
+                example: "The loan shark was arrested for charging illegal interest rates.",
+                example_th: "ผู้ปล่อยเงินกู้นอกระบบถูกจับข้อหาเรียกดอกเบี้ยเกินกฎหมายกำหนด"
+            },
+            operating_a_loan_business_without_a_license: {
+                title: "operating a loan business without a license",
+                meaning: "ประกอบธุรกิจสินเชื่อไม่มีใบอนุญาต",
+                pronunciation: "ˈɒpəreɪtɪŋ ə loʊn ˈbɪznɪs wɪˈðaʊt ə ˈlaɪsəns",
+                example: "It's illegal to operate a loan business without a license.",
+                example_th: "การประกอบธุรกิจสินเชื่อโดยไม่มีใบอนุญาตเป็นสิ่งผิดกฎหมาย"
+            },
+            warns_basic: {
+                title: "warns",
+                meaning: "เตือน",
+                pronunciation: "wɔːrnz",
+                example: "The sign warns people about the slippery floor.",
+                example_th: "ป้ายเตือนผู้คนให้ระวังพื้นลื่น"
+            },
+            only_borrow_money_from: {
+                title: "only borrow money from",
+                meaning: "กู้เงินจาก...เท่านั้น",
+                pronunciation: "ˈoʊnli ˈbɒroʊ ˈmʌni frɒm",
+                example: "You should only borrow money from trusted sources.",
+                example_th: "คุณควรกู้เงินจากแหล่งที่เชื่อถือได้เท่านั้น"
+            },
+            legally_certified: {
+                title: "legally certified",
+                meaning: "ได้รับการรับรองตามกฎหมาย",
+                pronunciation: "ˈliːɡəli ˈsɜːrtɪfaɪd",
+                example: "This product is legally certified for sale.",
+                example_th: "ผลิตภัณฑ์นี้ได้รับการรับรองตามกฎหมายเพื่อการขาย"
+            },
+            important_basic: {
+                title: "important",
+                meaning: "สำคัญ",
+                pronunciation: "ɪmˈpɔːrtənt",
+                example: "It's important to study for your exams.",
+                example_th: "การอ่านหนังสือสอบเป็นสิ่งสำคัญ"
+            },
+            be_extremely_cautious: {
+                title: "be extremely cautious",
+                meaning: "ระมัดระวังอย่างยิ่ง",
+                pronunciation: "biː ɪkˈstriːmli ˈkɔːʃəs",
+                example: "You must be extremely cautious with your personal information online.",
+                example_th: "คุณต้องระมัดระวังข้อมูลส่วนตัวของคุณทางออนไลน์"
+            },
+            share_your_apple_id: {
+                title: "share your Apple ID",
+                meaning: "เปิดเผย Apple ID ของคุณ",
+                pronunciation: "ʃɛr jʊər ˈæpl aɪ diː",
+                example: "Never share your Apple ID with strangers.",
+                example_th: "อย่าเปิดเผย Apple ID ของคุณกับคนแปลกหน้าเด็ดขาด"
+            },
+            password_basic: {
+                title: "password",
+                meaning: "รหัสผ่าน",
+                pronunciation: "ˈpæswɜːrd",
+                example: "Choose a strong password for your account.",
+                example_th: "เลือกรหัสผ่านที่แข็งแกร่งสำหรับบัญชีของคุณ"
+            },
+            anyone_basic: {
+                title: "anyone",
+                meaning: "ใครก็ตาม",
+                pronunciation: "ˈɛniˌwʌn",
+                example: "Don't tell anyone your secret.",
+                example_th: "อย่าบอกความลับของคุณกับใครก็ตาม"
+            },
+            account_basic: {
+                title: "account",
+                meaning: "บัญชี",
+                pronunciation: "əˈkaʊnt",
+                example: "You need an account to log in.",
+                example_th: "คุณต้องมีบัญชีเพื่อเข้าสู่ระบบ"
+            },
+            key_to: {
+                title: "key to",
+                meaning: "กุญแจสู่",
+                pronunciation: "kiː tuː",
+                example: "Hard work is the key to success.",
+                example_th: "การทำงานหนักคือกุญแจสู่ความสำเร็จ"
+            },
+            personal_information: {
+                title: "personal information",
+                meaning: "ข้อมูลส่วนบุคคล",
+                pronunciation: "ˈpɜːrsənl ˌɪnfərˈmeɪʃən",
+                example: "Protect your personal information online.",
+                example_th: "ปกป้องข้อมูลส่วนบุคคลของคุณทางออนไลน์"
+            },
+            red_flag_Basic: {
+                title: "red flag",
+                meaning: "สัญญาณอันตราย, ธงแดง",
+                pronunciation: "rɛd flæɡ",
+                example: "If someone asks for your password, it's a big red flag.",
+                example_th: "ถ้ามีคนขอรหัสผ่านของคุณ นั่นเป็นสัญญาณอันตรายที่ชัดเจน"
+            },
+            spied_on: {
+                title: "spied on",
+                meaning: "ถูกสอดแนม",
+                pronunciation: "spaɪd ɒn",
+                example: "Make sure your camera is not being spied on.",
+                example_th: "ตรวจสอบให้แน่ใจว่ากล้องของคุณไม่ถูกสอดแนม"
+            },
+            having_data_hacked: {
+                title: "having data hacked",
+                meaning: "ข้อมูลถูกแฮก",
+                pronunciation: "ˈhævɪŋ ˈdeɪtə hækt",
+                example: "She was worried about having data hacked from her phone.",
+                example_th: "เธอเป็นห่วงว่าข้อมูลในโทรศัพท์ของเธอจะถูกแฮก"
+            },
+            blackmailed_basic: {
+                title: "blackmailed",
+                meaning: "ถูกแบล็กเมล",
+                pronunciation: "ˈblækmeɪld",
+                example: "The celebrity was blackmailed for her private photos.",
+                example_th: "คนดังถูกแบล็กเมลเรื่องรูปส่วนตัวของเธอ"
+            },
+            keep_your_digital: {
+                title: "keep your digital life",
+                meaning: "รักษาชีวิตดิจิทัลของคุณให้ปลอดภัย",
+                pronunciation: "kiːp jʊər ˈdɪdʒɪtl laɪf",
+                example: "It's important to keep your digital life safe from hackers.",
+                example_th: "เป็นสิ่งสำคัญที่จะต้องรักษาชีวิตดิจิทัลของคุณให้ปลอดภัยจากแฮกเกอร์"
+            },
+            iCloud_Pledging_Basic: {
+                title: "iCloud pledging",
+                meaning: "การจำนำ iCloud; รูปแบบการหลอกลวงที่มิจฉาชีพหลอกให้ผู้เสียหายเข้าสู่ระบบ iCloud บนอุปกรณ์ของตนเอง เพื่อทำการล็อกเครื่องจากระยะไกลและเรียกค่าไถ่",
+                pronunciation: "ˈaɪˌklaʊd ˈplɛdʒɪŋ",
+                example: "iCloud pledging is a serious scam where criminals lock your phone.",
+                example_th: "การจำนำ iCloud เป็นการหลอกลวงที่ร้ายแรงซึ่งอาชญากรจะล็อกโทรศัพท์ของคุณ"
+            },
+            scam_Basic: {
+                title: "scam",
+                meaning: "การหลอกลวง, กลโกง",
+                pronunciation: "skæm",
+                example: "Beware of online scams that ask for your personal information.",
+                example_th: "ระวังการหลอกลวงทางออนไลน์ที่ขอข้อมูลส่วนตัวของคุณ"
+            },
+            lose_access_to_their_device: {
+                title: "lose access to their device",
+                meaning: "สูญเสียการเข้าถึงอุปกรณ์ของพวกเขา",
+                pronunciation: "luːz ˈæksɛs tuː ðɛr dɪˈvaɪs",
+                example: "If you share your password, you might lose access to your device.",
+                example_th: "หากคุณเปิดเผยรหัสผ่าน คุณอาจสูญเสียการเข้าถึงอุปกรณ์ของคุณ"
+            },
+            pawn_their_phone_Basic: {
+                title: "pawn their phone",
+                meaning: "จำนำโทรศัพท์ของพวกเขา",
+                pronunciation: "pɔːn ðɛr foʊn",
+                example: "She had to pawn her phone to get some urgent cash.",
+                example_th: "เธอต้องจำนำโทรศัพท์เพื่อหาเงินด่วน"
+            },
+            log_in_to_iCloud_Basic: {
+                title: "log in to iCloud",
+                meaning: "เข้าสู่ระบบ iCloud",
+                pronunciation: "lɒɡ ɪn tuː ˈaɪˌklaʊd",
+                example: "Always remember to log in to iCloud on your own devices.",
+                example_th: "จำไว้เสมอว่าให้เข้าสู่ระบบ iCloud บนอุปกรณ์ของคุณเอง"
+            },
+            remotely_lock_the_device_Basic: {
+                title: "remotely lock the device",
+                meaning: "ล็อกอุปกรณ์จากระยะไกล",
+                pronunciation: "rɪˈmoʊtli lɒk ðə dɪˈvaɪs",
+                example: "The scammer can remotely lock the device after gaining access.",
+                example_th: "มิจฉาชีพสามารถล็อกอุปกรณ์จากระยะไกลได้หลังจากเข้าถึงได้"
+            },
+            regain_possession: {
+                title: "regain possession",
+                meaning: "กลับมาครอบครองได้อีกครั้ง",
+                pronunciation: "rɪˈɡeɪn pəˈzɛʃən",
+                example: "He tried to regain possession of his stolen bicycle.",
+                example_th: "เขาพยายามที่จะกลับมาครอบครองจักรยานที่ถูกขโมยไป"
+            },
+            refuse_to_unlock_Basic: {
+                title: "refuse to unlock",
+                meaning: "ปฏิเสธที่จะปลดล็อก",
+                pronunciation: "rɪˈfjuːz tuː ʌnˈlɒk",
+                example: "They refuse to unlock the phone until you pay more money.",
+                example_th: "พวกเขาปฏิเสธที่จะปลดล็อกโทรศัพท์จนกว่าคุณจะจ่ายเงินเพิ่ม"
+            },
+            ransom_Basic: {
+                title: "ransom",
+                meaning: "ค่าไถ่",
+                pronunciation: "ˈrænsəm",
+                example: "The hackers demanded a large ransom to decrypt the files.",
+                example_th: "แฮกเกอร์เรียกค่าไถ่จำนวนมากเพื่อถอดรหัสไฟล์"
+            },
+            access_their_data: {
+                title: "access their data",
+                meaning: "เข้าถึงข้อมูลของพวกเขา",
+                pronunciation: "ˈæksɛs ðɛr ˈdeɪtə",
+                example: "Without the password, you cannot access your data.",
+                example_th: "หากไม่มีรหัสผ่าน คุณจะไม่สามารถเข้าถึงข้อมูลของคุณได้"
+            },
+            
+            // Advanced Version
+            proliferation_advanced: {
+                title: "proliferation",
+                meaning: "การแพร่หลาย, การเพิ่มจำนวนอย่างรวดเร็ว",
+                pronunciation: "prəˌlɪfəˈreɪʃən",
+                example: "The proliferation of smartphones changed our daily lives.",
+                example_th: "การแพร่หลายของสมาร์ทโฟนเปลี่ยนแปลงชีวิตประจำวันของเรา"
+            },
+            iCloud_pledging_scams_Advanced: {
+                title: "iCloud pledging scams",
+                meaning: "การหลอกลวงแบบจำนำ iCloud (การใช้ iCloud เป็นเครื่องมือในการหลอกลวง)",
+                pronunciation: "ˈaɪˌklaʊd ˈplɛdʒɪŋ skæmz",
+                example: "The police are warning the public about the increasing number of iCloud pledging scams.",
+                example_th: "ตำรวจกำลังเตือนประชาชนเกี่ยวกับการหลอกลวงแบบจำนำ iCloud ที่มีจำนวนเพิ่มขึ้น"
+            },
+            significant_cybercrime_trend: {
+                title: "significant cybercrime trend",
+                meaning: "แนวโน้มอาชญากรรมทางไซเบอร์ที่สำคัญ",
+                pronunciation: "sɪɡˈnɪfɪkənt ˈsaɪbərˌkraɪm trɛnd",
+                example: "Data breaches are a significant cybercrime trend today.",
+                example_th: "การละเมิดข้อมูลเป็นแนวโน้มอาชญากรรมทางไซเบอร์ที่สำคัญในปัจจุบัน"
+            },
+            preying_on_vulnerable_individuals_Advanced: {
+                title: "preying on vulnerable individuals",
+                meaning: "การหลอกลวง/หาผลประโยชน์จากบุคคลที่อ่อนแอหรือเปราะบาง",
+                pronunciation: "ˈpreɪɪŋ ɒn ˈvʌlnərəbəl ˌɪndɪˈvɪdʒuəlz",
+                example: "These fraudsters are preying on vulnerable individuals seeking financial assistance.",
+                example_th: "มิจฉาชีพเหล่านี้กำลังหาประโยชน์จากบุคคลที่เปราะบางซึ่งกำลังมองหาความช่วยเหลือทางการเงิน"
+            },
+            extending_loans: {
+                title: "extending loans",
+                meaning: "การให้เงินกู้",
+                pronunciation: "ɪkˈstɛndɪŋ loʊnz",
+                example: "Banks are extending loans to small businesses.",
+                example_th: "ธนาคารกำลังให้เงินกู้แก่ธุรกิจขนาดเล็ก"
+            },
+            exorbitant_interest_rates: {
+                title: "exorbitant interest rates",
+                meaning: "อัตราดอกเบี้ยที่สูงเกินไป",
+                pronunciation: "ɪɡˈzɔːrbɪtənt ˈɪntrɪst reɪts",
+                example: "Loan sharks are known for charging exorbitant interest rates.",
+                example_th: "ผู้ให้กู้นอกระบบเป็นที่รู้จักกันดีในการเรียกเก็บอัตราดอกเบี้ยที่สูงเกินไป"
+            },
+            exceeding_advanced: {
+                title: "exceeding",
+                meaning: "เกินกว่า",
+                pronunciation: "ɪkˈsiːdɪŋ",
+                example: "The cost is exceeding our budget.",
+                example_th: "ค่าใช้จ่ายเกินงบประมาณของเรา"
+            },
+            urgent_need: {
+                title: "urgent need",
+                meaning: "ความต้องการเร่งด่วน",
+                pronunciation: "ˈɜːrdʒənt niːd",
+                example: "The hospital is in urgent need of blood donors.",
+                example_th: "โรงพยาบาลมีความต้องการผู้บริจาคเลือดอย่างเร่งด่วน"
+            },
+            financial_liquidity: {
+                title: "financial liquidity",
+                meaning: "สภาพคล่องทางการเงิน",
+                pronunciation: "faɪˈnænʃəl lɪˈkwɪdɪti",
+                example: "The company has good financial liquidity.",
+                example_th: "บริษัทมีสภาพคล่องทางการเงินที่ดี"
+            },
+            elaborate_form: {
+                title: "elaborate form",
+                meaning: "รูปแบบที่ซับซ้อน",
+                pronunciation: "ɪˈlæbərət fɔːrm",
+                example: "The magician performed an elaborate form of trickery.",
+                example_th: "นักมายากลแสดงกลอุบายที่ซับซ้อน"
+            },
+            digital_extortion_Advanced: {
+                title: "digital extortion",
+                meaning: "การกรรโชกทรัพย์ทางดิจิทัล (การขู่กรรโชกผ่านช่องทางดิจิทัล)",
+                pronunciation: "ˈdɪdʒɪtl ɪkˈstɔːrʃən",
+                example: "Ransomware attacks are a common form of digital extortion.",
+                example_th: "การโจมตีด้วยแรนซัมแวร์เป็นการกรรโชกทรัพย์ทางดิจิทัลรูปแบบหนึ่งที่พบบ่อย"
+            },
+            disproportionately_affects: {
+                title: "disproportionately affects",
+                meaning: "ส่งผลกระทบอย่างไม่สมส่วน",
+                pronunciation: "ˌdɪsprəˈpɔːrʃənətli əˈfɛkts",
+                example: "The new tax disproportionately affects low-income families.",
+                example_th: "ภาษีใหม่ส่งผลกระทบต่อครอบครัวที่มีรายได้น้อยอย่างไม่สมส่วน"
+            },
+            integrated_nature: {
+                title: "integrated nature",
+                meaning: "ลักษณะที่บูรณาการเข้าด้วยกัน",
+                pronunciation: "ˈɪntɪˌɡreɪtɪd ˈneɪtʃər",
+                example: "The integrated nature of the software makes it easy to use.",
+                example_th: "ลักษณะที่บูรณาการเข้าด้วยกันของซอฟต์แวร์ทำให้ใช้งานง่าย"
+            },
+            ecosystem_advanced: {
+                title: "ecosystem",
+                meaning: "ระบบนิเวศ (ในที่นี้หมายถึงระบบที่เชื่อมโยงกันของผลิตภัณฑ์/บริการ)",
+                pronunciation: "ˈiːkoʊˌsɪstəm",
+                example: "Apple's ecosystem includes iPhones, iPads, and MacBooks.",
+                example_th: "ระบบนิเวศของ Apple ประกอบด้วย iPhone, iPad และ MacBook"
+            },
+            modus_operandi_Advanced: {
+                title: "modus operandi (M.O.)",
+                meaning: "วิธีการทำงาน/ปฏิบัติการ (ของอาชญากร)",
+                pronunciation: "ˈmoʊdəs ˌɒpəˈrændɪ",
+                example: "The police identified the suspect's modus operandi from previous cases.",
+                example_th: "ตำรวจระบุวิธีการทำงานของผู้ต้องสงสัยได้จากคดีก่อนๆ"
+            },
+            fraudsters_advanced: {
+                title: "fraudsters",
+                meaning: "นักต้มตุ๋น, มิจฉาชีพ",
+                pronunciation: "ˈfrɔːdstərz",
+                example: "The fraudsters were caught trying to sell fake tickets.",
+                example_th: "นักต้มตุ๋นถูกจับได้ขณะพยายามขายตั๋วปลอม"
+            },
+            posing_as: {
+                title: "posing as",
+                meaning: "แอบอ้างเป็น",
+                pronunciation: "ˈpoʊzɪŋ æz",
+                example: "He was arrested for posing as a police officer.",
+                example_th: "เขาถูกจับกุมฐานแอบอ้างเป็นเจ้าหน้าที่ตำรวจ"
+            },
+            legitimate_advanced: {
+                title: "legitimate",
+                meaning: "ถูกต้องตามกฎหมาย, ชอบธรรม",
+                pronunciation: "lɪˈdʒɪtɪmət",
+                example: "The business operates using legitimate methods.",
+                example_th: "ธุรกิจดำเนินการโดยใช้วิธีการที่ถูกต้องตามกฎหมาย"
+            },
+            pawn_brokers: {
+                title: "pawn brokers",
+                meaning: "เจ้าของโรงรับจำนำ",
+                pronunciation: "pɔːn ˈbroʊkərz",
+                example: "Pawn brokers offer loans based on items of value.",
+                example_th: "เจ้าของโรงรับจำนำให้เงินกู้โดยอิงจากสิ่งของมีค่า"
+            },
+            lending_agents: {
+                title: "lending agents",
+                meaning: "ตัวแทนให้กู้",
+                pronunciation: "ˈlɛndɪŋ ˈeɪdʒənts",
+                example: "These lending agents help people get personal loans.",
+                example_th: "ตัวแทนให้กู้เหล่านี้ช่วยให้ผู้คนได้รับเงินกู้ส่วนบุคคล"
+            },
+            convincing_advanced: {
+                title: "convincing",
+                meaning: "โน้มน้าวใจ",
+                pronunciation: "kənˈvɪnsɪŋ",
+                example: "The lawyer was very convincing during the trial.",
+                example_th: "ทนายความโน้มน้าวใจได้ดีมากระหว่างการพิจารณาคดี"
+            },
+            use_iCloud_as_collateral: {
+                title: "use iCloud as collateral",
+                meaning: "ใช้ iCloud เป็นหลักประกัน",
+                pronunciation: "juːz ˈaɪˌklaʊd æz ˈkɒlətərəl",
+                example: "They asked me to use my car as collateral for the loan.",
+                example_th: "พวกเขาขอให้ฉันใช้รถเป็นหลักประกันสำหรับเงินกู้"
+            },
+            widely_advertised: {
+                title: "widely advertised",
+                meaning: "โฆษณาอย่างแพร่หลาย",
+                pronunciation: "ˈwaɪdli ˈædvərˌtaɪzd",
+                example: "Their new product was widely advertised on TV and online.",
+                example_th: "ผลิตภัณฑ์ใหม่ของพวกเขาถูกโฆษณาอย่างแพร่หลายทั้งทางทีวีและออนไลน์"
+            },
+            social_media_platforms: {
+                title: "social media platforms",
+                meaning: "แพลตฟอร์มสื่อสังคมออนไลน์",
+                pronunciation: "ˈsoʊʃəl ˈmiːdiə ˈplætfɔːrmz",
+                example: "Many businesses use social media platforms for marketing.",
+                example_th: "ธุรกิจจำนวนมากใช้แพลตฟอร์มสื่อสังคมออนไลน์เพื่อการตลาด"
+            },
+            compel_victims: {
+                title: "compel victims",
+                meaning: "บังคับเหยื่อ",
+                pronunciation: "kəmˈpɛl ˈvɪktɪmz",
+                example: "The fraudsters compel victims to reveal their personal details.",
+                example_th: "มิจฉาชีพบังคับเหยื่อให้เปิดเผยรายละเอียดส่วนตัว"
+            },
+            furnish_their_Apple_ID_and_password: {
+                title: "furnish their Apple ID and password",
+                meaning: "ให้ Apple ID และรหัสผ่านของพวกเขา",
+                pronunciation: "ˈfɜːrnɪʃ ðɛr ˈæpl aɪ diː ænd ˈpæswɜːrd",
+                example: "They asked me to furnish my identification documents.",
+                example_th: "พวกเขาขอให้ฉันแสดงเอกสารระบุตัวตน"
+            },
+            authenticate_their_iCloud_accounts_Advanced: {
+                title: "authenticate their iCloud accounts",
+                meaning: "ยืนยันตัวตนบัญชี iCloud ของพวกเขา",
+                pronunciation: "ɔːˈθɛntɪkeɪt ðɛr ˈaɪˌklaʊd əˈkaʊnts",
+                example: "Users should only authenticate their iCloud accounts on trusted devices.",
+                example_th: "ผู้ใช้ควรยืนยันตัวตนบัญชี iCloud ของตนเองบนอุปกรณ์ที่เชื่อถือได้เท่านั้น"
+            },
+            third_party_device: {
+                title: "third-party device",
+                meaning: "อุปกรณ์ของบุคคลที่สาม",
+                pronunciation: "θɜːrd ˈpɑːrti dɪˈvaɪs",
+                example: "Never connect a third-party device to your main network.",
+                example_th: "อย่าเชื่อมต่ออุปกรณ์ของบุคคลที่สามเข้ากับเครือข่ายหลักของคุณเด็ดขาด"
+            },
+            controlled_by: {
+                title: "controlled by",
+                meaning: "ควบคุมโดย",
+                pronunciation: "kənˈtroʊld baɪ",
+                example: "The remote is controlled by a smartphone app.",
+                example_th: "รีโมทถูกควบคุมโดยแอปพลิเคชันบนสมาร์ทโฟน"
+            },
+            enable_the_find_my_iphone_feature: {
+                title: "enable the 'Find My iPhone' feature",
+                meaning: "เปิดใช้งานคุณสมบัติ 'Find My iPhone'",
+                pronunciation: "ɪˈneɪbl ðə faɪnd maɪ ˈaɪfoʊn ˈfiːtʃər",
+                example: "You should enable the 'Find My iPhone' feature for security.",
+                example_th: "คุณควรเปิดใช้งานคุณสมบัติ 'Find My iPhone' เพื่อความปลอดภัย"
+            },
+            temporary_possession: {
+                title: "temporary possession",
+                meaning: "การครอบครองชั่วคราว",
+                pronunciation: "ˈtɛmpəreri pəˈzɛʃən",
+                example: "The car was in his temporary possession for a week.",
+                example_th: "รถคันนั้นอยู่ในครอบครองชั่วคราวของเขาเป็นเวลาหนึ่งสัปดาห์"
+            },
+            gaining_access: {
+                title: "gaining access",
+                meaning: "การเข้าถึง",
+                pronunciation: "ˈɡeɪnɪŋ ˈæksɛs",
+                example: "Gaining access to confidential files requires special permission.",
+                example_th: "การเข้าถึงไฟล์ที่เป็นความลับต้องได้รับการอนุญาตพิเศษ"
+            },
+            remotely_lock_the_device_Advanced: {
+                title: "remotely lock the device",
+                meaning: "ล็อกอุปกรณ์จากระยะไกล",
+                pronunciation: "rɪˈmoʊtli lɒk ðə dɪˈvaɪs",
+                example: "Find My iPhone allows users to remotely lock the device if it's lost.",
+                example_th: "Find My iPhone ช่วยให้ผู้ใช้สามารถล็อกอุปกรณ์จากระยะไกลได้หากทำหาย"
+            },
+            default_on_payment: {
+                title: "default on payment",
+                meaning: "ผิดนัดชำระ, ไม่ชำระเงินตามกำหนด",
+                pronunciation: "dɪˈfɔːlt ɒn ˈpeɪmənt",
+                example: "If you default on payment, you might lose your collateral.",
+                example_th: "หากคุณผิดนัดชำระ คุณอาจสูญเสียหลักประกัน"
+            },
+            rendering_it_inoperable: {
+                title: "rendering it inoperable",
+                meaning: "ทำให้ไม่สามารถใช้งานได้",
+                pronunciation: "ˈrɛndərɪŋ ɪt ɪnˈɒpərəbəl",
+                example: "The virus attacked the system, rendering it inoperable.",
+                example_th: "ไวรัสโจมตีระบบ ทำให้ไม่สามารถใช้งานได้"
+            },
+            legitimate_owner: {
+                title: "legitimate owner",
+                meaning: "เจ้าของที่ถูกต้องตามกฎหมาย",
+                pronunciation: "lɪˈdʒɪtɪmət ˈoʊnər",
+                example: "Only the legitimate owner can unlock this property.",
+                example_th: "มีเพียงเจ้าของที่ถูกต้องตามกฎหมายเท่านั้นที่สามารถปลดล็อกทรัพย์สินนี้ได้"
+            },
+            transforms_the_device: {
+                title: "transforms the device",
+                meaning: "เปลี่ยนอุปกรณ์",
+                pronunciation: "trænsˈfɔːrmz ðə dɪˈvaɪs",
+                example: "The software update transforms the device's functionality.",
+                example_th: "การอัปเดตซอฟต์แวร์เปลี่ยนฟังก์ชันการทำงานของอุปกรณ์"
+            },
+            digital_hostage: {
+                title: "digital hostage",
+                meaning: "ตัวประกันดิจิทัล (อุปกรณ์ที่ถูกล็อกเพื่อเรียกค่าไถ่)",
+                pronunciation: "ˈdɪdʒɪtl ˈhɒstɪdʒ",
+                example: "His phone became a digital hostage after the ransomware attack.",
+                example_th: "โทรศัพท์ของเขากลายเป็นตัวประกันดิจิทัลหลังจากการโจมตีด้วยแรนซัมแวร์"
+            },
+            displaying_a_custom_message: {
+                title: "displaying a custom message",
+                meaning: "แสดงข้อความที่กำหนดเอง",
+                pronunciation: "dɪˈspleɪɪŋ ə ˈkʌstəm ˈmɛsɪdʒ",
+                example: "The app is displaying a custom message for new users.",
+                example_th: "แอปกำลังแสดงข้อความที่กำหนดเองสำหรับผู้ใช้ใหม่"
+            },
+            demands_payment: {
+                title: "demands payment",
+                meaning: "เรียกร้องการชำระเงิน",
+                pronunciation: "dɪˈmændz ˈpeɪmənt",
+                example: "The company demands payment within 30 days.",
+                example_th: "บริษัทเรียกร้องการชำระเงินภายใน 30 วัน"
+            },
+            critical_step: {
+                title: "critical step",
+                meaning: "ขั้นตอนสำคัญ",
+                pronunciation: "ˈkrɪtɪkl stɛp",
+                example: "Gathering information is a critical step in problem-solving.",
+                example_th: "การรวบรวมข้อมูลเป็นขั้นตอนสำคัญในการแก้ไขปัญหา"
+            },
+            forms_the_foundation: {
+                title: "forms the foundation",
+                meaning: "เป็นรากฐาน",
+                pronunciation: "fɔːrmz ðə faʊnˈdeɪʃən",
+                example: "Good education forms the foundation of a successful career.",
+                example_th: "การศึกษาที่ดีเป็นรากฐานของอาชีพที่ประสบความสำเร็จ"
+            },
+            subsequent_extortion_attempts: {
+                title: "subsequent extortion attempts",
+                meaning: "ความพยายามกรรโชกทรัพย์ในภายหลัง",
+                pronunciation: "ˈsʌbsɪkwənt ɪkˈstɔːrʃən əˈtɛmpts",
+                example: "The police are investigating subsequent extortion attempts.",
+                example_th: "ตำรวจกำลังสอบสวนความพยายามกรรโชกทรัพย์ในภายหลัง"
+            },
+            return_to: {
+                title: "return to",
+                meaning: "กลับมาที่",
+                pronunciation: "rɪˈtɜːrn tuː",
+                example: "I will return to my hometown next month.",
+                example_th: "ฉันจะกลับบ้านเกิดในเดือนหน้า"
+            },
+            redeem_their_device: {
+                title: "redeem their device",
+                meaning: "ไถ่ถอนอุปกรณ์ของพวกเขา",
+                pronunciation: "rɪˈdiːm ðɛr dɪˈvaɪs",
+                example: "She went to the pawn shop to redeem her device.",
+                example_th: "เธอไปที่โรงรับจำนำเพื่อไถ่ถอนอุปกรณ์ของเธอ"
+            },
+            per_the_initial_agreement: {
+                title: "per the initial agreement",
+                meaning: "ตามข้อตกลงเบื้องต้น",
+                pronunciation: "pɜːr ðə ɪˈnɪʃəl əˈɡriːmənt",
+                example: "The work was completed per the initial agreement.",
+                example_th: "งานเสร็จสิ้นตามข้อตกลงเบื้องต้น"
+            },
+            withhold_the_iCloud_unlock: {
+                title: "withhold the iCloud unlock",
+                meaning: "ระงับการปลดล็อก iCloud ไว้",
+                pronunciation: "wɪθˈhoʊld ðə ˈaɪˌklaʊd ʌnˈlɒk",
+                example: "The scammers often withhold the iCloud unlock until more money is paid.",
+                example_th: "มิจฉาชีพมักจะระงับการปลดล็อก iCloud ไว้จนกว่าจะมีการจ่ายเงินเพิ่ม"
+            },
+            demanding_additional_payments: {
+                title: "demanding additional payments",
+                meaning: "เรียกร้องการชำระเงินเพิ่มเติม",
+                pronunciation: "dɪˈmændɪŋ əˈdɪʃənl ˈpeɪmənts",
+                example: "The contractor kept demanding additional payments.",
+                example_th: "ผู้รับเหมายังคงเรียกร้องการชำระเงินเพิ่มเติม"
+            },
+            hefty_ransom: {
+                title: "hefty ransom",
+                meaning: "ค่าไถ่จำนวนมาก",
+                pronunciation: "ˈhɛfti ˈrænsəm",
+                example: "The criminals demanded a hefty ransom for the kidnapped child.",
+                example_th: "อาชญากรรเรียกร้องค่าไถ่จำนวนมากสำหรับเด็กที่ถูกลักพาตัว"
+            },
+            agreed_upon_pawn_amount: {
+                title: "agreed-upon pawn amount",
+                meaning: "จำนวนเงินจำนำที่ตกลงกันไว้",
+                pronunciation: "əˈɡriːd ʌpɒn pɔːn əˈmaʊnt",
+                example: "The actual payment was higher than the agreed-upon pawn amount.",
+                example_th: "การชำระเงินจริงสูงกว่าจำนวนเงินจำนำที่ตกลงกันไว้"
+            },
+            leaves_the_victims_in: {
+                title: "leaves the victims in",
+                meaning: "ทิ้งเหยื่อให้อยู่ใน",
+                pronunciation: "liːvz ðə ˈvɪktɪmz ɪn",
+                example: "The incident leaves the victims in a state of shock.",
+                example_th: "เหตุการณ์นี้ทิ้งเหยื่อให้อยู่ในสภาวะตกใจ"
+            },
+            severe_predicament: {
+                title: "severe predicament",
+                meaning: "สถานการณ์ที่ลำบากอย่างรุนแรง",
+                pronunciation: "sɪˈvɪər prɪˈdɪkəmənt",
+                example: "She found herself in a severe predicament after losing her job.",
+                example_th: "เธอพบว่าตัวเองอยู่ในสถานการณ์ที่ลำบากอย่างรุนแรงหลังจากตกงาน"
+            },
+            personal_device: {
+                title: "personal device",
+                meaning: "อุปกรณ์ส่วนตัว",
+                pronunciation: "ˈpɜːrsənl dɪˈvaɪs",
+                example: "Keep your personal device secure.",
+                example_th: "รักษาอุปกรณ์ส่วนตัวของคุณให้ปลอดภัย"
+            },
+            stored_data: {
+                title: "stored data",
+                meaning: "ข้อมูลที่จัดเก็บไว้",
+                pronunciation: "stɔːrd ˈdeɪtə",
+                example: "All your photos are in the stored data on the cloud.",
+                example_th: "รูปภาพทั้งหมดของคุณอยู่ในข้อมูลที่จัดเก็บไว้บนคลาวด์"
+            },
+            becomes_inaccessible: {
+                title: "becomes inaccessible",
+                meaning: "ไม่สามารถเข้าถึงได้",
+                pronunciation: "bɪˈkʌmz ˌɪnækˈsɛsəbəl",
+                example: "The files become inaccessible without the correct key.",
+                example_th: "ไฟล์ไม่สามารถเข้าถึงได้หากไม่มีกุญแจที่ถูกต้อง"
+            },
+            creating_significant_distress: {
+                title: "creating significant financial and personal distress",
+                meaning: "ก่อให้เกิดความเดือดร้อนทางการเงินและส่วนตัวอย่างมาก",
+                pronunciation: "kriˈeɪtɪŋ sɪɡˈnɪfɪkənt faɪˈnænʃəl ænd ˈpɜːrsənl dɪˈstrɛs",
+                example: "The long illness created significant financial and personal distress for the family.",
+                example_th: "การเจ็บป่วยเป็นเวลานานก่อให้เกิดความเดือดร้อนทางการเงินและส่วนตัวอย่างมากแก่ครอบครัว"
+            },
+            confiscated_advanced: {
+                title: "confiscated",
+                meaning: "ถูกยึด, ถูกริบ",
+                pronunciation: "ˈkɒnfɪskeɪtɪd",
+                example: "The police confiscated the illegal goods.",
+                example_th: "ตำรวจยึดสินค้าผิดกฎหมาย"
+            },
+            clients_advanced: {
+                title: "clients",
+                meaning: "ลูกค้า",
+                pronunciation: "ˈklaɪənts",
+                example: "Our firm serves many international clients.",
+                example_th: "บริษัทของเราให้บริการลูกค้าต่างชาติมากมาย"
+            },
+            prosecuted_advanced: {
+                title: "prosecuted",
+                meaning: "ถูกดำเนินคดี",
+                pronunciation: "ˈprɒsɪkjuːtɪd",
+                example: "The criminals were prosecuted for their crimes.",
+                example_th: "อาชญากรถูกดำเนินคดีในข้อหาอาชญากรรมของพวกเขา"
+            },
+            charging_interest_rates_exceeding_legal_limits: {
+                title: "charging interest rates exceeding legal limits",
+                meaning: "เรียกดอกเบี้ยเกินอัตราที่กฎหมายกำหนด",
+                pronunciation: "ˈʧɑːrdʒɪŋ ˈɪntrɪst reɪts ɪkˈsiːdɪŋ ˈliːɡəl ˈlɪmɪts",
+                example: "Loan sharks are often prosecuted for charging interest rates exceeding legal limits.",
+                example_th: "ผู้ให้กู้นอกระบบมักถูกดำเนินคดีข้อหาเรียกดอกเบี้ยเกินอัตราที่กฎหมายกำหนด"
+            },
+            operating_a_lending_business_without_a_proper_license: {
+                title: "operating a lending business without a proper license",
+                meaning: "ประกอบธุรกิจให้กู้ยืมโดยไม่มีใบอนุญาตที่ถูกต้อง",
+                pronunciation: "ˈɒpəreɪtɪŋ ə ˈlɛndɪŋ ˈbɪznɪs wɪˈðaʊt ə ˈprɒpər ˈlaɪsəns",
+                example: "It's illegal to operate a lending business without a proper license.",
+                example_th: "การประกอบธุรกิจให้กู้ยืมโดยไม่มีใบอนุญาตที่ถูกต้องเป็นสิ่งผิดกฎหมาย"
+            },
+            underscores_the_paramount_importance: {
+                title: "underscores the paramount importance",
+                meaning: "เน้นย้ำถึงความสำคัญสูงสุด",
+                pronunciation: "ˌʌndərˈskɔːrz ðə ˈpærəmaʊnt ɪmˈpɔːrtəns",
+                example: "This incident underscores the paramount importance of safety regulations.",
+                example_th: "เหตุการณ์นี้เน้นย้ำถึงความสำคัญสูงสุดของกฎระเบียบด้านความปลอดภัย"
+            },
+            advises_advanced: {
+                title: "advises",
+                meaning: "แนะนำ, ให้คำแนะนำ",
+                pronunciation: "ədˈvaɪzɪz",
+                example: "The doctor advises resting when you are sick.",
+                example_th: "หมอแนะนำให้พักผ่อนเมื่อคุณป่วย"
+            },
+            procure_loans: {
+                title: "procure loans",
+                meaning: "จัดหาเงินกู้",
+                pronunciation: "prəˈkjʊər loʊnz",
+                example: "Businesses often procure loans to expand their operations.",
+                example_th: "ธุรกิจมักจะจัดหาเงินกู้เพื่อขยายการดำเนินงาน"
+            },
+            duly_certified_financial_institutions: {
+                title: "duly certified financial institutions",
+                meaning: "สถาบันการเงินที่ได้รับการรับรองตามกฎหมายอย่างถูกต้อง",
+                pronunciation: "ˈduːli ˈsɜːrtɪfaɪd faɪˈnænʃəl ˌɪnstɪˈtuːʃənz",
+                example: "You should only deal with duly certified financial institutions.",
+                example_th: "คุณควรติดต่อกับสถาบันการเงินที่ได้รับการรับรองตามกฎหมายอย่างถูกต้องเท่านั้น"
+            },
+            heightened_cybersecurity_awareness: {
+                title: "heightened cybersecurity awareness",
+                meaning: "ความตระหนักรู้ด้านความปลอดภัยทางไซเบอร์ที่เพิ่มขึ้น",
+                pronunciation: "ˈhaɪtənd ˌsaɪbərˈsɛkjʊrɪti əˈwɛərnəs",
+                example: "Promoting heightened cybersecurity awareness is vital for businesses.",
+                example_th: "การส่งเสริมความตระหนักรู้ด้านความปลอดภัยทางไซเบอร์ที่เพิ่มขึ้นเป็นสิ่งสำคัญสำหรับธุรกิจ"
+            },
+            exercise_extreme_vigilance: {
+                title: "exercise extreme vigilance",
+                meaning: "ใช้ความระมัดระวังอย่างสูงสุด",
+                pronunciation: "ˈɛksərsaɪz ɪkˈstriːm ˈvɪdʒɪləns",
+                example: "Travelers should exercise extreme vigilance in crowded areas.",
+                example_th: "นักท่องเที่ยวควรใช้ความระมัดระวังอย่างสูงสุดในพื้นที่ที่มีผู้คนพลุกพล่าน"
+            },
+            diligently_safeguard: {
+                title: "diligently safeguard",
+                meaning: "ปกป้องอย่างขยันขันแข็ง",
+                pronunciation: "ˈdɪlɪdʒəntli ˈseɪfɡɑːrd",
+                example: "Employees must diligently safeguard company secrets.",
+                example_th: "พนักงานต้องปกป้องความลับของบริษัทอย่างขยันขันแข็ง"
+            },
+            login_credentials: {
+                title: "login credentials",
+                meaning: "ข้อมูลประจำตัวในการเข้าสู่ระบบ (เช่น ชื่อผู้ใช้และรหัสผ่าน)",
+                pronunciation: "ˈlɒɡɪn krɪˈdɛnʃəlz",
+                example: "Never share your login credentials with anyone.",
+                example_th: "อย่าเปิดเผยข้อมูลประจำตัวในการเข้าสู่ระบบของคุณกับใครเด็ดขาด"
+            },
+            cloud_services: {
+                title: "cloud services",
+                meaning: "บริการคลาวด์",
+                pronunciation: "klaʊd ˈsɜːrvɪsɪz",
+                example: "Many companies use cloud services for data storage.",
+                example_th: "หลายบริษัทใช้บริการคลาวด์สำหรับการจัดเก็บข้อมูล"
+            },
+            linked_to_sensitive_personal_data: {
+                title: "linked to sensitive personal data",
+                meaning: "เชื่อมโยงกับข้อมูลส่วนบุคคลที่ละเอียดอ่อน",
+                pronunciation: "lɪŋkt tuː ˈsɛnsɪtɪv ˈpɜːrsənl ˈdeɪtə",
+                example: "Your health records are linked to sensitive personal data.",
+                example_th: "ประวัติสุขภาพของคุณเชื่อมโยงกับข้อมูลส่วนบุคคลที่ละเอียดอ่อน"
+            },
+            unsolicited_request: {
+                title: "unsolicited request",
+                meaning: "คำขอที่ไม่พึงประสงค์",
+                pronunciation: "ʌnˈsɒlɪsɪtɪd rɪˈkwɛst",
+                example: "He received an unsolicited request for his bank details.",
+                example_th: "เขาได้รับคำขอข้อมูลธนาคารที่ไม่พึงประสงค์"
+            },
+            authenticate_accounts: {
+                title: "authenticate your personal accounts",
+                meaning: "ยืนยันตัวตนบัญชีส่วนตัวของคุณ",
+                pronunciation: "ɔːˈθɛntɪkeɪt jʊər ˈpɜːrsənl əˈkaʊnts",
+                example: "You need to authenticate your personal accounts before using the app.",
+                example_th: "คุณต้องยืนยันตัวตนบัญชีส่วนตัวของคุณก่อนใช้แอป"
+            },
+            unfamiliar_device: {
+                title: "unfamiliar device",
+                meaning: "อุปกรณ์ที่ไม่คุ้นเคย",
+                pronunciation: "ʌnˈfəmɪliər dɪˈvaɪs",
+                example: "Don't log in on an unfamiliar device.",
+                example_th: "อย่าเข้าสู่ระบบบนอุปกรณ์ที่ไม่คุ้นเคย"
+            },
+            share_passwords: {
+                title: "share your passwords",
+                meaning: "เปิดเผยรหัสผ่านของคุณ",
+                pronunciation: "ʃɛr jʊər ˈpæswɜːrdz",
+                example: "It's dangerous to share your passwords with friends.",
+                example_th: "การเปิดเผยรหัสผ่านของคุณกับเพื่อนเป็นอันตราย"
+            },
+            recognized_as: {
+                title: "recognized as",
+                meaning: "ถูกรู้จักในฐานะ, ถูกรับรู้ว่าเป็น",
+                pronunciation: "ˈrɛkəɡnaɪzd æz",
+                example: "He is recognized as a leader in his field.",
+                example_th: "เขาถูกรับรู้ว่าเป็นผู้นำในสาขาของเขา"
+            },
+            serious_security_risk_Advanced: {
+                title: "serious security risk",
+                meaning: "ความเสี่ยงด้านความปลอดภัยที่ร้ายแรง",
+                pronunciation: "ˈsɪəriəs sɪˈkjʊərɪti rɪsk",
+                example: "Sharing your password is a serious security risk.",
+                example_th: "การแชร์รหัสผ่านของคุณเป็นความเสี่ยงด้านความปลอดภัยที่ร้ายแรง"
+            },
+            vehemently_declined: {
+                title: "vehemently declined",
+                meaning: "ปฏิเสธอย่างรุนแรง/เด็ดขาด",
+                pronunciation: "ˈviːəməntli dɪˈklaɪnd",
+                example: "She vehemently declined the offer.",
+                example_th: "เธอปฏิเสธข้อเสนออย่างเด็ดขาด"
+            },
+            unauthorized_surveillance: {
+                title: "unauthorized surveillance",
+                meaning: "การสอดแนมโดยไม่ได้รับอนุญาต",
+                pronunciation: "ʌnˈɔːθəraɪzd sɜːrˈveɪləns",
+                example: "The company was accused of unauthorized surveillance of its employees.",
+                example_th: "บริษัทถูกกล่าวหาว่าสอดแนมพนักงานโดยไม่ได้รับอนุญาต"
+            },
+            data_breaches_advanced: {
+                title: "data breaches",
+                meaning: "การละเมิดข้อมูล",
+                pronunciation: "ˈdeɪtə ˈbriːʧɪz",
+                example: "Many companies suffer from data breaches nowadays.",
+                example_th: "ปัจจุบันหลายบริษัทประสบปัญหาการละเมิดข้อมูล"
+            },
+            unwitting_blackmail: {
+                title: "unwitting blackmail",
+                meaning: "การแบล็กเมลโดยไม่รู้ตัว",
+                pronunciation: "ʌnˈwɪtɪŋ ˈblækmeɪl",
+                example: "He became a victim of unwitting blackmail after clicking on a suspicious link.",
+                example_th: "เขากลายเป็นเหยื่อของการแบล็กเมลโดยไม่รู้ตัวหลังจากคลิกลิงก์ที่น่าสงสัย"
+            },
+            prioritizing_security: {
+                title: "prioritizing the security",
+                meaning: "การจัดลำดับความสำคัญด้านความปลอดภัย",
+                pronunciation: "praɪˈɒrɪtaɪzɪŋ ðə sɪˈkjʊərɪti",
+                example: "Prioritizing the security of customer data is essential for businesses.",
+                example_th: "การจัดลำดับความสำคัญด้านความปลอดภัยของข้อมูลลูกค้าเป็นสิ่งจำเป็นสำหรับธุรกิจ"
+            },
+            understanding_the_implications: {
+                title: "understanding the implications",
+                meaning: "การเข้าใจผลกระทบ",
+                pronunciation: "ˌʌndərˈstændɪŋ ðə ˌɪmplɪˈkeɪʃənz",
+                example: "It's important to understand the implications of your decisions.",
+                example_th: "สิ่งสำคัญคือการเข้าใจผลกระทบของการตัดสินใจของคุณ"
+            },
+            granting_access: {
+                title: "granting access",
+                meaning: "การให้สิทธิ์การเข้าถึง",
+                pronunciation: "ˈɡrɑːntɪŋ ˈæksɛs",
+                example: "Granting access to unknown apps can be risky.",
+                example_th: "การให้สิทธิ์การเข้าถึงแอปที่ไม่รู้จักอาจมีความเสี่ยง"
+            },
+            fundamental_steps: {
+                title: "fundamental steps",
+                meaning: "ขั้นตอนพื้นฐานที่สำคัญ",
+                pronunciation: "ˌfʌndəˈmɛntl stɛps",
+                example: "Learning the basics is one of the fundamental steps in any skill.",
+                example_th: "การเรียนรู้พื้นฐานเป็นหนึ่งในขั้นตอนสำคัญของทักษะใดๆ"
+            },
+            mitigating_these_risks_Advanced: {
+                title: "mitigating these risks",
+                meaning: "การลดความเสี่ยงเหล่านี้",
+                pronunciation: "ˈmɪtɪɡeɪtɪŋ ðɪz rɪsks",
+                example: "Implementing two-factor authentication helps in mitigating these risks.",
+                example_th: "การใช้การยืนยันตัวตนแบบสองขั้นตอนช่วยในการลดความเสี่ยงเหล่านี้"
+            },
+            proactively_preventing: {
+                title: "proactively preventing",
+                meaning: "การป้องกันเชิงรุก",
+                pronunciation: "proʊˈæktɪvli prɪˈvɛntɪnt",
+                example: "Proactively preventing problems is better than reacting to them.",
+                example_th: "การป้องกันปัญหาเชิงรุกดีกว่าการตอบสนองต่อปัญหา"
+            },
+            instances_of_fraud: {
+                title: "instances of such digital fraud",
+                meaning: "กรณีของการฉ้อโกงทางดิจิทัลดังกล่าว",
+                pronunciation: "ˈɪnstənsɪz ɒv sʌtʃ ˈdɪdʒɪtl frɔːd",
+                example: "The police are trying to reduce instances of such digital fraud.",
+                example_th: "ตำรวจกำลังพยายามลดกรณีของการฉ้อโกงทางดิจิทัลดังกล่าว"
+            }
+        };
+
+        // Get the modal
+        const modal = document.getElementById("myModal");
+        const closeButton = document.querySelector(".close-button");
+
+        // Get elements to fill in modal
+        const modalTitle = document.getElementById("modalTitle");
+        const modalMeaning = document.getElementById("modalMeaning");
+        const modalPronunciation = document.getElementById("modalPronunciation");
+        const modalExample = document.getElementById("modalExample");
+        const modalExampleTranslation = document.getElementById("modalExampleTranslation");
+
+        // Function to open tab
+        function openTab(tabName) {
+            const contents = document.getElementsByClassName("content");
+            for (let i = 0; i < contents.length; i++) {
+                contents[i].classList.remove("active");
+            }
+            document.getElementById(tabName).classList.add("active");
+
+            const tabButtons = document.getElementsByClassName("tab-button");
+            for (let i = 0; i < tabButtons.length; i++) {
+                tabButtons[i].classList.remove("active");
+            }
+            event.currentTarget.classList.add("active");
+        }
+
+        // Function to open modal
+        function openModal(termKey) {
+            const data = vocabData[termKey];
+            if (data) {
+                modalTitle.textContent = data.title;
+                modalMeaning.textContent = data.meaning;
+                // Add underline to stressed syllables in IPA
+                const formattedPronunciation = data.pronunciation.replace(/ˈ([a-zA-Z]+)/g, '<u>ˈ$1</u>').replace(/ˌ([a-zA-Z]+)/g, 'ˌ<u>$1</u>');
+                modalPronunciation.innerHTML = `(IPA: ${formattedPronunciation})`;
+                modalExample.textContent = data.example;
+                modalExampleTranslation.textContent = `(แปลว่า: ${data.example_th})`;
+                modal.style.display = "flex"; // Show modal
+            }
+        }
+
+        // Function to close modal
+        closeButton.onclick = function() {
+            modal.style.display = "none";
+        }
+
+        // Close modal when clicking outside of it
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+
+        // Add event listeners to all highlight elements after DOM content is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            const highlights = document.querySelectorAll('.highlight');
+            highlights.forEach(highlight => {
+                highlight.addEventListener('click', (event) => {
+                    const term = event.target.getAttribute('data-term');
+                    if (term) {
+                        openModal(term);
+                    }
+                });
+            });
+
+            // Ensure modal is hidden on initial load
+            modal.style.display = "none";
+        });
+
+    </script>
+
+</body>
+</html>

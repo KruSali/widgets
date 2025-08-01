@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ครูสาลี่ - สื่อการสอน: ไขประเด็นร้อนภาษีโลก (ฉบับสมบูรณ์)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #D71920;
+            --secondary-color: #FFC72C;
+            --accent-color: #003366;
+            --light-gray: #f9f9f9;
+            --dark-gray: #333;
+            --text-color: #212121;
+            --border-radius: 12px;
+            --box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        body {
+            font-family: 'Sarabun', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--light-gray);
+            color: var(--text-color);
+            line-height: 1.8;
+            font-size: 18px;
+        }
+        .app-container { max-width: 1200px; margin: 20px auto; padding: 20px; background-color: #ffffff; border-radius: var(--border-radius); box-shadow: var(--box-shadow); }
+        .header { text-align: center; padding: 30px 20px; margin-bottom: 30px; border-bottom: 4px solid var(--secondary-color); background: linear-gradient(135deg, var(--accent-color), #005A9C); color: white; border-radius: var(--border-radius) var(--border-radius) 0 0; }
+        .header h1 { font-family: 'Sarabun', sans-serif; font-weight: 800; margin: 0 0 10px 0; font-size: 3.2rem; line-height: 1.2; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); }
+        .header .subtitle { font-size: 1.3rem; margin: 0 auto 20px auto; max-width: 800px; font-weight: 400; color: var(--secondary-color); opacity: 0.95; }
+        .header .author-line { font-size: 1.1rem; font-weight: 700; background-color: white; color: var(--accent-color); display: inline-block; padding: 6px 18px; border-radius: 50px; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+        .toggle-container { display: flex; justify-content: center; margin-bottom: 30px; background-color: #e9ecef; border-radius: 50px; padding: 5px; width: fit-content; margin-left: auto; margin-right: auto; box-shadow: inset 0 2px 4px rgba(0,0,0,0.06); }
+        .toggle-btn { padding: 10px 25px; border: none; background-color: transparent; color: #555; font-family: 'Sarabun', sans-serif; font-size: 1rem; font-weight: 700; cursor: pointer; border-radius: 50px; transition: all 0.3s ease-in-out; }
+        .toggle-btn.active { background-color: var(--primary-color); color: white; box-shadow: 0 2px 8px rgba(215, 25, 32, 0.4); }
+        .content-section { display: none; }
+        .content-section.active { display: flex; flex-wrap: wrap; gap: 30px; }
+        .content-column { flex: 1; min-width: 300px; background: #fff; padding: 25px; border-radius: var(--border-radius); border: 1px solid #e0e0e0; }
+        .content-column h2 { font-family: 'Sarabun', sans-serif; color: var(--accent-color); border-bottom: 2px solid var(--primary-color); padding-bottom: 10px; margin-top: 0; font-size: 1.6rem; }
+        .content-column p, .content-column ul { font-size: 1.1rem; }
+        .content-column ul { list-style-type: none; padding-left: 0; }
+        .content-column li { background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="%23D71920" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>') no-repeat left center; padding-left: 35px; margin-bottom: 12px; }
+        .highlight { color: var(--primary-color); font-weight: 700; cursor: pointer; position: relative; text-decoration: none; border-bottom: 2px dotted var(--primary-color); transition: all 0.2s ease; padding: 1px 2px; }
+        .highlight:hover { background-color: var(--secondary-color); color: var(--accent-color); }
+        .lesson-plan-container { margin-top: 40px; padding: 25px; background-color: #f8f9fa; border: 2px solid #e9ecef; border-radius: var(--border-radius); }
+        .lesson-plan-container h2 { text-align: center; color: var(--accent-color); font-size: 2rem; margin-top: 0; margin-bottom: 20px; }
+        .lesson-tabs { display: flex; justify-content: center; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
+        .lesson-tab-btn { padding: 10px 20px; font-family: 'Sarabun', sans-serif; font-size: 1rem; font-weight: 700; background-color: #fff; color: var(--accent-color); border: 2px solid #ced4da; border-radius: 50px; cursor: pointer; transition: all 0.3s; }
+        .lesson-tab-btn:hover { background-color: var(--secondary-color); border-color: var(--secondary-color); }
+        .lesson-tab-btn.active { background-color: var(--accent-color); color: white; border-color: var(--accent-color); }
+        .lesson-content { display: none; padding: 20px; background-color: #fff; border-radius: var(--border-radius); animation: fadeIn 0.5s; }
+        .lesson-content.active { display: block; }
+        .lesson-content h3 { color: var(--primary-color); font-size: 1.4rem; }
+        .lesson-content ul { list-style-type: none; padding-left: 0; }
+        .lesson-content li { margin-bottom: 15px; font-size: 1.05rem; background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="%23003366" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>') no-repeat left top; padding-left: 35px; }
+        .lesson-content .question-block { margin-bottom: 20px; }
+        .vocab-practice-bank { background-color: var(--light-gray); border: 1px dashed #ccc; padding: 15px; margin: 20px 0; border-radius: 8px; font-weight: 700; text-align: center; color: var(--accent-color); }
+        .lesson-content ol li { list-style-position: inside; }
+        .answer-toggle-btn { background-color: var(--secondary-color); color: var(--accent-color); border: none; padding: 6px 12px; font-family: 'Sarabun', sans-serif; font-weight: 700; font-size: 0.9rem; border-radius: 8px; cursor: pointer; margin-top: 5px; transition: background-color 0.2s; }
+        .answer-toggle-btn:hover { background-color: #e9b400; }
+        .answer-panel { display: none; margin-top: 10px; padding: 15px; background-color: #e9f5ff; border-left: 4px solid var(--accent-color); border-radius: 4px; font-size: 0.95rem; color: #333; }
+        .modal-container { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0, 0, 0, 0.6); align-items: center; justify-content: center; animation: fadeIn 0.3s ease; }
+        .modal-content { background-color: #fff; margin: auto; padding: 30px; border: none; border-radius: var(--border-radius); width: 90%; max-width: 550px; box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2); position: relative; animation: slideUp 0.4s ease-out; }
+        .modal-close-btn { color: #aaa; position: absolute; top: 10px; right: 20px; font-size: 32px; font-weight: bold; cursor: pointer; transition: color 0.2s; }
+        .modal-close-btn:hover, .modal-close-btn:focus { color: var(--primary-color); text-decoration: none; }
+        #modal-word { font-family: 'Sarabun', sans-serif; font-size: 2.2rem; font-weight: 700; color: var(--accent-color); margin: 0 0 5px 0; }
+        #modal-pronunciation { font-size: 1.1rem; color: #555; margin-bottom: 20px; font-style: italic; }
+        .modal-section { margin-bottom: 15px; }
+        .modal-section h4 { margin: 0 0 5px 0; color: var(--primary-color); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; font-weight: 700; }
+        .modal-section p { margin: 0; font-size: 1.15rem; }
+        #modal-example-th { font-size: 1rem; color: #666; margin-top: 4px; }
+        #modal-synonyms-list { display: flex; flex-wrap: wrap; gap: 8px; }
+        .synonym-tag { background-color: var(--light-gray); color: var(--accent-color); padding: 5px 12px; border-radius: 20px; font-size: 1rem; font-weight: 700; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slideUp { from { transform: translateY(30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        @media (max-width: 768px) { body { font-size: 16px; } .app-container { margin: 10px; padding: 15px; } .header h1 { font-size: 2.5rem; } .header .subtitle { font-size: 1.1rem; } .content-section.active, .lesson-tabs { flex-direction: column; } .modal-content { width: 95%; padding: 20px; } }
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+        <header class="header">
+            <h1>ไขประเด็นร้อนภาษีโลก!</h1>
+            <p class="subtitle">เมื่อนโยบายการค้าสหรัฐฯ สะเทือนถึงเศรษฐกิจไทย... เราได้หรือเสีย?</p>
+            <p class="author-line">ครูสาลี่ -- อังกฤษฉบับคนเรียนไม่รู้เรื่อง</p>
+        </header>
+
+        <div class="toggle-container">
+            <button id="btn-basic" class="toggle-btn active">ระดับพื้นฐาน (Basic)</button>
+            <button id="btn-advanced" class="toggle-btn">ระดับสูง (Advanced)</button>
+        </div>
+
+        <div id="basic-content" class="content-section active">
+            <div class="content-column">
+                <h2>U.S. Announces New Tariffs</h2>
+                <p>The U.S. President has <span class="highlight" data-key="announced">announced</span> new <span class="highlight" data-key="tariffs">tariffs</span> for many countries. <span class="highlight" data-key="Tariffs">Tariffs</span> are taxes on imported goods. Some countries face very high tariffs, like Canada at 50%. But for Thailand, it is good news. Thailand's tariff rate was reduced to 19%. This is lower than the 36% that was threatened before. The Thai <span class="highlight" data-key="government">government</span> is very happy about this.</p>
+            </div>
+            <div class="content-column">
+                <h2>A "Win-Win" for Thailand</h2>
+                 <p>A government spokesperson said this is a "win-win" <span class="highlight" data-key="situation">situation</span>. This new rate helps Thailand sell its <span class="highlight" data-key="products">products</span> to the U.S. more easily and compete with other countries.</p>
+                <ul><li><b>Vietnam:</b> 20%</li><li><b>Indonesia:</b> 19%</li><li><b>Philippines:</b> 19%</li><li><b>Malaysia:</b> 19%</li><li><b>Laos:</b> 40%</li></ul>
+            </div>
+        </div>
+
+        <div id="advanced-content" class="content-section">
+            <div class="content-column">
+                <h2>U.S. Imposes Sweeping Tariffs</h2>
+                <p>The U.S. administration has <span class="highlight" data-key="imposed">imposed</span> <span class="highlight" data-key="significant">significant</span> new tariffs on numerous <span class="highlight" data-key="trading_partners">trading partners</span> ahead of a crucial <span class="highlight" data-key="negotiation">negotiation</span> deadline. An <span class="highlight" data-key="executive_order">executive order</span> detailed the new rates, with some countries facing steep increases, such as Canada at 50%. The President stated some nations had failed to <span class="highlight" data-key="adequately">adequately</span> address trade <span class="highlight" data-key="imbalances">imbalances</span>. In a separate move, tariffs on Canada were raised over a <span class="highlight" data-key="dispute">dispute</span> concerning fentanyl control, which <span class="highlight" data-key="contrasted">contrasted</span> sharply with a temporary <span class="highlight" data-key="reprieve">reprieve</span> granted to Mexico.</p>
+            </div>
+            <div class="content-column">
+                <h2>A Strategic Victory for Thailand</h2>
+                <p>In a notable <span class="highlight" data-key="development">development</span>, Thailand's potential tariff rate was <span class="highlight" data-key="reduced">reduced</span> to 19%, down from a threatened 36%. The Thai government <span class="highlight" data-key="hailed">hailed</span> this as a "win-win" outcome. A spokesperson stated that the deal <span class="highlight" data-key="secures">secures</span> Thailand's export base and long-term economic <span class="highlight" data-key="stability">stability</span>. This is viewed as a <span class="highlight" data-key="strategic_victory">strategic victory</span>, maintaining the country's competitiveness in the U.S. market compared to its regional neighbors.</p>
+            </div>
+        </div>
+        
+        <div class="lesson-plan-container">
+            <h2>คู่มือการสอนและกิจกรรม / Teacher & Student Guide</h2>
+            <div class="lesson-tabs">
+                <button class="lesson-tab-btn active" data-tab="tab-1">🚀 1. ก่อนอ่าน / Pre-Reading</button>
+                <button class="lesson-tab-btn" data-tab="tab-2">🧠 2. เช็คความเข้าใจ / Comprehension</button>
+                <button class="lesson-tab-btn" data-tab="tab-3">✍️ 3. ฝึกคำศัพท์ / Vocabulary Practice</button>
+                <button class="lesson-tab-btn" data-tab="tab-4">💬 4. ชวนคิดชวนคุย / Discussion</button>
+            </div>
+
+            <div id="tab-1" class="lesson-content active">
+                <h3>อุ่นเครื่องก่อนอ่าน / Pre-Reading Warm-Up</h3>
+                <p>ใช้คำถามเหล่านี้เพื่อกระตุ้นความสนใจและเปิดประเด็นกับนักเรียน<br><i>Use these questions to spark interest and start a conversation with students:</i></p>
+                <ul>
+                    <li>
+                        คุณรู้จักคำว่า "ภาษี" หรือ "Tariff" หรือไม่? ลองอธิบายตามความเข้าใจของคุณ<br><i>Do you know the word "Tariff"? Try to explain it in your own words.</i>
+                        <button class="answer-toggle-btn">แนวทางคำตอบ / Show Answer Guide</button>
+                        <div class="answer-panel"><b>Answer Guide:</b> A tariff is a tax that a government puts on goods coming into the country from another country. This makes the imported goods more expensive. Governments use tariffs to protect their own companies from foreign competition.</div>
+                    </li>
+                    <li>
+                        คุณคิดว่าการค้าระหว่างประเทศไทยกับสหรัฐอเมริกามีความสำคัญอย่างไร?<br><i>How important do you think trade between Thailand and the USA is?</i>
+                        <button class="answer-toggle-btn">แนวทางคำตอบ / Show Answer Guide</button>
+                        <div class="answer-panel"><b>Answer Guide:</b> The U.S. is one of Thailand's most important export markets. Many Thai goods, like electronics, food products (like seafood and rice), and automotive parts, are sold in the U.S. Strong trade helps Thailand's economy grow and creates jobs.</div>
+                    </li>
+                </ul>
+            </div>
+
+            <div id="tab-2" class="lesson-content">
+                <h3>คำถามทดสอบความเข้าใจ / Comprehension Questions</h3>
+                <p>หลังจากนักเรียนได้อ่านเนื้อหา ลองใช้คำถามเหล่านี้เพื่อประเมินความเข้าใจ<br><i>After students have read the text, use these questions to check their understanding:</i></p>
+                <h4><u>สำหรับระดับพื้นฐาน (For Basic Level)</u></h4>
+                <ul>
+                    <li>
+                        ประเทศไทยได้อัตราภาษีใหม่เท่าไหร่ และดีกว่าเดิมอย่างไร?<br><i>What is Thailand's new tariff rate, and how is it better than before?</i>
+                        <button class="answer-toggle-btn">เฉลย / Show Answer</button>
+                        <div class="answer-panel"><b>Answer:</b> Thailand's new tariff rate is 19%. It is better because it was reduced from a threatened rate of 36%.</div>
+                    </li>
+                </ul>
+                <h4><u>สำหรับระดับสูง (For Advanced Level)</u></h4>
+                <ul>
+                    <li>
+                        เหตุใดสหรัฐฯ จึงปฏิบัติต่อแคนาดาและเม็กซิโกแตกต่างกันในเรื่องภาษี?<br><i>Why did the U.S. treat Canada and Mexico differently regarding tariffs?</i>
+                        <button class="answer-toggle-btn">เฉลย / Show Answer</button>
+                        <div class="answer-panel"><b>Answer:</b> The U.S. increased tariffs on Canada due to a specific dispute over controlling fentanyl. In contrast, it granted Mexico a temporary reprieve (a delay) to allow for more comprehensive trade negotiations, showing a different diplomatic approach.</div>
+                    </li>
+                    <li>
+                        อธิบายว่าทำไมข้อตกลงนี้จึงถูกมองว่าเป็น "ชัยชนะเชิงกลยุทธ์" (strategic victory) สำหรับประเทศไทย?<br><i>Explain why the deal is considered a "strategic victory" for Thailand.</i>
+                        <button class="answer-toggle-btn">เฉลย / Show Answer</button>
+                        <div class="answer-panel"><b>Answer:</b> It's a "strategic victory" because it secures Thailand's economic stability and maintains its competitiveness in the U.S. market compared to its regional neighbors. By getting a 19% rate, which is similar to or better than some neighbors, Thailand avoids being at a disadvantage and protects its vital export industry.</div>
+                    </li>
+                </ul>
+            </div>
+
+            <div id="tab-3" class="lesson-content">
+                <h3>แบบฝึกหัดเติมคำในช่องว่าง / Fill-in-the-Blanks Exercise</h3>
+                <p>ให้นักเรียนเลือกคำจาก "คลังคำศัพท์" ไปเติมในประโยคให้ถูกต้อง<br><i>Have students choose a word from the "Word Bank" below to complete each sentence correctly.</i></p>
+                <div class="vocab-practice-bank">announced | imposed | government | stability | significant | reduced</div>
+                <ol>
+                    <li class="question-block">The President ________ new tariffs on many countries.</li>
+                    <li class="question-block">The Thai ________ was very happy with the new deal.</li>
+                    <li class="question-block">The new rules were ________ to control imports.</li>
+                    <li class="question-block">The company saw a ________ increase in profits this year.</li>
+                    <li class="question-block">The new agreement helps ensure economic ________ for the country.</li>
+                    <li class="question-block">Good negotiation ________ the potential tax rate from 36% to 19%.</li>
+                </ol>
+                <button class="answer-toggle-btn">เฉลยแบบฝึกหัด / Show Exercise Answers</button>
+                <div class="answer-panel">
+                    <b>Answer Key:</b><br>
+                    1. announced<br>
+                    2. government<br>
+                    3. imposed<br>
+                    4. significant<br>
+                    5. stability<br>
+                    6. reduced
+                </div>
+            </div>
+
+            <div id="tab-4" class="lesson-content">
+                <h3>หัวข้อสำหรับอภิปราย / Discussion Topics</h3>
+                <p>ใช้คำถามเหล่านี้เพื่อต่อยอดการเรียนรู้และฝึกทักษะการแสดงความคิดเห็น<br><i>Use these questions to extend learning and practice expressing opinions.</i></p>
+                <ul>
+                    <li>
+                        ในความเห็นของคุณ อัตราภาษี 19% เป็นข้อตกลงที่ดีที่สุดสำหรับประเทศไทยแล้วหรือยัง? เพราะอะไร?<br><i>In your opinion, is the 19% rate the best possible deal for Thailand? Why or why not?</i>
+                        <button class="answer-toggle-btn">แนวทางคำตอบ / Show Answer Guide</button>
+                        <div class="answer-panel"><b>Guiding Points for Discussion:</b> There is no single right answer. Students can argue "Yes" because it's a huge reduction from 36% and keeps Thailand competitive. They could also argue "No" by pointing out that other strategic partners of the U.S. might have lower rates (e.g., 10% or 15% in other deals), suggesting there might have been room for a better outcome.</div>
+                    </li>
+                    <li>
+                        นอกจากภาษีแล้ว มีปัจจัยอะไรอีกบ้างที่ส่งผลต่อการค้าระหว่างประเทศ?<br><i>Besides tariffs, what other factors affect international trade?</i>
+                        <button class="answer-toggle-btn">แนวทางคำตอบ / Show Answer Guide</button>
+                        <div class="answer-panel"><b>Guiding Points for Discussion:</b> Students can brainstorm factors such as: exchange rates (the value of the baht vs. the dollar), shipping costs, product quality, trade agreements (like FTAs), political relationships between countries, and global events (like a pandemic or a war).</div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+
+    <div id="modal-container" class="modal-container">
+        <div class="modal-content">
+            <span id="modal-close-btn" class="modal-close-btn">&times;</span>
+            <h3 id="modal-word">Word</h3>
+            <p id="modal-pronunciation">Pronunciation</p>
+            <div class="modal-section"><h4>ความหมาย</h4><p id="modal-meaning">Meaning</p></div>
+            <div class="modal-section"><h4>ประโยคตัวอย่าง</h4><p id="modal-example-en">Example sentence.</p><p id="modal-example-th">คำแปลประโยคตัวอย่าง</p></div>
+            <div class="modal-section"><h4>คำเหมือน (Synonyms)</h4><div id="modal-synonyms-list"></div></div>
+        </div>
+    </div>
+
+    <script>
+        const vocabularyData = {
+            tariffs: { word: 'Tariffs', pronunciation: 'แท-<u>ริฟส์</u>', meaning: 'ภาษีศุลกากร, ภาษีสินค้านำเข้า', example_en: 'The government placed new tariffs on imported cars.', example_th: 'รัฐบาลได้กำหนดภาษีศุลกากรใหม่สำหรับรถยนต์นำเข้า', synonyms: ['taxes', 'duties', 'levies'] },
+            announced: { word: 'Announced', pronunciation: 'อะ-<u>เนานซฺทฺ</u>', meaning: 'ประกาศอย่างเป็นทางการ', example_en: 'The company announced its new product last week.', example_th: 'บริษัทได้ประกาศผลิตภัณฑ์ใหม่เมื่อสัปดาห์ที่แล้ว', synonyms: ['declared', 'proclaimed', 'stated'] },
+            government: { word: 'Government', pronunciation: '<u>กัฟ</u>-เวิน-เมินทฺ', meaning: 'รัฐบาล', example_en: 'The government is working to improve the economy.', example_th: 'รัฐบาลกำลังทำงานเพื่อปรับปรุงเศรษฐกิจ', synonyms: ['administration', 'regime', 'the state'] },
+            situation: { word: 'Situation', pronunciation: 'สิ-ทู-<u>เอ</u>-เชิน', meaning: 'สถานการณ์', example_en: 'We need to assess the current situation carefully.', example_th: 'เราจำเป็นต้องประเมินสถานการณ์ปัจจุบันอย่างรอบคอบ', synonyms: ['circumstance', 'condition', 'state of affairs'] },
+            products: { word: 'Products', pronunciation: '<u>พร้อ</u>-ดัคทฺสฺ', meaning: 'ผลิตภัณฑ์, สินค้า', example_en: 'Thailand exports many agricultural products.', example_th: 'ประเทศไทยส่งออกสินค้าเกษตรจำนวนมาก', synonyms: ['goods', 'merchandise', 'commodities'] },
+            imposed: { word: 'Imposed', pronunciation: 'อิม-<u>โพซดฺ</u>', meaning: 'บังคับใช้ (กฎหมาย, ภาษี), กำหนด', example_en: 'The new rules were imposed without warning.', example_th: 'กฎใหม่ถูกบังคับใช้โดยไม่มีการเตือนล่วงหน้า', synonyms: ['levied', 'enforced', 'applied'] },
+            significant: { word: 'Significant', pronunciation: 'ซิก-<u>นิ</u>-ฟิ-เคินทฺ', meaning: 'สำคัญ, มีนัยสำคัญ, จำนวนมาก', example_en: 'There has been a significant increase in sales.', example_th: 'มียอดขายเพิ่มขึ้นอย่างมีนัยสำคัญ', synonyms: ['notable', 'substantial', 'major'] },
+            trading_partners: { word: 'Trading Partners', pronunciation: '<u>เทรด</u>-ดิง <u>พาร์ท</u>-เนอสฺ', meaning: 'คู่ค้า, ประเทศคู่ค้า', example_en: 'China is one of America\'s largest trading partners.', example_th: 'ประเทศจีนเป็นหนึ่งในคู่ค้าที่ใหญ่ที่สุดของอเมริกา', synonyms: ['commercial allies', 'business partners'] },
+            negotiation: { word: 'Negotiation', pronunciation: 'นิ-โก-ชิ-<u>เอ</u>-เชิน', meaning: 'การเจรจาต่อรอง', example_en: 'The negotiation between the two countries lasted for weeks.', example_th: 'การเจรจาต่อรองระหว่างสองประเทศกินเวลาหลายสัปดาห์', synonyms: ['discussion', 'bargaining', 'dialogue'] },
+            executive_order: { word: 'Executive Order', pronunciation: 'เอ็ก-<u>เซ</u>-คิว-ทิฟว <u>ออ</u>-เดอะ', meaning: 'คำสั่งฝ่ายบริหาร (โดยประธานาธิบดี)', example_en: 'The president signed an executive order to protect the environment.', example_th: 'ประธานาธิบดีได้ลงนามในคำสั่งฝ่ายบริหารเพื่อปกป้องสิ่งแวดล้อม', synonyms: ['decree', 'directive', 'mandate'] },
+            adequately: { word: 'Adequately', pronunciation: '<u>แอ</u>-ดิ-เควท-ลี', meaning: 'อย่างเพียงพอ, อย่างเหมาะสม', example_en: 'The problem was not adequately addressed.', example_th: 'ปัญหานี้ไม่ได้รับการจัดการอย่างเพียงพอ', synonyms: ['sufficiently', 'satisfactorily', 'properly'] },
+            imbalances: { word: 'Imbalances', pronunciation: 'อิม-<u>แบล</u>-เลิน-เสส', meaning: 'ความไม่สมดุล', example_en: 'The report highlighted the economic imbalances between the regions.', example_th: 'รายงานฉบับนี้ชี้ให้เห็นถึงความไม่สมดุลทางเศรษฐกิจระหว่างภูมิภาค', synonyms: ['disparities', 'inequalities', 'discrepancies'] },
+            dispute: { word: 'Dispute', pronunciation: 'ดิ-<u>สพิวทฺ</u>', meaning: 'ข้อพิพาท, ความขัดแย้ง', example_en: 'The two companies are in a legal dispute over the patent.', example_th: 'ทั้งสองบริษัทกำลังมีข้อพิพาททางกฎหมายเกี่ยวกับสิทธิบัตร', synonyms: ['conflict', 'disagreement', 'controversy'] },
+            contrasted: { word: 'Contrasted', pronunciation: 'คอน-<u>แทรส</u>-เท็ด', meaning: 'แตกต่างอย่างเห็นได้ชัด, ขัดแย้งกับ', example_en: 'His actions contrasted sharply with his words.', example_th: 'การกระทำของเขาขัดแย้งกับคำพูดของเขาอย่างสิ้นเชิง', synonyms: ['differed from', 'was opposite to', 'diverged from'] },
+            reprieve: { word: 'Reprieve', pronunciation: 'รี-<u>พรีฟว</u>', meaning: 'การผ่อนผัน, การพักชั่วคราว (จากการลงโทษ)', example_en: 'The company was granted a last-minute reprieve from bankruptcy.', example_th: 'บริษัทได้รับการผ่อนผันในนาทีสุดท้ายจากการล้มละลาย', synonyms: ['postponement', 'respite', 'pardon'] },
+            development: { word: 'Development', pronunciation: 'ดิ-<u>เวล</u>-เลิพ-เมินทฺ', meaning: 'พัฒนาการ, เหตุการณ์ใหม่ที่น่าสนใจ', example_en: 'In the latest development, the prime minister has resigned.', example_th: 'ในสถานการณ์ล่าสุด นายกรัฐมนตรีได้ลาออกจากตำแหน่ง', synonyms: ['progression', 'event', 'advancement'] },
+            reduced: { word: 'Reduced', pronunciation: 'รี-<u>ดิวซฺทฺ</u>', meaning: 'ลดลง, ทำให้ลดลง', example_en: 'The new policy has reduced unemployment rates.', example_th: 'นโยบายใหม่ได้ลดอัตราการว่างงานลง', synonyms: ['lowered', 'decreased', 'lessened'] },
+            hailed: { word: 'Hailed', pronunciation: '<u>เฮลดฺ</u>', meaning: 'ยกย่อง, สรรเสริญ, ประกาศชื่นชม', example_en: 'The new discovery was hailed as a major breakthrough.', example_th: 'การค้นพบใหม่นี้ได้รับการยกย่องว่าเป็นความก้าวหน้าครั้งสำคัญ', synonyms: ['acclaimed', 'praised', 'applauded'] },
+            secures: { word: 'Secures', pronunciation: 'ซี-<u>เคียวสฺ</u>', meaning: 'ทำให้มั่นคง, ทำให้ปลอดภัย, ได้มา', example_en: 'This agreement secures our position in the market.', example_th: 'ข้อตกลงนี้ทำให้ตำแหน่งของเราในตลาดมีความมั่นคง', synonyms: ['guarantees', 'ensures', 'protects'] },
+            stability: { word: 'Stability', pronunciation: 'สตะ-<u>บิ</u>-ลิ-ที', meaning: 'เสถียรภาพ, ความมั่นคง', example_en: 'Economic stability is crucial for a country\'s growth.', example_th: 'เสถียรภาพทางเศรษฐกิจเป็นสิ่งสำคัญอย่างยิ่งต่อการเติบโตของประเทศ', synonyms: ['steadiness', 'firmness', 'security'] },
+            strategic_victory: { word: 'Strategic Victory', pronunciation: 'สทระ-<u>ที</u>-จิค <u>วิค</u>-ทอ-รี', meaning: 'ชัยชนะเชิงกลยุทธ์', example_en: 'Securing the trade deal was a strategic victory for the nation.', example_th: 'การบรรลุข้อตกลงทางการค้าถือเป็นชัยชนะเชิงกลยุทธ์สำหรับประเทศชาติ', synonyms: ['tactical win', 'calculated success', 'advantageous achievement'] },
+        };
+        document.addEventListener('DOMContentLoaded', function() {
+            const btnBasic = document.getElementById('btn-basic');
+            const btnAdvanced = document.getElementById('btn-advanced');
+            const basicContent = document.getElementById('basic-content');
+            const advancedContent = document.getElementById('advanced-content');
+            const modalContainer = document.getElementById('modal-container');
+            const modalCloseBtn = document.getElementById('modal-close-btn');
+            const lessonTabs = document.querySelectorAll('.lesson-tab-btn');
+            const lessonContents = document.querySelectorAll('.lesson-content');
+            const answerToggleButtons = document.querySelectorAll('.answer-toggle-btn');
+
+            function switchContent(showBasic) {
+                btnBasic.classList.toggle('active', showBasic);
+                btnAdvanced.classList.toggle('active', !showBasic);
+                basicContent.style.display = showBasic ? 'flex' : 'none';
+                advancedContent.style.display = !showBasic ? 'flex' : 'none';
+            }
+            btnBasic.addEventListener('click', () => switchContent(true));
+            btnAdvanced.addEventListener('click', () => switchContent(false));
+            
+            function populateModal(data) {
+                document.getElementById('modal-word').textContent = data.word;
+                document.getElementById('modal-pronunciation').innerHTML = data.pronunciation;
+                document.getElementById('modal-meaning').textContent = data.meaning;
+                document.getElementById('modal-example-en').textContent = data.example_en;
+                document.getElementById('modal-example-th').textContent = data.example_th;
+                const synonymsList = document.getElementById('modal-synonyms-list');
+                synonymsList.innerHTML = '';
+                if (data.synonyms && data.synonyms.length > 0) {
+                    data.synonyms.forEach(synonym => {
+                        const tag = document.createElement('span');
+                        tag.className = 'synonym-tag';
+                        tag.textContent = synonym;
+                        synonymsList.appendChild(tag);
+                    });
+                } else {
+                    synonymsList.textContent = 'ไม่มีข้อมูล';
+                }
+            }
+            
+            function showModal() { modalContainer.style.display = 'flex'; }
+            function hideModal() { modalContainer.style.display = 'none'; }
+            
+            document.querySelectorAll('.highlight').forEach(span => {
+                span.addEventListener('click', (event) => {
+                    const key = event.currentTarget.dataset.key;
+                    if (vocabularyData[key]) {
+                        populateModal(vocabularyData[key]);
+                        showModal();
+                    }
+                });
+            });
+
+            modalCloseBtn.addEventListener('click', hideModal);
+            window.addEventListener('click', (event) => { if (event.target == modalContainer) hideModal(); });
+
+            lessonTabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    lessonTabs.forEach(item => item.classList.remove('active'));
+                    lessonContents.forEach(content => content.classList.remove('active'));
+                    tab.classList.add('active');
+                    document.getElementById(tab.dataset.tab).classList.add('active');
+                });
+            });
+
+            answerToggleButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const answerPanel = button.nextElementSibling;
+                    const isVisible = answerPanel.style.display === 'block';
+                    answerPanel.style.display = isVisible ? 'none' : 'block';
+                    button.textContent = isVisible ? (button.textContent.includes('เฉลย') ? 'เฉลย / Show Answer' : 'แนวทางคำตอบ / Show Answer Guide') : (button.textContent.includes('เฉลย') ? 'ซ่อนเฉลย / Hide Answer' : 'ซ่อนแนวทาง / Hide Guide');
+                });
+            });
+
+            switchContent(true);
+        });
+    </script>
+</body>
+</html>

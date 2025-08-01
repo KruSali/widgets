@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ครูสาลี่ - สื่อการสอน: สึนามิถล่ม 3 ประเทศ (ธีมใหม่)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* REVISED: Earthquake/Tsunami Color Theme */
+        :root {
+            --primary-color: #2F4F4F; /* Dark Slate Gray (Rock/Stormy Sea) */
+            --secondary-color: #FF8C00; /* Dark Orange (Warning) */
+            --accent-color: #B22222; /* Firebrick Red (Urgency) */
+            --light-gray: #f4f4f4;
+            --dark-gray: #333;
+            --text-color: #212121;
+            --border-radius: 12px;
+            --box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        body {
+            font-family: 'Sarabun', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--light-gray);
+            color: var(--text-color);
+            line-height: 1.8;
+            font-size: 18px;
+        }
+        .app-container { max-width: 1200px; margin: 20px auto; padding: 20px; background-color: #ffffff; border-radius: var(--border-radius); box-shadow: var(--box-shadow); }
+        .header { text-align: center; padding: 30px 20px; margin-bottom: 30px; border-bottom: 4px solid var(--secondary-color); background: linear-gradient(135deg, var(--primary-color), #4682B4); color: white; border-radius: var(--border-radius) var(--border-radius) 0 0; }
+        .header h1 { font-family: 'Sarabun', sans-serif; font-weight: 800; margin: 0 0 10px 0; font-size: 3.2rem; line-height: 1.2; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); }
+        .header .subtitle { font-size: 1.3rem; margin: 0 auto 20px auto; max-width: 800px; font-weight: 400; color: #dcdcdc; opacity: 0.95; }
+        .header .author-line { font-size: 1.1rem; font-weight: 700; background-color: white; color: var(--primary-color); display: inline-block; padding: 6px 18px; border-radius: 50px; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+        .toggle-container { display: flex; justify-content: center; margin-bottom: 30px; background-color: #e9ecef; border-radius: 50px; padding: 5px; width: fit-content; margin-left: auto; margin-right: auto; box-shadow: inset 0 2px 4px rgba(0,0,0,0.06); }
+        .toggle-btn { padding: 10px 25px; border: none; background-color: transparent; color: #555; font-family: 'Sarabun', sans-serif; font-size: 1rem; font-weight: 700; cursor: pointer; border-radius: 50px; transition: all 0.3s ease-in-out; }
+        .toggle-btn.active { background-color: var(--accent-color); color: white; box-shadow: 0 2px 8px rgba(178, 34, 34, 0.4); }
+        .content-section { display: none; }
+        .content-section.active { display: flex; flex-wrap: wrap; gap: 30px; }
+        .content-column { flex: 1; min-width: 300px; background: #fff; padding: 25px; border-radius: var(--border-radius); border: 1px solid #e0e0e0; }
+        .content-column h2 { font-family: 'Sarabun', sans-serif; color: var(--primary-color); border-bottom: 2px solid var(--secondary-color); padding-bottom: 10px; margin-top: 0; font-size: 1.6rem; }
+        .content-column p, .content-column ul { font-size: 1.1rem; }
+        .content-column ul { list-style-type: none; padding-left: 0; }
+        .content-column li { background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="%23FF8C00" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>') no-repeat left center; padding-left: 35px; margin-bottom: 12px; }
+        .highlight { color: var(--accent-color); font-weight: 700; cursor: pointer; position: relative; text-decoration: none; border-bottom: 2px dotted var(--secondary-color); transition: all 0.2s ease; padding: 1px 2px; }
+        .highlight:hover { background-color: var(--secondary-color); color: #fff; }
+        .lesson-plan-container { margin-top: 40px; padding: 25px; background-color: #f8f9fa; border: 2px solid #e9ecef; border-radius: var(--border-radius); }
+        .lesson-plan-container h2 { text-align: center; color: var(--primary-color); font-size: 2rem; margin-top: 0; margin-bottom: 20px; }
+        .lesson-tabs { display: flex; justify-content: center; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
+        .lesson-tab-btn { padding: 10px 20px; font-family: 'Sarabun', sans-serif; font-size: 1rem; font-weight: 700; background-color: #fff; color: var(--primary-color); border: 2px solid #ced4da; border-radius: 50px; cursor: pointer; transition: all 0.3s; }
+        .lesson-tab-btn:hover { background-color: var(--secondary-color); border-color: var(--secondary-color); color: #fff;}
+        .lesson-tab-btn.active { background-color: var(--primary-color); color: white; border-color: var(--primary-color); }
+        .lesson-content { display: none; padding: 20px; background-color: #fff; border-radius: var(--border-radius); animation: fadeIn 0.5s; }
+        .lesson-content.active { display: block; }
+        .lesson-content h3 { color: var(--accent-color); font-size: 1.4rem; }
+        .lesson-content ul { list-style-type: none; padding-left: 0; }
+        .lesson-content li { margin-bottom: 15px; font-size: 1.05rem; background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="%232F4F4F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>') no-repeat left top; padding-left: 35px; }
+        .lesson-content .question-block { margin-bottom: 20px; }
+        .vocab-practice-bank { background-color: var(--light-gray); border: 1px dashed #ccc; padding: 15px; margin: 20px 0; border-radius: 8px; font-weight: 700; text-align: center; color: var(--primary-color); }
+        .lesson-content ol li { list-style-position: inside; }
+        .answer-toggle-btn { background-color: var(--secondary-color); color: #fff; border: none; padding: 6px 12px; font-family: 'Sarabun', sans-serif; font-weight: 700; font-size: 0.9rem; border-radius: 8px; cursor: pointer; margin-top: 5px; transition: background-color 0.2s; }
+        .answer-toggle-btn:hover { background-color: #d1790b; }
+        .answer-panel { display: none; margin-top: 10px; padding: 15px; background-color: #FFF8E1; border-left: 4px solid var(--secondary-color); border-radius: 4px; font-size: 0.95rem; color: #333; }
+        .modal-container { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0, 0, 0, 0.6); align-items: center; justify-content: center; animation: fadeIn 0.3s ease; }
+        .modal-content { background-color: #fff; margin: auto; padding: 30px; border: none; border-radius: var(--border-radius); width: 90%; max-width: 550px; box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2); position: relative; animation: slideUp 0.4s ease-out; }
+        .modal-close-btn { color: #aaa; position: absolute; top: 10px; right: 20px; font-size: 32px; font-weight: bold; cursor: pointer; transition: color 0.2s; }
+        .modal-close-btn:hover, .modal-close-btn:focus { color: var(--accent-color); text-decoration: none; }
+        #modal-word { font-family: 'Sarabun', sans-serif; font-size: 2.2rem; font-weight: 700; color: var(--primary-color); margin: 0 0 5px 0; }
+        #modal-pronunciation { font-size: 1.1rem; color: #555; margin-bottom: 20px; font-style: italic; }
+        .modal-section { margin-bottom: 15px; }
+        .modal-section h4 { margin: 0 0 5px 0; color: var(--accent-color); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; font-weight: 700; }
+        .modal-section p { margin: 0; font-size: 1.15rem; }
+        #modal-example-th { font-size: 1rem; color: #666; margin-top: 4px; }
+        #modal-synonyms-list { display: flex; flex-wrap: wrap; gap: 8px; }
+        .synonym-tag { background-color: var(--light-gray); color: var(--primary-color); padding: 5px 12px; border-radius: 20px; font-size: 1rem; font-weight: 700; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slideUp { from { transform: translateY(30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        @media (max-width: 768px) { body { font-size: 16px; } .app-container { margin: 10px; padding: 15px; } .header h1 { font-size: 2.5rem; } .header .subtitle { font-size: 1.1rem; } .content-section.active, .lesson-tabs { flex-direction: column; } .modal-content { width: 95%; padding: 20px; } }
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+        <header class="header">
+            <h1>สึนามิถล่ม 3 ประเทศ!</h1>
+            <p class="subtitle">สรุปเหตุแผ่นดินไหวครั้งประวัติศาสตร์ และความเสียหายทั่วทั้งแปซิฟิก</p>
+            <p class="author-line">ครูสาลี่ -- อังกฤษฉบับคนเรียนไม่รู้เรื่อง</p>
+        </header>
+
+        <div class="toggle-container">
+            <button id="btn-basic" class="toggle-btn active">ระดับพื้นฐาน (Basic)</button>
+            <button id="btn-advanced" class="toggle-btn">ระดับสูง (Advanced)</button>
+        </div>
+
+        <div id="basic-content" class="content-section active">
+            <div class="content-column">
+                <h2>Huge Earthquake Causes Tsunami</h2>
+                <p>A very strong <span class="highlight" data-key="earthquake">earthquake</span> with a <span class="highlight" data-key="magnitude">magnitude</span> of 8.8 happened near Russia. This earthquake created a big wave called a <span class="highlight" data-key="tsunami">tsunami</span>. The tsunami hit Russia, Japan, and the USA.</p>
+                <p>In Russia, some buildings were <span class="highlight" data-key="damaged">damaged</span> by waves up to 5 meters high. Luckily, no one was hurt.</p>
+            </div>
+            <div class="content-column">
+                <h2>Impact in Japan and the USA</h2>
+                <p>In Japan, the waves were smaller, about 1.3 meters. The <span class="highlight" data-key="government">government</span> told almost 2 million people to <span class="highlight" data-key="evacuate">evacuate</span>. One person died in a car accident during the evacuation.</p>
+                <p>In the USA, the state of Hawaii had waves of 1.7 meters. There was no major damage. Other countries also received tsunami <span class="highlight" data-key="warnings">warnings</span>.</p>
+            </div>
+        </div>
+
+        <div id="advanced-content" class="content-section">
+            <div class="content-column">
+                <h2>Massive Quake Triggers Pacific-Wide Tsunami</h2>
+                <p>A <span class="highlight" data-key="colossal">colossal</span> magnitude 8.8 earthquake has struck off Russia's Kamchatka Peninsula, <span class="highlight" data-key="generating">generating</span> a destructive tsunami that <span class="highlight" data-key="impacted">impacted</span> nations across the Pacific. The quake, the 6th most powerful in recorded history, had its <span class="highlight" data-key="epicenter">epicenter</span> in the <span class="highlight" data-key="volatile">volatile</span> 'Ring of Fire'.</p>
+                <p>Russia faced the most direct impact, with waves reaching 5 meters, causing significant <span class="highlight" data-key="infrastructural">infrastructural</span> damage. However, due to <span class="highlight" data-key="robust">robust</span> building codes and an efficient warning system, Russia reported no <span class="highlight" data-key="casualties">casualties</span>.</p>
+            </div>
+            <div class="content-column">
+                <h2>Global Response and Aftermath</h2>
+                <p>Japan issued widespread evacuation orders for nearly two million residents. While wave damage was minimal and nuclear facilities remained <span class="highlight" data-key="secure">secure</span>, a tragic <span class="highlight" data-key="fatality">fatality</span> occurred during an evacuation.</p>
+                <p>The tsunami also reached the United States, with Hawaii experiencing 1.7-meter waves, leading to temporary airport closures. Tsunami alerts were issued as far away as South America, highlighting the vast reach of the event.</p>
+            </div>
+        </div>
+        
+        <div class="lesson-plan-container">
+            <h2>คู่มือการสอนและกิจกรรม / Teacher & Student Guide</h2>
+            <div class="lesson-tabs">
+                <button class="lesson-tab-btn active" data-tab="tab-1">🚀 1. ก่อนอ่าน / Pre-Reading</button>
+                <button class="lesson-tab-btn" data-tab="tab-2">🧠 2. เช็คความเข้าใจ / Comprehension</button>
+                <button class="lesson-tab-btn" data-tab="tab-3">✍️ 3. ฝึกคำศัพท์ / Vocabulary Practice</button>
+                <button class="lesson-tab-btn" data-tab="tab-4">💬 4. ชวนคิดชวนคุย / Discussion</button>
+            </div>
+            <div id="tab-1" class="lesson-content active">
+                <h3>อุ่นเครื่องก่อนอ่าน / Pre-Reading Warm-Up</h3>
+                <ul>
+                    <li>คุณเคยได้ยินเรื่อง 'วงแหวนแห่งไฟ' (Ring of Fire) หรือไม่? มันคืออะไร?<br><i>Have you ever heard of the 'Ring of Fire'? What is it?</i><button class="answer-toggle-btn">แนวทางคำตอบ / Show Answer Guide</button><div class="answer-panel"><b>Answer Guide:</b> The Ring of Fire is a major area in the basin of the Pacific Ocean where many earthquakes and volcanic eruptions occur. It's a long, horseshoe-shaped path where the Earth's tectonic plates meet, making it a very geologically active region.</div></li>
+                </ul>
+            </div>
+            <div id="tab-2" class="lesson-content">
+                <h3>คำถามทดสอบความเข้าใจ / Comprehension Questions</h3>
+                <h4><u>สำหรับระดับพื้นฐาน (For Basic Level)</u></h4>
+                <ul>
+                    <li>อะไรเป็นสาเหตุที่ทำให้เกิดสึนามิในข่าวนี้?<br><i>What caused the tsunami in this news?</i><button class="answer-toggle-btn">เฉลย / Show Answer</button><div class="answer-panel"><b>Answer:</b> A very strong magnitude 8.8 earthquake near Russia caused the tsunami.</div></li>
+                    <li>ประเทศไหนที่โดนคลื่นสึนามิสูงที่สุด และสูงเท่าไหร่?<br><i>Which country was hit by the tallest tsunami wave, and how high was it?</i><button class="answer-toggle-btn">เฉลย / Show Answer</button><div class="answer-panel"><b>Answer:</b> Russia was hit by the tallest wave, which was up to 5 meters high.</div></li>
+                </ul>
+                <h4><u>สำหรับระดับสูง (For Advanced Level)</u></h4>
+                <ul>
+                    <li>ข่าวบอกว่ารัสเซียไม่มีผู้เสียชีวิต ทั้งที่อยู่ใกล้ศูนย์กลางแผ่นดินไหวมากที่สุด เพราะเหตุใด?<br><i>The news says Russia had no casualties despite being closest to the epicenter. Why?</i><button class="answer-toggle-btn">เฉลย / Show Answer</button><div class="answer-panel"><b>Answer:</b> Russia reported no casualties because of two main reasons mentioned in the text: 1) They have robust (strong) building codes, so their buildings did not collapse easily. 2) They have an efficient warning system, which allowed people to get to safety in time.</div></li>
+                </ul>
+            </div>
+            <div id="tab-3" class="lesson-content">
+                <h3>แบบฝึกหัดเติมคำในช่องว่าง / Fill-in-the-Blanks Exercise</h3>
+                <div class="vocab-practice-bank">earthquake | tsunami | evacuate | damaged | government</div>
+                <ol>
+                    <li class="question-block">A strong ________ can shake the ground and buildings.</li>
+                    <li class="question-block">After the big wave, some coastal homes were badly ________.</li>
+                    <li class="question-block">The ________ issued a warning and told people to leave the area.</li>
+                    <li class="question-block">A ________ is a giant wave often caused by an underwater earthquake.</li>
+                    <li class="question-block">When you hear a siren, you must ________ to a safer place immediately.</li>
+                </ol>
+                <button class="answer-toggle-btn">เฉลยแบบฝึกหัด / Show Exercise Answers</button><div class="answer-panel"><b>Answer Key:</b><br>1. earthquake<br>2. damaged<br>3. government<br>4. tsunami<br>5. evacuate</div>
+            </div>
+            <div id="tab-4" class="lesson-content">
+                <h3>หัวข้อสำหรับอภิปราย / Discussion Topics</h3>
+                <ul>
+                    <li>ระบบเตือนภัยที่ดีมีความสำคัญอย่างไรในการรับมือภัยธรรมชาติ?<br><i>How important is a good warning system in dealing with natural disasters?</i><button class="answer-toggle-btn">แนวทางคำตอบ / Show Answer Guide</button><div class="answer-panel"><b>Guiding Points for Discussion:</b> A good warning system is critically important because it saves lives. It gives people precious time to move to higher ground, secure their property, and prepare. It turns a potential catastrophe into a manageable emergency. Students can discuss the difference between knowing a disaster is coming and being caught by surprise.</div></li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+
+    <div id="modal-container" class="modal-container">
+        <div class="modal-content">
+            <span id="modal-close-btn" class="modal-close-btn">&times;</span>
+            <h3 id="modal-word">Word</h3>
+            <p id="modal-pronunciation">Pronunciation</p>
+            <div class="modal-section"><h4>ความหมาย</h4><p id="modal-meaning">Meaning</p></div>
+            <div class="modal-section"><h4>ประโยคตัวอย่าง</h4><p id="modal-example-en">Example sentence.</p><p id="modal-example-th">คำแปลประโยคตัวอย่าง</p></div>
+            <div class="modal-section"><h4>คำเหมือน (Synonyms)</h4><div id="modal-synonyms-list"></div></div>
+        </div>
+    </div>
+
+    <script>
+        const vocabularyData = {
+            earthquake: { word: 'Earthquake', pronunciation: '<u>เอิร์ธ</u>-เควค', meaning: 'แผ่นดินไหว', example_en: 'The earthquake shook the entire city.', example_th: 'แผ่นดินไหวสั่นสะเทือนไปทั่วทั้งเมือง', synonyms: ['tremor', 'quake', 'seismic event'] },
+            magnitude: { word: 'Magnitude', pronunciation: '<u>แม็ก</u>-นิ-จูด', meaning: 'หน่วยวัดขนาดความรุนแรงของแผ่นดินไหว', example_en: 'The earthquake had a magnitude of 8.8.', example_th: 'แผ่นดินไหวมีความรุนแรงขนาด 8.8 แมกนิจูด', synonyms: ['strength', 'intensity', 'scale'] },
+            tsunami: { word: 'Tsunami', pronunciation: 'สึ-นา-<u>มิ</u>', meaning: 'คลื่นใต้น้ำขนาดใหญ่ที่เกิดจากแผ่นดินไหว', example_en: 'A tsunami warning was issued after the quake.', example_th: 'มีการประกาศเตือนภัยสึนามิหลังเกิดแผ่นดินไหว', synonyms: ['tidal wave', 'giant wave'] },
+            damaged: { word: 'Damaged', pronunciation: '<u>แด๊</u>-เมจดฺ', meaning: 'ได้รับความเสียหาย', example_en: 'Many old buildings were damaged by the tremor.', example_th: 'อาคารเก่าหลายแห่งได้รับความเสียหายจากแรงสั่นสะเทือน', synonyms: ['harmed', 'broken', 'impaired'] },
+            government: { word: 'Government', pronunciation: '<u>กัฟ</u>-เวิน-เมินทฺ', meaning: 'รัฐบาล', example_en: 'The government provided aid to the victims.', example_th: 'รัฐบาลได้ให้ความช่วยเหลือแก่ผู้ประสบภัย', synonyms: ['administration', 'the state', 'authorities'] },
+            evacuate: { word: 'Evacuate', pronunciation: 'อิ-<u>แว๊</u>-คิว-เอท', meaning: 'อพยพ, เคลื่อนย้ายออกจากพื้นที่อันตราย', example_en: 'Residents were told to evacuate the coastal area.', example_th: 'ประชาชนถูกสั่งให้อพยพออกจากพื้นที่ชายฝั่ง', synonyms: ['move out', 'clear', 'withdraw'] },
+            warnings: { word: 'Warnings', pronunciation: '<u>วอร์</u>-นิงส์', meaning: 'คำเตือน', example_en: 'Heed the warnings and move to higher ground.', example_th: 'จงเชื่อฟังคำเตือนและย้ายไปยังที่สูง', synonyms: ['alerts', 'advisories', 'cautions'] },
+            colossal: { word: 'Colossal', pronunciation: 'คะ-<u>ลอ</u>-เซิล', meaning: 'ใหญ่โตมโหฬาร, มหึมา', example_en: 'It was a colossal waste of money.', example_th: 'มันเป็นการสิ้นเปลืองเงินอย่างมหาศาล', synonyms: ['huge', 'massive', 'gigantic'] },
+            generating: { word: 'Generating', pronunciation: '<u>เจ๊</u>-เนอ-เร-ทิง', meaning: 'การสร้าง, การก่อให้เกิด', example_en: 'The storm is generating powerful winds.', example_th: 'พายุกำลังก่อให้เกิดลมที่รุนแรง', synonyms: ['creating', 'producing', 'causing'] },
+            impacted: { word: 'Impacted', pronunciation: 'อิม-<u>แพ็ค</u>-เท็ด', meaning: 'ส่งผลกระทบ', example_en: 'The new law impacted everyone.', example_th: 'กฎหมายใหม่ส่งผลกระทบต่อทุกคน', synonyms: ['affected', 'influenced', 'struck'] },
+            epicenter: { word: 'Epicenter', pronunciation: '<u>เอ</u>-พิ-เซน-เท่อะ', meaning: 'ศูนย์กลางของแผ่นดินไหว', example_en: 'The town was near the earthquake\'s epicenter.', example_th: 'เมืองนั้นอยู่ใกล้กับศูนย์กลางของแผ่นดินไหว', synonyms: ['center', 'focal point', 'heart'] },
+            volatile: { word: 'Volatile', pronunciation: '<u>วอ</u>-ละ-ไทล์', meaning: 'เปลี่ยนแปลงง่าย, ไม่แน่นอน, ปะทุได้ง่าย', example_en: 'The political situation is very volatile.', example_th: 'สถานการณ์ทางการเมืองมีความเปราะบางมาก', synonyms: ['unstable', 'unpredictable', 'explosive'] },
+            infrastructural: { word: 'Infrastructural', pronunciation: 'อิน-ฟระ-<u>สตรัค</u>-เจอะ-รัล', meaning: 'เกี่ยวกับโครงสร้างพื้นฐาน', example_en: 'The storm caused major infrastructural damage.', example_th: 'พายุได้สร้างความเสียหายต่อโครงสร้างพื้นฐานอย่างหนัก', synonyms: ['foundational', 'structural'] },
+            robust: { word: 'Robust', pronunciation: 'โร-<u>บัสทฺ</u>', meaning: 'แข็งแกร่ง, ทนทาน', example_en: 'The company has a robust financial position.', example_th: 'บริษัทมีสถานะทางการเงินที่แข็งแกร่ง', synonyms: ['strong', 'sturdy', 'resilient'] },
+            casualties: { word: 'Casualties', pronunciation: '<u>แค</u>-ชวล-ทีส์', meaning: 'ผู้บาดเจ็บหรือเสียชีวิต (ในอุบัติเหตุหรือภัยพิบัติ)', example_en: 'There were no casualties reported from the fire.', example_th: 'ไม่มีรายงานผู้บาดเจ็บหรือเสียชีวิตจากเหตุเพลิงไหม้', synonyms: ['fatalities', 'victims', 'losses'] },
+            secure: { word: 'Secure', pronunciation: 'ซี-<u>เคียว</u>', meaning: 'ปลอดภัย, มั่นคง', example_en: 'The nuclear plants remained secure during the event.', example_th: 'โรงไฟฟ้านิวเคลียร์ยังคงปลอดภัยในระหว่างเหตุการณ์', synonyms: ['safe', 'protected', 'unharmed'] },
+            fatality: { word: 'Fatality', pronunciation: 'เฟ-<u>แท</u>-ลิ-ที', meaning: 'ผู้เสียชีวิต (จากอุบัติเหตุหรือภัยพิบัติ)', example_en: 'Sadly, there was one fatality in the accident.', example_th: 'น่าเศร้าที่มีผู้เสียชีวิต 1 รายในอุบัติเหตุครั้งนั้น', synonyms: ['death', 'casualty', 'loss of life'] },
+        };
+        document.addEventListener('DOMContentLoaded', function() {
+            const btnBasic = document.getElementById('btn-basic');
+            const btnAdvanced = document.getElementById('btn-advanced');
+            const basicContent = document.getElementById('basic-content');
+            const advancedContent = document.getElementById('advanced-content');
+            const modalContainer = document.getElementById('modal-container');
+            const modalCloseBtn = document.getElementById('modal-close-btn');
+            const lessonTabs = document.querySelectorAll('.lesson-tab-btn');
+            const lessonContents = document.querySelectorAll('.lesson-content');
+            const answerToggleButtons = document.querySelectorAll('.answer-toggle-btn');
+            function switchContent(showBasic) { btnBasic.classList.toggle('active', showBasic); btnAdvanced.classList.toggle('active', !showBasic); basicContent.style.display = showBasic ? 'flex' : 'none'; advancedContent.style.display = !showBasic ? 'flex' : 'none'; }
+            btnBasic.addEventListener('click', () => switchContent(true));
+            btnAdvanced.addEventListener('click', () => switchContent(false));
+            function populateModal(data) {
+                document.getElementById('modal-word').textContent = data.word;
+                document.getElementById('modal-pronunciation').innerHTML = data.pronunciation;
+                document.getElementById('modal-meaning').textContent = data.meaning;
+                document.getElementById('modal-example-en').textContent = data.example_en;
+                document.getElementById('modal-example-th').textContent = data.example_th;
+                const synonymsList = document.getElementById('modal-synonyms-list');
+                synonymsList.innerHTML = '';
+                if (data.synonyms && data.synonyms.length > 0) { data.synonyms.forEach(synonym => { const tag = document.createElement('span'); tag.className = 'synonym-tag'; tag.textContent = synonym; synonymsList.appendChild(tag); }); } else { synonymsList.textContent = 'ไม่มีข้อมูล'; }
+            }
+            function showModal() { modalContainer.style.display = 'flex'; }
+            function hideModal() { modalContainer.style.display = 'none'; }
+            document.querySelectorAll('.highlight').forEach(span => { span.addEventListener('click', (event) => { const key = event.currentTarget.dataset.key; if (vocabularyData[key]) { populateModal(vocabularyData[key]); showModal(); } }); });
+            modalCloseBtn.addEventListener('click', hideModal);
+            window.addEventListener('click', (event) => { if (event.target == modalContainer) hideModal(); });
+            lessonTabs.forEach(tab => { tab.addEventListener('click', () => { lessonTabs.forEach(item => item.classList.remove('active')); lessonContents.forEach(content => content.classList.remove('active')); tab.classList.add('active'); document.getElementById(tab.dataset.tab).classList.add('active'); }); });
+            answerToggleButtons.forEach(button => { button.addEventListener('click', () => { const answerPanel = button.nextElementSibling; const isVisible = answerPanel.style.display === 'block'; answerPanel.style.display = isVisible ? 'none' : 'block'; button.textContent = isVisible ? (button.textContent.includes('เฉลย') ? 'เฉลย / Show Answer' : 'แนวทางคำตอบ / Show Answer Guide') : (button.textContent.includes('เฉลย') ? 'ซ่อนเฉลย / Hide Answer' : 'ซ่อนแนวทาง / Hide Guide'); }); });
+            switchContent(true);
+        });
+    </script>
+</body>
+</html>

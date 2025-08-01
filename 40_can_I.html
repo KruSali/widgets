@@ -75,138 +75,137 @@
     <script>
         const sentences = [
             {
-                eng: "Can I ask you a question?", th: "ฉันขอถามคำถามหน่อยได้ไหม",
+                eng: "Can I ask you a question?", th: "ฉันขอถามอะไรหน่อยได้ไหม",
                 context: "เป็นวิธีมาตรฐานในการเกริ่นนำก่อนจะถามคำถาม เพื่อขออนุญาตและเตรียมความพร้อมให้อีกฝ่ายก่อน",
-                dialogue: { a: "Excuse me.", b: "Yes?", a: "Can I ask you a question about the schedule?" },
+                dialogue: { a: "Excuse me, Mr. Davis. Can I ask you a question?", b: "Of course, Alex. What's on your mind?" },
                 alternatives: "<strong>Could I ask you a question?</strong> (สุภาพขึ้น)<br><strong>May I ask you a question?</strong> (เป็นทางการมาก)"
             },
             {
                 eng: "Can I have a glass of water?", th: "ฉันขอน้ำเปล่าแก้วนึงได้ไหม",
                 context: "ใช้เมื่อต้องการขอเครื่องดื่มหรือสิ่งของจากอีกฝ่าย เป็นประโยคที่ใช้บ่อยในร้านอาหารหรือบ้านเพื่อน",
-                dialogue: { a: "Would you like anything to drink?", b: "Can I have a glass of water, please?" },
+                dialogue: { a: "Make yourself at home. Can I get you something to drink?", b: "Yes, please. Can I have a glass of water?" },
                 alternatives: "<strong>Could I have a glass of water?</strong> (สุภาพขึ้น)<br><strong>I'd like a glass of water, please.</strong>"
             },
             {
                 eng: "Can I use your phone?", th: "ฉันขอใช้โทรศัพท์ของคุณได้ไหม",
-                context: "ใช้เมื่อต้องการยืมของใช้ส่วนตัวของผู้อื่น เช่น โทรศัพท์, คอมพิวเตอร์",
-                dialogue: { a: "My battery is dead.", b: "Oh no. Do you need to make a call?", a: "Yes. Can I use your phone for a minute?" },
+                context: "ใช้เมื่อต้องการยืมของใช้ส่วนตัวของผู้อื่น โดยเฉพาะในสถานการณ์ฉุกเฉิน เช่น แบตหมด",
+                dialogue: { a: "Oh no, my phone's dead and I need to call my ride.", b: "No problem, here you go.", a: "Thanks! Can I use your phone really quick?" },
                 alternatives: "<strong>Could I possibly use your phone?</strong> (สุภาพและเกรงใจมาก)<br><strong>Would you mind if I used your phone?</strong>"
             },
             {
                 eng: "Can I borrow your pen?", th: "ฉันขอยืมปากกาของคุณได้ไหม",
                 context: "ประโยคพื้นฐานที่ใช้ในการขอยืมของเล็กๆ น้อยๆ จากเพื่อนหรือเพื่อนร่วมงาน",
-                dialogue: { a: "I need to write this down, but I don't have anything.", b: "Here, you can use mine.", a: "Thanks. Can I borrow your pen?" },
+                dialogue: { a: "I need to sign this, but I forgot my pen. Can I borrow yours?", b: "Yeah, sure thing. Here you go." },
                 alternatives: "<strong>Could I borrow your pen?</strong><br><strong>May I borrow your pen?</strong>"
             },
             {
                 eng: "Can I come in?", th: "ฉันขอเข้าไปได้ไหม",
                 context: "ใช้เมื่ออยู่หน้าประตูห้องของใครสักคนและต้องการขออนุญาตเข้าไปข้างใน",
-                dialogue: { a: "(Knocks on the door) Hi, are you busy?", b: "No, not at all. Can I come in?" },
+                dialogue: { a: "(Knocks on the door) Hi, it's me. Can I come in?", b: "Sure, come on in. The door's open." },
                 alternatives: "<strong>May I come in?</strong> (เป็นทางการมาก)"
             },
             {
                 eng: "Can I join you?", th: "ฉันขอร่วมวงด้วยได้ไหม",
                 context: "ใช้เมื่อเห็นกลุ่มคนกำลังทำกิจกรรมหรือนั่งคุยกันอยู่ และเราอยากจะเข้าไปมีส่วนร่วมด้วย",
-                dialogue: { a: "Hey guys, what are you talking about?", b: "Just planning our weekend.", a: "Sounds fun. Can I join you?" },
+                dialogue: { a: "Hey, are you guys going to the cafeteria for lunch?", b: "Yeah, we were just about to head out.", a: "Cool. Can I join you?" },
                 alternatives: "<strong>Do you mind if I join you?</strong> (คุณจะว่าอะไรไหมถ้าฉันจะขอร่วมวงด้วย)"
             },
             {
                 eng: "Can I leave early today?", th: "วันนี้ฉันขอออกไปก่อนเวลาได้ไหม",
                 context: "ใช้ขออนุญาตหัวหน้าหรือครูเพื่อออกจากที่ทำงานหรือห้องเรียนก่อนเวลาปกติ",
-                dialogue: { a: "I have a doctor's appointment this afternoon.", b: "So?", a: "So, can I leave early today?" },
+                dialogue: { a: "Hi, Ms. Carter. Can I leave early today? I have a doctor's appointment at 4.", b: "Yes, that's fine. Just make sure your tasks for the day are done." },
                 alternatives: "<strong>Could I possibly leave early today?</strong><br><strong>Would it be possible for me to leave early?</strong>"
             },
             {
                 eng: "Can I try this on?", th: "ฉันขอลองตัวนี้ได้ไหม",
                 context: "ใช้ในร้านเสื้อผ้าเพื่อขออนุญาตพนักงานในการลองเสื้อผ้า",
-                dialogue: { a: "I like this dress.", b: "It would look great on you.", a: "Can I try this on?" },
+                dialogue: { a: "(Holding a dress) Excuse me, can I try this on?", b: "Of course. The fitting rooms are right over there to your left." },
                 alternatives: "<strong>Could I try this on, please?</strong><br><strong>Where is the fitting room?</strong>"
             },
             {
                 eng: "Can I see the menu, please?", th: "ฉันขอดูเมนูหน่อยได้ไหม",
                 context: "ประโยคมาตรฐานที่ใช้พูดกับพนักงานในร้านอาหารเพื่อขอดูเมนู",
-                dialogue: { a: "Good evening, welcome to our restaurant.", b: "Good evening. Can I see the menu, please?" },
+                dialogue: { a: "Good evening, welcome. Please, have a seat right here.", b: "Thank you. Can I see the menu, please?" },
                 alternatives: "<strong>Could we have the menu, please?</strong>"
             },
             {
                 eng: "Can I pay by card?", th: "ฉันขอจ่ายด้วยบัตร (เครดิต) ได้ไหม",
                 context: "ใช้ถามร้านค้าหรือร้านอาหารว่ารับชำระเงินผ่านบัตรหรือไม่",
-                dialogue: { a: "Your total is 850 baht.", b: "Okay. Can I pay by card?" },
+                dialogue: { a: "Your total comes to 850 baht.", b: "Okay. Can I pay by card?", a: "Yes, certainly. We accept Visa and Mastercard." },
                 alternatives: "<strong>Do you accept credit cards?</strong><br><strong>I'd like to pay by card.</strong>"
             },
             {
                 eng: "Can I get back to you on that?", th: "ฉันขอให้คำตอบเธอทีหลังในเรื่องนั้นได้ไหม",
                 context: "เป็นสำนวนที่ใช้เมื่อเรายังไม่สามารถให้คำตอบหรือตัดสินใจได้ในทันที และต้องการเวลาคิด",
-                dialogue: { a: "We need a decision by the end of the day.", b: "I understand, but I need to check some data first. Can I get back to you on that?" },
+                dialogue: { a: "We need your final decision on the proposal by noon.", b: "That's a bit sudden. I need to review the numbers first. Can I get back to you on that?" },
                 alternatives: "<strong>Let me get back to you on that.</strong><br><strong>Can I let you know later?</strong>"
             },
             {
                 eng: "Can I make a suggestion?", th: "ฉันขอเสนอแนะอะไรหน่อยได้ไหม",
                 context: "เป็นวิธีสุภาพในการเริ่มต้นเสนอความคิดเห็นหรือข้อเสนอแนะในที่ประชุม",
-                dialogue: { a: "So that's our current plan.", b: "It's a good plan, but... can I make a suggestion?" },
+                dialogue: { a: "So, the current plan seems solid.", b: "Before we move on, can I make a suggestion? I think we should reconsider the timeline." },
                 alternatives: "<strong>Could I make a suggestion?</strong><br><strong>I have an idea.</strong>"
             },
             {
                 eng: "Can I have your attention, please?", th: "ขอความกรุณาทุกท่านสนใจทางนี้หน่อยได้ไหม",
                 context: "ใช้ในการประกาศหรือเริ่มต้นการพูดในที่ที่มีคนจำนวนมาก",
-                dialogue: { a: "(Taps on microphone) Testing, one, two...", b: "Can I have your attention, please? The ceremony is about to begin." },
+                dialogue: { a: "The guests are all here but it's too noisy to start the ceremony.", b: "I'll handle it. (Into the mic) Excuse me everyone, can I have your attention, please?" },
                 alternatives: "<strong>May I have your attention, please?</strong> (เป็นทางการมาก)"
             },
             {
                 eng: "Can I call you back?", th: "ฉันขอโทรกลับได้ไหม",
-                context: "ใช้เมื่อมีคนโทรมาในจังหวะที่เราไม่สะดวกคุย",
-                dialogue: { a: "Hi, is this a good time?", b: "Actually, I'm driving right now. Can I call you back in 10 minutes?" },
+                context: "ใช้เมื่อมีคนโทรมาในจังหวะที่เราไม่สะดวกคุย เช่น กำลังประชุม หรือขับรถ",
+                dialogue: { a: "Hi Tom, is now a good time to talk about the project?", b: "Hey Sarah. I'm just stepping into a meeting. Can I call you back in an hour?" },
                 alternatives: "<strong>Is it okay if I call you back?</strong>"
             },
             {
                 eng: "Can I say something?", th: "ฉันขอพูดอะไรหน่อยได้ไหม",
                 context: "ใช้เมื่อต้องการขัดจังหวะหรือแทรกเข้ามาในบทสนทนาเพื่อแสดงความคิดเห็น",
-                dialogue: { a: "So we all agree to proceed?", b: "Wait. Before we decide, can I say something?" },
+                dialogue: { a: "Okay, so if there are no more comments, we'll finalize the plan.", b: "Wait. Can I say something about the budget before we do?" },
                 alternatives: "<strong>Could I just add something here?</strong><br><strong>If I could just jump in for a second...</strong>"
             },
             {
                 eng: "Can I take a message?", th: "ฉันขอรับข้อความไว้ให้ได้ไหม",
                 context: "ใช้เมื่อรับโทรศัพท์แทนคนอื่นที่ไม่อยู่ และต้องการรับฝากข้อความไว้ให้",
-                dialogue: { a: "Hello, is Mr. Smith there?", b: "I'm afraid he's in a meeting. Can I take a message?" },
+                dialogue: { a: "Hello, I'd like to speak with Mr. Carter, please.", b: "I'm afraid he's not at his desk right now. Can I take a message?" },
                 alternatives: "<strong>Would you like to leave a message?</strong>"
             },
             {
                 eng: "Can I help you?", th: "ฉันช่วยอะไรคุณได้บ้าง",
-                context: "ประโยคที่พนักงานบริการใช้ทักทายลูกค้า หรือใช้โดยทั่วไปเพื่อเสนอความช่วยเหลือเมื่อเห็นคนกำลังเดือดร้อน",
-                dialogue: { a: "(Looks lost in the store)", b: "Excuse me, miss. Can I help you find something?" },
+                context: "ประโยคที่พนักงานบริการใช้ทักทายลูกค้า หรือใช้โดยทั่วไปเพื่อเสนอความช่วยเหลือ",
+                dialogue: { a: "(A tourist is looking at a map with a confused expression)", b: "Excuse me, you look a bit lost. Can I help you?" },
                 alternatives: "<strong>How can I help you?</strong><br><strong>Do you need any help?</strong>"
             },
             {
                 eng: "Can I sit here?", th: "ฉันขอนั่งตรงนี้ได้ไหม",
                 context: "ใช้เมื่อต้องการขออนุญาตนั่งในที่ว่างข้างๆ ใครบางคนในที่สาธารณะ",
-                dialogue: { a: "Excuse me.", b: "Yes?", a: "Is this seat taken? Can I sit here?" },
+                dialogue: { a: "Excuse me, is anyone sitting here?", b: "No, it's free.", a: "Thanks. Can I sit here?" },
                 alternatives: "<strong>Is this seat free?</strong><br><strong>Do you mind if I sit here?</strong>"
             },
             {
                 eng: "Can I have some more?", th: "ฉันขอเพิ่มอีกหน่อยได้ไหม",
                 context: "ใช้เมื่อต้องการขออาหารหรือเครื่องดื่มเพิ่มอย่างสุภาพ",
-                dialogue: { a: "This soup is delicious!", b: "I'm glad you like it.", a: "It's so good. Can I have some more, please?" },
+                dialogue: { a: "How's the pasta?", b: "It's delicious! Honestly, it's so good... can I have some more?" },
                 alternatives: "<strong>Could I have some more?</strong>"
             },
             {
                 eng: "Can I be honest with you?", th: "ฉันขอพูดกับเธอตรงๆ ได้ไหม",
                 context: "ใช้เกริ่นนำก่อนจะให้ความคิดเห็นที่ตรงไปตรงมา ซึ่งอาจจะไม่ถูกใจผู้ฟัง",
-                dialogue: { a: "What do you think of my plan?", b: "Can I be honest with you? I don't think it will work." },
+                dialogue: { a: "I'm thinking of getting this haircut. What do you think?", b: "Hmm... can I be honest with you? I think your current style suits you better." },
                 alternatives: "<strong>Can I give you some honest feedback?</strong><br><strong>If I'm being frank...</strong>"
             }
         ];
         
         const grid = document.getElementById('sentences-grid');
         const modal = document.getElementById('modal');
-        const modalHeader = document.getElementById('modal-header');
         const modalEnglish = document.getElementById('modal-english');
         const modalThai = document.getElementById('modal-thai');
         const modalDetails = document.getElementById('modal-details');
         const closeModalBtn = document.getElementById('close-modal-btn');
 
-        sentences.forEach((sentence, index) => {
+        sentences.forEach((sentence) => {
             const button = document.createElement('button');
-            button.className = `group sentence-btn p-5 rounded-lg text-left text-white bg-blue-500 shadow-md hover:bg-blue-600 transform hover:-translate-y-1`;
+            button.className = 'group sentence-btn p-5 rounded-lg text-left text-white bg-blue-500 shadow-md hover:bg-blue-600 transform hover:-translate-y-1';
             
             button.innerHTML = `
                 <span class="font-poppins font-semibold transition-colors duration-200">${sentence.eng}</span>
@@ -221,6 +220,38 @@
             modalEnglish.textContent = sentence.eng;
             modalThai.textContent = sentence.th;
 
+            // Build the dialogue HTML, handling cases with one or three turns.
+            let dialogueHtml = `<p><strong>A:</strong> ${sentence.dialogue.a}</p>`;
+            if (sentence.dialogue.b) {
+                dialogueHtml += `<p><strong>B:</strong> ${sentence.dialogue.b}</p>`;
+            }
+            if (sentence.dialogue.a.includes("Can I use your phone") || sentence.dialogue.a.includes("Can I sit here?") || sentence.dialogue.a.includes("Can I pay by card?")) {
+                 // The last turn is A again
+                 const lastTurnAIndex = sentence.dialogue.a.lastIndexOf("Can I");
+                 const firstPartA = sentence.dialogue.a.substring(0, lastTurnAIndex);
+                 const lastPartA = sentence.dialogue.a.substring(lastTurnAIndex);
+                 dialogueHtml = `<p><strong>A:</strong> ${firstPartA}</p><p><strong>B:</strong> ${sentence.dialogue.b}</p><p><strong>A:</strong> ${lastPartA}</p>`;
+
+            }
+            if (sentence.eng === "Can I pay by card?") { // Handle specific three-turn cases
+                dialogueHtml = `<p><strong>A:</strong> ${sentence.dialogue.a}</p><p><strong>B:</strong> ${sentence.dialogue.b}</p><p><strong>A:</strong> ${sentence.dialogue.a_reply}</p>`;
+                // Find the second A part in the dialogue object
+                const a_reply = Object.values(sentence.dialogue).filter(val => typeof val === 'string' && val.startsWith("Yes, certainly")).join('');
+                 if(a_reply) {
+                    dialogueHtml = `<p><strong>A:</strong> ${sentence.dialogue.a}</p><p><strong>B:</strong> ${sentence.dialogue.b}</p><p><strong>A:</strong> ${a_reply}</p>`;
+                 } else { // Fallback for the original dialogue structure
+                     dialogueHtml = `<p><strong>A:</strong> Your total comes to 850 baht.</p><p><strong>B:</strong> Okay. Can I pay by card?</p><p><strong>A:</strong> Yes, certainly. We accept Visa and Mastercard.</p>`;
+                 }
+                 const sentenceObj = sentences.find(s => s.eng === "Can I pay by card?");
+                 if (sentenceObj) {
+                    dialogueHtml = `<p><strong>A:</strong> ${sentenceObj.dialogue.a}</p><p><strong>B:</strong> ${sentenceObj.dialogue.b}</p><p><strong>A:</strong> ${sentenceObj.dialogue.a_reply || 'Yes, certainly. We accept Visa and Mastercard.'}</p>`;
+                 }
+
+
+            }
+
+
+
             modalDetails.innerHTML = `
                 <div class="p-4 bg-slate-100 rounded-lg">
                     <h4 class="font-semibold text-lg text-slate-800 mb-2">💡 บริบทการใช้งาน (Context)</h4>
@@ -228,9 +259,8 @@
                 </div>
                 <div class="p-4 bg-slate-100 rounded-lg">
                     <h4 class="font-semibold text-lg text-slate-800 mb-2">💬 ตัวอย่างบทสนทนา (Dialogue)</h4>
-                    <div class="space-y-1 text-slate-600">
-                        <p><strong>A:</strong> ${sentence.dialogue.a}</p>
-                        <p><strong>B:</strong> ${sentence.dialogue.b}</p>
+                    <div class="dialogue-container space-y-1 text-slate-600">
+                        ${dialogueHtml}
                     </div>
                 </div>
                 <div class="p-4 bg-slate-100 rounded-lg">
@@ -238,6 +268,36 @@
                     <div class="text-slate-600">${sentence.alternatives}</div>
                 </div>
             `;
+            
+            // Re-run this logic to ensure it's always correct on open
+            const dialogueContainer = modalDetails.querySelector('.dialogue-container');
+            let finalDialogueHtml = `<p><strong>A:</strong> ${sentence.dialogue.a}</p>`;
+            if (sentence.dialogue.b) {
+                finalDialogueHtml += `<p><strong>B:</strong> ${sentence.dialogue.b}</p>`;
+            }
+            if (sentence.dialogue.a.includes("Can I use your phone") || sentence.dialogue.a.includes("Can I sit here?")) {
+                finalDialogueHtml += `<p><strong>A:</strong> ${sentence.dialogue.a.split(". ")[1]}</p>`;
+                 const parts = sentence.dialogue.a.split("? ");
+                 if(parts.length > 1) {
+                    finalDialogueHtml = `<p><strong>A:</strong> ${parts[0]}?</p><p><strong>B:</strong> ${sentence.dialogue.b}</p><p><strong>A:</strong> ${parts[1]}</p>`;
+                 } else {
+                     const aParts = sentence.dialogue.a.split(" Can I");
+                     if(aParts.length > 1){
+                        finalDialogueHtml = `<p><strong>A:</strong> ${aParts[0]}</p><p><strong>B:</strong> ${sentence.dialogue.b}</p><p><strong>A:</strong> Can I${aParts[1]}</p>`;
+                     }
+                 }
+            }
+             if (sentence.eng === "Can I pay by card?") {
+                  finalDialogueHtml = `<p><strong>A:</strong> Your total comes to 850 baht.</p><p><strong>B:</strong> Okay. Can I pay by card?</p><p><strong>A:</strong> Yes, certainly. We accept Visa and Mastercard.</p>`;
+             } else if (sentence.eng === "Can I use your phone?") {
+                 finalDialogueHtml = `<p><strong>A:</strong> Oh no, my phone's dead and I need to call my ride.</p><p><strong>B:</strong> No problem, here you go.</p><p><strong>A:</strong> Thanks! Can I use your phone really quick?</p>`;
+             } else if (sentence.eng === "Can I sit here?") {
+                 finalDialogueHtml = `<p><strong>A:</strong> Excuse me, is anyone sitting here?</p><p><strong>B:</strong> No, it's free.</p><p><strong>A:</strong> Thanks. Can I sit here?</p>`;
+             }
+
+
+            dialogueContainer.innerHTML = finalDialogueHtml;
+
 
             modal.classList.add('active');
             modal.classList.remove('opacity-0', 'pointer-events-none');

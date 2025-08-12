@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>แบบทดสอบวัดทักษะภาษาอังกฤษ (ระดับ A2-B1) - ชุดที่ 4 โดยครูสาลี่</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Sarabun', sans-serif;
+            font-size: 20px;
+            line-height: 1.8;
+            background-color: #fef5e7; /* Light Cream */
+            color: #5f442c;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: auto;
+            background-color: #ffffff;
+            padding: 20px 40px;
+            border-radius: 20px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+        }
+
+        h1, h2, h3 {
+            font-family: 'Sarabun', sans-serif;
+            font-weight: 700;
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 2.8em;
+            color: #af601a; /* Dark Orange */
+            margin-bottom: 5px;
+        }
+
+        .subtitle {
+            font-size: 1.5em;
+            color: #ca6f1e; /* Medium Orange */
+            text-align: center;
+            margin-top: 0;
+            margin-bottom: 30px;
+            font-weight: 400;
+            border-bottom: 3px solid #f5b041; /* Yellow Orange */
+            padding-bottom: 15px;
+        }
+
+        h2 {
+            font-size: 2.2em;
+            color: #9c6644; /* Brown */
+            margin-top: 50px;
+            background-color: #fae5d3; /* Light Peach */
+            padding: 15px;
+            border-radius: 12px;
+            border-left: 8px solid #9c6644;
+        }
+        
+        .test-section {
+            margin-bottom: 40px;
+        }
+        
+        .question-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 35px;
+        }
+        
+        @media (min-width: 1024px) {
+            .question-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .question-block {
+            background-color: #fdfefe;
+            padding: 25px;
+            border: 1px solid #ced4da;
+            border-left: 7px solid #e59866; /* Peach */
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .question-text {
+            font-weight: bold;
+            color: #212529;
+            margin-bottom: 15px;
+        }
+        
+        .options ol {
+            list-style-type: none;
+            padding-left: 0;
+            margin: 0;
+            flex-grow: 1;
+        }
+        
+        .options li {
+            margin-bottom: 12px;
+            padding: 12px 15px;
+            border-radius: 8px;
+            border: 1px solid #dee2e6;
+            background-color: #fff;
+        }
+
+        .answer-reveal {
+            display: none;
+            margin-top: 15px;
+            padding: 20px;
+            background-color: #fff3e0; /* Light Orange */
+            border: 1px solid #ffe0b2;
+            border-radius: 8px;
+            color: #e65100;
+        }
+        
+        .answer-reveal .rationale {
+            margin-top: 10px;
+            font-style: italic;
+        }
+
+        .answer-reveal strong {
+            color: #bf360c;
+        }
+        
+        .reveal-btn {
+            align-self: flex-start;
+            margin-top: 20px;
+            padding: 8px 20px;
+            font-size: 18px;
+            font-weight: bold;
+            font-family: 'Sarabun', sans-serif;
+            color: white;
+            background-color: #d35400; /* Pumpkin Orange */
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .reveal-btn:hover {
+            background-color: #a04000;
+        }
+
+        .reading-passage {
+            background-color: #fef9e7;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            border: 1px dashed #f7dc6f;
+        }
+        
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>แบบทดสอบวัดทักษะภาษาอังกฤษ (ระดับ A2-B1) - ชุดที่ 4</h1>
+        <h3 class="subtitle">ครูสาลี่ -- อังกฤษฉบับคนเรียนไม่รู้เรื่อง</h3>
+        
+        <!-- ==================== PART I: Speaking (25 Items) ==================== -->
+        <div class="test-section">
+            <h2>Part I: Speaking (บทสนทนา)</h2>
+            <div class="question-grid">
+                
+                <div class="question-block">
+                    <p class="question-text">1. At a coffee shop. Barista: "What can I get for you today?" You:</p>
+                    <div class="options"><ol><li>1. "I want a coffee."</li><li>2. "Can I have a large iced latte, please?"</li><li>3. "Give me the biggest coffee you have."</li><li>4. "The coffee smells good."</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 2. "Can I have a large iced latte, please?"</p><p class="rationale"><strong>เหตุผล:</strong> เป็นการสั่งเครื่องดื่มที่สุภาพ ("Can I have... please?") และระบุรายละเอียดชัดเจน (ขนาด, ประเภท)</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">2. You are looking for the restroom in a shopping mall. You ask a staff member:</p>
+                    <div class="options"><ol><li>1. "Where is the toilet?"</li><li>2. "I need to go to the bathroom."</li><li>3. "Excuse me, could you tell me where the restroom is?"</li><li>4. "Restroom, now."</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 3. "Excuse me, could you tell me where the restroom is?"</p><p class="rationale"><strong>เหตุผล:</strong> เป็นประโยคคำถามที่สุภาพที่สุด ("Excuse me, could you tell me...") เหมาะสำหรับการถามคนที่ไม่รู้จัก</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">3. A: "It's really cold today, isn't it?" B: "___________ I should have worn a warmer jacket."</p>
+                    <div class="options"><ol><li>1. "No, it's not."</li><li>2. "Yes, it is!"</li><li>3. "I don't think so."</li><li>4. "The weather is fine."</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 2. "Yes, it is!"</p><p class="rationale"><strong>เหตุผล:</strong> เป็นการตอบรับเห็นด้วยกับประโยค Tag Question และประโยคถัดมาก็สนับสนุนว่าอากาศหนาวจริงๆ</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">4. Your friend is sick. You call them and say:</p>
+                    <div class="options"><ol><li>1. "Why are you sick?"</li><li>2. "I heard you're not feeling well. I hope you get better soon."</li><li>3. "You should go to work."</li><li>4. "Don't be sick."</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 2. "I heard you're not feeling well. I hope you get better soon."</p><p class="rationale"><strong>เหตุผล:</strong> เป็นการแสดงความห่วงใยและอวยพรให้หายป่วย ซึ่งเป็นสิ่งที่ควรพูดกับเพื่อนที่ไม่สบาย</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">5. A: "What do you like to do on weekends?" B: "___________"</p>
+                    <div class="options"><ol><li>1. "I work on weekends."</li><li>2. "Weekends are short."</li><li>3. "I enjoy watching movies and going for a walk."</li><li>4. "I go to bed late."</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 3. "I enjoy watching movies and going for a walk."</p><p class="rationale"><strong>เหตุผล:</strong> เป็นการตอบคำถามเกี่ยวกับกิจกรรมที่ชอบทำในวันหยุดสุดสัปดาห์ได้ตรงประเด็นที่สุด</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">6. You are at the cinema ticket counter. You say:</p>
+                    <div class="options"><ol><li>1. "One ticket, please."</li><li>2. "Two tickets for the 7 PM show of 'Space Adventure', please."</li><li>3. "I want to watch a movie."</li><li>4. "How much is a ticket?"</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 2. "Two tickets for the 7 PM show of 'Space Adventure', please."</p><p class="rationale"><strong>เหตุผล:</strong> เป็นการซื้อตั๋วที่ให้ข้อมูลครบถ้วนที่สุด ทั้งจำนวน, รอบฉาย, และชื่อหนัง ทำให้พนักงานบริการได้รวดเร็ว</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">7. A: "I'm sorry, I'm late." B: "___________ The meeting hasn't started yet."</p>
+                    <div class="options"><ol><li>1. "You are always late."</li><li>2. "That's a problem."</li><li>3. "Don't worry about it."</li><li>4. "Try to be earlier next time."</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 3. "Don't worry about it."</p><p class="rationale"><strong>เหตุผล:</strong> เป็นการตอบรับคำขอโทษอย่างเป็นมิตรและบอกว่าไม่เป็นไร ซึ่งเหมาะสมกับสถานการณ์ที่ยังไม่มีอะไรเสียหาย</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">8. You are in a restaurant. The waiter asks: "Is everything alright with your meal?" You enjoy the food, so you say:</p>
+                    <div class="options"><ol><li>1. "It's okay."</li><li>2. "Yes, it's delicious, thank you!"</li><li>3. "The portion is small."</li><li>4. "I'm full."</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 2. "Yes, it's delicious, thank you!"</p><p class="rationale"><strong>เหตุผล:</strong> เป็นการให้คำชมเชยอาหารอย่างชัดเจนและสุภาพ</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">9. A: "Let's go to the beach this Saturday." B: "___________ I love the sea."</p>
+                    <div class="options"><ol><li>1. "I don't think so."</li><li>2. "Maybe another time."</li><li>3. "That sounds like a great idea!"</li><li>4. "I'm not sure."</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 3. "That sounds like a great idea!"</p><p class="rationale"><strong>เหตุผล:</strong> เป็นการตอบรับคำชวนอย่างกระตือรือร้น ซึ่งสอดคล้องกับประโยคถัดมาที่บอกว่าชอบทะเล</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">10. You want to take a photo of a beautiful view, but someone is standing in the way. You say:</p>
+                    <div class="options"><ol><li>1. "Move!"</li><li>2. "You are in my picture."</li><li>3. "Excuse me, would you mind if I quickly take a photo?"</li><li>4. "Can you stand somewhere else?"</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 3. "Excuse me, would you mind if I quickly take a photo?"</p><p class="rationale"><strong>เหตุผล:</strong> เป็นการขอร้องอย่างสุภาพและให้เกียรติอีกฝ่าย โดยไม่ได้สั่งให้เขาขยับโดยตรง แต่เป็นการขออนุญาตถ่ายรูป ซึ่งโดยทั่วไปแล้วอีกฝ่ายจะเข้าใจและขยับให้เอง</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">11. A: "How often do you exercise?" B: "___________"</p>
+                    <div class="options"><ol><li>1. "I exercise in the park."</li><li>2. "I like running."</li><li>3. "About three times a week."</li><li>4. "Exercise is good for health."</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 3. "About three times a week."</p><p class="rationale"><strong>เหตุผล:</strong> คำถาม "How often...?" ถามถึงความถี่ คำตอบจึงควรเป็นการบอกจำนวนครั้งต่อช่วงเวลา</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">12. At the end of a meal with a friend, you want to pay for your own share. You say:</p>
+                    <div class="options"><ol><li>1. "Let's split the bill."</li><li>2. "You pay for everything."</li><li>3. "How much is it?"</li><li>4. "I don't have money."</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 1. "Let's split the bill."</p><p class="rationale"><strong>เหตุผล:</strong> "Split the bill" เป็นสำนวนที่หมายถึง แบ่งกันจ่าย, ต่างคนต่างจ่าย</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">13. A: "I got a new job!" B: "___________ That's wonderful news!"</p>
+                    <div class="options"><ol><li>1. "Really?"</li><li>2. "Congratulations!"</li><li>3. "Why?"</li><li>4. "So what?"</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 2. "Congratulations!"</p><p class="rationale"><strong>เหตุผล:</strong> เป็นคำแสดงความยินดีที่เหมาะสมที่สุดเมื่อได้ยินข่าวดี</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">14. You are trying on a shirt and want to know what your friend thinks. You ask:</p>
+                    <div class="options"><ol><li>1. "Do you like this shirt?"</li><li>2. "How do I look?"</li><li>3. "What do you think of this one?"</li><li>4. All of the above are correct.</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 4. All of the above are correct.</p><p class="rationale"><strong>เหตุผล:</strong> ทั้งสามประโยคเป็นวิธีที่ใช้ถามความคิดเห็นเกี่ยวกับเสื้อผ้าได้ทั้งหมดและเป็นธรรมชาติ</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">15. A: "Thanks for your help." B: "___________"</p>
+                    <div class="options"><ol><li>1. "You're welcome."</li><li>2. "No problem."</li><li>3. "Any time."</li><li>4. All of the above are correct.</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 4. All of the above are correct.</p><p class="rationale"><strong>เหตุผล:</strong> ทั้ง "You're welcome", "No problem", และ "Any time" เป็นคำตอบรับคำขอบคุณที่เป็นมาตรฐานและใช้ได้ทั้งหมด</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">16. You are talking on the phone but the connection is bad. You say:</p>
+                    <div class="options"><ol><li>1. "I can't hear you. The line is breaking up."</li><li>2. "Speak louder!"</li><li>3. "This is a bad phone."</li><li>4. "I will call you later."</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 1. "I can't hear you. The line is breaking up."</p><p class="rationale"><strong>เหตุผล:</strong> เป็นการอธิบายปัญหาที่เกิดขึ้นอย่างชัดเจน "The line is breaking up" หมายถึง สัญญาณขาดๆ หายๆ</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">17. A: "What's your favorite type of music?" B: "___________"</p>
+                    <div class="options"><ol><li>1. "I listen to music every day."</li><li>2. "I'm really into pop and rock."</li><li>3. "The music is too loud."</li><li>4. "My favorite singer is Taylor Swift."</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 2. "I'm really into pop and rock."</p><p class="rationale"><strong>เหตุผล:</strong> "I'm really into..." เป็นวิธีพูดว่า "ฉันชอบ...มากๆ" และเป็นการตอบคำถามเกี่ยวกับ "ประเภท" ของดนตรีได้ตรงที่สุด</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">18. You are in a meeting and you agree with what someone just said. You say:</p>
+                    <div class="options"><ol><li>1. "I agree."</li><li>2. "That's a good point."</li><li>3. "I see what you mean."</li><li>4. All of the above are correct.</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 4. All of the above are correct.</p><p class="rationale"><strong>เหตุผล:</strong> ทั้งสามตัวเลือกเป็นวิธีแสดงความเห็นด้วยในระดับต่างๆ และสามารถใช้ในที่ประชุมได้ทั้งหมด</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">19. A: "Would you like tea or coffee?" B: "___________ I don't mind."</p>
+                    <div class="options"><ol><li>1. "Tea, please."</li><li>2. "Either is fine, thank you."</li><li>3. "No, thank you."</li><li>4. "Coffee is better."</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 2. "Either is fine, thank you."</p><p class="rationale"><strong>เหตุผล:</strong> ประโยค "I don't mind" (อะไรก็ได้) แสดงว่าผู้พูดไม่มีความชอบเป็นพิเศษ ดังนั้น "Either is fine" (อันไหนก็ได้) จึงเป็นคำตอบที่สอดคล้องกันที่สุด</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">20. You are leaving your friend's house. You say:</p>
+                    <div class="options"><ol><li>1. "I'm going now."</li><li>2. "It was nice seeing you. See you later!"</li><li>3. "Goodbye."</li><li>4. "I have to leave."</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 2. "It was nice seeing you. See you later!"</p><p class="rationale"><strong>เหตุผล:</strong> เป็นการกล่าวลาที่อบอุ่นและเป็นมิตรที่สุด โดยแสดงความรู้สึกที่ดีที่ได้เจอกันและหวังว่าจะได้พบกันอีก</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">21. A: "How do I get to the post office?" B: "___________"</p>
+                    <div class="options"><ol><li>1. "It's far from here."</li><li>2. "Go straight for two blocks and turn left. It's on your right."</li><li>3. "You should take a taxi."</li><li>4. "The post office is big."</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 2. "Go straight for two blocks and turn left. It's on your right."</p><p class="rationale"><strong>เหตุผล:</strong> เป็นการบอกเส้นทางที่ชัดเจนและเป็นประโยชน์ที่สุด</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">22. You see your teacher carrying many books. You offer to help by saying:</p>
+                    <div class="options"><ol><li>1. "You have a lot of books."</li><li>2. "Can I help you with those?"</li><li>3. "Be careful."</li><li>4. "Where are you going?"</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 2. "Can I help you with those?"</p><p class="rationale"><strong>เหตุผล:</strong> เป็นการเสนอความช่วยเหลืออย่างสุภาพและตรงไปตรงมา</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">23. A: "I'm so excited about my trip to Japan!" B: "___________ I'm sure you'll have a wonderful time."</p>
+                    <div class="options"><ol><li>1. "How nice for you."</li><li>2. "That's great!"</li><li>3. "I've never been there."</li><li>4. "Don't forget to buy souvenirs."</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 2. "That's great!"</p><p class="rationale"><strong>เหตุผล:</strong> เป็นการแสดงความรู้สึกร่วมยินดีอย่างเป็นธรรมชาติและเหมาะสมที่สุด</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">24. You are at a party and you don't know anyone. You start a conversation by saying:</p>
+                    <div class="options"><ol><li>1. "I'm bored."</li><li>2. "Hi, I'm [Your Name]. How do you know the host?"</li><li>3. "Do you come here often?"</li><li>4. "This party is okay."</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 2. "Hi, I'm [Your Name]. How do you know the host?"</p><p class="rationale"><strong>เหตุผล:</strong> เป็นการเริ่มต้นบทสนทนาที่ดี โดยการแนะนำตัวเองและถามคำถามปลายเปิดที่เกี่ยวข้องกับสถานการณ์</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">25. A: "Do you have any plans for the summer?" B: "___________"</p>
+                    <div class="options"><ol><li>1. "Summer is hot."</li><li>2. "I'm thinking of visiting my grandparents."</li><li>3. "I don't like summer."</li><li>4. "The summer holiday is long."</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 2. "I'm thinking of visiting my grandparents."</p><p class="rationale"><strong>เหตุผล:</strong> เป็นการตอบคำถามเกี่ยวกับแผนการในอนาคตได้ตรงประเด็นที่สุด</p></div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- ==================== PART II: Grammar and Structure (25 Items) ==================== -->
+        <div class="test-section">
+            <h2>Part II: Grammar and Structure (ไวยากรณ์และโครงสร้าง)</h2>
+            <div class="question-grid">
+                
+                <div class="question-block">
+                    <p class="question-text">26. She ___________ to the radio when I came into the room.</p>
+                    <div class="options"><ol><li>1. listens</li><li>2. was listening</li><li>3. has listened</li><li>4. listened</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 2. was listening</p><p class="rationale"><strong>ไวยากรณ์เรื่อง:</strong> Past Continuous Tense<br><strong>เหตุผล:</strong> ใช้ Past Continuous เพื่อบรรยายเหตุการณ์ที่กำลังดำเนินอยู่ (กำลังฟังวิทยุ) และมีอีกเหตุการณ์หนึ่งเข้ามาแทรก (ฉันเข้ามาในห้อง) ซึ่งใช้ Past Simple</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">27. I haven't seen him ___________ last year.</p>
+                    <div class="options"><ol><li>1. for</li><li>2. since</li><li>3. in</li><li>4. at</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 2. since</p><p class="rationale"><strong>ไวยากรณ์เรื่อง:</strong> Present Perfect with For/Since<br><strong>เหตุผล:</strong> 'Since' ใช้กับจุดเริ่มต้นของเวลา (เช่น since 1990, since last Monday) ส่วน 'for' ใช้กับระยะเวลา (เช่น for two years)</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">28. This is the ___________ movie I have ever seen.</p>
+                    <div class="options"><ol><li>1. good</li><li>2. better</li><li>3. best</li><li>4. most good</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 3. best</p><p class="rationale"><strong>ไวยากรณ์เรื่อง:</strong> Superlative Adjectives<br><strong>เหตุผล:</strong> วลี "I have ever seen" เป็นสัญญาณของการเปรียบเทียบขั้นสูงสุด รูปขั้นสูงสุดของ 'good' คือ 'best'</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">29. (Error) My brother (1)<u>don't</u> (2)<u>like</u> (3)<u>to play</u> (4)<u>football</u>.</p>
+                    <div class="options"><ol><li>1. don't</li><li>2. like</li><li>3. to play</li><li>4. football</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 1. don't</p><p class="rationale"><strong>ไวยากรณ์เรื่อง:</strong> Subject-Verb Agreement (Present Simple)<br><strong>เหตุผล:</strong> ประธาน 'My brother' เป็นเอกพจน์บุรุษที่ 3 ดังนั้นกริยาช่วยในรูปปฏิเสธต้องใช้ 'doesn't'</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">30. If you ___________ water to 100 degrees Celsius, it boils.</p>
+                    <div class="options"><ol><li>1. heat</li><li>2. will heat</li><li>3. heated</li><li>4. are heating</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 1. heat</p><p class="rationale"><strong>ไวยากรณ์เรื่อง:</strong> Zero Conditional<br><strong>เหตุผล:</strong> ใช้พูดถึงความจริงทั่วไปหรือข้อเท็จจริงทางวิทยาศาสตร์ โครงสร้างคือ If + Present Simple, Present Simple.</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">31. There are ___________ apples on the table, but there isn't ___________ orange juice.</p>
+                    <div class="options"><ol><li>1. some, some</li><li>2. any, some</li><li>3. some, any</li><li>4. any, any</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 3. some, any</p><p class="rationale"><strong>ไวยากรณ์เรื่อง:</strong> Some / Any<br><strong>เหตุผล:</strong> 'Some' ใช้ในประโยคบอกเล่า ส่วน 'any' ใช้ในประโยคปฏิเสธและคำถาม</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">32. You ___________ be quiet in the library.</p>
+                    <div class="options"><ol><li>1. can</li><li>2. must</li><li>3. may</li><li>4. will</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 2. must</p><p class="rationale"><strong>ไวยากรณ์เรื่อง:</strong> Modal Verbs<br><strong>เหตุผล:</strong> 'Must' ใช้เพื่อแสดงกฎหรือข้อบังคับที่จำเป็นต้องทำ</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">33. (Error) The children (1)<u>is</u> playing (2)<u>happily</u> in the (3)<u>garden</u> right (4)<u>now</u>.</p>
+                    <div class="options"><ol><li>1. is</li><li>2. happily</li><li>3. garden</li><li>4. now</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 1. is</p><p class="rationale"><strong>ไวยากรณ์เรื่อง:</strong> Subject-Verb Agreement (Present Continuous)<br><strong>เหตุผล:</strong> ประธาน 'The children' เป็นพหูพจน์ ดังนั้นกริยาต้องเป็น 'are'</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">34. I'm going ___________ my grandparents next month.</p>
+                    <div class="options"><ol><li>1. visit</li><li>2. visiting</li><li>3. to visit</li><li>4. visited</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 3. to visit</p><p class="rationale"><strong>ไวยากรณ์เรื่อง:</strong> Future with 'be going to'<br><strong>เหตุผล:</strong> โครงสร้าง 'be going to' ใช้เพื่อพูดถึงแผนการในอนาคต และต้องตามด้วยกริยาช่องที่ 1 (base form)</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">35. He is interested ___________ learning about history.</p>
+                    <div class="options"><ol><li>1. in</li><li>2. on</li><li>3. at</li><li>4. with</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 1. in</p><p class="rationale"><strong>ไวยากรณ์เรื่อง:</strong> Prepositions with Adjectives<br><strong>เหตุผล:</strong> คำคุณศัพท์ 'interested' จะต้องตามด้วยคำบุพบท 'in' เสมอ</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">36. A cat is ___________ than a mouse.</p>
+                    <div class="options"><ol><li>1. big</li><li>2. bigger</li><li>3. biggest</li><li>4. more big</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 2. bigger</p><p class="rationale"><strong>ไวยากรณ์เรื่อง:</strong> Comparative Adjectives<br><strong>เหตุผล:</strong> คำว่า 'than' เป็นสัญญาณของการเปรียบเทียบขั้นกว่า รูปขั้นกว่าของ 'big' คือ 'bigger'</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">37. (Error) How (1)<u>much</u> books (2)<u>did</u> you (3)<u>buy</u> (4)<u>yesterday</u>?</p>
+                    <div class="options"><ol><li>1. much</li><li>2. did</li><li>3. buy</li><li>4. yesterday</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 1. much</p><p class="rationale"><strong>ไวยากรณ์เรื่อง:</strong> Much / Many<br><strong>เหตุผล:</strong> 'books' เป็นคำนามนับได้พหูพจน์ จึงต้องใช้ 'many' ไม่ใช่ 'much' ซึ่งใช้กับนามนับไม่ได้</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">38. I enjoy ___________ in my free time.</p>
+                    <div class="options"><ol><li>1. to read</li><li>2. read</li><li>3. reading</li><li>4. have read</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 3. reading</p><p class="rationale"><strong>ไวยากรณ์เรื่อง:</strong> Gerunds<br><strong>เหตุผล:</strong> คำกริยา 'enjoy' ต้องตามด้วย Gerund (V-ing) เสมอ</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">39. The girl ___________ is sitting over there is my sister.</p>
+                    <div class="options"><ol><li>1. which</li><li>2. whose</li><li>3. who</li><li>4. whom</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 3. who</p><p class="rationale"><strong>ไวยากรณ์เรื่อง:</strong> Relative Pronouns<br><strong>เหตุผล:</strong> 'who' ใช้แทนคน (The girl) ซึ่งทำหน้าที่เป็นประธานของ relative clause</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">40. (Error) We (1)<u>have watched</u> that movie (2)<u>last</u> night. It (3)<u>was</u> (4)<u>great</u>.</p>
+                    <div class="options"><ol><li>1. have watched</li><li>2. last</li><li>3. was</li><li>4. great</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 1. have watched</p><p class="rationale"><strong>ไวยากรณ์เรื่อง:</strong> Past Simple vs. Present Perfect<br><strong>เหตุผล:</strong> เมื่อมีคำระบุเวลาในอดีตที่ชัดเจน (last night) เราจะใช้ Past Simple Tense ('watched') ไม่ใช่ Present Perfect</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">41. My mom ___________ a delicious cake for my birthday last week.</p>
+                    <div class="options"><ol><li>1. makes</li><li>2. made</li><li>3. is making</li><li>4. has made</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 2. made</p><p class="rationale"><strong>ไวยากรณ์เรื่อง:</strong> Past Simple Tense<br><strong>เหตุผล:</strong> "last week" เป็นตัวบ่งชี้เวลาในอดีตที่จบไปแล้ว จึงต้องใช้กริยาช่องที่ 2 (Past Simple)</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">42. He drove ___________ because he was late for work.</p>
+                    <div class="options"><ol><li>1. careful</li><li>2. more careful</li><li>3. carefully</li><li>4. care</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 3. carefully</p><p class="rationale"><strong>ไวยากรณ์เรื่อง:</strong> Adverbs of Manner<br><strong>เหตุผล:</strong> เราใช้ Adverb (carefully) เพื่อขยายคำกริยา (drove) ว่าขับรถอย่างไร</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">43. (Error) The dog (1)<u>wagged</u> (2)<u>it's</u> tail (3)<u>when</u> it saw (4)<u>its</u> owner.</p>
+                    <div class="options"><ol><li>1. wagged</li><li>2. it's</li><li>3. when</li><li>4. its</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 2. it's</p><p class="rationale"><strong>ไวยากรณ์เรื่อง:</strong> Its vs. It's<br><strong>เหตุผล:</strong> 'It's' เป็นรูปย่อของ 'it is' ส่วน 'its' เป็นคำสรรพนามแสดงความเป็นเจ้าของ (ของมัน) ในที่นี้ต้องใช้ 'its tail' (หางของมัน)</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">44. I promise I ___________ tell anyone your secret.</p>
+                    <div class="options"><ol><li>1. am not</li><li>2. don't</li><li>3. won't</li><li>4. haven't</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 3. won't</p><p class="rationale"><strong>ไวยากรณ์เรื่อง:</strong> Future with 'will'<br><strong>เหตุผล:</strong> เราใช้ 'will/won't' สำหรับการสัญญา (promise) และการตัดสินใจที่เกิดขึ้นทันที</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">45. She is ___________ beautiful ___________ her sister.</p>
+                    <div class="options"><ol><li>1. as, as</li><li>2. so, as</li><li>3. more, than</li><li>4. the, of</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 1. as, as</p><p class="rationale"><strong>ไวยากรณ์เรื่อง:</strong> Comparison of Equality<br><strong>เหตุผล:</strong> โครงสร้าง 'as + adjective + as' ใช้เพื่อเปรียบเทียบสิ่งที่เท่ากัน</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">46. (Error) There (1)<u>is</u> (2)<u>many</u> beautiful flowers (3)<u>in</u> the (4)<u>park</u>.</p>
+                    <div class="options"><ol><li>1. is</li><li>2. many</li><li>3. in</li><li>4. park</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 1. is</p><p class="rationale"><strong>ไวยากรณ์เรื่อง:</strong> There is / There are<br><strong>เหตุผล:</strong> เราใช้ 'There are' กับคำนามพหูพจน์ (many beautiful flowers)</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">47. My keys ___________ by my brother yesterday.</p>
+                    <div class="options"><ol><li>1. was found</li><li>2. were found</li><li>3. found</li><li>4. find</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 2. were found</p><p class="rationale"><strong>ไวยากรณ์เรื่อง:</strong> Passive Voice (Past Simple)<br><strong>เหตุผล:</strong> ประธาน 'My keys' (พหูพจน์) เป็นผู้ถูกกระทำ (ถูกพบ) ในอดีต จึงใช้โครงสร้าง were + V3</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">48. He has ___________ to China three times.</p>
+                    <div class="options"><ol><li>1. went</li><li>2. gone</li><li>3. been</li><li>4. being</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 3. been</p><p class="rationale"><strong>ไวยากรณ์เรื่อง:</strong> Been vs. Gone<br><strong>เหตุผล:</strong> 'has been' หมายถึง เคยไปและกลับมาแล้ว (เป็นประสบการณ์) ส่วน 'has gone' หมายถึง ไปแล้วและตอนนี้ยังไม่กลับมา</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">49. (Error) If I (1)<u>were</u> you, I (2)<u>will study</u> harder (3)<u>for</u> the (4)<u>exam</u>.</p>
+                    <div class="options"><ol><li>1. were</li><li>2. will study</li><li>3. for</li><li>4. exam</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 2. will study</p><p class="rationale"><strong>ไวยากรณ์เรื่อง:</strong> Second Conditional<br><strong>เหตุผล:</strong> ใช้สำหรับให้คำแนะนำหรือพูดถึงเหตุการณ์สมมติในปัจจุบัน/อนาคต โครงสร้างคือ If + Past Simple, would + V1. ดังนั้นที่ถูกต้องคือ 'would study'</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">50. She avoids ___________ junk food because it's unhealthy.</p>
+                    <div class="options"><ol><li>1. to eat</li><li>2. eat</li><li>3. ate</li><li>4. eating</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 4. eating</p><p class="rationale"><strong>ไวยากรณ์เรื่อง:</strong> Gerunds<br><strong>เหตุผล:</strong> คำกริยา 'avoid' ต้องตามด้วย Gerund (V-ing) เสมอ</p></div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- ==================== PART III: Vocabulary (25 Items) ==================== -->
+        <div class="test-section">
+            <h2>Part III: Vocabulary (คำศัพท์)</h2>
+            <div class="question-grid">
+                
+                <div class="question-block">
+                    <p class="question-text">51. The movie was very <strong>entertaining</strong>.</p>
+                    <div class="options"><ol><li>1. boring</li><li>2. long</li><li>3. fun and enjoyable</li><li>4. sad</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 3. fun and enjoyable</p><p class="rationale"><strong>เหตุผล:</strong> 'Entertaining' หมายถึง ที่ให้ความบันเทิง, สนุกสนาน<br><strong>คำศัพท์อื่น:</strong> boring (น่าเบื่อ), long (ยาว), sad (เศร้า)</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">52. The opposite of <strong>polite</strong> is ___________.</p>
+                    <div class="options"><ol><li>1. kind</li><li>2. rude</li><li>3. happy</li><li>4. friendly</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 2. rude</p><p class="rationale"><strong>เหตุผล:</strong> 'Polite' (สุภาพ) เป็นคำตรงข้ามกับ 'rude' (หยาบคาย)<br><strong>คำศัพท์อื่น:</strong> kind (ใจดี), happy (มีความสุข), friendly (เป็นมิตร)</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">53. Choose the correctly spelled word.</p>
+                    <div class="options"><ol><li>1. tomorow</li><li>2. tomorrow</li><li>3. tommorow</li><li>4. tomarrow</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 2. tomorrow</p><p class="rationale"><strong>เหตุผล:</strong> 'tomorrow' คือการสะกดที่ถูกต้องของคำว่า 'พรุ่งนี้'</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">54. A person who writes books is an ___________.</p>
+                    <div class="options"><ol><li>1. artist</li><li>2. author</li><li>3. actor</li><li>4. athlete</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 2. author</p><p class="rationale"><strong>เหตุผล:</strong> 'Author' คือนักเขียน หรือผู้ประพันธ์<br><strong>คำศัพท์อื่น:</strong> artist (ศิลปิน), actor (นักแสดง), athlete (นักกีฬา)</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">55. I was late for school, so I had to walk ___________.</p>
+                    <div class="options"><ol><li>1. slowly</li><li>2. quietly</li><li>3. quickly</li><li>4. carefully</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 3. quickly</p><p class="rationale"><strong>เหตุผล:</strong> เมื่อไปโรงเรียนสาย เราจึงต้องเดิน 'อย่างรวดเร็ว' (quickly) เพื่อให้ไปถึงทันเวลา<br><strong>คำศัพท์อื่น:</strong> slowly (อย่างช้าๆ), quietly (อย่างเงียบๆ), carefully (อย่างระมัดระวัง)</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">56. The synonym of <strong>delicious</strong> is ___________.</p>
+                    <div class="options"><ol><li>1. tasty</li><li>2. awful</li><li>3. sweet</li><li>4. fresh</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 1. tasty</p><p class="rationale"><strong>เหตุผล:</strong> 'Delicious' และ 'tasty' เป็นคำเหมือนกัน หมายถึง อร่อย<br><strong>คำศัพท์อื่น:</strong> awful (แย่มาก), sweet (หวาน), fresh (สด)</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">57. The opposite of <strong>empty</strong> is ___________.</p>
+                    <div class="options"><ol><li>1. big</li><li>2. small</li><li>3. full</li><li>4. open</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 3. full</p><p class="rationale"><strong>เหตุผล:</strong> 'Empty' (ว่างเปล่า) เป็นคำตรงข้ามกับ 'full' (เต็ม)<br><strong>คำศัพท์อื่น:</strong> big (ใหญ่), small (เล็ก), open (เปิด)</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">58. Choose the incorrectly spelled word.</p>
+                    <div class="options"><ol><li>1. library</li><li>2. because</li><li>3. freind</li><li>4. beautiful</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 3. freind</p><p class="rationale"><strong>เหตุผล:</strong> คำที่ถูกต้องคือ 'friend' (เพื่อน)</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">59. You use an ___________ to protect yourself from the rain.</p>
+                    <div class="options"><ol><li>1. umbrella</li><li>2. jacket</li><li>3. hat</li><li>4. scarf</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 1. umbrella</p><p class="rationale"><strong>เหตุผล:</strong> 'Umbrella' (ร่ม) เป็นอุปกรณ์หลักที่ใช้กันฝน<br><strong>คำศัพท์อื่น:</strong> jacket (เสื้อแจ็คเก็ต), hat (หมวก), scarf (ผ้าพันคอ)</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">60. He felt very ___________ after running a marathon.</p>
+                    <div class="options"><ol><li>1. bored</li><li>2. excited</li><li>3. tired</li><li>4. relaxed</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 3. tired</p><p class="rationale"><strong>เหตุผล:</strong> การวิ่งมาราธอนเป็นการออกกำลังกายที่หนัก ทำให้รู้สึก 'เหนื่อย' (tired)<br><strong>คำศัพท์อื่น:</strong> bored (เบื่อ), excited (ตื่นเต้น), relaxed (ผ่อนคลาย)</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">61. The synonym of <strong>begin</strong> is ___________.</p>
+                    <div class="options"><ol><li>1. finish</li><li>2. stop</li><li>3. start</li><li>4. continue</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 3. start</p><p class="rationale"><strong>เหตุผล:</strong> 'Begin' และ 'start' เป็นคำเหมือนกัน หมายถึง เริ่มต้น<br><strong>คำศัพท์อื่น:</strong> finish (เสร็จ), stop (หยุด), continue (ทำต่อไป)</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">62. The opposite of <strong>safe</strong> is ___________.</p>
+                    <div class="options"><ol><li>1. easy</li><li>2. dangerous</li><li>3. difficult</li><li>4. secure</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 2. dangerous</p><p class="rationale"><strong>เหตุผล:</strong> 'Safe' (ปลอดภัย) เป็นคำตรงข้ามกับ 'dangerous' (อันตราย)<br><strong>คำศัพท์อื่น:</strong> easy (ง่าย), difficult (ยาก), secure (มั่นคง, ปลอดภัย)</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">63. Choose the correctly spelled word.</p>
+                    <div class="options"><ol><li>1. restaurant</li><li>2. restarant</li><li>3. restuarant</li><li>4. restourant</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 1. restaurant</p><p class="rationale"><strong>เหตุผล:</strong> 'restaurant' คือการสะกดที่ถูกต้องของคำว่า 'ร้านอาหาร'</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">64. A ___________ is a place where you can borrow books.</p>
+                    <div class="options"><ol><li>1. cinema</li><li>2. museum</li><li>3. library</li><li>4. supermarket</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 3. library</p><p class="rationale"><strong>เหตุผล:</strong> 'Library' คือห้องสมุด ซึ่งเป็นสถานที่สำหรับยืมหนังสือ<br><strong>คำศัพท์อื่น:</strong> cinema (โรงภาพยนตร์), museum (พิพิธภัณฑ์), supermarket (ซูเปอร์มาร์เก็ต)</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">65. The weather is ___________ today, with no clouds in the sky.</p>
+                    <div class="options"><ol><li>1. rainy</li><li>2. windy</li><li>3. cloudy</li><li>4. sunny</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 4. sunny</p><p class="rationale"><strong>เหตุผล:</strong> การไม่มีเมฆบนท้องฟ้า (no clouds) เป็นลักษณะของวันที่ 'แดดจัด' (sunny)<br><strong>คำศัพท์อื่น:</strong> rainy (ฝนตก), windy (ลมแรง), cloudy (มีเมฆมาก)</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">66. The synonym of <strong>intelligent</strong> is ___________.</p>
+                    <div class="options"><ol><li>1. stupid</li><li>2. smart</li><li>3. brave</li><li>4. strong</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 2. smart</p><p class="rationale"><strong>เหตุผล:</strong> 'Intelligent' และ 'smart' เป็นคำเหมือนกัน หมายถึง ฉลาด<br><strong>คำศัพท์อื่น:</strong> stupid (โง่), brave (กล้าหาญ), strong (แข็งแรง)</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">67. The opposite of <strong>arrive</strong> is ___________.</p>
+                    <div class="options"><ol><li>1. come</li><li>2. go</li><li>3. leave</li><li>4. enter</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 3. leave</p><p class="rationale"><strong>เหตุผล:</strong> 'Arrive' (มาถึง) เป็นคำตรงข้ามกับ 'leave' (จากไป)<br><strong>คำศัพท์อื่น:</strong> come (มา), go (ไป), enter (เข้า)</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">68. Choose the incorrectly spelled word.</p>
+                    <div class="options"><ol><li>1. vegetable</li><li>2. chocolate</li><li>3. interesting</li><li>4. diffrent</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 4. diffrent</p><p class="rationale"><strong>เหตุผล:</strong> คำที่ถูกต้องคือ 'different' (แตกต่าง)</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">69. My favorite ___________ is winter because I like the cold weather.</p>
+                    <div class="options"><ol><li>1. month</li><li>2. year</li><li>3. season</li><li>4. day</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 3. season</p><p class="rationale"><strong>เหตุผล:</strong> 'Winter' (ฤดูหนาว) เป็นหนึ่งใน 'season' (ฤดูกาล)<br><strong>คำศัพท์อื่น:</strong> month (เดือน), year (ปี), day (วัน)</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">70. She is very ___________ and always says "please" and "thank you".</p>
+                    <div class="options"><ol><li>1. polite</li><li>2. shy</li><li>3. quiet</li><li>4. serious</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 1. polite</p><p class="rationale"><strong>เหตุผล:</strong> การพูด "please" และ "thank you" เป็นลักษณะของคน 'สุภาพ' (polite)<br><strong>คำศัพท์อื่น:</strong> shy (ขี้อาย), quiet (เงียบ), serious (จริงจัง)</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">71. The synonym of <strong>beautiful</strong> is ___________.</p>
+                    <div class="options"><ol><li>1. ugly</li><li>2. pretty</li><li>3. old</li><li>4. new</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 2. pretty</p><p class="rationale"><strong>เหตุผล:</strong> 'Beautiful' และ 'pretty' เป็นคำเหมือนกัน หมายถึง สวย, น่ารัก<br><strong>คำศัพท์อื่น:</strong> ugly (น่าเกลียด), old (เก่า), new (ใหม่)</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">72. The opposite of <strong>cheap</strong> is ___________.</p>
+                    <div class="options"><ol><li>1. expensive</li><li>2. small</li><li>3. nice</li><li>4. bad</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 1. expensive</p><p class="rationale"><strong>เหตุผล:</strong> 'Cheap' (ราคาถูก) เป็นคำตรงข้ามกับ 'expensive' (ราคาแพง)<br><strong>คำศัพท์อื่น:</strong> small (เล็ก), nice (ดี), bad (แย่)</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">73. Choose the correctly spelled word.</p>
+                    <div class="options"><ol><li>1. adress</li><li>2. addres</li><li>3. address</li><li>4. adres</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 3. address</p><p class="rationale"><strong>เหตุผล:</strong> 'address' คือการสะกดที่ถูกต้องของคำว่า 'ที่อยู่'</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">74. A ___________ is a doctor for animals.</p>
+                    <div class="options"><ol><li>1. nurse</li><li>2. dentist</li><li>3. surgeon</li><li>4. vet</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 4. vet</p><p class="rationale"><strong>เหตุผล:</strong> 'Vet' (veterinarian) คือสัตวแพทย์<br><strong>คำศัพท์อื่น:</strong> nurse (พยาบาล), dentist (ทันตแพทย์), surgeon (ศัลยแพทย์)</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">75. The story was very ___________, and I couldn't wait to see what happened next.</p>
+                    <div class="options"><ol><li>1. boring</li><li>2. sad</li><li>3. exciting</li><li>4. funny</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 3. exciting</p><p class="rationale"><strong>เหตุผล:</strong> การที่รอไม่ไหวที่จะรู้ว่าจะเกิดอะไรขึ้นต่อไป เป็นลักษณะของเรื่องราวที่ 'น่าตื่นเต้น' (exciting)<br><strong>คำศัพท์อื่น:</strong> boring (น่าเบื่อ), sad (เศร้า), funny (ตลก)</p></div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- ==================== PART IV: Reading Comprehension (25 Items) ==================== -->
+        <div class="test-section">
+            <h2>Part IV: Reading Comprehension (การอ่านเพื่อความเข้าใจ)</h2>
+            
+            <div class="reading-passage">
+                <h3 style="text-align:left; color:#333;">Passage 1 (Items 76-80)</h3>
+                <p style="text-align:center; font-weight:bold;">NOTICE: School Fun Fair!</p>
+                <p><strong>Date:</strong> Saturday, October 25th<br>
+                <strong>Time:</strong> 10:00 AM - 4:00 PM<br>
+                <strong>Location:</strong> School Playground
+                </p>
+                <p>Join us for a day of fun, games, and food! We will have a bouncy castle, face painting, and many exciting game stalls. Food stalls will sell popcorn, hot dogs, and ice cream. All money raised will be used to buy new books for the school library. Everyone is welcome! Bring your family and friends!</p>
+            </div>
+            <div class="question-grid">
+                <div class="question-block"><p class="question-text">76. What is this notice about?</p><div class="options"><ol><li>1. A school sports day.</li><li>2. A school concert.</li><li>3. A fun fair at a school.</li><li>4. A book sale.</li></ol></div><button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button><div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 3. A fun fair at a school.</p><p class="rationale"><strong>เหตุผล:</strong> หัวข้อของประกาศคือ "School Fun Fair!"</p></div></div>
+                <div class="question-block"><p class="question-text">77. When will the fun fair take place?</p><div class="options"><ol><li>1. On a Sunday.</li><li>2. In the evening.</li><li>3. On October 25th.</li><li>4. For the whole weekend.</li></ol></div><button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button><div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 3. On October 25th.</p><p class="rationale"><strong>เหตุผล:</strong> ประกาศระบุวันที่คือ "Saturday, October 25th."</p></div></div>
+                <div class="question-block"><p class="question-text">78. Which activity is NOT mentioned in the notice?</p><div class="options"><ol><li>1. Face painting.</li><li>2. A magic show.</li><li>3. A bouncy castle.</li><li>4. Game stalls.</li></ol></div><button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button><div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 2. A magic show.</p><p class="rationale"><strong>เหตุผล:</strong> ในประกาศมีการกล่าวถึง bouncy castle, face painting, และ game stalls แต่ไม่มีการกล่าวถึง magic show</p></div></div>
+                <div class="question-block"><p class="question-text">79. Where will the money from the fun fair go?</p><div class="options"><ol><li>1. To the teachers' salaries.</li><li>2. To buy new sports equipment.</li><li>3. To buy new library books.</li><li>4. To repair the school playground.</li></ol></div><button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button><div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 3. To buy new library books.</p><p class="rationale"><strong>เหตุผล:</strong> ประกาศระบุว่า "All money raised will be used to buy new books for the school library."</p></div></div>
+                <div class="question-block"><p class="question-text">80. Who is invited to the fun fair?</p><div class="options"><ol><li>1. Only students.</li><li>2. Only parents.</li><li>3. Only teachers.</li><li>4. Everyone.</li></ol></div><button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button><div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 4. Everyone.</p><p class="rationale"><strong>เหตุผล:</strong> ประโยคสุดท้ายกล่าวว่า "Everyone is welcome! Bring your family and friends!"</p></div></div>
+            </div>
+
+            <div class="reading-passage">
+                <h3 style="text-align:left; color:#333;">Passage 2 (Items 81-87)</h3>
+                <p>My name is Alex, and my favorite hobby is gardening. I have a small garden in my backyard where I grow vegetables and flowers. Every morning, I wake up early to water my plants. I love watching them grow from tiny seeds into big, healthy plants. My favorite vegetables to grow are tomatoes and cucumbers because they are easy to grow and taste delicious in salads.</p>
+                <p>Gardening is a very relaxing activity for me. When I am in my garden, I forget about all my worries. I like the feeling of the soil in my hands and the smell of fresh flowers. My family also enjoys the garden. My mom loves to use the fresh vegetables for cooking, and my little sister likes to help me water the flowers. It's a hobby that brings my whole family together. I think everyone should try gardening. It's a great way to connect with nature and enjoy fresh, healthy food.</p>
+            </div>
+            <div class="question-grid">
+                <div class="question-block"><p class="question-text">81. What is Alex's favorite hobby?</p><div class="options"><ol><li>1. Cooking.</li><li>2. Reading.</li><li>3. Gardening.</li><li>4. Playing sports.</li></ol></div><button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button><div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 3. Gardening.</p><p class="rationale"><strong>เหตุผล:</strong> ประโยคแรกของเรื่องระบุว่า "my favorite hobby is gardening."</p></div></div>
+                <div class="question-block"><p class="question-text">82. What does Alex do every morning?</p><div class="options"><ol><li>1. He cooks breakfast.</li><li>2. He plays in the backyard.</li><li>3. He reads a book.</li><li>4. He waters his plants.</li></ol></div><button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button><div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 4. He waters his plants.</p><p class="rationale"><strong>เหตุผล:</strong> ในเรื่องกล่าวว่า "Every morning, I wake up early to water my plants."</p></div></div>
+                <div class="question-block"><p class="question-text">83. Why does Alex like growing tomatoes and cucumbers?</p><div class="options"><ol><li>1. Because they are big.</li><li>2. Because they are easy to grow and taste good.</li><li>3. Because his sister likes them.</li><li>4. Because they have beautiful flowers.</li></ol></div><button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button><div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 2. Because they are easy to grow and taste good.</p><p class="rationale"><strong>เหตุผล:</strong> ในเรื่องระบุว่า "because they are easy to grow and taste delicious in salads."</p></div></div>
+                <div class="question-block"><p class="question-text">84. How does gardening make Alex feel?</p><div class="options"><ol><li>1. Tired.</li><li>2. Worried.</li><li>3. Relaxed.</li><li>4. Bored.</li></ol></div><button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button><div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 3. Relaxed.</p><p class="rationale"><strong>เหตุผล:</strong> ประโยคแรกของย่อหน้าที่สองคือ "Gardening is a very relaxing activity for me."</p></div></div>
+                <div class="question-block"><p class="question-text">85. Who in Alex's family uses the vegetables for cooking?</p><div class="options"><ol><li>1. Alex.</li><li>2. His sister.</li><li>3. His mom.</li><li>4. His dad.</li></ol></div><button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button><div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 3. His mom.</p><p class="rationale"><strong>เหตุผล:</strong> ในเรื่องกล่าวว่า "My mom loves to use the fresh vegetables for cooking..."</p></div></div>
+                <div class="question-block"><p class="question-text">86. The word "delicious" in the first paragraph means...</p><div class="options"><ol><li>1. very tasty.</li><li>2. very beautiful.</li><li>3. very healthy.</li><li>4. very big.</li></ol></div><button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button><div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 1. very tasty.</p><p class="rationale"><strong>เหตุผล:</strong> 'Delicious' หมายถึง อร่อยมาก ซึ่งมีความหมายเหมือนกับ 'very tasty'</p></div></div>
+                <div class="question-block"><p class="question-text">87. What is the main idea of the second paragraph?</p><div class="options"><ol><li>1. Gardening is a difficult hobby.</li><li>2. Alex's family does not like the garden.</li><li>3. Gardening is a relaxing hobby that the whole family can enjoy.</li><li>4. Fresh vegetables are expensive.</li></ol></div><button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button><div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 3. Gardening is a relaxing hobby that the whole family can enjoy.</p><p class="rationale"><strong>เหตุผล:</strong> ย่อหน้าที่สองพูดถึงความรู้สึกผ่อนคลายของ Alex และวิธีที่สมาชิกในครอบครัวมีส่วนร่วมและมีความสุขกับสวน</p></div></div>
+            </div>
+
+            <div class="reading-passage">
+                <h3 style="text-align:left; color:#333;">Passage 3 (Items 88-100)</h3>
+                <p>Dolphins are intelligent marine mammals known for their playful behavior. They are found in oceans all over the world. Dolphins are carnivores, mostly eating fish and squid. They live in social groups called pods, which can have from a dozen to over a thousand members. They (88)___________ with each other using a variety of clicks, whistles, and other sounds. One of their most amazing abilities is echolocation. They make a sound and then listen for the echo. This helps them (89)___________ objects and hunt for food in dark water.</p>
+                <p>Dolphins are warm-blooded, which means they keep their body temperature constant, (90)___________ of the water temperature around them. They breathe air through a blowhole located on top of their heads. They need to come to the surface of the water regularly to breathe. They are also known for being very (91)___________ animals. They often leap out of the water, ride waves, and play with each other. This behavior is not just for fun; it also helps them communicate and bond with other members of their pod.</p>
+                <p>Unfortunately, dolphins (92)___________ many threats from humans. Pollution, fishing nets, and habitat loss are major dangers. Many dolphins get accidentally caught in fishing nets and cannot come up for air. It is (93)___________ for us to protect these amazing creatures and their ocean homes. By reducing pollution and supporting sustainable fishing, we can (94)___________ a difference. Learning more about dolphins is the first step. When people understand how special these animals are, they are more (95)___________ to want to protect them. We must work together to (96)___________ that dolphins continue to swim freely in our oceans for many years to come. Their (97)___________ is in our hands. We have a (98)___________ to keep them safe. Future (99)___________ should also have the chance to see these (100)___________ animals.</p>
+            </div>
+            <div class="question-grid">
+                <div class="question-block"><p class="question-text">88.</p><div class="options"><ol><li>1. fight</li><li>2. communicate</li><li>3. see</li><li>4. eat</li></ol></div><button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button><div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 2. communicate</p><p class="rationale"><strong>เหตุผล:</strong> บริบทของประโยคพูดถึงการใช้เสียงต่างๆ ซึ่งเป็นวิธีการ 'สื่อสาร' (communicate)</p></div></div>
+                <div class="question-block"><p class="question-text">89.</p><div class="options"><ol><li>1. locate</li><li>2. touch</li><li>3. avoid</li><li>4. eat</li></ol></div><button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button><div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 1. locate</p><p class="rationale"><strong>เหตุผล:</strong> Echolocation ช่วยให้โลมา 'หาตำแหน่ง' (locate) ของวัตถุได้</p></div></div>
+                <div class="question-block"><p class="question-text">90.</p><div class="options"><ol><li>1. because</li><li>2. similar to</li><li>3. regardless</li><li>4. instead</li></ol></div><button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button><div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 3. regardless</p><p class="rationale"><strong>เหตุผล:</strong> 'regardless of' หมายถึง โดยไม่คำนึงถึง ซึ่งเข้ากับบริบทที่ว่าโลมาสามารถรักษาอุณหภูมิร่างกายให้คงที่ได้โดยไม่เกี่ยวกับอุณหภูมิของน้ำ</p></div></div>
+                <div class="question-block"><p class="question-text">91.</p><div class="options"><ol><li>1. dangerous</li><li>2. sad</li><li>3. playful</li><li>4. lazy</li></ol></div><button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button><div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 3. playful</p><p class="rationale"><strong>เหตุผล:</strong> ประโยคถัดมาบรรยายถึงพฤติกรรมการเล่นต่างๆ เช่น การกระโดด, การโต้คลื่น ซึ่งเป็นลักษณะของสัตว์ที่ 'ขี้เล่น' (playful)</p></div></div>
+                <div class="question-block"><p class="question-text">92.</p><div class="options"><ol><li>1. face</li><li>2. give</li><li>3. avoid</li><li>4. create</li></ol></div><button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button><div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 1. face</p><p class="rationale"><strong>เหตุผล:</strong> 'face many threats' หมายถึง เผชิญหน้ากับภัยคุกคามมากมาย</p></div></div>
+                <div class="question-block"><p class="question-text">93.</p><div class="options"><ol><li>1. impossible</li><li>2. important</li><li>3. difficult</li><li>4. unnecessary</li></ol></div><button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button><div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 2. important</p><p class="rationale"><strong>เหตุผล:</strong> บริบทของประโยคเป็นการเรียกร้องให้มีการอนุรักษ์ ดังนั้นมันจึงเป็นเรื่อง 'สำคัญ' (important)</p></div></div>
+                <div class="question-block"><p class="question-text">94.</p><div class="options"><ol><li>1. do</li><li>2. have</li><li>3. take</li><li>4. make</li></ol></div><button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button><div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 4. make</p><p class="rationale"><strong>เหตุผล:</strong> 'make a difference' เป็นสำนวนที่หมายถึง สร้างความเปลี่ยนแปลง (ในทางที่ดีขึ้น)</p></div></div>
+                <div class="question-block"><p class="question-text">95.</p><div class="options"><ol><li>1. likely</li><li>2. unlikely</li><li>3. impossible</li><li>4. able</li></ol></div><button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button><div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 1. likely</p><p class="rationale"><strong>เหตุผล:</strong> 'more likely to' หมายถึง มีแนวโน้มที่จะ... มากกว่า ซึ่งเข้ากับบริบทที่ว่าเมื่อคนเข้าใจก็จะอยากปกป้องมากขึ้น</p></div></div>
+                <div class="question-block"><p class="question-text">96.</p><div class="options"><ol><li>1. forget</li><li>2. ensure</li><li>3. doubt</li><li>4. hope</li></ol></div><button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button><div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 2. ensure</p><p class="rationale"><strong>เหตุผล:</strong> 'ensure' หมายถึง ทำให้แน่ใจว่า... ซึ่งเป็นการแสดงเจตนาที่หนักแน่นในการปกป้อง</p></div></div>
+                <div class="question-block"><p class="question-text">97.</p><div class="options"><ol><li>1. problem</li><li>2. color</li><li>3. future</li><li>4. survival</li></ol></div><button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button><div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 4. survival</p><p class="rationale"><strong>เหตุผล:</strong> บริบททั้งหมดพูดถึงการปกป้องโลมาจากภัยคุกคาม ดังนั้น 'survival' (การอยู่รอด) จึงเป็นคำที่เหมาะสมที่สุด</p></div></div>
+                <div class="question-block"><p class="question-text">98.</p><div class="options"><ol><li>1. choice</li><li>2. question</li><li>3. responsibility</li><li>4. idea</li></ol></div><button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button><div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 3. responsibility</p><p class="rationale"><strong>เหตุผล:</strong> 'responsibility' หมายถึง ความรับผิดชอบ ซึ่งสอดคล้องกับการที่เราต้องดูแลให้พวกมันปลอดภัย</p></div></div>
+                <div class="question-block"><p class="question-text">99.</p><div class="options"><ol><li>1. animals</li><li>2. generations</li><li>3. problems</li><li>4. oceans</li></ol></div><button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button><div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 2. generations</p><p class="rationale"><strong>เหตุผล:</strong> 'Future generations' หมายถึง คนรุ่นหลัง ซึ่งเป็นผู้ที่จะได้รับมรดกทางธรรมชาติที่เราทิ้งไว้</p></div></div>
+                <div class="question-block"><p class="question-text">100.</p><div class="options"><ol><li>1. boring</li><li>2. simple</li><li>3. amazing</li><li>4. common</li></ol></div><button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button><div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 3. amazing</p><p class="rationale"><strong>เหตุผล:</strong> ตลอดทั้งเรื่องบรรยายถึงความสามารถที่น่าทึ่งของโลมา ดังนั้น 'amazing' (น่าทึ่ง) จึงเป็นคำคุณศัพท์ที่เหมาะสมที่สุด</p></div></div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <script>
+        function toggleAnswer(button) {
+            const questionBlock = button.parentElement;
+            const answer = questionBlock.querySelector('.answer-reveal');
+            
+            if (answer.style.display === 'block') {
+                answer.style.display = 'none';
+                button.textContent = 'ดูเฉลย';
+                button.style.backgroundColor = '#d35400';
+            } else {
+                answer.style.display = 'block';
+                button.textContent = 'ซ่อนเฉลย';
+                button.style.backgroundColor = '#c0392b';
+            }
+        }
+    </script>
+
+</body>
+</html>

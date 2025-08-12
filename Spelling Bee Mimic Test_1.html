@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spelling Bee Masterclass by ครูสาลี่</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=kanit:wght@400;600;700&family=poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Kanit', sans-serif;
+            background-color: #F9FAFB;
+        }
+        .font-poppins {
+            font-family: 'Poppins', sans-serif;
+        }
+        .tab-btn.active {
+            background-color: #10B981; /* Emerald-500 */
+            color: white;
+            border-color: #10B981;
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .quiz-option input:checked + label {
+            border-color: #3B82F6; /* Blue-500 */
+            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.4);
+            background-color: #EFF6FF;
+        }
+        .answer-box {
+            display: none;
+        }
+        .answer-box.visible {
+            display: block;
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <div class="container mx-auto p-4 md:p-8">
+        <!-- Header -->
+        <header class="text-center mb-8">
+            <h1 class="text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-emerald-500 to-sky-500">Spelling Bee Masterclass</h1>
+            <p class="text-lg text-gray-600 mt-3 font-semibold">ครูสาลี่ -- อังกฤษฉบับคนเรียนไม่รู้เรื่อง</p>
+        </header>
+
+        <!-- Tab Buttons -->
+        <div class="mb-6 border-b border-gray-200">
+            <nav class="flex flex-wrap -mb-px" id="tab-buttons">
+                <button class="tab-btn active text-lg font-semibold p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300" data-tab="lesson">
+                    📚 บทเรียน (Lesson)
+                </button>
+                <button class="tab-btn text-lg font-semibold p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300" data-tab="summary">
+                    📊 ตารางสรุป (Summary)
+                </button>
+                <button class="tab-btn text-lg font-semibold p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300" data-tab="quiz">
+                    ✏️ แบบฝึกหัด (Quiz)
+                </button>
+            </nav>
+        </div>
+
+        <!-- Tab Content -->
+        <div id="tab-content-container">
+            <!-- 1. Lesson Tab -->
+            <div id="lesson" class="tab-content active">
+                <div class="space-y-6">
+                    <!-- Rule 1 -->
+                    <div class="bg-white p-6 rounded-xl shadow-md border-l-4 border-sky-400">
+                        <h3 class="text-2xl font-bold mb-3 font-poppins">1. I before E, except after C</h3>
+                        <p class="mb-2">กฎคลาสสิก: ใช้ 'i' ก่อน 'e' (<span class="font-poppins">ie</span>) แต่ถ้าตามหลังตัว 'c' ให้ใช้ 'e' ก่อน 'i' (<span class="font-poppins">ei</span>)</p>
+                        <p class="mb-2"><strong>ตัวอย่าง (ie):</strong> <span class="font-poppins text-blue-600 font-semibold">believe, field, piece, chief, priest, thief</span></p>
+                        <p class="mb-2"><strong>ตัวอย่าง (หลัง c):</strong> <span class="font-poppins text-green-600 font-semibold">receive, ceiling, receipt, deceive, conceive</span></p>
+                        <p class="mt-4 bg-yellow-100 border-l-4 border-yellow-400 p-3 rounded">
+                            <strong>ข้อควรระวัง:</strong> กฎนี้มีข้อยกเว้น! โดยเฉพาะเมื่อออกเสียงเหมือน "เอ" เช่น <span class="font-poppins font-semibold">neighbor, weigh, freight, eight</span> หรือคำแปลกๆ อย่าง <span class="font-poppins font-semibold">weird, science, height, foreign, seize</span>
+                        </p>
+                    </div>
+                    <!-- Rule 2 -->
+                    <div class="bg-white p-6 rounded-xl shadow-md border-l-4 border-purple-400">
+                        <h3 class="text-2xl font-bold mb-3 font-poppins">2. Doubling the Final Consonant</h3>
+                        <p class="mb-2">เมื่อเติม suffix (เช่น <span class="font-poppins">-ed, -ing, -er</span>) ให้เบิ้ลพยัญชนะตัวสุดท้าย ถ้าคำนั้นลงท้ายด้วย "สระ 1 ตัว + พยัญชนะ 1 ตัว" (CVC)</p>
+                        <p class="mb-2"><strong>ตัวอย่าง (1 พยางค์):</strong> <span class="font-poppins">run → <strong class="text-purple-600">running</strong>, stop → <strong class="text-purple-600">stopped</strong>, big → <strong class="text-purple-600">bigger</strong>, plan → <strong class="text-purple-600">planning</strong></span></p>
+                        <p class="mb-2"><strong>ตัวอย่าง (หลายพยางค์):</strong> กฎนี้ใช้กับคำหลายพยางค์ได้ด้วย ถ้า stress (เน้นเสียง) อยู่พยางค์สุดท้าย เช่น <span class="font-poppins">begin → <strong class="text-purple-600">beginning</strong>, prefer → <strong class="text-purple-600">preferred</strong></span></p>
+                         <p class="mt-4 bg-yellow-100 border-l-4 border-yellow-400 p-3 rounded">
+                            <strong>ข้อควรระวัง:</strong> ถ้าไม่เน้นเสียงพยางค์สุดท้าย ไม่ต้องเบิ้ล เช่น <span class="font-poppins font-semibold">happen → happening, visit → visiting</span>. และถ้าลงท้ายด้วย <span class="font-poppins">w, x, y</span> ไม่ต้องเบิ้ล เช่น <span class="font-poppins font-semibold">fixing, playing, snowing</span>.
+                        </p>
+                    </div>
+                    <!-- Rule 3 -->
+                    <div class="bg-white p-6 rounded-xl shadow-md border-l-4 border-orange-400">
+                        <h3 class="text-2xl font-bold mb-3 font-poppins">3. Dropping the Silent 'E'</h3>
+                        <p class="mb-2">เมื่อคำลงท้ายด้วย 'e' ไม่ออกเสียง (silent e) และจะเติม suffix ที่ขึ้นต้นด้วยสระ (เช่น <span class="font-poppins">-ing, -able, -ive, -ous</span>) ให้ตัด 'e' ทิ้ง</p>
+                        <p class="mb-2"><strong>ตัวอย่าง:</strong> <span class="font-poppins">hope → <strong class="text-orange-600">hoping</strong>, create → <strong class="text-orange-600">creative</strong>, famous → <strong class="text-orange-600">famous</strong>, move → <strong class="text-orange-600">movable</strong></span></p>
+                        <p class="mt-4 bg-yellow-100 border-l-4 border-yellow-400 p-3 rounded">
+                            <strong>ข้อควรระวัง:</strong> ถ้า suffix ขึ้นต้นด้วยพยัญชนะ (<span class="font-poppins">-ful, -ly, -ment</span>) ไม่ต้องตัด 'e' ทิ้ง เช่น <span class="font-poppins font-semibold">hopeful, lovely, arrangement</span>. ข้อยกเว้นที่เจอบ่อยคือ <span class="font-poppins font-semibold">truly, argument, ninth</span>. และถ้าคำลงท้ายด้วย <span class="font-poppins">-ce</span> หรือ <span class="font-poppins">-ge</span> ให้คง 'e' ไว้เพื่อรักษาเสียง /s/ หรือ /j/ เช่น <span class="font-poppins font-semibold">noticeable, courageous</span>.
+                        </p>
+                    </div>
+                    <!-- Rule 4 -->
+                    <div class="bg-white p-6 rounded-xl shadow-md border-l-4 border-red-400">
+                        <h3 class="text-2xl font-bold mb-3 font-poppins">4. Changing 'Y' to 'I'</h3>
+                        <p class="mb-2">เมื่อคำลงท้ายด้วย 'y' และหน้า 'y' เป็นพยัญชนะ ให้เปลี่ยน 'y' เป็น 'i' ก่อนเติม suffix</p>
+                        <p class="mb-2"><strong>ตัวอย่าง:</strong> <span class="font-poppins">study → <strong class="text-red-600">studies</strong>, happy → <strong class="text-red-600">happiness</strong>, beauty → <strong class="text-red-600">beautiful</strong>, carry → <strong class="text-red-600">carried</strong></span></p>
+                        <p class="mt-4 bg-yellow-100 border-l-4 border-yellow-400 p-3 rounded">
+                            <strong>ข้อควรระวัง:</strong> ถ้าหน้า 'y' เป็นสระ (a, e, i, o, u) ไม่ต้องเปลี่ยน เช่น <span class="font-poppins font-semibold">play → plays, boy → boys</span>. และเมื่อเติม <span class="font-poppins">-ing</span> ก็ไม่ต้องเปลี่ยน 'y' เพื่อไม่ให้มี 'i' สองตัวติดกัน เช่น <span class="font-poppins font-semibold">studying, trying, carrying</span>.
+                        </p>
+                    </div>
+                    <!-- Rule 5 -->
+                     <div class="bg-white p-6 rounded-xl shadow-md border-l-4 border-teal-400">
+                        <h3 class="text-2xl font-bold mb-3 font-poppins">5. Plurals: -s vs -es</h3>
+                        <p class="mb-2">ส่วนใหญ่เติม <span class="font-poppins">-s</span> เพื่อทำเป็นพหูพจน์ แต่ถ้าคำลงท้ายด้วย <span class="font-poppins">s, x, z, ch, sh</span> ให้เติม <span class="font-poppins">-es</span></p>
+                        <p class="mb-2"><strong>ตัวอย่าง (-s):</strong> <span class="font-poppins text-teal-600 font-semibold">cat → cats, book → books, day → days</span></p>
+                        <p class="mb-2"><strong>ตัวอย่าง (-es):</strong> <span class="font-poppins text-teal-600 font-semibold">bus → buses, box → boxes, watch → watches, dish → dishes</span></p>
+                        <p class="mt-4 bg-yellow-100 border-l-4 border-yellow-400 p-3 rounded">
+                            <strong>ข้อควรระวัง:</strong> คำที่ลงท้ายด้วย 'o' บางคำเติม -s (photo, piano) บางคำเติม -es (potato, tomato) และมีคำพหูพจน์ที่เปลี่ยนรูป (irregular plurals) เช่น <span class="font-poppins font-semibold">man → men, child → children, foot → feet, mouse → mice, person → people</span>.
+                        </p>
+                    </div>
+                    <!-- Rule 6 -->
+                    <div class="bg-white p-6 rounded-xl shadow-md border-l-4 border-indigo-400">
+                        <h3 class="text-2xl font-bold mb-3 font-poppins">6. Silent Letters</h3>
+                        <p class="mb-2">ภาษาอังกฤษมีคำจำนวนมากที่มีตัวอักษรที่เขียนแต่ไม่ออกเสียง ต้องอาศัยการจำ</p>
+                        <p class="mb-2"><strong>ตัวอย่าง:</strong></p>
+                        <ul class="list-none pl-4 space-y-1 font-poppins font-semibold text-indigo-600">
+                            <li><strong>k</strong>nife, <strong>k</strong>nowledge, <strong>k</strong>nock</li>
+                            <li><strong>w</strong>rite, <strong>w</strong>rong, ans<strong>w</strong>er</li>
+                            <li>de<strong>b</strong>t, dou<strong>b</strong>t, plum<strong>b</strong>er</li>
+                            <li><strong>p</strong>sychology, <strong>p</strong>neumonia</li>
+                            <li>i<strong>s</strong>land, ai<strong>s</strong>le</li>
+                            <li>we<strong>d</strong>nesday, han<strong>d</strong>some</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. Summary Tab -->
+            <div id="summary" class="tab-content">
+                 <div class="bg-white p-6 rounded-xl shadow-lg">
+                    <h3 class="text-2xl font-bold mb-4">ตารางสรุปกฎการสะกดคำ</h3>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead class="bg-gray-100">
+                                <tr>
+                                    <th class="p-3 font-bold uppercase text-gray-600 border border-gray-300">กฎ (Rule)</th>
+                                    <th class="p-3 font-bold uppercase text-gray-600 border border-gray-300">คำอธิบาย (Explanation)</th>
+                                    <th class="p-3 font-bold uppercase text-gray-600 border border-gray-300">ตัวอย่าง (Example)</th>
+                                    <th class="p-3 font-bold uppercase text-gray-600 border border-gray-300">ข้อควรระวัง (Exception)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="hover:bg-gray-50">
+                                    <td class="p-3 font-semibold border border-gray-200 font-poppins">I before E</td>
+                                    <td class="p-3 border border-gray-200">ใช้ 'ie' แต่ถ้าตามหลัง 'c' ให้ใช้ 'ei'</td>
+                                    <td class="p-3 border border-gray-200 font-poppins"><span class="text-blue-600">piece</span>, <span class="text-green-600">receive</span></td>
+                                    <td class="p-3 border border-gray-200 font-poppins">neighbor, weird, science</td>
+                                </tr>
+                                <tr class="hover:bg-gray-50">
+                                    <td class="p-3 font-semibold border border-gray-200 font-poppins">Doubling Consonant</td>
+                                    <td class="p-3 border border-gray-200">คำที่ลงท้ายด้วย CVC ให้เบิ้ลพยัญชนะตัวท้ายก่อนเติม suffix</td>
+                                    <td class="p-3 border border-gray-200 font-poppins text-purple-600">running, beginning</td>
+                                    <td class="p-3 border border-gray-200 font-poppins">fixing, happening</td>
+                                </tr>
+                                <tr class="hover:bg-gray-50">
+                                    <td class="p-3 font-semibold border border-gray-200 font-poppins">Dropping Silent 'E'</td>
+                                    <td class="p-3 border border-gray-200">ตัด 'e' ท้ายคำทิ้ง เมื่อเติม suffix ที่ขึ้นต้นด้วยสระ</td>
+                                    <td class="p-3 border border-gray-200 font-poppins text-orange-600">hoping, creative</td>
+                                    <td class="p-3 border border-gray-200 font-poppins">hopeful, truly, noticeable</td>
+                                </tr>
+                                <tr class="hover:bg-gray-50">
+                                    <td class="p-3 font-semibold border border-gray-200 font-poppins">Changing 'Y' to 'I'</td>
+                                    <td class="p-3 border border-gray-200">เปลี่ยน 'y' เป็น 'i' เมื่อหน้า y เป็นพยัญชนะ ก่อนเติม suffix</td>
+                                    <td class="p-3 border border-gray-200 font-poppins text-red-600">studies, happiness</td>
+                                    <td class="p-3 border border-gray-200 font-poppins">playing, studying</td>
+                                </tr>
+                                <tr class="hover:bg-gray-50">
+                                    <td class="p-3 font-semibold border border-gray-200 font-poppins">Plurals</td>
+                                    <td class="p-3 border border-gray-200">เติม -es หลัง s, x, z, ch, sh นอกนั้นส่วนใหญ่เติม -s</td>
+                                    <td class="p-3 border border-gray-200 font-poppins text-teal-600">cats, watches</td>
+                                    <td class="p-3 border border-gray-200 font-poppins">potato→potatoes, man→men</td>
+                                </tr>
+                                 <tr class="hover:bg-gray-50">
+                                    <td class="p-3 font-semibold border border-gray-200 font-poppins">Silent Letters</td>
+                                    <td class="p-3 border border-gray-200">คำที่มีตัวอักษรที่เขียนแต่ไม่ออกเสียง</td>
+                                    <td class="p-3 border border-gray-200 font-poppins text-indigo-600">know, debt, island</td>
+                                    <td class="p-3 border border-gray-200">ต้องอาศัยการจำและฝึกฝน</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. Quiz Tab -->
+            <div id="quiz" class="tab-content">
+                <div class="bg-white p-6 rounded-xl shadow-lg">
+                    <h3 class="text-2xl font-bold">แบบฝึกหัดทบทวนการสะกดคำ (100 ข้อ)</h3>
+                    <p class="text-gray-600 mb-6">เลือกคำที่สะกดถูกต้อง แล้วกด "เฉลย" เพื่อดูคำตอบ</p>
+                    <div id="quiz-container" class="space-y-8">
+                        <!-- Quiz questions will be injected here by JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- DATA FOR THE QUIZ (100 Words) ---
+        const quizWords = [
+            // A2 Level
+            { id: 1, correct: 'address', options: ['adress', 'addres', 'address', 'addreses'], tip: 'จำว่ามี double D (dd)', definition: 'ที่อยู่' },
+            { id: 2, correct: 'believe', options: ['beleive', 'believe', 'belive', 'beleave'], tip: 'I before E... กฎข้อแรกเลย', definition: 'เชื่อ' },
+            { id: 3, correct: 'beautiful', options: ['beautyful', 'beautiful', 'beautifull', 'beutiful'], tip: 'มาจาก beauty + ful แต่เปลี่ยน y เป็น i', definition: 'สวยงาม' },
+            { id: 4, correct: 'because', options: ['becuase', 'becouse', 'because', 'becase'], tip: 'ท่อง be-ca-use', definition: 'เพราะว่า' },
+            { id: 5, correct: 'bicycle', options: ['bycicle', 'bicyle', 'bicycle', 'bicecle'], tip: 'bi- แปลว่าสอง, cycle แปลว่าวงล้อ', definition: 'จักรยาน' },
+            { id: 6, correct: 'business', options: ['busness', 'buisness', 'business', 'busines'], tip: 'ข้างในมีคำว่า busi (ยุ่ง) อยู่', definition: 'ธุรกิจ' },
+            { id: 7, correct: 'calendar', options: ['calender', 'calendar', 'calandar', 'calindar'], tip: 'ลงท้ายด้วย -dar ไม่ใช่ -der', definition: 'ปฏิทิน' },
+            { id: 8, correct: 'chocolate', options: ['choclate', 'choclate', 'chocolate', 'chocolat'], tip: 'จำว่ามี 3 พยางค์: cho-co-late', definition: 'ช็อกโกแลต' },
+            { id: 9, correct: 'different', options: ['diferent', 'diffrent', 'different', 'differant'], tip: 'มี double F และลงท้ายด้วย -erent', definition: 'แตกต่าง' },
+            { id: 10, correct: 'enough', options: ['enogh', 'enough', 'enought', 'enuf'], tip: 'ough ออกเสียง "af"', definition: 'เพียงพอ' },
+            { id: 11, correct: 'exercise', options: ['exersise', 'excercise', 'exercise', 'exercize'], tip: 'มี c กับ s อยู่ใกล้กัน', definition: 'ออกกำลังกาย' },
+            { id: 12, correct: 'family', options: ['fammily', 'famly', 'family', 'familey'], tip: 'fa-mi-ly', definition: 'ครอบครัว' },
+            { id: 13, correct: 'favourite', options: ['favorite', 'favourite', 'favrite', 'favourit'], tip: 'favourite (UK), favorite (US) ถูกทั้งคู่ แต่นิยมสอนแบบ UK ในหลายที่', definition: 'ที่ชื่นชอบ' },
+            { id: 14, correct: 'friend', options: ['freind', 'friend', 'frind', 'frend'], tip: 'I before E... กฎข้อแรก', definition: 'เพื่อน' },
+            { id: 15, correct: 'government', options: ['goverment', 'government', 'governmant', 'governement'], tip: 'มี n อยู่ตรงกลาง govern-ment', definition: 'รัฐบาล' },
+            { id: 16, correct: 'grammar', options: ['grammer', 'grammar', 'gramar', 'gramer'], tip: 'ลงท้ายด้วย -mar ไม่ใช่ -mer', definition: 'ไวยากรณ์' },
+            { id: 17, correct: 'height', options: ['hieght', 'height', 'hight', 'heigh'], tip: 'ข้อยกเว้นของ I before E', definition: 'ความสูง' },
+            { id: 18, correct: 'hospital', options: ['hospitle', 'hospital', 'hospitall', 'hospitel'], tip: 'ลงท้ายด้วย -tal', definition: 'โรงพยาบาล' },
+            { id: 19, correct: 'important', options: ['importent', 'important', 'importan', 'inportant'], tip: 'ลงท้ายด้วย -ant', definition: 'สำคัญ' },
+            { id: 20, correct: 'interesting', options: ['intresting', 'interesting', 'intersting', 'interestin'], tip: 'inte-rest-ing', definition: 'น่าสนใจ' },
+            { id: 21, correct: 'island', options: ['iland', 'island', 'aisland', 'iseland'], tip: 'มี s ที่ไม่ออกเสียง', definition: 'เกาะ' },
+            { id: 22, correct: 'language', options: ['langage', 'language', 'langauge', 'lenguage'], tip: 'lang-u-age', definition: 'ภาษา' },
+            { id: 23, correct: 'library', options: ['libary', 'library', 'liberry', 'librery'], tip: 'ออกเสียงให้ครบ li-bra-ry', definition: 'ห้องสมุด' },
+            { id: 24, correct: 'listen', options: ['lisen', 'listen', 'lissin', 'listan'], tip: 'มี t ที่ไม่ออกเสียง', definition: 'ฟัง' },
+            { id: 25, correct: 'message', options: ['mesage', 'message', 'massage', 'mesagge'], tip: 'มี double S', definition: 'ข้อความ' },
+            { id: 26, correct: 'minute', options: ['minit', 'minute', 'minuet', 'minite'], tip: 'mi-nute', definition: 'นาที' },
+            { id: 27, correct: 'morning', options: ['morrning', 'morning', 'mornin', 'moring'], tip: 'morn-ing', definition: 'ตอนเช้า' },
+            { id: 28, correct: 'neighbour', options: ['nieghbour', 'neighbour', 'neighbor', 'neihbour'], tip: 'neighbour (UK), neighbor (US) ถูกทั้งคู่', definition: 'เพื่อนบ้าน' },
+            { id: 29, correct: 'often', options: ['offen', 'often', 'ofen', 'oftan'], tip: 'มี t ที่บางครั้งก็ไม่ออกเสียง', definition: 'บ่อยๆ' },
+            { id: 30, correct: 'people', options: ['peeple', 'people', 'peopel', 'pepel'], tip: 'eo อยู่ด้วยกัน', definition: 'ผู้คน' },
+            { id: 31, correct: 'picture', options: ['piture', 'picure', 'picture', 'pictur'], tip: 'pic-ture', definition: 'รูปภาพ' },
+            { id: 32, correct: 'potato', options: ['potatoe', 'potato', 'poteto', 'potata'], tip: 'พหูพจน์เติม -es (potatoes)', definition: 'มันฝรั่ง' },
+            { id: 33, correct: 'question', options: ['qestion', 'question', 'quesion', 'qustion'], tip: 'quest-ion', definition: 'คำถาม' },
+            { id: 34, correct: 'really', options: ['realy', 'realy', 'really', 'realy'], tip: 'มาจาก real + ly', definition: 'จริงๆ' },
+            { id: 35, correct: 'remember', options: ['rember', 'remember', 'remamber', 'remeber'], tip: 're-mem-ber', definition: 'จำ' },
+            { id: 36, correct: 'restaurant', options: ['restarant', 'restuarant', 'restaurant', 'restaraunt'], tip: 'rest-AU-rant', definition: 'ร้านอาหาร' },
+            { id: 37, correct: 'sandwich', options: ['sandwhich', 'sandwich', 'sandwitch', 'sandwish'], tip: 'มี d ที่แทบไม่ออกเสียง', definition: 'แซนด์วิช' },
+            { id: 38, correct: 'saturday', options: ['saterday', 'saturday', 'satturday', 'saturdy'], tip: 'sat-ur-day', definition: 'วันเสาร์' },
+            { id: 39, correct: 'science', options: ['sciense', 'science', 'sceince', 'sience'], tip: 'ข้อยกเว้นของ I before E', definition: 'วิทยาศาสตร์' },
+            { id: 40, correct: 'special', options: ['specal', 'special', 'spesial', 'specail'], tip: 'spe-cial', definition: 'พิเศษ' },
+            { id: 41, correct: 'sugar', options: ['shugar', 'sugar', 'suger', 'shuger'], tip: 'su ออกเสียงเหมือน shu', definition: 'น้ำตาล' },
+            { id: 42, correct: 'surprise', options: ['suprise', 'surprise', 'surprize', 'surpise'], tip: 'มี r สองตัว sur-prise', definition: 'ประหลาดใจ' },
+            { id: 43, correct: 'telephone', options: ['telefone', 'telephone', 'telephon', 'telaphone'], tip: 'tele-phone', definition: 'โทรศัพท์' },
+            { id: 44, correct: 'thought', options: ['throught', 'thought', 'thougt', 'thougth'], tip: 'ough ออกเสียง "ot"', definition: 'ความคิด' },
+            { id: 45, correct: 'together', options: ['togather', 'together', 'togeder', 'togeather'], tip: 'to-ge-ther', definition: 'ด้วยกัน' },
+            { id: 46, correct: 'tomorrow', options: ['tomorow', 'tommorrow', 'tomorrow', 'tommorow'], tip: 'มี m หนึ่งตัว r สองตัว', definition: 'วันพรุ่งนี้' },
+            { id: 47, correct: 'vegetable', options: ['vegtable', 'vegetable', 'vegeble', 'vegetabel'], tip: 'vege-table', definition: 'ผัก' },
+            { id: 48, correct: 'weather', options: ['wether', 'weather', 'weater', 'wheather'], tip: 'wea-ther', definition: 'สภาพอากาศ' },
+            { id: 49, correct: 'wednesday', options: ['wensday', 'wednesday', 'wedensday', 'wendesday'], tip: 'มี d ที่ไม่ออกเสียง Wed-nes-day', definition: 'วันพุธ' },
+            { id: 50, correct: 'wonderful', options: ['wonderfull', 'wonderful', 'wonderfl', 'wonderfull'], tip: 'wonder + ful (มี l ตัวเดียว)', definition: 'มหัศจรรย์' },
+            // B1-B2 Level
+            { id: 51, correct: 'accommodate', options: ['acommodate', 'accommodate', 'accomodate', 'acomodate'], tip: 'จำว่ามี 2 คู่: double C, double M', definition: 'จัดหาที่พักให้, อำนวยความสะดวก' },
+            { id: 52, correct: 'achievement', options: ['acheivement', 'achievment', 'achievement', 'achevement'], tip: 'achieve + ment', definition: 'ความสำเร็จ' },
+            { id: 53, correct: 'apparently', options: ['aparently', 'apparantly', 'apparently', 'apparentally'], tip: 'apparent + ly', definition: 'อย่างเห็นได้ชัด' },
+            { id: 54, correct: 'argument', options: ['arguement', 'argument', 'argumant', 'arguement'], tip: 'ข้อยกเว้น: argue แต่พอเติม -ment ตัด e ทิ้ง', definition: 'การโต้เถียง' },
+            { id: 55, correct: 'assassinate', options: ['assasinate', 'assassinate', 'assasinnate', 'assassinnate'], tip: 'มี double s สองคู่ (ass-ass-in-ate)', definition: 'ลอบสังหาร' },
+            { id: 56, correct: 'basically', options: ['basicly', 'basically', 'basicaly', 'basiclly'], tip: 'basic + ally', definition: 'โดยพื้นฐานแล้ว' },
+            { id: 57, correct: 'beginning', options: ['begining', 'beginning', 'beginnin', 'beggining'], tip: 'begin เบิ้ล n ก่อนเติม -ing', definition: 'การเริ่มต้น' },
+            { id: 58, correct: 'bureaucracy', options: ['bureacracy', 'bureaucracy', 'beaurocracy', 'burocracy'], tip: 'bureau-cracy', definition: 'ระบบราชการ' },
+            { id: 59, correct: 'cemetery', options: ['cemetary', 'cemetery', 'cematery', 'cemetry'], tip: 'ลงท้ายด้วย -ery ไม่ใช่ -ary', definition: 'สุสาน' },
+            { id: 60, correct: 'colleague', options: ['collegue', 'colleague', 'collaegue', 'collegue'], tip: 'co-league (เหมือน league ที่แปลว่าลีก)', definition: 'เพื่อนร่วมงาน' },
+            { id: 61, correct: 'committee', options: ['commitee', 'committee', 'comittee', 'committe'], tip: 'มี 3 คู่: double M, double T, double E', definition: 'คณะกรรมการ' },
+            { id: 62, correct: 'conscience', options: ['concience', 'conscience', 'consciense', 'consience'], tip: 'มี science (วิทยาศาสตร์) ซ่อนอยู่: con-SCIENCE', definition: 'มโนธรรม, ความรู้สึกผิดชอบชั่วดี' },
+            { id: 63, correct: 'conscious', options: ['concious', 'conscious', 'consious', 'conscius'], tip: 'con-sci-ous', definition: 'ที่ตระหนักรู้, มีสติ' },
+            { id: 64, correct: 'definitely', options: ['definately', 'definitly', 'definitely', 'definitley'], tip: 'ข้างในมีคำว่า finite (จำกัด) อยู่ ไม่ใช่ nate', definition: 'อย่างแน่นอน' },
+            { id: 65, correct: 'disappear', options: ['dissapear', 'disappear', 'disapear', 'dissappear'], tip: 'dis + appear (มี p สองตัว)', definition: 'หายไป' },
+            { id: 66, correct: 'disappoint', options: ['dissapoint', 'disappoint', 'disapoint', 'dissappoint'], tip: 'dis + appoint (มี p สองตัว)', definition: 'ทำให้ผิดหวัง' },
+            { id: 67, correct: 'embarrass', options: ['embarass', 'embarras', 'embaress', 'embarrass'], tip: 'จำว่ามี 2 คู่: double R, double S', definition: 'ทำให้ลำบากใจ, ทำให้อับอาย' },
+            { id: 68, correct: 'environment', options: ['enviroment', 'environment', 'envirenment', 'enviroment'], tip: 'มี n อยู่ตรงกลาง environ-ment', definition: 'สิ่งแวดล้อม' },
+            { id: 69, correct: 'exaggerate', options: ['exagerate', 'exaggerate', 'exagarate', 'exadgerate'], tip: 'มี g สองตัว', definition: 'พูดเกินจริง' },
+            { id: 70, correct: 'existence', options: ['existance', 'existence', 'existanse', 'existenze'], tip: 'ลงท้ายด้วย -ence', definition: 'การมีอยู่' },
+            { id: 71, correct: 'foreign', options: ['foriegn', 'foreign', 'forign', 'forein'], tip: 'เป็นข้อยกเว้นของกฎ I before E', definition: 'ต่างประเทศ' },
+            { id: 72, correct: 'forty', options: ['fourty', 'forty', 'fourty', 'fourtie'], tip: 'ไม่มี u เหมือนคำว่า four', definition: 'สี่สิบ' },
+            { id: 73, correct: 'furthermore', options: ['futhermore', 'furthermore', 'furthermor', 'ferthermore'], tip: 'further + more', definition: 'ยิ่งไปกว่านั้น' },
+            { id: 74, correct: 'grateful', options: ['greatful', 'grateful', 'gratful', 'graetful'], tip: 'มาจากคำว่า gratitude ไม่ใช่ great (ยอดเยี่ยม)', definition: 'รู้สึกขอบคุณ' },
+            { id: 75, correct: 'guarantee', options: ['garantee', 'guarantee', 'gaurantee', 'guarantie'], tip: 'gua-ran-tee', definition: 'รับประกัน' },
+            { id: 76, correct: 'harass', options: ['harrass', 'harass', 'harras', 'haras'], tip: 'มี r หนึ่งตัว s สองตัว', definition: 'คุกคาม' },
+            { id: 77, correct: 'immediately', options: ['imediately', 'immidiately', 'immediately', 'immediatly'], tip: 'จำว่ามี double M และลงท้ายด้วย -ate + ly', definition: 'ทันทีทันใด' },
+            { id: 78, correct: 'independent', options: ['independant', 'independent', 'indipendent', 'indepandent'], tip: 'ลงท้ายด้วย -ent', definition: 'เป็นอิสระ' },
+            { id: 79, correct: 'intelligence', options: ['inteligence', 'intelligence', 'intelligense', 'inteligense'], tip: 'มี l สองตัว', definition: 'ความฉลาด, สติปัญญา' },
+            { id: 80, correct: 'jewelry', options: ['jewelery', 'jewellery', 'jewelry', 'jewlry'], tip: 'jewelry (US), jewellery (UK) ถูกทั้งคู่', definition: 'เครื่องประดับ' },
+            { id: 81, correct: 'judgment', options: ['judgement', 'judgment', 'judgmant', 'judgament'], tip: 'judgment (US), judgement (UK) ถูกทั้งคู่', definition: 'การตัดสิน' },
+            { id: 82, correct: 'knowledge', options: ['knowlege', 'knowledge', 'knowlege', 'knowleadge'], tip: 'มี d ที่ไม่ออกเสียง และมี ledge (ขอบ) อยู่ข้างหลัง know', definition: 'ความรู้' },
+            { id: 83, correct: 'liaison', options: ['liason', 'liaison', 'liasion', 'leason'], tip: 'คำยืมจากฝรั่งเศส จำว่า i-a-i เรียงกัน', definition: 'การประสานงาน' },
+            { id: 84, correct: 'maintenance', options: ['maintanance', 'maintenance', 'maintenence', 'maintainance'], tip: 'main-te-nance', definition: 'การบำรุงรักษา' },
+            { id: 85, correct: 'millennium', options: ['milennium', 'millenium', 'millennium', 'milennium'], tip: 'อีกคำที่มี 2 คู่: double L, double N', definition: 'สหัสวรรษ (1,000 ปี)' },
+            { id: 86, correct: 'necessary', options: ['neccessary', 'necesary', 'necessary', 'neccesary'], tip: 'จำว่ามี C 1 ตัว แต่ S 2 ตัว (One Collar, two Sleeves)', definition: 'จำเป็น' },
+            { id: 87, correct: 'occasionally', options: ['ocasionally', 'occasionally', 'ocassionally', 'ocasionaly'], tip: 'มี c สองตัว s หนึ่งตัว', definition: 'เป็นครั้งคราว' },
+            { id: 88, correct: 'occurrence', options: ['occurence', 'occurrance', 'occurrence', 'occurence'], tip: 'มี 2 คู่: double C, double R', definition: 'เหตุการณ์ที่เกิดขึ้น' },
+            { id: 89, correct: 'privilege', options: ['priviledge', 'privilege', 'privilage', 'privelege'], tip: 'ไม่มี d อยู่ข้างใน เหมือนคำว่า knowledge', definition: 'สิทธิพิเศษ' },
+            { id: 90, correct: 'pronunciation', options: ['pronounciation', 'pronunciation', 'pronounseation', 'pronounciation'], tip: 'มาจาก pronounce แต่พอเป็นคำนาม ไม่มี o ตัวที่สอง', definition: 'การออกเสียง' },
+            { id: 91, correct: 'psychology', options: ['sychology', 'psychology', 'psycology', 'sycology'], tip: 'มี p ที่ไม่ออกเสียง', definition: 'จิตวิทยา' },
+            { id: 92, correct: 'questionnaire', options: ['questionaire', 'questionnaire', 'questonnaire', 'questionnare'], tip: 'มี double N และลงท้ายด้วย -aire', definition: 'แบบสอบถาม' },
+            { id: 93, correct: 'receive', options: ['recieve', 'receive', 'reseive', 'reiceve'], tip: 'I before E, except AFTER C', definition: 'ได้รับ' },
+            { id: 94, correct: 'recommend', options: ['reccommend', 'recommend', 'reccomend', 'recomend'], tip: 'มี c หนึ่งตัว m สองตัว', definition: 'แนะนำ' },
+            { id: 95, correct: 'rhythm', options: ['rythm', 'rhythm', 'rhythem', 'rythem'], tip: 'มี h สองตัวและไม่มีสระเลยนอกจาก y', definition: 'จังหวะ' },
+            { id: 96, correct: 'separate', options: ['seperate', 'separate', 'seperete', 'separete'], tip: 'ตรงกลางมี a rat ซ่อนอยู่: sep-A-RAT-e', definition: 'แยก' },
+            { id: 97, correct: 'sincerely', options: ['sincerly', 'sincerely', 'sincerley', 'sincerelly'], tip: 'sincere + ly', definition: 'อย่างจริงใจ (ใช้ลงท้ายจดหมาย)' },
+            { id: 98, correct: 'successful', options: ['sucessful', 'succesful', 'successful', 'successfull'], tip: 'มี c สองตัว s สองตัว', definition: 'ที่ประสบความสำเร็จ' },
+            { id: 99, correct: 'unnecessary', options: ['unecessary', 'unnecesary', 'unnecessary', 'unneccesary'], tip: 'เหมือน necessary แต่เติม un- ข้างหน้า: double N, one C, double S', definition: 'ไม่จำเป็น' },
+            { id: 100, correct: 'until', options: ['untill', 'until', 'unntil', 'untill'], tip: 'มี l แค่ตัวเดียว (แต่ till มี l สองตัว)', definition: 'จนกระทั่ง' }
+        ];
+
+        // --- TAB SWITCHING LOGIC ---
+        const tabButtons = document.getElementById('tab-buttons');
+        const tabContents = document.querySelectorAll('.tab-content');
+
+        tabButtons.addEventListener('click', (e) => {
+            if (e.target.classList.contains('tab-btn')) {
+                const tabId = e.target.getAttribute('data-tab');
+                tabButtons.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+                e.target.classList.add('active');
+                tabContents.forEach(content => {
+                    content.classList.toggle('active', content.id === tabId);
+                });
+            }
+        });
+
+        // --- QUIZ LOGIC ---
+        const quizContainer = document.getElementById('quiz-container');
+        
+        function shuffle(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        function generateQuiz() {
+            quizContainer.innerHTML = '';
+            
+            quizWords.forEach((word, index) => {
+                const shuffledOptions = shuffle([...word.options]);
+                const optionsHtml = shuffledOptions.map(option => `
+                    <div class="quiz-option relative">
+                        <input type="radio" id="q${index}_${option.replace(/\s/g, '')}" name="q${index}" value="${option}" class="absolute opacity-0 w-0 h-0">
+                        <label for="q${index}_${option.replace(/\s/g, '')}" class="block w-full p-4 border-l-4 border-gray-200 bg-gray-50 rounded-lg cursor-pointer hover:bg-gray-100 transition-colors font-poppins">
+                            ${option}
+                        </label>
+                    </div>
+                `).join('');
+
+                const questionHtml = `
+                    <div class="question-card bg-white p-5 rounded-lg border border-gray-200">
+                        <p class="font-bold text-lg mb-4">ข้อ ${index + 1}.</p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            ${optionsHtml}
+                        </div>
+                        <div class="mt-4">
+                            <button class="show-answer-btn bg-sky-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-sky-600 transition-colors" data-answer-id="${index}">
+                                เฉลย / Show Answer
+                            </button>
+                        </div>
+                        <div id="answer-${index}" class="answer-box mt-4 p-4 rounded-lg bg-emerald-50 border-l-4 border-emerald-400">
+                            <p><strong class="font-semibold">คำตอบที่ถูกต้อง:</strong> <span class="font-poppins text-emerald-700 font-bold">${word.correct}</span></p>
+                            <p class="mt-2"><strong class="font-semibold">ความหมาย:</strong> ${word.definition}</p>
+                            <p class="mt-2">💡 <strong class="font-semibold">วิธีจำ:</strong> ${word.tip}</p>
+                        </div>
+                    </div>
+                `;
+                quizContainer.innerHTML += questionHtml;
+            });
+
+            // Add event listeners to all "Show Answer" buttons
+            document.querySelectorAll('.show-answer-btn').forEach(button => {
+                button.addEventListener('click', () => {
+                    const answerId = button.getAttribute('data-answer-id');
+                    const answerDiv = document.getElementById(`answer-${answerId}`);
+                    answerDiv.classList.toggle('visible');
+                });
+            });
+        }
+
+        // Initial setup
+        window.onload = () => {
+            // Activate the first tab by default
+            document.querySelector('.tab-btn[data-tab="lesson"]').classList.add('active');
+            document.getElementById('lesson').classList.add('active');
+            generateQuiz();
+        };
+
+    </script>
+</body>
+</html>

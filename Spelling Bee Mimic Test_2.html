@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>แบบทดสอบ Spelling Bee ฉบับสมบูรณ์ by ครูสาลี่</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=sarabun:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Sarabun', sans-serif;
+            font-size: 18px; /* Larger base font size */
+            background-color: #f7fafc;
+        }
+        h1, h2, h3 {
+            font-weight: 700;
+        }
+        h1 { font-size: 2.5rem; } /* 40px */
+        h2 { font-size: 1.75rem; } /* 28px */
+        .question-text, .option-label, .explanation {
+            font-size: 1.125rem; /* 18px */
+        }
+        @media (min-width: 768px) {
+            .question-text, .option-label, .explanation {
+                font-size: 1.25rem; /* 20px */
+            }
+        }
+        .section-title {
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            color: white;
+            margin-bottom: 1.5rem;
+        }
+        .answer-box {
+            display: none;
+            animation: fadeIn 0.5s;
+        }
+        .answer-box.visible {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .font-mono {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #e9d8fd;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <div class="container mx-auto p-4 md:p-8">
+        <!-- Header -->
+        <header class="text-center mb-10">
+            <h1 class="text-gray-800">แบบทดสอบวัดระดับทักษะการสะกดคำ</h1>
+            <p class="text-xl text-gray-600 mt-2 font-semibold">ครูสาลี่ -- อังกฤษฉบับคนเรียนไม่รู้เรื่อง</p>
+        </header>
+
+        <!-- Main Test Area -->
+        <div class="space-y-12">
+
+            <!-- Part 1: Correct Spelling -->
+            <section id="part1">
+                <h2 class="section-title bg-gradient-to-r from-sky-500 to-cyan-400">Part 1: Choose the Correct Spelling (15 ข้อ)</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" data-section="1">
+                    <!-- Questions for Part 1 will be injected here -->
+                </div>
+            </section>
+
+            <!-- Part 2: Synonyms & Antonyms -->
+            <section id="part2">
+                <h2 class="section-title bg-gradient-to-r from-purple-500 to-indigo-400">Part 2: Synonyms & Antonyms (15 ข้อ)</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" data-section="2">
+                    <!-- Questions for Part 2 will be injected here -->
+                </div>
+            </section>
+            
+            <!-- Part 3: Jumbled Letters -->
+            <section id="part3">
+                <h2 class="section-title bg-gradient-to-r from-emerald-500 to-green-400">Part 3: Unscramble the Jumbled Letters (15 ข้อ)</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" data-section="3">
+                    <!-- Questions for Part 3 will be injected here -->
+                </div>
+            </section>
+
+            <!-- Part 4: Missing Letters -->
+            <section id="part4">
+                <h2 class="section-title bg-gradient-to-r from-amber-500 to-orange-400">Part 4: Find the Missing Letters (15 ข้อ)</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" data-section="4">
+                    <!-- Questions for Part 4 will be injected here -->
+                </div>
+            </section>
+
+            <!-- Part 5: Misspelled Word in Passage -->
+            <section id="part5">
+                <h2 class="section-title bg-gradient-to-r from-rose-500 to-red-400">Part 5: Find the Misspelled Word in the Passage (15 ข้อ)</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6" data-section="5">
+                    <!-- Questions for Part 5 will be injected here -->
+                </div>
+            </section>
+
+            <!-- Part 6: Extra Letter -->
+            <section id="part6">
+                <h2 class="section-title bg-gradient-to-r from-teal-500 to-cyan-500">Part 6: Find the Word with an Extra Letter (15 ข้อ)</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" data-section="6">
+                    <!-- Questions for Part 6 will be injected here -->
+                </div>
+            </section>
+
+            <!-- Part 7: Which Word is Misspelled -->
+            <section id="part7">
+                <h2 class="section-title bg-gradient-to-r from-blue-500 to-sky-400">Part 7: Which of the following words is misspelled? (15 ข้อ)</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" data-section="7">
+                    <!-- Questions for Part 7 will be injected here -->
+                </div>
+            </section>
+
+            <!-- Part 8: Prefix / Suffix -->
+            <section id="part8">
+                <h2 class="section-title bg-gradient-to-r from-fuchsia-500 to-purple-500">Part 8: Choose the Correct Prefix or Suffix (15 ข้อ)</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" data-section="8">
+                    <!-- Questions for Part 8 will be injected here -->
+                </div>
+            </section>
+
+            <!-- Part 9: Compound Words -->
+            <section id="part9">
+                <h2 class="section-title bg-gradient-to-r from-lime-500 to-green-500">Part 9: Choose the Correct Compound Word (15 ข้อ)</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" data-section="9">
+                    <!-- Questions for Part 9 will be injected here -->
+                </div>
+            </section>
+
+            <!-- Part 10: Sentence with Misspelled Word -->
+            <section id="part10">
+                <h2 class="section-title bg-gradient-to-r from-orange-500 to-yellow-500">Part 10: Find the Sentence with a Misspelled Word (15 ข้อ)</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6" data-section="10">
+                    <!-- Questions for Part 10 will be injected here -->
+                </div>
+            </section>
+
+            <!-- Part 11: Count Misspelled Words -->
+            <section id="part11">
+                <h2 class="section-title bg-gradient-to-r from-pink-500 to-rose-500">Part 11: How many words are misspelled? (15 ข้อ)</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" data-section="11">
+                    <!-- Questions for Part 11 will be injected here -->
+                </div>
+            </section>
+
+            <!-- Part 12: Match Definition -->
+            <section id="part12">
+                <h2 class="section-title bg-gradient-to-r from-slate-500 to-gray-500">Part 12: Match the Definition (15 ข้อ)</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" data-section="12">
+                    <!-- Questions for Part 12 will be injected here -->
+                </div>
+            </section>
+
+        </div>
+    </div>
+
+    <script>
+        const testData = {
+            // PART 1: Correct Spelling
+            1: [
+                { q: "Choose the correct spelling.", opts: ["neccessary", "necesary", "necessary", "neccesary"], ans: "necessary", exp: "คำว่า 'necessary' (จำเป็น) เป็นคำที่มักสะกดผิดบ่อย กฎการจำคือ 'One Collar, two Sleeves' หมายถึงมี c 1 ตัว และ s 2 ตัว" },
+                { q: "Choose the correct spelling.", opts: ["acommodate", "accommodate", "accomodate", "acomodate"], ans: "accommodate", exp: "คำว่า 'accommodate' (อำนวยความสะดวก) ต้องมีตัวอักษรเบิ้ล 2 คู่ คือ 'cc' และ 'mm' ครับ" },
+                { q: "Choose the correct spelling.", opts: ["priviledge", "privilege", "privilage", "privelege"], ans: "privilege", exp: "คำว่า 'privilege' (สิทธิพิเศษ) มักถูกสะกดผิดโดยการเติม 'd' เข้าไป (เหมือนคำว่า knowledge) แต่ที่ถูกต้องคือไม่มี 'd' ครับ" },
+                { q: "Choose the correct spelling.", opts: ["embarass", "embarrass", "embaress", "embarras"], ans: "embarrass", exp: "คำว่า 'embarrass' (ทำให้ลำบากใจ) ต้องมีตัวอักษรเบิ้ล 2 คู่ คือ 'rr' และ 'ss' ครับ" },
+                { q: "Choose the correct spelling.", opts: ["seperate", "separate", "seperete", "separete"], ans: "separate", exp: "เทคนิคการจำคำว่า 'separate' (แยก) คือตรงกลางมี 'a rat' (หนูหนึ่งตัว) ซ่อนอยู่: sep-A-RAT-e" },
+                { q: "Choose the correct spelling.", opts: ["definately", "definitly", "definitely", "definitley"], ans: "definitely", exp: "คำว่า 'definitely' (อย่างแน่นอน) มาจากคำว่า 'finite' (มีขีดจำกัด) ไม่ใช่ 'nate' ดังนั้นจึงสะกดว่า defi-NITE-ly" },
+                { q: "Choose the correct spelling.", opts: ["occurence", "occurrance", "occurrence", "occurence"], ans: "occurrence", exp: "คำว่า 'occurrence' (เหตุการณ์) มีตัวอักษรเบิ้ล 2 คู่ คือ 'cc' และ 'rr' ครับ" },
+                { q: "Choose the correct spelling.", opts: ["goverment", "government", "governmant", "governement"], ans: "government", exp: "คำว่า 'government' (รัฐบาล) มักจะลืมตัว 'n' ที่อยู่ตรงกลาง ต้องจำว่ามาจากคำว่า 'govern' แล้วเติม '-ment' ครับ" },
+                { q: "Choose a correct spelling.", opts: ["wierd", "weird", "weerd", "wiered"], ans: "weird", exp: "คำว่า 'weird' (แปลก) เป็นหนึ่งในข้อยกเว้นของกฎ 'i before e' ที่ต้องจำครับ" },
+                { q: "Choose a correct spelling.", opts: ["concious", "conscious", "consious", "conscius"], ans: "conscious", exp: "คำว่า 'conscious' (มีสติ) มี 'sc' อยู่ตรงกลาง คล้ายกับคำว่า science" },
+                { q: "Choose a correct spelling.", opts: ["pronounciation", "pronunciation", "pronounseation", "pronounciation"], ans: "pronunciation", exp: "แม้จะมาจากคำว่า 'pronounce' แต่คำนาม 'pronunciation' (การออกเสียง) จะไม่มี 'o' ตัวที่สองครับ" },
+                { q: "Choose a correct spelling.", opts: ["guarantee", "garantee", "gaurantee", "guarantie"], ans: "guarantee", exp: "คำว่า 'guarantee' (รับประกัน) เป็นคำที่ต้องจำการสะกดเฉพาะตัว มี 'ua' และลงท้ายด้วย 'tee'" },
+                { q: "Choose a correct spelling.", opts: ["harrass", "harass", "harras", "haras"], ans: "harass", exp: "คำว่า 'harass' (คุกคาม) มี 'r' หนึ่งตัว และ 's' สองตัวครับ" },
+                { q: "Choose a correct spelling.", opts: ["maintanance", "maintenance", "maintenence", "maintainance"], ans: "maintenance", exp: "คำว่า 'maintenance' (การบำรุงรักษา) ส่วนที่สองสะกดว่า 'ten' ไม่ใช่ 'tain' เหมือนคำว่า 'maintain'" },
+                { q: "Choose a correct spelling.", opts: ["cemetary", "cemetery", "cematery", "cemetry"], ans: "cemetery", exp: "คำว่า 'cemetery' (สุสาน) ลงท้ายด้วย '-ery' ไม่ใช่ '-ary' ครับ" },
+            ],
+            // PART 2: Synonyms & Antonyms
+            2: [
+                { q: "Find the SYNONYM for 'enormous'.", opts: ["tiny", "average", "huge", "surprising"], ans: "huge", exp: "'Enormous' (ใหญ่โตมโหฬาร) มีความหมายเหมือนกับ 'huge' (ใหญ่มาก) ครับ ส่วน 'tiny' (เล็กจิ๋ว) เป็นคำตรงข้าม และ 'average' (ปานกลาง) คือขนาดปกติ" },
+                { q: "Find the ANTONYM for 'ancient'.", opts: ["old", "modern", "historic", "aged"], ans: "modern", exp: "'Ancient' (โบราณ) มีความหมายตรงข้ามกับ 'modern' (ทันสมัย) ครับ ส่วน 'old', 'historic', 'aged' เป็นคำที่มีความหมายคล้ายกัน (คำเหมือน)" },
+                { q: "Find the SYNONYM for 'assist'.", opts: ["hinder", "help", "ignore", "watch"], ans: "help", exp: "'Assist' (ช่วยเหลือ) มีความหมายเหมือนกับ 'help' (ช่วยเหลือ) ครับ ส่วน 'hinder' (ขัดขวาง) เป็นคำตรงข้าม และ 'ignore' (เพิกเฉย) คือการไม่สนใจ" },
+                { q: "Find the ANTONYM for 'brave'.", opts: ["heroic", "courageous", "fearful", "bold"], ans: "fearful", exp: "'Brave' (กล้าหาญ) มีความหมายตรงข้ามกับ 'fearful' (ขี้กลัว, เต็มไปด้วยความกลัว) ครับ ส่วน 'heroic', 'courageous', 'bold' เป็นคำที่มีความหมายคล้ายกัน" },
+                { q: "Find the SYNONYM for 'annual'.", opts: ["daily", "weekly", "monthly", "yearly"], ans: "yearly", exp: "'Annual' (ประจำปี) มีความหมายเหมือนกับ 'yearly' (รายปี) ครับ" },
+                { q: "Find the ANTONYM for 'generous'.", opts: ["charitable", "kind", "selfish", "giving"], ans: "selfish", exp: "'Generous' (ใจกว้าง, เอื้อเฟื้อ) มีความหมายตรงข้ามกับ 'selfish' (เห็นแก่ตัว) ครับ" },
+                { q: "Find the SYNONYM for 'essential'.", opts: ["optional", "unimportant", "crucial", "extra"], ans: "crucial", exp: "'Essential' (จำเป็นอย่างยิ่ง) มีความหมายเหมือนกับ 'crucial' (สำคัญอย่างยิ่ง) ครับ ส่วน 'optional' (เป็นทางเลือก) และ 'unimportant' (ไม่สำคัญ) เป็นคำตรงข้าม" },
+                { q: "Find the ANTONYM for 'permanent'.", opts: ["lasting", "eternal", "temporary", "constant"], ans: "temporary", exp: "'Permanent' (ถาวร) มีความหมายตรงข้ามกับ 'temporary' (ชั่วคราว) ครับ" },
+                { q: "Find the SYNONYM for 'prohibit'.", opts: ["allow", "permit", "forbid", "encourage"], ans: "forbid", exp: "'Prohibit' (ห้าม) มีความหมายเหมือนกับ 'forbid' (ห้าม) ครับ ส่วน 'allow' (อนุญาต) และ 'permit' (อนุญาต) เป็นคำตรงข้าม" },
+                { q: "Find the ANTONYM for 'expand'.", opts: ["grow", "shrink", "enlarge", "increase"], ans: "shrink", exp: "'Expand' (ขยาย) มีความหมายตรงข้ามกับ 'shrink' (หด) ครับ" },
+                { q: "Find the SYNONYM for 'vacant'.", opts: ["occupied", "full", "empty", "crowded"], ans: "empty", exp: "'Vacant' (ว่าง) มีความหมายเหมือนกับ 'empty' (ว่างเปล่า) ครับ ส่วน 'occupied' (มีคนอยู่) และ 'full' (เต็ม) เป็นคำตรงข้าม" },
+                { q: "Find the ANTONYM for 'compulsory'.", opts: ["required", "mandatory", "necessary", "voluntary"], ans: "voluntary", exp: "'Compulsory' (เป็นการบังคับ) มีความหมายตรงข้ามกับ 'voluntary' (เป็นไปโดยสมัครใจ) ครับ" },
+                { q: "Find the SYNONYM for 'consequence'.", opts: ["cause", "origin", "result", "start"], ans: "result", exp: "'Consequence' (ผลที่ตามมา) มีความหมายเหมือนกับ 'result' (ผลลัพธ์) ครับ ส่วน 'cause' (สาเหตุ) เป็นสิ่งที่ทำให้เกิดผล" },
+                { q: "Find the ANTONYM for 'optimistic'.", opts: ["hopeful", "positive", "cheerful", "pessimistic"], ans: "pessimistic", exp: "'Optimistic' (มองโลกในแง่ดี) มีความหมายตรงข้ามกับ 'pessimistic' (มองโลกในแง่ร้าย) ครับ" },
+                { q: "Find the SYNONYM for 'sufficient'.", opts: ["inadequate", "lacking", "scarce", "enough"], ans: "enough", exp: "'Sufficient' (เพียงพอ) มีความหมายเหมือนกับ 'enough' (เพียงพอ) ครับ ส่วน 'inadequate' (ไม่เพียงพอ) เป็นคำตรงข้าม" },
+            ],
+            // PART 3: Jumbled Letters
+            3: [
+                { q: "Unscramble: TURELIATER", opts: ["literature", "retaliature", "literatuer", "leterature"], ans: "literature", exp: "ตัวอักษรชุดนี้สามารถเรียงใหม่ได้เป็น 'LITERATURE' ซึ่งหมายถึง 'วรรณกรรม' ครับ" },
+                { q: "Unscramble: NOMONECITIR", opts: ["intercomnion", "intermission", "recommend", "competition"], ans: "competition", exp: "ตัวอักษรชุดนี้สามารถเรียงใหม่ได้เป็น 'COMPETITION' ซึ่งหมายถึง 'การแข่งขัน' ครับ" },
+                { q: "Unscramble: CHALENGLING", opts: ["challenging", "chagellingn", "lachenging", "glalenchen"], ans: "challenging", exp: "ตัวอักษรชุดนี้สามารถเรียงใหม่ได้เป็น 'CHALLENGING' ซึ่งหมายถึง 'ท้าทาย' ครับ" },
+                { q: "Unscramble: TUNPOROPITY", opts: ["opportunity", "proportunity", "portionupy", "outportion"], ans: "opportunity", exp: "ตัวอักษรชุดนี้สามารถเรียงใหม่ได้เป็น 'OPPORTUNITY' ซึ่งหมายถึง 'โอกาส' ครับ" },
+                { q: "Unscramble: VEENMTRONG", opts: ["govermentn", "government", "govermonten", "grovenment"], ans: "government", exp: "ตัวอักษรชุดนี้สามารถเรียงใหม่ได้เป็น 'GOVERNMENT' ซึ่งหมายถึง 'รัฐบาล' ครับ" },
+                { q: "Unscramble: DUSCATHIREE", opts: ["architecture", "charicatured", "charitecture", "archidecture"], ans: "architecture", exp: "ตัวอักษรชุดนี้สามารถเรียงใหม่ได้เป็น 'ARCHITECTURE' ซึ่งหมายถึง 'สถาปัตยกรรม' ครับ" },
+                { q: "Unscramble: TIONALCONGRAUT", opts: ["congratulation", "congratulaiton", "conglaturation", "congralutation"], ans: "congratulation", exp: "ตัวอักษรชุดนี้สามารถเรียงใหม่ได้เป็น 'CONGRATULATION' ซึ่งหมายถึง 'การแสดงความยินดี' ครับ" },
+                { q: "Unscramble: SIBIPONSERLITY", opts: ["responsibility", "responsability", "bilityresponse", "personbility"], ans: "responsibility", exp: "ตัวอักษรชุดนี้สามารถเรียงใหม่ได้เป็น 'RESPONSIBILITY' ซึ่งหมายถึง 'ความรับผิดชอบ' ครับ" },
+                { q: "Unscramble: RATIONPREPA", opts: ["preporation", "preparation", "reparationp", "parrotiapen"], ans: "preparation", exp: "ตัวอักษรชุดนี้สามารถเรียงใหม่ได้เป็น 'PREPARATION' ซึ่งหมายถึง 'การเตรียมตัว' ครับ" },
+                { q: "Unscramble: ZATIONORGAN", opts: ["organization", "organazition", "zationorgan", "ganizationor"], ans: "organization", exp: "ตัวอักษรชุดนี้สามารถเรียงใหม่ได้เป็น 'ORGANIZATION' ซึ่งหมายถึง 'องค์กร' ครับ" },
+                { q: "Unscramble: MENTAINENTER", opts: ["entertainment", "maintainenter", "entermentain", "enternainment"], ans: "entertainment", exp: "ตัวอักษรชุดนี้สามารถเรียงใหม่ได้เป็น 'ENTERTAINMENT' ซึ่งหมายถึง 'ความบันเทิง' ครับ" },
+                { q: "Unscramble: FESSIONALPRO", opts: ["professional", "proffesional", "fessionalpro", "profesionnal"], ans: "professional", exp: "ตัวอักษรชุดนี้สามารถเรียงใหม่ได้เป็น 'PROFESSIONAL' ซึ่งหมายถึง 'มืออาชีพ' ครับ" },
+                { q: "Unscramble: CATIONEDU", opts: ["education", "decaunion", "caudation", "educanion"], ans: "education", exp: "ตัวอักษรชุดนี้สามารถเรียงใหม่ได้เป็น 'EDUCATION' ซึ่งหมายถึง 'การศึกษา' ครับ" },
+                { q: "Unscramble: NIENTCONVE", opts: ["convenient", "convinente", "nonveicent", "connenviet"], ans: "convenient", exp: "ตัวอักษรชุดนี้สามารถเรียงใหม่ได้เป็น 'CONVENIENT' ซึ่งหมายถึง 'สะดวกสบาย' ครับ" },
+                { q: "Unscramble: TUREADVEN", opts: ["adverture", "adventure", "venatured", "denatured"], ans: "adventure", exp: "ตัวอักษรชุดนี้สามารถเรียงใหม่ได้เป็น 'ADVENTURE' ซึ่งหมายถึง 'การผจญภัย' ครับ" },
+            ],
+            // PART 4: Missing Letters
+            4: [
+                { q: "Find the missing letters: c _ mm _ ttee", opts: ["o, i", "a, i", "o, e", "u, i"], ans: "o, i", exp: "คำที่ถูกต้องคือ 'committee' (คณะกรรมการ) ซึ่งมีตัวอักษรเบิ้ล 3 คู่ (mm, tt, ee) ตัวอักษรที่หายไปคือ o และ i ครับ" },
+                { q: "Find the missing letters: rec _ _ mend", opts: ["o, m", "e, m", "o, n", "a, m"], ans: "o, m", exp: "คำที่ถูกต้องคือ 'recommend' (แนะนำ) มี 'c' หนึ่งตัว และ 'm' สองตัวครับ" },
+                { q: "Find the missing letters: p _ _ fessional", opts: ["r, o", "e, o", "r, e", "o, f"], ans: "r, o", exp: "คำที่ถูกต้องคือ 'professional' (มืออาชีพ) มี 'f' หนึ่งตัว และ 's' สองตัวครับ" },
+                { q: "Find the missing letters: su _ _ essful", opts: ["c, c", "c, s", "s, c", "s, s"], ans: "c, c", exp: "คำที่ถูกต้องคือ 'successful' (ที่ประสบความสำเร็จ) มี 'c' สองตัว และ 's' สองตัวครับ" },
+                { q: "Find the missing letters: consc _ _ ntious", opts: ["i, e", "e, i", "i, a", "a, e"], ans: "i, e", exp: "คำที่ถูกต้องคือ 'conscientious' (ที่รอบคอบ, ที่มีสติ) เป็นคำที่ยากและต้องจำการสะกดครับ" },
+                { q: "Find the missing letters: privil _ g _", opts: ["e, e", "i, e", "e, i", "a, e"], ans: "e, e", exp: "คำที่ถูกต้องคือ 'privilege' (สิทธิพิเศษ) ตัวที่หายไปคือ e ทั้งสองตำแหน่งครับ" },
+                { q: "Find the missing letters: rhy _ _ m", opts: ["t, h", "h, t", "h, h", "y, t"], ans: "t, h", exp: "คำที่ถูกต้องคือ 'rhythm' (จังหวะ) เป็นคำที่ไม่มีสระ a, e, i, o, u เลยครับ" },
+                { q: "Find the missing letters: enviro _ me _ t", opts: ["n, n", "n, m", "m, n", "m, m"], ans: "n, n", exp: "คำที่ถูกต้องคือ 'environment' (สิ่งแวดล้อม) มี 'n' อยู่ตรงกลางก่อน '-ment' ครับ" },
+                { q: "Find the missing letters: disapp _ _ nt", opts: ["o, i", "a, i", "o, i", "a, o"], ans: "o, i", exp: "คำที่ถูกต้องคือ 'disappoint' (ทำให้ผิดหวัง) มาจาก dis + appoint ครับ" },
+                { q: "Find the missing letters: exagg _ r _ te", opts: ["e, a", "a, a", "e, e", "a, e"], ans: "e, a", exp: "คำที่ถูกต้องคือ 'exaggerate' (พูดเกินจริง) มี 'g' สองตัวครับ" },
+                { q: "Find the missing letters: intell _ g _ nce", opts: ["i, e", "e, i", "i, i", "e, e"], ans: "i, e", exp: "คำที่ถูกต้องคือ 'intelligence' (สติปัญญา) มี 'l' สองตัว และลงท้ายด้วย -ence ครับ" },
+                { q: "Find the missing letters: indep _ nd _ nt", opts: ["e, e", "a, e", "e, a", "a, a"], ans: "e, e", exp: "คำที่ถูกต้องคือ 'independent' (เป็นอิสระ) ใช้ 'e' ทั้งหมดครับ" },
+                { q: "Find the missing letters: millenn _ _ m", opts: ["i, u", "e, u", "i, i", "i, a"], ans: "i, u", exp: "คำที่ถูกต้องคือ 'millennium' (สหัสวรรษ) มี 'l' สองตัว และ 'n' สองตัวครับ" },
+                { q: "Find the missing letters: cal _ nd _ r", opts: ["e, a", "a, e", "e, e", "a, a"], ans: "e, a", exp: "คำที่ถูกต้องคือ 'calendar' (ปฏิทิน) ลงท้ายด้วย -dar ครับ" },
+                { q: "Find the missing letters: exist _ nc _", opts: ["e, e", "a, e", "e, a", "a, a"], ans: "e, e", exp: "คำที่ถูกต้องคือ 'existence' (การมีอยู่) ลงท้ายด้วย -ence ครับ" },
+            ],
+            5: [
+                { q: "The new restaurant has a beautiful ambiance and serves delicious food. The service is also excelent, making it a popular choice for dinner.", opts: ["restaurant", "beautiful", "delicious", "excelent"], ans: "excelent", exp: "คำที่สะกดผิดคือ 'excelent' ครับ ที่ถูกต้องคือ 'excellent' (ยอดเยี่ยม) ซึ่งต้องมี 'l' สองตัว" },
+                { q: "My biggest ambition is to travel around the world. I believe it would be a fantastic experiance to see different cultures and landscapes.", opts: ["ambition", "believe", "fantastic", "experiance"], ans: "experiance", exp: "คำที่สะกดผิดคือ 'experiance' ครับ ที่ถูกต้องคือ 'experience' (ประสบการณ์) ซึ่งลงท้ายด้วย '-ence'" },
+                { q: "It is neccessary to have a valid passport before you can travel internationally. You should also check the visa requirements for your destination.", opts: ["neccessary", "valid", "internationally", "requirements"], ans: "neccessary", exp: "คำที่สะกดผิดคือ 'neccessary' ครับ ที่ถูกต้องคือ 'necessary' (จำเป็น) ซึ่งมี 'c' หนึ่งตัว และ 's' สองตัว" },
+                { q: "The school library is a quiet place for students to study and do research. The knowlege you gain from reading is invaluable for your future.", opts: ["library", "research", "knowlege", "invaluable"], ans: "knowlege", exp: "คำที่สะกดผิดคือ 'knowlege' ครับ ที่ถูกต้องคือ 'knowledge' (ความรู้) ซึ่งต้องมี 'd' อยู่ตรงกลาง แม้จะไม่ออกเสียงก็ตาม" },
+                { q: "The company's annual report showed a significant improvment in profits. This success is due to the hard work of all the employees.", opts: ["annual", "significant", "improvment", "employees"], ans: "improvment", exp: "คำที่สะกดผิดคือ 'improvment' ครับ ที่ถูกต้องคือ 'improvement' (การพัฒนา) ซึ่งมาจากคำว่า 'improve' แล้วเติม '-ment'" },
+                { q: "During the debate, each candidate had the opportunity to explain their position on various issues. It was an interesting arguement to watch.", opts: ["candidate", "opportunity", "various", "arguement"], ans: "arguement", exp: "คำที่สะกดผิดคือ 'arguement' ครับ ที่ถูกต้องคือ 'argument' (การโต้เถียง) ซึ่งเป็นข้อยกเว้นที่ต้องตัด 'e' จาก 'argue' ทิ้งก่อนเติม '-ment'" },
+                { q: "The weather forcast predicts heavy rain and strong winds for this weekend. It is advisable to stay indoors and avoid unnecessary travel.", opts: ["forcast", "predicts", "advisable", "unnecessary"], ans: "forcast", exp: "คำที่สะกดผิดคือ 'forcast' ครับ ที่ถูกต้องคือ 'forecast' (พยากรณ์) ซึ่งต้องมี 'e' อยู่ตรงกลาง" },
+                { q: "Receiving a scholarship to a prestigious university was a great acheivement for her. Her family was incredibly proud of her dedication.", opts: ["scholarship", "prestigious", "acheivement", "dedication"], ans: "acheivement", exp: "คำที่สะกดผิดคือ 'acheivement' ครับ ที่ถูกต้องคือ 'achievement' (ความสำเร็จ) ซึ่งสะกดด้วย 'ie' ตามกฎ 'i before e'" },
+                { q: "The museum has a special exhibition on ancient artifacts. It's truely fascinating to see objects that are thousands of years old.", opts: ["museum", "exhibition", "artifacts", "truely"], ans: "truely", exp: "คำที่สะกดผิดคือ 'truely' ครับ ที่ถูกต้องคือ 'truly' (อย่างแท้จริง) ซึ่งเป็นข้อยกเว้นที่ต้องตัด 'e' จาก 'true' ทิ้งก่อนเติม '-ly'" },
+                { q: "The goverment announced new policies to support small businesses. These measures are designed to stimulate economic growth.", opts: ["goverment", "policies", "businesses", "stimulate"], ans: "goverment", exp: "คำที่สะกดผิดคือ 'goverment' ครับ ที่ถูกต้องคือ 'government' (รัฐบาล) ซึ่งต้องมี 'n' อยู่ตรงกลาง" },
+                { q: "I would definately recommend this book to anyone who loves mystery novels. The plot is clever and full of surprising twists.", opts: ["definately", "recommend", "mystery", "surprising"], ans: "definately", exp: "คำที่สะกดผิดคือ 'definately' ครับ ที่ถูกต้องคือ 'definitely' (อย่างแน่นอน) ซึ่งมาจาก 'finite'" },
+                { q: "The maintanance team works hard to keep the building in good condition. They perform regular checks on all the equipment.", opts: ["maintanance", "condition", "regular", "equipment"], ans: "maintanance", exp: "คำที่สะกดผิดคือ 'maintanance' ครับ ที่ถูกต้องคือ 'maintenance' (การบำรุงรักษา) ซึ่งสะกดส่วนที่สองว่า 'ten-ance'" },
+                { q: "She has a very friendly and pleasant personnalty. Everyone enjoys working with her because she is always positive and supportive.", opts: ["pleasant", "personnalty", "positive", "supportive"], ans: "personnalty", exp: "คำที่สะกดผิดคือ 'personnalty' ครับ ที่ถูกต้องคือ 'personality' (บุคลิกภาพ) ซึ่งมี 'n' แค่ตัวเดียว" },
+                { q: "It is a great priviledge to be invited to speak at the international conference. I am honored to share my research with other experts.", opts: ["priviledge", "international", "conference", "honored"], ans: "priviledge", exp: "คำที่สะกดผิดคือ 'priviledge' ครับ ที่ถูกต้องคือ 'privilege' (สิทธิพิเศษ) ซึ่งไม่มี 'd'" },
+                { q: "The athlete's performance was sincerly amazing. He broke the world record and won the gold medal for his country.", opts: ["performance", "sincerly", "amazing", "country"], ans: "sincerly", exp: "คำที่สะกดผิดคือ 'sincerly' ครับ ที่ถูกต้องคือ 'sincerely' (อย่างจริงใจ) ซึ่งมาจาก 'sincere' แล้วเติม '-ly'" },
+            ],
+            6: [
+                { q: "Which word has an extra letter?", opts: ["tommorrow", "beginning", "address", "different"], ans: "tommorrow", exp: "คำที่ถูกต้องคือ 'tomorrow' (วันพรุ่งนี้) ซึ่งมี 'm' หนึ่งตัวและ 'r' สองตัวครับ 'tommorrow' มี 'm' เกินมาหนึ่งตัว" },
+                { q: "Which word has an extra letter?", opts: ["arguement", "successful", "committee", "possible"], ans: "arguement", exp: "คำที่ถูกต้องคือ 'argument' (การโต้เถียง) ครับ 'arguement' มี 'e' เกินมาหนึ่งตัว" },
+                { q: "Which word has an extra letter?", opts: ["fourty", "ninety", "twelve", "eighth"], ans: "fourty", exp: "คำที่ถูกต้องคือ 'forty' (สี่สิบ) ครับ 'fourty' มี 'u' เกินมาหนึ่งตัว (ไม่เหมือนคำว่า 'four')" },
+                { q: "Which word has an extra letter?", opts: ["untill", "across", "already", "almost"], ans: "untill", exp: "คำที่ถูกต้องคือ 'until' (จนกระทั่ง) ครับ 'untill' มี 'l' เกินมาหนึ่งตัว (แต่คำว่า 'till' เดี่ยวๆ สะกดแบบนี้ถูกต้อง)" },
+                { q: "Which word has an extra letter?", opts: ["dissappoint", "disappear", "disagree", "discover"], ans: "dissappoint", exp: "คำที่ถูกต้องคือ 'disappoint' (ทำให้ผิดหวัง) ครับ 'dissappoint' มี 's' เกินมาหนึ่งตัว (มาจาก dis + appoint)" },
+                { q: "Which word has an extra letter?", opts: ["wonderfull", "beautiful", "careful", "helpful"], ans: "wonderfull", exp: "คำที่ถูกต้องคือ 'wonderful' (มหัศจรรย์) ครับ เมื่อเติม suffix '-ful' จะใช้ 'l' แค่ตัวเดียวเสมอ" },
+                { q: "Which word has an extra letter?", opts: ["truely", "safely", "completely", "extremely"], ans: "truely", exp: "คำที่ถูกต้องคือ 'truly' (อย่างแท้จริง) ครับ 'truely' มี 'e' เกินมาหนึ่งตัว" },
+                { q: "Which word has an extra letter?", opts: ["passtime", "weekend", "homework", "sunlight"], ans: "passtime", exp: "คำที่ถูกต้องคือ 'pastime' (งานอดิเรก) ครับ 'passtime' มี 's' เกินมาหนึ่งตัว" },
+                { q: "Which word has an extra letter?", opts: ["pronounciation", "information", "organization", "explanation"], ans: "pronounciation", exp: "คำที่ถูกต้องคือ 'pronunciation' (การออกเสียง) ครับ 'pronounciation' มี 'o' เกินมาหนึ่งตัว" },
+                { q: "Which word has an extra letter?", opts: ["independant", "intelligent", "important", "interesting"], ans: "independant", exp: "คำที่ถูกต้องคือ 'independent' (เป็นอิสระ) ครับ 'independant' ใช้ 'a' แทนที่จะเป็น 'e' ในตอนท้าย (เป็นคำที่สะกดผิด ไม่ใช่มีตัวอักษรเกิน)" },
+                { q: "Which word has an extra letter?", opts: ["unneccessary", "unbelievable", "unforgettable", "unusual"], ans: "unneccessary", exp: "คำที่ถูกต้องคือ 'unnecessary' (ไม่จำเป็น) ครับ 'unneccessary' มี 'c' เกินมาหนึ่งตัว (ต้องมี c 1 ตัว, s 2 ตัว)" },
+                { q: "Which word has an extra letter?", opts: ["immediatly", "finally", "suddenly", "usually"], ans: "immediatly", exp: "คำที่ถูกต้องคือ 'immediately' (ทันทีทันใด) ครับ 'immediatly' ขาด 'e' ไป (เป็นคำสะกดผิด ไม่ใช่มีตัวอักษรเกิน)" },
+                { q: "Which word has an extra letter?", opts: ["excellant", "brilliant", "relevant", "ignorant"], ans: "excellant", exp: "คำที่ถูกต้องคือ 'excellent' (ยอดเยี่ยม) ครับ 'excellant' ใช้ 'a' แทน 'e' (เป็นคำสะกดผิด ไม่ใช่มีตัวอักษรเกิน)" },
+                { q: "Which word has an extra letter?", opts: ["adress", "across", "again", "about"], ans: "adress", exp: "คำที่ถูกต้องคือ 'address' (ที่อยู่) ซึ่งต้องมี 'd' สองตัว (เป็นคำสะกดผิด ไม่ใช่มีตัวอักษรเกิน)" },
+                { q: "Which word has an extra letter?", opts: ["begining", "writing", "coming", "running"], ans: "begining", exp: "คำที่ถูกต้องคือ 'beginning' (การเริ่มต้น) ซึ่งต้องเบิ้ล 'n' ก่อนเติม 'ing' (เป็นคำสะกดผิด ไม่ใช่มีตัวอักษรเกิน)" },
+            ],
+            7: [
+                { q: "Which word is misspelled?", opts: ["believe", "recieve", "achieve", "piece"], ans: "recieve", exp: "คำที่สะกดผิดคือ 'recieve' ครับ ตามกฎ 'i before e, except after c' คำนี้ตามหลัง c จึงต้องสะกดว่า 'receive' (ได้รับ)" },
+                { q: "Which word is misspelled?", opts: ["foreign", "neighbor", "hieght", "weigh"], ans: "hieght", exp: "คำที่สะกดผิดคือ 'hieght' ครับ ที่ถูกต้องคือ 'height' (ความสูง) ซึ่งเป็นข้อยกเว้นของกฎ 'i before e'" },
+                { q: "Which word is misspelled?", opts: ["calendar", "grammer", "similar", "particular"], ans: "grammer", exp: "คำที่สะกดผิดคือ 'grammer' ครับ ที่ถูกต้องคือ 'grammar' (ไวยากรณ์) ซึ่งลงท้ายด้วย '-ar'" },
+                { q: "Which word is misspelled?", opts: ["suprise", "exercise", "promise", "advice"], ans: "suprise", exp: "คำที่สะกดผิดคือ 'suprise' ครับ ที่ถูกต้องคือ 'surprise' (ประหลาดใจ) ซึ่งต้องมี 'r' สองตัว" },
+                { q: "Which word is misspelled?", opts: ["jewelry", "scenery", "machinery", "stationery"], ans: "stationery", exp: "คำว่า 'stationery' (เครื่องเขียน) ลงท้ายด้วย '-ery' ครับ ส่วน 'stationary' (ที่หยุดนิ่ง) ลงท้ายด้วย '-ary'" },
+                { q: "Which word is misspelled?", opts: ["occasion", "possession", "profession", "succesion"], ans: "succesion", exp: "คำที่สะกดผิดคือ 'succesion' ครับ ที่ถูกต้องคือ 'succession' (การสืบทอด) ซึ่งมี 'ss' สองคู่" },
+                { q: "Which word is misspelled?", opts: ["sincerely", "completly", "extremely", "definitely"], ans: "completly", exp: "คำที่สะกดผิดคือ 'completly' ครับ ที่ถูกต้องคือ 'completely' (อย่างสมบูรณ์) ซึ่งมาจาก 'complete' + '-ly'" },
+                { q: "Which word is misspelled?", opts: ["guidance", "existance", "resistance", "appearance"], ans: "existance", exp: "คำที่สะกดผิดคือ 'existance' ครับ ที่ถูกต้องคือ 'existence' (การมีอยู่) ซึ่งลงท้ายด้วย '-ence'" },
+                { q: "Which word is misspelled?", opts: ["license", "practice", "advise", "devise"], ans: "advise", exp: "'advise' (v.) คือแนะนำ ส่วน 'advice' (n.) คือคำแนะนำ ทั้งสองคำสะกดถูก แต่ในบริบทของคำนามมักสับสนกัน" },
+                { q: "Which word is misspelled?", opts: ["forty", "nineth", "twelfth", "eighth"], ans: "nineth", exp: "คำที่สะกดผิดคือ 'nineth' ครับ ที่ถูกต้องคือ 'ninth' (ลำดับที่เก้า) ซึ่งต้องตัด 'e' จาก 'nine' ทิ้ง" },
+                { q: "Which word is misspelled?", opts: ["tomatoes", "potatos", "heroes", "echoes"], ans: "potatos", exp: "คำที่สะกดผิดคือ 'potatos' ครับ คำนามที่ลงท้ายด้วย 'o' และหน้า 'o' เป็นพยัญชนะ ส่วนใหญ่เติม '-es' ดังนั้นที่ถูกต้องคือ 'potatoes' (มันฝรั่ง)" },
+                { q: "Which word is misspelled?", opts: ["truly", "duly", "wholly", "arguably"], ans: "arguably", exp: "ทุกคำสะกดถูกต้องครับ 'arguably' (อย่างที่อาจโต้แย้งได้) มาจาก 'argue' -> 'arguable' -> 'arguably'" },
+                { q: "Which word is misspelled?", opts: ["irresistible", "irresponsible", "irregardless", "irrelevant"], ans: "irregardless", exp: "'irregardless' เป็นคำที่ใช้ผิดบ่อยและไม่เป็นมาตรฐาน ที่ถูกต้องควรใช้ 'regardless' (โดยไม่คำนึงถึง) ครับ" },
+                { q: "Which word is misspelled?", opts: ["benefited", "transfered", "occurred", "committed"], ans: "transfered", exp: "คำที่สะกดผิดคือ 'transfered' ครับ คำว่า 'transfer' เน้นเสียงพยางค์หลัง ดังนั้นต้องเบิ้ล 'r' เป็น 'transferred' (โอนย้าย)" },
+                { q: "Which word is misspelled?", opts: ["precede", "proceed", "succeed", "conceed"], ans: "conceed", exp: "คำที่สะกดผิดคือ 'conceed' ครับ ที่ถูกต้องคือ 'concede' (ยอมรับ) ซึ่งลงท้ายด้วย '-cede'" },
+            ],
+            8: [
+                { q: "Which prefix creates a valid word with '...behave'?", opts: ["un-", "mis-", "dis-", "re-"], ans: "mis-", exp: "Prefix 'mis-' (ผิด) สามารถรวมกับ 'behave' (ประพฤติตัว) เป็น 'misbehave' (ประพฤติตัวไม่ดี) ได้ครับ" },
+                { q: "Which suffix creates a valid word with 'comfort...'?", opts: ["-able", "-ible", "-ness", "-ment"], ans: "-able", exp: "Suffix '-able' (สามารถ) สามารถรวมกับ 'comfort' (ความสบาย) เป็น 'comfortable' (สะดวกสบาย) ได้ครับ" },
+                { q: "Which prefix creates a valid word with '...regular'?", opts: ["un-", "in-", "ir-", "non-"], ans: "ir-", exp: "Prefix 'ir-' (ไม่) ใช้กับคำที่ขึ้นต้นด้วย 'r' รวมกับ 'regular' (ปกติ) เป็น 'irregular' (ไม่ปกติ) ครับ" },
+                { q: "Which suffix creates a valid word with 'music...'?", opts: ["-er", "-or", "-ist", "-ian"], ans: "-ian", exp: "Suffix '-ian' (ผู้เชี่ยวชาญ) สามารถรวมกับ 'music' (ดนตรี) เป็น 'musician' (นักดนตรี) ได้ครับ" },
+                { q: "Which prefix creates a valid word with '...understand'?", opts: ["mis-", "dis-", "de-", "non-"], ans: "mis-", exp: "Prefix 'mis-' (ผิด) สามารถรวมกับ 'understand' (เข้าใจ) เป็น 'misunderstand' (เข้าใจผิด) ได้ครับ" },
+                { q: "Which suffix creates a valid word with 'child...'?", opts: ["-ness", "-ship", "-hood", "-dom"], ans: "-hood", exp: "Suffix '-hood' (สภาวะ, ช่วงเวลา) สามารถรวมกับ 'child' (เด็ก) เป็น 'childhood' (วัยเด็ก) ได้ครับ" },
+                { q: "Which prefix creates a valid word with '...approve'?", opts: ["un-", "non-", "im-", "dis-"], ans: "dis-", exp: "Prefix 'dis-' (ไม่) สามารถรวมกับ 'approve' (อนุมัติ) เป็น 'disapprove' (ไม่เห็นด้วย) ได้ครับ" },
+                { q: "Which suffix creates a valid word with 'employ...'?", opts: ["-er", "-ee", "-ment", "All of the above"], ans: "All of the above", exp: "คำว่า 'employ' (จ้างงาน) สามารถเติมได้ทั้งสาม Suffix ครับ: 'employer' (นายจ้าง), 'employee' (ลูกจ้าง), และ 'employment' (การจ้างงาน)" },
+                { q: "Which prefix creates a valid word with '...possible'?", opts: ["un-", "im-", "in-", "dis-"], ans: "im-", exp: "Prefix 'im-' (ไม่) ใช้กับคำที่ขึ้นต้นด้วย 'p' รวมกับ 'possible' (เป็นไปได้) เป็น 'impossible' (เป็นไปไม่ได้) ครับ" },
+                { q: "Which suffix creates a valid word with 'friend...'?", opts: ["-ness", "-ship", "-ly", "Both -ship and -ly"], ans: "Both -ship and -ly", exp: "คำว่า 'friend' (เพื่อน) สามารถเติมได้ทั้ง '-ship' เป็น 'friendship' (มิตรภาพ) และ '-ly' เป็น 'friendly' (เป็นมิตร) ครับ" },
+                { q: "Which prefix creates a valid word with '...do'?", opts: ["re-", "un-", "over-", "All of the above"], ans: "All of the above", exp: "คำว่า 'do' (ทำ) สามารถรวมกับ Prefix ได้หลายตัว เช่น 'redo' (ทำใหม่), 'undo' (ยกเลิกสิ่งที่ทำ), 'overdo' (ทำมากเกินไป)" },
+                { q: "Which suffix creates a valid word with 'danger...'?", opts: ["-ous", "-ful", "-less", "-able"], ans: "-ous", exp: "Suffix '-ous' (เต็มไปด้วย) สามารถรวมกับ 'danger' (อันตราย) เป็น 'dangerous' (ซึ่งอันตราย) ได้ครับ" },
+                { q: "Which prefix creates a valid word with '...respectful'?", opts: ["un-", "dis-", "in-", "ir-"], ans: "dis-", exp: "Prefix 'dis-' (ไม่) สามารถรวมกับ 'respectful' (ที่เคารพ) เป็น 'disrespectful' (ที่ไม่เคารพ) ได้ครับ" },
+                { q: "Which suffix creates a valid word with 'king...'?", opts: ["-ship", "-hood", "-dom", "-ness"], ans: "-dom", exp: "Suffix '-dom' (อาณาจักร, สภาวะ) สามารถรวมกับ 'king' (ราชา) เป็น 'kingdom' (ราชอาณาจักร) ได้ครับ" },
+                { q: "Which prefix creates a valid word with '...patient'?", opts: ["un-", "dis-", "im-", "in-"], ans: "im-", exp: "Prefix 'im-' (ไม่) ใช้กับคำที่ขึ้นต้นด้วย 'p' รวมกับ 'patient' (อดทน) เป็น 'impatient' (ไม่อดทน) ครับ" },
+            ],
+            9: [
+                { q: "Which compound word is spelled correctly?", opts: ["sun-light", "sun light", "sunlight", "sunlite"], ans: "sunlight", exp: "คำประสม 'sunlight' (แสงแดด) ที่ถูกต้องจะเขียนติดกันโดยไม่มีขีดคั่นหรือเว้นวรรคครับ" },
+                { q: "Which compound word is spelled correctly?", opts: ["homework", "home-work", "homewirk", "home work"], ans: "homework", exp: "คำประสม 'homework' (การบ้าน) ที่ถูกต้องจะเขียนติดกันครับ" },
+                { q: "Which compound word is spelled correctly?", opts: ["basket ball", "basket-ball", "basketball", "basketboll"], ans: "basketball", exp: "คำประสม 'basketball' (บาสเกตบอล) ที่ถูกต้องจะเขียนติดกันครับ" },
+                { q: "Which compound word is spelled correctly?", opts: ["fire fighter", "fire-fighter", "firefighter", "firefyter"], ans: "firefighter", exp: "คำประสม 'firefighter' (นักดับเพลิง) สามารถเขียนได้ทั้งแบบติดกัน (firefighter) และแบบเว้นวรรค (fire fighter) แต่แบบติดกันเป็นที่นิยมมากกว่าในปัจจุบัน" },
+                { q: "Which compound word is spelled correctly?", opts: ["week-end", "weekend", "week end", "wekend"], ans: "weekend", exp: "คำประสม 'weekend' (สุดสัปดาห์) ที่ถูกต้องจะเขียนติดกันครับ" },
+                { q: "Which compound word is spelled correctly?", opts: ["ice-cream", "icecream", "ice cream", "icecreem"], ans: "ice cream", exp: "คำประสม 'ice cream' (ไอศกรีม) ที่ถูกต้องจะเขียนแบบเว้นวรรคครับ แม้บางครั้งจะเห็น 'ice-cream' แต่แบบเว้นวรรคเป็นมาตรฐานกว่า" },
+                { q: "Which compound word is spelled correctly?", opts: ["note book", "notebook", "note-book", "notebok"], ans: "notebook", exp: "คำประสม 'notebook' (สมุดบันทึก) ที่ถูกต้องจะเขียนติดกันครับ" },
+                { q: "Which compound word is spelled correctly?", opts: ["livingroom", "living-room", "living room", "liveing room"], ans: "living room", exp: "คำประสม 'living room' (ห้องนั่งเล่น) ที่ถูกต้องจะเขียนแบบเว้นวรรคครับ" },
+                { q: "Which compound word is spelled correctly?", opts: ["class-mate", "class mate", "classmate", "clasmate"], ans: "classmate", exp: "คำประสม 'classmate' (เพื่อนร่วมชั้น) ที่ถูกต้องจะเขียนติดกันครับ" },
+                { q: "Which compound word is spelled correctly?", opts: ["air port", "airport", "air-port", "airpot"], ans: "airport", exp: "คำประสม 'airport' (สนามบิน) ที่ถูกต้องจะเขียนติดกันครับ" },
+                { q: "Which compound word is spelled correctly?", opts: ["post-office", "postoffice", "post office", "postofice"], ans: "post office", exp: "คำประสม 'post office' (ที่ทำการไปรษณีย์) ที่ถูกต้องจะเขียนแบบเว้นวรรคครับ" },
+                { q: "Which compound word is spelled correctly?", opts: ["seafood", "sea-food", "sea food", "seefood"], ans: "seafood", exp: "คำประสม 'seafood' (อาหารทะเล) ที่ถูกต้องจะเขียนติดกันครับ" },
+                { q: "Which compound word is spelled correctly?", opts: ["high-school", "high school", "highschool", "hieghschool"], ans: "high school", exp: "คำประสม 'high school' (โรงเรียนมัธยมปลาย) ที่ถูกต้องจะเขียนแบบเว้นวรรคครับ" },
+                { q: "Which compound word is spelled correctly?", opts: ["bed room", "bed-room", "bedroom", "bedrooom"], ans: "bedroom", exp: "คำประสม 'bedroom' (ห้องนอน) ที่ถูกต้องจะเขียนติดกันครับ" },
+                { q: "Which compound word is spelled correctly?", opts: ["sun-glasses", "sunglasses", "sun glasses", "sunglases"], ans: "sunglasses", exp: "คำประสม 'sunglasses' (แว่นกันแดด) ที่ถูกต้องจะเขียนติดกันครับ" },
+            ],
+            10: [
+                { q: "Which sentence has a misspelled word?", opts: ["The library is my favorite place.", "I recieved your email yesterday.", "He is a successful businessman.", "Please be quiet in the classroom."], ans: "I recieved your email yesterday.", exp: "คำที่สะกดผิดคือ 'recieved' ครับ ที่ถูกต้องคือ 'received' ตามกฎ 'i before e, except after c'" },
+                { q: "Which sentence has a misspelled word?", opts: ["She gave me a piece of advice.", "The government announced a new policy.", "That is a very strange story.", "My nieghbor is very friendly."], ans: "My nieghbor is very friendly.", exp: "คำที่สะกดผิดคือ 'nieghbor' ครับ ที่ถูกต้องคือ 'neighbor' (เพื่อนบ้าน) ซึ่งเป็นข้อยกเว้นของกฎ 'i before e'" },
+                { q: "Which sentence has a misspelled word?", opts: ["I am grateful for your help.", "It was a greatful experience.", "The view from the top is beautiful.", "She has a positive attitude."], ans: "It was a greatful experience.", exp: "คำที่สะกดผิดคือ 'greatful' ครับ ที่ถูกต้องคือ 'grateful' (รู้สึกขอบคุณ) ซึ่งไม่ได้มาจากคำว่า 'great' (ยอดเยี่ยม)" },
+                { q: "Which sentence has a misspelled word?", opts: ["The meeting is scheduled for tomorrow.", "We need to seperate the documents.", "His performance was outstanding.", "This is an important decision."], ans: "We need to seperate the documents.", exp: "คำที่สะกดผิดคือ 'seperate' ครับ ที่ถูกต้องคือ 'separate' (แยก) จำง่ายๆ ว่ามี 'a rat' อยู่ตรงกลาง" },
+                { q: "Which sentence has a misspelled word?", opts: ["The hotel can accomodate up to 200 guests.", "I have an appointment at 10 AM.", "The weather is quite pleasant today.", "He is a very responsible person."], ans: "The hotel can accomodate up to 200 guests.", exp: "คำที่สะกดผิดคือ 'accomodate' ครับ ที่ถูกต้องคือ 'accommodate' ซึ่งต้องมี 'cc' และ 'mm'" },
+                { q: "Which sentence has a misspelled word?", opts: ["This is a matter of public interest.", "She has a strong concience.", "He is conscious of his mistakes.", "The scenery is breathtaking."], ans: "She has a strong concience.", exp: "คำที่สะกดผิดคือ 'concience' ครับ ที่ถูกต้องคือ 'conscience' (มโนธรรม) ซึ่งมี 'sc' อยู่ตรงกลาง" },
+                { q: "Which sentence has a misspelled word?", opts: ["His arguement was not convincing.", "This is a truly amazing place.", "I appreciate your honest opinion.", "The team celebrated their victory."], ans: "His arguement was not convincing.", exp: "คำที่สะกดผิดคือ 'arguement' ครับ ที่ถูกต้องคือ 'argument' (การโต้เถียง) ซึ่งตัด 'e' จาก 'argue' ทิ้ง" },
+                { q: "Which sentence has a misspelled word?", opts: ["The company has a new marketing strategy.", "I will definately be there.", "The new design is very innovative.", "She is an independent woman."], ans: "I will definately be there.", exp: "คำที่สะกดผิดคือ 'definately' ครับ ที่ถูกต้องคือ 'definitely' (อย่างแน่นอน)" },
+                { q: "Which sentence has a misspelled word?", opts: ["The child was full of curiousity.", "He showed great leadership skills.", "The equipment needs regular maintenance.", "She has a cheerful personality."], ans: "The child was full of curiousity.", exp: "คำที่สะกดผิดคือ 'curiousity' ครับ ที่ถูกต้องคือ 'curiosity' (ความอยากรู้อยากเห็น) ซึ่งมาจาก 'curious' แล้วเปลี่ยน 'ous' เป็น 'osity'" },
+                { q: "Which sentence has a misspelled word?", opts: ["The lecture was quite boring.", "I am looking forward to the weekend.", "The restaurant is famous for its pizza.", "It was an unforgetable experience."], ans: "It was an unforgetable experience.", exp: "คำที่สะกดผิดคือ 'unforgetable' ครับ ที่ถูกต้องคือ 'unforgettable' (ที่ลืมไม่ลง) ซึ่งต้องเบิ้ล 't' ก่อนเติม '-able'" },
+                { q: "Which sentence has a misspelled word?", opts: ["He works as a professional photographer.", "The competition was very challenging.", "I need to pay my electricity bill.", "She made a grammar misteak."], ans: "She made a grammar misteak.", exp: "คำที่สะกดผิดคือ 'misteak' ครับ ที่ถูกต้องคือ 'mistake' (ความผิดพลาด)" },
+                { q: "Which sentence has a misspelled word?", opts: ["The train will arrive on platform four.", "The museum is closed on Mondays.", "She is studying abroad for a year.", "I have a different oppinion."], ans: "I have a different oppinion.", exp: "คำที่สะกดผิดคือ 'oppinion' ครับ ที่ถูกต้องคือ 'opinion' (ความคิดเห็น)" },
+                { q: "Which sentence has a misspelled word?", opts: ["He gave a brilliant performance.", "The problem is more complicated than it seems.", "I need your permision to leave early.", "She is a talented musician."], ans: "I need your permision to leave early.", exp: "คำที่สะกดผิดคือ 'permision' ครับ ที่ถูกต้องคือ 'permission' (การอนุญาต) ซึ่งมี 'ss'" },
+                { q: "Which sentence has a misspelled word?", opts: ["The message was delivered successfully.", "He is a very inteligent student.", "The project requires careful planning.", "She has a good sense of humor."], ans: "He is a very inteligent student.", exp: "คำที่สะกดผิดคือ 'inteligent' ครับ ที่ถูกต้องคือ 'intelligent' (ฉลาด) ซึ่งมี 'll'" },
+                { q: "Which sentence has a misspelled word?", opts: ["The final results will be announced soon.", "She has a beautiful singing voice.", "I am not familier with this area.", "The movie was very entertaining."], ans: "I am not familier with this area.", exp: "คำที่สะกดผิดคือ 'familier' ครับ ที่ถูกต้องคือ 'familiar' (คุ้นเคย)" },
+            ],
+            11: [
+                { q: "How many words are misspelled? [occasion, committee, separate, neccessary]", opts: ["1 word", "2 words", "3 words", "4 words"], ans: "1 word", exp: "คำที่สะกดผิดมี 1 คำ คือ 'neccessary' ซึ่งที่ถูกต้องคือ 'necessary' ครับ" },
+                { q: "How many words are misspelled? [beleive, truly, argument, forty]", opts: ["1 word", "2 words", "3 words", "4 words"], ans: "1 word", exp: "คำที่สะกดผิดมี 1 คำ คือ 'beleive' ซึ่งที่ถูกต้องคือ 'believe' ครับ" },
+                { q: "How many words are misspelled? [embarass, accomodate, privilege, rhythm]", opts: ["1 word", "2 words", "3 words", "4 words"], ans: "2 words", exp: "คำที่สะกดผิดมี 2 คำ คือ 'embarass' (ต้องเป็น 'embarrass') และ 'accomodate' (ต้องเป็น 'accommodate') ครับ" },
+                { q: "How many words are misspelled? [definately, sincerely, grammar, seperate]", opts: ["1 word", "2 words", "3 words", "4 words"], ans: "2 words", exp: "คำที่สะกดผิดมี 2 คำ คือ 'definately' (ต้องเป็น 'definitely') และ 'seperate' (ต้องเป็น 'separate') ครับ" },
+                { q: "How many words are misspelled? [acheivement, weird, conscience, pronounciation]", opts: ["1 word", "2 words", "3 words", "4 words"], ans: "2 words", exp: "คำที่สะกดผิดมี 2 คำ คือ 'acheivement' (ต้องเป็น 'achievement') และ 'pronounciation' (ต้องเป็น 'pronunciation') ครับ" },
+                { q: "How many words are misspelled? [goverment, environment, equipment, dissapoint]", opts: ["1 word", "2 words", "3 words", "4 words"], ans: "2 words", exp: "คำที่สะกดผิดมี 2 คำ คือ 'goverment' (ต้องเป็น 'government') และ 'dissapoint' (ต้องเป็น 'disappoint') ครับ" },
+                { q: "How many words are misspelled? [suprise, successful, recommend, occurrance]", opts: ["1 word", "2 words", "3 words", "4 words"], ans: "2 words", exp: "คำที่สะกดผิดมี 2 คำ คือ 'suprise' (ต้องเป็น 'surprise') และ 'occurrance' (ต้องเป็น 'occurrence') ครับ" },
+                { q: "How many words are misspelled? [foreign, height, recieve, science]", opts: ["1 word", "2 words", "3 words", "4 words"], ans: "1 word", exp: "คำที่สะกดผิดมี 1 คำ คือ 'recieve' (ต้องเป็น 'receive') ครับ" },
+                { q: "How many words are misspelled? [maintanance, independent, intelligence, immediatly]", opts: ["1 word", "2 words", "3 words", "4 words"], ans: "2 words", exp: "คำที่สะกดผิดมี 2 คำ คือ 'maintanance' (ต้องเป็น 'maintenance') และ 'immediatly' (ต้องเป็น 'immediately') ครับ" },
+                { q: "How many words are misspelled? [calender, cemetery, existence, experience]", opts: ["1 word", "2 words", "3 words", "4 words"], ans: "1 word", exp: "คำที่สะกดผิดมี 1 คำ คือ 'calender' (ต้องเป็น 'calendar') ครับ" },
+                { q: "How many words are misspelled? [untill, until, fulfill, skillful]", opts: ["1 word", "2 words", "3 words", "4 words"], ans: "1 word", exp: "คำที่สะกดผิดมี 1 คำ คือ 'untill' (ต้องเป็น 'until') ครับ" },
+                { q: "How many words are misspelled? [harass, possesion, profession, process]", opts: ["1 word", "2 words", "3 words", "4 words"], ans: "1 word", exp: "คำที่สะกดผิดมี 1 คำ คือ 'possesion' (ต้องเป็น 'possession') ครับ" },
+                { q: "How many words are misspelled? [irresistible, irresponsible, irrelavent, irreplacable]", opts: ["1 word", "2 words", "3 words", "4 words"], ans: "2 words", exp: "คำที่สะกดผิดมี 2 คำ คือ 'irrelavent' (ต้องเป็น 'irrelevant') และ 'irreplacable' (ต้องเป็น 'irreplaceable') ครับ" },
+                { q: "How many words are misspelled? [preceed, proceed, succeed, excede]", opts: ["1 word", "2 words", "3 words", "4 words"], ans: "1 word", exp: "คำที่สะกดผิดมี 1 คำ คือ 'excede' (ต้องเป็น 'exceed') ครับ" },
+                { q: "How many words are misspelled? [guage, guard, guarantee, guide]", opts: ["1 word", "2 words", "3 words", "4 words"], ans: "1 word", exp: "คำที่สะกดผิดมี 1 คำ คือ 'guage' (ต้องเป็น 'gauge') ครับ" },
+            ],
+            12: [
+                { q: "Definition: A person who works with you.", opts: ["colleague", "college", "collage", "collague"], ans: "colleague", exp: "'Colleague' หมายถึง 'เพื่อนร่วมงาน' ครับ ส่วน 'college' คือ 'วิทยาลัย', 'collage' คือ 'ภาพปะติด'" },
+                { q: "Definition: A formal event to celebrate something.", opts: ["celabration", "celebration", "celebretion", "celibration"], ans: "celebration", exp: "'Celebration' หมายถึง 'งานเฉลิมฉลอง' ครับ" },
+                { q: "Definition: A conversation or a formal meeting where you are asked questions.", opts: ["intervue", "enterview", "interview", "intaview"], ans: "interview", exp: "'Interview' หมายถึง 'การสัมภาษณ์' ครับ" },
+                { q: "Definition: A building where valuable historical objects are kept and shown to the public.", opts: ["museam", "museum", "musium", "museeum"], ans: "museum", exp: "'Museum' หมายถึง 'พิพิธภัณฑ์' ครับ" },
+                { q: "Definition: A plan of what someone is going to do and when.", opts: ["shedule", "skedule", "schedule", "shedual"], ans: "schedule", exp: "'Schedule' หมายถึง 'ตารางเวลา' หรือ 'กำหนดการ' ครับ" },
+                { q: "Definition: A strong feeling of wanting to achieve something.", opts: ["ambition", "ambision", "ambitione", "ambission"], ans: "ambition", exp: "'Ambition' หมายถึง 'ความทะเยอทะยาน' ครับ" },
+                { q: "Definition: A vehicle that travels on a railway track.", opts: ["trane", "train", "traine", "trayn"], ans: "train", exp: "'Train' หมายถึง 'รถไฟ' ครับ" },
+                { q: "Definition: A large area of land covered with trees.", opts: ["forrest", "forest", "forist", "forast"], ans: "forest", exp: "'Forest' หมายถึง 'ป่าไม้' ครับ" },
+                { q: "Definition: The money that you earn from your job.", opts: ["sallary", "celary", "salary", "salery"], ans: "salary", exp: "'Salary' หมายถึง 'เงินเดือน' ครับ" },
+                { q: "Definition: A person who buys goods or services from a shop or business.", opts: ["costumer", "customar", "customer", "costomer"], ans: "customer", exp: "'Customer' หมายถึง 'ลูกค้า' ครับ" },
+                { q: "Definition: The system of rules that a country or community recognizes as regulating the actions of its members.", opts: ["law", "low", "lawe", "loaw"], ans: "law", exp: "'Law' หมายถึง 'กฎหมาย' ครับ" },
+                { q: "Definition: A large meal, typically a celebratory one.", opts: ["feast", "feest", "fiest", "feaste"], ans: "feast", exp: "'Feast' หมายถึง 'งานเลี้ยง, อาหารมื้อใหญ่' ครับ" },
+                { q: "Definition: The study of past events.", opts: ["histery", "history", "hystory", "histary"], ans: "history", exp: "'History' หมายถึง 'ประวัติศาสตร์' ครับ" },
+                { q: "Definition: A feeling of deep admiration for someone or something.", opts: ["respect", "respekt", "rispect", "respec"], ans: "respect", exp: "'Respect' หมายถึง 'ความเคารพ' ครับ" },
+                { q: "Definition: A journey in a vehicle, especially an aircraft.", opts: ["flite", "flihgt", "flight", "flyght"], ans: "flight", exp: "'Flight' หมายถึง 'เที่ยวบิน' ครับ" },
+            ]
+        };
+
+        function generateQuestions() {
+            for (const section in testData) {
+                const sectionContainer = document.querySelector(`[data-section="${section}"]`);
+                if (sectionContainer) {
+                    const questions = testData[section];
+                    let questionHTML = '';
+                    questions.forEach((qData, index) => {
+                        const questionNumber = (parseInt(section) - 1) * 15 + index + 1;
+                        const optionsHTML = qData.opts.map(opt => `
+                            <div class="p-3 bg-gray-100 rounded-md hover:bg-sky-100 transition-colors cursor-pointer">
+                                <label class="option-label flex items-center w-full cursor-pointer">
+                                    <input type="radio" name="q${questionNumber}" class="mr-3">
+                                    <span>${opt}</span>
+                                </label>
+                            </div>
+                        `).join('');
+
+                        let questionTitle = qData.q;
+                        if (section == 3) { // Jumbled letters
+                            const jumbledWord = qData.q.split(': ')[1];
+                            questionTitle = `เรียงตัวอักษรให้ถูกต้อง: <span class="font-mono text-purple-700">${jumbledWord}</span>`;
+                        } else if (section == 4) { // Missing letters
+                            const missingWord = qData.q.split(': ')[1];
+                            questionTitle = `หาตัวอักษรที่หายไป: <span class="font-mono text-orange-700">${missingWord}</span>`;
+                        } else if (section == 5) { // Passage
+                            questionTitle = `<div class="p-4 bg-rose-50 rounded-lg border border-rose-200 text-lg">${qData.q}</div>`;
+                        } else if (section == 10) { // Sentence
+                            const sentences = qData.opts.map((s, i) => `<strong>ประโยคที่ ${i+1}:</strong> ${s}`).join('<br>');
+                            questionTitle = `<div class="p-4 bg-yellow-50 rounded-lg border border-yellow-200 text-lg">${sentences}</div>`;
+                        } else if (section == 11) { // Count
+                            const wordList = qData.q.split('? ')[1];
+                            questionTitle = `มีคำที่สะกดผิดกี่คำในลิสต์นี้: <span class="font-mono text-pink-700">${wordList}</span>`;
+                        } else if (section == 12) { // Definition
+                            const definition = qData.q.split(': ')[1];
+                            questionTitle = `<div class="p-4 bg-slate-100 rounded-lg border border-slate-200 text-lg"><strong>ความหมาย:</strong> ${definition}</div>`;
+                        }
+
+
+                        questionHTML += `
+                            <div class="bg-white p-5 rounded-lg shadow-sm border border-gray-200 flex flex-col">
+                                <p class="question-text mb-4"><strong>ข้อ ${questionNumber}.</strong> ${questionTitle}</p>
+                                <div class="space-y-3 flex-grow">
+                                    ${(section == 10) ? '' : optionsHTML}
+                                </div>
+                                <div class="mt-5">
+                                    <button class="show-answer-btn w-full bg-gray-200 text-gray-700 font-bold py-2 px-4 rounded-lg hover:bg-gray-300 transition-colors">
+                                        เฉลยพร้อมคำอธิบาย
+                                    </button>
+                                </div>
+                                <div class="answer-box mt-4 p-4 rounded-lg bg-green-50 border-l-4 border-green-500">
+                                    <p class="explanation"><strong>คำตอบที่ถูกต้อง:</strong> <span class="font-bold text-green-700">${qData.ans}</span></p>
+                                    <p class="explanation mt-2"><strong>เหตุผล:</strong> ${qData.exp}</p>
+                                </div>
+                            </div>
+                        `;
+                    });
+                    sectionContainer.innerHTML = questionHTML;
+                }
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            generateQuestions();
+
+            document.body.addEventListener('click', function(event) {
+                if (event.target.classList.contains('show-answer-btn')) {
+                    const answerBox = event.target.parentElement.nextElementSibling;
+                    answerBox.classList.toggle('visible');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

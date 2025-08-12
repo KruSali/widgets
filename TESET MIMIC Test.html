@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>แบบทดสอบวัดทักษะภาษาอังกฤษ (ระดับ B1-B2) - โดยครูสาลี่</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Sarabun', sans-serif;
+            font-size: 20px;
+            line-height: 1.8;
+            background-color: #f4f7f9;
+            color: #2c3e50;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: auto;
+            background-color: #ffffff;
+            padding: 20px 40px;
+            border-radius: 20px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+
+        h1, h2, h3 {
+            font-family: 'Sarabun', sans-serif;
+            font-weight: 700;
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 2.8em;
+            color: #1a5276;
+            margin-bottom: 5px;
+        }
+
+        .subtitle {
+            font-size: 1.5em;
+            color: #5d6d7e;
+            text-align: center;
+            margin-top: 0;
+            margin-bottom: 30px;
+            font-weight: 400;
+            border-bottom: 3px solid #f1c40f;
+            padding-bottom: 15px;
+        }
+
+        h2 {
+            font-size: 2.2em;
+            color: #9b2335;
+            margin-top: 50px;
+            background-color: #fdeded;
+            padding: 15px;
+            border-radius: 12px;
+            border-left: 8px solid #9b2335;
+        }
+        
+        .test-section {
+            margin-bottom: 40px;
+        }
+        
+        .question-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 35px;
+        }
+        
+        @media (min-width: 1024px) {
+            .question-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .question-block {
+            background-color: #fdfefe;
+            padding: 25px;
+            border: 1px solid #bdc3c7;
+            border-left: 7px solid #16a085;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .question-text {
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+        
+        .options ol {
+            list-style-type: none;
+            padding-left: 0;
+            margin: 0;
+            flex-grow: 1;
+        }
+        
+        .options li {
+            margin-bottom: 12px;
+            padding: 12px 15px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            background-color: #fff;
+        }
+
+        .answer-reveal {
+            display: none;
+            margin-top: 15px;
+            padding: 20px;
+            background-color: #e8f8f5;
+            border: 1px solid #a3e4d7;
+            border-radius: 8px;
+            color: #117a65;
+        }
+        
+        .answer-reveal .rationale {
+            margin-top: 10px;
+            font-style: italic;
+        }
+
+        .answer-reveal strong {
+            color: #0e6251;
+        }
+        
+        .reveal-btn {
+            align-self: flex-start;
+            margin-top: 20px;
+            padding: 8px 20px;
+            font-size: 18px;
+            font-weight: bold;
+            font-family: 'Sarabun', sans-serif;
+            color: white;
+            background-color: #3498db;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .reveal-btn:hover {
+            background-color: #2874a6;
+        }
+
+        .reading-passage {
+            background-color: #fef9e7;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            border: 1px dashed #f7dc6f;
+        }
+        
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>แบบทดสอบวัดทักษะภาษาอังกฤษ (ระดับ B1-B2)</h1>
+        <h3 class="subtitle">ครูสาลี่ -- อังกฤษฉบับคนเรียนไม่รู้เรื่อง</h3>
+        
+        <!-- ==================== PART I: Speaking (25 Items) ==================== -->
+        <div class="test-section">
+            <h2>Part I: Speaking (บทสนทนา)</h2>
+            <div class="question-grid">
+                
+                <!-- Questions 1-25 -->
+                <div class="question-block">
+                    <p class="question-text">1. Your colleague suggests a project idea that you think is unworkable. How do you respond diplomatically?</p>
+                    <div class="options"><ol><li>1. That will never work.</li><li>2. I see your point, but have we considered the potential budget constraints?</li><li>3. That's a terrible idea.</li><li>4. I'm not sure I understand. Can you explain it again?</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 2. I see your point, but have we considered the potential budget constraints?</p><p class="rationale"><strong>เหตุผล:</strong> เป็นการตอบสนองอย่างนุ่มนวล โดยแสดงให้เห็นว่ารับฟังความเห็น (I see your point) แต่ก็ชี้ให้เห็นถึงปัญหาที่อาจเกิดขึ้น (potential budget constraints) อย่างสร้างสรรค์และไม่ทำร้ายความรู้สึก</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">2. You missed a deadline for an important task. Your boss is asking for an explanation. What do you say?</p>
+                    <div class="options"><ol><li>1. It wasn't my fault; my computer crashed.</li><li>2. I apologize. I mismanaged my time and take full responsibility. I'm working to submit it as soon as possible.</li><li>3. There was too much work to do.</li><li>4. I'll get it done eventually, don't worry.</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 2. I apologize. I mismanaged my time and take full responsibility. I'm working to submit it as soon as possible.</p><p class="rationale"><strong>เหตุผล:</strong> แสดงความเป็นมืออาชีพโดยการขอโทษ (apologize), ยอมรับความผิดพลาด (take full responsibility) และเสนอแนวทางแก้ไขปัญหา</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">3. A: "I'm not sure I can make it to your party on Saturday. I'm feeling a bit under the weather." B: "___________"</p>
+                    <div class="options"><ol><li>1. You must come!</li><li>2. That's a shame. Well, no worries at all. Your health comes first. Get well soon!</li><li>3. Why? I've already prepared everything.</li><li>4. Don't be silly, you'll be fine.</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 2. That's a shame. Well, no worries at all. Your health comes first. Get well soon!</p><p class="rationale"><strong>เหตุผล:</strong> เป็นการตอบที่แสดงความเข้าใจและห่วงใยในสุขภาพของเพื่อน ("Your health comes first") และอวยพรให้หายป่วย ("Get well soon!") สำนวน "under the weather" หมายถึง รู้สึกไม่สบาย</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">4. You are in a meeting and you want to interrupt to add a crucial point. What is the most polite way to do so?</p>
+                    <div class="options"><ol><li>1. "Wait, I have something to say."</li><li>2. "Excuse me, could I just jump in for a moment? I think this is relevant."</li><li>3. "That's wrong. Let me correct you."</li><li>4. "Listen to me, this is important."</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 2. "Excuse me, could I just jump in for a moment? I think this is relevant."</p><p class="rationale"><strong>เหตุผล:</strong> เป็นการขออนุญาตขัดจังหวะอย่างสุภาพ ("Excuse me, could I...") และให้เหตุผลว่าสิ่งที่กำลังจะพูดมีความเกี่ยวข้อง</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">5. A: "The new company policy seems a bit counter-intuitive." B: "___________ It might take some getting used to."</p>
+                    <div class="options"><ol><li>1. I couldn't agree more.</li><li>2. I suppose so, but I think there's a rationale behind it.</li><li>3. You're completely wrong.</li><li>4. I don't care about the policy.</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 2. I suppose so, but I think there's a rationale behind it.</p><p class="rationale"><strong>เหตุผล:</strong> เป็นการตอบที่แสดงความเห็นด้วยบางส่วน ("I suppose so") แต่ก็เสนออีกมุมมองหนึ่ง ("but I think there's a rationale behind it") ซึ่งเป็นการสนทนาที่สร้างสรรค์</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">6. A customer complains that their order is incorrect. As a waiter, you should say:</p>
+                    <div class="options"><ol><li>1. "That's impossible. I took the order correctly."</li><li>2. "Are you sure? Let me see your receipt."</li><li>3. "My sincerest apologies. Let me correct this for you immediately."</li><li>4. "You'll have to speak to my manager."</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 3. "My sincerest apologies. Let me correct this for you immediately."</p><p class="rationale"><strong>เหตุผล:</strong> แสดงความรับผิดชอบและพร้อมที่จะแก้ไขปัญหาทันที ซึ่งเป็นวิธีการบริการลูกค้าที่ดีที่สุด</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">7. You want to give constructive feedback to a friend about their presentation. You start by saying:</p>
+                    <div class="options"><ol><li>1. "Your presentation was full of mistakes."</li><li>2. "It was okay, but not great."</li><li>3. "That was a great effort! I especially liked how you explained the data. If you don't mind, I have a small suggestion for the visuals."</li><li>4. "You need to practice more."</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 3. "That was a great effort! I especially liked how you explained the data. If you don't mind, I have a small suggestion for the visuals."</p><p class="rationale"><strong>เหตุผล:</strong> ใช้วิธี "Sandwich Feedback" โดยเริ่มจากการชม (great effort), ตามด้วยข้อเสนอแนะ (suggestion for the visuals) อย่างสุภาพ ทำให้ผู้รับฟังเปิดใจรับฟังมากขึ้น</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">8. A: "I've heard that the new sci-fi movie is a masterpiece." B: "___________ I found the plot to be rather predictable."</p>
+                    <div class="options"><ol><li>1. "I totally agree."</li><li>2. "That's one way of putting it, but personally..."</li><li>3. "You must be joking."</li><li>4. "Absolutely! It was brilliant."</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 2. "That's one way of putting it, but personally..."</p><p class="rationale"><strong>เหตุผล:</strong> เป็นวลีที่ใช้แสดงความไม่เห็นด้วยอย่างนุ่มนวล โดยยอมรับว่านั่นเป็นความคิดเห็นหนึ่ง แต่ตนเองมีความเห็นที่แตกต่างออกไป</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">9. You are negotiating your salary. The initial offer is lower than you expected. You say:</p>
+                    <div class="options"><ol><li>1. "That's too low. I can't accept."</li><li>2. "Is that the best you can do?"</li><li>3. "Thank you for the offer. Based on my experience and the market rate, I was anticipating a figure closer to [amount]. Is there any flexibility?"</li><li>4. "I'll take it, but I'm not happy."</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 3. "Thank you for the offer. Based on my experience and the market rate, I was anticipating a figure closer to [amount]. Is there any flexibility?"</p><p class="rationale"><strong>เหตุผล:</strong> เป็นการต่อรองอย่างมืออาชีพ โดยขอบคุณสำหรับข้อเสนอ, ให้เหตุผลประกอบ (experience, market rate) และเปิดช่องให้มีการเจรจาต่อ ("Is there any flexibility?")</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">10. A: "I'm thinking of quitting my job to travel the world." B: "___________"</p>
+                    <div class="options"><ol><li>1. "That's a reckless decision."</li><li>2. "Wow, that's a bold move! Have you thought about the financial implications?"</li><li>3. "You'll regret it later."</li><li>4. "Can I have your job?"</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 2. "Wow, that's a bold move! Have you thought about the financial implications?"</p><p class="rationale"><strong>เหตุผล:</strong> แสดงความชื่นชมในความกล้าหาญ ("bold move") แต่ก็ถามคำถามที่ชวนให้คิดอย่างรอบคอบ ("financial implications") ซึ่งแสดงความห่วงใย</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">11. You are asked for your opinion on a controversial topic in a group discussion. You want to remain neutral.</p>
+                    <div class="options"><ol><li>1. "I have no opinion on this matter."</li><li>2. "That's a complex issue with valid points on both sides. I can see the arguments for and against."</li><li>3. "I agree with everyone."</li><li>4. "This topic is too boring to discuss."</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 2. "That's a complex issue with valid points on both sides. I can see the arguments for and against."</p><p class="rationale"><strong>เหตุผล:</strong> แสดงให้เห็นว่าคุณเข้าใจความซับซ้อนของประเด็นและพิจารณาจากหลายมุมมอง โดยไม่เลือกข้างใดข้างหนึ่ง</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">12. A: "Could you help me move this heavy desk?" B: "___________ I have a bad back."</p>
+                    <div class="options"><ol><li>1. "No, I'm busy."</li><li>2. "I'd love to, but I'm afraid I can't risk it."</li><li>3. "You should ask someone stronger."</li><li>4. "Why don't you do it yourself?"</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 2. "I'd love to, but I'm afraid I can't risk it."</p><p class="rationale"><strong>เหตุผล:</strong> เป็นการปฏิเสธอย่างสุภาพ โดยแสดงความเต็มใจที่จะช่วย ("I'd love to") แต่ก็ให้เหตุผลที่สมเหตุสมผล ("I have a bad back")</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">13. You need to ask your neighbor to turn down their loud music late at night.</p>
+                    <div class="options"><ol><li>1. "Turn that music off right now!"</li><li>2. "I'm trying to sleep here!"</li><li>3. "Hi, sorry to bother you so late, but would you mind turning the music down a bit? I have an early start tomorrow."</li><li>4. "I'm going to call the police if you don't stop."</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 3. "Hi, sorry to bother you so late, but would you mind turning the music down a bit? I have an early start tomorrow."</p><p class="rationale"><strong>เหตุผล:</strong> เป็นการเริ่มต้นบทสนทนาอย่างสุภาพ, ขอร้องอย่างนุ่มนวล ("would you mind...") และให้เหตุผลส่วนตัวเพื่อสร้างความเห็นใจ</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">14. A: "I can't believe the train is delayed again. This is unacceptable." B: "___________ It's frustrating, isn't it?"</p>
+                    <div class="options"><ol><li>1. "You should have driven."</li><li>2. "Calm down."</li><li>3. "Tell me about it."</li><li>4. "It's not that bad."</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 3. "Tell me about it."</p><p class="rationale"><strong>เหตุผล:</strong> เป็นสำนวนที่ใช้แสดงความเห็นด้วยอย่างยิ่ง (strong agreement) มีความหมายว่า "ฉันเข้าใจและรู้สึกเหมือนกันเลย"</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">15. You are giving a presentation and you forget what to say next. What do you do?</p>
+                    <div class="options"><ol><li>1. Stop the presentation and apologize.</li><li>2. "Just a moment, let me gather my thoughts." Then take a brief pause.</li><li>3. Ask the audience what you were talking about.</li><li>4. Say "I've forgotten my lines" and laugh.</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 2. "Just a moment, let me gather my thoughts." Then take a brief pause.</p><p class="rationale"><strong>เหตุผล:</strong> เป็นวิธีจัดการสถานการณ์อย่างมืออาชีพ ช่วยให้คุณมีเวลาคิดโดยไม่ทำให้ดูตื่นตระหนก</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">16. A colleague asks for your help on a task, but you are swamped with your own work. You say:</p>
+                    <div class="options"><ol><li>1. "I can't, I'm too busy."</li><li>2. "I'm a bit tied up at the moment. Could we perhaps look at it together this afternoon?"</li><li>3. "Why don't you ask someone else?"</li><li>4. "That sounds like your problem, not mine."</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 2. "I'm a bit tied up at the moment. Could we perhaps look at it together this afternoon?"</p><p class="rationale"><strong>เหตุผล:</strong> สำนวน "tied up" หมายถึง ไม่ว่าง/ยุ่งมาก การตอบแบบนี้เป็นการปฏิเสธอย่างสุภาพแต่ก็เสนอทางเลือกอื่น ซึ่งแสดงถึงความเต็มใจที่จะช่วยเหลือ</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">17. A: "How was your trip to Italy?" B: "It was out of this world! The food, the history... ___________"</p>
+                    <div class="options"><ol><li>1. I didn't like it much.</li><li>2. It was just okay.</li><li>3. You name it, I loved it.</li><li>4. I'd rather not talk about it.</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 3. "You name it, I loved it."</p><p class="rationale"><strong>เหตุผล:</strong> สำนวน "You name it" ใช้เพื่อสรุปว่าทุกสิ่งทุกอย่างที่คนคนหนึ่งจะนึกถึงได้ (ในที่นี้คือทุกอย่างเกี่ยวกับอิตาลี) ซึ่งสอดคล้องกับการชมว่า "out of this world" (ยอดเยี่ยมมาก)</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">18. You are trying to explain a complex idea. To check if your audience understands, you say:</p>
+                    <div class="options"><ol><li>1. "Do you get it now?"</li><li>2. "Is that clear enough, or would you like me to elaborate on any point?"</li><li>3. "You must have understood that."</li><li>4. "Let's move on."</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 2. "Is that clear enough, or would you like me to elaborate on any point?"</p><p class="rationale"><strong>เหตุผล:</strong> เป็นการถามเพื่อตรวจสอบความเข้าใจอย่างสุภาพและเปิดโอกาสให้ผู้ฟังซักถามเพิ่มเติม ("elaborate" = อธิบายเพิ่มเติม)</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">19. A: "I'm so nervous about my job interview tomorrow." B: "___________ You'll do great."</p>
+                    <div class="options"><ol><li>1. "You should be."</li><li>2. "Don't worry, just be yourself. Break a leg!"</li><li>3. "If you fail, it's not the end of the world."</li><li>4. "Good luck with that."</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 2. "Don't worry, just be yourself. Break a leg!"</p><p class="rationale"><strong>เหตุผล:</strong> เป็นการให้กำลังใจที่ดี "Break a leg" เป็นสำนวนที่ใช้ในการอวยพรให้โชคดี (โดยเฉพาะก่อนการแสดงหรือการนำเสนอ)</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">20. You disagree with a point made in a book you're discussing in a book club.</p>
+                    <div class="options"><ol><li>1. "The author is completely wrong here."</li><li>2. "I found that particular argument a bit unconvincing. My interpretation is that..."</li><li>3. "This book is terribly written."</li><li>4. "I didn't understand that part."</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 2. "I found that particular argument a bit unconvincing. My interpretation is that..."</p><p class="rationale"><strong>เหตุผล:</strong> เป็นการแสดงความไม่เห็นด้วยเชิงวิชาการ โดยวิจารณ์ที่ตัว "argument" ไม่ใช่ตัวผู้เขียน และเสนอความเห็นของตนเอง ("My interpretation")</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">21. A: "We need to finish this report by 5 PM." B: "That's a tall order, but let's give it our best shot." What does "a tall order" mean?</p>
+                    <div class="options"><ol><li>1. An easy task.</li><li>2. A delicious meal.</li><li>3. A difficult request.</li><li>4. A long document.</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 3. A difficult request.</p><p class="rationale"><strong>เหตุผล:</strong> สำนวน "a tall order" หมายถึง งานหรือคำขอที่ทำได้ยากมาก</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">22. You receive an email with an attachment you can't open. You reply:</p>
+                    <div class="options"><ol><li>1. "Your attachment is broken."</li><li>2. "Send it again."</li><li>3. "Thanks for the email. For some reason, I was unable to open the attachment. Would you mind resending it, perhaps in a different format?"</li><li>4. "I can't open this."</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 3. "Thanks for the email. For some reason, I was unable to open the attachment. Would you mind resending it, perhaps in a different format?"</p><p class="rationale"><strong>เหตุผล:</strong> เป็นการสื่อสารปัญหาอย่างสุภาพและให้ข้อมูลที่เป็นประโยชน์ โดยเสนอแนะแนวทางแก้ไข (resending in a different format)</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">23. A: "I think we should postpone the meeting." B: "I'm on the fence about that. Let's weigh the pros and cons." What does "on the fence" mean?</p>
+                    <div class="options"><ol><li>1. In complete agreement.</li><li>2. Strongly opposed.</li><li>3. Undecided.</li><li>4. Sitting on a fence.</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 3. Undecided.</p><p class="rationale"><strong>เหตุผล:</strong> สำนวน "on the fence" หมายถึง ลังเล, ยังไม่ได้ตัดสินใจ</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">24. You are asked to work overtime on a weekend. You are not happy but you have to agree.</p>
+                    <div class="options"><ol><li>1. "Fine, whatever."</li><li>2. "I suppose I don't have a choice. I'll be there."</li><li>3. "This is so unfair."</li><li>4. "Absolutely not."</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 2. "I suppose I don't have a choice. I'll be there."</p><p class="rationale"><strong>เหตุผล:</strong> เป็นการตอบรับอย่างไม่เต็มใจแต่ก็ยังคงความเป็นมืออาชีพ แสดงให้เห็นว่าคุณเข้าใจสถานการณ์แม้จะไม่ชอบก็ตาม</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">25. A: "Let's call it a day. We've made good progress." What does "call it a day" mean?</p>
+                    <div class="options"><ol><li>1. To start working.</li><li>2. To name the day.</li><li>3. To stop working for the day.</li><li>4. To schedule a meeting.</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 3. To stop working for the day.</p><p class="rationale"><strong>เหตุผล:</strong> สำนวน "call it a day" หมายถึง เลิกงานสำหรับวันนั้น</p></div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- ==================== PART II: Grammar and Structure (25 Items) ==================== -->
+        <div class="test-section">
+            <h2>Part II: Grammar and Structure (ไวยากรณ์และโครงสร้าง)</h2>
+            <div class="question-grid">
+                
+                <!-- Questions 26-50 -->
+                <div class="question-block">
+                    <p class="question-text">26. Not until the gallery was closed ___________ that his favorite painting had been sold.</p>
+                    <div class="options"><ol><li>1. he realized</li><li>2. did he realize</li><li>3. he has realized</li><li>4. that he realized</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 2. did he realize</p><p class="rationale"><strong>ไวยากรณ์เรื่อง:</strong> Inversion (การสลับที่ประธานและกริยา)<br><strong>เหตุผล:</strong> เมื่อประโยคขึ้นต้นด้วยวลีปฏิเสธ เช่น Not until, Never, Rarely, No sooner จะต้องมีการสลับที่ระหว่างกริยาช่วย (Auxiliary Verb) และประธาน (Subject) ใน main clause โครงสร้างคือ Not until... + auxiliary verb + subject + main verb.</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">27. If I ___________ that you were coming, I would have baked a cake.</p>
+                    <div class="options"><ol><li>1. knew</li><li>2. know</li><li>3. had known</li><li>4. would know</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 3. had known</p><p class="rationale"><strong>ไวยากรณ์เรื่อง:</strong> Third Conditional (If-Clause Type 3)<br><strong>เหตุผล:</strong> ใช้พูดถึงเหตุการณ์ในอดีตที่ไม่เป็นจริงและผลลัพธ์ที่ตรงกันข้าม โครงสร้างคือ If + Past Perfect (had + V3), would have + V3.</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">28. The project ___________ by the team before the deadline next Friday.</p>
+                    <div class="options"><ol><li>1. will complete</li><li>2. is completed</li><li>3. will have been completed</li><li>4. has completed</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 3. will have been completed</p><p class="rationale"><strong>ไวยากรณ์เรื่อง:</strong> Future Perfect Passive Voice<br><strong>เหตุผล:</strong> ใช้พูดถึงการกระทำที่จะเสร็จสมบูรณ์ก่อนจุดเวลาหนึ่งในอนาคต และประธาน (The project) เป็นผู้ถูกกระทำ จึงต้องใช้รูป Passive (will have been + V3).</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">29. (Error) He suggested (1)<u>to go</u> (2)<u>to the cinema</u>, but I preferred (3)<u>staying</u> (4)<u>at home</u>.</p>
+                    <div class="options"><ol><li>1. to go</li><li>2. to the cinema</li><li>3. staying</li><li>4. at home</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 1. to go</p><p class="rationale"><strong>ไวยากรณ์เรื่อง:</strong> Gerunds and Infinitives<br><strong>เหตุผล:</strong> คำกริยา 'suggest' ต้องตามด้วย Gerund (V-ing) เสมอ ดังนั้นที่ถูกต้องคือ 'going'</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">30. ___________ all the necessary preparations, the team was ready to launch the new product.</p>
+                    <div class="options"><ol><li>1. Having made</li><li>2. Made</li><li>3. To make</li><li>4. Making</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 1. Having made</p><p class="rationale"><strong>ไวยากรณ์เรื่อง:</strong> Participle Clauses<br><strong>เหตุผล:</strong> ใช้ Perfect Participle (Having + V3) เพื่อเน้นว่าการกระทำแรก (การเตรียมการ) เสร็จสิ้นสมบูรณ์แล้วก่อนที่การกระทำที่สอง (การพร้อมที่จะเปิดตัว) จะเกิดขึ้น</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">31. The manager insists that every employee ___________ the new safety regulations.</p>
+                    <div class="options"><ol><li>1. follows</li><li>2. follow</li><li>3. will follow</li><li>4. followed</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 2. follow</p><p class="rationale"><strong>ไวยากรณ์เรื่อง:</strong> Subjunctive Mood<br><strong>เหตุผล:</strong> หลังคำกริยาที่แสดงการแนะนำ, คำสั่ง, หรือความปรารถนา (เช่น insist, suggest, recommend, demand) ใน that-clause เราจะใช้ Subjunctive Mood ซึ่งอยู่ในรูปของกริยาช่องที่ 1 (base form) โดยไม่เติม s/es แม้ประธานจะเป็นเอกพจน์</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">32. If I had taken your advice then, I ___________ in this predicament now.</p>
+                    <div class="options"><ol><li>1. won't be</li><li>2. wouldn't have been</li><li>3. wouldn't be</li><li>4. am not</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 3. wouldn't be</p><p class="rationale"><strong>ไวยากรณ์เรื่อง:</strong> Mixed Conditional<br><strong>เหตุผล:</strong> เป็นประโยคเงื่อนไขแบบผสม พูดถึงเงื่อนไขในอดีต (If + Past Perfect) ที่ส่งผลต่อปัจจุบัน (would + V1). "ถ้าฉันเชื่อคำแนะนำของคุณตอนนั้น ตอนนี้ฉันก็คงไม่ตกอยู่ในสถานการณ์ที่ยากลำบากแบบนี้"</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">33. It was his ___________ that ultimately led to the company's downfall.</p>
+                    <div class="options"><ol><li>1. arrogant</li><li>2. arrogantly</li><li>3. arrogance</li><li>4. more arrogant</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 3. arrogance</p><p class="rationale"><strong>ไวยากรณ์เรื่อง:</strong> Parts of Speech (Nouns)<br><strong>เหตุผล:</strong> ตำแหน่งนี้ต้องการคำนาม (Noun) เพื่อทำหน้าที่เป็นประธานของอนุประโยค (clause) ซึ่ง 'arrogance' (ความเย่อหยิ่ง) เป็นคำนาม</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">34. (Error) The number of tourists (1)<u>visiting</u> Thailand (2)<u>have increased</u> (3)<u>dramatically</u> over the (4)<u>past decade</u>.</p>
+                    <div class="options"><ol><li>1. visiting</li><li>2. have increased</li><li>3. dramatically</li><li>4. past decade</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 2. have increased</p><p class="rationale"><strong>ไวยากรณ์เรื่อง:</strong> Subject-Verb Agreement<br><strong>เหตุผล:</strong> เมื่อประธานขึ้นต้นด้วย "The number of..." จะถือว่าเป็นเอกพจน์เสมอ และต้องใช้กริยาเอกพจน์ (has increased). ในทางกลับกัน ถ้าขึ้นต้นด้วย "A number of..." จะถือเป็นพหูพจน์และใช้กริยาพหูพจน์ (have increased).</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">35. Rarely ___________ such a breathtaking performance.</p>
+                    <div class="options"><ol><li>1. I have seen</li><li>2. have I seen</li><li>3. I saw</li><li>4. did I saw</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 2. have I seen</p><p class="rationale"><strong>ไวยากรณ์เรื่อง:</strong> Inversion<br><strong>เหตุผล:</strong> เมื่อประโยคขึ้นต้นด้วย Adverb ที่มีความหมายเชิงปฏิเสธหรือจำกัด (เช่น Rarely, Seldom, Never) จะต้องมีการสลับที่ระหว่างกริยาช่วยและประธาน</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">36. The equipment, along with the instruction manuals, ___________ delivered yesterday.</p>
+                    <div class="options"><ol><li>1. was</li><li>2. were</li><li>3. has been</li><li>4. have been</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 1. was</p><p class="rationale"><strong>ไวยากรณ์เรื่อง:</strong> Subject-Verb Agreement<br><strong>เหตุผล:</strong> เมื่อมีวลีเช่น along with, together with, as well as มาเชื่อม ประธานตัวจริงคือตัวที่อยู่ข้างหน้า (The equipment) ซึ่งเป็นเอกพจน์ ดังนั้นจึงใช้กริยา 'was'</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">37. I wish I ___________ more attention during the lecture; now I'm completely lost.</p>
+                    <div class="options"><ol><li>1. paid</li><li>2. have paid</li><li>3. would pay</li><li>4. had paid</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 4. had paid</p><p class="rationale"><strong>ไวยากรณ์เรื่อง:</strong> Wishes about the past<br><strong>เหตุผล:</strong> การใช้ 'I wish' เพื่อแสดงความเสียใจเกี่ยวกับสิ่งที่เกิดขึ้น (หรือไม่เกิดขึ้น) ในอดีต จะใช้โครงสร้าง I wish + Past Perfect (had + V3).</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">38. (Error) Despite of (1)<u>the heavy rain</u>, the concert (2)<u>went ahead</u> as (3)<u>planned</u> and was a huge (4)<u>success</u>.</p>
+                    <div class="options"><ol><li>1. the heavy rain</li><li>2. went ahead</li><li>3. planned</li><li>4. success</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 1. the heavy rain (The error is 'Despite of')</p><p class="rationale"><strong>ไวยากรณ์เรื่อง:</strong> Conjunctions and Prepositions<br><strong>เหตุผล:</strong> เราใช้ 'Despite' หรือ 'In spite of' ตามด้วยคำนามหรือ Gerund แต่เราไม่ใช้ 'Despite of' ที่ถูกต้องคือ 'Despite the heavy rain' หรือ 'In spite of the heavy rain'</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">39. It is vital that the information ___________ confidential.</p>
+                    <div class="options"><ol><li>1. is remained</li><li>2. remains</li><li>3. remain</li><li>4. will remain</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 3. remain</p><p class="rationale"><strong>ไวยากรณ์เรื่อง:</strong> Subjunctive Mood<br><strong>เหตุผล:</strong> หลังวลี "It is + adjective (vital, essential, important) + that..." เราจะใช้ Subjunctive Mood (กริยาช่องที่ 1 ไม่ผัน)</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">40. ___________ he is, he still makes basic mistakes from time to time.</p>
+                    <div class="options"><ol><li>1. As experienced</li><li>2. Experienced as</li><li>3. So experienced</li><li>4. Despite experienced</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 2. Experienced as</p><p class="rationale"><strong>ไวยากรณ์เรื่อง:</strong> Concession Clauses with 'as'<br><strong>เหตุผล:</strong> เป็นโครงสร้างที่ใช้แสดงความขัดแย้ง (concession) มีความหมายคล้าย 'Although' โครงสร้างคือ Adjective/Adverb + as + subject + verb.</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">41. The CEO, ___________ vision transformed the company, announced her retirement.</p>
+                    <div class="options"><ol><li>1. who</li><li>2. which</li><li>3. that</li><li>4. whose</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 4. whose</p><p class="rationale"><strong>ไวยากรณ์เรื่อง:</strong> Relative Pronouns (Possessive)<br><strong>เหตุผล:</strong> 'Whose' ใช้แสดงความเป็นเจ้าของ (vision ของ CEO) เพื่อเชื่อม non-defining relative clause</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">42. (Error) Had I known you were in trouble, I (1)<u>would have</u> (2)<u>lend</u> you (3)<u>some</u> money (4)<u>without hesitation</u>.</p>
+                    <div class="options"><ol><li>1. would have</li><li>2. lend</li><li>3. some</li><li>4. without hesitation</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 2. lend</p><p class="rationale"><strong>ไวยากรณ์เรื่อง:</strong> Third Conditional<br><strong>เหตุผล:</strong> โครงสร้างของ Third Conditional ใน main clause คือ would have + V3 (Past Participle). V3 ของ 'lend' คือ 'lent'</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">43. The government is expected ___________ new policies to combat inflation.</p>
+                    <div class="options"><ol><li>1. introducing</li><li>2. to introduce</li><li>3. introduce</li><li>4. be introduced</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 2. to introduce</p><p class="rationale"><strong>ไวยากรณ์เรื่อง:</strong> Passive with Infinitive<br><strong>เหตุผล:</strong> หลังโครงสร้าง passive (is expected, is said, is believed) เราจะตามด้วย to-infinitive (to + V1).</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">44. ___________ the fact that she had no experience, she was offered the job.</p>
+                    <div class="options"><ol><li>1. Although</li><li>2. However</li><li>3. In spite of</li><li>4. Whereas</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 3. In spite of</p><p class="rationale"><strong>ไวยากรณ์เรื่อง:</strong> Concession<br><strong>เหตุผล:</strong> 'In spite of' และ 'Despite' จะตามด้วยคำนามหรือวลี (the fact that...). 'Although' จะตามด้วยประโยค (subject + verb).</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">45. (Error) The data (1)<u>collected</u> from the survey (2)<u>indicate</u> that consumer confidence (3)<u>are</u> at (4)<u>an all-time low</u>.</p>
+                    <div class="options"><ol><li>1. collected</li><li>2. indicate</li><li>3. are</li><li>4. an all-time low</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 3. are</p><p class="rationale"><strong>ไวยากรณ์เรื่อง:</strong> Subject-Verb Agreement<br><strong>เหตุผล:</strong> ประธานของกริยา 'are' คือ 'consumer confidence' ซึ่งเป็นนามนับไม่ได้ (uncountable noun) จึงต้องใช้กริยาเอกพจน์ 'is'</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">46. He would rather ___________ by train than fly.</p>
+                    <div class="options"><ol><li>1. to travel</li><li>2. travelling</li><li>3. travel</li><li>4. travelled</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 3. travel</p><p class="rationale"><strong>ไวยากรณ์เรื่อง:</strong> 'Would rather'<br><strong>เหตุผล:</strong> หลังสำนวน 'would rather' เราจะใช้กริยาช่องที่ 1 (base form) โดยไม่มี to.</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">47. No sooner ___________ the house than it began to rain.</p>
+                    <div class="options"><ol><li>1. he had left</li><li>2. had he left</li><li>3. he left</li><li>4. did he left</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 2. had he left</p><p class="rationale"><strong>ไวยากรณ์เรื่อง:</strong> Inversion with 'No sooner...than'<br><strong>เหตุผล:</strong> โครงสร้างนี้ใช้ Past Perfect ในส่วนแรก และต้องมีการสลับที่: No sooner + had + subject + V3.</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">48. (Error) My professor, (1)<u>that</u> is an expert in (2)<u>medieval history</u>, has published (3)<u>several</u> acclaimed (4)<u>books</u>.</p>
+                    <div class="options"><ol><li>1. that</li><li>2. medieval history</li><li>3. several</li><li>4. books</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 1. that</p><p class="rationale"><strong>ไวยากรณ์เรื่อง:</strong> Non-defining Relative Clauses<br><strong>เหตุผล:</strong> ใน non-defining clause (มีเครื่องหมาย comma) เราไม่สามารถใช้ 'that' เพื่อแทนคนได้ ต้องใช้ 'who' เท่านั้น</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">49. All flights ___________ due to the severe weather conditions.</p>
+                    <div class="options"><ol><li>1. have been cancelled</li><li>2. have cancelled</li><li>3. are cancelling</li><li>4. cancelled</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 1. have been cancelled</p><p class="rationale"><strong>ไวยากรณ์เรื่อง:</strong> Passive Voice<br><strong>เหตุผล:</strong> ประธาน 'All flights' เป็นผู้ถูกกระทำ (ถูกยกเลิก) จึงต้องใช้รูป Passive. Present Perfect Passive (have/has been + V3) เหมาะสมที่สุดเพื่อบอกว่าการยกเลิกเพิ่งเกิดขึ้นและยังส่งผลอยู่</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">50. She is not used to ___________ in such a cold climate.</p>
+                    <div class="options"><ol><li>1. live</li><li>2. living</li><li>3. have lived</li><li>4. be living</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 2. living</p><p class="rationale"><strong>ไวยากรณ์เรื่อง:</strong> 'be used to'<br><strong>เหตุผล:</strong> สำนวน 'be used to' (คุ้นเคยกับ) จะต้องตามด้วย Gerund (V-ing) หรือคำนาม อย่าสับสนกับ 'used to + V1' (เคยทำในอดีต)</p></div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- ==================== PART III: Vocabulary (25 Items) ==================== -->
+        <div class="test-section">
+            <h2>Part III: Vocabulary (คำศัพท์)</h2>
+            <div class="question-grid">
+                
+                <!-- Questions 51-75 -->
+                <div class="question-block">
+                    <p class="question-text">51. The detective had to <strong>scrutinize</strong> the evidence to find any clues.</p>
+                    <div class="options"><ol><li>1. glance at</li><li>2. examine carefully</li><li>3. discard</li><li>4. fabricate</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 2. examine carefully</p><p class="rationale"><strong>เหตุผล:</strong> 'To scrutinize' หมายถึง ตรวจสอบหรือพินิจพิเคราะห์อย่างละเอียดถี่ถ้วน ซึ่งมีความหมายเหมือนกับ 'examine carefully'<br><strong>คำศัพท์อื่น:</strong> glance at (มองผ่านๆ), discard (ทิ้ง), fabricate (กุเรื่อง, สร้างขึ้น)</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">52. Her speech was so <strong>eloquent</strong> that it moved everyone in the audience.</p>
+                    <div class="options"><ol><li>1. confusing</li><li>2. boring</li><li>3. fluent and persuasive</li><li>4. short and simple</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 3. fluent and persuasive</p><p class="rationale"><strong>เหตุผล:</strong> 'Eloquent' เป็นคำคุณศัพท์ที่ใช้อธิบายการพูดหรือการเขียนที่คล่องแคล่ว, ชัดเจน, และโน้มน้าวใจได้ดี<br><strong>คำศัพท์อื่น:</strong> confusing (น่าสับสน), boring (น่าเบื่อ), short and simple (สั้นและง่าย)</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">53. The company decided to <strong>implement</strong> a new recycling policy to reduce waste.</p>
+                    <div class="options"><ol><li>1. cancel</li><li>2. discuss</li><li>3. put into effect</li><li>4. ignore</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 3. put into effect</p><p class="rationale"><strong>เหตุผล:</strong> 'To implement' หมายถึง นำไปปฏิบัติ หรือทำให้มีผลบังคับใช้ ซึ่งตรงกับความหมายของ 'put into effect'<br><strong>คำศัพท์อื่น:</strong> cancel (ยกเลิก), discuss (อภิปราย), ignore (เพิกเฉย)</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">54. Choose the word that is an antonym for <strong>ambiguous</strong>.</p>
+                    <div class="options"><ol><li>1. vague</li><li>2. unclear</li><li>3. precise</li><li>4. complex</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 3. precise</p><p class="rationale"><strong>เหตุผล:</strong> 'Ambiguous' หมายถึง คลุมเครือ, กำกวม, ตีความได้หลายอย่าง คำตรงข้าม (antonym) คือ 'precise' ซึ่งหมายถึง แม่นยำ, เที่ยงตรง, ชัดเจน<br><strong>คำศัพท์อื่น:</strong> vague (คลุมเครือ), unclear (ไม่ชัดเจน), complex (ซับซ้อน)</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">55. Despite the initial setbacks, she remained <strong>resilient</strong> and eventually achieved her goals.</p>
+                    <div class="options"><ol><li>1. weak</li><li>2. stubborn</li><li>3. able to recover quickly</li><li>4. disappointed</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 3. able to recover quickly</p><p class="rationale"><strong>เหตุผล:</strong> 'Resilient' หมายถึง ยืดหยุ่น, สามารถฟื้นตัวจากความยากลำบากได้อย่างรวดเร็ว<br><strong>คำศัพท์อื่น:</strong> weak (อ่อนแอ), stubborn (ดื้อรั้น), disappointed (ผิดหวัง)</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">56. The new regulations will likely <strong>exacerbate</strong> the already tense situation between the two countries.</p>
+                    <div class="options"><ol><li>1. improve</li><li>2. worsen</li><li>3. observe</li><li>4. resolve</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 2. worsen</p><p class="rationale"><strong>เหตุผล:</strong> 'To exacerbate' หมายถึง ทำให้แย่ลงหรือรุนแรงขึ้น<br><strong>คำศัพท์อื่น:</strong> improve (ทำให้ดีขึ้น), observe (สังเกต), resolve (แก้ไข)</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">57. The museum has a <strong>plethora</strong> of ancient artifacts from various civilizations.</p>
+                    <div class="options"><ol><li>1. shortage</li><li>2. small number</li><li>3. specific type</li><li>4. large excess</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 4. large excess</p><p class="rationale"><strong>เหตุผล:</strong> 'Plethora' หมายถึง จำนวนที่มากเกินความจำเป็น<br><strong>คำศัพท์อื่น:</strong> shortage (การขาดแคลน), small number (จำนวนน้อย), specific type (ประเภทที่เจาะจง)</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">58. His <strong>clandestine</strong> meetings with the spy were eventually discovered by the agency.</p>
+                    <div class="options"><ol><li>1. public</li><li>2. secret</li><li>3. frequent</li><li>4. official</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 2. secret</p><p class="rationale"><strong>เหตุผล:</strong> 'Clandestine' หมายถึง ที่ทำอย่างลับๆ, ที่ปกปิด<br><strong>คำศัพท์อื่น:</strong> public (สาธารณะ), frequent (บ่อยครั้ง), official (เป็นทางการ)</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">59. Choose the word that is an antonym for <strong>ephemeral</strong>.</p>
+                    <div class="options"><ol><li>1. temporary</li><li>2. short-lived</li><li>3. permanent</li><li>4. beautiful</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 3. permanent</p><p class="rationale"><strong>เหตุผล:</strong> 'Ephemeral' หมายถึง อยู่เพียงชั่วครู่, ไม่ยั่งยืน คำตรงข้ามคือ 'permanent' (ถาวร)<br><strong>คำศัพท์อื่น:</strong> temporary (ชั่วคราว), short-lived (อายุสั้น)</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">60. The politician's speech was filled with <strong>platitudes</strong> and offered no real solutions.</p>
+                    <div class="options"><ol><li>1. innovative ideas</li><li>2. complex theories</li><li>3. angry remarks</li><li>4. unoriginal, overused statements</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 4. unoriginal, overused statements</p><p class="rationale"><strong>เหตุผล:</strong> 'Platitude' คือคำพูดที่ซ้ำซากจำเจ, ไม่มีความคิดสร้างสรรค์, พูดไปเพื่อให้ดูดีแต่ไม่มีเนื้อหา</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">61. The evidence was <strong>irrefutable</strong>; he was clearly guilty.</p>
+                    <div class="options"><ol><li>1. questionable</li><li>2. impossible to deny</li><li>3. circumstantial</li><li>4. insufficient</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 2. impossible to deny</p><p class="rationale"><strong>เหตุผล:</strong> 'Irrefutable' หมายถึง ที่ไม่สามารถโต้แย้งหรือปฏิเสธได้<br><strong>คำศัพท์อื่น:</strong> questionable (น่าสงสัย), circumstantial (ตามสถานการณ์), insufficient (ไม่เพียงพอ)</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">62. He is a <strong>voracious</strong> reader, often finishing several books in a week.</p>
+                    <div class="options"><ol><li>1. slow</li><li>2. occasional</li><li>3. critical</li><li>4. very eager or avid</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 4. very eager or avid</p><p class="rationale"><strong>เหตุผล:</strong> 'Voracious' หมายถึง ที่มีความต้องการอย่างมาก, กระหาย (ในที่นี้คือการอ่าน)<br><strong>คำศัพท์อื่น:</strong> slow (ช้า), occasional (เป็นครั้งคราว), critical (เชิงวิจารณ์)</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">63. The CEO's <strong>ostentatious</strong> display of wealth was criticized by the media.</p>
+                    <div class="options"><ol><li>1. modest</li><li>2. secret</li><li>3. impressive but vulgar</li><li>4. generous</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 3. impressive but vulgar</p><p class="rationale"><strong>เหตุผล:</strong> 'Ostentatious' หมายถึง การโอ้อวด, แสดงออกเพื่อให้คนอื่นเห็น (โดยเฉพาะความร่ำรวย) ซึ่งมักมีความหมายในเชิงลบ<br><strong>คำศัพท์อื่น:</strong> modest (ถ่อมตัว), secret (เป็นความลับ), generous (ใจกว้าง)</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">64. Choose the word that is an antonym for <strong>lethargic</strong>.</p>
+                    <div class="options"><ol><li>1. sleepy</li><li>2. energetic</li><li>3. lazy</li><li>4. slow</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 2. energetic</p><p class="rationale"><strong>เหตุผล:</strong> 'Lethargic' หมายถึง เซื่องซึม, เฉื่อยชา, ไม่มีเรี่ยวแรง คำตรงข้ามคือ 'energetic' (กระฉับกระเฉง)<br><strong>คำศัพท์อื่น:</strong> sleepy (ง่วง), lazy (ขี้เกียจ), slow (ช้า)</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">65. The professor's theories were too <strong>esoteric</strong> for most of the students to understand.</p>
+                    <div class="options"><ol><li>1. simple</li><li>2. well-known</li><li>3. intended for a small, specialized group</li><li>4. interesting</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 3. intended for a small, specialized group</p><p class="rationale"><strong>เหตุผล:</strong> 'Esoteric' หมายถึง เป็นที่เข้าใจของคนกลุ่มเล็กๆ ที่มีความรู้เฉพาะทาง, ลึกลับซับซ้อน</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">66. The new law aims to <strong>curtail</strong> spending on non-essential items.</p>
+                    <div class="options"><ol><li>1. increase</li><li>2. encourage</li><li>3. analyze</li><li>4. reduce or restrict</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 4. reduce or restrict</p><p class="rationale"><strong>เหตุผล:</strong> 'To curtail' หมายถึง ตัดทอน, ลด, จำกัด<br><strong>คำศัพท์อื่น:</strong> increase (เพิ่ม), encourage (ส่งเสริม), analyze (วิเคราะห์)</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">67. She has an <strong>insatiable</strong> appetite for knowledge.</p>
+                    <div class="options"><ol><li>1. small</li><li>2. occasional</li><li>3. impossible to satisfy</li><li>4. decreasing</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 3. impossible to satisfy</p><p class="rationale"><strong>เหตุผล:</strong> 'Insatiable' หมายถึง ที่ไม่สามารถทำให้พอใจได้, ไม่รู้จักพอ<br><strong>คำศัพท์อื่น:</strong> small (เล็ก), occasional (เป็นครั้งคราว), decreasing (กำลังลดลง)</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">68. The team's morale was low after the <strong>ignominious</strong> defeat.</p>
+                    <div class="options"><ol><li>1. glorious</li><li>2. close</li><li>3. expected</li><li>4. shameful and humiliating</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 4. shameful and humiliating</p><p class="rationale"><strong>เหตุผล:</strong> 'Ignominious' หมายถึง น่าอับอาย, น่าอดสู<br><strong>คำศัพท์อื่น:</strong> glorious (รุ่งโรจน์), close (สูสี), expected (ที่คาดไว้)</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">69. Choose the word that is an antonym for <strong>gregarious</strong>.</p>
+                    <div class="options"><ol><li>1. friendly</li><li>2. sociable</li><li>3. talkative</li><li>4. introverted</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 4. introverted</p><p class="rationale"><strong>เหตุผล:</strong> 'Gregarious' หมายถึง ชอบเข้าสังคม, ชอบอยู่เป็นกลุ่ม คำตรงข้ามคือ 'introverted' (ที่ชอบเก็บตัว)<br><strong>คำศัพท์อื่น:</strong> friendly (เป็นมิตร), sociable (ชอบสังคม), talkative (ช่างพูด)</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">70. The treaty was designed to <strong>foster</strong> better relations between the two nations.</p>
+                    <div class="options"><ol><li>1. hinder</li><li>2. observe</li><li>3. encourage and promote</li><li>4. document</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 3. encourage and promote</p><p class="rationale"><strong>เหตุผล:</strong> 'To foster' หมายถึง ส่งเสริม, เลี้ยงดู, สนับสนุนให้เติบโต<br><strong>คำศัพท์อื่น:</strong> hinder (ขัดขวาง), observe (สังเกต), document (บันทึก)</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">71. His arguments were often <strong>fallacious</strong> and not based on solid evidence.</p>
+                    <div class="options"><ol><li>1. logical</li><li>2. based on a mistaken belief</li><li>3. emotional</li><li>4. persuasive</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 2. based on a mistaken belief</p><p class="rationale"><strong>เหตุผล:</strong> 'Fallacious' หมายถึง ซึ่งหลอกลวง, ซึ่งอ้างเหตุผลผิดๆ<br><strong>คำศัพท์อื่น:</strong> logical (มีเหตุผล), emotional (ใช้อารมณ์), persuasive (โน้มน้าวใจ)</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">72. The city's infrastructure is <strong>obsolete</strong> and in desperate need of modernization.</p>
+                    <div class="options"><ol><li>1. brand new</li><li>2. out of date</li><li>3. complex</li><li>4. efficient</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 2. out of date</p><p class="rationale"><strong>เหตุผล:</strong> 'Obsolete' หมายถึง ล้าสมัย, ไม่ได้ใช้งานแล้ว<br><strong>คำศัพท์อื่น:</strong> brand new (ใหม่แกะกล่อง), complex (ซับซ้อน), efficient (มีประสิทธิภาพ)</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">73. She was known for her <strong>altruistic</strong> work, always putting the needs of others before her own.</p>
+                    <div class="options"><ol><li>1. selfish</li><li>2. unselfish and devoted to others</li><li>3. profitable</li><li>4. famous</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 2. unselfish and devoted to others</p><p class="rationale"><strong>เหตุผล:</strong> 'Altruistic' หมายถึง ซึ่งเห็นแก่ประโยชน์ของผู้อื่นเป็นที่ตั้ง, ไม่เห็นแก่ตัว<br><strong>คำศัพท์อื่น:</strong> selfish (เห็นแก่ตัว), profitable (ที่ทำกำไร), famous (มีชื่อเสียง)</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">74. Choose the word that is an antonym for <strong>taciturn</strong>.</p>
+                    <div class="options"><ol><li>1. reserved</li><li>2. quiet</li><li>3. talkative</li><li>4. serious</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 3. talkative</p><p class="rationale"><strong>เหตุผล:</strong> 'Taciturn' หมายถึง ที่พูดน้อย, เงียบขรึม คำตรงข้ามคือ 'talkative' (ช่างพูด)<br><strong>คำศัพท์อื่น:</strong> reserved (สงวนท่าที), quiet (เงียบ), serious (จริงจัง)</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">75. The evidence against him was purely <strong>circumstantial</strong>, with no direct proof of his involvement.</p>
+                    <div class="options"><ol><li>1. direct and conclusive</li><li>2. unimportant</li><li>3. suggesting something is true without proving it</li><li>4. created by the police</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 3. suggesting something is true without proving it</p><p class="rationale"><strong>เหตุผล:</strong> 'Circumstantial evidence' คือพยานหลักฐานแวดล้อม ซึ่งไม่ได้พิสูจน์ข้อเท็จจริงโดยตรง แต่ชี้แนะให้เชื่อว่าเป็นเช่นนั้น</p></div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- ==================== PART IV: Reading Comprehension (25 Items) ==================== -->
+        <div class="test-section">
+            <h2>Part IV: Reading Comprehension (การอ่านเพื่อความเข้าใจ)</h2>
+            
+            <!-- Reading 1: Email -->
+            <div class="reading-passage">
+                <h3 style="text-align:left; color:#333;">Items 76-78 refer to this email.</h3>
+                <p><strong>To:</strong> All Staff<br>
+                <strong>From:</strong> HR Department<br>
+                <strong>Subject:</strong> Upcoming Workshop: "Effective Time Management"
+                </p>
+                <p>Dear Team,</p>
+                <p>We are pleased to announce a mandatory workshop for all employees on "Effective Time Management." This session aims to equip you with practical strategies to enhance productivity and reduce work-related stress. The workshop will be conducted by renowned productivity expert, Dr. Alan Croft.</p>
+                <p><strong>Date:</strong> Friday, August 22, 2025<br>
+                <strong>Time:</strong> 9:00 AM - 12:00 PM<br>
+                <strong>Venue:</strong> Main Conference Hall
+                </p>
+                <p>Please confirm your attendance by replying to this email no later than August 15, 2025, to allow us to finalize the arrangements. We believe this investment in your professional development will be highly beneficial.
+                </p>
+                <p>Best regards,<br>
+                The HR Department</p>
+            </div>
+            <div class="question-grid">
+                <div class="question-block">
+                    <p class="question-text">76. What is the primary purpose of this email?</p>
+                    <div class="options"><ol><li>1. To hire a new productivity expert.</li><li>2. To announce a compulsory training session for employees.</li><li>3. To ask for opinions on reducing work-related stress.</li><li>4. To cancel the upcoming workshop.</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 2. To announce a compulsory training session for employees.</p><p class="rationale"><strong>เหตุผล:</strong> อีเมลระบุชัดเจนว่าเป็น "mandatory workshop for all employees" (mandatory = compulsory) และให้รายละเอียดเกี่ยวกับวัน เวลา และสถานที่</p></div>
+                </div>
+                 <div class="question-block">
+                    <p class="question-text">77. The word "renowned" in the first paragraph is closest in meaning to...</p>
+                    <div class="options"><ol><li>1. unknown</li><li>2. new</li><li>3. well-known</li><li>4. expensive</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 3. well-known</p><p class="rationale"><strong>เหตุผล:</strong> 'Renowned' หมายถึง มีชื่อเสียง, เป็นที่รู้จักอย่างกว้างขวาง ซึ่งมีความหมายใกล้เคียงกับ 'well-known' ที่สุด</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">78. What are employees required to do by August 15th?</p>
+                    <div class="options"><ol><li>1. Attend the workshop.</li><li>2. Meet Dr. Alan Croft.</li><li>3. Submit a report on time management.</li><li>4. Respond to the email to confirm they will be there.</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 4. Respond to the email to confirm they will be there.</p><p class="rationale"><strong>เหตุผล:</strong> ในอีเมลระบุว่า "Please confirm your attendance by replying to this email no later than August 15, 2025."</p></div>
+                </div>
+            </div>
+
+            <!-- Reading 2: Short Article -->
+            <div class="reading-passage">
+                <h3 style="text-align:left; color:#333;">Items 79-82 refer to this article.</h3>
+                <p>The phenomenon of "urban heat islands" occurs when cities experience much warmer temperatures than nearby rural areas. This is primarily because urban structures like buildings and roads absorb and re-emit the sun's heat more than natural landscapes such as forests and water bodies. The lack of vegetation in cities also contributes to the problem, as plants help cool the air through evapotranspiration.</p>
+                <p>This temperature discrepancy can have significant consequences, including increased energy consumption for air conditioning, elevated levels of air pollutants, and heat-related health issues for residents. To mitigate these effects, cities are exploring strategies like installing "cool roofs" with reflective materials, planting more trees, and creating more green spaces like parks and rooftop gardens. These measures not only combat the heat but also improve air quality and enhance the overall livability of urban environments.</p>
+            </div>
+            <div class="question-grid">
+                <div class="question-block">
+                    <p class="question-text">79. According to the passage, what is the main cause of the urban heat island effect?</p>
+                    <div class="options"><ol><li>1. The high number of people living in cities.</li><li>2. The materials used for buildings and roads retaining heat.</li><li>3. The excessive use of air conditioning.</li><li>4. The pollution from factories in urban areas.</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 2. The materials used for buildings and roads retaining heat.</p><p class="rationale"><strong>เหตุผล:</strong> บทความระบุว่า "urban structures like buildings and roads absorb and re-emit the sun's heat more than natural landscapes."</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">80. The word "mitigate" in the second paragraph means...</p>
+                    <div class="options"><ol><li>1. to worsen</li><li>2. to study</li><li>3. to ignore</li><li>4. to make less severe</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 4. to make less severe</p><p class="rationale"><strong>เหตุผล:</strong> 'To mitigate' หมายถึง บรรเทาหรือทำให้ผลกระทบที่เลวร้ายลดน้อยลง</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">81. Which of the following is NOT mentioned as a solution to the urban heat island effect?</p>
+                    <div class="options"><ol><li>1. Building with reflective materials.</li><li>2. Increasing the number of parks.</li><li>3. Developing more efficient public transportation.</li><li>4. Planting more trees.</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 3. Developing more efficient public transportation.</p><p class="rationale"><strong>เหตุผล:</strong> บทความกล่าวถึง "cool roofs", "planting more trees", และ "creating more green spaces" แต่ไม่ได้กล่าวถึงการพัฒนาระบบขนส่งสาธารณะ</p></div>
+                </div>
+                <div class="question-block">
+                    <p class="question-text">82. What can be inferred from the passage about rural areas?</p>
+                    <div class="options"><ol><li>1. They have better public transportation.</li><li>2. They have more natural landscapes that help regulate temperature.</li><li>3. They consume more energy for air conditioning.</li><li>4. They are more polluted than cities.</li></ol></div>
+                    <button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button>
+                    <div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 2. They have more natural landscapes that help regulate temperature.</p><p class="rationale"><strong>เหตุผล:</strong> บทความเปรียบเทียบเมืองกับพื้นที่ชนบท โดยระบุว่าโครงสร้างในเมืองดูดซับความร้อนได้ดีกว่า "natural landscapes such as forests and water bodies" ซึ่งเป็นลักษณะของพื้นที่ชนบท ทำให้เราสามารถอนุมานได้ว่าพื้นที่ชนบทมีองค์ประกอบทางธรรมชาติที่ช่วยควบคุมอุณหภูมิได้ดีกว่า</p></div>
+                </div>
+            </div>
+            
+             <!-- Reading 3: Cloze Test -->
+            <div class="reading-passage">
+                <h3 style="text-align:left; color:#333;">Items 83-88: Complete the passage with the best option.</h3>
+                <p>The concept of a "growth mindset," popularized by psychologist Carol Dweck, has gained significant traction in both education and business. It posits that abilities and intelligence can be developed through dedication and hard work. This is in (83)___________ to a "fixed mindset," which assumes that these qualities are innate and unchangeable. Individuals with a growth mindset view challenges as opportunities to learn and grow, (84)___________ those with a fixed mindset often avoid challenges to prevent potential failure. They embrace effort, persist in the (85)___________ of setbacks, and learn from criticism. (86)___________, fostering a growth mindset can lead to greater achievement and a more profound sense of fulfillment. It encourages lifelong learning and resilience, qualities that are (87)___________ for success in a rapidly changing world. Adopting this perspective is not always easy; it requires conscious effort to reframe one's thoughts about failure and effort. However, the long-term benefits are (88)___________. </p>
+            </div>
+            <div class="question-grid">
+                <div class="question-block"><p class="question-text">83.</p><div class="options"><ol><li>1. contrast</li><li>2. agreement</li><li>3. relation</li><li>4. comparison</li></ol></div><button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button><div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 1. contrast</p><p class="rationale"><strong>เหตุผล:</strong> วลี 'in contrast to' ใช้เพื่อเปรียบเทียบสองสิ่งที่ตรงกันข้ามกัน (growth mindset vs fixed mindset)</p></div></div>
+                <div class="question-block"><p class="question-text">84.</p><div class="options"><ol><li>1. because</li><li>2. whereas</li><li>3. therefore</li><li>4. unless</li></ol></div><button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button><div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 2. whereas</p><p class="rationale"><strong>เหตุผล:</strong> 'Whereas' เป็นคำเชื่อมที่ใช้แสดงความแตกต่างหรือตรงกันข้ามระหว่างสองแนวคิด</p></div></div>
+                <div class="question-block"><p class="question-text">85.</p><div class="options"><ol><li>1. face</li><li>2. middle</li><li>3. absence</li><li>4. light</li></ol></div><button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button><div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 1. face</p><p class="rationale"><strong>เหตุผล:</strong> สำนวน 'in the face of' หมายถึง เมื่อต้องเผชิญหน้ากับ (ความยากลำบาก, อุปสรรค)</p></div></div>
+                <div class="question-block"><p class="question-text">86.</p><div class="options"><ol><li>1. Consequently</li><li>2. Nevertheless</li><li>3. For instance</li><li>4. In short</li></ol></div><button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button><div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 1. Consequently</p><p class="rationale"><strong>เหตุผล:</strong> 'Consequently' (ดังนั้น) ใช้เพื่อสรุปผลลัพธ์ที่ตามมาจากการมี growth mindset</p></div></div>
+                <div class="question-block"><p class="question-text">87.</p><div class="options"><ol><li>1. optional</li><li>2. irrelevant</li><li>3. indispensable</li><li>4. secondary</li></ol></div><button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button><div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 3. indispensable</p><p class="rationale"><strong>เหตุผล:</strong> 'Indispensable' หมายถึง ที่ขาดไม่ได้, จำเป็นอย่างยิ่ง ซึ่งเข้ากับบริบทของคุณสมบัติที่จำเป็นต่อความสำเร็จ</p></div></div>
+                <div class="question-block"><p class="question-text">88.</p><div class="options"><ol><li>1. negligible</li><li>2. questionable</li><li>3. temporary</li><li>4. undeniable</li></ol></div><button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button><div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 4. undeniable</p><p class="rationale"><strong>เหตุผล:</strong> 'Undeniable' หมายถึง ที่ปฏิเสธไม่ได้ ซึ่งใช้เพื่อเน้นย้ำว่าประโยชน์ในระยะยาวนั้นมีอยู่จริงและชัดเจน</p></div></div>
+            </div>
+
+            <!-- Reading 4: Long Passage -->
+            <div class="reading-passage">
+                <h3 style="text-align:left; color:#333;">Items 89-100 refer to this passage.</h3>
+                <p>The advent of artificial intelligence (AI) represents a paradigm shift in technology, with profound implications for nearly every sector of the global economy. From automating mundane tasks to enabling complex data analysis, AI's capabilities are expanding at an exponential rate. One of the most significant impacts is on the labor market. While AI is poised to create new jobs in areas like data science and AI ethics, it also threatens to displace workers in roles that are repetitive or data-driven, such as manufacturing and customer service. This necessitates a large-scale reskilling of the workforce to adapt to the new technological landscape.</p>
+                <p>In healthcare, AI is revolutionizing diagnostics and treatment. Machine learning algorithms can analyze medical images with a level of accuracy that sometimes surpasses human experts, leading to earlier detection of diseases like cancer. Furthermore, AI can personalize treatment plans based on a patient's genetic makeup and lifestyle, heralding an era of precision medicine. However, the integration of AI in healthcare is not without its challenges. Concerns about data privacy are paramount, as AI systems require vast amounts of sensitive patient data to function effectively. There is also the ethical quandary of accountability: if an AI makes a diagnostic error, who is responsible? The developer, the hospital, or the clinician who used the tool?</p>
+                <p>Another area being reshaped by AI is creative expression. AI-powered tools can now generate art, compose music, and write prose that is often indistinguishable from human-created works. This has sparked a vigorous debate about the nature of creativity and authorship. While some view these tools as a new medium that augments human creativity, others fear they could devalue the work of human artists. The legal frameworks surrounding copyright and intellectual property are struggling to keep pace with these advancements, leaving many questions about ownership and originality unanswered.</p>
+                <p>Ultimately, navigating the AI revolution requires a multifaceted approach. Governments must establish robust regulatory frameworks to address ethical and privacy concerns. Educational institutions need to reform curricula to equip students with future-proof skills. For individuals, embracing lifelong learning and adaptability will be crucial to thriving in an AI-driven world. The transition will undoubtedly be disruptive, but with careful planning and collaboration, the potential benefits of AI can be harnessed for the greater good.</p>
+            </div>
+            <div class="question-grid">
+                <div class="question-block"><p class="question-text">89. What is the main idea of the passage?</p><div class="options"><ol><li>1. AI is a dangerous technology that should be banned.</li><li>2. AI is primarily beneficial for the healthcare sector.</li><li>3. AI is transforming various sectors, presenting both opportunities and challenges.</li><li>4. AI will eliminate more jobs than it creates.</li></ol></div><button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button><div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 3. AI is transforming various sectors, presenting both opportunities and challenges.</p><p class="rationale"><strong>เหตุผล:</strong> บทความกล่าวถึงผลกระทบของ AI ในหลายด้าน (ตลาดแรงงาน, สาธารณสุข, งานสร้างสรรค์) โดยชี้ให้เห็นทั้งข้อดี (โอกาส) และข้อเสีย (ความท้าทาย) ซึ่งเป็นใจความหลักของเรื่อง</p></div></div>
+                <div class="question-block"><p class="question-text">90. The phrase "paradigm shift" in the first paragraph means...</p><div class="options"><ol><li>1. a minor adjustment.</li><li>2. a fundamental change in approach or underlying assumptions.</li><li>3. a technological error.</li><li>4. a new type of computer.</li></ol></div><button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button><div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 2. a fundamental change in approach or underlying assumptions.</p><p class="rationale"><strong>เหตุผล:</strong> "Paradigm shift" คือการเปลี่ยนแปลงครั้งใหญ่ในกระบวนทัศน์หรือวิธีคิดพื้นฐาน</p></div></div>
+                <div class="question-block"><p class="question-text">91. According to the passage, what does AI's impact on the labor market require?</p><div class="options"><ol><li>1. A complete halt to automation.</li><li>2. A focus only on creating new tech jobs.</li><li>3. A widespread effort to retrain workers with new skills.</li><li>4. A reduction in customer service roles.</li></ol></div><button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button><div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 3. A widespread effort to retrain workers with new skills.</p><p class="rationale"><strong>เหตุผล:</strong> ย่อหน้าที่ 1 ระบุว่า "This necessitates a large-scale reskilling of the workforce..."</p></div></div>
+                <div class="question-block"><p class="question-text">92. The word "heralding" in the second paragraph is closest in meaning to...</p><div class="options"><ol><li>1. preventing.</li><li>2. questioning.</li><li>3. announcing or signaling.</li><li>4. ending.</li></ol></div><button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button><div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 3. announcing or signaling.</p><p class="rationale"><strong>เหตุผล:</strong> "To herald" หมายถึง เป็นสัญญาณบ่งบอกถึงการมาถึงของสิ่งใหม่, ประกาศให้ทราบ</p></div></div>
+                <div class="question-block"><p class="question-text">93. What is described as an "ethical quandary" in healthcare AI?</p><div class="options"><ol><li>1. The high cost of AI technology.</li><li>2. The potential for AI to surpass human intelligence.</li><li>3. The issue of who is accountable for an AI's mistake.</li><li>4. The need for large amounts of patient data.</li></ol></div><button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button><div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 3. The issue of who is accountable for an AI's mistake.</p><p class="rationale"><strong>เหตุผล:</strong> ย่อหน้าที่ 2 ถามคำถามโดยตรงว่า "if an AI makes a diagnostic error, who is responsible?" ซึ่งเป็นปัญหาเชิงจริยธรรม (ethical quandary)</p></div></div>
+                <div class="question-block"><p class="question-text">94. What is the main debate surrounding AI in the creative arts?</p><div class="options"><ol><li>1. Whether AI can create art faster than humans.</li><li>2. Whether AI-generated art should be sold.</li><li>3. Whether AI enhances human creativity or devalues it.</li><li>4. Whether AI can understand the meaning of art.</li></ol></div><button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button><div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 3. Whether AI enhances human creativity or devalues it.</p><p class="rationale"><strong>เหตุผล:</strong> ย่อหน้าที่ 3 ระบุว่า "While some view these tools as a new medium that augments human creativity, others fear they could devalue the work of human artists."</p></div></div>
+                <div class="question-block"><p class="question-text">95. The word "augments" in the third paragraph means...</p><div class="options"><ol><li>1. replaces.</li><li>2. copies.</li><li>3. criticizes.</li><li>4. adds to or enhances.</li></ol></div><button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button><div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 4. adds to or enhances.</p><p class="rationale"><strong>เหตุผล:</strong> "To augment" หมายถึง เพิ่มพูน, เสริม, ทำให้มากขึ้นหรือดีขึ้น</p></div></div>
+                <div class="question-block"><p class="question-text">96. What does the author suggest is a problem that legal frameworks face regarding AI?</p><div class="options"><ol><li>1. They are too strict and stifle innovation.</li><li>2. They are too focused on data privacy.</li><li>3. They are not advancing quickly enough to address issues like copyright.</li><li>4. They are too difficult for artists to understand.</li></ol></div><button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button><div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 3. They are not advancing quickly enough to address issues like copyright.</p><p class="rationale"><strong>เหตุผล:</strong> ย่อหน้าที่ 3 ระบุว่า "The legal frameworks... are struggling to keep pace with these advancements..."</p></div></div>
+                <div class="question-block"><p class="question-text">97. Which of the following is NOT mentioned as part of the "multifaceted approach" in the final paragraph?</p><div class="options"><ol><li>1. Government regulation.</li><li>2. Individual adaptability.</li><li>3. Educational reform.</li><li>4. Corporate-led innovation.</li></ol></div><button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button><div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 4. Corporate-led innovation.</p><p class="rationale"><strong>เหตุผล:</strong> ย่อหน้าสุดท้ายกล่าวถึงบทบาทของรัฐบาล (Governments), สถาบันการศึกษา (Educational institutions), และปัจเจกบุคคล (individuals) แต่ไม่ได้กล่าวถึงนวัตกรรมที่นำโดยบริษัท (Corporate-led innovation) โดยตรงในส่วนนี้</p></div></div>
+                <div class="question-block"><p class="question-text">98. What is the author's overall tone in the passage?</p><div class="options"><ol><li>1. Fearful and pessimistic.</li><li>2. Uncritically optimistic.</li><li>3. Balanced and analytical.</li><li>4. Sarcastic and dismissive.</li></ol></div><button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button><div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 3. Balanced and analytical.</p><p class="rationale"><strong>เหตุผล:</strong> ผู้เขียนนำเสนอทั้งข้อดีและข้อเสียของ AI ในด้านต่างๆ อย่างเป็นกลางและมีการวิเคราะห์ ไม่ได้เอนเอียงไปทางใดทางหนึ่ง</p></div></div>
+                <div class="question-block"><p class="question-text">99. The word "quandary" in the second paragraph is best defined as a...</p><div class="options"><ol><li>1. question.</li><li>2. law.</li><li>3. state of uncertainty or dilemma.</li><li>4. technological failure.</li></ol></div><button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button><div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 3. a state of uncertainty or dilemma.</p><p class="rationale"><strong>เหตุผล:</strong> "Quandary" หมายถึง สภาวะที่สับสน, การต้องเลือกระหว่างทางเลือกที่ยากลำบาก, ปัญหาที่แก้ไม่ตก</p></div></div>
+                <div class="question-block"><p class="question-text">100. What can be inferred about the author's view on the future of AI?</p><div class="options"><ol><li>1. The negative impacts will certainly outweigh the positive ones.</li><li>2. The transition to an AI-driven world will be seamless and easy.</li><li>3. Proactive planning is essential to maximize AI's benefits and minimize its harms.</li><li>4. AI's development should be stopped until all ethical issues are resolved.</li></ol></div><button class="reveal-btn" onclick="toggleAnswer(this)">ดูเฉลย</button><div class="answer-reveal"><p><strong>คำตอบที่ถูกต้อง:</strong> 3. Proactive planning is essential to maximize AI's benefits and minimize its harms.</p><p class="rationale"><strong>เหตุผล:</strong> ประโยคสุดท้ายของบทความ "with careful planning and collaboration, the potential benefits of AI can be harnessed for the greater good" สรุปมุมมองของผู้เขียนว่าการวางแผนอย่างรอบคอบเป็นสิ่งสำคัญในการควบคุมอนาคตของ AI</p></div></div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <script>
+        function toggleAnswer(button) {
+            const questionBlock = button.parentElement;
+            const answer = questionBlock.querySelector('.answer-reveal');
+            
+            if (answer.style.display === 'block') {
+                answer.style.display = 'none';
+                button.textContent = 'ดูเฉลย';
+                button.style.backgroundColor = '#3498db';
+            } else {
+                answer.style.display = 'block';
+                button.textContent = 'ซ่อนเฉลย';
+                button.style.backgroundColor = '#e67e22';
+            }
+        }
+    </script>
+
+</body>
+</html>

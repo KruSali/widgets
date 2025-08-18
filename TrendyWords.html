@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Thai Slang News & English Equivalents</title>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+    body {
+        font-family: 'Poppins', sans-serif;
+        background-color: #f0f4f8;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        padding: 20px;
+        box-sizing: border-box;
+    }
+
+    .app-box {
+        background-color: #ffffff;
+        width: 100%;
+        max-width: 650px;
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+    }
+
+    .header {
+        background: linear-gradient(135deg, #ff8c42, #ff3d6d); /* New Gradient */
+        color: white;
+        padding: 25px 30px;
+        text-align: center;
+    }
+
+    .header h1 {
+        margin: 0;
+        font-size: 28px;
+        font-weight: 600;
+    }
+
+    .content {
+        padding: 10px 30px 30px 30px;
+    }
+    
+    .section-title {
+        font-size: 22px;
+        font-weight: 600;
+        color: #ff3d6d;
+        margin-top: 25px;
+        margin-bottom: 10px;
+        padding-bottom: 5px;
+        border-bottom: 2px solid #e0e0e0;
+    }
+    
+    .section-title:first-child {
+        margin-top: 5px;
+    }
+
+    .sentence-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .sentence-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 16px 0;
+        border-bottom: 1px solid #f0f0f0;
+        font-size: 18px;
+        color: #333;
+    }
+
+    .sentence-item:last-child {
+        border-bottom: none;
+    }
+    
+    .sentence-item b {
+        color: #0072ff;
+    }
+
+    .sentence-text {
+        flex-grow: 1;
+        margin-right: 15px;
+        line-height: 1.6;
+    }
+
+    .play-button {
+        background-color: #ff8c42;
+        color: white;
+        border: none;
+        border-radius: 50%;
+        width: 45px;
+        height: 45px;
+        font-size: 20px;
+        cursor: pointer;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-shrink: 0;
+    }
+
+    .play-button:hover {
+        background-color: #e0702a;
+        transform: scale(1.1);
+    }
+
+</style>
+</head>
+<body>
+
+<div class="app-box">
+    <div class="header">
+        <h1>Thai Slang News & English Equivalents</h1>
+    </div>
+    <div class="content">
+
+        <h2 class="section-title">The News Summary</h2>
+        <ul class="sentence-list">
+            <li class="sentence-item">
+                <span class="sentence-text">New Thai words are popular on the internet this year.</span>
+                <button class="play-button" onclick="speak(this)">🔊</button>
+            </li>
+            <li class="sentence-item">
+                <span class="sentence-text">A company checked the new words from January to March.</span>
+                <button class="play-button" onclick="speak(this)">🔊</button>
+            </li>
+            <li class="sentence-item">
+                <span class="sentence-text">People use these words on Twitter, Facebook, and TikTok.</span>
+                <button class="play-button" onclick="speak(this)">🔊</button>
+            </li>
+        </ul>
+        
+        <h2 class="section-title">ทำถึง (tam tĕung)</h2>
+        <ul class="sentence-list">
+            <li class="sentence-item">
+                <span class="sentence-text">"tam tĕung" means you did something very well. It's like saying "great job!".</span>
+                <button class="play-button" onclick="speak(this)">🔊</button>
+            </li>
+            <li class="sentence-item">
+                <span class="sentence-text">In English, you can say <b>"Nailed it!"</b> or <b>"Killed it!"</b>.</span>
+                <button class="play-button" onclick="speak(this)">🔊</button>
+            </li>
+            <li class="sentence-item">
+                <span class="sentence-text">Example: "Your project was amazing. You totally nailed it!".</span>
+                <button class="play-button" onclick="speak(this)">🔊</button>
+            </li>
+        </ul>
+        
+        <h2 class="section-title">กี่โมง (gìi moong)</h2>
+        <ul class="sentence-list">
+             <li class="sentence-item">
+                <span class="sentence-text">"gìi moong" is a joke. It means you think something will not happen.</span>
+                <button class="play-button" onclick="speak(this)">🔊</button>
+            </li>
+            <li class="sentence-item">
+                <span class="sentence-text">A similar English phrase is <b>"Yeah, right."</b> said in a funny voice.</span>
+                <button class="play-button" onclick="speak(this)">🔊</button>
+            </li>
+            <li class="sentence-item">
+                <span class="sentence-text">Example: "He said he will be on time." You can reply, "On time? Yeah, right.".</span>
+                <button class="play-button" onclick="speak(this)">🔊</button>
+            </li>
+        </ul>
+
+        <h2 class="section-title">คุณน้า (kun náa)</h2>
+        <ul class="sentence-list">
+             <li class="sentence-item">
+                <span class="sentence-text">"kun náa" is a fun word to add to a sentence to be friendly.</span>
+                <button class="play-button" onclick="speak(this)">🔊</button>
+            </li>
+             <li class="sentence-item">
+                <span class="sentence-text">It's like adding <b>"girl"</b>, <b>"dude"</b>, or <b>"bro"</b> in English.</span>
+                <button class="play-button" onclick="speak(this)">🔊</button>
+            </li>
+            <li class="sentence-item">
+                <span class="sentence-text">For example: "That was a great idea, dude!".</span>
+                <button class="play-button" onclick="speak(this)">🔊</button>
+            </li>
+        </ul>
+
+    </div>
+</div>
+
+<script>
+    function speak(buttonElement) {
+        const sentenceText = buttonElement.previousElementSibling.innerText;
+        window.speechSynthesis.cancel(); // Stop any previous speech
+        const utterance = new SpeechSynthesisUtterance(sentenceText);
+        utterance.lang = 'en-US';
+        utterance.rate = 0.9; // A good speed for learners
+        window.speechSynthesis.speak(utterance);
+    }
+</script>
+
+</body>
+</html>

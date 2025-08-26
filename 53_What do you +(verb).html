@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>English Lesson: What do you +(verb)?</title>
+    <style>
+        /* CSS Styles */
+        @import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@400;700&display=swap');
+
+        :root {
+            --text-color: #2c3e50;
+            --header-bg: #ffffff;
+            --border-color: #ecf0f1;
+            --button-bg: #16a085; /* New Color */
+            --button-hover-bg: #117a65; /* New Color */
+            --button-disabled-bg: #bdc3c7;
+            --white: #ffffff;
+            --thai-translation-color: #555;
+            --term-color: #2980b9;
+        }
+
+        body {
+            font-family: 'Sarabun', sans-serif;
+            background-color: #ecf0f1;
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            font-size: 18px; 
+        }
+
+        #app-container {
+            width: 100%;
+            max-width: 950px; 
+            background: var(--white);
+            border-radius: 16px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        #main-header {
+            background-color: var(--header-bg);
+            padding: 20px 30px;
+            border-bottom: 2px solid var(--border-color);
+            text-align: center;
+        }
+
+        #main-header h1 {
+            margin: 0;
+            font-size: 1.7em;
+            color: var(--button-bg);
+            font-weight: 700;
+        }
+
+        #slides-wrapper {
+            position: relative;
+            flex-grow: 1;
+        }
+
+        .slide {
+            padding: 35px 40px;
+            display: none;
+            flex-direction: column;
+            gap: 20px;
+            transition: background-color 0.5s ease;
+            min-height: 620px;
+        }
+        
+        .slide.active {
+            display: flex;
+        }
+
+        .slide h2 {
+            font-size: 2.8em;
+            margin: 0;
+            color: var(--text-color);
+            text-align: center;
+            padding-bottom: 20px;
+            border-bottom: 2px solid rgba(0,0,0,0.08);
+            line-height: 1.3;
+        }
+        
+        .main-sentence-thai {
+            display: block;
+            font-size: 0.5em; 
+            color: var(--thai-translation-color);
+            font-weight: 400;
+            margin-top: 10px;
+        }
+
+        .thai-reading {
+            font-size: 1.3em;
+            color: #c0392b;
+            text-align: center;
+            font-style: italic;
+            font-weight: 700;
+        }
+
+        .thai-reading u {
+            text-decoration: underline;
+            text-decoration-color: #c0392b;
+            text-decoration-thickness: 3px;
+        }
+
+        .content-section {
+            margin-top: 10px;
+        }
+
+        .content-section h3 {
+            font-size: 1.3em;
+            color: var(--button-bg);
+            margin-bottom: 15px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .content-section ul {
+            list-style-type: '✅  ';
+            padding-left: 20px;
+            margin: 0;
+        }
+
+        .content-section ul li {
+            margin-bottom: 18px; 
+            line-height: 1.7;
+            font-size: 1.1em;
+        }
+        
+        .thai-translation {
+            display: block;
+            color: var(--thai-translation-color);
+            font-size: 0.9em;
+            padding-left: 15px;
+            font-style: italic;
+        }
+        
+        .example-term {
+            color: var(--term-color);
+            font-weight: 700;
+        }
+        
+        .example-sentence {
+             display: block;
+             padding-left: 15px;
+        }
+
+        .footer {
+            margin-top: auto; /* Pushes footer to the bottom */
+            padding-top: 20px;
+            text-align: center;
+            font-size: 0.9em;
+            color: #7f8c8d;
+            border-top: 1px solid var(--border-color);
+        }
+
+        #navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 30px;
+            background-color: var(--header-bg);
+            border-top: 2px solid var(--border-color);
+        }
+
+        #navigation button {
+            background-color: var(--button-bg);
+            color: var(--white);
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-family: 'Sarabun', sans-serif;
+            font-size: 1.1em;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        #navigation button:hover {
+            background-color: var(--button-hover-bg);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        #navigation button:disabled {
+            background-color: var(--button-disabled-bg);
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        #page-counter {
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #7f8c8d;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="app-container">
+        <div id="main-header">
+            <h1>โครงสร้างประโยคที่ 53: What do you +(verb)?</h1>
+        </div>
+        
+        <div id="slides-wrapper">
+            </div>
+
+        <div id="navigation">
+            <button id="prevBtn">⬅️ หน้าก่อนหน้า</button>
+            <span id="page-counter"></span>
+            <button id="nextBtn">หน้าถัดไป ➡️</button>
+        </div>
+    </div>
+
+    <script>
+        const slideData = [
+            {
+                emoji: "🤔",
+                mainSentence: "What do you think?",
+                mainSentenceThai: "คุณคิดว่าอย่างไร?",
+                thaiReading: "วอท ดู ยู <u>ติ๊งค์</u>?",
+                examples: [
+                    { eng: "What do you think about the new plan?", thai: "คุณคิดอย่างไรเกี่ยวกับแผนการใหม่นี้?" },
+                    { eng: "What does she think of her new colleagues?", thai: "เธอคิดอย่างไรกับเพื่อนร่วมงานใหม่ของเธอ?" },
+                    { eng: "In your opinion, what do you think is the best solution?", thai: "ในความเห็นของคุณ คุณคิดว่าทางออกที่ดีที่สุดคืออะไร?" },
+                    { eng: "I've told you my idea. Now, what do you think?", thai: "ฉันบอกไอเดียของฉันไปแล้ว ทีนี้คุณคิดว่าไง?" },
+                    { eng: "What do most people think about this issue?", thai: "คนส่วนใหญ่คิดอย่างไรเกี่ยวกับประเด็นนี้?" }
+                ],
+                equivalents: [
+                    { term: "What's your opinion?", eng_example: "We need to decide. What's your opinion?", thai_example: "เราต้องตัดสินใจแล้ว ความเห็นของคุณคืออะไร?" },
+                    { term: "How do you feel about it?", eng_example: "Regarding the proposal, how do you feel about it?", thai_example: "เกี่ยวกับข้อเสนอนั้น คุณรู้สึกกับมันอย่างไร?" }
+                ],
+                collocations: [
+                    { term: "think twice", eng_example: "It's a big commitment, so you should think twice.", thai_example: "มันเป็นภาระผูกพันที่ยิ่งใหญ่นะ คุณควรคิดให้รอบคอบ" },
+                    { term: "think outside the box", eng_example: "To solve this problem, we need to think outside the box.", thai_example: "เพื่อที่จะแก้ปัญหานี้ เราต้องคิดนอกกรอบ" }
+                ]
+            },
+            {
+                emoji: "💼",
+                mainSentence: "What do you do?",
+                mainSentenceThai: "คุณทำงานอะไร?",
+                thaiReading: "วอท ดู ยู <u>ดู</u>?",
+                examples: [
+                    { eng: "What do you do for a living?", thai: "คุณประกอบอาชีพอะไร?" },
+                    { eng: "What does he do in his free time?", thai: "เขาทำอะไรในเวลาว่าง?" },
+                    { eng: "What do you do when you feel stressed?", thai: "คุณทำอะไรเวลาที่คุณรู้สึกเครียด?" },
+                    { eng: "What do they do at that company?", thai: "พวกเขาทำอะไรที่บริษัทนั้น?" },
+                    { eng: "This button is stuck. What do I do?", thai: "ปุ่มนี้มันติดน่ะ ฉันต้องทำอย่างไร?" }
+                ],
+                equivalents: [
+                    { term: "What is your job?", eng_example: "You mentioned you work in tech. What is your job exactly?", thai_example: "คุณบอกว่าคุณทำงานสายเทค งานของคุณคืออะไรกันแน่?" },
+                    { term: "What line of work are you in?", eng_example: "That sounds interesting. What line of work are you in?", thai_example: "ฟังดูน่าสนใจนะ คุณทำงานสายไหนเหรอ?" }
+                ],
+                collocations: [
+                    { term: "do your best", eng_example: "Just do your best; that's all anyone can ask for.", thai_example: "แค่ทำให้ดีที่สุด นั่นคือทั้งหมดที่ใครๆ จะขอได้" },
+                    { term: "do business", eng_example: "We only do business with reputable companies.", thai_example: "เราทำธุรกิจกับบริษัทที่มีชื่อเสียงเท่านั้น" }
+                ]
+            },
+            {
+                emoji: "😋",
+                mainSentence: "What do you want?",
+                mainSentenceThai: "คุณต้องการอะไร?",
+                thaiReading: "วอท ดู ยู <u>ว้อนท์</u>?",
+                examples: [
+                    { eng: "What do you want for your birthday?", thai: "คุณอยากได้อะไรเป็นของขวัญวันเกิด?" },
+                    { eng: "What does she want to eat for dinner?", thai: "เธออยากกินอะไรเป็นมื้อเย็น?" },
+                    { eng: "Tell me, what do you really want in life?", thai: "บอกฉันมาสิว่าจริงๆ แล้วคุณต้องการอะไรในชีวิต?" },
+                    { eng: "What do they want from us?", thai: "พวกเขาต้องการอะไรจากพวกเรา?" },
+                    { eng: "I don't understand. What do you want me to do?", thai: "ฉันไม่เข้าใจ คุณต้องการให้ฉันทำอะไร?" }
+                ],
+                equivalents: [
+                    { term: "What are you looking for?", eng_example: "Welcome to our shop. What are you looking for today?", thai_example: "ยินดีต้อนรับสู่ร้านเราครับ วันนี้คุณลูกค้ามองหาอะไรอยู่ครับ?" }
+                ],
+                collocations: [
+                    { term: "want something badly", eng_example: "He wants that promotion so badly he works on weekends.", thai_example: "เขาอยากได้เลื่อนตำแหน่งมากจนยอมทำงานวันหยุด" },
+                    { term: "if you want", eng_example: "We can go to the movies, if you want.", thai_example: "เราไปดูหนังกันก็ได้นะ ถ้าคุณอยากไป" }
+                ]
+            },
+            {
+                emoji: "❤️",
+                mainSentence: "What do you like?",
+                mainSentenceThai: "คุณชอบอะไร?",
+                thaiReading: "วอท ดู ยู <u>ไลค์</u>?",
+                examples: [
+                    { eng: "What do you like to do on weekends?", thai: "คุณชอบทำอะไรในวันหยุดสุดสัปดาห์?" },
+                    { eng: "What kind of music does he like?", thai: "เขาชอบเพลงแนวไหน?" },
+                    { eng: "What do you like about your job?", thai: "คุณชอบอะไรเกี่ยวกับงานของคุณ?" },
+                    { eng: "What do they like to eat?", thai: "พวกเขาชอบกินอะไร?" },
+                    { eng: "She doesn't know what she likes.", thai: "เธอไม่รู้ว่าตัวเองชอบอะไร" }
+                ],
+                equivalents: [
+                    { term: "What are your hobbies?", eng_example: "We should hang out sometime. What are your hobbies?", thai_example: "เราน่าจะไปเที่ยวกันบ้างนะ งานอดิเรกของคุณคืออะไร?" },
+                    { term: "What are you into?", eng_example: "You seem cool. What are you into?", thai_example: "คุณดูเป็นคนเจ๋งดีนะ คุณสนใจเรื่องอะไรเป็นพิเศษเหรอ?" }
+                ],
+                collocations: [
+                    { term: "like-minded people", eng_example: "It's always nice to work with like-minded people.", thai_example: "มันดีเสมอที่ได้ทำงานกับคนที่มีความคิดคล้ายกัน" },
+                    { term: "would like", eng_example: "I would like a cup of coffee, please.", thai_example: "ฉันขอกาแฟหนึ่งแก้วครับ/ค่ะ (สุภาพกว่า I want)" }
+                ]
+            },
+            {
+                emoji: "💬",
+                mainSentence: "What do you mean?",
+                mainSentenceThai: "คุณหมายความว่าอย่างไร?",
+                thaiReading: "วอท ดู ยู <u>มีน</u>?",
+                examples: [
+                    { eng: "I don't understand that word. What does it mean?", thai: "ฉันไม่เข้าใจคำนั้น มันหมายความว่าอย่างไร?" },
+                    { eng: "What do you mean by 'later'?", thai: "คุณหมายความว่าอย่างไรกับคำว่า 'ทีหลัง'?" },
+                    { eng: "He said something strange. I wonder what he means.", thai: "เขาพูดอะไรแปลกๆ ฉันสงสัยว่าเขาหมายถึงอะไร" },
+                    { eng: "When you say it's 'complicated', what do you mean?", thai: "ตอนที่คุณบอกว่ามัน 'ซับซ้อน' คุณหมายความว่าอย่างไร?" },
+                    { eng: "This symbol means 'danger'.", thai: "สัญลักษณ์นี้หมายถึง 'อันตราย'" }
+                ],
+                equivalents: [
+                    { term: "What are you trying to say?", eng_example: "I'm a bit confused. What are you trying to say?", thai_example: "ฉันสับสนนิดหน่อย คุณกำลังพยายามจะพูดอะไร?" },
+                    { term: "Could you clarify?", eng_example: "That point wasn't clear to me. Could you clarify what you mean?", thai_example: "ประเด็นนั้นยังไม่ชัดเจนสำหรับฉัน คุณช่วยอธิบายให้ชัดเจนขึ้นได้ไหมว่าหมายความว่าอย่างไร?" }
+                ],
+                collocations: [
+                    { term: "mean well", eng_example: "He can be a bit clumsy, but I know he means well.", thai_example: "เขาอาจจะซุ่มซ่ามไปบ้าง แต่ฉันรู้ว่าเขามีเจตนาดี" },
+                    { term: "know what I mean?", eng_example: "It's just a strange feeling, you know what I mean?", thai_example: "มันก็แค่ความรู้สึกแปลกๆ น่ะ คุณเข้าใจที่ฉันหมายถึงใช่ไหม?" }
+                ]
+            },
+            // ... The following 25 slides follow the same detailed structure.
+            // A selection is shown here. The full code block will contain all 30.
+            {
+                emoji: "🍽️",
+                mainSentence: "What do you recommend?",
+                mainSentenceThai: "คุณแนะนำอะไร?",
+                thaiReading: "วอท ดู ยู เรคคอม<u>เม็นด์</u>?",
+                examples: [
+                    { eng: "This is my first time here. What do you recommend?", thai: "นี่เป็นครั้งแรกของฉันที่นี่ คุณมีอะไรแนะนำไหม?" },
+                    { eng: "What does the chef recommend for dessert?", thai: "เชฟแนะนำของหวานอะไรเป็นพิเศษ?" },
+                    { eng: "For a beginner, what book do you recommend?", thai: "สำหรับมือใหม่ คุณแนะนำหนังสือเล่มไหน?" },
+                    { eng: "The doctor recommends getting more exercise.", thai: "คุณหมอแนะนำให้ออกกำลังกายมากขึ้น" },
+                    { eng: "I recommend that you book your tickets in advance.", thai: "ฉันแนะนำให้คุณจองตั๋วของคุณล่วงหน้า" }
+                ],
+                equivalents: [
+                    { term: "What do you suggest?", eng_example: "We're open to ideas. What do you suggest?", thai_example: "เราเปิดรับไอเดียนะ คุณมีอะไรแนะนำไหม?" },
+                    { term: "What are the specials?", eng_example: "Before we order, what are the specials today?", thai_example: "ก่อนที่เราจะสั่ง วันนี้มีเมนูพิเศษอะไรบ้าง?" }
+                ],
+                collocations: [
+                    { term: "highly recommend", eng_example: "I highly recommend this restaurant; the food is amazing.", thai_example: "ฉันขอแนะนำร้านอาหารนี้อย่างยิ่ง อาหารอร่อยมาก" },
+                    { term: "letter of recommendation", eng_example: "My professor wrote a strong letter of recommendation for me.", thai_example: "ศาสตราจารย์ของฉันเขียนจดหมายแนะนำตัวที่ดีมากให้ฉัน" }
+                ]
+            },
+            {
+                emoji: "📖",
+                mainSentence: "What do you read?",
+                mainSentenceThai: "คุณอ่านหนังสือประเภทไหน?",
+                thaiReading: "วอท ดู ยู <u>รีด</u>?",
+                examples: [
+                    { eng: "What do you usually read in your spare time?", thai: "โดยปกติคุณอ่านอะไรในเวลาว่าง?" },
+                    { eng: "What newspaper does your father read every morning?", thai: "พ่อของคุณอ่านหนังสือพิมพ์ฉบับไหนทุกเช้า?" },
+                    { eng: "The sign says 'Do Not Enter'. Can't you read?", thai: "ป้ายบอกว่า 'ห้ามเข้า' คุณอ่านไม่ออกหรือไง?" },
+                    { eng: "I can read your face like a book.", thai: "ฉันอ่านหน้าเธอออกเหมือนอ่านหนังสือเลย" },
+                    { eng: "What do the experts read into these statistics?", thai: "ผู้เชี่ยวชาญตีความสถิติเหล่านี้ว่าอย่างไร?" }
+                ],
+                equivalents: [
+                    { term: "What's your favorite genre?", eng_example: "I'm looking for a new book. What's your favorite genre to read?", thai_example: "ฉันกำลังหาหนังสือเล่มใหม่อยู่ แนวโปรดที่คุณอ่านคือแนวไหน?" }
+                ],
+                collocations: [
+                    { term: "read between the lines", eng_example: "She didn't say she was angry, but I could read between the lines.", thai_example: "เธอไม่ได้พูดว่าเธอโกรธ แต่ฉันสามารถอ่านความนัยที่ซ่อนอยู่ได้" },
+                    { term: "read the room", eng_example: "You need to learn to read the room before telling a joke.", thai_example: "คุณต้องเรียนรู้ที่จะอ่านบรรยากาศก่อนที่จะเล่นมุก" }
+                ]
+            },
+            {
+                emoji: "🤷",
+                mainSentence: "What do you call this?",
+                mainSentenceThai: "คุณเรียกสิ่งนี้ว่าอะไร?",
+                thaiReading: "วอท ดู ยู <u>คอล</u> ธิส?",
+                examples: [
+                    { eng: "What do you call this tool in English?", thai: "คุณเรียกเครื่องมือนี้ในภาษาอังกฤษว่าอะไร?" },
+                    { eng: "What does she call her new puppy?", thai: "เธอตั้งชื่อลูกสุนัขตัวใหม่ของเธอว่าอะไร?" },
+                    { eng: "This is what I call a perfect vacation!", thai: "นี่แหละที่ฉันเรียกว่าวันหยุดที่สมบูรณ์แบบ!" },
+                    { eng: "He calls himself an expert, but I have doubts.", thai: "เขาเรียกตัวเองว่าเป็นผู้เชี่ยวชาญ แต่ฉันก็สงสัยนะ" },
+                    { eng: "Let's call it a day.", thai: "สำหรับวันนี้พอแค่นี้เถอะ" }
+                ],
+                equivalents: [
+                    { term: "What is this thing called?", eng_example: "I've never seen one before. What is this thing called?", thai_example: "ฉันไม่เคยเห็นมาก่อนเลย ของสิ่งนี้เรียกว่าอะไร?" }
+                ],
+                collocations: [
+                    { term: "call it quits", eng_example: "After trying for hours, they decided to call it quits.", thai_example: "หลังจากพยายามมาหลายชั่วโมง พวกเขาก็ตัดสินใจเลิก" },
+                    { term: "a close call", eng_example: "The car almost hit me! That was a close call.", thai_example: "รถเกือบจะชนฉันแล้ว! นั่นมันเฉียดฉิวจริงๆ" }
+                ]
+            },
+            {
+                emoji: "🛒",
+                mainSentence: "What do you usually buy?",
+                mainSentenceThai: "โดยปกติคุณซื้ออะไร?",
+                thaiReading: "วอท ดู ยู <u>ยู้</u>ฉ่วลี่ บาย?",
+                examples: [
+                    { eng: "What do you usually buy at the grocery store?", thai: "โดยปกติคุณซื้ออะไรที่ร้านขายของชำ?" },
+                    { eng: "What kind of souvenirs do people buy in Thailand?", thai: "คนนิยมซื้อของฝากประเภทไหนในประเทศไทย?" },
+                    { eng: "He doesn't buy that excuse.", thai: "เขาไม่เชื่อข้อแก้ตัวนั้น" },
+                    { eng: "What do you buy for someone who has everything?", thai: "คุณจะซื้ออะไรให้คนที่มีทุกอย่างแล้ว?" },
+                    { eng: "I need to buy some time to finish this work.", thai: "ฉันต้องซื้อเวลาเพื่อทำงานนี้ให้เสร็จ" }
+                ],
+                equivalents: [
+                    { term: "What's on your shopping list?", eng_example: "I'm going to the store. What's on your shopping list?", thai_example: "ฉันจะไปร้านค้านะ มีอะไรต้องซื้อบ้าง?" }
+                ],
+                collocations: [
+                    { term: "buy in bulk", eng_example: "We buy in bulk to save money.", thai_example: "เราซื้อของทีละเยอะๆ เพื่อประหยัดเงิน" },
+                    { term: "window shopping", eng_example: "I don't have money today, so I just go window shopping.", thai_example: "วันนี้ฉันไม่มีเงิน ฉันเลยแค่ไปเดินดูของเฉยๆ" }
+                ]
+            },
+            {
+                emoji: "💡",
+                mainSentence: "What do you know?",
+                mainSentenceThai: "คุณรู้อะไรบ้าง?",
+                thaiReading: "วอท ดู ยู <u>โน</u>?",
+                examples: [
+                    { eng: "Tell me everything. What do you know about the situation?", thai: "บอกฉันมาให้หมด คุณรู้อะไรเกี่ยวกับสถานการณ์นี้บ้าง?" },
+                    { eng: "What does he know that we don't?", thai: "เขารู้อะไรที่เราไม่รู้?" },
+                    { eng: "You know what? I think you're right.", thai: "รู้อะไรไหม? ฉันว่าคุณพูดถูกนะ" },
+                    { eng: "As far as I know, the meeting is still on.", thai: "เท่าที่ฉันทราบ การประชุมยังคงมีอยู่" },
+                    { eng: "What do you know, he actually showed up on time!", thai: "ไม่น่าเชื่อเลย เขามาตรงเวลาด้วย!" }
+                ],
+                equivalents: [
+                    { term: "What information do you have?", eng_example: "The police are asking questions. What information do you have?", thai_example: "ตำรวจกำลังสอบถามอยู่ คุณมีข้อมูลอะไรบ้าง?" }
+                ],
+                collocations: [
+                    { term: "get to know", eng_example: "I would like to get to know my new neighbors.", thai_example: "ฉันอยากจะทำความรู้จักเพื่อนบ้านใหม่ของฉัน" },
+                    { term: "in the know", eng_example: "Ask Sarah; she's always in the know about office gossip.", thai_example: "ไปถามซาร่าสิ เธอรู้เรื่องซุบซิบในออฟฟิศดีเสมอ" }
+                ]
+            },
+            {
+                emoji: "🥘",
+                mainSentence: "What do you cook?",
+                mainSentenceThai: "คุณทำอาหารอะไรเป็นบ้าง?",
+                thaiReading: "วอท ดู ยู <u>คุ้ก</u>?",
+                examples: [
+                    { eng: "What do you normally cook for dinner on weekdays?", thai: "ปกติคุณทำอะไรเป็นอาหารเย็นในวันธรรมดา?" },
+                    { eng: "What special dish does your mom cook?", thai: "คุณแม่ของคุณทำอาหารจานพิเศษอะไร?" },
+                    { eng: "I don't know what to cook tonight.", thai: "ฉันไม่รู้ว่าคืนนี้จะทำอะไรกินดี" },
+                    { eng: "He cooks up stories to get out of trouble.", thai: "เขาแต่งเรื่องขึ้นมาเพื่อเอาตัวรอดจากปัญหา" },
+                    { eng: "What do you cook when you have guests over?", thai: "คุณทำอาหารอะไรเวลาที่มีแขกมาบ้าน?" }
+                ],
+                equivalents: [
+                    { term: "What's your specialty dish?", eng_example: "You're a great cook! What's your specialty dish?", thai_example: "คุณทำอาหารเก่งจัง! อาหารจานเด็ดของคุณคืออะไร?" }
+                ],
+                collocations: [
+                    { term: "cook the books", eng_example: "The accountant was fired for trying to cook the books.", thai_example: "นักบัญชีถูกไล่ออกเพราะพยายามตกแต่งบัญชี" },
+                    { term: "too many cooks spoil the broth", eng_example: "Everyone has a different idea; too many cooks spoil the broth.", thai_example: "ทุกคนมีความคิดต่างกัน มากคนก็มากความ (สำนวน)" }
+                ]
+            },
+            {
+                emoji: "❓",
+                mainSentence: "What do you believe?",
+                mainSentenceThai: "คุณเชื่อในเรื่องอะไร?",
+                thaiReading: "วอท ดู ยู บิ<u>ลีฟ</u>?",
+                examples: [
+                    { eng: "What do you believe happens after we die?", thai: "คุณเชื่อว่าเกิดอะไรขึ้นหลังจากเราตาย?" },
+                    { eng: "What does she believe is the key to success?", thai: "เธอเชื่อว่าอะไรคือกุญแจสู่ความสำเร็จ?" },
+                    { eng: "I can't believe my eyes!", thai: "ฉันไม่อยากจะเชื่อสายตาตัวเองเลย!" },
+                    { eng: "They don't believe his story.", thai: "พวกเขาไม่เชื่อเรื่องเล่าของเขา" },
+                    { eng: "He believes in ghosts.", thai: "เขาเชื่อเรื่องผี" }
+                ],
+                equivalents: [
+                    { term: "What are your beliefs?", eng_example: "Everyone has a different worldview. What are your core beliefs?", thai_example: "ทุกคนมีโลกทัศน์ที่ต่างกัน ความเชื่อหลักของคุณคืออะไร?" }
+                ],
+                collocations: [
+                    { term: "believe it or not", eng_example: "Believe it or not, he won the lottery last week.", thai_example: "จะเชื่อหรือไม่ก็ตาม เขาถูกลอตเตอรี่เมื่อสัปดาห์ที่แล้ว" },
+                    { term: "make-believe", eng_example: "The children live in a world of make-believe.", thai_example: "เด็กๆ อยู่ในโลกแห่งจินตนาการ" }
+                ]
+            },
+            {
+                emoji: "😥",
+                mainSentence: "What do you need?",
+                mainSentenceThai: "คุณต้องการอะไร? (จำเป็น)",
+                thaiReading: "วอท ดู ยู <u>นีด</u>?",
+                examples: [
+                    { eng: "You look upset. What do you need from me?", thai: "คุณดูไม่สบายใจนะ คุณต้องการอะไรจากฉัน?" },
+                    { eng: "What does this plant need to grow?", thai: "พืชชนิดนี้ต้องการอะไรในการเจริญเติบโต?" },
+                    { eng: "I need a doctor.", thai: "ฉันต้องการพบหมอ" },
+                    { eng: "What do you need to buy from the store?", thai: "คุณต้องซื้ออะไรจากร้านค้าบ้าง?" },
+                    { eng: "He needs more time to finish the project.", thai: "เขาต้องการเวลาเพิ่มเพื่อทำโครงการให้เสร็จ" }
+                ],
+                equivalents: [
+                    { term: "What is required?", eng_example: "To apply for the visa, what is required?", thai_example: "ในการยื่นขอวีซ่า ต้องใช้อะไรบ้าง?" },
+                    { term: "How can I help you?", eng_example: "You seem to be struggling. How can I help you?", thai_example: "คุณดูเหมือนกำลังลำบากนะ มีอะไรให้ฉันช่วยไหม?" }
+                ],
+                collocations: [
+                    { term: "in need", eng_example: "The charity helps families in need.", thai_example: "องค์กรการกุศลช่วยเหลือครอบครัวที่ขัดสน" },
+                    { term: "a friend in need is a friend indeed", eng_example: "He helped me when I was broke, proving that a friend in need is a friend indeed.", thai_example: "เขาช่วยฉันตอนที่ฉันถังแตก พิสูจน์ให้เห็นว่าเพื่อนในยามยากคือเพื่อนแท้" }
+                ]
+            },
+            {
+                emoji: "⚽",
+                mainSentence: "What do you play?",
+                mainSentenceThai: "คุณเล่น (กีฬา/ดนตรี) อะไร?",
+                thaiReading: "วอท ดู ยู <u>เพลย์</u>?",
+                examples: [
+                    { eng: "What sports do you play?", thai: "คุณเล่นกีฬาอะไรบ้าง?" },
+                    { eng: "What instrument does she play?", thai: "เธอเล่นเครื่องดนตรีอะไร?" },
+                    { eng: "He plays an important role in the company.", thai: "เขามีบทบาทสำคัญในบริษัท" },
+                    { eng: "Don't play games with me.", thai: "อย่ามาเล่นตลกกับฉันนะ" },
+                    { eng: "What card game do you want to play?", thai: "คุณอยากเล่นเกมไพ่อะไร?" }
+                ],
+                equivalents: [
+                    { term: "What sports are you into?", eng_example: "You seem athletic. What sports are you into?", thai_example: "คุณดูเป็นนักกีฬานะ คุณสนใจกีฬาประเภทไหน?" }
+                ],
+                collocations: [
+                    { term: "play it by ear", eng_example: "We don't have a fixed plan; let's just play it by ear.", thai_example: "เราไม่มีแผนที่แน่นอน เดี๋ยวค่อยว่ากันตามสถานการณ์" },
+                    { term: "play it safe", eng_example: "It's better to play it safe and bring an umbrella.", thai_example: "กันไว้ดีกว่าแก้ เอาร่มไปด้วยดีกว่า" }
+                ]
+            },
+            {
+                emoji: "🍷",
+                mainSentence: "What do you drink?",
+                mainSentenceThai: "คุณดื่ม (เครื่องดื่ม) อะไร?",
+                thaiReading: "วอท ดู ยู <u>ดริ๊งค์</u>?",
+                examples: [
+                    { eng: "What do you usually drink in the morning, coffee or tea?", thai: "ปกติคุณดื่มอะไรในตอนเช้า กาแฟหรือชา?" },
+                    { eng: "What do people in Japan typically drink with their meals?", thai: "คนในญี่ปุ่นโดยทั่วไปดื่มอะไรกับมื้ออาหาร?" },
+                    { eng: "He doesn't drink alcohol.", thai: "เขาไม่ดื่มเครื่องดื่มแอลกอฮอล์" },
+                    { eng: "The plant needs a good drink of water.", thai: "ต้นไม้ต้นนี้ต้องการน้ำเยอะๆ" },
+                    { eng: "Let's go for a drink after work.", thai: "ไปหาอะไรดื่มกันหลังเลิกงานเถอะ" }
+                ],
+                equivalents: [
+                    { term: "What can I get you?", eng_example: "Welcome to our cafe. What can I get you to drink?", thai_example: "ยินดีต้อนรับสู่คาเฟ่ของเราครับ จะรับเครื่องดื่มอะไรดีครับ?" }
+                ],
+                collocations: [
+                    { term: "drink like a fish", eng_example: "Be careful with him; he drinks like a fish.", thai_example: "ระวังเขาหน่อยนะ เขาเป็นคนดื่มเหล้าจัดมาก" },
+                    { term: "a soft drink", eng_example: "Would you like a soft drink, like cola or soda?", thai_example: "คุณต้องการน้ำอัดลมไหม เช่น โคล่าหรือโซดา?" }
+                ]
+            },
+            {
+                emoji: "📺",
+                mainSentence: "What do you watch?",
+                mainSentenceThai: "คุณดู (รายการ/หนัง) อะไร?",
+                thaiReading: "วอท ดู ยู <u>วอทช์</u>?",
+                examples: [
+                    { eng: "What do you like to watch on TV?", thai: "คุณชอบดูอะไรในทีวี?" },
+                    { eng: "What kind of movies does he watch?", thai: "เขาดูหนังประเภทไหน?" },
+                    { eng: "The security guard watches the monitors all night.", thai: "ยามรักษาความปลอดภัยเฝ้าดูจอภาพตลอดทั้งคืน" },
+                    { eng: "Watch your step! The floor is wet.", thai: "ระวังก้าวของคุณด้วย! พื้นเปียกนะ" },
+                    { eng: "What do you watch for when you hire new people?", thai: "คุณมองหาคุณสมบัติอะไรเวลาที่คุณจ้างคนใหม่?" }
+                ],
+                equivalents: [
+                    { term: "What shows are you into?", eng_example: "I need a new series to start. What shows are you into right now?", thai_example: "ฉันต้องการเริ่มดูซีรีส์เรื่องใหม่ ตอนนี้คุณติดรายการอะไรอยู่?" }
+                ],
+                collocations: [
+                    { term: "watch out for", eng_example: "You need to watch out for pickpockets in this area.", thai_example: "คุณต้องระวังนักล้วงกระเป๋าในบริเวณนี้" },
+                    { term: "a watched pot never boils", eng_example: "Stop checking your email every minute. A watched pot never boils.", thai_example: "หยุดเช็คอีเมลทุกนาทีได้แล้ว ยิ่งจ้องรอก็เหมือนยิ่งช้า (สำนวน)" }
+                ]
+            },
+            {
+                emoji: "🧐",
+                mainSentence: "What do you see?",
+                mainSentenceThai: "คุณเห็นอะไร?",
+                thaiReading: "วอท ดู ยู <u>ซี</u>?",
+                examples: [
+                    { eng: "Look into the telescope. What do you see?", thai: "มองเข้าไปในกล้องโทรทรรศน์สิ คุณเห็นอะไร?" },
+                    { eng: "What do you see as the main problem here?", thai: "คุณเห็นว่าอะไรคือปัญหาหลักในที่นี้?" },
+                    { eng: "I see what you mean.", thai: "ฉันเข้าใจที่คุณหมายถึง" },
+                    { eng: "She needs to see a doctor.", thai: "เธอจำเป็นต้องไปพบแพทย์" },
+                    { eng: "Let's see what happens next.", thai: "รอดูกันว่าจะเกิดอะไรขึ้นต่อไป" }
+                ],
+                equivalents: [
+                    { term: "What do you notice?", eng_example: "Look closely at the painting. What do you notice?", thai_example: "มองภาพวาดนี้ใกล้ๆสิ คุณสังเกตเห็นอะไรบ้าง?" }
+                ],
+                collocations: [
+                    { term: "see eye to eye", eng_example: "We don't always see eye to eye, but we respect each other.", thai_example: "เราไม่ได้เห็นพ้องต้องกันเสมอไป แต่เราก็เคารพซึ่งกันและกัน" },
+                    { term: "wait and see", eng_example: "I'm not sure if the plan will work; we'll have to wait and see.", thai_example: "ฉันไม่แน่ใจว่าแผนจะสำเร็จไหม เราคงต้องรอดูกันต่อไป" }
+                ]
+            },
+            {
+                emoji: "👂",
+                mainSentence: "What do you hear?",
+                mainSentenceThai: "คุณได้ยินอะไร?",
+                thaiReading: "วอท ดู ยู <u>เฮียร์</u>?",
+                examples: [
+                    { eng: "Be quiet for a moment. What do you hear?", thai: "เงียบสักครู่นะ คุณได้ยินอะไรไหม?" },
+                    { eng: "What do you hear about the company's future?", thai: "คุณได้ยินข่าวคราวอะไรเกี่ยวกับอนาคตของบริษัทบ้าง?" },
+                    { eng: "I hear you're moving to a new city.", thai: "ฉันได้ยินมาว่าคุณกำลังจะย้ายไปเมืองใหม่" },
+                    { eng: "Did you hear that noise?", thai: "คุณได้ยินเสียงนั่นไหม?" },
+                    { eng: "I can't hear you over the music.", thai: "ฉันไม่ได้ยินคุณเลยเพราะเสียงเพลงมันดัง" }
+                ],
+                equivalents: [
+                    { term: "What's that sound?", eng_example: "Listen! What's that sound?", thai_example: "ฟังนะ! นั่นเสียงอะไร?" }
+                ],
+                collocations: [
+                    { term: "hear from someone", eng_example: "I haven't heard from my brother in weeks.", thai_example: "ฉันไม่ได้รับการติดต่อจากน้องชายมาหลายสัปดาห์แล้ว" },
+                    { term: "hear it on the grapevine", eng_example: "I heard it on the grapevine that she is getting a promotion.", thai_example: "ฉันได้ยินข่าวลือมาว่าเธอกำลังจะได้เลื่อนตำแหน่ง" }
+                ]
+            },
+            {
+                emoji: "👃",
+                mainSentence: "What do you smell?",
+                mainSentenceThai: "คุณได้กลิ่นอะไร?",
+                thaiReading: "วอท ดู ยู <u>สเมล</u>?",
+                examples: [
+                    { eng: "What do you smell? I think something is burning.", thai: "คุณได้กลิ่นอะไรไหม? ฉันว่ามีอะไรบางอย่างกำลังไหม้" },
+                    { eng: "This flower smells wonderful.", thai: "ดอกไม้นี้มีกลิ่นหอมมาก" },
+                    { eng: "He smells of smoke.", thai: "เขาตัวเหม็นกลิ่นควันบุหรี่" },
+                    { eng: "I smell trouble.", thai: "ฉันได้กลิ่นปัญหา (รู้สึกว่าจะมีปัญหา)" },
+                    { eng: "What does fresh bread smell like to you?", thai: "สำหรับคุณแล้ว ขนมปังอบใหม่ๆ มีกลิ่นเหมือนอะไร?" }
+                ],
+                equivalents: [
+                    { term: "What's that scent?", eng_example: "Is that a new perfume? What's that lovely scent?", thai_example: "นั่นน้ำหอมใหม่เหรอ? กลิ่นหอมๆ นั่นคืออะไร?" }
+                ],
+                collocations: [
+                    { term: "smell a rat", eng_example: "His story sounds too good to be true; I smell a rat.", thai_example: "เรื่องเล่าของเขาฟังดูดีเกินจริง ฉันรู้สึกถึงความไม่ชอบมาพากล" },
+                    { term: "wake up and smell the coffee", eng_example: "You need to wake up and smell the coffee; the situation has changed.", thai_example: "คุณต้องตื่นและยอมรับความจริงได้แล้ว สถานการณ์มันเปลี่ยนไปแล้ว" }
+                ]
+            },
+            {
+                emoji: "😊",
+                mainSentence: "What do you feel?",
+                mainSentenceThai: "คุณรู้สึกอย่างไร?",
+                thaiReading: "วอท ดู ยู <u>ฟีล</u>?",
+                examples: [
+                    { eng: "Close your eyes and touch this fabric. What do you feel?", thai: "หลับตาแล้วสัมผัสผ้านี่สิ คุณรู้สึกว่ามันเป็นอย่างไร?" },
+                    { eng: "What do you feel is the right thing to do?", thai: "คุณรู้สึกว่าอะไรคือสิ่งที่ถูกต้องที่ควรทำ?" },
+                    { eng: "I feel happy when I'm with you.", thai: "ฉันรู้สึกมีความสุขเมื่ออยู่กับคุณ" },
+                    { eng: "She feels a sharp pain in her back.", thai: "เธอรู้สึกเจ็บแปลบที่หลัง" },
+                    { eng: "He feels that he is not treated fairly.", thai: "เขารู้สึกว่าเขาไม่ได้รับการปฏิบัติอย่างยุติธรรม" }
+                ],
+                equivalents: [
+                    { term: "How are you feeling?", eng_example: "You were sick yesterday. How are you feeling today?", thai_example: "เมื่อวานคุณป่วย วันนี้คุณรู้สึกเป็นอย่างไรบ้าง?" }
+                ],
+                collocations: [
+                    { term: "feel free", eng_example: "Please feel free to ask any questions.", thai_example: "เชิญถามคำถามได้ตามสบายเลยนะครับ/คะ" },
+                    { term: "mixed feelings", eng_example: "I have mixed feelings about moving to a new country.", thai_example: "ฉันมีความรู้สึกหลากหลายปนเปกันเรื่องการย้ายไปประเทศใหม่" }
+                ]
+            },
+            {
+                emoji: "📚",
+                mainSentence: "What do you study?",
+                mainSentenceThai: "คุณเรียน (สาขา) อะไร?",
+                thaiReading: "วอท ดู ยู <u>สตัด</u>ดี้?",
+                examples: [
+                    { eng: "What do you study at university?", thai: "คุณเรียนอะไรที่มหาวิทยาลัย?" },
+                    { eng: "What does a geologist study?", thai: "นักธรณีวิทยาศึกษาเกี่ยวกับอะไร?" },
+                    { eng: "He studies for three hours every night.", thai: "เขาอ่านหนังสือสามชั่วโมงทุกคืน" },
+                    { eng: "She is studying the effects of climate change.", thai: "เธอกำลังศึกษาผลกระทบของการเปลี่ยนแปลงสภาพภูมิอากาศ" },
+                    { eng: "You should study the map before you go.", thai: "คุณควรจะศึกษาแผนที่ก่อนที่คุณจะไป" }
+                ],
+                equivalents: [
+                    { term: "What is your major?", eng_example: "You're in your final year. What is your major?", thai_example: "คุณอยู่ปีสุดท้ายแล้ว วิชาเอกของคุณคืออะไร?" }
+                ],
+                collocations: [
+                    { term: "case study", eng_example: "We need to analyze a case study for our marketing class.", thai_example: "เราต้องวิเคราะห์กรณีศึกษาสำหรับชั้นเรียนการตลาดของเรา" },
+                    { term: "study abroad", eng_example: "Many students dream of the chance to study abroad.", thai_example: "นักเรียนหลายคนฝันถึงโอกาสที่จะได้ไปเรียนต่อต่างประเทศ" }
+                ]
+            },
+            {
+                emoji: "💼",
+                mainSentence: "What do you have?",
+                mainSentenceThai: "คุณมีอะไร?",
+                thaiReading: "วอท ดู ยู <u>แฮฟ</u>?",
+                examples: [
+                    { eng: "What do you have in your bag?", thai: "คุณมีอะไรอยู่ในกระเป๋า?" },
+                    { eng: "What ideas do you have for the project?", thai: "คุณมีไอเดียอะไรบ้างสำหรับโครงการนี้?" },
+                    { eng: "I have a question.", thai: "ฉันมีคำถาม" },
+                    { eng: "She has a beautiful voice.", thai: "เธอมีเสียงที่ไพเราะ" },
+                    { eng: "What do you have for breakfast?", thai: "คุณกินอะไรเป็นอาหารเช้า?" }
+                ],
+                equivalents: [
+                    { term: "What's in your possession?", eng_example: "The police asked, 'What's in your possession right now?'", thai_example: "ตำรวจถามว่า 'ตอนนี้คุณมีอะไรอยู่ในครอบครองบ้าง?'" }
+                ],
+                collocations: [
+                    { term: "have a good time", eng_example: "I hope you have a good time at the party.", thai_example: "ฉันหวังว่าคุณจะสนุกกับงานปาร์ตี้นะ" },
+                    { term: "have to", eng_example: "I have to finish this work by 5 PM.", thai_example: "ฉันต้องทำงานนี้ให้เสร็จภายในห้าโมงเย็น" }
+                ]
+            },
+            {
+                emoji: "🎤",
+                mainSentence: "What do you say?",
+                mainSentenceThai: "คุณว่าอย่างไร?",
+                thaiReading: "วอท ดู ยู <u>เซย์</u>?",
+                examples: [
+                    { eng: "It's a great offer. What do you say?", thai: "มันเป็นข้อเสนอที่ดีมากนะ คุณว่าอย่างไร?" },
+                    { eng: "What does the boss usually say in meetings?", thai: "ปกติแล้วเจ้านายพูดอะไรในที่ประชุม?" },
+                    { eng: "The sign says 'Stop'.", thai: "ป้ายบอกว่า 'หยุด'" },
+                    { eng: "What do you say we go for a walk?", thai: "เราไปเดินเล่นกันดีไหม?" },
+                    { eng: "I don't know what to say.", thai: "ฉันไม่รู้จะพูดอะไร" }
+                ],
+                equivalents: [
+                    { term: "What's your response?", eng_example: "I've given you my proposal. What's your response?", thai_example: "ฉันยื่นข้อเสนอของฉันให้คุณแล้ว คำตอบของคุณคืออะไร?" }
+                ],
+                collocations: [
+                    { term: "needless to say", eng_example: "Needless to say, he was very happy with the result.", thai_example: "คงไม่ต้องบอกเลยว่า เขามีความสุขกับผลลัพธ์มาก" },
+                    { term: "have a say", eng_example: "In our team, everyone has a say in the decision-making process.", thai_example: "ในทีมของเรา ทุกคนมีส่วนร่วมในการตัดสินใจ" }
+                ]
+            },
+            {
+                emoji: "🤝",
+                mainSentence: "What do you suggest?",
+                mainSentenceThai: "คุณแนะนำอะไร?",
+                thaiReading: "วอท ดู ยู ซัก<u>เจสท์</u>?",
+                examples: [
+                    { eng: "I'm lost. What do you suggest I do now?", thai: "ฉันหลงทาง คุณแนะนำว่าฉันควรทำอะไรตอนนี้?" },
+                    { eng: "What does she suggest for a good restaurant nearby?", thai: "เธอแนะนำร้านอาหารดีๆ แถวนี้ว่าร้านไหน?" },
+                    { eng: "The evidence suggests he is innocent.", thai: "หลักฐานชี้ให้เห็นว่าเขาเป็นผู้บริสุทธิ์" },
+                    { eng: "I suggest we take a break.", thai: "ฉันเสนอว่าเราควรจะพักกันสักหน่อย" },
+                    { eng: "What do you suggest as an alternative?", thai: "คุณเสนออะไรเป็นทางเลือกอื่น?" }
+                ],
+                equivalents: [
+                    { term: "What do you recommend?", eng_example: "I trust your taste. What do you recommend on the menu?", thai_example: "ฉันเชื่อในรสนิยมของคุณนะ คุณแนะนำอะไรในเมนูบ้าง?" }
+                ],
+                collocations: [
+                    { term: "a helpful suggestion", eng_example: "Thank you, that was a very helpful suggestion.", thai_example: "ขอบคุณนะ นั่นเป็นคำแนะนำที่เป็นประโยชน์มาก" },
+                    { term: "open to suggestions", eng_example: "I haven't decided yet, so I'm open to suggestions.", thai_example: "ฉันยังไม่ได้ตัดสินใจนะ ฉันเลยเปิดรับข้อเสนอแนะ" }
+                ]
+            },
+            {
+                emoji: "🚗",
+                mainSentence: "What do you drive?",
+                mainSentenceThai: "คุณขับรถอะไร?",
+                thaiReading: "วอท ดู ยู <u>ไดรฟ์</u>?",
+                examples: [
+                    { eng: "What kind of car do you drive?", thai: "คุณขับรถประเภทไหน?" },
+                    { eng: "What drives him to work so hard?", thai: "อะไรคือแรงผลักดันให้เขาทำงานหนักขนาดนั้น?" },
+                    { eng: "Noise from the neighbors drives me crazy.", thai: "เสียงจากเพื่อนบ้านทำให้ฉันแทบบ้า" },
+                    { eng: "This new campaign will drive sales.", thai: "แคมเปญใหม่นี้จะช่วยขับเคลื่อนยอดขาย" },
+                    { eng: "What do you do when someone drives too slowly in front of you?", thai: "คุณทำอย่างไรเมื่อมีคนขับรถช้ามากอยู่ข้างหน้าคุณ?" }
+                ],
+                equivalents: [
+                    { term: "What car do you have?", eng_example: "That's a nice car. What make is it?", thai_example: "รถสวยนะ เป็นยี่ห้ออะไรเหรอ?" }
+                ],
+                collocations: [
+                    { term: "drive a hard bargain", eng_example: "He is a tough negotiator; he always drives a hard bargain.", thai_example: "เขาเป็นนักต่อรองที่เข้มงวด เขามักจะต่อรองอย่างถึงที่สุดเสมอ" },
+                    { term: "a test drive", eng_example: "You should take a test drive before you buy a car.", thai_example: "คุณควรจะทดลองขับก่อนที่จะซื้อรถ" }
+                ]
+            },
+            {
+                emoji: "👨‍🏫",
+                mainSentence: "What do you teach?",
+                mainSentenceThai: "คุณสอนอะไร?",
+                thaiReading: "วอท ดู ยู <u>ทีช</u>?",
+                examples: [
+                    { eng: "What subject do you teach at the high school?", thai: "คุณสอนวิชาอะไรที่โรงเรียนมัธยม?" },
+                    { eng: "Experience teaches us valuable lessons.", thai: "ประสบการณ์สอนบทเรียนอันมีค่าแก่เรา" },
+                    { eng: "What does this story teach children?", thai: "นิทานเรื่องนี้สอนอะไรแก่เด็กๆ?" },
+                    { eng: "He teaches English to foreign students.", thai: "เขาสอนภาษาอังกฤษให้นักเรียนต่างชาติ" },
+                    { eng: "I'll teach you a lesson you'll never forget!", thai: "ฉันจะสั่งสอนบทเรียนที่แกจะไม่มีวันลืมเลย!" }
+                ],
+                equivalents: [
+                    { term: "What's your subject of expertise?", eng_example: "You're a teacher? That's great! What's your subject of expertise?", thai_example: "คุณเป็นครูเหรอ? เยี่ยมเลย! วิชาที่คุณเชี่ยวชาญคืออะไร?" }
+                ],
+                collocations: [
+                    { term: "teach yourself", eng_example: "You can teach yourself how to play the guitar using online videos.", thai_example: "คุณสามารถสอนตัวเองให้เล่นกีตาร์ได้โดยใช้วิดีโอออนไลน์" },
+                    { term: "practice what you preach", eng_example: "As a health coach, you must practice what you preach.", thai_example: "ในฐานะโค้ชสุขภาพ คุณต้องทำตามสิ่งที่คุณสอนด้วย" }
+                ]
+            },
+            {
+                emoji: "📅",
+                mainSentence: "What do you remember?",
+                mainSentenceThai: "คุณจำอะไรได้บ้าง?",
+                thaiReading: "วอท ดู ยู ริ<u>เมม</u>เบ่อะ?",
+                examples: [
+                    { eng: "What do you remember about the accident?", thai: "คุณจำอะไรเกี่ยวกับอุบัติเหตุครั้งนั้นได้บ้าง?" },
+                    { eng: "Please remember to lock the door.", thai: "กรุณาอย่าลืมล็อคประตูด้วยนะ" },
+                    { eng: "What does she remember from her childhood?", thai: "เธอจำอะไรจากวัยเด็กของเธอได้บ้าง?" },
+                    { eng: "I can't remember his name.", thai: "ฉันจำชื่อเขาไม่ได้" },
+                    { eng: "As I remember, he was wearing a blue shirt.", thai: "เท่าที่ฉันจำได้ เขาใส่เสื้อสีน้ำเงิน" }
+                ],
+                equivalents: [
+                    { term: "What do you recall?", eng_example: "Tell the police everything. What do you recall from that night?", thai_example: "บอกตำรวจทุกอย่างนะ คุณระลึกอะไรเกี่ยวกับคืนนั้นได้บ้าง?" }
+                ],
+                collocations: [
+                    { term: "remember me to someone", eng_example: "Please remember me to your parents.", thai_example: "ฝากความคิดถึงของฉันถึงคุณพ่อคุณแม่ของคุณด้วยนะ" },
+                    { term: "if I remember correctly", eng_example: "If I remember correctly, the meeting is at 2 PM.", thai_example: "ถ้าฉันจำไม่ผิด การประชุมมีตอนบ่ายสองโมง" }
+                ]
+            },
+{
+                emoji: "💭",
+                mainSentence: "What do you imagine?",
+                mainSentenceThai: "คุณจินตนาการถึงอะไร?",
+                thaiReading: "วอท ดู ยู อิ<u>แม</u>จิน?",
+                examples: [
+                    { eng: "When you hear the word 'success', what do you imagine?", thai: "เมื่อคุณได้ยินคำว่า 'ความสำเร็จ' คุณจินตนาการถึงอะไร?" },
+                    { eng: "What does a child imagine when they read a fairy tale?", thai: "เด็กจินตนาการถึงอะไรเมื่อพวกเขาอ่านนิทาน?" },
+                    { eng: "I can't imagine my life without you.", thai: "ฉันจินตนาการถึงชีวิตที่ไม่มีคุณไม่ออกเลย" },
+                    { eng: "He imagines himself as a famous actor one day.", thai: "เขาจินตนาการว่าตัวเองจะเป็นนักแสดงชื่อดังในสักวันหนึ่ง" },
+                    { eng: "Close your eyes and imagine a peaceful beach.", thai: "หลับตาลง แล้วจินตนาการถึงชายหาดที่สงบสุข" }
+                ],
+                equivalents: [
+                    { term: "What do you picture?", eng_example: "When you think of your dream house, what do you picture in your mind?", thai_example: "เมื่อคุณนึกถึงบ้านในฝันของคุณ คุณเห็นภาพอะไรในใจ?" }
+                ],
+                collocations: [
+                    { term: "hard to imagine", eng_example: "It's hard to imagine that this bustling city was once a small village.", thai_example: "มันยากที่จะจินตนาการว่าเมืองที่วุ่นวายแห่งนี้เคยเป็นเพียงหมู่บ้านเล็กๆ" },
+                    { term: "just imagine", eng_example: "Just imagine what we could achieve if we all worked together.", thai_example: "แค่ลองจินตนาการดูสิว่าเราจะประสบความสำเร็จได้แค่ไหนถ้าเราทุกคนทำงานร่วมกัน" }
+                ]
+            },
+            {
+                emoji: "🙏",
+                mainSentence: "What do you appreciate?",
+                mainSentenceThai: "คุณรู้สึกซาบซึ้ง/ขอบคุณในสิ่งใด?",
+                thaiReading: "วอท ดู ยู อะ<u>พรี</u>ชิเอท?",
+                examples: [
+                    { eng: "What do you appreciate most about your friends?", thai: "คุณรู้สึกขอบคุณอะไรมากที่สุดเกี่ยวกับเพื่อนของคุณ?" },
+                    { eng: "I really appreciate your help.", thai: "ฉันซาบซึ้งในความช่วยเหลือของคุณจริงๆ" },
+                    { eng: "What does an art critic appreciate in a painting?", thai: "นักวิจารณ์ศิลปะชื่นชมอะไรในภาพวาด?" },
+                    { eng: "She appreciates the simple things in life.", thai: "เธอซาบซึ้งกับสิ่งเรียบง่ายในชีวิต" },
+                    { eng: "The value of this antique will appreciate over time.", thai: "มูลค่าของโบราณวัตถุชิ้นนี้จะเพิ่มขึ้นตามกาลเวลา" }
+                ],
+                equivalents: [
+                    { term: "What are you thankful for?", eng_example: "It's good to reflect. What are you thankful for in your life?", thai_example: "การไตร่ตรองเป็นสิ่งที่ดีนะ มีอะไรที่คุณรู้สึกขอบคุณบ้างในชีวิต?" }
+                ],
+                collocations: [
+                    { term: "appreciate the gesture", eng_example: "I can't accept the gift, but I appreciate the gesture.", thai_example: "ฉันรับของขวัญไม่ได้ แต่ฉันก็ขอบคุณในน้ำใจของคุณนะ" },
+                    { term: "greatly appreciate", eng_example: "We would greatly appreciate it if you could reply by Friday.", thai_example: "เราจะขอบคุณเป็นอย่างยิ่งหากคุณสามารถตอบกลับภายในวันศุกร์" }
+                ]
+            },
+            {
+                emoji: "🎯",
+                mainSentence: "What do you propose?",
+                mainSentenceThai: "คุณเสนอว่าอย่างไร?",
+                thaiReading: "วอท ดู ยู โพร<u>โพส</u>?",
+                examples: [
+                    { eng: "We have a problem. What do you propose as a solution?", thai: "เรามีปัญหา คุณเสนอทางแก้อย่างไร?" },
+                    { eng: "What does the committee propose to do next?", thai: "คณะกรรมการเสนอว่าจะทำอะไรต่อไป?" },
+                    { eng: "I propose a toast to the happy couple!", thai: "ฉันขอเสนอให้ดื่มอวยพรแก่คู่บ่าวสาว!" },
+                    { eng: "She proposes a new marketing strategy.", thai: "เธอเสนอกลยุทธ์การตลาดใหม่" },
+                    { eng: "He plans to propose to his girlfriend during their trip.", thai: "เขาวางแผนที่จะขอแฟนสาวแต่งงานระหว่างทริปของพวกเขา" }
+                ],
+                equivalents: [
+                    { term: "What is your proposal?", eng_example: "We have heard all the issues. What is your proposal to fix them?", thai_example: "เราได้รับฟังปัญหาทั้งหมดแล้ว ข้อเสนอของคุณเพื่อแก้ไขคืออะไร?" },
+                    { term: "What's your suggestion?", eng_example: "This isn't working. What's your suggestion?", thai_example: "วิธีนี้ไม่ได้ผล คำแนะนำของคุณคืออะไร?" }
+                ],
+                collocations: [
+                    { term: "propose a motion", eng_example: "In the meeting, a member will propose a motion to change the bylaws.", thai_example: "ในการประชุม สมาชิกจะเสนอญัตติเพื่อเปลี่ยนแปลงข้อบังคับ" },
+                    { term: "propose a theory", eng_example: "The scientist proposes a new theory about the origin of the universe.", thai_example: "นักวิทยาศาสตร์เสนอทฤษฎีใหม่เกี่ยวกับต้นกำเนิดของจักรวาล" }
+                ]
+            }
+        ];
+
+        const slidesWrapper = document.getElementById('slides-wrapper');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const pageCounter = document.getElementById('page-counter');
+
+        let currentSlide = 0;
+
+        function generateSlides() {
+            slideData.forEach((data, index) => {
+                const slide = document.createElement('div');
+                slide.className = 'slide';
+                slide.id = `slide-${index}`;
+
+                const examplesHtml = data.examples.map(ex => `<li>${ex.eng}<span class="thai-translation">${ex.thai}</span></li>`).join('');
+                
+                const equivalentsHtml = data.equivalents.map(eq => `
+                    <li>
+                        <span class="example-term">${eq.term}</span>
+                        <span class="example-sentence">${eq.eng_example}</span>
+                        <span class="thai-translation">${eq.thai_example}</span>
+                    </li>`).join('');
+
+                const collocationsHtml = data.collocations.map(co => `
+                    <li>
+                        <span class="example-term">${co.term}</span>
+                        <span class="example-sentence">${co.eng_example}</span>
+                        <span class="thai-translation">${co.thai_example}</span>
+                    </li>`).join('');
+
+                slide.innerHTML = `
+                    <h2>${data.emoji} ${data.mainSentence}
+                        <span class="main-sentence-thai">${data.mainSentenceThai}</span>
+                    </h2>
+                    <p class="thai-reading">${data.thaiReading}</p>
+                    
+                    <div class="content-section">
+                        <h3>ตัวอย่างประโยคเพิ่มเติม:</h3>
+                        <ul>${examplesHtml}</ul>
+                    </div>
+                    
+                    <div class="content-section">
+                        <h3>Equivalent Alternatives (สำนวนที่มีความหมายเหมือนกัน)</h3>
+                        <ul>${equivalentsHtml}</ul>
+                    </div>
+                    
+                    <div class="content-section">
+                        <h3>Collocations (คำที่มักใช้มาด้วยกัน)</h3>
+                        <ul>${collocationsHtml}</ul>
+                    </div>
+
+                    <div class="footer">
+                        ครูสาลี่ -- อังกฤษฉบับคนเรียนไม่รู้เรื่อง
+                    </div>
+                `;
+                slidesWrapper.appendChild(slide);
+            });
+        }
+        
+        function getRandomColor() {
+            const h = Math.floor(Math.random() * 360);
+            const s = 100;
+            const l = 97; 
+            return `hsl(${h}, ${s}%, ${l}%)`;
+        }
+
+        function showSlide(index) {
+            const slides = document.querySelectorAll('.slide');
+            slides.forEach(slide => {
+                slide.classList.remove('active');
+            });
+            
+            const activeSlide = document.getElementById(`slide-${index}`);
+            activeSlide.classList.add('active');
+            activeSlide.style.backgroundColor = getRandomColor();
+            
+            pageCounter.textContent = `หน้า ${index + 1} / ${slideData.length}`;
+            
+            prevBtn.disabled = index === 0;
+            nextBtn.disabled = index === slideData.length - 1;
+        }
+
+        nextBtn.addEventListener('click', () => {
+            if (currentSlide < slideData.length - 1) {
+                currentSlide++;
+                showSlide(currentSlide);
+            }
+        });
+
+        prevBtn.addEventListener('click', () => {
+            if (currentSlide > 0) {
+                currentSlide--;
+                showSlide(currentSlide);
+            }
+        });
+
+        generateSlides();
+        showSlide(currentSlide);
+    </script>
+</body>
+</html>

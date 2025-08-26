@@ -1,0 +1,925 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>English Lesson: What are you -ing?</title>
+    <style>
+        /* CSS Styles */
+        @import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@400;700&display=swap');
+
+        :root {
+            --text-color: #2c3e50;
+            --header-bg: #ffffff;
+            --border-color: #ecf0f1;
+            --button-bg: #9b59b6; 
+            --button-hover-bg: #8e44ad;
+            --button-disabled-bg: #bdc3c7;
+            --white: #ffffff;
+            --thai-translation-color: #555;
+            --term-color: #2980b9;
+        }
+
+        body {
+            font-family: 'Sarabun', sans-serif;
+            background-color: #ecf0f1;
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            font-size: 18px; 
+        }
+
+        #app-container {
+            width: 100%;
+            max-width: 950px; 
+            background: var(--white);
+            border-radius: 16px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        #main-header {
+            background-color: var(--header-bg);
+            padding: 20px 30px;
+            border-bottom: 2px solid var(--border-color);
+            text-align: center;
+        }
+
+        #main-header h1 {
+            margin: 0;
+            font-size: 1.7em;
+            color: var(--button-bg);
+            font-weight: 700;
+        }
+
+        #slides-wrapper {
+            position: relative;
+            flex-grow: 1;
+        }
+
+        .slide {
+            padding: 35px 40px;
+            display: none;
+            flex-direction: column;
+            gap: 20px;
+            transition: background-color 0.5s ease;
+            min-height: 620px;
+        }
+        
+        .slide.active {
+            display: flex;
+        }
+
+        .slide h2 {
+            font-size: 2.8em;
+            margin: 0;
+            color: var(--text-color);
+            text-align: center;
+            padding-bottom: 20px;
+            border-bottom: 2px solid rgba(0,0,0,0.08);
+            line-height: 1.3;
+        }
+        
+        .main-sentence-thai {
+            display: block;
+            font-size: 0.5em; 
+            color: var(--thai-translation-color);
+            font-weight: 400;
+            margin-top: 10px;
+        }
+
+        .thai-reading {
+            font-size: 1.3em;
+            color: #c0392b;
+            text-align: center;
+            font-style: italic;
+            font-weight: 700;
+        }
+
+        .thai-reading u {
+            text-decoration: underline;
+            text-decoration-color: #c0392b;
+            text-decoration-thickness: 3px;
+        }
+
+        .content-section {
+            margin-top: 10px;
+        }
+
+        .content-section h3 {
+            font-size: 1.3em;
+            color: var(--button-bg);
+            margin-bottom: 15px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .content-section ul {
+            list-style-type: '✅  ';
+            padding-left: 20px;
+            margin: 0;
+        }
+
+        .content-section ul li {
+            margin-bottom: 18px; 
+            line-height: 1.7;
+            font-size: 1.1em;
+        }
+        
+        .thai-translation {
+            display: block;
+            color: var(--thai-translation-color);
+            font-size: 0.9em;
+            padding-left: 15px;
+            font-style: italic;
+        }
+        
+        .example-term {
+            color: var(--term-color);
+            font-weight: 700;
+        }
+        
+        .example-sentence {
+             display: block;
+             padding-left: 15px;
+        }
+
+        .footer {
+            margin-top: auto; /* Pushes footer to the bottom */
+            padding-top: 20px;
+            text-align: center;
+            font-size: 0.9em;
+            color: #7f8c8d;
+            border-top: 1px solid var(--border-color);
+        }
+
+        #navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 30px;
+            background-color: var(--header-bg);
+            border-top: 2px solid var(--border-color);
+        }
+
+        #navigation button {
+            background-color: var(--button-bg);
+            color: var(--white);
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-family: 'Sarabun', sans-serif;
+            font-size: 1.1em;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        #navigation button:hover {
+            background-color: var(--button-hover-bg);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        #navigation button:disabled {
+            background-color: var(--button-disabled-bg);
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        #page-counter {
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #7f8c8d;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="app-container">
+        <div id="main-header">
+            <h1>โครงสร้างประโยคที่ 52: What are you +(verb ending in -ing)?</h1>
+        </div>
+        
+        <div id="slides-wrapper">
+            </div>
+
+        <div id="navigation">
+            <button id="prevBtn">⬅️ หน้าก่อนหน้า</button>
+            <span id="page-counter"></span>
+            <button id="nextBtn">หน้าถัดไป ➡️</button>
+        </div>
+    </div>
+
+    <script>
+        const slideData = [
+            {
+                emoji: "🤔",
+                mainSentence: "What are you doing?",
+                mainSentenceThai: "คุณกำลังทำอะไรอยู่?",
+                thaiReading: "วอท อาร์ ยู <u>ดู๊</u>อิ้ง?",
+                examples: [
+                    { eng: "What is he doing with that hammer?", thai: "เขากำลังทำอะไรกับค้อนอันนั้นน่ะ?" },
+                    { eng: "I see you're busy. What are you doing exactly?", thai: "ฉันเห็นว่าคุณกำลังยุ่ง ตกลงว่าคุณกำลังทำอะไรอยู่กันแน่?" },
+                    { eng: "What are the children doing upstairs? It's too quiet.", thai: "เด็กๆ กำลังทำอะไรกันอยู่ข้างบน? มันเงียบเกินไปนะ" },
+                    { eng: "She asked me what I was doing.", thai: "เธอถามฉันว่าฉันกำลังทำอะไรอยู่ (Past Continuous)" },
+                    { eng: "What are we doing for dinner tonight?", thai: "เย็นนี้เราจะทำอะไรกินกันดี? (ใช้กับอนาคตอันใกล้)" }
+                ],
+                equivalents: [
+                    { term: "What are you up to?", eng_example: "You look suspicious. What are you up to?", thai_example: "คุณดูมีพิรุธนะ กำลังทำอะไรอยู่?" },
+                    { term: "What's going on?", eng_example: "There's a crowd over there. What's going on?", thai_example: "มีคนมุงอยู่ตรงนั้น เกิดอะไรขึ้นเหรอ?" }
+                ],
+                collocations: [
+                    { term: "doing your best", eng_example: "I can see you are doing your best on this project.", thai_example: "ฉันเห็นนะว่าคุณกำลังพยายามอย่างเต็มที่กับโครงการนี้" },
+                    { term: "doing well/badly", eng_example: "Her new business is doing well.", thai_example: "ธุรกิจใหม่ของเธอกำลังไปได้ดี" }
+                ]
+            },
+            {
+                emoji: "🍔",
+                mainSentence: "What are you eating?",
+                mainSentenceThai: "คุณกำลังกินอะไรอยู่?",
+                thaiReading: "วอท อาร์ ยู <u>อี๊ท</u>ติ้ง?",
+                examples: [
+                    { eng: "That smells delicious! What are you eating?", thai: "กลิ่นหอมจัง! คุณกำลังกินอะไรอยู่เหรอ?" },
+                    { eng: "What is the cat eating? I hope it's not a bug.", thai: "แมวกำลังกินอะไรน่ะ? หวังว่าคงไม่ใช่แมลงนะ" },
+                    { eng: "Tell me what you are eating, and I'll tell you what you are.", thai: "บอกฉันสิว่าคุณกำลังกินอะไร แล้วฉันจะบอกได้ว่าคุณเป็นคนอย่างไร" },
+                    { eng: "What are they eating for lunch in the cafeteria?", thai: "พวกเขากำลังกินอะไรเป็นมื้อกลางวันที่โรงอาหาร?" },
+                    { eng: "He is on a diet, so he is careful about what he is eating.", thai: "เขากำลังไดเอทอยู่ เขาเลยระวังเรื่องสิ่งที่เขากำลังกิน" }
+                ],
+                equivalents: [
+                    { term: "What's for dinner/lunch?", eng_example: "I'm starving. What's for dinner?", thai_example: "ฉันหิวมากเลย มื้อเย็นมีอะไรกินบ้าง?" }
+                ],
+                collocations: [
+                    { term: "eating out", eng_example: "We don't feel like cooking tonight; we are eating out instead.", thai_example: "คืนนี้เราไม่อยากทำอาหาร เราเลยจะไปกินข้าวนอกบ้านแทน" },
+                    { term: "healthy eating", eng_example: "She is focusing on healthy eating to improve her lifestyle.", thai_example: "เธอกำลังให้ความสำคัญกับการกินเพื่อสุขภาพเพื่อปรับปรุงวิถีชีวิตของเธอ" }
+                ]
+            },
+            {
+                emoji: "📖",
+                mainSentence: "What are you reading?",
+                mainSentenceThai: "คุณกำลังอ่านอะไรอยู่?",
+                thaiReading: "วอท อาร์ ยู <u>รี๊ด</u>ดิ้ง?",
+                examples: [
+                    { eng: "That book cover looks interesting. What are you reading?", thai: "ปกหนังสือเล่มนั้นดูน่าสนใจนะ คุณกำลังอ่านอะไรอยู่เหรอ?" },
+                    { eng: "What is she reading on her tablet?", thai: "เธอกำลังอ่านอะไรบนแท็บเล็ตของเธอ?" },
+                    { eng: "He's so focused. I wonder what he is reading.", thai: "เขาตั้งใจมากเลย ฉันสงสัยว่าเขากำลังอ่านอะไร" },
+                    { eng: "What are you reading into his silence?", thai: "คุณกำลังตีความความเงียบของเขาว่าอย่างไร?" },
+                    { eng: "The students are all quietly reading their books.", thai: "นักเรียนทุกคนกำลังอ่านหนังสือของพวกเขาอย่างเงียบๆ" }
+                ],
+                equivalents: [
+                    { term: "What's that book about?", eng_example: "You seem to be enjoying that. What's that book about?", thai_example: "คุณดูท่าทางจะชอบนะ หนังสือเล่มนั้นเกี่ยวกับอะไรเหรอ?" }
+                ],
+                collocations: [
+                    { term: "reading aloud", eng_example: "The teacher is reading a story aloud to the children.", thai_example: "คุณครูกำลังอ่านนิทานให้เด็กๆ ฟัง" },
+                    { term: "speed reading", eng_example: "He is practicing speed reading to get through his textbooks faster.", thai_example: "เขากำลังฝึกอ่านเร็วเพื่อที่จะอ่านตำราเรียนของเขาได้เร็วขึ้น" }
+                ]
+            },
+            {
+                emoji: "📺",
+                mainSentence: "What are you watching?",
+                mainSentenceThai: "คุณกำลังดูอะไรอยู่?",
+                thaiReading: "วอท อาร์ ยู <u>วอท</u>ชิ่ง?",
+                examples: [
+                    { eng: "You're laughing so hard! What are you watching on TV?", thai: "คุณหัวเราะดังมาก! กำลังดูอะไรในทีวีอยู่เหรอ?" },
+                    { eng: "What is he watching on his phone?", thai: "เขากำลังดูอะไรในมือถือของเขา?" },
+                    { eng: "The government is watching the economic situation carefully.", thai: "รัฐบาลกำลังจับตาสถานการณ์ทางเศรษฐกิจอย่างใกล้ชิด" },
+                    { eng: "Be careful what you say; the walls are watching.", thai: "ระวังสิ่งที่คุณพูดนะ กำแพงมีหูประตูมีช่อง" },
+                    { eng: "What are you watching for? The bus already left.", thai: "คุณกำลังมองหาอะไรอยู่? รถบัสออกไปแล้ว" }
+                ],
+                equivalents: [
+                    { term: "Is this show any good?", eng_example: "I've never seen this before. Is this show any good?", thai_example: "ฉันไม่เคยดูเรื่องนี้มาก่อนเลย รายการนี้สนุกไหม?" }
+                ],
+                collocations: [
+                    { term: "watching your weight", eng_example: "No cake for me, thanks. I am watching my weight.", thai_example: "ไม่เอาเค้กครับ ขอบคุณ ผมกำลังคุมน้ำหนักอยู่" },
+                    { term: "bird watching", eng_example: "They are going bird watching in the national park this weekend.", thai_example: "สุดสัปดาห์นี้พวกเขาจะไปส่องนกกันที่อุทยานแห่งชาติ" }
+                ]
+            },
+            {
+                emoji: "✍️",
+                mainSentence: "What are you writing?",
+                mainSentenceThai: "คุณกำลังเขียนอะไรอยู่?",
+                thaiReading: "วอท อาร์ ยู <u>ไร้ท์</u>ติ้ง?",
+                examples: [
+                    { eng: "What are you writing in your notebook?", thai: "คุณกำลังเขียนอะไรในสมุดบันทึกของคุณ?" },
+                    { eng: "She is writing an email to her boss.", thai: "เธอกำลังเขียนอีเมลถึงเจ้านายของเธอ" },
+                    { eng: "The author is writing a new novel.", thai: "นักเขียนกำลังเขียนนิยายเรื่องใหม่" },
+                    { eng: "He is writing down the phone number.", thai: "เขากำลังจดเบอร์โทรศัพท์" },
+                    { eng: "What are they writing on the whiteboard?", thai: "พวกเขากำลังเขียนอะไรบนกระดานไวท์บอร์ด?" }
+                ],
+                equivalents: [
+                    { term: "What are you working on?", eng_example: "You've been typing for ages. What are you working on?", thai_example: "คุณพิมพ์มานานมากแล้วนะ กำลังทำงานอะไรอยู่เหรอ?" }
+                ],
+                collocations: [
+                    { term: "writing a report", eng_example: "I can't talk now; I am writing a report that is due tomorrow.", thai_example: "ตอนนี้ฉันคุยไม่ได้ ฉันกำลังเขียนรายงานที่ต้องส่งพรุ่งนี้" },
+                    { term: "creative writing", eng_example: "She is taking a creative writing class to improve her storytelling skills.", thai_example: "เธอกำลังเรียนวิชาการเขียนเชิงสร้างสรรค์เพื่อพัฒนาทักษะการเล่าเรื่องของเธอ" }
+                ]
+            },
+            {
+                emoji: "🎶",
+                mainSentence: "What are you listening to?",
+                mainSentenceThai: "คุณกำลังฟังอะไรอยู่?",
+                thaiReading: "วอท อาร์ ยู <u>ลิส</u>เซินนิ่ง ทู?",
+                examples: [
+                    { eng: "You're tapping your feet. What are you listening to on your headphones?", thai: "คุณกำลังเคาะเท้าเป็นจังหวะเลยนะ กำลังฟังอะไรในหูฟังอยู่เหรอ?" },
+                    { eng: "She is listening to a podcast about science.", thai: "เธอกำลังฟังพอดแคสต์เกี่ยวกับวิทยาศาสตร์" },
+                    { eng: "The manager is listening to the employees' suggestions.", thai: "ผู้จัดการกำลังรับฟังข้อเสนอแนะของพนักงาน" },
+                    { eng: "Are you listening to me?", thai: "นี่คุณกำลังฟังฉันอยู่หรือเปล่า?" },
+                    { eng: "He is not listening to anyone's advice.", thai: "เขาไม่ยอมฟังคำแนะนำของใครเลย" }
+                ],
+                equivalents: [
+                    { term: "What song is this?", eng_example: "I like this beat. What song is this?", thai_example: "ฉันชอบจังหวะเพลงนี้จัง นี่เพลงอะไรเหรอ?" }
+                ],
+                collocations: [
+                    { term: "active listening", eng_example: "The therapist is using active listening to understand her client.", thai_example: "นักบำบัดกำลังใช้การฟังอย่างตั้งใจเพื่อทำความเข้าใจลูกความของเธอ" },
+                    { term: "listening skills", eng_example: "Good communication requires strong listening skills.", thai_example: "การสื่อสารที่ดีต้องการทักษะการฟังที่แข็งแกร่ง" }
+                ]
+            },
+            {
+                emoji: "🤔",
+                mainSentence: "What are you thinking about?",
+                mainSentenceThai: "คุณกำลังคิดอะไรอยู่?",
+                thaiReading: "วอท อาร์ ยู <u>ติ๊ง</u>กิ่ง อะ<u>เบาท์</u>?",
+                examples: [
+                    { eng: "You have a serious look on your face. What are you thinking about?", thai: "คุณทำหน้าเครียดจัง กำลังคิดอะไรอยู่เหรอ?" },
+                    { eng: "She is thinking about her future plans.", thai: "เธอกำลังคิดเกี่ยวกับแผนในอนาคตของเธอ" },
+                    { eng: "I am thinking of going on vacation.", thai: "ฉันกำลังคิดว่าจะไปเที่ยวพักร้อน" },
+                    { eng: "He is thinking about what to say next.", thai: "เขากำลังคิดว่าจะพูดอะไรต่อไปดี" },
+                    { eng: "What are you thinking of doing this weekend?", thai: "คุณกำลังคิดจะทำอะไรสุดสัปดาห์นี้?" }
+                ],
+                equivalents: [
+                    { term: "A penny for your thoughts?", eng_example: "You've been quiet for a while. A penny for your thoughts?", thai_example: "คุณเงียบไปสักพักแล้วนะ กำลังคิดอะไรอยู่เหรอ? (สำนวน)" }
+                ],
+                collocations: [
+                    { term: "thinking outside the box", eng_example: "Our team is thinking outside the box to find a creative solution.", thai_example: "ทีมของเรากำลังคิดนอกกรอบเพื่อหาทางออกที่สร้างสรรค์" },
+                    { term: "positive thinking", eng_example: "He is practicing positive thinking to reduce stress.", thai_example: "เขากำลังฝึกการคิดบวกเพื่อลดความเครียด" }
+                ]
+            },
+            {
+                emoji: "🍳",
+                mainSentence: "What are you cooking?",
+                mainSentenceThai: "คุณกำลังทำอาหารอะไรอยู่?",
+                thaiReading: "วอท อาร์ ยู <u>คุ้ก</u>กิ้ง?",
+                examples: [
+                    { eng: "It smells wonderful in here! What are you cooking?", thai: "ในนี้กลิ่นหอมจัง! คุณกำลังทำอาหารอะไรอยู่เหรอ?" },
+                    { eng: "He is cooking dinner for his family.", thai: "เขากำลังทำอาหารเย็นให้ครอบครัว" },
+                    { eng: "She is cooking up a plan to surprise her friend.", thai: "เธอกำลังวางแผนเพื่อเซอร์ไพรส์เพื่อนของเธอ" },
+                    { eng: "What are they cooking in the kitchen?", thai: "พวกเขากำลังทำอะไรกันอยู่ในครัว?" },
+                    { eng: "The chef is cooking a special dish for the guests.", thai: "เชฟกำลังทำอาหารจานพิเศษสำหรับแขก" }
+                ],
+                equivalents: [
+                    { term: "What are you making?", eng_example: "The kitchen is a flurry of activity. What are you making?", thai_example: "ในครัวดูวุ่นวายจัง คุณกำลังทำอะไรอยู่เหรอ?" }
+                ],
+                collocations: [
+                    { term: "cooking show", eng_example: "I am watching my favorite cooking show on TV.", thai_example: "ฉันกำลังดูรายการทำอาหารโปรดของฉันในทีวี" },
+                    { term: "home cooking", eng_example: "Nothing beats the taste of home cooking.", thai_example: "ไม่มีอะไรจะดีไปกว่ารสชาติของอาหารฝีมือที่บ้าน" }
+                ]
+            },
+            {
+                emoji: "🎨",
+                mainSentence: "What are you drawing?",
+                mainSentenceThai: "คุณกำลังวาดรูปอะไรอยู่?",
+                thaiReading: "วอท อาร์ ยู <u>ดรอ</u>วิ่ง?",
+                examples: [
+                    { eng: "The little girl is drawing a picture of her family.", thai: "เด็กหญิงตัวน้อยกำลังวาดรูปครอบครัวของเธอ" },
+                    { eng: "What is he drawing in his sketchbook?", thai: "เขากำลังวาดอะไรในสมุดสเก็ตช์ของเขา?" },
+                    { eng: "The artist is drawing a portrait of a client.", thai: "ศิลปินกำลังวาดภาพเหมือนของลูกค้า" },
+                    { eng: "They are drawing up a new contract.", thai: "พวกเขากำลังร่างสัญญาฉบับใหม่" },
+                    { eng: "The meeting is drawing to a close.", thai: "การประชุมใกล้จะสิ้นสุดแล้ว" }
+                ],
+                equivalents: [
+                    { term: "What are you sketching?", eng_example: "You're very talented. What are you sketching?", thai_example: "คุณมีพรสวรรค์มากเลยนะ กำลังสเก็ตช์รูปอะไรอยู่เหรอ?" }
+                ],
+                collocations: [
+                    { term: "drawing a conclusion", eng_example: "Based on the evidence, the detective is drawing a conclusion.", thai_example: "จากหลักฐานที่มี นักสืบกำลังสรุปผล" },
+                    { term: "drawing attention", eng_example: "The bright colors of the advertisement are drawing attention from passersby.", thai_example: "สีสันที่สดใสของโฆษณากำลังดึงดูดความสนใจจากผู้คนที่เดินผ่านไปมา" }
+                ]
+            },
+            {
+                emoji: "👕",
+                mainSentence: "What are you wearing to the party?",
+                mainSentenceThai: "คุณจะใส่อะไรไปงานปาร์ตี้?",
+                thaiReading: "วอท อาร์ ยู <u>แว</u>ริ่ง ทู เดอะ <u>พาร์</u>ที้?",
+                examples: [
+                    { eng: "Why are you wearing a coat? It's hot today.", thai: "ทำไมคุณถึงใส่เสื้อโค้ทล่ะ? วันนี้อากาศร้อนนะ" },
+                    { eng: "She is wearing a beautiful red dress.", thai: "เธอกำลังสวมชุดเดรสสีแดงที่สวยงาม" },
+                    { eng: "The soldiers are wearing their uniforms.", thai: "เหล่าทหารกำลังสวมเครื่องแบบของพวกเขา" },
+                    { eng: "He is wearing a smile, but I can tell he's sad.", thai: "เขากำลังยิ้มอยู่ แต่ฉันบอกได้เลยว่าเขากำลังเศร้า" },
+                    { eng: "My patience is wearing thin.", thai: "ความอดทนของฉันเริ่มจะหมดลงแล้ว" }
+                ],
+                equivalents: [
+                    { term: "What's the dress code?", eng_example: "I need to choose an outfit. What's the dress code for the event?", thai_example: "ฉันต้องเลือกชุดน่ะ งานนี้มีข้อกำหนดการแต่งกายว่าอย่างไร?" }
+                ],
+                collocations: [
+                    { term: "wearing a seatbelt", eng_example: "Everyone in the car is wearing a seatbelt for safety.", thai_example: "ทุกคนในรถกำลังคาดเข็มขัดนิรภัยเพื่อความปลอดภัย" },
+                    { term: "hard-wearing", eng_example: "These boots are very hard-wearing; they last for years.", thai_example: "รองเท้าบูทคู่นี้ทนทานมาก มันใช้ได้นานหลายปี" }
+                ]
+            },
+            {
+                emoji: "🥂",
+                mainSentence: "What are you celebrating?",
+                mainSentenceThai: "คุณกำลังฉลองอะไรอยู่?",
+                thaiReading: "วอท อาร์ ยู <u>เซ</u>เลเบรทติ้ง?",
+                examples: [
+                    { eng: "We are celebrating our anniversary.", thai: "เรากำลังฉลองวันครบรอบของเรา" },
+                    { eng: "What is she celebrating with all those balloons?", thai: "เธอกำลังฉลองอะไรกับลูกโป่งมากมายขนาดนั้น?" },
+                    { eng: "The team is celebrating their big win.", thai: "ทีมกำลังฉลองชัยชนะครั้งใหญ่ของพวกเขา" },
+                    { eng: "He is celebrating his graduation from university.", thai: "เขากำลังฉลองการสำเร็จการศึกษาจากมหาวิทยาลัย" },
+                    { eng: "Let's find out what they are celebrating.", thai: "ไปดูกันเถอะว่าพวกเขากำลังฉลองอะไรกัน" }
+                ],
+                equivalents: [
+                    { term: "What's the occasion?", eng_example: "This looks like a fun party! What's the occasion?", thai_example: "นี่ดูเป็นปาร์ตี้ที่สนุกจัง! จัดขึ้นในโอกาสอะไรเหรอ?" }
+                ],
+                collocations: [
+                    { term: "celebrating success", eng_example: "The company is holding a dinner for employees and celebrating the success of the past year.", thai_example: "บริษัทกำลังจัดงานเลี้ยงอาหารค่ำให้พนักงานและฉลองความสำเร็จของปีที่ผ่านมา" },
+                    { term: "life's milestones", eng_example: "It's important to take time for celebrating life's milestones.", thai_example: "มันเป็นเรื่องสำคัญที่จะให้เวลาสำหรับการฉลองเหตุการณ์สำคัญต่างๆ ในชีวิต" }
+                ]
+            },
+            {
+                emoji: "💬",
+                mainSentence: "What are you talking about?",
+                mainSentenceThai: "คุณกำลังพูดเรื่องอะไรกัน?",
+                thaiReading: "วอท อาร์ ยู <u>ทอล์ค</u>กิ้ง อะ<u>เบาท์</u>?",
+                examples: [
+                    { eng: "I just walked in. What are you two talking about?", thai: "ฉันเพิ่งเดินเข้ามา พวกคุณสองคนกำลังคุยเรื่องอะไรกันอยู่เหรอ?" },
+                    { eng: "She is talking on the phone with her mother.", thai: "เธอกำลังคุยโทรศัพท์กับแม่ของเธอ" },
+                    { eng: "The politicians are talking about the new law.", thai: "นักการเมืองกำลังพูดคุยเกี่ยวกับกฎหมายใหม่" },
+                    { eng: "He is talking nonsense; don't believe him.", thai: "เขาพูดจาไร้สาระ อย่าไปเชื่อเขา" },
+                    { eng: "What is the teacher talking about on the stage?", thai: "คุณครูกำลังพูดเรื่องอะไรบนเวที?" }
+                ],
+                equivalents: [
+                    { term: "What's the topic of conversation?", eng_example: "You both seem very engaged. What's the topic of conversation?", thai_example: "พวกคุณดูตั้งใจคุยกันมากเลยนะ หัวข้อที่คุยกันคือเรื่องอะไรเหรอ?" }
+                ],
+                collocations: [
+                    { term: "talking point", eng_example: "The main talking point of the meeting is the budget.", thai_example: "ประเด็นหลักในการพูดคุยของการประชุมคือเรื่องงบประมาณ" },
+                    { term: "talking behind someone's back", eng_example: "I don't like people who are talking behind my back.", thai_example: "ฉันไม่ชอบคนที่พูดลับหลังฉัน" }
+                ]
+            },
+            {
+                emoji: "🛠️",
+                mainSentence: "What are you fixing?",
+                mainSentenceThai: "คุณกำลังซ่อมอะไรอยู่?",
+                thaiReading: "วอท อาร์ ยู <u>ฟิกซ์</u>ซิ่ง?",
+                examples: [
+                    { eng: "The mechanic is fixing the car's engine.", thai: "ช่างยนต์กำลังซ่อมเครื่องยนต์ของรถ" },
+                    { eng: "What is she fixing on her computer?", thai: "เธอกำลังแก้ไขอะไรบนคอมพิวเตอร์ของเธอ?" },
+                    { eng: "I am fixing myself a sandwich for lunch.", thai: "ฉันกำลังทำแซนด์วิชให้ตัวเองเป็นมื้อกลางวัน" },
+                    { eng: "They are fixing the broken fence in the garden.", thai: "พวกเขากำลังซ่อมรั้วที่พังในสวน" },
+                    { eng: "He is fixing his hair in front of the mirror.", thai: "เขากำลังจัดแต่งทรงผมอยู่หน้ากระจก" }
+                ],
+                equivalents: [
+                    { term: "What are you repairing?", eng_example: "You have tools everywhere. What are you repairing?", thai_example: "คุณมีเครื่องมือเต็มไปหมดเลย กำลังซ่อมอะไรอยู่เหรอ?" }
+                ],
+                collocations: [
+                    { term: "fixing a problem", eng_example: "The IT department is fixing a problem with the server.", thai_example: "แผนกไอทีกำลังแก้ไขปัญหากับเซิร์ฟเวอร์" },
+                    { term: "a quick fix", eng_example: "This is just a quick fix; we'll need a proper repair later.", thai_example: "นี่เป็นแค่การแก้ไขเฉพาะหน้า เดี๋ยวเราต้องซ่อมแซมอย่างถูกวิธีทีหลัง" }
+                ]
+            },
+            {
+                emoji: "🏗️",
+                mainSentence: "What are you building?",
+                mainSentenceThai: "คุณกำลังสร้างอะไรอยู่?",
+                thaiReading: "วอท อาร์ ยู <u>บิ๊ลด</u>ดิ้ง?",
+                examples: [
+                    { eng: "The construction workers are building a new skyscraper.", thai: "คนงานก่อสร้างกำลังสร้างตึกระฟ้าแห่งใหม่" },
+                    { eng: "What are the children building with their Lego blocks?", thai: "เด็กๆ กำลังสร้างอะไรด้วยตัวต่อเลโก้ของพวกเขา?" },
+                    { eng: "She is building a successful career in marketing.", thai: "เธอกำลังสร้างอาชีพที่ประสบความสำเร็จในด้านการตลาด" },
+                    { eng: "He is building a website for his portfolio.", thai: "เขากำลังสร้างเว็บไซต์สำหรับแฟ้มผลงานของเขา" },
+                    { eng: "We are building a strong relationship with our clients.", thai: "เรากำลังสร้างความสัมพันธ์ที่แข็งแกร่งกับลูกค้าของเรา" }
+                ],
+                equivalents: [
+                    { term: "What are you constructing?", eng_example: "This looks like a major project. What are you constructing here?", thai_example: "นี่ดูเหมือนโครงการใหญ่เลยนะ คุณกำลังก่อสร้างอะไรที่นี่เหรอ?" }
+                ],
+                collocations: [
+                    { term: "building a team", eng_example: "The manager is focused on building a team with diverse skills.", thai_example: "ผู้จัดการกำลังมุ่งเน้นไปที่การสร้างทีมที่มีทักษะหลากหลาย" },
+                    { term: "building blocks", eng_example: "Trust and communication are the building blocks of a good relationship.", thai_example: "ความไว้วางใจและการสื่อสารเป็นส่วนประกอบพื้นฐานของความสัมพันธ์ที่ดี" }
+                ]
+            },
+            {
+                emoji: "🗺️",
+                mainSentence: "What are you planning?",
+                mainSentenceThai: "คุณกำลังวางแผนอะไรอยู่?",
+                thaiReading: "วอท อาร์ ยู <u>แพลน</u>นิ่ง?",
+                examples: [
+                    { eng: "What are you planning for your vacation?", thai: "คุณกำลังวางแผนอะไรสำหรับวันหยุดพักร้อนของคุณ?" },
+                    { eng: "She is planning a surprise party for her husband.", thai: "เธอกำลังวางแผนงานเลี้ยงเซอร์ไพรส์ให้สามีของเธอ" },
+                    { eng: "The city council is planning a new park.", thai: "สภาเทศบาลกำลังวางแผนสร้างสวนสาธารณะแห่งใหม่" },
+                    { eng: "He is planning his schedule for next week.", thai: "เขากำลังวางแผนตารางงานของเขาสัปดาห์หน้า" },
+                    { eng: "They are planning to expand their business.", thai: "พวกเขากำลังวางแผนที่จะขยายธุรกิจ" }
+                ],
+                equivalents: [
+                    { term: "What's the plan?", eng_example: "Okay everyone, gather around. What's the plan for today?", thai_example: "โอเคทุกคน มารวมกันตรงนี้ วันนี้แผนของเราคืออะไร?" }
+                ],
+                collocations: [
+                    { term: "planning ahead", eng_example: "She is always planning ahead to avoid last-minute stress.", thai_example: "เธอวางแผนล่วงหน้าเสมอเพื่อหลีกเลี่ยงความเครียดในนาทีสุดท้าย" },
+                    { term: "family planning", eng_example: "The clinic provides advice on family planning.", thai_example: "คลินิกให้คำปรึกษาเรื่องการวางแผนครอบครัว" }
+                ]
+            },
+            {
+                emoji: "💼",
+                mainSentence: "What are you packing?",
+                mainSentenceThai: "คุณกำลังจัดกระเป๋าอะไรอยู่?",
+                thaiReading: "วอท อาร์ ยู <u>แพ็ค</u>กิ้ง?",
+                examples: [
+                    { eng: "What are you packing for your trip?", thai: "คุณกำลังจัดของอะไรใส่กระเป๋าสำหรับทริปของคุณ?" },
+                    { eng: "She is packing her lunch for work.", thai: "เธอกำลังเตรียมอาหารกลางวันไปทำงาน" },
+                    { eng: "The workers are packing boxes in the warehouse.", thai: "คนงานกำลังแพ็คกล่องในโกดังสินค้า" },
+                    { eng: "He is packing a lot of muscle after months at the gym.", thai: "เขามีกล้ามเนื้อเยอะขึ้นมากหลังจากเข้ายิมมาหลายเดือน" },
+                    { eng: "They are packing the essentials into an emergency kit.", thai: "พวกเขากำลังจัดของใช้จำเป็นลงในชุดอุปกรณ์ฉุกเฉิน" }
+                ],
+                equivalents: [
+                    { term: "Are you getting ready to go?", eng_example: "I see your suitcase. Are you getting ready to go somewhere?", thai_example: "ฉันเห็นกระเป๋าเดินทางของคุณนะ คุณกำลังเตรียมตัวจะไปไหนเหรอ?" }
+                ],
+                collocations: [
+                    { term: "packing a punch", eng_example: "This small chili is packing a punch; it's very spicy.", thai_example: "พริกเม็ดเล็กๆ นี่ฤทธิ์เดชไม่เบาเลย มันเผ็ดมาก" },
+                    { term: "send someone packing", eng_example: "After the argument, she is sending him packing.", thai_example: "หลังจากการทะเลาะกัน เธอกำลังไล่เขาไป" }
+                ]
+            },
+            {
+                emoji: "😂",
+                mainSentence: "What are you laughing at?",
+                mainSentenceThai: "คุณกำลังหัวเราะอะไรอยู่?",
+                thaiReading: "วอท อาร์ ยู <u>ลาฟ</u>ฟิ่ง แอท?",
+                examples: [
+                    { eng: "Tell me the joke! What are you laughing at?", thai: "บอกมุกตลกมาเลย! คุณกำลังขำอะไรอยู่?" },
+                    { eng: "It is rude to point at people while you are laughing.", thai: "มันไม่สุภาพที่จะชี้ไปที่คนอื่นขณะที่คุณกำลังหัวเราะ" },
+                    { eng: "She is laughing at a funny video on her phone.", thai: "เธอกำลังหัวเราะวิดีโอตลกในมือถือของเธอ" },
+                    { eng: "The whole class is laughing at the teacher's story.", thai: "ทั้งห้องกำลังหัวเราะเรื่องเล่าของคุณครู" },
+                    { eng: "I am not laughing at you; I am laughing with you.", thai: "ฉันไม่ได้หัวเราะเยาะเธอนะ ฉันหัวเราะไปกับเธอต่างหาก" }
+                ],
+                equivalents: [
+                    { term: "What's so funny?", eng_example: "Share the fun! What's so funny?", thai_example: "แบ่งกันสนุกหน่อย! มีอะไรตลกขนาดนั้นเหรอ?" }
+                ],
+                collocations: [
+                    { term: "laughing out loud (LOL)", eng_example: "His comment was so hilarious that I am still laughing out loud.", thai_example: "ความคิดเห็นของเขาตลกมากจนฉันยังคงหัวเราะเสียงดังอยู่เลย" },
+                    { term: "a laughing matter", eng_example: "This is a serious issue; it is not a laughing matter.", thai_example: "นี่เป็นประเด็นที่จริงจังนะ มันไม่ใช่เรื่องน่าหัวเราะ" }
+                ]
+            },
+            {
+                emoji: "🔎",
+                mainSentence: "What are you searching for?",
+                mainSentenceThai: "คุณกำลังค้นหาอะไรอยู่?",
+                thaiReading: "วอท อาร์ ยู <u>เซิร์ช</u>ชิ่ง ฟอร์?",
+                examples: [
+                    { eng: "What are you searching for on the internet?", thai: "คุณกำลังค้นหาอะไรบนอินเทอร์เน็ต?" },
+                    { eng: "She is searching for her lost keys.", thai: "เธอกำลังมองหากุญแจที่หายไป" },
+                    { eng: "The police are searching the area for clues.", thai: "ตำรวจกำลังตรวจค้นพื้นที่เพื่อหาเบาะแส" },
+                    { eng: "He is searching for a new job.", thai: "เขากำลังหางานใหม่" },
+                    { eng: "They are searching for a deeper meaning in life.", thai: "พวกเขากำลังค้นหาความหมายที่ลึกซึ้งยิ่งขึ้นในชีวิต" }
+                ],
+                equivalents: [
+                    { term: "What are you looking for?", eng_example: "You are checking under the sofa. What are you looking for?", thai_example: "คุณกำลังดูใต้โซฟานะ คุณกำลังมองหาอะไรอยู่?" }
+                ],
+                collocations: [
+                    { term: "soul-searching", eng_example: "After quitting his job, he is doing some soul-searching to figure out his next step.", thai_example: "หลังจากลาออกจากงาน เขากำลังค้นหาตัวเองเพื่อคิดว่าก้าวต่อไปจะทำอะไร" },
+                    { term: "search engine", eng_example: "Google is the most popular search engine in the world.", thai_example: "กูเกิลเป็นเสิร์ชเอนจินที่ได้รับความนิยมมากที่สุดในโลก" }
+                ]
+            },
+            {
+                emoji: "🛒",
+                mainSentence: "What are you buying?",
+                mainSentenceThai: "คุณกำลังซื้ออะไรอยู่?",
+                thaiReading: "วอท อาร์ ยู <u>บาย</u>อิ้ง?",
+                examples: [
+                    { eng: "What are you buying at the supermarket?", thai: "คุณกำลังซื้ออะไรที่ซูเปอร์มาร์เก็ต?" },
+                    { eng: "She is buying a birthday present for her friend.", thai: "เธอกำลังซื้อของขวัญวันเกิดให้เพื่อน" },
+                    { eng: "The company is buying new equipment.", thai: "บริษัทกำลังซื้ออุปกรณ์ใหม่" },
+                    { eng: "He is buying time by asking irrelevant questions.", thai: "เขากำลังซื้อเวลาด้วยการถามคำถามที่ไม่เกี่ยวข้อง" },
+                    { eng: "I'm not buying your excuse; it doesn't make sense.", thai: "ฉันไม่เชื่อข้อแก้ตัวของคุณหรอก มันไม่สมเหตุสมผล" }
+                ],
+                equivalents: [
+                    { term: "What are you getting?", eng_example: "That store has a sale. What are you getting?", thai_example: "ร้านนั้นกำลังลดราคา คุณจะซื้ออะไรเหรอ?" }
+                ],
+                collocations: [
+                    { term: "panic buying", eng_example: "People are panic buying toilet paper before the storm.", thai_example: "ผู้คนกำลังแห่ซื้อกระดาษชำระอย่างตื่นตระหนกก่อนพายุจะมา" },
+                    { term: "buying power", eng_example: "Inflation is reducing the buying power of consumers.", thai_example: "เงินเฟ้อกำลังลดอำนาจการซื้อของผู้บริโภค" }
+                ]
+            },
+            {
+                emoji: "🗣️",
+                mainSentence: "What are you shouting about?",
+                mainSentenceThai: "คุณกำลังตะโกนเรื่องอะไร?",
+                thaiReading: "วอท อาร์ ยู <u>เชาท์</u>ติ้ง อะ<u>เบาท์</u>?",
+                examples: [
+                    { eng: "The crowd is shouting the team's name.", thai: "ฝูงชนกำลังตะโกนชื่อทีม" },
+                    { eng: "Why is he shouting at the top of his lungs?", thai: "ทำไมเขาถึงตะโกนสุดเสียงขนาดนั้น?" },
+                    { eng: "She is shouting for help.", thai: "เธอกำลังตะโกนขอความช่วยเหลือ" },
+                    { eng: "The protesters are shouting slogans.", thai: "ผู้ประท้วงกำลังตะโกนคำขวัญ" },
+                    { eng: "Stop shouting; I can hear you perfectly well.", thai: "หยุดตะโกนได้แล้ว ฉันได้ยินคุณชัดเจนดี" }
+                ],
+                equivalents: [
+                    { term: "Why are you yelling?", eng_example: "Calm down. Why are you yelling at me?", thai_example: "ใจเย็นๆ คุณตะคอกใส่ฉันทำไม?" }
+                ],
+                collocations: [
+                    { term: "shouting distance", eng_example: "We were within shouting distance of the shore.", thai_example: "เราอยู่ในระยะที่สามารถตะโกนถึงฝั่งได้" },
+                    { term: "a shouting match", eng_example: "The debate turned into a shouting match between the candidates.", thai_example: "การโต้วาทีกลายเป็นการตะโกนใส่กันระหว่างผู้สมัคร" }
+                ]
+            },
+            {
+                emoji: "🍽️",
+                mainSentence: "What are you ordering?",
+                mainSentenceThai: "คุณกำลังจะสั่งอะไร?",
+                thaiReading: "วอท อาร์ ยู <u>ออ</u>เดอริ่ง?",
+                examples: [
+                    { eng: "The menu is huge! What are you ordering?", thai: "เมนูเยอะมาก! คุณจะสั่งอะไรดี?" },
+                    { eng: "She is ordering a new book online.", thai: "เธอกำลังสั่งซื้อหนังสือเล่มใหม่ทางออนไลน์" },
+                    { eng: "The general is ordering his troops to advance.", thai: "นายพลกำลังสั่งการให้กองทหารของเขารุกคืบ" },
+                    { eng: "He is ordering everyone around as if he's the boss.", thai: "เขากำลังสั่งทุกคนไปทั่วเหมือนกับว่าเขาเป็นเจ้านาย" },
+                    { eng: "I am ordering the same thing as last time.", thai: "ฉันกำลังจะสั่งเมนูเดิมเหมือนครั้งที่แล้ว" }
+                ],
+                equivalents: [
+                    { term: "What are you having?", eng_example: "I'll have the pasta. What are you having?", thai_example: "ฉันจะเอาพาสต้า คุณจะรับอะไรดี?" }
+                ],
+                collocations: [
+                    { term: "made to order", eng_example: "This suit is very special; it is being made to order.", thai_example: "สูทตัวนี้พิเศษมาก มันถูกตัดตามสั่ง" },
+                    { term: "pecking order", eng_example: "In the office, everyone knows the pecking order.", thai_example: "ในออฟฟิศ ทุกคนรู้ลำดับชั้นความสำคัญ" }
+                ]
+            },
+            {
+                emoji: "🏃",
+                mainSentence: "What are you running from?",
+                mainSentenceThai: "คุณกำลังวิ่งหนีอะไร?",
+                thaiReading: "วอท อาร์ ยู <u>รัน</u>นิ่ง ฟรอม?",
+                examples: [
+                    { eng: "He is running a marathon this weekend.", thai: "เขากำลังจะวิ่งมาราธอนสุดสัปดาห์นี้" },
+                    { eng: "Why is the water running? Please turn off the tap.", thai: "ทำไมน้ำถึงไหลอยู่? กรุณาปิดก๊อกด้วย" },
+                    { eng: "She is running her own successful business.", thai: "เธอกำลังดำเนินธุรกิจที่ประสบความสำเร็จของตัวเอง" },
+                    { eng: "The kids are running around in the playground.", thai: "เด็กๆ กำลังวิ่งเล่นไปรอบๆ ในสนามเด็กเล่น" },
+                    { eng: "We are running out of time.", thai: "เวลาของเรากำลังจะหมดแล้ว" }
+                ],
+                equivalents: [
+                    { term: "What's chasing you?", eng_example: "You're running so fast! What's chasing you?", thai_example: "คุณวิ่งเร็วมาก! มีอะไรไล่ตามคุณมาเหรอ?" }
+                ],
+                collocations: [
+                    { term: "running late", eng_example: "Sorry, I am running late; the traffic is terrible.", thai_example: "ขอโทษที ฉันกำลังจะไปสาย รถติดมากเลย" },
+                    { term: "a running joke", eng_example: "His terrible sense of direction is a running joke among his friends.", thai_example: "ความห่วยเรื่องทิศทางของเขาเป็นมุกตลกที่เพื่อนๆ เล่นกันประจำ" }
+                ]
+            },
+            {
+                emoji: "⚽",
+                mainSentence: "What game are you playing?",
+                mainSentenceThai: "คุณกำลังเล่นเกมอะไรอยู่?",
+                thaiReading: "วอท เกม อาร์ ยู <u>เพลย์</u>อิ้ง?",
+                examples: [
+                    { eng: "The children are playing in the park.", thai: "เด็กๆ กำลังเล่นกันอยู่ในสวนสาธารณะ" },
+                    { eng: "What instrument is he playing?", thai: "เขากำลังเล่นเครื่องดนตรีอะไร?" },
+                    { eng: "She is playing the role of the villain in the movie.", thai: "เธอกำลังรับบทเป็นตัวร้ายในภาพยนตร์" },
+                    { eng: "Stop playing with your food!", thai: "หยุดเล่นอาหารได้แล้ว!" },
+                    { eng: "The radio is playing my favorite song.", thai: "วิทยุกำลังเปิดเพลงโปรดของฉัน" }
+                ],
+                equivalents: [
+                    { term: "What's that on your screen?", eng_example: "It looks fun. What's that game on your screen?", thai_example: "ดูสนุกจัง นั่นเกมอะไรบนหน้าจอของคุณเหรอ?" }
+                ],
+                collocations: [
+                    { term: "playing with fire", eng_example: "By lying to his boss, he is playing with fire.", thai_example: "การโกหกเจ้านายของเขาเท่ากับว่าเขากำลังเล่นกับไฟ" },
+                    { term: "playing it safe", eng_example: "Instead of investing aggressively, she is playing it safe.", thai_example: "แทนที่จะลงทุนอย่างเสี่ยง เธอกลับเลือกเล่นแบบปลอดภัยไว้ก่อน" }
+                ]
+            },
+            {
+                emoji: "🎤",
+                mainSentence: "What song are you singing?",
+                mainSentenceThai: "คุณกำลังร้องเพลงอะไรอยู่?",
+                thaiReading: "วอท ซอง อาร์ ยู <u>ซิง</u>อิ้ง?",
+                examples: [
+                    { eng: "The birds are singing outside my window.", thai: "นกกำลังร้องเพลงอยู่นอกหน้าต่างของฉัน" },
+                    { eng: "She is singing in a choir.", thai: "เธอกำลังร้องเพลงอยู่ในคณะนักร้องประสานเสียง" },
+                    { eng: "He is singing the praises of his new car.", thai: "เขากำลังยกย่องสรรเสริญรถคันใหม่ของเขา" },
+                    { eng: "What are they singing at the karaoke bar?", thai: "พวกเขากำลังร้องเพลงอะไรกันที่ร้านคาราโอเกะ?" },
+                    { eng: "I can't hear what you are singing over the music.", thai: "ฉันไม่ได้ยินว่าคุณกำลังร้องเพลงอะไรเพราะเสียงดนตรีมันดัง" }
+                ],
+                equivalents: [
+                    { term: "What's that tune?", eng_example: "I recognize it but can't place it. What's that tune you are humming?", thai_example: "ฉันจำได้แต่ก็นึกไม่ออก นั่นทำนองเพลงอะไรที่คุณกำลังฮัมอยู่?" }
+                ],
+                collocations: [
+                    { term: "singing a different tune", eng_example: "After he found out the truth, he is singing a different tune.", thai_example: "หลังจากที่เขารู้ความจริง เขาก็เปลี่ยนท่าทีไปเลย" },
+                    { term: "singing your heart out", eng_example: "She was on stage, singing her heart out for the audience.", thai_example: "เธออยู่บนเวที กำลังร้องเพลงอย่างสุดหัวใจให้ผู้ชม" }
+                ]
+            },
+            {
+                emoji: "✈️",
+                mainSentence: "Where are you flying to?",
+                mainSentenceThai: "คุณกำลังจะบินไปที่ไหน?",
+                thaiReading: "แวร์ อาร์ ยู <u>ฟลาย</u>อิ้ง ทู?",
+                examples: [
+                    { eng: "The eagle is flying high above the mountains.", thai: "นกอินทรีกำลังบินสูงอยู่เหนือภูเขา" },
+                    { eng: "What airline are you flying with?", thai: "คุณกำลังจะบินกับสายการบินอะไร?" },
+                    { eng: "The kite is flying gracefully in the wind.", thai: "ว่าวกำลังลอยอย่างสง่างามในสายลม" },
+                    { eng: "Rumors are flying around the office.", thai: "ข่าวลือกำลังแพร่สะพัดไปทั่วออฟฟิศ" },
+                    { eng: "He is flying to New York for a business meeting.", thai: "เขากำลังบินไปนิวยอร์กเพื่อประชุมธุรกิจ" }
+                ],
+                equivalents: [
+                    { term: "Where are you headed?", eng_example: "I see your passport. Where are you headed?", thai_example: "ฉันเห็นพาสปอร์ตของคุณนะ คุณกำลังจะมุ่งหน้าไปที่ไหนเหรอ?" }
+                ],
+                collocations: [
+                    { term: "flying high", eng_example: "After her recent success, she is flying high.", thai_example: "หลังจากความสำเร็จล่าสุดของเธอ เธอกำลังอยู่ในช่วงขาขึ้นสุดๆ" },
+                    { term: "with flying colors", eng_example: "She passed the exam with flying colors.", thai_example: "เธอสอบผ่านฉลุยด้วยคะแนนที่ยอดเยี่ยม" }
+                ]
+            },
+            {
+                emoji: "😴",
+                mainSentence: "What are you dreaming about?",
+                mainSentenceThai: "คุณกำลังฝันถึงเรื่องอะไร?",
+                thaiReading: "วอท อาร์ ยู <u>ดรีม</u>มิ่ง อะ<u>เบาท์</u>?",
+                examples: [
+                    { eng: "You are smiling in your sleep. What are you dreaming about?", thai: "คุณกำลังยิ้มตอนหลับนะ กำลังฝันถึงอะไรอยู่?" },
+                    { eng: "She is dreaming of a world without war.", thai: "เธอกำลังฝันถึงโลกที่ปราศจากสงคราม" },
+                    { eng: "Stop dreaming and pay attention!", thai: "เลิกฝันกลางวันแล้วตั้งใจฟังได้แล้ว!" },
+                    { eng: "He is dreaming up new inventions in his lab.", thai: "เขากำลังคิดค้นสิ่งประดิษฐ์ใหม่ๆ ในห้องทดลองของเขา" },
+                    { eng: "I am dreaming about our next vacation.", thai: "ฉันกำลังฝันถึงวันหยุดพักร้อนครั้งหน้าของเรา" }
+                ],
+                equivalents: [
+                    { term: "Are you daydreaming?", eng_example: "You seem far away. Are you daydreaming again?", thai_example: "คุณดูใจลอยนะ กำลังฝันกลางวันอีกแล้วเหรอ?" }
+                ],
+                collocations: [
+                    { term: "living the dream", eng_example: "With his new job and happy family, he is truly living the dream.", thai_example: "ด้วยงานใหม่และครอบครัวที่มีความสุข เขาใช้ชีวิตอย่างในฝันจริงๆ" },
+                    { term: "a dream come true", eng_example: "Visiting Paris is a dream come true for me.", thai_example: "การได้ไปเยือนปารีสคือฝันที่เป็นจริงสำหรับฉัน" }
+                ]
+            },
+            {
+                emoji: "🎁",
+                mainSentence: "What are you hiding?",
+                mainSentenceThai: "คุณกำลังซ่อนอะไรอยู่?",
+                thaiReading: "วอท อาร์ ยู <u>ไฮ้</u>ดิ้ง?",
+                examples: [
+                    { eng: "The cat is hiding under the bed.", thai: "แมวกำลังซ่อนตัวอยู่ใต้เตียง" },
+                    { eng: "What is she hiding behind her back?", thai: "เธอกำลังซ่อนอะไรไว้ข้างหลัง?" },
+                    { eng: "He is hiding his true feelings behind a smile.", thai: "เขากำลังซ่อนความรู้สึกที่แท้จริงไว้เบื้องหลังรอยยิ้ม" },
+                    { eng: "The company is hiding the real financial data.", thai: "บริษัทกำลังปกปิดข้อมูลทางการเงินที่แท้จริง" },
+                    { eng: "There's no point hiding from the truth.", thai: "ไม่มีประโยชน์ที่จะหลบหนีจากความจริง" }
+                ],
+                equivalents: [
+                    { term: "What's the secret?", eng_example: "You two are whispering. What's the secret?", thai_example: "พวกคุณสองคนกระซิบกระซาบกันนะ มีความลับอะไรเหรอ?" }
+                ],
+                collocations: [
+                    { term: "hiding in plain sight", eng_example: "The best place to hide the key is hiding in plain sight.", thai_example: "ที่ที่ดีที่สุดในการซ่อนกุญแจคือซ่อนไว้ในที่ที่เห็นได้ชัด" },
+                    { term: "a blessing in disguise", eng_example: "Losing that job was a blessing in disguise; I found a better one.", thai_example: "การตกงานครั้งนั้นเป็นโชคดีในความโชคร้าย ฉันได้งานที่ดีกว่า" }
+                ]
+            },
+            {
+                emoji: "💰",
+                mainSentence: "What are you selling?",
+                mainSentenceThai: "คุณกำลังขายอะไรอยู่?",
+                thaiReading: "วอท อาร์ ยู <u>เซล</u>ลิ่ง?",
+                examples: [
+                    { eng: "The store is selling everything at a discount.", thai: "ร้านค้ากำลังขายทุกอย่างในราคาลด" },
+                    { eng: "What is he selling at the flea market?", thai: "เขากำลังขายอะไรที่ตลาดนัด?" },
+                    { eng: "She is selling her old car.", thai: "เธอกำลังขายรถคันเก่าของเธอ" },
+                    { eng: "The author's new book is selling like hotcakes.", thai: "หนังสือเล่มใหม่ของนักเขียนขายดีเป็นเทน้ำเทท่า" },
+                    { eng: "I'm not selling you a product; I'm selling you a solution.", thai: "ฉันไม่ได้กำลังขายสินค้าให้คุณ แต่ฉันกำลังขายทางออกให้คุณ" }
+                ],
+                equivalents: [
+                    { term: "What do you have for sale?", eng_example: "This is a lovely shop. What do you have for sale?", thai_example: "นี่เป็นร้านที่น่ารักมากเลยนะ คุณมีอะไรขายบ้าง?" }
+                ],
+                collocations: [
+                    { term: "best-selling", eng_example: "This is our best-selling product of the year.", thai_example: "นี่คือสินค้าที่ขายดีที่สุดแห่งปีของเรา" },
+                    { term: "selling point", eng_example: "Its long battery life is the main selling point of this phone.", thai_example: "อายุการใช้งานแบตเตอรี่ที่ยาวนานคือจุดขายหลักของโทรศัพท์รุ่นนี้" }
+                ]
+            },
+            {
+                emoji: "💪",
+                mainSentence: "What are you trying to do?",
+                mainSentenceThai: "คุณกำลังพยายามจะทำอะไร?",
+                thaiReading: "วอท อาร์ ยู <u>ทราย</u>อิ้ง ทู ดู?",
+                examples: [
+                    { eng: "I am trying to open this jar, but it's too tight.", thai: "ฉันกำลังพยายามเปิดโหลใบนี้ แต่มันแน่นเกินไป" },
+                    { eng: "What are you trying to say?", thai: "คุณกำลังพยายามจะพูดอะไร?" },
+                    { eng: "She is trying on a new dress in the fitting room.", thai: "เธอกำลังลองชุดเดรสตัวใหม่ในห้องลองเสื้อ" },
+                    { eng: "This new food is very trying on my patience.", thai: "อาหารใหม่จานนี้น่าโมโหจนฉันแทบหมดความอดทน" },
+                    { eng: "He is trying his best to finish the race.", thai: "เขากำลังพยายามอย่างเต็มที่เพื่อวิ่งให้จบการแข่งขัน" }
+                ],
+                equivalents: [
+                    { term: "What are you attempting?", eng_example: "That looks complicated. What are you attempting to build?", thai_example: "นั่นดูซับซ้อนจัง คุณกำลังพยายามจะสร้างอะไร?" }
+                ],
+                collocations: [
+                    { term: "trying times", eng_example: "The company is going through trying times.", thai_example: "บริษัทกำลังผ่านช่วงเวลาที่ยากลำบาก" },
+                    { term: "try your luck", eng_example: "You should enter the contest and try your luck.", thai_example: "คุณควรจะเข้าร่วมการประกวดและลองเสี่ยงโชคดู" }
+                ]
+            },
+{
+                emoji: "🤲",
+                mainSentence: "What are you holding?",
+                mainSentenceThai: "คุณกำลังถืออะไรอยู่?",
+                thaiReading: "วอท อาร์ ยู <u>โฮล</u>ดิ้ง?",
+                examples: [
+                    { eng: "What is she holding in her hand? It looks shiny.", thai: "เธอกำลังถืออะไรอยู่ในมือ? มันดูแวววาวจัง" },
+                    { eng: "The baby is holding his favorite teddy bear.", thai: "ทารกกำลังถือกอดตุ๊กตาหมีตัวโปรดของเขา" },
+                    { eng: "He is holding a meeting with the marketing team right now.", thai: "เขากำลังประชุมกับทีมการตลาดอยู่ตอนนี้" },
+                    { eng: "They are holding hands as they walk along the beach.", thai: "พวกเขากำลังจูงมือกันขณะเดินไปตามชายหาด" },
+                    { eng: "Be careful what you are holding; that vase is very fragile.", thai: "ระวังของที่ถืออยู่หน่อยนะ แจกันนั่นแตกง่ายมาก" }
+                ],
+                equivalents: [
+                    { term: "What do you have there?", eng_example: "You're hiding something behind your back. What do you have there?", thai_example: "คุณซ่อนอะไรไว้ข้างหลังน่ะ มีอะไรอยู่ตรงนั้นเหรอ?" }
+                ],
+                collocations: [
+                    { term: "holding your breath", eng_example: "The entire audience is holding its breath waiting for the winner to be announced.", thai_example: "ผู้ชมทุกคนกำลังกลั้นหายใจรอการประกาศชื่อผู้ชนะ" },
+                    { term: "holding a grudge", eng_example: "Life is too short. It's not worth it that you are holding a grudge over something so small.", thai_example: "ชีวิตมันสั้นนะ มันไม่คุ้มค่าเลยที่คุณจะผูกใจเจ็บกับเรื่องเล็กน้อยแค่นี้" }
+                ]
+            }
+        ];
+
+        const slidesWrapper = document.getElementById('slides-wrapper');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const pageCounter = document.getElementById('page-counter');
+
+        let currentSlide = 0;
+
+        function generateSlides() {
+            slideData.forEach((data, index) => {
+                const slide = document.createElement('div');
+                slide.className = 'slide';
+                slide.id = `slide-${index}`;
+
+                const examplesHtml = data.examples.map(ex => `<li>${ex.eng}<span class="thai-translation">${ex.thai}</span></li>`).join('');
+                
+                const equivalentsHtml = data.equivalents.map(eq => `
+                    <li>
+                        <span class="example-term">${eq.term}</span>
+                        <span class="example-sentence">${eq.eng_example}</span>
+                        <span class="thai-translation">${eq.thai_example}</span>
+                    </li>`).join('');
+
+                const collocationsHtml = data.collocations.map(co => `
+                    <li>
+                        <span class="example-term">${co.term}</span>
+                        <span class="example-sentence">${co.eng_example}</span>
+                        <span class="thai-translation">${co.thai_example}</span>
+                    </li>`).join('');
+
+                slide.innerHTML = `
+                    <h2>${data.emoji} ${data.mainSentence}
+                        <span class="main-sentence-thai">${data.mainSentenceThai}</span>
+                    </h2>
+                    <p class="thai-reading">${data.thaiReading}</p>
+                    
+                    <div class="content-section">
+                        <h3>ตัวอย่างประโยคเพิ่มเติม:</h3>
+                        <ul>${examplesHtml}</ul>
+                    </div>
+                    
+                    <div class="content-section">
+                        <h3>Equivalent Alternatives (สำนวนที่มีความหมายเหมือนกัน)</h3>
+                        <ul>${equivalentsHtml}</ul>
+                    </div>
+                    
+                    <div class="content-section">
+                        <h3>Collocations (คำที่มักใช้มาด้วยกัน)</h3>
+                        <ul>${collocationsHtml}</ul>
+                    </div>
+
+                    <div class="footer">
+                        ครูสาลี่ -- อังกฤษฉบับคนเรียนไม่รู้เรื่อง
+                    </div>
+                `;
+                slidesWrapper.appendChild(slide);
+            });
+        }
+        
+        function getRandomColor() {
+            const h = Math.floor(Math.random() * 360);
+            const s = 100;
+            const l = 97; 
+            return `hsl(${h}, ${s}%, ${l}%)`;
+        }
+
+        function showSlide(index) {
+            const slides = document.querySelectorAll('.slide');
+            slides.forEach(slide => {
+                slide.classList.remove('active');
+            });
+            
+            const activeSlide = document.getElementById(`slide-${index}`);
+            activeSlide.classList.add('active');
+            activeSlide.style.backgroundColor = getRandomColor();
+            
+            pageCounter.textContent = `หน้า ${index + 1} / ${slideData.length}`;
+            
+            prevBtn.disabled = index === 0;
+            nextBtn.disabled = index === slideData.length - 1;
+        }
+
+        nextBtn.addEventListener('click', () => {
+            if (currentSlide < slideData.length - 1) {
+                currentSlide++;
+                showSlide(currentSlide);
+            }
+        });
+
+        prevBtn.addEventListener('click', () => {
+            if (currentSlide > 0) {
+                currentSlide--;
+                showSlide(currentSlide);
+            }
+        });
+
+        generateSlides();
+        showSlide(currentSlide);
+    </script>
+</body>
+</html>

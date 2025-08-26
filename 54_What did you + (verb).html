@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>English Lesson: What did you +(verb)?</title>
+    <style>
+        /* CSS Styles */
+        @import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@400;700&display=swap');
+
+        :root {
+            --text-color: #2c3e50;
+            --header-bg: #ffffff;
+            --border-color: #ecf0f1;
+            --button-bg: #c0392b; /* New Color */
+            --button-hover-bg: #a93226; /* New Color */
+            --button-disabled-bg: #bdc3c7;
+            --white: #ffffff;
+            --thai-translation-color: #555;
+            --term-color: #2980b9;
+        }
+
+        body {
+            font-family: 'Sarabun', sans-serif;
+            background-color: #ecf0f1;
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            font-size: 18px; 
+        }
+
+        #app-container {
+            width: 100%;
+            max-width: 950px; 
+            background: var(--white);
+            border-radius: 16px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        #main-header {
+            background-color: var(--header-bg);
+            padding: 20px 30px;
+            border-bottom: 2px solid var(--border-color);
+            text-align: center;
+        }
+
+        #main-header h1 {
+            margin: 0;
+            font-size: 1.7em;
+            color: var(--button-bg);
+            font-weight: 700;
+        }
+
+        #slides-wrapper {
+            position: relative;
+            flex-grow: 1;
+        }
+
+        .slide {
+            padding: 35px 40px;
+            display: none;
+            flex-direction: column;
+            gap: 20px;
+            transition: background-color 0.5s ease;
+            min-height: 620px;
+        }
+        
+        .slide.active {
+            display: flex;
+        }
+
+        .slide h2 {
+            font-size: 2.8em;
+            margin: 0;
+            color: var(--text-color);
+            text-align: center;
+            padding-bottom: 20px;
+            border-bottom: 2px solid rgba(0,0,0,0.08);
+            line-height: 1.3;
+        }
+        
+        .main-sentence-thai {
+            display: block;
+            font-size: 0.5em; 
+            color: var(--thai-translation-color);
+            font-weight: 400;
+            margin-top: 10px;
+        }
+
+        .thai-reading {
+            font-size: 1.3em;
+            color: #c0392b;
+            text-align: center;
+            font-style: italic;
+            font-weight: 700;
+        }
+
+        .thai-reading u {
+            text-decoration: underline;
+            text-decoration-color: #c0392b;
+            text-decoration-thickness: 3px;
+        }
+
+        .content-section {
+            margin-top: 10px;
+        }
+
+        .content-section h3 {
+            font-size: 1.3em;
+            color: var(--button-bg);
+            margin-bottom: 15px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .content-section ul {
+            list-style-type: '✅  ';
+            padding-left: 20px;
+            margin: 0;
+        }
+
+        .content-section ul li {
+            margin-bottom: 18px; 
+            line-height: 1.7;
+            font-size: 1.1em;
+        }
+        
+        .thai-translation {
+            display: block;
+            color: var(--thai-translation-color);
+            font-size: 0.9em;
+            padding-left: 15px;
+            font-style: italic;
+        }
+        
+        .example-term {
+            color: var(--term-color);
+            font-weight: 700;
+        }
+        
+        .example-sentence {
+             display: block;
+             padding-left: 15px;
+        }
+
+        .footer {
+            margin-top: auto; /* Pushes footer to the bottom */
+            padding-top: 20px;
+            text-align: center;
+            font-size: 0.9em;
+            color: #7f8c8d;
+            border-top: 1px solid var(--border-color);
+        }
+
+        #navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 30px;
+            background-color: var(--header-bg);
+            border-top: 2px solid var(--border-color);
+        }
+
+        #navigation button {
+            background-color: var(--button-bg);
+            color: var(--white);
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-family: 'Sarabun', sans-serif;
+            font-size: 1.1em;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        #navigation button:hover {
+            background-color: var(--button-hover-bg);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        #navigation button:disabled {
+            background-color: var(--button-disabled-bg);
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        #page-counter {
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #7f8c8d;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="app-container">
+        <div id="main-header">
+            <h1>โครงสร้างประโยคที่ 54: What did you +(verb)?</h1>
+        </div>
+        
+        <div id="slides-wrapper">
+            </div>
+
+        <div id="navigation">
+            <button id="prevBtn">⬅️ หน้าก่อนหน้า</button>
+            <span id="page-counter"></span>
+            <button id="nextBtn">หน้าถัดไป ➡️</button>
+        </div>
+    </div>
+
+    <script>
+        const slideData = [
+            {
+                emoji: "🤔",
+                mainSentence: "What did you do?",
+                mainSentenceThai: "คุณทำอะไรลงไป?",
+                thaiReading: "วอท ดิด ยู <u>ดู</u>?",
+                examples: [
+                    { eng: "What did you do last weekend?", thai: "คุณทำอะไรเมื่อสุดสัปดาห์ที่แล้ว?" },
+                    { eng: "What did she do with the money I gave her?", thai: "เธอเอาเงินที่ฉันให้ไปทำอะไร?" },
+                    { eng: "I heard a loud crash. What did you do?", thai: "ฉันได้ยินเสียงดังโครม คุณทำอะไรลงไปน่ะ?" },
+                    { eng: "What did they do to fix the problem?", thai: "พวกเขาทำอะไรเพื่อแก้ไขปัญหานั้น?" },
+                    { eng: "He asked me what I did after I left the party.", thai: "เขาถามฉันว่าฉันทำอะไรหลังจากออกจากงานปาร์ตี้" }
+                ],
+                equivalents: [
+                    { term: "What happened?", eng_example: "The window is broken. What happened?", thai_example: "หน้าต่างแตก เกิดอะไรขึ้น?" }
+                ],
+                collocations: [
+                    { term: "do a favor", eng_example: "Could you do me a favor and watch my bag?", thai_example: "คุณช่วยอะไรฉันหน่อยได้ไหม ช่วยดูกระเป๋าให้ฉันที" },
+                    { term: "do the dishes", eng_example: "I cooked, so you should do the dishes.", thai_example: "ฉันทำอาหารแล้ว งั้นคุณก็ควรจะล้างจานนะ" }
+                ]
+            },
+            {
+                emoji: "💬",
+                mainSentence: "What did you say?",
+                mainSentenceThai: "คุณพูดว่าอะไรนะ?",
+                thaiReading: "วอท ดิด ยู <u>เซย์</u>?",
+                examples: [
+                    { eng: "I'm sorry, I didn't hear you. What did you say?", thai: "ขอโทษครับ/ค่ะ ฉันไม่ได้ยิน คุณพูดว่าอะไรนะ?" },
+                    { eng: "What did the teacher say about the homework?", thai: "คุณครูพูดว่าอะไรเกี่ยวกับการบ้าน?" },
+                    { eng: "He looked angry. What did you say to him?", thai: "เขาดูโกรธนะ คุณไปพูดอะไรกับเขา?" },
+                    { eng: "I can't believe what she said about me.", thai: "ฉันไม่อยากจะเชื่อเลยว่าเธอพูดถึงฉันว่าอย่างไร" },
+                    { eng: "Tell me exactly what the doctor said.", thai: "บอกฉันมาตามตรงเลยว่าหมอพูดว่าอะไร" }
+                ],
+                equivalents: [
+                    { term: "Could you repeat that?", eng_example: "The line is bad. Could you repeat that, please?", thai_example: "สัญญาณไม่ดีเลย คุณช่วยพูดอีกครั้งได้ไหมครับ?" },
+                    { term: "Come again? (Informal)", eng_example: "I must have misheard. Come again?", thai_example: "ฉันคงได้ยินผิดไป ว่าอะไรนะ? (ไม่เป็นทางการ)" }
+                ],
+                collocations: [
+                    { term: "needless to say", eng_example: "Needless to say, he was very happy after winning.", thai_example: "คงไม่ต้องบอกเลยว่า เขามีความสุขมากหลังจากชนะ" },
+                    { term: "say a word", eng_example: "Don't say a word to anyone about this secret.", thai_example: "อย่าพูดเรื่องความลับนี้กับใครแม้แต่คำเดียว" }
+                ]
+            },
+            {
+                emoji: "🍕",
+                mainSentence: "What did you eat?",
+                mainSentenceThai: "คุณกินอะไรไป?",
+                thaiReading: "วอท ดิด ยู <u>อีท</u>?",
+                examples: [
+                    { eng: "What did you eat for breakfast this morning?", thai: "คุณกินอะไรเป็นอาหารเช้าเมื่อเช้านี้?" },
+                    { eng: "I feel sick. I wonder what I ate.", thai: "ฉันรู้สึกไม่สบายเลย สงสัยว่าฉันกินอะไรเข้าไป" },
+                    { eng: "What did she eat at the new restaurant?", thai: "เธอกินอะไรที่ร้านอาหารเปิดใหม่นั่น?" },
+                    { eng: "The kids ate all the cookies.", thai: "เด็กๆ กินคุกกี้ไปหมดเลย" },
+                    { eng: "He asked what we ate on our trip to Japan.", thai: "เขาถามว่าเรากินอะไรกันบ้างตอนไปเที่ยวญี่ปุ่น" }
+                ],
+                equivalents: [
+                    { term: "What did you have?", eng_example: "I went to the cafe earlier. I had a croissant. What did you have?", thai_example: "ฉันไปคาเฟ่มาก่อนหน้านี้ ฉันกินครัวซองต์ไป แล้วคุณล่ะกินอะไร?" }
+                ],
+                collocations: [
+                    { term: "eat out", eng_example: "We were too tired to cook, so we ate out.", thai_example: "เราเหนื่อยเกินกว่าจะทำอาหาร เราเลยไปกินข้าวนอกบ้าน" },
+                    { term: "a bite to eat", eng_example: "We stopped for a quick bite to eat before the movie.", thai_example: "เราแวะหาอะไรกินเล่นเร็วๆ ก่อนดูหนัง" }
+                ]
+            },
+            {
+                emoji: "🎬",
+                mainSentence: "What did you see?",
+                mainSentenceThai: "คุณเห็นอะไร?",
+                thaiReading: "วอท ดิด ยู <u>ซี</u>?",
+                examples: [
+                    { eng: "What did you see at the museum?", thai: "คุณเห็นอะไรบ้างที่พิพิธภัณฑ์?" },
+                    { eng: "Tell the police exactly what you saw.", thai: "บอกตำรวจตามตรงเลยว่าคุณเห็นอะไร" },
+                    { eng: "Did you see the look on his face?", thai: "คุณเห็นสีหน้าของเขาไหม?" },
+                    { eng: "She saw a beautiful sunset yesterday.", thai: "เธอเห็นพระอาทิตย์ตกที่สวยงามเมื่อวานนี้" },
+                    { eng: "We saw that movie last week.", thai: "เราดูหนังเรื่องนั้นไปเมื่อสัปดาห์ที่แล้ว" }
+                ],
+                equivalents: [
+                    { term: "What did you witness?", eng_example: "You were at the scene of the accident. What did you witness?", thai_example: "คุณอยู่ในที่เกิดเหตุ คุณเห็นเหตุการณ์อะไรบ้าง?" },
+                    { term: "What did you notice?", eng_example: "When you entered the room, what did you notice first?", thai_example: "ตอนที่คุณเข้ามาในห้อง คุณสังเกตเห็นอะไรเป็นอย่างแรก?" }
+                ],
+                collocations: [
+                    { term: "see a doctor", eng_example: "If you are still sick tomorrow, you should see a doctor.", thai_example: "ถ้าพรุ่งนี้คุณยังป่วยอยู่ คุณควรไปหาหมอนะ" },
+                    { term: "see the point", eng_example: "I listened to his argument, but I didn't see the point.", thai_example: "ฉันฟังข้อโต้แย้งของเขาแล้ว แต่ฉันก็ไม่เห็นประเด็นสำคัญ" }
+                ]
+            },
+            {
+                emoji: "🛒",
+                mainSentence: "What did you buy?",
+                mainSentenceThai: "คุณซื้ออะไรมา?",
+                thaiReading: "วอท ดิด ยู <u>บาย</u>?",
+                examples: [
+                    { eng: "I love your new shirt! Where did you buy it?", thai: "ฉันชอบเสื้อตัวใหม่ของคุณจัง! คุณซื้อมันที่ไหนเหรอ?" },
+                    { eng: "What did she buy at the market?", thai: "เธอซื้ออะไรมาจากตลาด?" },
+                    { eng: "He bought a new car last month.", thai: "เขาซื้อรถคันใหม่เมื่อเดือนที่แล้ว" },
+                    { eng: "What did you buy for your mom's birthday?", thai: "คุณซื้ออะไรให้เป็นของขวัญวันเกิดแม่ของคุณ?" },
+                    { eng: "They bought their house five years ago.", thai: "พวกเขาซื้อบ้านของพวกเขาเมื่อห้าปีที่แล้ว" }
+                ],
+                equivalents: [
+                    { term: "What did you get?", eng_example: "You went shopping. What did you get?", thai_example: "คุณไปช็อปปิ้งมานี่ ได้อะไรมาบ้าง?" },
+                    { term: "What did you purchase?", eng_example: "This is for our records. What did you purchase with the company card?", thai_example: "นี่สำหรับบันทึกข้อมูลของเรา คุณได้ซื้ออะไรไปบ้างด้วยบัตรของบริษัท?" }
+                ],
+                collocations: [
+                    { term: "buy time", eng_example: "He tried to buy time by asking a lot of questions.", thai_example: "เขาพยายามจะซื้อเวลาด้วยการถามคำถามเยอะๆ" },
+                    { term: "buy a gift", eng_example: "I need to go buy a gift for the wedding.", thai_example: "ฉันต้องไปซื้อของขวัญสำหรับงานแต่งงาน" }
+                ]
+            },
+            {
+                emoji: "👨‍🏫",
+                mainSentence: "What did you learn?",
+                mainSentenceThai: "คุณได้เรียนรู้อะไรบ้าง?",
+                thaiReading: "วอท ดิด ยู <u>เลิร์น</u>?",
+                examples: [
+                    { eng: "What did you learn in school today?", thai: "วันนี้คุณเรียนรู้อะไรที่โรงเรียนบ้าง?" },
+                    { eng: "After that mistake, what did you learn?", thai: "หลังจากความผิดพลาดครั้งนั้น คุณได้เรียนรู้อะไรบ้าง?" },
+                    { eng: "She learned how to swim last summer.", thai: "เธอเรียนรู้วิธีว่ายน้ำเมื่อฤดูร้อนที่แล้ว" },
+                    { eng: "What did he learn from his travels?", thai: "เขาได้เรียนรู้อะไรจากการเดินทางของเขา?" },
+                    { eng: "We learned a lot from our grandparents.", thai: "เราเรียนรู้อะไรมากมายจากปู่ย่าตายายของเรา" }
+                ],
+                equivalents: [
+                    { term: "What was your takeaway?", eng_example: "That was an interesting lecture. What was your main takeaway?", thai_example: "นั่นเป็นบรรยายที่น่าสนใจมาก บทเรียนสำคัญที่คุณได้ไปคืออะไร?" }
+                ],
+                collocations: [
+                    { term: "learn a lesson", eng_example: "I touched the hot stove and learned my lesson.", thai_example: "ฉันไปจับเตาร้อนๆ และได้รับบทเรียนเลย" },
+                    { term: "learn by heart", eng_example: "For the play, you need to learn your lines by heart.", thai_example: "สำหรับการแสดงละคร คุณต้องจำบทของคุณให้ขึ้นใจ" }
+                ]
+            },
+            {
+                emoji: "💡",
+                mainSentence: "What did you decide?",
+                mainSentenceThai: "คุณตัดสินใจว่าอย่างไร?",
+                thaiReading: "วอท ดิด ยู ดิ<u>ไซด์</u>?",
+                examples: [
+                    { eng: "After thinking all night, what did you finally decide?", thai: "หลังจากคิดมาทั้งคืน ในที่สุดคุณก็ตัดสินใจว่าอย่างไร?" },
+                    { eng: "What did the committee decide about the budget?", thai: "คณะกรรมการตัดสินใจเรื่องงบประมาณว่าอย่างไร?" },
+                    { eng: "She decided to change her job.", thai: "เธอตัดสินใจที่จะเปลี่ยนงาน" },
+                    { eng: "They decided not to go on vacation this year.", thai: "พวกเขาตัดสินใจที่จะไม่ไปเที่ยวพักร้อนในปีนี้" },
+                    { eng: "He couldn't decide what to wear.", thai: "เขาตัดสินใจไม่ได้ว่าจะใส่ชุดไหนดี" }
+                ],
+                equivalents: [
+                    { term: "What was your decision?", eng_example: "We need an answer. What was your final decision?", thai_example: "เราต้องการคำตอบ การตัดสินใจสุดท้ายของคุณคืออะไร?" },
+                    { term: "What did you choose?", eng_example: "There were two options. What did you choose in the end?", thai_example: "มีสองทางเลือกนะ ในที่สุดแล้วคุณเลือกอะไร?" }
+                ],
+                collocations: [
+                    { term: "decide against", eng_example: "We decided against buying the more expensive model.", thai_example: "เราตัดสินใจไม่ซื้อรุ่นที่แพงกว่า" },
+                    { term: "decide in favor of", eng_example: "The judge decided in favor of the defendant.", thai_example: "ผู้พิพากษาตัดสินให้ฝ่ายจำเลยเป็นผู้ชนะ" }
+                ]
+            },
+            {
+                emoji: "🎁",
+                mainSentence: "What did you get?",
+                mainSentenceThai: "คุณได้อะไรมา?",
+                thaiReading: "วอท ดิด ยู <u>เก็ท</u>?",
+                examples: [
+                    { eng: "What did you get for your birthday?", thai: "คุณได้อะไรเป็นของขวัญวันเกิด?" },
+                    { eng: "I got a new phone last week.", thai: "ฉันได้โทรศัพท์ใหม่เมื่อสัปดาห์ที่แล้ว" },
+                    { eng: "What grade did she get on the exam?", thai: "เธอได้เกรดอะไรในการสอบ?" },
+                    { eng: "Did you get my email?", thai: "คุณได้รับอีเมลของฉันไหม?" },
+                    { eng: "He didn't get the joke.", thai: "เขาไม่เข้าใจมุกตลก" }
+                ],
+                equivalents: [
+                    { term: "What did you receive?", eng_example: "You had a package delivered. What did you receive?", thai_example: "มีพัสดุมาส่งถึงคุณนะ คุณได้รับอะไรมาเหรอ?" }
+                ],
+                collocations: [
+                    { term: "get a job", eng_example: "She was so happy when she got her first job.", thai_example: "เธอดีใจมากเมื่อเธอได้งานแรก" },
+                    { term: "get married", eng_example: "They got married in a small ceremony.", thai_example: "พวกเขาแต่งงานกันในพิธีเล็กๆ" }
+                ]
+            },
+            {
+                emoji: "🧐",
+                mainSentence: "What did you find?",
+                mainSentenceThai: "คุณเจออะไร?",
+                thaiReading: "วอท ดิด ยู <u>ไฟนด์</u>?",
+                examples: [
+                    { eng: "You were searching for hours. What did you find?", thai: "คุณค้นหามาหลายชั่วโมงเลยนะ คุณเจออะไรบ้าง?" },
+                    { eng: "What did the police find at the crime scene?", thai: "ตำรวจเจออะไรบ้างในที่เกิดเหตุ?" },
+                    { eng: "She found her lost keys under the sofa.", thai: "เธอเจอกุญแจที่หายไปใต้โซฟา" },
+                    { eng: "I found this book to be very interesting.", thai: "ฉันพบว่าหนังสือเล่มนี้น่าสนใจมาก" },
+                    { eng: "What did you find out about their secret plan?", thai: "คุณไปสืบเจออะไรเกี่ยวกับแผนลับของพวกเขาบ้าง?" }
+                ],
+                equivalents: [
+                    { term: "What did you discover?", eng_example: "You explored the old cave. What did you discover inside?", thai_example: "คุณเข้าไปสำรวจถ้ำเก่าแก่ข้างในนั้นคุณค้นพบอะไรบ้าง?" }
+                ],
+                collocations: [
+                    { term: "find out", eng_example: "I need to find out what time the train leaves.", thai_example: "ฉันต้องไปหาข้อมูลว่ารถไฟออกกี่โมง" },
+                    { term: "found guilty", eng_example: "The jury found him guilty of all charges.", thai_example: "คณะลูกขุนตัดสินว่าเขามีความผิดทุกข้อกล่าวหา" }
+                ]
+            },
+            {
+                emoji: "💪",
+                mainSentence: "What did you make?",
+                mainSentenceThai: "คุณทำอะไร?",
+                thaiReading: "วอท ดิด ยู <u>เมค</u>?",
+                examples: [
+                    { eng: "What did you make for dinner last night?", thai: "เมื่อคืนคุณทำอะไรเป็นอาหารเย็น?" },
+                    { eng: "She made a beautiful painting.", thai: "เธอวาดภาพที่สวยงามภาพหนึ่ง" },
+                    { eng: "He made a big mistake.", thai: "เขาทำผิดพลาดครั้งใหญ่" },
+                    { eng: "What decision did you make?", thai: "คุณได้ตัดสินใจอะไรลงไป?" },
+                    { eng: "My mother made me this sweater.", thai: "แม่ของฉันถักเสื้อสเวตเตอร์ตัวนี้ให้ฉัน" }
+                ],
+                equivalents: [
+                    { term: "What did you create?", eng_example: "You're an artist. What did you create for the exhibition?", thai_example: "คุณเป็นศิลปินนะ คุณสร้างสรรค์ผลงานอะไรสำหรับนิทรรศการ?" }
+                ],
+                collocations: [
+                    { term: "make a choice", eng_example: "You have two options; you need to make a choice.", thai_example: "คุณมีสองทางเลือก คุณต้องตัดสินใจเลือก" },
+                    { term: "make a promise", eng_example: "Don't make a promise that you can't keep.", thai_example: "อย่าให้สัญญาที่คุณไม่สามารถรักษาได้" }
+                ]
+            },
+            // ... (The rest of the slides from 11 to 30 will follow this format)
+            {
+                emoji: "👕",
+                mainSentence: "What did you wear?",
+                mainSentenceThai: "คุณใส่ชุดอะไร?",
+                thaiReading: "วอท ดิด ยู <u>แวร์</u>?",
+                examples: [
+                    { eng: "What did you wear to the wedding?", thai: "คุณใส่ชุดอะไรไปงานแต่งงาน?" },
+                    { eng: "She wore a stunning blue dress.", thai: "เธอสวมชุดเดรสสีน้ำเงินที่สวยงามน่าทึ่ง" },
+                    { eng: "He wore a tired expression on his face.", thai: "เขามีสีหน้าที่เหนื่อยล้า" },
+                    { eng: "I can't remember what I wore yesterday.", thai: "ฉันจำไม่ได้ว่าเมื่อวานฉันใส่ชุดอะไร" },
+                    { eng: "The soldiers wore their uniforms with pride.", thai: "เหล่าทหารสวมเครื่องแบบของพวกเขาด้วยความภาคภูมิใจ" }
+                ],
+                equivalents: [
+                    { term: "What was your outfit?", eng_example: "You looked great last night. What was your outfit?", thai_example: "เมื่อคืนคุณดูดีมากเลยนะ ชุดของคุณคือชุดอะไร?" }
+                ],
+                collocations: [
+                    { term: "wear and tear", eng_example: "The old sofa shows signs of wear and tear.", thai_example: "โซฟาเก่าตัวนี้แสดงให้เห็นร่องรอยของการใช้งานมานาน" },
+                    { term: "wear a smile", eng_example: "Even on difficult days, she always wore a smile.", thai_example: "แม้ในวันที่ยากลำบาก เธอก็ยังคงยิ้มอยู่เสมอ" }
+                ]
+            },
+            {
+                emoji: "🍷",
+                mainSentence: "What did you drink?",
+                mainSentenceThai: "คุณดื่มอะไรไป?",
+                thaiReading: "วอท ดิด ยู <u>ดริ๊งค์</u>?",
+                examples: [
+                    { eng: "What did you drink at the party?", thai: "คุณดื่มอะไรที่งานปาร์ตี้?" },
+                    { eng: "She drank too much coffee and couldn't sleep.", thai: "เธอดื่มกาแฟมากเกินไปและนอนไม่หลับ" },
+                    { eng: "He drank a whole bottle of water after his run.", thai: "เขาดื่มน้ำทั้งขวดหลังจากวิ่งเสร็จ" },
+                    { eng: "Did you drink the milk I left in the fridge?", thai: "คุณดื่มนมที่ฉันทิ้งไว้ในตู้เย็นไปหรือเปล่า?" },
+                    { eng: "They drank a toast to the new year.", thai: "พวกเขาดื่มอวยพรให้กับปีใหม่" }
+                ],
+                equivalents: [
+                    { term: "What did you have to drink?", eng_example: "The food was spicy. What did you have to drink with it?", thai_example: "อาหารรสจัดมากเลย คุณดื่มอะไรคู่กับมัน?" }
+                ],
+                collocations: [
+                    { term: "drink responsibly", eng_example: "The sign at the bar said, 'Please drink responsibly.'", thai_example: "ป้ายที่บาร์เขียนว่า 'กรุณาดื่มอย่างรับผิดชอบ'" },
+                    { term: "a soft drink", eng_example: "I don't drink alcohol, so I ordered a soft drink.", thai_example: "ฉันไม่ดื่มแอลกอฮอล์ ฉันเลยสั่งน้ำอัดลม" }
+                ]
+            },
+            {
+                emoji: "⚽",
+                mainSentence: "What did you play?",
+                mainSentenceThai: "คุณเล่นอะไร?",
+                thaiReading: "วอท ดิด ยู <u>เพลย์</u>?",
+                examples: [
+                    { eng: "What game did you play as a child?", thai: "ตอนเด็กๆ คุณเล่นเกมอะไร?" },
+                    { eng: "She played the piano beautifully at the concert.", thai: "เธอเล่นเปียโนอย่างไพเราะที่คอนเสิร์ต" },
+                    { eng: "Our team played well, but we lost.", thai: "ทีมของเราเล่นได้ดี แต่เราก็แพ้" },
+                    { eng: "What role did he play in the movie?", thai: "เขารับบทบาทอะไรในภาพยนตร์เรื่องนั้น?" },
+                    { eng: "The radio played that song all summer.", thai: "วิทยุเปิดเพลงนั้นตลอดฤดูร้อน" }
+                ],
+                equivalents: [
+                    { term: "What sport did you do?", eng_example: "You mentioned you were on a team in college. What sport did you do?", thai_example: "คุณบอกว่าคุณเคยอยู่ในทีมตอนเรียนมหาวิทยาลัย คุณเล่นกีฬาอะไรเหรอ?" }
+                ],
+                collocations: [
+                    { term: "play a part", eng_example: "Everyone played a part in the project's success.", thai_example: "ทุกคนมีส่วนร่วมในความสำเร็จของโครงการ" },
+                    { term: "play a trick", eng_example: "My little brother played a trick on me and hid my shoes.", thai_example: "น้องชายของฉันเล่นตลกกับฉันโดยการเอาท์รองเท้าไปซ่อน" }
+                ]
+            },
+            {
+                emoji: "📚",
+                mainSentence: "What did you study?",
+                mainSentenceThai: "คุณเรียนอะไรมา?",
+                thaiReading: "วอท ดิด ยู <u>สตัด</u>ดี้?",
+                examples: [
+                    { eng: "What did you study in college?", thai: "คุณเรียนอะไรที่มหาวิทยาลัย?" },
+                    { eng: "She studied hard for her final exams.", thai: "เธออ่านหนังสืออย่างหนักสำหรับการสอบปลายภาค" },
+                    { eng: "He studied the map carefully before the trip.", thai: "เขาศึกษาแผนที่อย่างละเอียดก่อนการเดินทาง" },
+                    { eng: "What did the scientists study in their research?", thai: "นักวิทยาศาสตร์ศึกษาอะไรในงานวิจัยของพวกเขา?" },
+                    { eng: "I studied the contract before I signed it.", thai: "ฉันได้ศึกษาทบทวนสัญญาอย่างดีก่อนที่จะเซ็น" }
+                ],
+                equivalents: [
+                    { term: "What was your major?", eng_example: "You have a degree in science? What was your major?", thai_example: "คุณมีปริญญาด้านวิทยาศาสตร์เหรอ? วิชาเอกของคุณคืออะไร?" }
+                ],
+                collocations: [
+                    { term: "a case study", eng_example: "We analyzed a case study of a failed business.", thai_example: "เราได้วิเคราะห์กรณีศึกษาของธุรกิจที่ล้มเหลว" },
+                    { term: "study abroad", eng_example: "She had the opportunity to study abroad in France.", thai_example: "เธอมีโอกาสได้ไปเรียนต่อต่างประเทศที่ฝรั่งเศส" }
+                ]
+            },
+            {
+                emoji: "🗣️",
+                mainSentence: "What did you tell them?",
+                mainSentenceThai: "คุณบอกอะไรพวกเขาไป?",
+                thaiReading: "วอท ดิด ยู <u>เทล</u> เด็ม?",
+                examples: [
+                    { eng: "The police asked you some questions. What did you tell them?", thai: "ตำรวจถามคำถามคุณบางอย่าง คุณบอกอะไรพวกเขาไป?" },
+                    { eng: "What did she tell you about the secret?", thai: "เธอบอกอะไรคุณเกี่ยวกับความลับนั้น?" },
+                    { eng: "He told a funny story that made everyone laugh.", thai: "เขาเล่าเรื่องตลกที่ทำให้ทุกคนหัวเราะ" },
+                    { eng: "I told you so.", thai: "ฉันบอกคุณแล้ว (เตือนแล้วไม่ฟัง)" },
+                    { eng: "My mother told me to always be honest.", thai: "แม่ของฉันบอกให้ฉันซื่อสัตย์เสมอ" }
+                ],
+                equivalents: [
+                    { term: "What did you inform them of?", eng_example: "You had a meeting with the board. What did you inform them of?", thai_example: "คุณมีการประชุมกับคณะกรรมการ คุณได้แจ้งเรื่องอะไรให้พวกเขาทราบ?" }
+                ],
+                collocations: [
+                    { term: "tell a lie", eng_example: "It is wrong to tell a lie, even a small one.", thai_example: "การพูดโกหกเป็นสิ่งผิด แม้จะเป็นเรื่องเล็กน้อยก็ตาม" },
+                    { term: "tell the truth", eng_example: "You should always tell the truth.", thai_example: "คุณควรจะพูดความจริงเสมอ" }
+                ]
+            },
+            {
+                emoji: "😊",
+                mainSentence: "What did you feel?",
+                mainSentenceThai: "คุณรู้สึกอย่างไร?",
+                thaiReading: "วอท ดิด ยู <u>ฟีล</u>?",
+                examples: [
+                    { eng: "What did you feel when you won the award?", thai: "คุณรู้สึกอย่างไรตอนที่คุณได้รับรางวัล?" },
+                    { eng: "I felt a sharp pain in my arm.", thai: "ฉันรู้สึกเจ็บแปลบที่แขน" },
+                    { eng: "What did she feel about his decision?", thai: "เธอรู้สึกอย่างไรกับการตัดสินใจของเขา?" },
+                    { eng: "He felt a sense of relief after the exam was over.", thai: "เขารู้สึกโล่งใจหลังจากสอบเสร็จ" },
+                    { eng: "We felt the ground shake during the earthquake.", thai: "เรารู้สึกถึงพื้นดินสั่นสะเทือนระหว่างแผ่นดินไหว" }
+                ],
+                equivalents: [
+                    { term: "What was your emotional response?", eng_example: "When you heard the news, what was your emotional response?", thai_example: "ตอนที่คุณได้ยินข่าว คุณมีปฏิกิริยาทางอารมณ์อย่างไร?" }
+                ],
+                collocations: [
+                    { term: "feel better", eng_example: "After a good night's sleep, I felt much better.", thai_example: "หลังจากได้นอนหลับเต็มอิ่ม ฉันก็รู้สึกดีขึ้นมาก" },
+                    { term: "feel sorry for", eng_example: "I felt sorry for him after he lost his job.", thai_example: "ฉันรู้สึกสงสารเขาหลังจากที่เขาตกงาน" }
+                ]
+            },
+            {
+                emoji: "🍽️",
+                mainSentence: "What did you order?",
+                mainSentenceThai: "คุณสั่งอะไรไป?",
+                thaiReading: "วอท ดิด ยู <u>ออ</u>เด่อะ?",
+                examples: [
+                    { eng: "The food looks great. What did you order?", thai: "อาหารดูดีจัง คุณสั่งอะไรเหรอ?" },
+                    { eng: "What did she order from the online store?", thai: "เธอสั่งอะไรจากร้านค้าออนไลน์?" },
+                    { eng: "The general ordered his troops to retreat.", thai: "นายพลสั่งให้กองทหารของเขาถอยทัพ" },
+                    { eng: "He ordered a new computer last week.", thai: "เขาสั่งคอมพิวเตอร์เครื่องใหม่เมื่อสัปดาห์ที่แล้ว" },
+                    { eng: "I ordered the same dish as you.", thai: "ฉันสั่งอาหารจานเดียวกับคุณ" }
+                ],
+                equivalents: [
+                    { term: "What did you choose?", eng_example: "There were so many options. What did you choose from the menu?", thai_example: "มีตัวเลือกเยอะมากเลย คุณเลือกอะไรจากเมนู?" }
+                ],
+                collocations: [
+                    { term: "place an order", eng_example: "I need to place an order for more office supplies.", thai_example: "ฉันต้องทำการสั่งซื้อเครื่องใช้สำนักงานเพิ่มเติม" },
+                    { term: "in order to", eng_example: "You need to study hard in order to pass the exam.", thai_example: "คุณต้องเรียนอย่างหนักเพื่อที่จะสอบผ่าน" }
+                ]
+            },
+            {
+                emoji: "👍",
+                mainSentence: "What did you choose?",
+                mainSentenceThai: "คุณเลือกอะไร?",
+                thaiReading: "วอท ดิด ยู <u>ชูส</u>?",
+                examples: [
+                    { eng: "There were three paths. Which path did you choose?", thai: "มีสามเส้นทาง คุณเลือกเส้นทางไหน?" },
+                    { eng: "What topic did she choose for her presentation?", thai: "เธอเลือกหัวข้ออะไรสำหรับการนำเสนอของเธอ?" },
+                    { eng: "He chose to stay silent.", thai: "เขาเลือกที่จะเงียบ" },
+                    { eng: "They chose the blue car over the red one.", thai: "พวกเขาเลือกรถสีน้ำเงินแทนที่จะเป็นคันสีแดง" },
+                    { eng: "I chose my words carefully.", thai: "ฉันเลือกใช้คำพูดของฉันอย่างระมัดระวัง" }
+                ],
+                equivalents: [
+                    { term: "What did you select?", eng_example: "From all the candidates, who did you select for the job?", thai_example: "จากผู้สมัครทั้งหมด คุณเลือกใครสำหรับงานนี้?" },
+                    { term: "What did you pick?", eng_example: "Pick a card, any card. What did you pick?", thai_example: "เลือกไพ่มาหนึ่งใบ ใบไหนก็ได้ คุณเลือกใบไหน?" }
+                ],
+                collocations: [
+                    { term: "pick and choose", eng_example: "You can't just pick and choose which rules to follow.", thai_example: "คุณไม่สามารถเลือกได้ว่าจะทำตามกฎข้อไหนบ้าง" },
+                    { term: "beggars can't be choosers", eng_example: "I wanted a window seat, but beggars can't be choosers.", thai_example: "ฉันอยากได้ที่นั่งริมหน้าต่าง แต่ก็ไม่มีสิทธิ์เลือก (สำนวน)" }
+                ]
+            },
+            {
+                emoji: "💡",
+                mainSentence: "What did you suggest?",
+                mainSentenceThai: "คุณแนะนำอะไรไป?",
+                thaiReading: "วอท ดิด ยู ซัก<u>เจสท์</u>?",
+                examples: [
+                    { eng: "The team needed ideas. What did you suggest?", thai: "ทีมต้องการไอเดีย คุณแนะนำอะไรไปบ้าง?" },
+                    { eng: "What did she suggest as a solution to the problem?", thai: "เธอแนะนำอะไรเป็นทางออกสำหรับปัญหานี้?" },
+                    { eng: "He suggested that we leave early.", thai: "เขาแนะนำว่าเราควรจะออกเดินทางแต่เนิ่นๆ" },
+                    { eng: "I suggested a new restaurant for our dinner.", thai: "ฉันได้แนะนำร้านอาหารใหม่สำหรับมื้อค่ำของเรา" },
+                    { eng: "The evidence suggested he was at home.", thai: "หลักฐานบ่งชี้ว่าเขาอยู่ที่บ้าน" }
+                ],
+                equivalents: [
+                    { term: "What did you recommend?", eng_example: "You know this city well. What did you recommend we visit?", thai_example: "คุณรู้จักเมืองนี้ดี คุณแนะนำให้เราไปเที่ยวที่ไหนบ้าง?" }
+                ],
+                collocations: [
+                    { term: "a helpful suggestion", eng_example: "His helpful suggestion saved us a lot of time.", thai_example: "คำแนะนำที่เป็นประโยชน์ของเขาช่วยประหยัดเวลาให้เราได้มาก" },
+                    { term: "open to suggestions", eng_example: "Our manager is always open to suggestions from the team.", thai_example: "ผู้จัดการของเราเปิดรับข้อเสนอแนะจากทีมเสมอ" }
+                ]
+            },
+            {
+                emoji: "🙏",
+                mainSentence: "What did you want?",
+                mainSentenceThai: "คุณต้องการอะไร?",
+                thaiReading: "วอท ดิด ยู <u>ว้อนท์</u>?",
+                examples: [
+                    { eng: "You called for me. What did you want?", thai: "คุณเรียกฉันนี่นา คุณต้องการอะไรเหรอ?" },
+                    { eng: "What did she want to talk to you about?", thai: "เธอต้องการคุยกับคุณเรื่องอะไร?" },
+                    { eng: "He wanted a new bike for his birthday.", thai: "เขาอยากได้จักรยานคันใหม่เป็นของขวัญวันเกิด" },
+                    { eng: "I wanted to help, but I didn't know how.", thai: "ฉันอยากจะช่วยนะ แต่ฉันไม่รู้ว่าจะทำอย่างไร" },
+                    { eng: "They wanted to know if you were coming to the party.", thai: "พวกเขาอยากรู้ว่าคุณจะมางานปาร์ตี้ไหม" }
+                ],
+                equivalents: [
+                    { term: "What did you need?", eng_example: "I heard you were looking for me. What did you need?", thai_example: "ฉันได้ยินว่าคุณกำลังมองหาฉัน คุณมีเรื่องจำเป็นอะไรเหรอ?" }
+                ],
+                collocations: [
+                    { term: "wanted dead or alive", eng_example: "The poster showed the outlaw was wanted dead or alive.", thai_example: "ใบประกาศจับแสดงให้เห็นว่าผู้ร้ายนอกกฎหมายคนนั้นเป็นที่ต้องการตัวไม่ว่าจะจับเป็นหรือจับตาย" },
+                    { term: "for want of", eng_example: "The project failed for want of funding.", thai_example: "โครงการล้มเหลวเนื่องจากขาดเงินทุน" }
+                ]
+            },
+            {
+                emoji: "❓",
+                mainSentence: "What did you have?",
+                mainSentenceThai: "คุณมี/กิน/ดื่มอะไร?",
+                thaiReading: "วอท ดิด ยู <u>แฮฟ</u>?",
+                examples: [
+                    { eng: "What did you have for breakfast?", thai: "คุณกินอะไรเป็นอาหารเช้า?" },
+                    { eng: "What symptoms did you have before you went to the doctor?", thai: "คุณมีอาการอะไรบ้างก่อนที่คุณจะไปหาหมอ?" },
+                    { eng: "She had a great time at the party.", thai: "เธอมีช่วงเวลาที่ดีที่งานปาร์ตี้" },
+                    { eng: "Did you have any trouble finding the place?", thai: "คุณมีปัญหาในการหาสถานที่นี้ไหม?" },
+                    { eng: "He had a strange dream last night.", thai: "เมื่อคืนเขาฝันแปลกๆ" }
+                ],
+                equivalents: [
+                    { term: "What did you eat/drink?", eng_example: "The bar had many cocktails. What did you drink?", thai_example: "บาร์นั้นมีค็อกเทลหลายอย่างเลย คุณดื่มอะไรไป?" }
+                ],
+                collocations: [
+                    { term: "have fun", eng_example: "We had a lot of fun at the beach yesterday.", thai_example: "เมื่อวานนี้เราสนุกกันมากที่ชายหาด" },
+                    { term: "have a word", eng_example: "The boss wanted to have a word with me.", thai_example: "เจ้านายต้องการจะคุยกับฉันสักครู่" }
+                ]
+            },
+            {
+                emoji: "✈️",
+                mainSentence: "Where did you go?",
+                mainSentenceThai: "คุณไปไหนมา?",
+                thaiReading: "แวร์ ดิด ยู <u>โก</u>?",
+                examples: [
+                    { eng: "You were not at home. Where did you go?", thai: "คุณไม่อยู่บ้าน คุณไปไหนมาเหรอ?" },
+                    { eng: "Where did she go on her vacation last year?", thai: "เธอไปเที่ยวที่ไหนในวันหยุดพักร้อนเมื่อปีที่แล้ว?" },
+                    { eng: "He went to the store to buy some milk.", thai: "เขาไปร้านค้าเพื่อซื้อนม" },
+                    { eng: "Where did all the time go?", thai: "เวลาทั้งหมดหายไปไหนหมด?" },
+                    { eng: "They went to the cinema last night.", thai: "พวกเขาไปดูหนังเมื่อคืนนี้" }
+                ],
+                equivalents: [
+                    { term: "Where were you?", eng_example: "I called you, but you didn't answer. Where were you?", thai_example: "ฉันโทรหาคุณ แต่คุณไม่รับสาย คุณอยู่ที่ไหนเหรอ?" }
+                ],
+                collocations: [
+                    { term: "go ahead", eng_example: "If you have a question, please go ahead and ask.", thai_example: "ถ้าคุณมีคำถาม เชิญถามได้เลย" },
+                    { term: "go wrong", eng_example: "I don't know where we went wrong with this plan.", thai_example: "ฉันไม่รู้ว่าเราทำผิดพลาดตรงไหนกับแผนนี้" }
+                ]
+            },
+            {
+                emoji: "👂",
+                mainSentence: "What did you hear?",
+                mainSentenceThai: "คุณได้ยินอะไรมา?",
+                thaiReading: "วอท ดิด ยู <u>เฮียร์</u>?",
+                examples: [
+                    { eng: "What did you hear about the new company policy?", thai: "คุณได้ยินอะไรเกี่ยวกับนโยบายใหม่ของบริษัทมาบ้าง?" },
+                    { eng: "I heard a strange noise outside.", thai: "ฉันได้ยินเสียงแปลกๆ ข้างนอก" },
+                    { eng: "What did she hear that made her so upset?", thai: "เธอไปได้ยินอะไรมาที่ทำให้เธออารมณ์เสียขนาดนั้น?" },
+                    { eng: "He heard that the concert was canceled.", thai: "เขาได้ยินมาว่าคอนเสิร์ตถูกยกเลิก" },
+                    { eng: "We heard the good news from our manager.", thai: "เราได้ยินข่าวดีจากผู้จัดการของเรา" }
+                ],
+                equivalents: [
+                    { term: "What's the rumor?", eng_example: "Everyone is whispering. What's the rumor?", thai_example: "ทุกคนกำลังกระซิบกระซาบกันอยู่ ข่าวลือคืออะไรเหรอ?" }
+                ],
+                collocations: [
+                    { term: "hear a pin drop", eng_example: "The room was so quiet you could hear a pin drop.", thai_example: "ห้องเงียบมากจนคุณจะได้ยินแม้กระทั่งเสียงเข็มหมุดตก" },
+                    { term: "hear someone out", eng_example: "Before you judge, please hear me out.", thai_example: "ก่อนที่คุณจะตัดสิน กรุณาฟังฉันให้จบก่อน" }
+                ]
+            },
+            {
+                emoji: "🚗",
+                mainSentence: "What did you drive?",
+                mainSentenceThai: "คุณขับรถอะไรมา?",
+                thaiReading: "วอท ดิด ยู <u>ไดรฟ์</u>?",
+                examples: [
+                    { eng: "What kind of car did you drive before this one?", thai: "คุณขับรถประเภทไหนก่อนคันนี้?" },
+                    { eng: "She drove for five hours straight.", thai: "เธอขับรถติดต่อกันห้าชั่วโมง" },
+                    { eng: "What drove him to make such a drastic decision?", thai: "อะไรผลักดันให้เขาทำการตัดสินใจที่รุนแรงเช่นนั้น?" },
+                    { eng: "He drove me to the airport.", thai: "เขาขับรถไปส่งฉันที่สนามบิน" },
+                    { eng: "The new ad campaign drove up sales.", thai: "แคมเปญโฆษณาใหม่ช่วยเพิ่มยอดขาย" }
+                ],
+                equivalents: [
+                    { term: "What car did you take?", eng_example: "The parking lot is full. What car did you take?", thai_example: "ที่จอดรถเต็มเลย คุณเอารถคันไหนมา?" }
+                ],
+                collocations: [
+                    { term: "drive a bargain", eng_example: "She's good at negotiating; she drove a hard bargain and got a good price.", thai_example: "เธอเก่งเรื่องการเจรจาต่อรอง เธอต่อรองอย่างหนักและได้ราคาที่ดี" },
+                    { term: "drive someone crazy", eng_example: "The constant noise from the construction site drove me crazy.", thai_example: "เสียงที่ดังไม่หยุดจากสถานที่ก่อสร้างทำให้ฉันแทบบ้า" }
+                ]
+            },
+            {
+                emoji: "🤔",
+                mainSentence: "What did you think?",
+                mainSentenceThai: "คุณคิดว่าอย่างไร?",
+                thaiReading: "วอท ดิด ยู <u>ติ๊งค์</u>?",
+                examples: [
+                    { eng: "You saw the movie last night. What did you think of it?", thai: "คุณดูหนังเรื่องนั้นเมื่อคืนนี้ คุณคิดว่าเป็นอย่างไรบ้าง?" },
+                    { eng: "What did she think when she saw the surprise?", thai: "เธอคิดอย่างไรตอนที่เธอเห็นเซอร์ไพรส์?" },
+                    { eng: "I thought the presentation was excellent.", thai: "ฉันคิดว่าการนำเสนอนั้นยอดเยี่ยมมาก" },
+                    { eng: "He thought about his family all the time he was away.", thai: "เขาคิดถึงครอบครัวของเขาตลอดเวลาที่เขาจากมา" },
+                    { eng: "We thought you weren't coming.", thai: "เรานึกว่าคุณจะไม่มาซะแล้ว" }
+                ],
+                equivalents: [
+                    { term: "What was your impression?", eng_example: "You met the new CEO. What was your impression of him?", thai_example: "คุณได้พบกับ CEO คนใหม่แล้ว ความประทับใจแรกของคุณที่มีต่อเขาเป็นอย่างไร?" }
+                ],
+                collocations: [
+                    { term: "think highly of", eng_example: "Her teacher thought very highly of her abilities.", thai_example: "ครูของเธอชื่นชมความสามารถของเธอเป็นอย่างมาก" },
+                    { term: "think on your feet", eng_example: "In a crisis, you need to be able to think on your feet.", thai_example: "ในสถานการณ์วิกฤต คุณต้องสามารถคิดแก้ปัญหาเฉพาะหน้าได้อย่างรวดเร็ว" }
+                ]
+            },
+            {
+                emoji: "🤯",
+                mainSentence: "What did you mean?",
+                mainSentenceThai: "คุณหมายความว่าอย่างไร?",
+                thaiReading: "วอท ดิด ยู <u>มีน</u>?",
+                examples: [
+                    { eng: "What did you mean when you said I was 'too nice'?", thai: "คุณหมายความว่าอย่างไรตอนที่คุณบอกว่าฉัน 'ใจดีเกินไป'?" },
+                    { eng: "I'm sorry if I offended you; I didn't mean any harm.", thai: "ฉันขอโทษถ้าฉันทำให้คุณขุ่นเคือง ฉันไม่ได้มีเจตนาร้าย" },
+                    { eng: "What did she mean by that gesture?", thai: "เธอหมายความว่าอย่างไรกับท่าทางนั้น?" },
+                    { eng: "He meant it as a compliment, but it sounded like an insult.", thai: "เขาตั้งใจให้มันเป็นคำชม แต่มันฟังดูเหมือนคำดูถูก" },
+                    { eng: "The poet meant to convey a sense of loss.", thai: "กวีตั้งใจที่จะสื่อถึงความรู้สึกสูญเสีย" }
+                ],
+                equivalents: [
+                    { term: "What was your intention?", eng_example: "Your actions were confusing. What was your intention?", thai_example: "การกระทำของคุณน่าสับสนนะ เจตนาของคุณคืออะไร?" }
+                ],
+                collocations: [
+                    { term: "meant to be", eng_example: "After they met, they knew they were meant to be together.", thai_example: "หลังจากที่พวกเขาได้พบกัน พวกเขาก็รู้ว่าพวกเขาเกิดมาเพื่อคู่กัน" },
+                    { term: "mean business", eng_example: "The look on his face showed that he meant business.", thai_example: "สีหน้าของเขาแสดงให้เห็นว่าเขาเอาจริง" }
+                ]
+            },
+            {
+                emoji: "🎁",
+                mainSentence: "What did you bring?",
+                mainSentenceThai: "คุณเอาอะไรมา?",
+                thaiReading: "วอท ดิด ยู <u>บริง</u>?",
+                examples: [
+                    { eng: "What did you bring to the potluck party?", thai: "คุณเอาอะไรไปร่วมงานปาร์ตี้แบบพ็อตลัค?" },
+                    { eng: "She brought a beautiful bouquet of flowers.", thai: "เธอนำช่อดอกไม้ที่สวยงามมาด้วย" },
+                    { eng: "What brought you to Thailand?", thai: "อะไรทำให้คุณมาที่ประเทศไทย?" },
+                    { eng: "He brought his dog with him on the trip.", thai: "เขานำสุนัขของเขาไปด้วยในการเดินทาง" },
+                    { eng: "The news brought tears to her eyes.", thai: "ข่าวนั้นทำให้น้ำตาคลอเบ้า" }
+                ],
+                equivalents: [
+                    { term: "What did you come with?", eng_example: "Everyone contributed something to the party. What did you come with?", thai_example: "ทุกคนเอาของมาร่วมงานปาร์ตี้ คุณเอาอะไรมาเหรอ?" }
+                ],
+                collocations: [
+                    { term: "bring up", eng_example: "Please don't bring up that topic again.", thai_example: "กรุณาอย่าหยิบยกหัวข้อนั้นขึ้นมาพูดอีก" },
+                    { term: "bring to light", eng_example: "The investigation brought some new facts to light.", thai_example: "การสืบสวนได้เปิดเผยข้อเท็จจริงใหม่บางอย่าง" }
+                ]
+            },
+            {
+                emoji: "✍️",
+                mainSentence: "What did you write?",
+                mainSentenceThai: "คุณเขียนอะไร?",
+                thaiReading: "วอท ดิด ยู <u>ไร้ท์</u>?",
+                examples: [
+                    { eng: "What did you write in your report?", thai: "คุณเขียนอะไรในรายงานของคุณ?" },
+                    { eng: "Shakespeare wrote many famous plays.", thai: "เชกสเปียร์เขียนบทละครที่มีชื่อเสียงไว้มากมาย" },
+                    { eng: "What did she write on the postcard?", thai: "เธอเขียนอะไรบนไปรษณียบัตร?" },
+                    { eng: "He wrote a letter of complaint to the manager.", thai: "เขาเขียนจดหมายร้องเรียนถึงผู้จัดการ" },
+                    { eng: "I wrote down everything he said.", thai: "ฉันจดทุกอย่างที่เขาพูด" }
+                ],
+                equivalents: [
+                    { term: "What did you put down?", eng_example: "I saw you taking notes. What did you put down?", thai_example: "ฉันเห็นคุณจดโน้ตอยู่ คุณจดอะไรลงไปบ้าง?" }
+                ],
+                collocations: [
+                    { term: "write off", eng_example: "The car was so damaged they had to write it off.", thai_example: "รถเสียหายหนักมากจนพวกเขาต้องตีจำหน่ายเป็นซาก" },
+                    { term: "nothing to write home about", eng_example: "The movie was okay, but nothing to write home about.", thai_example: "หนังก็โอเคนะ แต่ก็ไม่ได้มีอะไรพิเศษน่าตื่นเต้น" }
+                ]
+            }
+,{
+                emoji: "❓",
+                mainSentence: "What did you lose?",
+                mainSentenceThai: "คุณทำอะไรหาย?",
+                thaiReading: "วอท ดิด ยู <u>ลูส</u>?",
+                examples: [
+                    { eng: "I can't find my wallet. I wonder what I lost this time.", thai: "ฉันหากระเป๋าสตางค์ไม่เจอ สงสัยว่าครั้งนี้ฉันทำอะไรหายอีกแล้ว" },
+                    { eng: "What did she lose in the bet?", thai: "เธอเสียอะไรไปในการเดิมพัน?" },
+                    { eng: "He lost his way while hiking in the forest.", thai: "เขาหลงทางขณะเดินป่า" },
+                    { eng: "Our team lost the final match by just one goal.", thai: "ทีมของเราแพ้การแข่งขันนัดชิงไปด้วยประตูเดียว" },
+                    { eng: "She lost all hope when she heard the news.", thai: "เธอสิ้นหวังทุกอย่างเมื่อได้ยินข่าวนั้น" }
+                ],
+                equivalents: [
+                    { term: "What did you misplace?", eng_example: "You seem worried. What did you misplace?", thai_example: "คุณดูกังวลนะ คุณวางอะไรผิดที่ไปเหรอ?" }
+                ],
+                collocations: [
+                    { term: "lose your temper", eng_example: "He lost his temper and shouted at everyone.", thai_example: "เขาสติแตกและตะโกนใส่ทุกคน" },
+                    { term: "lose touch", eng_example: "After they moved to different cities, they slowly lost touch.", thai_example: "หลังจากที่พวกเขาย้ายไปอยู่คนละเมือง พวกเขาก็ค่อยๆ ขาดการติดต่อกัน" }
+                ]
+            },
+            {
+                emoji: "💔",
+                mainSentence: "What did you break?",
+                mainSentenceThai: "คุณทำอะไรแตก/หัก?",
+                thaiReading: "วอท ดิด ยู <u>เบรค</u>?",
+                examples: [
+                    { eng: "I heard a crash from the kitchen. What did you break?", thai: "ฉันได้ยินเสียงโครมจากในครัว คุณทำอะไรแตกเหรอ?" },
+                    { eng: "What promise did he break this time?", thai: "ครั้งนี้เขาผิดสัญญาอะไรอีก?" },
+                    { eng: "She accidentally broke her mother's favorite vase.", thai: "เธอทำแจกันใบโปรดของแม่แตกโดยไม่ได้ตั้งใจ" },
+                    { eng: "He broke the world record for swimming.", thai: "เขาทำลายสถิติโลกกีฬาว่ายน้ำ" },
+                    { eng: "The news of his departure broke my heart.", thai: "ข่าวการจากไปของเขาทำให้ฉันใจสลาย" }
+                ],
+                equivalents: [
+                    { term: "What did you damage?", eng_example: "The delivery box is crushed. What did you damage inside?", thai_example: "กล่องพัสดุมันบุบนะ คุณทำอะไรข้างในเสียหายหรือเปล่า?" }
+                ],
+                collocations: [
+                    { term: "break the ice", eng_example: "He told a funny joke to break the ice at the party.", thai_example: "เขาเล่าเรื่องตลกเพื่อทำลายความอึดอัดในงานปาร์ตี้" },
+                    { term: "break the rules", eng_example: "You knew the consequences if you broke the rules.", thai_example: "คุณรู้ผลที่จะตามมาอยู่แล้วถ้าคุณทำผิดกฎ" }
+                ]
+            }
+        ];
+
+        const slidesWrapper = document.getElementById('slides-wrapper');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const pageCounter = document.getElementById('page-counter');
+
+        let currentSlide = 0;
+
+        function generateSlides() {
+            slideData.forEach((data, index) => {
+                const slide = document.createElement('div');
+                slide.className = 'slide';
+                slide.id = `slide-${index}`;
+
+                const examplesHtml = data.examples.map(ex => `<li>${ex.eng}<span class="thai-translation">${ex.thai}</span></li>`).join('');
+                
+                const equivalentsHtml = data.equivalents.map(eq => `
+                    <li>
+                        <span class="example-term">${eq.term}</span>
+                        <span class="example-sentence">${eq.eng_example}</span>
+                        <span class="thai-translation">${eq.thai_example}</span>
+                    </li>`).join('');
+
+                const collocationsHtml = data.collocations.map(co => `
+                    <li>
+                        <span class="example-term">${co.term}</span>
+                        <span class="example-sentence">${co.eng_example}</span>
+                        <span class="thai-translation">${co.thai_example}</span>
+                    </li>`).join('');
+
+                slide.innerHTML = `
+                    <h2>${data.emoji} ${data.mainSentence}
+                        <span class="main-sentence-thai">${data.mainSentenceThai}</span>
+                    </h2>
+                    <p class="thai-reading">${data.thaiReading}</p>
+                    
+                    <div class="content-section">
+                        <h3>ตัวอย่างประโยคเพิ่มเติม:</h3>
+                        <ul>${examplesHtml}</ul>
+                    </div>
+                    
+                    <div class="content-section">
+                        <h3>Equivalent Alternatives (สำนวนที่มีความหมายเหมือนกัน)</h3>
+                        <ul>${equivalentsHtml}</ul>
+                    </div>
+                    
+                    <div class="content-section">
+                        <h3>Collocations (คำที่มักใช้มาด้วยกัน)</h3>
+                        <ul>${collocationsHtml}</ul>
+                    </div>
+
+                    <div class="footer">
+                        ครูสาลี่ -- อังกฤษฉบับคนเรียนไม่รู้เรื่อง
+                    </div>
+                `;
+                slidesWrapper.appendChild(slide);
+            });
+        }
+        
+        function getRandomColor() {
+            const h = Math.floor(Math.random() * 360);
+            const s = 100;
+            const l = 97; 
+            return `hsl(${h}, ${s}%, ${l}%)`;
+        }
+
+        function showSlide(index) {
+            const slides = document.querySelectorAll('.slide');
+            slides.forEach(slide => {
+                slide.classList.remove('active');
+            });
+            
+            const activeSlide = document.getElementById(`slide-${index}`);
+            activeSlide.classList.add('active');
+            activeSlide.style.backgroundColor = getRandomColor();
+            
+            pageCounter.textContent = `หน้า ${index + 1} / ${slideData.length}`;
+            
+            prevBtn.disabled = index === 0;
+            nextBtn.disabled = index === slideData.length - 1;
+        }
+
+        nextBtn.addEventListener('click', () => {
+            if (currentSlide < slideData.length - 1) {
+                currentSlide++;
+                showSlide(currentSlide);
+            }
+        });
+
+        prevBtn.addEventListener('click', () => {
+            if (currentSlide > 0) {
+                currentSlide--;
+                showSlide(currentSlide);
+            }
+        });
+
+        generateSlides();
+        showSlide(currentSlide);
+    </script>
+</body>
+</html>

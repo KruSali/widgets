@@ -1,0 +1,924 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>English Lesson: Have you been -ing?</title>
+    <style>
+        /* CSS Styles */
+        @import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@400;700&display=swap');
+
+        :root {
+            --text-color: #2c3e50;
+            --header-bg: #ffffff;
+            --border-color: #ecf0f1;
+            --button-bg: #e67e22; 
+            --button-hover-bg: #d35400;
+            --button-disabled-bg: #bdc3c7;
+            --white: #ffffff;
+            --thai-translation-color: #555;
+            --term-color: #2980b9;
+        }
+
+        body {
+            font-family: 'Sarabun', sans-serif;
+            background-color: #ecf0f1;
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            font-size: 18px; 
+        }
+
+        #app-container {
+            width: 100%;
+            max-width: 950px; 
+            background: var(--white);
+            border-radius: 16px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        #main-header {
+            background-color: var(--header-bg);
+            padding: 20px 30px;
+            border-bottom: 2px solid var(--border-color);
+            text-align: center;
+        }
+
+        #main-header h1 {
+            margin: 0;
+            font-size: 1.7em;
+            color: var(--button-bg);
+            font-weight: 700;
+        }
+
+        #slides-wrapper {
+            position: relative;
+            flex-grow: 1;
+        }
+
+        .slide {
+            padding: 35px 40px;
+            display: none;
+            flex-direction: column;
+            gap: 20px;
+            transition: background-color 0.5s ease;
+            min-height: 620px;
+        }
+        
+        .slide.active {
+            display: flex;
+        }
+
+        .slide h2 {
+            font-size: 2.6em;
+            margin: 0;
+            color: var(--text-color);
+            text-align: center;
+            padding-bottom: 20px;
+            border-bottom: 2px solid rgba(0,0,0,0.08);
+            line-height: 1.3;
+        }
+        
+        .main-sentence-thai {
+            display: block;
+            font-size: 0.5em; 
+            color: var(--thai-translation-color);
+            font-weight: 400;
+            margin-top: 10px;
+        }
+
+        .thai-reading {
+            font-size: 1.3em;
+            color: #c0392b;
+            text-align: center;
+            font-style: italic;
+            font-weight: 700;
+        }
+
+        .thai-reading u {
+            text-decoration: underline;
+            text-decoration-color: #c0392b;
+            text-decoration-thickness: 3px;
+        }
+
+        .content-section {
+            margin-top: 10px;
+        }
+
+        .content-section h3 {
+            font-size: 1.3em;
+            color: var(--button-bg);
+            margin-bottom: 15px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .content-section ul {
+            list-style-type: '✅  ';
+            padding-left: 20px;
+            margin: 0;
+        }
+
+        .content-section ul li {
+            margin-bottom: 18px; 
+            line-height: 1.7;
+            font-size: 1.1em;
+        }
+        
+        .thai-translation {
+            display: block;
+            color: var(--thai-translation-color);
+            font-size: 0.9em;
+            padding-left: 15px;
+            font-style: italic;
+        }
+        
+        .example-term {
+            color: var(--term-color);
+            font-weight: 700;
+        }
+        
+        .example-sentence {
+             display: block;
+             padding-left: 15px;
+        }
+
+        .footer {
+            margin-top: auto; /* Pushes footer to the bottom */
+            padding-top: 20px;
+            text-align: center;
+            font-size: 0.9em;
+            color: #7f8c8d;
+            border-top: 1px solid var(--border-color);
+        }
+
+        #navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 30px;
+            background-color: var(--header-bg);
+            border-top: 2px solid var(--border-color);
+        }
+
+        #navigation button {
+            background-color: var(--button-bg);
+            color: var(--white);
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-family: 'Sarabun', sans-serif;
+            font-size: 1.1em;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        #navigation button:hover {
+            background-color: var(--button-hover-bg);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        #navigation button:disabled {
+            background-color: var(--button-disabled-bg);
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        #page-counter {
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #7f8c8d;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="app-container">
+        <div id="main-header">
+            <h1>โครงสร้างประโยคที่ 51: Have you been +(verb ending in -ing)?</h1>
+        </div>
+        
+        <div id="slides-wrapper">
+            </div>
+
+        <div id="navigation">
+            <button id="prevBtn">⬅️ หน้าก่อนหน้า</button>
+            <span id="page-counter"></span>
+            <button id="nextBtn">หน้าถัดไป ➡️</button>
+        </div>
+    </div>
+
+    <script>
+        const slideData = [
+            {
+                emoji: "⌛",
+                mainSentence: "Have you been waiting long?",
+                mainSentenceThai: "คุณรอมานานแล้วหรือยัง?",
+                thaiReading: "แฮฟ ยู บีน <u>เว้ท</u>ทิ่ง ลอง?",
+                examples: [
+                    { eng: "He has been waiting for the bus for 30 minutes.", thai: "เขารอรถบัสมา 30 นาทีแล้ว (และยังคงรออยู่)" },
+                    { eng: "How long have you been waiting?", thai: "คุณรอมานานแค่ไหนแล้ว?" },
+                    { eng: "They have been waiting all day to see the doctor.", thai: "พวกเขารอทั้งวันเพื่อที่จะได้พบหมอ" },
+                    { eng: "I'm sorry, I haven't been waiting long.", thai: "ขอโทษครับ/ค่ะ ฉันเพิ่งจะมารอไม่นาน" },
+                    { eng: "She looks tired because she has been waiting since morning.", thai: "เธอดูเหนื่อยเพราะว่าเธอรอมาตั้งแต่เช้า" }
+                ],
+                equivalents: [
+                    { term: "How long has it been?", eng_example: "How long has it been since you arrived?", thai_example: "คุณมาถึงนานแค่ไหนแล้ว?" }
+                ],
+                collocations: [
+                    { term: "waiting in line", eng_example: "We have been waiting in line for tickets for over an hour.", thai_example: "เราต่อแถวรอซื้อตั๋วมาเป็นชั่วโมงแล้ว" },
+                    { term: "waiting patiently", eng_example: "The dog has been waiting patiently for its owner to come home.", thai_example: "เจ้าสุนัขได้แต่นั่งรอเจ้าของกลับบ้านอย่างอดทน" }
+                ]
+            },
+            {
+                emoji: "💼",
+                mainSentence: "Have you been working here for a while?",
+                mainSentenceThai: "คุณทำงานที่นี่มาสักพักแล้วหรือยัง?",
+                thaiReading: "แฮฟ ยู บีน <u>เวิร์ค</u>คิ่ง เฮียร์ ฟอร์ อะ ไวล์?",
+                examples: [
+                    { eng: "She has been working on this project all week.", thai: "เธอทำงานในโครงการนี้มาตลอดทั้งสัปดาห์" },
+                    { eng: "I've been working hard to achieve my goals.", thai: "ฉันทำงานอย่างหนักเพื่อบรรลุเป้าหมาย" },
+                    { eng: "They have been working together for years.", thai: "พวกเขาทำงานร่วมกันมาหลายปีแล้ว" },
+                    { eng: "My computer has not been working properly.", thai: "คอมพิวเตอร์ของฉันทำงานไม่ปกติเลยช่วงนี้" },
+                    { eng: "What have you been working on?", thai: "ช่วงนี้คุณกำลังทำอะไรอยู่?" }
+                ],
+                equivalents: [
+                    { term: "Are you still working on...?", eng_example: "Are you still working on the presentation?", thai_example: "คุณยังคงทำพรีเซนเทชั่นอยู่หรือเปล่า?" }
+                ],
+                collocations: [
+                    { term: "working overtime", eng_example: "He has been working overtime to meet the deadline.", thai_example: "เขาทำงานล่วงเวลาเพื่อที่จะให้ทันกำหนดส่ง" },
+                    { term: "working from home", eng_example: "She has been working from home since March.", thai_example: "เธอทำงานจากที่บ้านมาตั้งแต่เดือนมีนาคม" }
+                ]
+            },
+            {
+                emoji: "🩺",
+                mainSentence: "Have you been feeling okay lately?",
+                mainSentenceThai: "ช่วงนี้คุณรู้สึกสบายดีไหม?",
+                thaiReading: "แฮฟ ยู บีน <u>ฟี้ล</u>ลิ่ง โอเค <u>เลท</u>ลี่?",
+                examples: [
+                    { eng: "I have been feeling a little tired recently.", thai: "ช่วงนี้ฉันรู้สึกเหนื่อยๆ นิดหน่อย" },
+                    { eng: "She has been feeling much better since she started exercising.", thai: "เธอรู้สึกดีขึ้นมากตั้งแต่เริ่มออกกำลังกาย" },
+                    { eng: "He hasn't been feeling well for a few days.", thai: "เขารู้สึกไม่ค่อยสบายมา 2-3 วันแล้ว" },
+                    { eng: "They have been feeling optimistic about the future.", thai: "พวกเขารู้สึกมองโลกในแง่ดีเกี่ยวกับอนาคต" },
+                    { eng: "How have you been feeling?", thai: "ช่วงนี้คุณรู้สึกเป็นอย่างไรบ้าง?" }
+                ],
+                equivalents: [
+                    { term: "How have you been?", eng_example: "I haven't seen you in ages! How have you been?", thai_example: "ไม่ได้เจอกันนานเลย! คุณเป็นอย่างไรบ้าง?" }
+                ],
+                collocations: [
+                    { term: "feeling under the weather", eng_example: "I have been feeling under the weather, so I stayed home.", thai_example: "ฉันรู้สึกไม่ค่อยสบาย ฉันเลยอยู่บ้าน" },
+                    { term: "mixed feelings", eng_example: "I have been having mixed feelings about moving to a new city.", thai_example: "ฉันมีความรู้สึกหลากหลายปนเปกันเรื่องการย้ายไปเมืองใหม่" }
+                ]
+            },
+            {
+                emoji: "📖",
+                mainSentence: "What have you been reading?",
+                mainSentenceThai: "ช่วงนี้คุณกำลังอ่านอะไรอยู่?",
+                thaiReading: "วอท แฮฟ ยู บีน <u>รี๊ด</u>ดิ้ง?",
+                examples: [
+                    { eng: "She has been reading the same book for a month.", thai: "เธออ่านหนังสือเล่มเดิมมาเป็นเดือนแล้ว" },
+                    { eng: "I've been reading a lot about history lately.", thai: "ช่วงนี้ฉันอ่านเกี่ยวกับประวัติศาสตร์เยอะมาก" },
+                    { eng: "They have been reading stories to their children every night.", thai: "พวกเขาอ่านนิทานให้ลูกๆ ฟังทุกคืน" },
+                    { eng: "He hasn't been reading the news, so he's uninformed.", thai: "เขาไม่ได้อ่านข่าวเลย เขาเลยไม่รู้เรื่องอะไร" },
+                    { eng: "Have you been reading my diary?", thai: "นี่คุณแอบอ่านไดอารี่ของฉันอยู่เหรอ?" }
+                ],
+                equivalents: [
+                    { term: "Are you reading anything interesting?", eng_example: "You seem focused. Are you reading anything interesting?", thai_example: "คุณดูตั้งใจจัง กำลังอ่านอะไรที่น่าสนใจอยู่เหรอ?" }
+                ],
+                collocations: [
+                    { term: "reading between the lines", eng_example: "She has been reading between the lines to understand his true intentions.", thai_example: "เธอพยายามอ่านระหว่างบรรทัดเพื่อทำความเข้าใจเจตนาที่แท้จริงของเขา" },
+                    { term: "light reading", eng_example: "I've just been doing some light reading before bed.", thai_example: "ฉันแค่อ่านอะไรเบาๆ ก่อนนอนน่ะ" }
+                ]
+            },
+            {
+                emoji: "📺",
+                mainSentence: "Have you been watching that new series?",
+                mainSentenceThai: "คุณได้ดูซีรีส์เรื่องใหม่นั่นอยู่หรือเปล่า?",
+                thaiReading: "แฮฟ ยู บีน <u>วอท</u>ชิ่ง แดท นิว <u>ซี</u>รีส์?",
+                examples: [
+                    { eng: "He has been watching TV all afternoon.", thai: "เขาดูทีวีมาตลอดทั้งบ่าย" },
+                    { eng: "We have been watching the situation closely.", thai: "เราเฝ้าดูสถานการณ์อย่างใกล้ชิดมาตลอด" },
+                    { eng: "I've been watching my diet to lose weight.", thai: "ฉันคุมอาหารของฉันอยู่เพื่อลดน้ำหนัก" },
+                    { eng: "They haven't been watching where they are going.", thai: "พวกเขาไม่ได้ดูทางเลยว่ากำลังจะไปไหน" },
+                    { eng: "Who have you been watching?", thai: "คุณกำลังเฝ้าดูใครอยู่?" }
+                ],
+                equivalents: [
+                    { term: "Are you following that new series?", eng_example: "Everyone is talking about it. Are you following that new series?", thai_example: "ทุกคนพูดถึงเรื่องนี้กันหมดเลย คุณได้ติดตามซีรีส์เรื่องใหม่นั่นไหม?" }
+                ],
+                collocations: [
+                    { term: "watching the clock", eng_example: "The students have been watching the clock, waiting for the bell to ring.", thai_example: "นักเรียนต่างเฝ้ามองนาฬิกา รอให้กริ่งดัง" },
+                    { term: "binge-watching", eng_example: "We have been binge-watching our favorite show all weekend.", thai_example: "เราดูซีรีส์เรื่องโปรดของเราแบบรวดเดียวจบมาตลอดสุดสัปดาห์" }
+                ]
+            },
+            {
+                emoji: "🏃‍♀️",
+                mainSentence: "Have you been exercising regularly?",
+                mainSentenceThai: "คุณได้ออกกำลังกายอย่างสม่ำเสมอหรือเปล่า?",
+                thaiReading: "แฮฟ ยู บีน <u>เอ็ก</u>เซอไซซิ่ง <u>เร็ก</u>กูล่าลี่?",
+                examples: [
+                    { eng: "She has been exercising for an hour every day.", thai: "เธอออกกำลังกายวันละหนึ่งชั่วโมงทุกวัน" },
+                    { eng: "I've been exercising my right to remain silent.", thai: "ฉันกำลังใช้สิทธิ์ที่จะไม่ให้การ" },
+                    { eng: "They haven't been exercising enough, and it shows.", thai: "พวกเขาออกกำลังกายไม่เพียงพอ และมันก็แสดงให้เห็น" },
+                    { eng: "He has been exercising caution in his investments.", thai: "เขาใช้ความระมัดระวังในการลงทุนของเขา" },
+                    { eng: "We have been exercising our dogs at the park.", thai: "เราพาสุนัขของเราไปออกกำลังกายที่สวนสาธารณะ" }
+                ],
+                equivalents: [
+                    { term: "Do you work out?", eng_example: "You look fit! Do you work out regularly?", thai_example: "คุณดูหุ่นดีจัง! คุณออกกำลังกายสม่ำเสมอเหรอ?" }
+                ],
+                collocations: [
+                    { term: "exercising restraint", eng_example: "The police have been exercising restraint during the protest.", thai_example: "ตำรวจใช้ความอดทนอดกลั้นระหว่างการประท้วง" },
+                    { term: "exercising authority", eng_example: "The new manager has been exercising her authority effectively.", thai_example: "ผู้จัดการคนใหม่ใช้อำนาจของเธออย่างมีประสิทธิภาพ" }
+                ]
+            },
+            {
+                emoji: "🍳",
+                mainSentence: "What delicious smell! Have you been cooking?",
+                mainSentenceThai: "กลิ่นหอมจัง! คุณกำลังทำอาหารอยู่เหรอ?",
+                thaiReading: "วอท ดิ<u>ลิ</u>เชียส สเมล! แฮฟ ยู บีน <u>คุ้ก</u>กิ้ง?",
+                examples: [
+                    { eng: "My mother has been cooking all morning for the party.", thai: "แม่ของฉันทำอาหารมาตลอดทั้งเช้าสำหรับงานเลี้ยง" },
+                    { eng: "I've been cooking up a new idea for our business.", thai: "ฉันกำลังปรุงไอเดียใหม่ๆ สำหรับธุรกิจของเรา" },
+                    { eng: "He hasn't been cooking much since he started his new job.", thai: "เขาไม่ค่อยได้ทำอาหารมากนักตั้งแต่เริ่มงานใหม่" },
+                    { eng: "They have been cooking together as a hobby.", thai: "พวกเขาทำอาหารด้วยกันเป็นงานอดิเรก" },
+                    { eng: "The kitchen is a mess. What have you been cooking?", thai: "ห้องครัวเละไปหมดเลย คุณทำอะไรกินอยู่เนี่ย?" }
+                ],
+                equivalents: [
+                    { term: "Are you making something?", eng_example: "It smells great in here. Are you making something?", thai_example: "ในนี้กลิ่นหอมจัง คุณกำลังทำอะไรอยู่เหรอ?" }
+                ],
+                collocations: [
+                    { term: "cooking from scratch", eng_example: "She has been cooking from scratch instead of buying processed food.", thai_example: "เธอทำอาหารเองตั้งแต่ต้นแทนที่จะซื้ออาหารแปรรูป" },
+                    { term: "home-cooked meal", eng_example: "I've been craving a home-cooked meal.", thai_example: "ฉันอยากกินอาหารฝีมือที่บ้านมาตลอดเลย" }
+                ]
+            },
+            {
+                emoji: "🤔",
+                mainSentence: "Have you been thinking about my offer?",
+                mainSentenceThai: "คุณได้คิดเกี่ยวกับข้อเสนอของฉันบ้างไหม?",
+                thaiReading: "แฮฟ ยู บีน <u>ติ๊ง</u>กิ่ง อะ<u>เบาท์</u> มาย <u>ออฟ</u>เฟ่อะ?",
+                examples: [
+                    { eng: "I have been thinking a lot about our conversation.", thai: "ฉันคิดถึงบทสนทนาของเราเยอะมากเลย" },
+                    { eng: "She has been thinking of changing her career.", thai: "เธอกำลังคิดที่จะเปลี่ยนอาชีพ" },
+                    { eng: "He hasn't been thinking clearly since the accident.", thai: "เขาคิดอะไรไม่ค่อยชัดเจนตั้งแต่เกิดอุบัติเหตุ" },
+                    { eng: "What have you been thinking about all day?", thai: "คุณคิดอะไรอยู่ทั้งวันเนี่ย?" },
+                    { eng: "We have been thinking positively.", thai: "เราพยายามคิดในแง่บวกมาตลอด" }
+                ],
+                equivalents: [
+                    { term: "Have you considered...?", eng_example: "Have you considered what I said yesterday?", thai_example: "คุณได้พิจารณาสิ่งที่ฉันพูดไปเมื่อวานบ้างไหม?" }
+                ],
+                collocations: [
+                    { term: "thinking out loud", eng_example: "Sorry, I was just thinking out loud. Don't mind me.", thai_example: "ขอโทษที ฉันแค่คิดดังไปหน่อย อย่าสนใจฉันเลย" },
+                    { term: "wishful thinking", eng_example: "He hopes to win the lottery, but it's just wishful thinking.", thai_example: "เขาหวังว่าจะถูกลอตเตอรี่ แต่มันก็เป็นแค่ความหวังลมๆ แล้งๆ" }
+                ]
+            },
+            {
+                emoji: "✈️",
+                mainSentence: "Have you been traveling a lot for work?",
+                mainSentenceThai: "คุณต้องเดินทางเพื่อทำงานบ่อยไหมช่วงนี้?",
+                thaiReading: "แฮฟ ยู บีน <u>แทร</u>เฝ่ลลิ่ง อะ ล็อท ฟอร์ เวิร์ค?",
+                examples: [
+                    { eng: "He has been traveling across Asia for the past three months.", thai: "เขาเดินทางข้ามเอเชียมาตลอดสามเดือนที่ผ่านมา" },
+                    { eng: "I've been traveling light to make moving easier.", thai: "ฉันเดินทางโดยเอาของไปน้อยๆ เพื่อให้เคลื่อนย้ายสะดวก" },
+                    { eng: "They haven't been traveling much this year.", thai: "ปีนี้พวกเขาไม่ค่อยได้เดินทางมากนัก" },
+                    { eng: "She has been traveling with her best friend.", thai: "เธอเดินทางกับเพื่อนสนิทของเธอมาตลอด" },
+                    { eng: "Where have you been traveling to recently?", thai: "ช่วงนี้คุณเดินทางไปที่ไหนมาบ้าง?" }
+                ],
+                equivalents: [
+                    { term: "Have you been away?", eng_example: "Welcome back! Have you been away on a trip?", thai_example: "ยินดีต้อนรับกลับมา! คุณไปเที่ยวต่างถิ่นมาเหรอ?" }
+                ],
+                collocations: [
+                    { term: "traveling companion", eng_example: "My sister has been my favorite traveling companion for years.", thai_example: "น้องสาวของฉันเป็นเพื่อนร่วมเดินทางคนโปรดของฉันมาหลายปีแล้ว" },
+                    { term: "traveling expenses", eng_example: "The company has been covering all my traveling expenses.", thai_example: "บริษัทเป็นผู้ออกค่าใช้จ่ายในการเดินทางทั้งหมดให้ฉัน" }
+                ]
+            },
+            {
+                emoji: "😴",
+                mainSentence: "You look tired. Have you been sleeping enough?",
+                mainSentenceThai: "คุณดูเหนื่อยนะ คุณได้นอนเพียงพอหรือเปล่า?",
+                thaiReading: "ยู ลุค ไทร์ด แฮฟ ยู บีน <u>สลี๊พ</u>ปิ้ง อิ<u>นัฟ</u>?",
+                examples: [
+                    { eng: "The baby hasn't been sleeping well this week.", thai: "สัปดาห์นี้ทารกนอนไม่ค่อยหลับเลย" },
+                    { eng: "I've been sleeping like a log since I bought this new mattress.", thai: "ฉันหลับสนิทเป็นตายเลยตั้งแต่ซื้อที่นอนใหม่มา" },
+                    { eng: "He has been sleeping on the couch because his back hurts.", thai: "เขานอนบนโซฟาเพราะว่าเขาปวดหลัง" },
+                    { eng: "Where has the cat been sleeping?", thai: "เจ้าแมวไปนอนที่ไหนมาเนี่ย?" },
+                    { eng: "They have been sleeping in late every weekend.", thai: "พวกเขานอนตื่นสายทุกสุดสัปดาห์เลย" }
+                ],
+                equivalents: [
+                    { term: "Are you getting enough rest?", eng_example: "You seem exhausted. Are you getting enough rest?", thai_example: "คุณดูหมดแรงนะ คุณได้พักผ่อนเพียงพอหรือเปล่า?" }
+                ],
+                collocations: [
+                    { term: "sleeping bag", eng_example: "For camping, I've been sleeping in a warm sleeping bag.", thai_example: "สำหรับการตั้งแคมป์ ฉันนอนในถุงนอนอุ่นๆ มาตลอด" },
+                    { term: "sleeping pills", eng_example: "The doctor said he has been relying too much on sleeping pills.", thai_example: "หมอบอกว่าเขาพึ่งพายานอนหลับมากเกินไป" }
+                ]
+            },
+            {
+                emoji: "💧",
+                mainSentence: "Has it been raining all day?",
+                mainSentenceThai: "ฝนตกมาทั้งวันเลยเหรอ?",
+                thaiReading: "แฮส อิท บีน <u>เรน</u>นิ่ง ออล เดย์?",
+                examples: [
+                    { eng: "It has been raining on and off since yesterday.", thai: "ฝนตกๆ หยุดๆ มาตั้งแต่เมื่อวาน" },
+                    { eng: "It hasn't been raining, the ground is just wet from the sprinklers.", thai: "ฝนไม่ได้ตก พื้นแค่เปียกจากสปริงเกอร์" },
+                    { eng: "It has been raining cats and dogs all morning.", thai: "ฝนตกหนักมากมาตลอดทั้งเช้าเลย" },
+                    { eng: "Look at the clouds; it has been threatening to rain.", thai: "ดูเมฆสิ ท่าทางเหมือนฝนจะตกมาตั้งนานแล้ว" },
+                    { eng: "How long has it been raining?", thai: "ฝนตกมานานแค่ไหนแล้ว?" }
+                ],
+                equivalents: [
+                    { term: "Is it still raining?", eng_example: "I want to go out. Is it still raining?", thai_example: "ฉันอยากออกไปข้างนอก ฝนยังตกอยู่ไหม?" }
+                ],
+                collocations: [
+                    { term: "raining heavily", eng_example: "The game was cancelled because it has been raining heavily.", thai_example: "การแข่งขันถูกยกเลิกเพราะฝนตกหนักมาตลอด" },
+                    { term: "pouring rain", eng_example: "We got soaked because it has been pouring rain.", thai_example: "เราเปียกโชกเลยเพราะฝนตกหนักเหมือนฟ้ารั่ว" }
+                ]
+            },
+            {
+                emoji: "🎨",
+                mainSentence: "Have you been painting this mural?",
+                mainSentenceThai: "คุณกำลังวาดภาพฝาผนังนี้อยู่เหรอ?",
+                thaiReading: "แฮฟ ยู บีน <u>เพ้นท์</u>ติ้ง ธิส <u>มิว</u>รัล?",
+                examples: [
+                    { eng: "She has been painting portraits for a living.", thai: "เธอวาดภาพคนเป็นอาชีพเลี้ยงชีพ" },
+                    { eng: "I've been painting the fence all weekend.", thai: "ฉันทาสีรั้วมาตลอดสุดสัปดาห์" },
+                    { eng: "He hasn't been painting much lately; he has no inspiration.", thai: "ช่วงนี้เขาไม่ค่อยได้วาดรูปเลย เขาไม่มีแรงบันดาลใจ" },
+                    { eng: "They have been painting the town red to celebrate.", thai: "พวกเขาออกไปฉลองกันอย่างสุดเหวี่ยง" },
+                    { eng: "What colors have you been painting with?", thai: "คุณใช้สีอะไรวาดรูปอยู่?" }
+                ],
+                equivalents: [
+                    { term: "Are you the artist?", eng_example: "This is beautiful! Are you the artist who has been painting this?", thai_example: "สวยจัง! คุณคือศิลปินที่วาดภาพนี้อยู่หรือเปล่า?" }
+                ],
+                collocations: [
+                    { term: "painting a picture", eng_example: "The witness has been painting a clear picture of what happened.", thai_example: "พยานได้ให้การอธิบายภาพสิ่งที่เกิดขึ้นอย่างชัดเจน" },
+                    { term: "watch paint dry", eng_example: "This meeting is so boring; it's like we have been watching paint dry.", thai_example: "การประชุมนี้น่าเบื่อมาก เหมือนเรานั่งดูสีแห้งเลย" }
+                ]
+            },
+            {
+                emoji: "🗣️",
+                mainSentence: "Who have you been talking to?",
+                mainSentenceThai: "คุณคุยกับใครอยู่เหรอ?",
+                thaiReading: "ฮู แฮฟ ยู บีน <u>ทอล์ค</u>กิ้ง ทู?",
+                examples: [
+                    { eng: "She has been talking on the phone for hours.", thai: "เธอคุยโทรศัพท์มาหลายชั่วโมงแล้ว" },
+                    { eng: "I've been talking to myself a lot lately.", thai: "ช่วงนี้ฉันพูดกับตัวเองบ่อยมาก" },
+                    { eng: "He hasn't been talking to his brother since their argument.", thai: "เขาไม่ได้คุยกับน้องชายเลยตั้งแต่ที่พวกเขาทะเลาะกัน" },
+                    { eng: "They have been talking about you.", thai: "พวกเขาพูดถึงคุณอยู่" },
+                    { eng: "Have you been talking behind my back?", thai: "นี่คุณแอบนินทาฉันลับหลังอยู่เหรอ?" }
+                ],
+                equivalents: [
+                    { term: "Who was that on the phone?", eng_example: "You were on there for a while. Who was that on the phone?", thai_example: "คุณคุยนานเลยนะ ใครโทรมาเหรอ?" }
+                ],
+                collocations: [
+                    { term: "talking nonsense", eng_example: "Don't listen to him; he has been talking nonsense all night.", thai_example: "อย่าไปฟังเขาเลย เขาพูดจาไร้สาระมาทั้งคืนแล้ว" },
+                    { term: "talking shop", eng_example: "Even at the party, they have been talking shop.", thai_example: "แม้จะอยู่ในงานเลี้ยง พวกเขาก็ยังคุยกันแต่เรื่องงาน" }
+                ]
+            },
+            {
+                emoji: "🎸",
+                mainSentence: "Have you been practicing the guitar?",
+                mainSentenceThai: "คุณได้ฝึกซ้อมกีตาร์อยู่หรือเปล่า?",
+                thaiReading: "แฮฟ ยู บีน <u>แพรค</u>ทิสซิ่ง เดอะ กิ<u>ทาร์</u>?",
+                examples: [
+                    { eng: "He has been practicing law for over 20 years.", thai: "เขาประกอบอาชีพทนายความมากว่า 20 ปีแล้ว" },
+                    { eng: "I've been practicing my presentation all week.", thai: "ฉันซ้อมการนำเสนอของฉันมาตลอดทั้งสัปดาห์" },
+                    { eng: "She hasn't been practicing enough for the competition.", thai: "เธอซ้อมไม่เพียงพอสำหรับการแข่งขัน" },
+                    { eng: "They have been practicing yoga for relaxation.", thai: "พวกเขาฝึกโยคะเพื่อความผ่อนคลาย" },
+                    { eng: "How long have you been practicing?", thai: "คุณฝึกซ้อมมานานแค่ไหนแล้ว?" }
+                ],
+                equivalents: [
+                    { term: "How's your practice going?", eng_example: "You sound great! How's your guitar practice going?", thai_example: "คุณเล่นเก่งขึ้นนะ! การฝึกซ้อมกีตาร์ของคุณเป็นอย่างไรบ้าง?" }
+                ],
+                collocations: [
+                    { term: "practice makes perfect", eng_example: "Keep going! As they say, practice makes perfect.", thai_example: "ทำต่อไป! อย่างที่เขาว่ากันว่า การฝึกฝนทำให้สมบูรณ์แบบ" },
+                    { term: "best practice", eng_example: "The company has been following industry best practices for security.", thai_example: "บริษัทได้ปฏิบัติตามแนวทางปฏิบัติที่ดีที่สุดของอุตสาหกรรมในด้านความปลอดภัย" }
+                ]
+            },
+            {
+                emoji: "🧐",
+                mainSentence: "Have you been following the news?",
+                mainSentenceThai: "คุณได้ติดตามข่าวสารบ้างไหม?",
+                thaiReading: "แฮฟ ยู บีน <u>ฟอล</u>โล่วิ่ง เดอะ นิวส์?",
+                examples: [
+                    { eng: "The detective has been following the suspect all day.", thai: "นักสืบติดตามผู้ต้องสงสัยมาทั้งวัน" },
+                    { eng: "I've been following your progress, and I'm impressed.", thai: "ฉันติดตามความก้าวหน้าของคุณมาตลอด และฉันประทับใจมาก" },
+                    { eng: "She hasn't been following the instructions.", thai: "เธอไม่ได้ทำตามคำแนะนำ" },
+                    { eng: "Are you following me?", thai: "คุณกำลังสะกดรอยตามฉันอยู่เหรอ? / คุณฟังฉันทันไหม?" },
+                    { eng: "They have been following a strict diet.", thai: "พวกเขาควบคุมอาหารอย่างเข้มงวดมาตลอด" }
+                ],
+                equivalents: [
+                    { term: "Have you kept up with the news?", eng_example: "A lot has happened. Have you kept up with the news?", thai_example: "มีเรื่องเกิดขึ้นเยอะเลย คุณได้ติดตามข่าวสารบ้างไหม?" }
+                ],
+                collocations: [
+                    { term: "following in someone's footsteps", eng_example: "He has been following in his father's footsteps to become a doctor.", thai_example: "เขาดำเนินรอยตามพ่อของเขาเพื่อที่จะเป็นหมอ" },
+                    { term: "a cult following", eng_example: "The old movie has gained a cult following over the years.", thai_example: "ภาพยนตร์เก่าเรื่องนั้นได้สร้างกลุ่มแฟนคลับเฉพาะกลุ่มขึ้นมาในช่วงหลายปีที่ผ่านมา" }
+                ]
+            },
+            {
+                emoji: "🤫",
+                mainSentence: "Why have you been avoiding me?",
+                mainSentenceThai: "ทำไมคุณถึงคอยหลบหน้าฉัน?",
+                thaiReading: "วาย แฮฟ ยู บีน อะ<u>วอยด์</u>ดิ้ง มี?",
+                examples: [
+                    { eng: "He has been avoiding his responsibilities.", thai: "เขาคอยหลีกเลี่ยงความรับผิดชอบของเขา" },
+                    { eng: "I've been avoiding junk food to stay healthy.", thai: "ฉันหลีกเลี่ยงอาหารขยะเพื่อรักษาสุขภาพ" },
+                    { eng: "She has been avoiding eye contact with me.", thai: "เธอคอยหลบสายตาฉัน" },
+                    { eng: "They have been avoiding the main roads due to traffic.", thai: "พวกเขาหลีกเลี่ยงถนนสายหลักเนื่องจากการจราจรติดขัด" },
+                    { eng: "Is there a reason you have been avoiding this topic?", thai: "มีเหตุผลอะไรที่คุณคอยหลีกเลี่ยงหัวข้อนี้หรือเปล่า?" }
+                ],
+                equivalents: [
+                    { term: "Are you ignoring me?", eng_example: "You haven't replied to my texts. Are you ignoring me?", thai_example: "คุณไม่ตอบข้อความฉันเลย คุณกำลังเมินฉันอยู่หรือเปล่า?" }
+                ],
+                collocations: [
+                    { term: "avoiding the issue", eng_example: "The politician has been avoiding the issue and changing the subject.", thai_example: "นักการเมืองคนนั้นคอยหลีกเลี่ยงประเด็นและเปลี่ยนเรื่องคุย" },
+                    { term: "tax avoidance", eng_example: "The celebrity was accused of tax avoidance.", thai_example: "คนดังคนนั้นถูกกล่าวหาว่าหลีกเลี่ยงภาษี" }
+                ]
+            },
+            {
+                emoji: "💰",
+                mainSentence: "Have you been saving money for a new car?",
+                mainSentenceThai: "คุณเก็บเงินเพื่อซื้อรถคันใหม่อยู่หรือเปล่า?",
+                thaiReading: "แฮฟ ยู บีน <u>เซ้ฟ</u>วิ่ง <u>มัน</u>นี่ ฟอร์ อะ นิว คาร์?",
+                examples: [
+                    { eng: "She has been saving a little bit each month.", thai: "เธอเก็บเงินทีละเล็กทีละน้อยทุกเดือน" },
+                    { eng: "I've been saving my energy for the final race.", thai: "ฉันเก็บแรงไว้สำหรับการแข่งขันรอบสุดท้าย" },
+                    { eng: "He hasn't been saving his work, so he lost everything.", thai: "เขาไม่ได้บันทึกงานของเขา เขาเลยเสียทุกอย่างไป" },
+                    { eng: "They have been saving seats for us.", thai: "พวกเขาจองที่นั่งไว้ให้พวกเรา" },
+                    { eng: "This new app has been saving me a lot of time.", thai: "แอปใหม่นี้ช่วยประหยัดเวลาให้ฉันได้มากเลย" }
+                ],
+                equivalents: [
+                    { term: "Are you putting money aside?", eng_example: "I know you want to travel. Are you putting money aside for your trip?", thai_example: "ฉันรู้ว่าคุณอยากไปเที่ยว คุณได้เก็บเงินไว้สำหรับทริปของคุณบ้างไหม?" }
+                ],
+                collocations: [
+                    { term: "saving grace", eng_example: "His sense of humor was his saving grace in difficult situations.", thai_example: "อารมณ์ขันของเขาเป็นข้อดีเพียงอย่างเดียวที่ช่วยเขาไว้ในสถานการณ์ที่ยากลำบาก" },
+                    { term: "life savings", eng_example: "He has been investing his life savings into his new business.", thai_example: "เขาได้ลงทุนเงินเก็บทั้งชีวิตของเขาในธุรกิจใหม่" }
+                ]
+            },
+            {
+                emoji: "❓",
+                mainSentence: "Why have you been asking so many questions?",
+                mainSentenceThai: "ทำไมคุณถึงถามคำถามเยอะจัง?",
+                thaiReading: "วาย แฮฟ ยู บีน <u>อาสค์</u>กิ้ง โซ <u>เม</u>นี่ <u>เควส</u>ชั่นส์?",
+                examples: [
+                    { eng: "She has been asking for help with her project.", thai: "เธอขอความช่วยเหลือเกี่ยวกับโครงการของเธอ" },
+                    { eng: "I've been asking around, but no one has seen him.", thai: "ฉันได้เที่ยวถามดูแล้ว แต่ไม่มีใครเห็นเขาเลย" },
+                    { eng: "He is just asking for trouble with that attitude.", thai: "เขากำลังหาเรื่องใส่ตัวด้วยทัศนคติแบบนั้น" },
+                    { eng: "They have been asking about you.", thai: "พวกเขาถามถึงคุณอยู่" },
+                    { eng: "You've been asking me the same thing all day.", thai: "คุณถามฉันเรื่องเดิมมาทั้งวันแล้วนะ" }
+                ],
+                equivalents: [
+                    { term: "Why are you so curious?", eng_example: "You're full of questions today. Why are you so curious?", thai_example: "วันนี้คุณมีแต่คำถามนะ ทำไมถึงอยากรู้อยากเห็นจัง?" }
+                ],
+                collocations: [
+                    { term: "asking price", eng_example: "The seller has been sticking to his asking price.", thai_example: "ผู้ขายยังคงยืนกรานตามราคาที่เขาตั้งไว้" },
+                    { term: "if you ask me", eng_example: "If you ask me, this whole plan is a bad idea.", thai_example: "ถ้าคุณถามฉันนะ แผนทั้งหมดนี้เป็นความคิดที่แย่มาก" }
+                ]
+            },
+            {
+                emoji: "😭",
+                mainSentence: "Have you been crying? Your eyes are red.",
+                mainSentenceThai: "คุณร้องไห้มาเหรอ? ตาคุณแดงหมดเลย",
+                thaiReading: "แฮฟ ยู บีน <u>คราย</u>อิ้ง? ยัวร์ อายส์ อาร์ เรด",
+                examples: [
+                    { eng: "The baby has been crying for an hour.", thai: "ทารกร้องไห้มาเป็นชั่วโมงแล้ว" },
+                    { eng: "She has been crying with joy since she heard the news.", thai: "เธอร้องไห้ด้วยความดีใจตั้งแต่ได้ยินข่าว" },
+                    { eng: "He hasn't been crying; he just has allergies.", thai: "เขาไม่ได้ร้องไห้ เขาแค่เป็นภูมิแพ้" },
+                    { eng: "This sad movie has had me crying.", thai: "หนังเศร้าเรื่องนี้ทำฉันร้องไห้ไม่หยุดเลย" },
+                    { eng: "It's no use crying over spilled milk.", thai: "ไม่มีประโยชน์ที่จะร้องไห้เสียใจกับสิ่งที่ผ่านไปแล้ว (สำนวน)" }
+                ],
+                equivalents: [
+                    { term: "What's wrong?", eng_example: "You look upset. What's wrong?", thai_example: "คุณดูเศร้านะ มีอะไรหรือเปล่า?" }
+                ],
+                collocations: [
+                    { term: "crying shame", eng_example: "It's a crying shame that the beautiful old building was torn down.", thai_example: "มันเป็นเรื่องที่น่าเสียดายมากที่ตึกเก่าที่สวยงามหลังนั้นถูกทุบทิ้ง" },
+                    { term: "a shoulder to cry on", eng_example: "She has been a good shoulder to cry on for her friends.", thai_example: "เธอเป็นที่พึ่งพิงให้เพื่อนๆ ได้ระบายความทุกข์ได้เป็นอย่างดี" }
+                ]
+            },
+            {
+                emoji: "😂",
+                mainSentence: "What's so funny? What have you been laughing at?",
+                mainSentenceThai: "มีอะไรตลกเหรอ? คุณขำอะไรอยู่?",
+                thaiReading: "วอทส์ โซ <u>ฟัน</u>นี่? วอท แฮฟ ยู บีน <u>ลาฟ</u>ฟิ่ง แอท?",
+                examples: [
+                    { eng: "They have been laughing at his jokes all evening.", thai: "พวกเขาหัวเราะกับมุกตลกของเขามาตลอดทั้งเย็น" },
+                    { eng: "I've been laughing so hard my stomach hurts.", thai: "ฉันหัวเราะหนักมากจนปวดท้อง" },
+                    { eng: "Stop laughing at me!", thai: "หยุดหัวเราะเยาะฉันได้แล้ว!" },
+                    { eng: "She hasn't been laughing much since the incident.", thai: "เธอไม่ค่อยหัวเราะเลยตั้งแต่เกิดเหตุการณ์นั้น" },
+                    { eng: "The audience has been laughing throughout the entire play.", thai: "ผู้ชมหัวเราะตลอดทั้งการแสดงละคร" }
+                ],
+                equivalents: [
+                    { term: "What's the joke?", eng_example: "You two are giggling over there. What's the joke?", thai_example: "พวกเธอสองคนหัวเราะคิกคักอยู่ตรงนั้น มีเรื่องตลกอะไรเหรอ?" }
+                ],
+                collocations: [
+                    { term: "laughing stock", eng_example: "After his mistake, he became the laughing stock of the office.", thai_example: "หลังจากความผิดพลาดของเขา เขาก็กลายเป็นตัวตลกของออฟฟิศ" },
+                    { term: "burst out laughing", eng_example: "I couldn't help it; I have been bursting out laughing every time I think of it.", thai_example: "ฉันอดไม่ได้จริงๆ ฉันปล่อยก๊ากออกมาทุกครั้งที่นึกถึงมัน" }
+                ]
+            },
+            {
+                emoji: "😠",
+                mainSentence: "Have you been complaining about the noise again?",
+                mainSentenceThai: "คุณบ่นเรื่องเสียงดังอีกแล้วเหรอ?",
+                thaiReading: "แฮฟ ยู บีน คอม<u>เพลน</u>นิ่ง อะ<u>เบาท์</u> เดอะ นอยซ์ อะ<u>เกน</u>?",
+                examples: [
+                    { eng: "He has been complaining of a headache all day.", thai: "เขาบ่นว่าปวดหัวมาทั้งวัน" },
+                    { eng: "Customers have been complaining about the slow service.", thai: "ลูกค้าบ่นเรื่องบริการที่เชื่องช้า" },
+                    { eng: "She is always complaining about something.", thai: "เธอขี้บ่นอยู่เสมอ" },
+                    { eng: "Stop complaining and do something about it.", thai: "หยุดบ่นแล้วไปทำอะไรสักอย่างกับมันสิ" },
+                    { eng: "They haven't been complaining, so I assume they are happy.", thai: "พวกเขาไม่ได้บ่นอะไรนะ ฉันเลยเดาว่าพวกเขามีความสุขดี" }
+                ],
+                equivalents: [
+                    { term: "Are you unhappy with...?", eng_example: "You seem frustrated. Are you unhappy with the service?", thai_example: "คุณดูหงุดหงิดนะ คุณไม่พอใจกับบริการเหรอ?" }
+                ],
+                collocations: [
+                    { term: "main complaint", eng_example: "The main complaint we have been receiving is about the high price.", thai_example: "ข้อร้องเรียนหลักที่เราได้รับคือเรื่องราคาสูง" },
+                    { term: "no reason to complain", eng_example: "The hotel was perfect; we have no reason to complain.", thai_example: "โรงแรมสมบูรณ์แบบมาก เราไม่มีเหตุผลที่จะต้องบ่นเลย" }
+                ]
+            },
+            {
+                emoji: "🤝",
+                mainSentence: "Have you two been arguing?",
+                mainSentenceThai: "พวกคุณสองคนทะเลาะกันอยู่เหรอ?",
+                thaiReading: "แฮฟ ยู ทู บีน <u>อาร์</u>กิววิ่ง?",
+                examples: [
+                    { eng: "They have been arguing about money.", thai: "พวกเขาเถียงกันเรื่องเงิน" },
+                    { eng: "I've been arguing for a different approach.", thai: "ฉันโต้เถียงเพื่อเสนอแนวทางที่แตกต่าง" },
+                    { eng: "She has been arguing with the referee.", thai: "เธอกำลังโต้เถียงกับกรรมการ" },
+                    { eng: "He hasn't been arguing; he's been explaining his point.", thai: "เขาไม่ได้เถียงนะ เขากำลังอธิบายประเด็นของเขา" },
+                    { eng: "We have been arguing back and forth for an hour.", thai: "เราเถียงกันไปมาเป็นชั่วโมงแล้ว" }
+                ],
+                equivalents: [
+                    { term: "Are you fighting?", eng_example: "There's a lot of tension here. Are you two fighting?", thai_example: "บรรยากาศมาคุมาก พวกคุณสองคนทะเลาะกันเหรอ?" }
+                ],
+                collocations: [
+                    { term: "arguing a point", eng_example: "The lawyer has been arguing a point of law.", thai_example: "ทนายความกำลังโต้แย้งในประเด็นข้อกฎหมาย" },
+                    { term: "heated argument", eng_example: "I could hear them from my room; they have been having a heated argument.", thai_example: "ฉันได้ยินพวกเขาจากห้องของฉัน พวกเขากำลังมีปากเสียงกันอย่างรุนแรง" }
+                ]
+            },
+            {
+                emoji: "🕵️",
+                mainSentence: "What have you been investigating?",
+                mainSentenceThai: "คุณกำลังสืบสวนเรื่องอะไรอยู่?",
+                thaiReading: "วอท แฮฟ ยู บีน อิน<u>เวส</u>ติเกทติ้ง?",
+                examples: [
+                    { eng: "The police have been investigating the crime for weeks.", thai: "ตำรวจสืบสวนคดีนี้มาหลายสัปดาห์แล้ว" },
+                    { eng: "Scientists have been investigating the cause of the disease.", thai: "นักวิทยาศาสตร์กำลังตรวจสอบหาสาเหตุของโรค" },
+                    { eng: "She has been investigating new ways to improve efficiency.", thai: "เธอกำลังค้นคว้าหาวิธีใหม่ๆ เพื่อปรับปรุงประสิทธิภาพ" },
+                    { eng: "I've been investigating flight prices for our trip.", thai: "ฉันกำลังเช็คราคาตั๋วเครื่องบินสำหรับทริปของเรา" },
+                    { eng: "The committee has not been investigating the matter thoroughly.", thai: "คณะกรรมการไม่ได้ตรวจสอบเรื่องนี้อย่างละเอียดถี่ถ้วน" }
+                ],
+                equivalents: [
+                    { term: "What are you looking into?", eng_example: "You seem very focused on those documents. What are you looking into?", thai_example: "คุณดูจดจ่อกับเอกสารพวกนั้นมากนะ คุณกำลังตรวจสอบเรื่องอะไรอยู่เหรอ?" }
+                ],
+                collocations: [
+                    { term: "under investigation", eng_example: "The company's finances have been under investigation.", thai_example: "สถานะทางการเงินของบริษัทกำลังอยู่ระหว่างการตรวจสอบ" },
+                    { term: "investigative journalism", eng_example: "She has been working in investigative journalism for her entire career.", thai_example: "เธอทำงานในแวดวงสื่อสารมวลชนเชิงสืบสวนมาตลอดอาชีพของเธอ" }
+                ]
+            },
+            {
+                emoji: "🏆",
+                mainSentence: "Have you been competing in tournaments?",
+                mainSentenceThai: "คุณได้เข้าร่วมการแข่งขันในทัวร์นาเมนต์ต่างๆ บ้างไหม?",
+                thaiReading: "แฮฟ ยู บีน คอม<u>พีท</u>ติ้ง อิน <u>ทัวร์</u>นาเมนท์ส?",
+                examples: [
+                    { eng: "She has been competing at a professional level for five years.", thai: "เธอแข่งขันในระดับมืออาชีพมาห้าปีแล้ว" },
+                    { eng: "The two companies have been competing for the same contract.", thai: "บริษัททั้งสองแห่งแข่งขันกันเพื่อสัญญาจ้างงานเดียวกัน" },
+                    { eng: "He has been competing with his brother since they were kids.", thai: "เขาแข่งขันกับน้องชายของเขามาตั้งแต่ยังเด็ก" },
+                    { eng: "We haven't been competing; we've been collaborating.", thai: "เราไม่ได้แข่งขันกันนะ เราร่วมมือกันต่างหาก" },
+                    { eng: "They have been competing for her attention.", thai: "พวกเขาแย่งกันเพื่อเรียกร้องความสนใจจากเธอ" }
+                ],
+                equivalents: [
+                    { term: "Do you play competitively?", eng_example: "Your skills are impressive. Do you play tennis competitively?", thai_example: "ทักษะของคุณน่าทึ่งมาก คุณเล่นเทนนิสแบบแข่งขันหรือเปล่า?" }
+                ],
+                collocations: [
+                    { term: "competing interests", eng_example: "The project has been delayed due to competing interests among the stakeholders.", thai_example: "โครงการล่าช้าเนื่องจากผลประโยชน์ทับซ้อนในหมู่ผู้มีส่วนได้ส่วนเสีย" },
+                    { term: "stiff competition", eng_example: "Our company has been facing stiff competition in the market.", thai_example: "บริษัทของเรากำลังเผชิญกับการแข่งขันที่รุนแรงในตลาด" }
+                ]
+            },
+            {
+                emoji: "💭",
+                mainSentence: "Have you been dreaming about traveling again?",
+                mainSentenceThai: "คุณฝันถึงการได้ไปเที่ยวอีกครั้งอยู่หรือเปล่า?",
+                thaiReading: "แฮฟ ยู บีน <u>ดรีม</u>มิ่ง อะ<u>เบาท์</u> <u>แทร</u>เฝ่ลลิ่ง อะ<u>เกน</u>?",
+                examples: [
+                    { eng: "I've been dreaming of this moment my whole life.", thai: "ฉันฝันถึงช่วงเวลานี้มาตลอดชีวิต" },
+                    { eng: "She has been dreaming about her ex-boyfriend lately.", thai: "ช่วงนี้เธอฝันถึงแฟนเก่าของเธอ" },
+                    { eng: "He must have been dreaming; what he said is impossible.", thai: "เขาต้องฝันไปแน่ๆ สิ่งที่เขาพูดเป็นไปไม่ได้เลย" },
+                    { eng: "Stop dreaming and get back to work!", thai: "เลิกฝันกลางวันแล้วกลับไปทำงานได้แล้ว!" },
+                    { eng: "They have been dreaming up new ways to help the community.", thai: "พวกเขาคิดหาวิธีใหม่ๆ เพื่อช่วยเหลือชุมชน" }
+                ],
+                equivalents: [
+                    { term: "Are you daydreaming?", eng_example: "You have a smile on your face. Are you daydreaming about your vacation?", thai_example: "คุณยิ้มอยู่คนเดียว กำลังฝันกลางวันถึงวันหยุดของคุณอยู่เหรอ?" }
+                ],
+                collocations: [
+                    { term: "dream come true", eng_example: "Winning this award has been a dream come true for me.", thai_example: "การได้รับรางวัลนี้เปรียบเสมือนฝันที่เป็นจริงสำหรับฉัน" },
+                    { term: "never dreamed", eng_example: "I never dreamed that I would be living in another country.", thai_example: "ฉันไม่เคยฝันเลยว่าจะได้มาอาศัยอยู่ในต่างประเทศ" }
+                ]
+            },
+            {
+                emoji: "📚",
+                mainSentence: "Have you been studying for the final exam?",
+                mainSentenceThai: "คุณได้อ่านหนังสือสำหรับสอบปลายภาคอยู่หรือเปล่า?",
+                thaiReading: "แฮฟ ยู บีน <u>สตัด</u>ดี่อิ้ง ฟอร์ เดอะ <u>ไฟ</u>นอล เอ็ก<u>แซม</u>?",
+                examples: [
+                    { eng: "He has been studying English for ten years.", thai: "เขาเรียนภาษาอังกฤษมาสิบปีแล้ว" },
+                    { eng: "I've been studying the market trends.", thai: "ฉันกำลังศึกษาแนวโน้มของตลาดอยู่" },
+                    { eng: "She hasn't been studying hard enough.", thai: "เธออ่านหนังสือไม่หนักพอ" },
+                    { eng: "They have been studying all night in the library.", thai: "พวกเขาอ่านหนังสือกันทั้งคืนที่ห้องสมุด" },
+                    { eng: "What subject have you been studying?", thai: "คุณกำลังเรียนวิชาอะไรอยู่?" }
+                ],
+                equivalents: [
+                    { term: "Are you preparing for the exam?", eng_example: "You look busy. Are you preparing for the final exam?", thai_example: "คุณดูยุ่งๆนะ กำลังเตรียมตัวสำหรับสอบปลายภาคอยู่เหรอ?" }
+                ],
+                collocations: [
+                    { term: "case study", eng_example: "For our project, we have been analyzing a case study of a successful company.", thai_example: "สำหรับโครงการของเรา เราได้วิเคราะห์กรณีศึกษาของบริษัทที่ประสบความสำเร็จ" },
+                    { term: "studying abroad", eng_example: "She has been studying abroad in Spain for a semester.", thai_example: "เธอไปเรียนต่อต่างประเทศที่สเปนเป็นเวลาหนึ่งภาคการศึกษา" }
+                ]
+            },
+            {
+                emoji: "🚗",
+                mainSentence: "How long have you been driving?",
+                mainSentenceThai: "คุณขับรถมานานแค่ไหนแล้ว?",
+                thaiReading: "ฮาว ลอง แฮฟ ยู บีน <u>ไดรฟ์</u>วิ่ง?",
+                examples: [
+                    { eng: "I've been driving for 3 hours; I need a break.", thai: "ฉันขับรถมา 3 ชั่วโมงแล้ว ฉันต้องการพัก" },
+                    { eng: "She has been driving me crazy with her constant questions.", thai: "เธอกำลังทำให้ฉันแทบบ้าด้วยคำถามที่ไม่หยุดของเธอ" },
+                    { eng: "He has been driving a taxi to make extra money.", thai: "เขาขับแท็กซี่เพื่อหารายได้เสริม" },
+                    { eng: "That noise has been driving me up the wall.", thai: "เสียงนั้นทำให้ฉันหงุดหงิดมาก" },
+                    { eng: "They have been driving sales with their new marketing campaign.", thai: "พวกเขากำลังผลักดันยอดขายด้วยแคมเปญการตลาดใหม่" }
+                ],
+                equivalents: [
+                    { term: "When did you get your license?", eng_example: "You're a good driver. When did you get your license?", thai_example: "คุณขับรถเก่งนะ คุณได้ใบขับขี่มาเมื่อไหร่?" }
+                ],
+                collocations: [
+                    { term: "driving force", eng_example: "Her passion has been the driving force behind the project's success.", thai_example: "ความหลงใหลของเธอเป็นพลังขับเคลื่อนเบื้องหลังความสำเร็จของโครงการ" },
+                    { term: "driving rain", eng_example: "We couldn't see the road because of the driving rain.", thai_example: "เรามองไม่เห็นถนนเพราะฝนที่ตกหนักมาก" }
+                ]
+            },
+            {
+                emoji: "🎉",
+                mainSentence: "What have you been celebrating?",
+                mainSentenceThai: "คุณกำลังฉลองอะไรกันอยู่เหรอ?",
+                thaiReading: "วอท แฮฟ ยู บีน <u>เซ</u>เลเบรทติ้ง?",
+                examples: [
+                    { eng: "We have been celebrating his promotion all evening.", thai: "เราฉลองการเลื่อนตำแหน่งของเขามาตลอดทั้งเย็น" },
+                    { eng: "She has been celebrating her birthday for a whole week.", thai: "เธอฉลองวันเกิดของเธอมาตลอดทั้งสัปดาห์" },
+                    { eng: "The city has been celebrating its 100th anniversary.", thai: "เมืองนี้กำลังเฉลิมฉลองครบรอบ 100 ปี" },
+                    { eng: "I haven't been celebrating much; I've been too busy.", thai: "ฉันไม่ค่อยได้ฉลองอะไรเลย ฉันยุ่งเกินไป" },
+                    { eng: "They have been celebrating their team's victory.", thai: "พวกเขากำลังฉลองชัยชนะของทีม" }
+                ],
+                equivalents: [
+                    { term: "What's the special occasion?", eng_example: "Everyone seems so happy. What's the special occasion?", thai_example: "ทุกคนดูมีความสุขจัง มีโอกาสพิเศษอะไรเหรอ?" }
+                ],
+                collocations: [
+                    { term: "celebrating in style", eng_example: "For their anniversary, they have been celebrating in style at a luxury resort.", thai_example: "สำหรับวันครบรอบของพวกเขา พวกเขาฉลองอย่างหรูหราที่รีสอร์ตสุดหรู" },
+                    { term: "cause for celebration", eng_example: "Finishing the project is a real cause for celebration.", thai_example: "การทำโครงการเสร็จเป็นเหตุผลที่แท้จริงสำหรับการเฉลิมฉลอง" }
+                ]
+            },
+            {
+                emoji: "🎶",
+                mainSentence: "What music have you been listening to?",
+                mainSentenceThai: "ช่วงนี้คุณกำลังฟังเพลงแนวไหนอยู่?",
+                thaiReading: "วอท <u>มิว</u>สิค แฮฟ ยู บีน <u>ลิส</u>เซินนิ่ง ทู?",
+                examples: [
+                    { eng: "I've been listening to this podcast on my way to work.", thai: "ฉันฟังพอดแคสต์นี้ระหว่างเดินทางไปทำงาน" },
+                    { eng: "She has been listening carefully to the instructions.", thai: "เธอตั้งใจฟังคำแนะนำอย่างดี" },
+                    { eng: "He hasn't been listening to me at all.", thai: "เขาไม่ได้ฟังฉันเลยสักนิด" },
+                    { eng: "Have you been listening to our conversation?", thai: "นี่คุณแอบฟังบทสนทนาของเราอยู่เหรอ?" },
+                    { eng: "They have been listening to their customers' feedback.", thai: "พวกเขาเปิดรับฟังความคิดเห็นของลูกค้ามาโดยตลอด" }
+                ],
+                equivalents: [
+                    { term: "What are you into these days?", eng_example: "I'm looking for new music. What are you into these days?", thai_example: "ฉันกำลังหาเพลงใหม่ๆ อยู่ ช่วงนี้คุณอินกับอะไรอยู่เหรอ?" }
+                ],
+                collocations: [
+                    { term: "listening skills", eng_example: "Being a good manager requires excellent listening skills.", thai_example: "การเป็นผู้จัดการที่ดีต้องมีทักษะการฟังที่ยอดเยี่ยม" },
+                    { term: "active listening", eng_example: "In therapy, she has been practicing active listening.", thai_example: "ในการบำบัด เธอได้ฝึกฝนการฟังอย่างตั้งใจ" }
+                ]
+            },
+            {
+                emoji: "🧼",
+                mainSentence: "Have you been cleaning the house all day?",
+                mainSentenceThai: "คุณทำความสะอาดบ้านมาทั้งวันเลยเหรอ?",
+                thaiReading: "แฮฟ ยู บีน <u>คลีน</u>นิ่ง เดอะ เฮาส์ ออล เดย์?",
+                examples: [
+                    { eng: "My hands are sore because I've been cleaning with strong chemicals.", thai: "มือฉันเจ็บไปหมดเพราะฉันทำความสะอาดด้วยสารเคมีที่รุนแรง" },
+                    { eng: "She has been cleaning out her closet.", thai: "เธอกำลังจัดระเบียบตู้เสื้อผ้าของเธอ" },
+                    { eng: "He hasn't been cleaning his room for weeks.", thai: "เขาไม่ได้ทำความสะอาดห้องมาหลายสัปดาห์แล้ว" },
+                    { eng: "They have been cleaning up the park after the festival.", thai: "พวกเขาทำความสะอาดสวนสาธารณะหลังจบเทศกาล" },
+                    { eng: "The city has been cleaning up its image.", thai: "เมืองนี้กำลังปรับปรุงภาพลักษณ์ของตนเอง" }
+                ],
+                equivalents: [
+                    { term: "Have you been tidying up?", eng_example: "The place looks great! Have you been tidying up?", thai_example: "ที่นี่ดูดีจัง! คุณจัดของอยู่เหรอ?" }
+                ],
+                collocations: [
+                    { term: "a clean slate", eng_example: "After his apology, they agreed to start with a clean slate.", thai_example: "หลังจากคำขอโทษของเขา พวกเขาก็ตกลงที่จะเริ่มต้นกันใหม่" },
+                    { term: "come clean", eng_example: "It's time you come clean about what really happened.", thai_example: "ถึงเวลาที่คุณต้องสารภาพความจริงแล้วว่าเกิดอะไรขึ้น" }
+                ]
+            }
+        ];
+
+        const slidesWrapper = document.getElementById('slides-wrapper');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const pageCounter = document.getElementById('page-counter');
+
+        let currentSlide = 0;
+
+        function generateSlides() {
+            slideData.forEach((data, index) => {
+                const slide = document.createElement('div');
+                slide.className = 'slide';
+                slide.id = `slide-${index}`;
+
+                const examplesHtml = data.examples.map(ex => `<li>${ex.eng}<span class="thai-translation">${ex.thai}</span></li>`).join('');
+                
+                const equivalentsHtml = data.equivalents.map(eq => `
+                    <li>
+                        <span class="example-term">${eq.term}</span>
+                        <span class="example-sentence">${eq.eng_example}</span>
+                        <span class="thai-translation">${eq.thai_example}</span>
+                    </li>`).join('');
+
+                const collocationsHtml = data.collocations.map(co => `
+                    <li>
+                        <span class="example-term">${co.term}</span>
+                        <span class="example-sentence">${co.eng_example}</span>
+                        <span class="thai-translation">${co.thai_example}</span>
+                    </li>`).join('');
+
+                slide.innerHTML = `
+                    <h2>${data.emoji} ${data.mainSentence}
+                        <span class="main-sentence-thai">${data.mainSentenceThai}</span>
+                    </h2>
+                    <p class="thai-reading">${data.thaiReading}</p>
+                    
+                    <div class="content-section">
+                        <h3>ตัวอย่างประโยคเพิ่มเติม:</h3>
+                        <ul>${examplesHtml}</ul>
+                    </div>
+                    
+                    <div class="content-section">
+                        <h3>Equivalent Alternatives (สำนวนที่มีความหมายเหมือนกัน)</h3>
+                        <ul>${equivalentsHtml}</ul>
+                    </div>
+                    
+                    <div class="content-section">
+                        <h3>Collocations (คำที่มักใช้มาด้วยกัน)</h3>
+                        <ul>${collocationsHtml}</ul>
+                    </div>
+
+                    <div class="footer">
+                        ครูสาลี่ -- อังกฤษฉบับคนเรียนไม่รู้เรื่อง
+                    </div>
+                `;
+                slidesWrapper.appendChild(slide);
+            });
+        }
+        
+        function getRandomColor() {
+            const h = Math.floor(Math.random() * 360);
+            const s = 100;
+            const l = 97; 
+            return `hsl(${h}, ${s}%, ${l}%)`;
+        }
+
+        function showSlide(index) {
+            const slides = document.querySelectorAll('.slide');
+            slides.forEach(slide => {
+                slide.classList.remove('active');
+            });
+            
+            const activeSlide = document.getElementById(`slide-${index}`);
+            activeSlide.classList.add('active');
+            activeSlide.style.backgroundColor = getRandomColor();
+            
+            pageCounter.textContent = `หน้า ${index + 1} / ${slideData.length}`;
+            
+            prevBtn.disabled = index === 0;
+            nextBtn.disabled = index === slideData.length - 1;
+        }
+
+        nextBtn.addEventListener('click', () => {
+            if (currentSlide < slideData.length - 1) {
+                currentSlide++;
+                showSlide(currentSlide);
+            }
+        });
+
+        prevBtn.addEventListener('click', () => {
+            if (currentSlide > 0) {
+                currentSlide--;
+                showSlide(currentSlide);
+            }
+        });
+
+        generateSlides();
+        showSlide(currentSlide);
+    </script>
+</body>
+</html>

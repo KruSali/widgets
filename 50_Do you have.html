@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>English Lesson: Do you have +(noun)?</title>
+    <style>
+        /* CSS Styles */
+        @import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@400;700&display=swap');
+
+        :root {
+            --text-color: #2c3e50;
+            --header-bg: #ffffff;
+            --border-color: #ecf0f1;
+            --button-bg: #3498db; 
+            --button-hover-bg: #2980b9;
+            --button-disabled-bg: #bdc3c7;
+            --white: #ffffff;
+            --thai-translation-color: #555;
+            --term-color: #2980b9;
+        }
+
+        body {
+            font-family: 'Sarabun', sans-serif;
+            background-color: #ecf0f1;
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            font-size: 18px; 
+        }
+
+        #app-container {
+            width: 100%;
+            max-width: 950px; 
+            background: var(--white);
+            border-radius: 16px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        #main-header {
+            background-color: var(--header-bg);
+            padding: 20px 30px;
+            border-bottom: 2px solid var(--border-color);
+            text-align: center;
+        }
+
+        #main-header h1 {
+            margin: 0;
+            font-size: 1.7em;
+            color: var(--button-bg);
+            font-weight: 700;
+        }
+
+        #slides-wrapper {
+            position: relative;
+            flex-grow: 1;
+        }
+
+        .slide {
+            padding: 35px 40px;
+            display: none;
+            flex-direction: column;
+            gap: 20px;
+            transition: background-color 0.5s ease;
+            min-height: 620px;
+        }
+        
+        .slide.active {
+            display: flex;
+        }
+
+        .slide h2 {
+            font-size: 2.8em;
+            margin: 0;
+            color: var(--text-color);
+            text-align: center;
+            padding-bottom: 20px;
+            border-bottom: 2px solid rgba(0,0,0,0.08);
+            line-height: 1.3;
+        }
+        
+        .main-sentence-thai {
+            display: block;
+            font-size: 0.5em; 
+            color: var(--thai-translation-color);
+            font-weight: 400;
+            margin-top: 10px;
+        }
+
+        .thai-reading {
+            font-size: 1.3em;
+            color: #c0392b;
+            text-align: center;
+            font-style: italic;
+            font-weight: 700;
+        }
+
+        .thai-reading u {
+            text-decoration: underline;
+            text-decoration-color: #c0392b;
+            text-decoration-thickness: 3px;
+        }
+
+        .content-section {
+            margin-top: 10px;
+        }
+
+        .content-section h3 {
+            font-size: 1.3em;
+            color: var(--button-bg);
+            margin-bottom: 15px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .content-section ul {
+            list-style-type: '✅  ';
+            padding-left: 20px;
+            margin: 0;
+        }
+
+        .content-section ul li {
+            margin-bottom: 18px; 
+            line-height: 1.7;
+            font-size: 1.1em;
+        }
+        
+        .thai-translation {
+            display: block;
+            color: var(--thai-translation-color);
+            font-size: 0.9em;
+            padding-left: 15px;
+            font-style: italic;
+        }
+        
+        .example-term {
+            color: var(--term-color);
+            font-weight: 700;
+        }
+        
+        .example-sentence {
+             display: block;
+             padding-left: 15px;
+        }
+
+        .footer {
+            margin-top: auto; /* Pushes footer to the bottom */
+            padding-top: 20px;
+            text-align: center;
+            font-size: 0.9em;
+            color: #7f8c8d;
+            border-top: 1px solid var(--border-color);
+        }
+
+        #navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 30px;
+            background-color: var(--header-bg);
+            border-top: 2px solid var(--border-color);
+        }
+
+        #navigation button {
+            background-color: var(--button-bg);
+            color: var(--white);
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-family: 'Sarabun', sans-serif;
+            font-size: 1.1em;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        #navigation button:hover {
+            background-color: var(--button-hover-bg);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        #navigation button:disabled {
+            background-color: var(--button-disabled-bg);
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        #page-counter {
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #7f8c8d;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="app-container">
+        <div id="main-header">
+            <h1>โครงสร้างประโยคที่ 50: Do you have +(noun)?</h1>
+        </div>
+        
+        <div id="slides-wrapper">
+            </div>
+
+        <div id="navigation">
+            <button id="prevBtn">⬅️ หน้าก่อนหน้า</button>
+            <span id="page-counter"></span>
+            <button id="nextBtn">หน้าถัดไป ➡️</button>
+        </div>
+    </div>
+
+    <script>
+        const slideData = [
+            {
+                emoji: "⏱️",
+                mainSentence: "Do you have a minute?",
+                mainSentenceThai: "คุณพอจะมีเวลาสักครู่ไหม?",
+                thaiReading: "ดู ยู แฮฟ อะ <u>มิ้</u>หนิท?",
+                examples: [
+                    { eng: "Does he have a minute to talk?", thai: "เขามีเวลาคุยสักครู่ไหม?" },
+                    { eng: "Excuse me, do you have a minute for a quick question?", thai: "ขอโทษนะคะ พอจะมีเวลาให้ถามคำถามสั้นๆ ไหมคะ?" },
+                    { eng: "I'm sorry, I don't have a minute right now.", thai: "ขอโทษด้วย ตอนนี้ฉันไม่มีเวลาเลย" },
+                    { eng: "They asked if we had a minute to spare.", thai: "พวกเขาถามว่าเราพอจะสละเวลาให้สักครู่ได้ไหม" },
+                    { eng: "She always has a minute for her students.", thai: "เธอมีเวลาให้ลูกศิษย์ของเธอเสมอ" }
+                ],
+                equivalents: [
+                    { term: "Are you free for a moment?", eng_example: "I need your advice. Are you free for a moment?", thai_example: "ฉันต้องการคำแนะนำจากคุณ คุณพอจะว่างสักครู่ไหม?" },
+                    { term: "Can I have a word with you?", eng_example: "When you're not busy, can I have a word with you?", thai_example: "เมื่อคุณไม่ยุ่งแล้ว ฉันขอคุยด้วยหน่อยได้ไหม?" }
+                ],
+                collocations: [
+                    { term: "spare a minute", eng_example: "Could you spare a minute to help me carry this?", thai_example: "คุณพอจะสละเวลาสักครู่มาช่วยฉันถือของนี้ได้ไหม?" },
+                    { term: "just a minute", eng_example: "I'll be right there, just a minute.", thai_example: "ฉันจะไปเดี๋ยวนี้ รอสักครู่นะ" }
+                ]
+            },
+            {
+                emoji: "🖊️",
+                mainSentence: "Do you have a pen?",
+                mainSentenceThai: "คุณมีปากกาไหม?",
+                thaiReading: "ดู ยู แฮฟ อะ <u>เพ็น</u>?",
+                examples: [
+                    { eng: "Do you have a pen I could borrow?", thai: "คุณมีปากกาให้ฉันยืมไหม?" },
+                    { eng: "She asked if I had a pen to sign the document.", thai: "เธอถามว่าฉันมีปากกาสำหรับเซ็นเอกสารไหม" },
+                    { eng: "I don't have a pen; I only have a pencil.", thai: "ฉันไม่มีปากกา ฉันมีแต่ดินสอ" },
+                    { eng: "Does anyone in the class have a spare pen?", thai: "ในห้องนี้มีใครมีปากกาสำรองบ้าง?" },
+                    { eng: "You need to have a pen with blue ink.", thai: "คุณต้องมีปากกาหมึกสีน้ำเงิน" }
+                ],
+                equivalents: [
+                    { term: "Can I borrow a pen?", eng_example: "I forgot mine. Can I borrow a pen from you?", thai_example: "ฉันลืมของฉันมาน่ะ ฉันขอยืมปากกาจากคุณได้ไหม?" }
+                ],
+                collocations: [
+                    { term: "a ballpoint pen", eng_example: "For this form, you should use a ballpoint pen.", thai_example: "สำหรับฟอร์มนี้ คุณควรใช้ปากกาลูกลื่น" },
+                    { term: "a fountain pen", eng_example: "He signs important contracts with a fountain pen.", thai_example: "เขาเซ็นสัญญาที่สำคัญด้วยปากกาหมึกซึม" }
+                ]
+            },
+            {
+                emoji: "👨‍👩‍👧‍👦",
+                mainSentence: "Do you have any siblings?",
+                mainSentenceThai: "คุณมีพี่น้องบ้างไหม?",
+                thaiReading: "ดู ยู แฮฟ เอนี่ <u>ซิ้บ</u>ลิ่งส์?",
+                examples: [
+                    { eng: "He doesn't have any siblings; he's an only child.", thai: "เขาไม่มีพี่น้องเลย เขาเป็นลูกคนเดียว" },
+                    { eng: "Does she have any brothers or sisters?", thai: "เธอมีพี่ชาย, น้องชาย หรือพี่สาว, น้องสาวบ้างไหม?" },
+                    { eng: "They come from a large family and have many siblings.", thai: "พวกเขามาจากครอบครัวใหญ่และมีพี่น้องหลายคน" },
+                    { eng: "I have one older sibling and one younger sibling.", thai: "ฉันมีพี่หนึ่งคนและน้องหนึ่งคน" },
+                    { eng: "Our siblings can be our best friends.", thai: "พี่น้องของเราสามารถเป็นเพื่อนที่ดีที่สุดของเราได้" }
+                ],
+                equivalents: [
+                    { term: "Do you have any brothers or sisters?", eng_example: "So, are you from a big family? Do you have any brothers or sisters?", thai_example: "แล้วคุณมาจากครอบครัวใหญ่ไหม? คุณมีพี่น้องบ้างไหม?" }
+                ],
+                collocations: [
+                    { term: "sibling rivalry", eng_example: "A little bit of sibling rivalry is normal between brothers.", thai_example: "การแข่งขันกันของพี่น้องเล็กๆ น้อยๆ เป็นเรื่องปกติระหว่างพี่ชายกับน้องชาย" },
+                    { term: "older/younger sibling", eng_example: "My older sibling is a doctor, and my younger sibling is a student.", thai_example: "พี่ของฉันเป็นหมอ และน้องของฉันเป็นนักเรียน" }
+                ]
+            },
+            {
+                emoji: "⌚",
+                mainSentence: "Do you have the time?",
+                mainSentenceThai: "ตอนนี้กี่โมงแล้วครับ/คะ?",
+                thaiReading: "ดู ยู แฮฟ เดอะ <u>ไทม์</u>?",
+                examples: [
+                    { eng: "Excuse me, sir, do you have the time?", thai: "ขอโทษนะครับคุณผู้ชาย ตอนนี้กี่โมงแล้วครับ?" },
+                    { eng: "He asked me if I had the time, but my watch was broken.", thai: "เขาถามฉันว่ากี่โมงแล้ว แต่นาฬิกาฉันเสีย" },
+                    { eng: "I don't have the time on my phone because the battery is dead.", thai: "ฉันไม่มีเวลาบอกบนมือถือเพราะแบตหมด" },
+                    { eng: "Does your car's clock have the correct time?", thai: "นาฬิกาบนรถของคุณบอกเวลาตรงไหม?" },
+                    { eng: "'Do you have the time?' is a common way to start a conversation.", thai: "'Do you have the time?' เป็นวิธีทั่วไปในการเริ่มต้นบทสนทนา" }
+                ],
+                equivalents: [
+                    { term: "What time is it?", eng_example: "I need to catch a train. What time is it now?", thai_example: "ฉันต้องไปขึ้นรถไฟ ตอนนี้กี่โมงแล้ว?" },
+                    { term: "Could you tell me the time, please?", eng_example: "Pardon me, could you tell me the time, please?", thai_example: "ขอประทานโทษครับ กรุณาบอกเวลาหน่อยได้ไหมครับ?" }
+                ],
+                collocations: [
+                    { term: "check the time", eng_example: "Let me check the time on my phone.", thai_example: "ขอฉันดูเวลาในมือถือหน่อยนะ" },
+                    { term: "save time", eng_example: "Taking the shortcut will save time.", thai_example: "การไปทางลัดจะช่วยประหยัดเวลา" }
+                ]
+            },
+            {
+                emoji: "🍽️",
+                mainSentence: "Do you have a reservation?",
+                mainSentenceThai: "คุณได้จองโต๊ะไว้ไหม?",
+                thaiReading: "ดู ยู แฮฟ อะ เรสเซอ<u>เว้</u>เชิ่น?",
+                examples: [
+                    { eng: "Good evening. Do you have a reservation under the name Sali?", thai: "สวัสดีตอนเย็นค่ะ ไม่ทราบว่าได้จองไว้ในชื่อสาลี่ไหมคะ?" },
+                    { eng: "We don't have a reservation; can we still get a table for two?", thai: "เราไม่ได้จองไว้ครับ ยังพอจะมีโต๊ะสำหรับสองคนว่างไหม?" },
+                    { eng: "Does he have a hotel reservation for tonight?", thai: "เขาได้จองโรงแรมสำหรับคืนนี้ไว้ไหม?" },
+                    { eng: "You should call the restaurant to see if they have a reservation available.", thai: "คุณควรโทรไปที่ร้านอาหารเพื่อดูว่ามีที่ว่างให้จองไหม" },
+                    { eng: "I'm glad we have a reservation; the place is packed!", thai: "ฉันดีใจที่เราจองไว้ ร้านคนแน่นมากเลย!" }
+                ],
+                equivalents: [
+                    { term: "Did you book a table?", eng_example: "The restaurant is very popular. Did you book a table in advance?", thai_example: "ร้านอาหารนี้เป็นที่นิยมมาก คุณได้จองโต๊ะล่วงหน้าไว้ไหม?" }
+                ],
+                collocations: [
+                    { term: "make a reservation", eng_example: "I need to call and make a reservation for Friday night.", thai_example: "ฉันต้องโทรไปทำการจองสำหรับคืนวันศุกร์" },
+                    { term: "confirm a reservation", eng_example: "The hotel sent an email to confirm our reservation.", thai_example: "โรงแรมส่งอีเมลมาเพื่อยืนยันการจองของเรา" }
+                ]
+            },
+            {
+                emoji: "❓",
+                mainSentence: "Do you have any questions?",
+                mainSentenceThai: "คุณมีคำถามอะไรไหม?",
+                thaiReading: "ดู ยู แฮฟ เอนี่ <u>เควซ</u>ชั่นส์?",
+                examples: [
+                    { eng: "At the end of my presentation, I asked, 'Do you have any questions?'", thai: "ตอนจบการนำเสนอของฉัน ฉันได้ถามว่า 'มีคำถามอะไรไหมคะ?'" },
+                    { eng: "If you don't have any questions, we can end the meeting now.", thai: "ถ้าคุณไม่มีคำถามอะไร เราจะปิดการประชุมได้เลย" },
+                    { eng: "Does she have any questions about the homework instructions?", thai: "เธอมีคำถามเกี่ยวกับคำสั่งการบ้านไหม?" },
+                    { eng: "Feel free to stop me if you have any questions.", thai: "หยุดฉันได้เลยถ้าคุณมีคำถาม" },
+                    { eng: "He never has any questions; he seems to understand everything.", thai: "เขาไม่เคยมีคำถามเลย เขาดูเหมือนจะเข้าใจทุกอย่าง" }
+                ],
+                equivalents: [
+                    { term: "Is anything unclear?", eng_example: "I've explained the process. Is anything unclear?", thai_example: "ฉันได้อธิบายกระบวนการแล้ว มีตรงไหนไม่ชัดเจนไหม?" }
+                ],
+                collocations: [
+                    { term: "ask a question", eng_example: "May I ask a question about the final slide?", thai_example: "ฉันขอถามคำถามเกี่ยวกับสไลด์สุดท้ายได้ไหม?" },
+                    { term: "a follow-up question", eng_example: "Thank you for your answer. I have a follow-up question.", thai_example: "ขอบคุณสำหรับคำตอบครับ ผมมีคำถามต่อเนื่องครับ" }
+                ]
+            },
+            {
+                emoji: "🚗",
+                mainSentence: "Do you have a car?",
+                mainSentenceThai: "คุณมีรถยนต์ไหม?",
+                thaiReading: "ดู ยู แฮฟ อะ <u>คาร์</u>?",
+                examples: [
+                    { eng: "She asked him, 'Do you have a car?' because she needed a ride.", thai: "เธอถามเขาว่า 'คุณมีรถไหม?' เพราะเธอต้องการให้ไปส่ง" },
+                    { eng: "I don't have a car, so I use public transportation.", thai: "ฉันไม่มีรถ ฉันเลยใช้ระบบขนส่งสาธารณะ" },
+                    { eng: "Does your family have a second car for errands?", thai: "ครอบครัวของคุณมีรถคันที่สองไว้สำหรับทำธุระไหม?" },
+                    { eng: "They have a new electric car.", thai: "พวกเขามีรถยนต์ไฟฟ้าคันใหม่" },
+                    { eng: "Do you have a car we could rent for the weekend?", thai: "คุณมีรถให้เราเช่าสำหรับช่วงสุดสัปดาห์ไหม?" }
+                ],
+                equivalents: [
+                    { term: "Do you own a vehicle?", eng_example: "For the delivery job, do you own a vehicle?", thai_example: "สำหรับงานส่งของนี้ คุณเป็นเจ้าของยานพาหนะหรือไม่?" }
+                ],
+                collocations: [
+                    { term: "drive a car", eng_example: "You need a license to drive a car.", thai_example: "คุณต้องมีใบขับขี่เพื่อที่จะขับรถ" },
+                    { term: "rent a car", eng_example: "We plan to rent a car when we arrive at the airport.", thai_example: "เราวางแผนที่จะเช่ารถเมื่อเราไปถึงสนามบิน" }
+                ]
+            },
+            {
+                emoji: "📶",
+                mainSentence: "Do you have Wi-Fi?",
+                mainSentenceThai: "คุณมี Wi-Fi ไหม?",
+                thaiReading: "ดู ยู แฮฟ <u>วาย</u>ฟาย?",
+                examples: [
+                    { eng: "Excuse me, do you have Wi-Fi here for customers?", thai: "ขอโทษครับ ที่นี่มี Wi-Fi สำหรับลูกค้าไหมครับ?" },
+                    { eng: "Do you have the Wi-Fi password?", thai: "คุณมีรหัสผ่าน Wi-Fi ไหม?" },
+                    { eng: "This cafe doesn't have free Wi-Fi.", thai: "คาเฟ่นี้ไม่มี Wi-Fi ฟรี" },
+                    { eng: "Does the hotel room have a strong Wi-Fi signal?", thai: "ห้องพักในโรงแรมมีสัญญาณ Wi-Fi แรงไหม?" },
+                    { eng: "We have unlimited Wi-Fi at home.", thai: "ที่บ้านเรามี Wi-Fi ไม่จำกัด" }
+                ],
+                equivalents: [
+                    { term: "Is there internet access here?", eng_example: "I need to send an email. Is there internet access here?", thai_example: "ฉันต้องส่งอีเมล ที่นี่มีอินเทอร์เน็ตให้ใช้ไหม?" },
+                    { term: "What's the Wi-Fi password?", eng_example: "I've connected to the network. What's the Wi-Fi password?", thai_example: "ฉันเชื่อมต่อเครือข่ายแล้ว รหัสผ่าน Wi-Fi คืออะไร?" }
+                ],
+                collocations: [
+                    { term: "connect to Wi-Fi", eng_example: "I can't seem to connect to the Wi-Fi network.", thai_example: "ฉันดูเหมือนจะเชื่อมต่อเครือข่าย Wi-Fi ไม่ได้" },
+                    { term: "Wi-Fi hotspot", eng_example: "You can use your phone as a personal Wi-Fi hotspot.", thai_example: "คุณสามารถใช้โทรศัพท์ของคุณเป็นฮอตสปอต Wi-Fi ส่วนตัวได้" }
+                ]
+            },
+            {
+                emoji: "🤧",
+                mainSentence: "Do you have any allergies?",
+                mainSentenceThai: "คุณมีอาการแพ้อะไรไหม?",
+                thaiReading: "ดู ยู แฮฟ เอนี่ <u>แอล</u>เลอจีส์?",
+                examples: [
+                    { eng: "Before you eat, please tell me if you have any food allergies.", thai: "ก่อนคุณจะทาน กรุณาบอกฉันก่อนว่าคุณมีอาการแพ้อาหารอะไรไหม" },
+                    { eng: "The doctor will ask, 'Do you have any allergies to medication?'", thai: "หมอจะถามว่า 'คุณมีอาการแพ้ยาอะไรไหม?'" },
+                    { eng: "He has a serious allergy to peanuts.", thai: "เขามีอาการแพ้ถั่วอย่างรุนแรง" },
+                    { eng: "I don't have any known allergies.", thai: "ฉันไม่มีอาการแพ้ที่ทราบ" },
+                    { eng: "Does this dish have any nuts in it? My son has a nut allergy.", thai: "อาหารจานนี้มีถั่วผสมอยู่ไหม? ลูกชายของฉันแพ้ถั่ว" }
+                ],
+                equivalents: [
+                    { term: "Are you allergic to anything?", eng_example: "We're ordering pizza. Are you allergic to anything like gluten or dairy?", thai_example: "เรากำลังจะสั่งพิซซ่า คุณแพ้อะไรอย่างเช่นกลูเตนหรือผลิตภัณฑ์นมไหม?" }
+                ],
+                collocations: [
+                    { term: "allergic reaction", eng_example: "He had a severe allergic reaction and needed to go to the hospital.", thai_example: "เขามีปฏิกิริยาภูมิแพ้อย่างรุนแรงและต้องไปโรงพยาบาล" },
+                    { term: "seasonal allergies", eng_example: "Many people suffer from seasonal allergies in the spring.", thai_example: "ผู้คนจำนวนมากทรมานจากโรคภูมิแพ้ตามฤดูกาลในฤดูใบไม้ผลิ" }
+                ]
+            },
+            {
+                emoji: "🔌",
+                mainSentence: "Do you have a charger?",
+                mainSentenceThai: "คุณมีที่ชาร์จไหม?",
+                thaiReading: "ดู ยู แฮฟ อะ <u>ชาร์</u>เจ้อะ?",
+                examples: [
+                    { eng: "My phone battery is low. Do you have a charger I can borrow?", thai: "แบตมือถือฉันเหลือน้อย คุณมีที่ชาร์จให้ยืมไหม?" },
+                    { eng: "I'm sorry, I don't have an iPhone charger.", thai: "ขอโทษที ฉันไม่มีที่ชาร์จไอโฟน" },
+                    { eng: "Does he have a portable charger for the trip?", thai: "เขามีที่ชาร์จแบบพกพาสำหรับทริปนี้ไหม?" },
+                    { eng: "I need to buy a new laptop charger; this one is broken.", thai: "ฉันต้องซื้อที่ชาร์จแล็ปท็อปใหม่ อันนี้มันเสียแล้ว" },
+                    { eng: "The hotel provides a universal charger in every room.", thai: "โรงแรมมีที่ชาร์จแบบสากลให้ในทุกห้อง" }
+                ],
+                equivalents: [
+                    { term: "Do you have a power bank?", eng_example: "We'll be out all day. Do you have a power bank for your phone?", thai_example: "เราจะอยู่ข้างนอกทั้งวันนะ คุณมีพาวเวอร์แบงค์สำหรับมือถือไหม?" }
+                ],
+                collocations: [
+                    { term: "phone charger", eng_example: "I always carry a phone charger in my bag.", thai_example: "ฉันพกที่ชาร์จโทรศัพท์ในกระเป๋าเสมอ" },
+                    { term: "wireless charger", eng_example: "Just place your phone on the pad; it's a wireless charger.", thai_example: "แค่วางโทรศัพท์ของคุณบนแท่น มันเป็นที่ชาร์จไร้สาย" }
+                ]
+            },
+            // ... (The rest of the slides from 11 to 30 will follow this enhanced format)
+            {
+                emoji: "🔥",
+                mainSentence: "Do you have a lighter?",
+                mainSentenceThai: "คุณมีไฟแช็กไหม?",
+                thaiReading: "ดู ยู แฮฟ อะ <u>ไล้</u>เท่อะ?",
+                examples: [
+                    { eng: "Excuse me, do you have a lighter for these candles?", thai: "ขอโทษครับ/ค่ะ มีไฟแช็กสำหรับจุดเทียนพวกนี้ไหม?" },
+                    { eng: "He asked a stranger if he had a lighter.", thai: "เขาถามคนแปลกหน้าว่ามีไฟแช็กไหม" },
+                    { eng: "I don't have a lighter or matches.", thai: "ฉันไม่มีไฟแช็กหรือไม้ขีดไฟ" },
+                    { eng: "She keeps a small lighter in her purse.", thai: "เธอเก็บไฟแช็กอันเล็กๆ ไว้ในกระเป๋าถือ" },
+                    { eng: "The wind is too strong; this lighter won't work.", thai: "ลมแรงเกินไป ไฟแช็กอันนี้ใช้ไม่ได้ผล" }
+                ],
+                equivalents: [
+                    { term: "Do you have a light?", eng_example: "My lighter is out of fluid. Do you have a light?", thai_example: "ไฟแช็กฉันน้ำมันหมด คุณมีไฟไหม?" },
+                    { term: "Got a light?", eng_example: "Hey buddy, got a light?", thai_example: "เฮ้เพื่อน มีไฟป่ะ? (ไม่เป็นทางการ)" }
+                ],
+                collocations: [
+                    { term: "a disposable lighter", eng_example: "He bought a cheap disposable lighter at the convenience store.", thai_example: "เขาซื้อไฟแช็กแบบใช้แล้วทิ้งราคาถูกที่ร้านสะดวกซื้อ" }
+                ]
+            },
+            {
+                emoji: "☂️",
+                mainSentence: "Do you have an umbrella?",
+                mainSentenceThai: "คุณมีร่มไหม?",
+                thaiReading: "ดู ยู แฮฟ แอน อัม<u>เบร้ล</u>หล่ะ?",
+                examples: [
+                    { eng: "It's starting to rain. Do you have an umbrella?", thai: "ฝนเริ่มตกแล้วนะ คุณมีร่มไหม?" },
+                    { eng: "I wish I had an umbrella right now.", thai: "ฉันหวังว่าฉันจะมีร่มตอนนี้" },
+                    { eng: "Does he have an umbrella we can share?", thai: "เขามีร่มที่เราจะใช้ด้วยกันได้ไหม?" },
+                    { eng: "She always has a small, foldable umbrella in her bag.", thai: "เธอมีร่มคันเล็กๆ ที่พับได้ในกระเป๋าเสมอ" },
+                    { eng: "They sell umbrellas near the subway on rainy days.", thai: "พวกเขาขายร่มใกล้สถานีรถไฟใต้ดินในวันที่ฝนตก" }
+                ],
+                equivalents: [
+                    { term: "Did you bring an umbrella?", eng_example: "The forecast said rain. Did you bring an umbrella?", thai_example: "พยากรณ์อากาศบอกว่าฝนจะตก คุณเอาร่มมาไหม?" }
+                ],
+                collocations: [
+                    { term: "open an umbrella", eng_example: "As soon as I stepped outside, I had to open my umbrella.", thai_example: "ทันทีที่ฉันก้าวออกไปข้างนอก ฉันก็ต้องกางร่ม" },
+                    { term: "under my umbrella", eng_example: "Come here, you can stand under my umbrella.", thai_example: "มานี่สิ คุณมาอยู่ใต้ร่มของฉันได้นะ" }
+                ]
+            },
+            {
+                emoji: "💵",
+                mainSentence: "Do you have any cash?",
+                mainSentenceThai: "คุณมีเงินสดไหม?",
+                thaiReading: "ดู ยู แฮฟ เอนี่ <u>แคช</u>?",
+                examples: [
+                    { eng: "This shop is cash-only. Do you have any cash on you?", thai: "ร้านนี้รับแต่เงินสด คุณมีเงินสดติดตัวไหม?" },
+                    { eng: "I don't have any cash, but I have my credit card.", thai: "ฉันไม่มีเงินสด แต่ฉันมีบัตรเครดิต" },
+                    { eng: "Does he have enough cash for the taxi fare?", thai: "เขามีเงินสดพอสำหรับค่าแท็กซี่ไหม?" },
+                    { eng: "It's always a good idea to have some emergency cash.", thai: "การมีเงินสดสำรองฉุกเฉินเป็นความคิดที่ดีเสมอ" },
+                    { eng: "She asked if I had any cash to lend her until tomorrow.", thai: "เธอถามว่าฉันมีเงินสดให้เธอยืมจนถึงพรุ่งนี้ไหม" }
+                ],
+                equivalents: [
+                    { term: "Do you take credit cards?", eng_example: "I don't have cash. Do you take credit cards here?", thai_example: "ฉันไม่มีเงินสด ที่นี่รับบัตรเครดิตไหมครับ/คะ?" }
+                ],
+                collocations: [
+                    { term: "pay in cash", eng_example: "I prefer to pay in cash for small purchases.", thai_example: "ฉันชอบจ่ายเป็นเงินสดสำหรับการซื้อของเล็กๆ น้อยๆ" },
+                    { term: "cash withdrawal", eng_example: "I need to make a cash withdrawal from the ATM.", thai_example: "ฉันต้องไปถอนเงินสดจากตู้เอทีเอ็ม" }
+                ]
+            },
+            {
+                emoji: "💡",
+                mainSentence: "Do you have any idea?",
+                mainSentenceThai: "คุณพอจะรู้ไหม?",
+                thaiReading: "ดู ยู แฮฟ เอนี่ ไอ<u>เดีย</u>?",
+                examples: [
+                    { eng: "Do you have any idea what time the store closes?", thai: "คุณพอจะรู้ไหมว่าร้านปิดกี่โมง?" },
+                    { eng: "I don't have any idea how to solve this puzzle.", thai: "ฉันไม่รู้เลยว่าจะแก้ปริศนานี้ได้อย่างไร" },
+                    { eng: "Does she have any idea where he went?", thai: "เธอพอจะรู้ไหมว่าเขาไปไหน?" },
+                    { eng: "He asked me, but I had no idea.", thai: "เขาถามฉัน แต่ฉันไม่รู้เรื่องเลย" },
+                    { eng: "They have some excellent ideas for the new marketing campaign.", thai: "พวกเขามีไอเดียดีๆ หลายอย่างสำหรับแคมเปญการตลาดใหม่" }
+                ],
+                equivalents: [
+                    { term: "Do you know?", eng_example: "You're good with computers. Do you know how to fix this?", thai_example: "คุณเก่งคอมพิวเตอร์นะ คุณรู้วิธีซ่อมอันนี้ไหม?" }
+                ],
+                collocations: [
+                    { term: "have no idea", eng_example: "I have no idea what you're talking about.", thai_example: "ฉันไม่รู้เลยว่าคุณกำลังพูดถึงเรื่องอะไร" },
+                    { term: "a good idea", eng_example: "Let's get some ice cream. That's a good idea!", thai_example: "ไปหาไอศกรีมกินกันเถอะ นั่นเป็นความคิดที่ดีเลย!" }
+                ]
+            },
+            {
+                emoji: "🎟️",
+                mainSentence: "Do you have a spare ticket?",
+                mainSentenceThai: "คุณมีตั๋วเหลือบ้างไหม?",
+                thaiReading: "ดู ยู แฮฟ อะ <u>สแปร์</u> ทิ้คเก็ท?",
+                examples: [
+                    { eng: "The concert is sold out. Do you have a spare ticket by any chance?", thai: "คอนเสิร์ตขายหมดแล้ว คุณพอจะมีตั๋วเหลือบ้างไหม?" },
+                    { eng: "He asked all his friends if they had a spare ticket.", thai: "เขาถามเพื่อนๆ ทุกคนว่าพวกเขามีตั๋วเหลือไหม" },
+                    { eng: "I was so lucky; a kind stranger had a spare ticket.", thai: "ฉันโชคดีมาก มีคนแปลกหน้าใจดีคนหนึ่งมีตั๋วเหลือ" },
+                    { eng: "Does she have a spare ticket for her plus-one?", thai: "เธอมีตั๋วเหลือสำหรับเพื่อนที่ไปด้วยไหม?" },
+                    { eng: "Unfortunately, we don't have any spare tickets.", thai: "น่าเสียดาย เราไม่มีตั๋วเหลือเลย" }
+                ],
+                equivalents: [
+                    { term: "Do you have an extra ticket?", eng_example: "My friend wants to come. Do you have an extra ticket?", thai_example: "เพื่อนฉันอยากมาด้วย คุณมีตั๋วเกินมาบ้างไหม?" }
+                ],
+                collocations: [
+                    { term: "a spare key", eng_example: "You should always keep a spare key with a trusted neighbor.", thai_example: "คุณควรจะเก็บกุญแจสำรองไว้กับเพื่อนบ้านที่ไว้ใจได้เสมอ" },
+                    { term: "spare time", eng_example: "What do you like to do in your spare time?", thai_example: "คุณชอบทำอะไรในเวลาว่าง?" }
+                ]
+            },
+            {
+                emoji: "💳",
+                mainSentence: "Do you have a driver's license?",
+                mainSentenceThai: "คุณมีใบขับขี่ไหม?",
+                thaiReading: "ดู ยู แฮฟ อะ <u>ไดร้</u>เว่อร์ส <u>ไล</u>เซ่นส์?",
+                examples: [
+                    { eng: "To rent a car, the first question is 'Do you have a valid driver's license?'", thai: "ในการเช่ารถ คำถามแรกคือ 'คุณมีใบขับขี่ที่ยังไม่หมดอายุไหม?'" },
+                    { eng: "He doesn't have a driver's license yet.", thai: "เขายังไม่มีใบขับขี่" },
+                    { eng: "Does she have an international driver's license?", thai: "เธอมีใบขับขี่สากลไหม?" },
+                    { eng: "The police officer asked to see my driver's license and registration.", thai: "เจ้าหน้าที่ตำรวจขอดูใบขับขี่และทะเบียนรถของฉัน" },
+                    { eng: "You need to have a driver's license to operate this vehicle.", thai: "คุณต้องมีใบขับขี่เพื่อขับขี่ยานพาหนะนี้" }
+                ],
+                equivalents: [
+                    { term: "Are you a licensed driver?", eng_example: "This job requires some driving. Are you a licensed driver?", thai_example: "งานนี้ต้องมีการขับรถบ้าง คุณเป็นผู้ขับขี่ที่มีใบอนุญาตหรือไม่?" }
+                ],
+                collocations: [
+                    { term: "apply for a license", eng_example: "You can apply for a driver's license when you turn 18.", thai_example: "คุณสามารถยื่นขอใบขับขี่ได้เมื่อคุณอายุครบ 18 ปี" },
+                    { term: "a valid license", eng_example: "Your license has expired; it is no longer a valid license.", thai_example: "ใบขับขี่ของคุณหมดอายุแล้ว มันไม่ใช่ใบอนุญาตที่ใช้การได้อีกต่อไป" }
+                ]
+            },
+            {
+                emoji: "🪙",
+                mainSentence: "Do you have change?",
+                mainSentenceThai: "คุณมีเงินทอน/เงินย่อยไหม?",
+                thaiReading: "ดู ยู แฮฟ <u>เชนจ์</u>?",
+                examples: [
+                    { eng: "Do you have change for a 100-baht note?", thai: "คุณมีเงินทอนสำหรับแบงค์ร้อยไหม?" },
+                    { eng: "I'm sorry, I don't have any small change for the vending machine.", thai: "ขอโทษครับ ผมไม่มีเศษเงินสำหรับตู้ขายของอัตโนมัติเลย" },
+                    { eng: "Does the bus driver have change, or do I need the exact amount?", thai: "คนขับรถบัสมีเงินทอนไหม หรือว่าฉันต้องเตรียมเงินให้พอดี?" },
+                    { eng: "Keep the change.", thai: "ไม่ต้องทอน (ทิป)" },
+                    { eng: "She needs to get some change from the cashier.", thai: "เธอต้องไปแลกเงินย่อยจากพนักงานเก็บเงิน" }
+                ],
+                equivalents: [
+                    { term: "Can you break a twenty?", eng_example: "I only have large bills. Can you break a twenty-dollar bill?", thai_example: "ฉันมีแต่แบงค์ใหญ่ คุณช่วยแตกแบงค์ยี่สิบดอลลาร์ได้ไหม?" }
+                ],
+                collocations: [
+                    { term: "exact change", eng_example: "The machine requires exact change.", thai_example: "เครื่องนี้ต้องการเงินทอนพอดี" },
+                    { term: "loose change", eng_example: "He paid for his coffee with the loose change in his pocket.", thai_example: "เขาจ่ายค่ากาแฟด้วยเศษเหรียญในกระเป๋าของเขา" }
+                ]
+            },
+            {
+                emoji: "⭐",
+                mainSentence: "Do you have a loyalty card?",
+                mainSentenceThai: "คุณมีบัตรสมาชิกไหม?",
+                thaiReading: "ดู ยู แฮฟ อะ <u>ลอย</u>อัลตี้ คาร์ด?",
+                examples: [
+                    { eng: "Before I pay, do you have a loyalty card for this store?", thai: "ก่อนฉันจ่ายเงิน คุณมีบัตรสมาชิกของร้านนี้ไหม?" },
+                    { eng: "The cashier always asks, 'Do you have our loyalty card?'", thai: "พนักงานเก็บเงินถามเสมอว่า 'คุณมีบัตรสมาชิกของเราไหมคะ?'" },
+                    { eng: "If you have a loyalty card, you can get a 10% discount.", thai: "ถ้าคุณมีบัตรสมาชิก คุณจะได้รับส่วนลด 10%" },
+                    { eng: "She has too many loyalty cards in her wallet.", thai: "เธอมีบัตรสมาชิกในกระเป๋าสตางค์เยอะเกินไป" },
+                    { eng: "I don't have their loyalty card because I don't shop here often.", thai: "ฉันไม่มีบัตรสมาชิกของพวกเขาเพราะฉันไม่ได้มาซื้อของที่นี่บ่อย" }
+                ],
+                equivalents: [
+                    { term: "Are you a member?", eng_example: "You can earn points with every purchase. Are you a member?", thai_example: "คุณสามารถสะสมคะแนนได้ทุกการซื้อ คุณเป็นสมาชิกหรือยังคะ?" }
+                ],
+                collocations: [
+                    { term: "loyalty program", eng_example: "Their loyalty program offers great rewards.", thai_example: "โปรแกรมสะสมคะแนนของพวกเขามีของรางวัลที่ดีมาก" },
+                    { term: "collect points", eng_example: "Don't forget to use your card to collect points.", thai_example: "อย่าลืมใช้บัตรของคุณเพื่อสะสมคะแนน" }
+                ]
+            },
+            {
+                emoji: "📖",
+                mainSentence: "Do you have a menu?",
+                mainSentenceThai: "คุณมีเมนูไหม?",
+                thaiReading: "ดู ยู แฮฟ อะ <u>เม้</u>นยู?",
+                examples: [
+                    { eng: "Excuse me, do you have a menu in English?", thai: "ขอโทษครับ/ค่ะ มีเมนูภาษาอังกฤษไหม?" },
+                    { eng: "Could we have a menu, please?", thai: "เราขอเมนูหน่อยได้ไหมครับ/คะ?" },
+                    { eng: "Does this restaurant have a separate menu for drinks?", thai: "ร้านอาหารนี้มีเมนูสำหรับเครื่องดื่มแยกต่างหากไหม?" },
+                    { eng: "They have a very extensive wine menu.", thai: "พวกเขามีเมนูไวน์ที่หลากหลายมาก" },
+                    { eng: "She asked the waiter if they had a kids' menu.", thai: "เธอถามพนักงานเสิร์ฟว่าพวกเขามีเมนูสำหรับเด็กไหม" }
+                ],
+                equivalents: [
+                    { term: "Can we see the menu, please?", eng_example: "We're ready to order. Can we see the menu, please?", thai_example: "เราพร้อมจะสั่งแล้วครับ ขอดูเมนูหน่อยได้ไหมครับ?" }
+                ],
+                collocations: [
+                    { term: "order from the menu", eng_example: "You can either choose the buffet or order from the menu.", thai_example: "คุณสามารถเลือกบุฟเฟ่ต์หรือสั่งจากเมนูก็ได้" },
+                    { term: "a set menu", eng_example: "The lunch special is a set menu with three courses.", thai_example: "เมนูพิเศษมื้อกลางวันเป็นเมนูชุดที่มีสามคอร์ส" }
+                ]
+            },
+            {
+                emoji: "👍",
+                mainSentence: "Do you have any recommendations?",
+                mainSentenceThai: "คุณมีอะไรแนะนำไหม?",
+                thaiReading: "ดู ยู แฮฟ เอนี่ เรคคอมเมน<u>เด</u>ชั่นส์?",
+                examples: [
+                    { eng: "Everything on the menu looks delicious. Do you have any recommendations?", thai: "ทุกอย่างในเมนูดูน่าอร่อยไปหมดเลย คุณมีอะไรแนะนำไหม?" },
+                    { eng: "We asked the local guide if she had any recommendations for dinner.", thai: "เราถามไกด์ท้องถิ่นว่าเธอมีร้านอาหารเย็นแนะนำไหม" },
+                    { eng: "Does he have any book recommendations for me?", thai: "เขาพอจะมีหนังสือแนะนำสำหรับฉันบ้างไหม?" },
+                    { eng: "I don't have any specific recommendations; it's all a matter of personal taste.", thai: "ฉันไม่มีอะไรแนะนำเป็นพิเศษ มันขึ้นอยู่กับรสนิยมส่วนตัว" },
+                    { eng: "Their blog has some excellent recommendations for budget travel.", thai: "บล็อกของพวกเขามีคำแนะนำที่ยอดเยี่ยมสำหรับการท่องเที่ยวแบบประหยัด" }
+                ],
+                equivalents: [
+                    { term: "What do you suggest?", eng_example: "I'm not sure which one to choose. What do you suggest?", thai_example: "ฉันไม่แน่ใจว่าจะเลือกอันไหนดี คุณแนะนำอะไร?" },
+                    { term: "What's good here?", eng_example: "I've never been here before. What's good here?", thai_example: "ฉันไม่เคยมาที่นี่มาก่อนเลย ที่นี่มีอะไรอร่อยบ้าง?" }
+                ],
+                collocations: [
+                    { term: "a strong recommendation", eng_example: "This restaurant came with a strong recommendation from my friend.", thai_example: "ร้านอาหารนี้มาพร้อมกับคำแนะนำอย่างยิ่งจากเพื่อนของฉัน" },
+                    { term: "a letter of recommendation", eng_example: "You need a letter of recommendation for your university application.", thai_example: "คุณต้องใช้จดหมายแนะนำสำหรับการสมัครเข้ามหาวิทยาลัย" }
+                ]
+            },
+            {
+                emoji: "💼",
+                mainSentence: "Do you have any experience?",
+                mainSentenceThai: "คุณมีประสบการณ์บ้างไหม?",
+                thaiReading: "ดู ยู แฮฟ เอนี่ เอ็กซ์<u>พี</u>เรียนซ์?",
+                examples: [
+                    { eng: "The job interviewer asked, 'Do you have any experience in this field?'", thai: "ผู้สัมภาษณ์งานถามว่า 'คุณมีประสบการณ์ในสายงานนี้บ้างไหม?'" },
+                    { eng: "I don't have any direct experience, but I'm a quick learner.", thai: "ฉันไม่มีประสบการณ์โดยตรง แต่ฉันเป็นคนเรียนรู้เร็ว" },
+                    { eng: "Does he have any experience with this type of software?", thai: "เขามีประสบการณ์กับซอฟต์แวร์ประเภทนี้บ้างไหม?" },
+                    { eng: "She has a lot of experience in managing large teams.", thai: "เธอมีประสบการณ์มากมายในการจัดการทีมใหญ่" },
+                    { eng: "They are looking for a candidate who has relevant work experience.", thai: "พวกเขากำลังมองหาผู้สมัครที่มีประสบการณ์ทำงานที่เกี่ยวข้อง" }
+                ],
+                equivalents: [
+                    { term: "What is your background in...?", eng_example: "Your resume is impressive. What is your background in project management?", thai_example: "เรซูเม่ของคุณน่าประทับใจมาก คุณมีพื้นฐานด้านการจัดการโครงการมาอย่างไรบ้าง?" }
+                ],
+                collocations: [
+                    { term: "hands-on experience", eng_example: "The internship provides valuable hands-on experience.", thai_example: "การฝึกงานให้ประสบการณ์จริงอันมีค่า" },
+                    { term: "a wealth of experience", eng_example: "Our new CEO has a wealth of experience in the industry.", thai_example: "CEO คนใหม่ของเรามีประสบการณ์มากมายในอุตสาหกรรมนี้" }
+                ]
+            },
+            {
+                emoji: "🩹",
+                mainSentence: "Do you have a bandage?",
+                mainSentenceThai: "คุณมีพลาสเตอร์ยาไหม?",
+                thaiReading: "ดู ยู แฮฟ อะ <u>แบน</u>เดจ?",
+                examples: [
+                    { eng: "I cut my finger. Do you have a bandage?", thai: "ฉันทำมีดบาดนิ้ว คุณมีพลาสเตอร์ยาไหม?" },
+                    { eng: "She is looking for the first-aid kit because she needs a bandage.", thai: "เธอกำลังมองหากล่องปฐมพยาบาลเพราะเธอต้องการพลาสเตอร์" },
+                    { eng: "Does the school nurse have a waterproof bandage?", thai: "พยาบาลที่โรงเรียนมีพลาสเตอร์กันน้ำไหม?" },
+                    { eng: "He always keeps a few bandages in his wallet for emergencies.", thai: "เขาเก็บพลาสเตอร์สองสามชิ้นไว้ในกระเป๋าสตางค์เสมอสำหรับเหตุฉุกเฉิน" },
+                    { eng: "They put a colorful bandage on the child's scraped knee.", thai: "พวกเขาติดพลาสเตอร์สีสันสดใสบนหัวเข่าที่ถลอกของเด็ก" }
+                ],
+                equivalents: [
+                    { term: "Do you have a plaster? (UK English)", eng_example: "Oh dear, that's a nasty cut. Do you have a plaster?", thai_example: "โอ้โฮ แผลน่ากลัวจัง คุณมีพลาสเตอร์ไหม? (ภาษาอังกฤษแบบบริติช)" },
+                    { term: "Do you have a Band-Aid? (Brand name)", eng_example: "Could you check the drawer? Do you have a Band-Aid?", thai_example: "ช่วยดูในลิ้นชักให้หน่อยได้ไหม? คุณมีแบนด์-เอดไหม? (ชื่อยี่ห้อ)" }
+                ],
+                collocations: [
+                    { term: "apply a bandage", eng_example: "You should clean the wound before you apply a bandage.", thai_example: "คุณควรจะล้างแผลก่อนที่จะติดพลาสเตอร์" },
+                    { term: "an adhesive bandage", eng_example: "An adhesive bandage is useful for minor cuts.", thai_example: "พลาสเตอร์แบบมีแถบกาวมีประโยชน์สำหรับแผลเล็กๆ น้อยๆ" }
+                ]
+            },
+            {
+                emoji: "🤧",
+                mainSentence: "Do you have a tissue?",
+                mainSentenceThai: "คุณมีทิชชู่ไหม?",
+                thaiReading: "ดู ยู แฮฟ อะ <u>ทิช</u>ชู่?",
+                examples: [
+                    { eng: "My nose is running. Do you have a tissue I could use?", thai: "ฉันมีน้ำมูก คุณมีทิชชู่ให้ฉันใช้ไหม?" },
+                    { eng: "She offered him a tissue when she saw him crying.", thai: "เธอยื่นทิชชู่ให้เขาเมื่อเธอเห็นเขาร้องไห้" },
+                    { eng: "Does anyone have a box of tissues?", thai: "ใครมีทิชชู่กล่องบ้าง?" },
+                    { eng: "He used a tissue to wipe the smudge off his glasses.", thai: "เขาใช้ทิชชู่เช็ดรอยเปื้อนออกจากแว่นตาของเขา" },
+                    { eng: "It's a good idea to have tissues in your car.", thai: "การมีทิชชู่ไว้ในรถเป็นความคิดที่ดี" }
+                ],
+                equivalents: [
+                    { term: "Do you have a Kleenex? (Brand name)", eng_example: "I think I'm going to sneeze. Do you have a Kleenex?", thai_example: "ฉันคิดว่าฉันกำลังจะจาม คุณมีคลีเน็กซ์ไหม? (ชื่อยี่ห้อ)" }
+                ],
+                collocations: [
+                    { term: "a box of tissues", eng_example: "There is a box of tissues on my desk if you need one.", thai_example: "มีทิชชู่หนึ่งกล่องบนโต๊ะทำงานของฉันถ้าคุณต้องการ" },
+                    { term: "a paper tissue", eng_example: "A simple paper tissue can be very useful.", thai_example: "กระดาษทิชชู่ธรรมดาๆ อาจมีประโยชน์มาก" }
+                ]
+            },
+            {
+                emoji: "☀️",
+                mainSentence: "Do you have sunscreen?",
+                mainSentenceThai: "คุณมีครีมกันแดดไหม?",
+                thaiReading: "ดู ยู แฮฟ <u>ซัน</u>สกรีน?",
+                examples: [
+                    { eng: "The sun is very strong today. Do you have any sunscreen?", thai: "วันนี้แดดแรงมาก คุณมีครีมกันแดดบ้างไหม?" },
+                    { eng: "I forgot to pack sunscreen for the beach trip.", thai: "ฉันลืมแพ็คครีมกันแดดมาสำหรับทริปทะเล" },
+                    { eng: "Does he have sunscreen with a high SPF?", thai: "เขามีครีมกันแดดที่มีค่า SPF สูงๆ ไหม?" },
+                    { eng: "She is applying sunscreen to her children's faces.", thai: "เธอกำลังทาครีมกันแดดบนใบหน้าของลูกๆ" },
+                    { eng: "You should always have sunscreen in your bag during summer.", thai: "คุณควรจะมีครีมกันแดดในกระเป๋าเสมอในช่วงฤดูร้อน" }
+                ],
+                equivalents: [
+                    { term: "Do you have any sunblock?", eng_example: "It's getting hot. Do you have any sunblock we can use?", thai_example: "อากาศเริ่มร้อนแล้วนะ คุณมีซันบล็อกให้เราใช้บ้างไหม?" }
+                ],
+                collocations: [
+                    { term: "apply sunscreen", eng_example: "Remember to apply sunscreen 15 minutes before you go outside.", thai_example: "อย่าลืมทาครีมกันแดด 15 นาทีก่อนที่คุณจะออกไปข้างนอก" },
+                    { term: "waterproof sunscreen", eng_example: "If you are going swimming, you should use waterproof sunscreen.", thai_example: "ถ้าคุณจะไปว่ายน้ำ คุณควรใช้ครีมกันแดดแบบกันน้ำ" }
+                ]
+            },
+            {
+                emoji: "📇",
+                mainSentence: "Do you have a business card?",
+                mainSentenceThai: "คุณมีนามบัตรไหม?",
+                thaiReading: "ดู ยู แฮฟ อะ <u>บิ๊ส</u>เนส คาร์ด?",
+                examples: [
+                    { eng: "It was a pleasure meeting you. Do you have a business card?", thai: "ยินดีที่ได้รู้จักครับ/ค่ะ คุณมีนามบัตรไหม?" },
+                    { eng: "He gave me his business card at the conference.", thai: "เขาให้นามบัตรของเขาแก่ฉันที่งานประชุม" },
+                    { eng: "Does she have a business card with her new contact information?", thai: "เธอมีนามบัตรที่มีข้อมูลติดต่อใหม่ของเธอหรือยัง?" },
+                    { eng: "I'm sorry, I seem to have run out of business cards.", thai: "ขอโทษครับ ดูเหมือนว่านามบัตรของผมจะหมด" },
+                    { eng: "They exchanged business cards after the formal meeting.", thai: "พวกเขาแลกนามบัตรกันหลังการประชุมที่เป็นทางการ" }
+                ],
+                equivalents: [
+                    { term: "Can I have your card?", eng_example: "I'd like to stay in touch. Can I have your card?", thai_example: "ฉันอยากจะติดต่อกับคุณเรื่อยๆ ขอนามบัตรของคุณได้ไหม?" }
+                ],
+                collocations: [
+                    { term: "exchange business cards", eng_example: "It is customary to exchange business cards at the beginning of a meeting in Japan.", thai_example: "เป็นธรรมเนียมที่จะต้องแลกนามบัตรกันตอนเริ่มต้นการประชุมในประเทศญี่ปุ่น" },
+                    { term: "hand out business cards", eng_example: "He was handing out business cards to everyone at the networking event.", thai_example: "เขาแจกนามบัตรให้กับทุกคนในงานสร้างเครือข่าย" }
+                ]
+            },
+            {
+                emoji: "🤔",
+                mainSentence: "Do you have a good reason?",
+                mainSentenceThai: "คุณมีเหตุผลที่ดีพอไหม?",
+                thaiReading: "ดู ยู แฮฟ อะ <u>กู้ด</u> <u>รี</u>ซั่น?",
+                examples: [
+                    { eng: "You canceled our plans again. Do you have a good reason this time?", thai: "คุณยกเลิกแผนของเราอีกแล้ว ครั้งนี้คุณมีเหตุผลที่ดีพอไหม?" },
+                    { eng: "He didn't have a good reason for his absence from work.", thai: "เขาไม่มีเหตุผลที่ดีพอสำหรับการขาดงานของเขา" },
+                    { eng: "Does she have a good reason to quit such a high-paying job?", thai: "เธอมีเหตุผลที่ดีพอที่จะลาออกจากงานที่ได้เงินเดือนสูงขนาดนั้นหรือไม่?" },
+                    { eng: "Before you complain, make sure you have a good reason.", thai: "ก่อนที่คุณจะบ่น ตรวจสอบให้แน่ใจว่าคุณมีเหตุผลที่ดีพอ" },
+                    { eng: "They must have a very good reason for making that decision.", thai: "พวกเขาต้องมีเหตุผลที่ดีมากๆ ในการตัดสินใจแบบนั้น" }
+                ],
+                equivalents: [
+                    { term: "What's your justification?", eng_example: "This is a risky move. What's your justification for it?", thai_example: "นี่เป็นการเคลื่อนไหวที่เสี่ยงนะ อะไรคือเหตุผลสนับสนุนของคุณ?" }
+                ],
+                collocations: [
+                    { term: "a valid reason", eng_example: "You need a valid reason to be excused from the exam.", thai_example: "คุณต้องมีเหตุผลที่สมเหตุสมผลเพื่อที่จะได้รับการยกเว้นจากการสอบ" },
+                    { term: "for some reason", eng_example: "For some reason, the key isn't working.", thai_example: "ด้วยเหตุผลบางอย่าง กุญแจดอกนี้ใช้ไม่ได้" }
+                ]
+            },
+            {
+                emoji: "📜",
+                mainSentence: "Do you have any proof?",
+                mainSentenceThai: "คุณมีหลักฐานอะไรไหม?",
+                thaiReading: "ดู ยู แฮฟ เอนี่ <u>พรู๊ฟ</u>?",
+                examples: [
+                    { eng: "That's a very serious accusation. Do you have any proof to support it?", thai: "นั่นเป็นข้อกล่าวหาที่ร้ายแรงมากนะ คุณมีหลักฐานอะไรมาสนับสนุนไหม?" },
+                    { eng: "The police asked if he had any proof of his identity.", thai: "ตำรวจถามว่าเขามีหลักฐานยืนยันตัวตนไหม" },
+                    { eng: "Does she have proof of purchase for the warranty claim?", thai: "เธอมีหลักฐานการซื้อเพื่อเรียกร้องการรับประกันหรือไม่?" },
+                    { eng: "Without concrete proof, the court cannot convict him.", thai: "หากไม่มีหลักฐานที่ชัดเจน ศาลไม่สามารถตัดสินว่าเขามีความผิดได้" },
+                    { eng: "They have video proof of the incident.", thai: "พวกเขามีหลักฐานเป็นวิดีโอของเหตุการณ์นั้น" }
+                ],
+                equivalents: [
+                    { term: "Do you have any evidence?", eng_example: "To proceed with the case, we need more information. Do you have any evidence?", thai_example: "เพื่อดำเนินคดีต่อไป เราต้องการข้อมูลเพิ่มเติม คุณมีหลักฐานอะไรบ้างไหม?" },
+                    { term: "Can you prove it?", eng_example: "You claim you were at home. Can you prove it?", thai_example: "คุณอ้างว่าคุณอยู่ที่บ้าน คุณพิสูจน์ได้ไหม?" }
+                ],
+                collocations: [
+                    { term: "concrete proof", eng_example: "The detective is looking for concrete proof.", thai_example: "นักสืบกำลังมองหาหลักฐานที่ชัดเจน" },
+                    { term: "proof of identity", eng_example: "You will need to show proof of identity, such as a passport.", thai_example: "คุณจะต้องแสดงหลักฐานยืนยันตัวตน เช่น หนังสือเดินทาง" }
+                ]
+            },
+            {
+                emoji: "🐶",
+                mainSentence: "Do you have a pet?",
+                mainSentenceThai: "คุณมีสัตว์เลี้ยงไหม?",
+                thaiReading: "ดู ยู แฮฟ อะ <u>เพ็ท</u>?",
+                examples: [
+                    { eng: "The little girl asked her new friend, 'Do you have a pet?'", thai: "เด็กหญิงตัวน้อยถามเพื่อนใหม่ของเธอว่า 'เธอมีสัตว์เลี้ยงไหม?'" },
+                    { eng: "I don't have any pets because my apartment doesn't allow them.", thai: "ฉันไม่มีสัตว์เลี้ยงเพราะอพาร์ตเมนต์ของฉันไม่อนุญาต" },
+                    { eng: "Does she have a pet dog or a cat?", thai: "เธอมีสุนัขหรือแมวเป็นสัตว์เลี้ยงไหม?" },
+                    { eng: "He has several exotic pets, including a snake.", thai: "เขามีสัตว์เลี้ยงแปลกๆ หลายตัว รวมถึงงูด้วย" },
+                    { eng: "They are thinking about getting a new pet for their children.", thai: "พวกเขากำลังคิดจะหาสัตว์เลี้ยงตัวใหม่ให้ลูกๆ" }
+                ],
+                equivalents: [
+                    { term: "Do you own any animals?", eng_example: "Your house is very pet-friendly. Do you own any animals yourself?", thai_example: "บ้านของคุณเป็นมิตรกับสัตว์เลี้ยงมากเลย ตัวคุณเองมีสัตว์เลี้ยงบ้างไหม?" }
+                ],
+                collocations: [
+                    { term: "a family pet", eng_example: "Our golden retriever is a beloved family pet.", thai_example: "สุนัขโกลเด้นรีทรีฟเวอร์ของเราเป็นสัตว์เลี้ยงที่เป็นที่รักของครอบครัว" },
+                    { term: "pet owner", eng_example: "Being a responsible pet owner requires time and commitment.", thai_example: "การเป็นเจ้าของสัตว์เลี้ยงที่มีความรับผิดชอบต้องใช้เวลาและความมุ่งมั่น" }
+                ]
+            },
+            {
+                emoji: "🤕",
+                mainSentence: "Do you have a headache?",
+                mainSentenceThai: "คุณปวดหัวหรือเปล่า?",
+                thaiReading: "ดู ยู แฮฟ อะ <u>เฮ้ด</u>เอค?",
+                examples: [
+                    { eng: "You're rubbing your temples. Do you have a headache?", thai: "คุณกำลังนวดขมับอยู่ ปวดหัวหรือเปล่า?" },
+                    { eng: "I have a terrible headache; I need to take some medicine.", thai: "ฉันปวดหัวมาก ฉันต้องกินยาหน่อย" },
+                    { eng: "Does she often have headaches after staring at the computer?", thai: "เธอมักจะปวดหัวหลังจากจ้องคอมพิวเตอร์นานๆ หรือไม่?" },
+                    { eng: "He said he has had a headache since this morning.", thai: "เขาบอกว่าเขาปวดหัวมาตั้งแต่เช้านี้" },
+                    { eng: "Loud, constant noise can give you a headache.", thai: "เสียงดังต่อเนื่องสามารถทำให้คุณปวดหัวได้" }
+                ],
+                equivalents: [
+                    { term: "Is your head hurting?", eng_example: "You look unwell. Is your head hurting?", thai_example: "คุณดูไม่สบายนะ ปวดหัวหรือเปล่า?" }
+                ],
+                collocations: [
+                    { term: "a splitting headache", eng_example: "After the long meeting, I had a splitting headache.", thai_example: "หลังจากการประชุมที่ยาวนาน ฉันก็ปวดหัวแทบระเบิด" },
+                    { term: "a migraine headache", eng_example: "A migraine headache is often accompanied by sensitivity to light.", thai_example: "อาการปวดหัวไมเกรนมักจะมาพร้อมกับอาการไวต่อแสง" }
+                ]
+            }
+        ];
+
+        const slidesWrapper = document.getElementById('slides-wrapper');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const pageCounter = document.getElementById('page-counter');
+
+        let currentSlide = 0;
+
+        function generateSlides() {
+            slideData.forEach((data, index) => {
+                const slide = document.createElement('div');
+                slide.className = 'slide';
+                slide.id = `slide-${index}`;
+
+                const examplesHtml = data.examples.map(ex => `<li>${ex.eng}<span class="thai-translation">${ex.thai}</span></li>`).join('');
+                
+                const equivalentsHtml = data.equivalents.map(eq => `
+                    <li>
+                        <span class="example-term">${eq.term}</span>
+                        <span class="example-sentence">${eq.eng_example}</span>
+                        <span class="thai-translation">${eq.thai_example}</span>
+                    </li>`).join('');
+
+                const collocationsHtml = data.collocations.map(co => `
+                    <li>
+                        <span class="example-term">${co.term}</span>
+                        <span class="example-sentence">${co.eng_example}</span>
+                        <span class="thai-translation">${co.thai_example}</span>
+                    </li>`).join('');
+
+                slide.innerHTML = `
+                    <h2>${data.emoji} ${data.mainSentence}
+                        <span class="main-sentence-thai">${data.mainSentenceThai}</span>
+                    </h2>
+                    <p class="thai-reading">${data.thaiReading}</p>
+                    
+                    <div class="content-section">
+                        <h3>ตัวอย่างประโยคเพิ่มเติม:</h3>
+                        <ul>${examplesHtml}</ul>
+                    </div>
+                    
+                    <div class="content-section">
+                        <h3>Equivalent Alternatives (สำนวนที่มีความหมายเหมือนกัน)</h3>
+                        <ul>${equivalentsHtml}</ul>
+                    </div>
+                    
+                    <div class="content-section">
+                        <h3>Collocations (คำที่มักใช้มาด้วยกัน)</h3>
+                        <ul>${collocationsHtml}</ul>
+                    </div>
+
+                    <div class="footer">
+                        ครูสาลี่ -- อังกฤษฉบับคนเรียนไม่รู้เรื่อง
+                    </div>
+                `;
+                slidesWrapper.appendChild(slide);
+            });
+        }
+        
+        function getRandomColor() {
+            const h = Math.floor(Math.random() * 360);
+            const s = 100;
+            const l = 97; 
+            return `hsl(${h}, ${s}%, ${l}%)`;
+        }
+
+        function showSlide(index) {
+            const slides = document.querySelectorAll('.slide');
+            slides.forEach(slide => {
+                slide.classList.remove('active');
+            });
+            
+            const activeSlide = document.getElementById(`slide-${index}`);
+            activeSlide.classList.add('active');
+            activeSlide.style.backgroundColor = getRandomColor();
+            
+            pageCounter.textContent = `หน้า ${index + 1} / ${slideData.length}`;
+            
+            prevBtn.disabled = index === 0;
+            nextBtn.disabled = index === slideData.length - 1;
+        }
+
+        nextBtn.addEventListener('click', () => {
+            if (currentSlide < slideData.length - 1) {
+                currentSlide++;
+                showSlide(currentSlide);
+            }
+        });
+
+        prevBtn.addEventListener('click', () => {
+            if (currentSlide > 0) {
+                currentSlide--;
+                showSlide(currentSlide);
+            }
+        });
+
+        generateSlides();
+        showSlide(currentSlide);
+    </script>
+</body>
+</html>

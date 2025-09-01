@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mr. News - New Thai Banknotes</title>
+    <style>
+        /* Import Google Font */
+        @import url('https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap');
+
+        /* Global Styles */
+        :root {
+            --primary-color: #2980B9; /* A professional, bank-like blue */
+            --secondary-color: #F39C12; /* A golden yellow accent */
+            --background-color: #f2f5f8;
+            --text-color: #34495E;
+            --card-background: #ffffff;
+            --shadow-color: rgba(0, 0, 0, 0.1);
+            --border-radius: 12px;
+        }
+
+        body {
+            font-family: 'Kanit', sans-serif;
+            background-color: var(--background-color);
+            margin: 0;
+            padding: 20px;
+            color: var(--text-color);
+            line-height: 1.7;
+        }
+
+        /* App Container */
+        .app-container {
+            max-width: 800px;
+            margin: auto;
+            background: var(--card-background);
+            border-radius: var(--border-radius);
+            box-shadow: 0 8px 25px var(--shadow-color);
+            overflow: hidden;
+            border: 1px solid #e0e0e0;
+        }
+
+        /* Header */
+        .app-header {
+            background: linear-gradient(135deg, var(--primary-color), #3498DB);
+            color: white;
+            padding: 25px 30px;
+            text-align: center;
+        }
+
+        .app-header h1 {
+            margin: 0;
+            font-size: 2.2rem;
+            font-weight: 700;
+        }
+
+        .app-header p {
+            margin: 5px 0 0;
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        /* Toggle Buttons */
+        .toggle-buttons {
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+            background-color: #ebf5fb;
+        }
+
+        .toggle-btn {
+            background-color: #fff;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+            padding: 10px 25px;
+            margin: 0 10px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .toggle-btn:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .toggle-btn.active-btn {
+            background-color: var(--primary-color);
+            color: white;
+            box-shadow: 0 4px 10px rgba(41, 128, 185, 0.4);
+        }
+
+        /* Content Box */
+        .content-box {
+            padding: 30px;
+            font-size: 1.1rem;
+        }
+
+        .content-box.advanced {
+            display: none; /* Initially hide advanced content */
+        }
+        
+        .content-box h2 {
+            color: var(--primary-color);
+            border-bottom: 3px solid var(--secondary-color);
+            padding-bottom: 10px;
+            margin-top: 0;
+        }
+        
+        /* Highlighted Text */
+        .highlight {
+            background-color: #fef5e7;
+            color: #b9770e;
+            padding: 2px 5px;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            border-bottom: 2px dotted var(--secondary-color);
+            transition: all 0.2s ease-in-out;
+        }
+
+        .highlight:hover {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+
+        /* Modal (Popup) Styles */
+        .modal {
+            display: none; 
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.6);
+            animation: fadeIn 0.4s;
+        }
+
+        .modal-content {
+            background-color: #fff;
+            margin: 10% auto;
+            padding: 25px 35px;
+            border: none;
+            width: 90%;
+            max-width: 550px;
+            border-radius: var(--border-radius);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            position: relative;
+            animation: slideIn 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        @keyframes fadeIn {
+            from {opacity: 0;}
+            to {opacity: 1;}
+        }
+
+        @keyframes slideIn {
+            from {transform: translateY(-50px); opacity: 0;}
+            to {transform: translateY(0); opacity: 1;}
+        }
+
+        .close-button {
+            color: #aaa;
+            float: right;
+            font-size: 32px;
+            font-weight: bold;
+            position: absolute;
+            top: 10px;
+            right: 20px;
+        }
+
+        .close-button:hover,
+        .close-button:focus {
+            color: #333;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .modal-content h3 {
+            color: var(--primary-color);
+            font-size: 1.8rem;
+            margin-top: 0;
+        }
+
+        .modal-content p {
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+        }
+        
+        .modal-content strong {
+            color: var(--text-color);
+            font-weight: 600;
+        }
+
+        .modal-example {
+            background-color: #f8f9fa;
+            border-left: 5px solid var(--primary-color);
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .modal-example p {
+            margin: 0;
+            font-style: italic;
+        }
+        
+        .modal-example .translation {
+            color: #6c757d;
+            font-size: 0.95rem;
+            margin-top: 5px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            .app-header h1 {
+                font-size: 1.8rem;
+            }
+            .app-header p {
+                font-size: 1rem;
+            }
+            .toggle-btn {
+                padding: 8px 20px;
+                font-size: 0.9rem;
+            }
+            .content-box {
+                padding: 20px;
+                font-size: 1rem;
+            }
+            .modal-content {
+                width: 95%;
+                margin: 20% auto;
+                padding: 20px;
+            }
+            .modal-content h3 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+        <header class="app-header">
+            <h1>News: New Banknotes</h1>
+            <p>Cost-Saving & Eco-Friendly, Launching Nov 21</p>
+        </header>
+
+        <div class="toggle-buttons">
+            <button id="btn-basic" class="toggle-btn active-btn">Basic Level</button>
+            <button id="btn-advanced" class="toggle-btn">Advanced Level</button>
+        </div>
+
+        <div id="basic-content" class="content-box">
+            <h2>Basic Version Summary</h2>
+            <p>
+                Thailand will have new 50 and 100 baht <span class="highlight" data-key="banknotes">banknotes</span> starting November 21. They are made of a <span class="highlight" data-key="special_plastic">special plastic</span> called polymer. These new notes are <span class="highlight" data-key="stronger">stronger</span>, stay cleaner, and last longer, which is <span class="highlight" data-key="good_for_env">good for the environment</span> because fewer need to be printed.
+            </p>
+            <p>
+                These new notes are very <span class="highlight" data-key="hard_to_copy">hard to copy</span> because they have special features. The most special part is a 'clear window' that you can look through. Inside this window, you can feel a raised number for the value (50 or 100). Also, if you tilt the note, some parts will change color. There are also special marks for people who cannot see well, so they can feel the value of the note. You can still use the old paper banknotes as usual.
+            </p>
+        </div>
+
+        <div id="advanced-content" class="content-box advanced">
+            <h2>Advanced Version Summary</h2>
+            <p>
+                The Bank of Thailand has announced new 50 and 100 baht polymer banknotes, set to <span class="highlight" data-key="circulation">enter circulation</span> on November 21. Made from a <span class="highlight" data-key="substrate">durable polymer substrate</span>, they are more resistant to dirt and moisture than their paper <span class="highlight" data-key="counterparts">counterparts</span>, leading to positive <span class="highlight" data-key="env_impacts">environmental impacts</span> and cost savings.
+            </p>
+            <p>
+                To prevent <span class="highlight" data-key="counterfeiting">counterfeiting</span>, the notes incorporate advanced security technologies. A key feature is a large, clear polymer window that is difficult to <span class="highlight" data-key="replicate">replicate</span>. Within this window, an <span class="highlight" data-key="embossed">embossed denomination</span> serves as a visual and tactile <span class="highlight" data-key="verification">verification point</span>. Furthermore, they utilize <span class="highlight" data-key="ink">optically variable ink</span>, a hallmark of secure currency. For <span class="highlight" data-key="inclusivity">inclusivity</span>, enhanced tactile features assist the visually impaired. Existing paper notes remain <span class="highlight" data-key="legal_tender">legal tender</span>.
+            </p>
+        </div>
+    </div>
+
+    <div id="popup-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <h3 id="modal-term"></h3>
+            <p><strong>Meaning:</strong> <span id="modal-meaning"></span></p>
+            <p><strong>Pronunciation:</strong> <span id="modal-pronunciation"></span></p>
+            <div class="modal-example">
+                <p><strong>Example Sentence:</strong> "<span id="modal-example-en"></span>"</p>
+                <p class="translation"><span id="modal-example-th"></span></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- Data for Popups ---
+        const vocabData = {
+            // Basic
+            banknotes: { term: 'Banknotes', meaning: 'ธนบัตร', pronunciation: '<u>แบงค์</u>-โน้ทส์', example_en: 'Please check that all the banknotes are real.', example_th: 'โปรดตรวจสอบว่าธนบัตรทุกใบเป็นของจริง' },
+            special_plastic: { term: 'Special Plastic', meaning: 'พลาสติกชนิดพิเศษ', pronunciation: '<u>สเป</u>-เชียล <u>พลาส</u>-ติก', example_en: 'The new ID cards are made from a special plastic that is hard to break.', example_th: 'บัตรประชาชนรุ่นใหม่ทำจากพลาสติกชนิดพิเศษที่แตกหักยาก' },
+            stronger: { term: 'Stronger', meaning: 'แข็งแรงกว่า, ทนทานกว่า', pronunciation: '<u>สตรอง</u>-เก้อ', example_en: 'This new material is much stronger than the old one.', example_th: 'วัสดุใหม่นี้แข็งแรงกว่าวัสดุเก่ามาก' },
+            good_for_env: { term: 'Good for the Environment', meaning: 'ดีต่อสิ่งแวดล้อม', pronunciation: '<u>กู๊ด</u> ฟอ ดิ เอน-<u>ไว</u>-รอน-เมินท์', example_en: 'Using reusable bags instead of plastic ones is good for the environment.', example_th: 'การใช้ถุงที่นำกลับมาใช้ใหม่ได้แทนถุงพลาสติกนั้นดีต่อสิ่งแวดล้อม' },
+            hard_to_copy: { term: 'Hard to Copy', meaning: 'ลอกเลียนแบบได้ยาก, ปลอมแปลงได้ยาก', pronunciation: '<u>ฮาร์ด</u> ทู <u>คอ</u>-ปี้', example_en: 'The artist’s signature is very complex and hard to copy.', example_th: 'ลายเซ็นของศิลปินมีความซับซ้อนและลอกเลียนแบบได้ยากมาก' },
+            // Advanced
+            circulation: { term: 'Enter Circulation', meaning: 'นำออกใช้หมุนเวียนในระบบ', pronunciation: '<u>เอ็น</u>-เท่อ เซอ-คิว-<u>เล</u>-ชั่น', example_en: 'The new coin design will enter circulation next month.', example_th: 'เหรียญดีไซน์ใหม่จะเริ่มนำออกใช้หมุนเวียนในเดือนหน้า' },
+            substrate: { term: 'Durable Polymer Substrate', meaning: 'วัสดุฐานโพลิเมอร์ที่ทนทาน (วัสดุหลักที่ใช้พิมพ์)', pronunciation: '<u>ดู</u>-ระ-เบิล <u>พอ</u>-ลิ-เม่อ <u>ซับ</u>-สเตรท', example_en: 'Modern banknotes are printed on a durable polymer substrate for longevity.', example_th: 'ธนบัตรสมัยใหม่ถูกพิมพ์บนวัสดุฐานโพลิเมอร์ที่ทนทานเพื่ออายุการใช้งานที่ยาวนาน' },
+            counterparts: { term: 'Counterparts', meaning: 'สิ่งที่เทียบเท่ากัน, ฉบับเดิม (ในที่นี้คือธนบัตรกระดาษ)', pronunciation: '<u>เคาน์</u>-เต้อ-พาร์ทส์', example_en: 'The new polymer notes last longer than their paper counterparts.', example_th: 'ธนบัตรโพลิเมอร์รุ่นใหม่มีอายุการใช้งานยาวนานกว่าธนบัตรกระดาษแบบเดิม' },
+            env_impacts: { term: 'Environmental Impacts', meaning: 'ผลกระทบต่อสิ่งแวดล้อม', pronunciation: 'เอน-ไว-รอน-<u>เมน</u>-ทอล <u>อิม</u>-แพคทส์', example_en: 'The factory aims to reduce its negative environmental impacts.', example_th: 'โรงงานมีเป้าหมายที่จะลดผลกระทบเชิงลบต่อสิ่งแวดล้อม' },
+            counterfeiting: { term: 'Counterfeiting', meaning: 'การปลอมแปลง (ธนบัตร, เอกสาร)', pronunciation: '<u>เคาน์</u>-เต้อ-ฟิ-ติ้ง', example_en: 'The government has introduced new laws to combat counterfeiting.', example_th: 'รัฐบาลได้ออกกฎหมายใหม่เพื่อต่อสู้กับการปลอมแปลงธนบัตร' },
+            replicate: { term: 'Replicate', meaning: 'ทำซ้ำ, ลอกเลียนแบบให้เหมือนของจริงทุกประการ', pronunciation: '<u>เร็พ</u>-ลิ-เคท', example_en: 'It is nearly impossible to replicate the complex design of the new passport.', example_th: 'มันแทบจะเป็นไปไม่ได้เลยที่จะลอกเลียนแบบดีไซน์อันซับซ้อนของหนังสือเดินทางรุ่นใหม่' },
+            embossed: { term: 'Embossed Denomination', meaning: 'ตัวเลขแจ้งราคานูน (ที่พิมพ์ให้นูนขึ้นมาเพื่อให้สัมผัสได้)', pronunciation: 'เอ็ม-<u>บอสท์</u> ดิ-นอ-มิ-<u>เน</u>-ชั่น', example_en: 'The new banknote has an embossed denomination in the clear window as a security feature.', example_th: 'ธนบัตรรุ่นใหม่มีตัวเลขแจ้งราคานูนในช่องใสเพื่อเป็นคุณลักษณะด้านความปลอดภัย' },
+            verification: { term: 'Verification Point', meaning: 'จุดตรวจสอบ (เพื่อยืนยันความถูกต้องหรือความแท้จริง)', pronunciation: 'เว-ริ-ฟิ-<u>เค</u>-ชั่น <u>พอยท์</u>', example_en: 'The hologram on the credit card serves as a key verification point for cashiers.', example_th: 'โฮโลแกรมบนบัตรเครดิตทำหน้าที่เป็นจุดตรวจสอบที่สำคัญสำหรับพนักงานเก็บเงิน' },
+            ink: { term: 'Optically Variable Ink', meaning: 'หมึกพิมพ์พิเศษที่เปลี่ยนสีได้ตามมุมมอง', pronunciation: '<u>ออพ</u>-ติ-คอล-ลี่ <u>แว</u>-เรีย-เบิล <u>อิงค์</u>', example_en: 'The use of optically variable ink makes the banknote much harder to counterfeit.', example_th: 'การใช้หมึกพิมพ์พิเศษที่เปลี่ยนสีได้ตามมุมมองทำให้ธนบัตรปลอมแปลงได้ยากขึ้นมาก' },
+            inclusivity: { term: 'Inclusivity', meaning: 'การออกแบบที่คำนึงถึงคนทุกกลุ่ม, การรวมทุกคนเข้าไว้ด้วยกัน', pronunciation: 'อิน-คลู-<u>ซิ</u>-วิ-ตี้', example_en: 'Building ramps next to stairs is an important part of architectural inclusivity.', example_th: 'การสร้างทางลาดข้างบันไดเป็นส่วนสำคัญของการออกแบบสถาปัตยกรรมที่คำนึงถึงคนทุกกลุ่ม' },
+            legal_tender: { term: 'Legal Tender', meaning: 'เงินตราที่ชำระหนี้ได้ตามกฎหมาย', pronunciation: '<u>ลี</u>-เกิล <u>เทน</u>-เดอร์', example_en: 'The old one-dollar bill is still considered legal tender.', example_th: 'ธนบัตรหนึ่งดอลลาร์รุ่นเก่ายังคงถือเป็นเงินที่ชำระหนี้ได้ตามกฎหมาย' }
+        };
+
+        // --- DOM Elements ---
+        const btnBasic = document.getElementById('btn-basic');
+        const btnAdvanced = document.getElementById('btn-advanced');
+        const basicContent = document.getElementById('basic-content');
+        const advancedContent = document.getElementById('advanced-content');
+        const modal = document.getElementById('popup-modal');
+        const closeModalBtn = document.querySelector('.close-button');
+        
+        // --- Event Listeners ---
+        btnBasic.addEventListener('click', () => {
+            basicContent.style.display = 'block';
+            advancedContent.style.display = 'none';
+            btnBasic.classList.add('active-btn');
+            btnAdvanced.classList.remove('active-btn');
+        });
+
+        btnAdvanced.addEventListener('click', () => {
+            basicContent.style.display = 'none';
+            advancedContent.style.display = 'block';
+            btnAdvanced.classList.add('active-btn');
+            btnBasic.classList.remove('active-btn');
+        });
+
+        document.querySelectorAll('.highlight').forEach(item => {
+            item.addEventListener('click', event => {
+                const key = event.target.dataset.key;
+                if (vocabData[key]) {
+                    const data = vocabData[key];
+                    document.getElementById('modal-term').textContent = data.term;
+                    document.getElementById('modal-meaning').textContent = data.meaning;
+                    document.getElementById('modal-pronunciation').innerHTML = data.pronunciation;
+                    document.getElementById('modal-example-en').textContent = data.example_en;
+                    document.getElementById('modal-example-th').textContent = data.example_th;
+                    modal.style.display = 'block';
+                }
+            });
+        });
+
+        closeModalBtn.addEventListener('click', () => {
+            modal.style.display = 'none';
+        });
+
+        window.addEventListener('click', (event) => {
+            if (event.target == modal) {
+                modal.style.display = 'none';
+            }
+        });
+
+    </script>
+</body>
+</html>

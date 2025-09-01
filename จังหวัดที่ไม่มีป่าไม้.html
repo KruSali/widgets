@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mr. News - Thailand's Forest Situation</title>
+    <style>
+        /* Import Google Font */
+        @import url('https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap');
+
+        /* Global Styles */
+        :root {
+            --primary-color: #27AE60; /* A fresh green */
+            --secondary-color: #F1C40F; /* A bright yellow for highlights */
+            --background-color: #f4f6f5;
+            --text-color: #2c3e50;
+            --card-background: #ffffff;
+            --shadow-color: rgba(0, 0, 0, 0.08);
+            --border-radius: 12px;
+        }
+
+        body {
+            font-family: 'Kanit', sans-serif;
+            background-color: var(--background-color);
+            margin: 0;
+            padding: 20px;
+            color: var(--text-color);
+            line-height: 1.7;
+        }
+
+        /* App Container */
+        .app-container {
+            max-width: 800px;
+            margin: auto;
+            background: var(--card-background);
+            border-radius: var(--border-radius);
+            box-shadow: 0 8px 25px var(--shadow-color);
+            overflow: hidden;
+            border: 1px solid #e0e0e0;
+        }
+
+        /* Header */
+        .app-header {
+            background: linear-gradient(135deg, var(--primary-color), #2ECC71);
+            color: white;
+            padding: 25px 30px;
+            text-align: center;
+        }
+
+        .app-header h1 {
+            margin: 0;
+            font-size: 2.2rem;
+            font-weight: 700;
+        }
+
+        .app-header p {
+            margin: 5px 0 0;
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        /* Toggle Buttons */
+        .toggle-buttons {
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+            background-color: #eafaf1;
+        }
+
+        .toggle-btn {
+            background-color: #fff;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+            padding: 10px 25px;
+            margin: 0 10px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .toggle-btn:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .toggle-btn.active-btn {
+            background-color: var(--primary-color);
+            color: white;
+            box-shadow: 0 4px 10px rgba(39, 174, 96, 0.4);
+        }
+
+        /* Content Box */
+        .content-box {
+            padding: 30px;
+            font-size: 1.1rem;
+        }
+
+        .content-box.advanced {
+            display: none; /* Initially hide advanced content */
+        }
+        
+        .content-box h2 {
+            color: var(--primary-color);
+            border-bottom: 3px solid var(--secondary-color);
+            padding-bottom: 10px;
+            margin-top: 0;
+        }
+        
+        /* Highlighted Text */
+        .highlight {
+            background-color: #fef9e7;
+            color: #b7950b;
+            padding: 2px 5px;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            border-bottom: 2px dotted var(--secondary-color);
+            transition: all 0.2s ease-in-out;
+        }
+
+        .highlight:hover {
+            background-color: var(--secondary-color);
+            color: #333;
+        }
+
+        /* Modal (Popup) Styles */
+        .modal {
+            display: none; 
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.6);
+            animation: fadeIn 0.4s;
+        }
+
+        .modal-content {
+            background-color: #fff;
+            margin: 10% auto;
+            padding: 25px 35px;
+            border: none;
+            width: 90%;
+            max-width: 550px;
+            border-radius: var(--border-radius);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            position: relative;
+            animation: slideIn 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        @keyframes fadeIn {
+            from {opacity: 0;}
+            to {opacity: 1;}
+        }
+
+        @keyframes slideIn {
+            from {transform: translateY(-50px); opacity: 0;}
+            to {transform: translateY(0); opacity: 1;}
+        }
+
+        .close-button {
+            color: #aaa;
+            float: right;
+            font-size: 32px;
+            font-weight: bold;
+            position: absolute;
+            top: 10px;
+            right: 20px;
+        }
+
+        .close-button:hover,
+        .close-button:focus {
+            color: #333;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .modal-content h3 {
+            color: var(--primary-color);
+            font-size: 1.8rem;
+            margin-top: 0;
+        }
+
+        .modal-content p {
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+        }
+        
+        .modal-content strong {
+            color: var(--text-color);
+            font-weight: 600;
+        }
+
+        .modal-example {
+            background-color: #f8f9fa;
+            border-left: 5px solid var(--primary-color);
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .modal-example p {
+            margin: 0;
+            font-style: italic;
+        }
+        
+        .modal-example .translation {
+            color: #6c757d;
+            font-size: 0.95rem;
+            margin-top: 5px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            .app-header h1 {
+                font-size: 1.8rem;
+            }
+            .app-header p {
+                font-size: 1rem;
+            }
+            .toggle-btn {
+                padding: 8px 20px;
+                font-size: 0.9rem;
+            }
+            .content-box {
+                padding: 20px;
+                font-size: 1rem;
+            }
+            .modal-content {
+                width: 95%;
+                margin: 20% auto;
+                padding: 20px;
+            }
+            .modal-content h3 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+        <header class="app-header">
+            <h1>ข่าว: สถานการณ์ป่าไม้ไทย</h1>
+            <p>เปิดเผย 2 จังหวัดที่ไม่มีพื้นที่ป่าเลย</p>
+        </header>
+
+        <div class="toggle-buttons">
+            <button id="btn-basic" class="toggle-btn active-btn">ระดับพื้นฐาน (Basic)</button>
+            <button id="btn-advanced" class="toggle-btn">ระดับสูง (Advanced)</button>
+        </div>
+
+        <div id="basic-content" class="content-box">
+            <h2>สรุปข่าวเวอร์ชั่นพื้นฐาน</h2>
+            <p>
+                Did you know that two <span class="highlight" data-key="provinces">provinces</span> in Thailand have <span class="highlight" data-key="no_forests">no forests</span>? These provinces are Nonthaburi and Pathum Thani. A 2024 report says that Thailand's <span class="highlight" data-key="total_area">total forest area</span> is now 31.46% of the country.
+            </p>
+            <p>
+                This is <span class="highlight" data-key="decrease">a small decrease</span> from last year. The country wants to have 40% forest, but the amount is slowly going down. However, some provinces, like Ang Thong, have started to <span class="highlight" data-key="grow_new">grow new forest areas</span>.
+            </p>
+        </div>
+
+        <div id="advanced-content" class="content-box advanced">
+            <h2>สรุปข่าวเวอร์ชั่นขั้นสูง</h2>
+            <p>
+                A <span class="highlight" data-key="revelation">surprising revelation</span> from a 2024 report indicates that two Thai provinces, Nonthaburi and Pathum Thani, are completely <span class="highlight" data-key="devoid_of">devoid of</span> forest land. The report states that Thailand's <span class="highlight" data-key="forest_cover">overall forest cover</span> has slightly declined to 31.46%.
+            </p>
+            <p>
+                This figure <span class="highlight" data-key="falls_short">falls short of the national target</span> of 40% and highlights ongoing issues like <span class="highlight" data-key="encroachment">encroachment</span>. This downward trend <span class="highlight" data-key="threatens_bio">threatens biodiversity</span>. On a positive note, the data shows signs of <span class="highlight" data-key="reforestation">reforestation</span> in some areas, such as Ang Thong province.
+            </p>
+        </div>
+    </div>
+
+    <div id="popup-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <h3 id="modal-term"></h3>
+            <p><strong>ความหมาย:</strong> <span id="modal-meaning"></span></p>
+            <p><strong>คำอ่าน:</strong> <span id="modal-pronunciation"></span></p>
+            <div class="modal-example">
+                <p><strong>ตัวอย่างประโยค:</strong> "<span id="modal-example-en"></span>"</p>
+                <p class="translation"><span id="modal-example-th"></span></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- Data for Popups ---
+        const vocabData = {
+            // Basic
+            provinces: {
+                term: 'Provinces',
+                meaning: 'จังหวัด',
+                pronunciation: '<u>พรอ</u>-ฝิ่น-เสส',
+                example_en: 'Thailand is divided into 77 provinces.',
+                example_th: 'ประเทศไทยแบ่งออกเป็น 77 จังหวัด'
+            },
+            no_forests: {
+                term: 'No Forests',
+                meaning: 'ไม่มีป่าไม้',
+                pronunciation: '<u>โน</u> <u>ฟอ</u>-เรสท์ส',
+                example_en: 'The desert is a large area with no forests.',
+                example_th: 'ทะเลทรายเป็นพื้นที่ขนาดใหญ่ที่ไม่มีป่าไม้'
+            },
+            total_area: {
+                term: 'Total Forest Area',
+                meaning: 'พื้นที่ป่าไม้ทั้งหมด',
+                pronunciation: '<u>โท</u>-ทอล <u>ฟอ</u>-เรสท์ <u>แอ</u>-เรีย',
+                example_en: 'The total forest area of the country is shrinking each year.',
+                example_th: 'พื้นที่ป่าไม้ทั้งหมดของประเทศกำลังลดลงทุกปี'
+            },
+            decrease: {
+                term: 'A Small Decrease',
+                meaning: 'การลดลงเล็กน้อย',
+                pronunciation: 'อะ <u>สมอล</u> ดี-<u>ครีส</u>',
+                example_en: 'There was a small decrease in student enrollment this semester.',
+                example_th: 'มีการลงทะเบียนของนักเรียนลดลงเล็กน้อยในภาคการศึกษานี้'
+            },
+            grow_new: {
+                term: 'Grow New Forest Areas',
+                meaning: 'ปลูกป่าขึ้นใหม่, สร้างพื้นที่ป่าใหม่',
+                pronunciation: '<u>โกร</u> นิว <u>ฟอ</u>-เรสท์ <u>แอ</u>-เรียส์',
+                example_en: 'The community worked together to grow new forest areas on the barren hill.',
+                example_th: 'ชุมชนร่วมมือกันสร้างพื้นที่ป่าใหม่บนเนินเขาที่แห้งแล้ง'
+            },
+            // Advanced
+            revelation: {
+                term: 'Surprising Revelation',
+                meaning: 'การเปิดเผยข้อมูลที่น่าประหลาดใจ',
+                pronunciation: 'เซอ-<u>ไพร</u>-ซิ่ง เร-เว-<u>เล</u>-ชั่น',
+                example_en: 'The journalist’s article contained a surprising revelation about the mayor.',
+                example_th: 'บทความของนักข่าวมีการเปิดเผยข้อมูลที่น่าประหลาดใจเกี่ยวกับนายกเทศมนตรี'
+            },
+            devoid_of: {
+                term: 'Devoid of',
+                meaning: 'ปราศจาก, ไม่มีเลย',
+                pronunciation: 'ดิ-<u>วอยด์</u> ออฟ',
+                example_en: 'The landscape was completely devoid of trees.',
+                example_th: 'ภูมิประเทศนั้นปราศจากต้นไม้โดยสิ้นเชิง'
+            },
+            forest_cover: {
+                term: 'Overall Forest Cover',
+                meaning: 'พื้นที่ปกคลุมด้วยป่าไม้โดยรวม',
+                pronunciation: '<u>โอ</u>-เว่อ-รอล <u>ฟอ</u>-เรสท์ <u>คัฟ</u>-เว่อ',
+                example_en: 'Brazil has the largest overall forest cover in the world.',
+                example_th: 'ประเทศบราซิลมีพื้นที่ปกคลุมด้วยป่าไม้โดยรวมใหญ่ที่สุดในโลก'
+            },
+            falls_short: {
+                term: 'Falls Short of the National Target',
+                meaning: 'ไม่ถึงเป้าหมายระดับชาติ, ต่ำกว่าเป้าที่ประเทศตั้งไว้',
+                pronunciation: '<u>ฟอลส์</u> ชอร์ท ออฟ เดอะ <u>แน</u>-ชั่น-นอล <u>ทาร์</u>-เก็ต',
+                example_en: 'The company’s performance falls short of the national target for renewable energy use.',
+                example_th: 'ผลการดำเนินงานของบริษัทไม่ถึงเป้าหมายระดับชาติในการใช้พลังงานหมุนเวียน'
+            },
+            encroachment: {
+                term: 'Encroachment',
+                meaning: 'การบุกรุก, การล่วงล้ำ (โดยเฉพาะการบุกรุกพื้นที่ป่าหรือที่ดินสาธารณะ)',
+                pronunciation: 'เอ็น-<u>โครช</u>-เมินท์',
+                example_en: 'The national park is suffering from encroachment by local farmers.',
+                example_th: 'อุทยานแห่งชาติกำลังประสบปัญหาการบุกรุกพื้นที่จากเกษตรกรในท้องถิ่น'
+            },
+            threatens_bio: {
+                term: 'Threatens Biodiversity',
+                meaning: 'คุกคามความหลากหลายทางชีวภาพ',
+                pronunciation: '<u>เธรท</u>-เทินส์ บาย-โอ-ได-<u>เวอ</u>-ซิ-ตี้',
+                example_en: 'Deforestation threatens biodiversity by destroying animal habitats.',
+                example_th: 'การตัดไม้ทำลายป่าคุกคามความหลากหลายทางชีวภาพโดยการทำลายถิ่นที่อยู่ของสัตว์'
+            },
+            reforestation: {
+                term: 'Reforestation',
+                meaning: 'การปลูกป่าทดแทน',
+                pronunciation: 'รี-ฟอ-เรส-<u>เท</u>-ชั่น',
+                example_en: 'Reforestation is crucial for combating climate change.',
+                example_th: 'การปลูกป่าทดแทนเป็นสิ่งสำคัญอย่างยิ่งในการต่อสู้กับการเปลี่ยนแปลงสภาพภูมิอากาศ'
+            }
+        };
+
+        // --- DOM Elements ---
+        const btnBasic = document.getElementById('btn-basic');
+        const btnAdvanced = document.getElementById('btn-advanced');
+        const basicContent = document.getElementById('basic-content');
+        const advancedContent = document.getElementById('advanced-content');
+        const modal = document.getElementById('popup-modal');
+        const closeModalBtn = document.querySelector('.close-button');
+        
+        // --- Event Listeners ---
+
+        // Toggle content visibility
+        btnBasic.addEventListener('click', () => {
+            basicContent.style.display = 'block';
+            advancedContent.style.display = 'none';
+            btnBasic.classList.add('active-btn');
+            btnAdvanced.classList.remove('active-btn');
+        });
+
+        btnAdvanced.addEventListener('click', () => {
+            basicContent.style.display = 'none';
+            advancedContent.style.display = 'block';
+            btnAdvanced.classList.add('active-btn');
+            btnBasic.classList.remove('active-btn');
+        });
+
+        // Open Modal
+        document.querySelectorAll('.highlight').forEach(item => {
+            item.addEventListener('click', event => {
+                const key = event.target.dataset.key;
+                if (vocabData[key]) {
+                    const data = vocabData[key];
+                    document.getElementById('modal-term').textContent = data.term;
+                    document.getElementById('modal-meaning').textContent = data.meaning;
+                    document.getElementById('modal-pronunciation').innerHTML = data.pronunciation;
+                    document.getElementById('modal-example-en').textContent = data.example_en;
+                    document.getElementById('modal-example-th').textContent = data.example_th;
+                    modal.style.display = 'block';
+                }
+            });
+        });
+
+        // Close Modal
+        closeModalBtn.addEventListener('click', () => {
+            modal.style.display = 'none';
+        });
+
+        window.addEventListener('click', (event) => {
+            if (event.target == modal) {
+                modal.style.display = 'none';
+            }
+        });
+
+    </script>
+</body>
+</html>

@@ -3,270 +3,632 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Structure #2 - I'm + (verb-ing) (with translation)</title>
+    <title>App Box: โครงสร้างที่ 2: I'm +(verb ending in -ing).</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Mitr:wght@300;400;500;600&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         body {
-            font-family: 'Mitr', sans-serif;
+            font-family: 'Kanit', sans-serif;
         }
-        .font-poppins {
-            font-family: 'Poppins', sans-serif;
+        .sentence-item {
+            background-color: rgba(255, 255, 255, 0.85);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
         }
-        .sentence-btn {
-            transition: all 0.2s ease-in-out;
+        .sentence-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
         }
-        #modal {
-            transition: opacity 0.3s ease;
-        }
-        .modal-content-container {
+        .modal-content {
             transition: transform 0.3s ease, opacity 0.3s ease;
-            opacity: 0;
-            transform: translateY(20px) scale(0.95);
-        }
-        #modal.active .modal-content-container {
-            opacity: 1;
-            transform: translateY(0) scale(1);
         }
     </style>
 </head>
-<body class="bg-gradient-to-br from-rose-100 via-pink-100 to-purple-200 min-h-screen">
+<body class="bg-gradient-to-br from-amber-400 to-orange-500 min-h-screen text-gray-800">
 
-    <div class="container mx-auto p-4 sm:p-6 lg:p-8">
-
-        <header class="text-center mb-10">
-            <h1 class="text-4xl sm:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-violet-600 font-poppins">Structure #2</h1>
-            <h2 class="text-2xl sm:text-3xl font-bold text-slate-800 mt-2 font-poppins">"I'm + (verb ending in -ing)"</h2>
-            <p class="text-slate-600 mt-4 max-w-2xl mx-auto text-lg">
-                โครงสร้างนี้ใช้บอก 3 เรื่องหลัก: 1. สิ่งที่<strong>กำลังทำอยู่ตอนนี้</strong> 2. สิ่งที่<strong>ทำอยู่ช่วงนี้</strong> (แต่ไม่ได้ทำอยู่ตอนนี้ก็ได้) และ 3. <strong>แผนอนาคต</strong>ที่แน่นอนแล้ว
+    <!-- Main Content -->
+    <div class="container mx-auto px-4 py-8 md:py-12">
+        <header class="text-center mb-8 md:mb-12 text-white">
+            <h1 class="text-4xl md:text-5xl font-bold mb-3 text-white shadow-sm">โครงสร้าง: I'm +(verb ending in -ing).</h1>
+            <p class="text-lg md:text-xl max-w-3xl mx-auto text-amber-100">
+                ใช้เพื่ออธิบายการกระทำที่กำลังเกิดขึ้นในขณะที่พูด (Present Continuous Tense) หรือเกิดขึ้นในช่วงเวลาปัจจุบัน
             </p>
         </header>
 
-        <main id="sentences-grid" class="grid grid-cols-1 md:grid-cols-2 gap-5">
-            </main>
-
-        <footer class="text-center mt-12">
-            <p class="text-slate-700 font-medium">อังกฤษฉบับคนเรียนไม่รู้เรื่อง โดยครูสาลี่</p>
+        <main id="sentences-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+            <!-- Sentences will be populated by JavaScript -->
+        </main>
+        
+        <footer class="text-center mt-12 text-white text-lg">
+            <p>ครูสาลี่ - อังกฤษฉบับคนเรียนไม่รู้เรื่อง</p>
         </footer>
-
     </div>
 
-    <div id="modal" class="fixed inset-0 bg-black bg-opacity-60 flex justify-center items-center p-4 z-50 opacity-0 pointer-events-none">
-        <div class="modal-content-container w-full max-w-2xl max-h-[90vh] overflow-y-auto bg-slate-50 rounded-2xl shadow-2xl">
-            <div id="modal-header" class="p-6 sm:p-8 rounded-t-2xl bg-gradient-to-r from-pink-500 to-violet-600">
-                <p id="modal-english" class="font-poppins font-bold text-2xl text-white text-center"></p>
-                <p id="modal-thai" class="text-xl text-white text-center mt-2 opacity-90"></p>
+    <!-- Modal -->
+    <div id="sentence-modal" class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center p-4 opacity-0 pointer-events-none invisible transition-opacity duration-300 z-50">
+        <div id="modal-content" class="modal-content bg-white rounded-2xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto p-6 md:p-8 scale-95">
+            <!-- Modal Header -->
+            <div class="flex justify-between items-center mb-6 border-b pb-4">
+                <div>
+                    <h2 id="modal-sentence" class="text-2xl font-bold text-orange-600"></h2>
+                    <p id="modal-translation" class="text-gray-600"></p>
+                </div>
+                <button id="close-modal-btn" class="text-gray-400 hover:text-gray-700 transition-colors">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
             </div>
-            <div class="p-6 sm:p-8">
-                <div id="modal-details" class="space-y-5">
+            
+            <!-- Modal Body -->
+            <div class="space-y-6">
+                <div>
+                    <h3 class="font-semibold text-xl text-gray-800 mb-3">ตัวอย่างการใช้งานในสถานการณ์ต่างๆ:</h3>
+                    <ul id="modal-usage" class="space-y-4">
+                        <!-- Usage examples will be injected here -->
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold text-xl text-gray-800 mb-3">คำที่มักใช้ร่วมกันพร้อมตัวอย่าง:</h4>
+                    <div id="modal-collocations">
+                        <!-- Collocation list will be injected here -->
                     </div>
-                <div class="text-center mt-8">
-                    <button id="close-modal-btn" class="bg-slate-600 hover:bg-slate-700 text-white font-bold py-2 px-8 rounded-full shadow-lg transform hover:scale-105 transition-transform duration-300">
-                        ปิด
-                    </button>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        const sentences = [
-            // --- 1. Happening Right Now ---
-            {
-                eng: "I'm working right now.", th: "ฉันกำลังทำงานอยู่ตอนนี้",
-                context: "ใช้บอกกิจกรรมที่กำลังทำอยู่ ณ ขณะที่พูดจริงๆ เป็นคำตอบยอดฮิตเมื่อมีคนโทรเข้ามาตอนเราไม่ว่าง",
-                dialogue: { a: "Hey, do you have a minute to chat?", b: "Sorry, I'm working right now. Can I call you back?" },
-                alternatives: "<strong>I'm in the middle of something.</strong> (ฉันกำลังยุ่งอยู่)<br><strong>I'm a bit busy at the moment.</strong> (ตอนนี้ฉันยุ่งนิดหน่อย)"
-            },
-            {
-                eng: "I'm cooking dinner.", th: "ฉันกำลังทำอาหารเย็นอยู่",
-                context: "บอกกิจกรรมที่กำลังดำเนินอยู่ในขณะนั้น มักใช้ตอบคำถามว่า 'What are you doing?'",
-                dialogue: { a: "What's that delicious smell?", b: "I'm cooking dinner. It's green curry." },
-                alternatives: "<strong>I'm making dinner.</strong> (ใช้ making แทน cooking ได้)<br><strong>Dinner is in progress.</strong> (อาหารเย็นกำลังอยู่ในขั้นตอนการทำ)"
-            },
-            {
-                eng: "I'm watching a movie.", th: "ฉันกำลังดูหนังอยู่",
-                context: "บอกกิจกรรมที่กำลังทำเพื่อพักผ่อนหย่อนใจในขณะนั้น เป็นการบอกอีกฝ่ายว่าเราอาจจะไม่สะดวกคุย",
-                dialogue: { a: "Want to play an online game?", b: "Not right now, I'm watching a movie." },
-                alternatives: "<strong>I'm in the middle of a movie.</strong><br><strong>I'm trying to watch a film.</strong>"
-            },
-            {
-                eng: "I'm just leaving the office.", th: "ฉันเพิ่งจะออกจากออฟฟิศ",
-                context: "ใช้บอกการกระทำที่กำลังจะสิ้นสุดหรือเพิ่งเริ่มในขณะที่พูด เพื่ออัปเดตสถานะของเราให้อีกฝ่ายทราบ",
-                dialogue: { a: "Where are you? I'm already at the restaurant.", b: "I'm just leaving the office. I'll be there in 20 minutes." },
-                alternatives: "<strong>I'm on my way out of the office.</strong><br><strong>I'm heading out now.</strong> (ฉันกำลังออกไปเดี๋ยวนี้)"
-            },
-            {
-                eng: "I'm trying to concentrate.", th: "ฉันกำลังพยายามใช้สมาธิอยู่",
-                context: "ใช้เมื่อถูกรบกวนและต้องการบอกอีกฝ่ายอย่างสุภาพให้หยุดการกระทำนั้นๆ",
-                dialogue: { a: "(Music is playing loudly) ...", b: "Could you please turn it down? I'm trying to concentrate." },
-                alternatives: "<strong>I need to focus.</strong><br><strong>I'm finding it hard to concentrate with that noise.</strong>"
-            },
-            {
-                eng: "I'm waiting for the bus.", th: "ฉันกำลังรอรถเมล์อยู่",
-                context: "บอกกิจกรรมที่กำลังทำระหว่างรอคอย เพื่ออัปเดตสถานะและตำแหน่งของเรา",
-                dialogue: { a: "What are you doing standing there?", b: "I'm waiting for the bus." },
-                alternatives: "<strong>I'm at the bus stop.</strong>"
-            },
-            {
-                eng: "I'm kidding!", th: "ฉันล้อเล่น!",
-                context: "ใช้พูดทันทีหลังจากพูดอะไรที่ไม่จริงจัง เพื่อให้อีกฝ่ายรู้ว่าเราแค่พูดเล่น ไม่ได้หมายความตามนั้นจริงๆ",
-                dialogue: { a: "I've decided to quit my job and join the circus.", b: "(Stares in shock)... Are you serious?", a: "Of course not! I'm kidding!" },
-                alternatives: "<strong>I'm just joking.</strong><br><strong>I'm pulling your leg.</strong> (สำนวนแปลว่า 'ฉันแค่แกล้งเธอเล่น')"
-            },
-            // --- 2. Happening Around Now (in this period) ---
-            {
-                eng: "I'm reading a really good book.", th: "ช่วงนี้ฉันกำลังอ่านหนังสือดีๆ เล่มหนึ่งอยู่",
-                context: "บอกถึงกิจกรรมที่ทำอยู่ 'ช่วงนี้' แต่ไม่จำเป็นต้องกำลังทำในขณะที่พูด เป็นการเล่าถึงงานอดิเรกหรือโปรเจกต์ระยะยาว",
-                dialogue: { a: "Have you read anything interesting lately?", b: "Yes! I'm reading a really good book about Japanese history." },
-                alternatives: "<strong>I've been reading a good book.</strong> (ใช้ Present Perfect Continuous เพื่อเน้นความต่อเนื่อง)"
-            },
-            {
-                eng: "I'm learning to play the piano.", th: "ช่วงนี้ฉันกำลังเรียนเล่นเปียโนอยู่",
-                context: "บอกถึงการเรียนรู้ทักษะใหม่ๆ ที่กำลังดำเนินไปในช่วงระยะเวลาหนึ่ง",
-                dialogue: { a: "What do you do in your free time?", b: "Lately, I'm learning to play the piano." },
-                alternatives: "<strong>I'm taking piano lessons.</strong> (ฉันกำลังเรียนเปียโนอยู่)<br><strong>I've started learning the piano.</strong> (ฉันได้เริ่มเรียนเปียโนแล้ว)"
-            },
-            {
-                eng: "I'm working on a new project.", th: "ช่วงนี้ฉันกำลังทำโปรเจกต์ใหม่อยู่",
-                context: "ใช้ในบริบทการทำงาน เพื่อบอกถึงโปรเจกต์หลักที่กำลังรับผิดชอบอยู่ในช่วงนั้น",
-                dialogue: { a: "You seem busy these days.", b: "I am. I'm working on a new project for our biggest client." },
-                alternatives: "<strong>My current focus is a new project.</strong><br><strong>I'm involved in a new project.</strong>"
-            },
-            {
-                eng: "I'm training for a marathon.", th: "ช่วงนี้ฉันกำลังฝึกซ้อมเพื่อวิ่งมาราธอน",
-                context: "บอกถึงเป้าหมายระยะยาวที่ต้องใช้เวลาในการฝึกฝนและเตรียมตัว",
-                dialogue: { a: "Why are you running so much these days?", b: "I'm training for a marathon." },
-                alternatives: "<strong>I've been preparing for a marathon.</strong>"
-            },
-            {
-                eng: "I'm living with my parents at the moment.", th: "ตอนนี้ฉันอาศัยอยู่กับพ่อแม่ชั่วคราว",
-                context: "ใช้บรรยายสถานการณ์ที่เป็น 'เรื่องชั่วคราว' ไม่ใช่เรื่องถาวร",
-                dialogue: { a: "I thought you had your own apartment.", b: "I did, but I'm living with my parents at the moment to save some money." },
-                alternatives: "<strong>I'm staying with my parents temporarily.</strong>"
-            },
-            {
-                eng: "I'm trying to eat healthier.", th: "ช่วงนี้ฉันพยายามจะกินอาหารที่ดีต่อสุขภาพมากขึ้น",
-                context: "ใช้บอกถึงความพยายามที่จะเปลี่ยนพฤติกรรมหรือนิสัยบางอย่างในช่วงนี้",
-                dialogue: { a: "No cake for you?", b: "No, thanks. I'm trying to eat healthier." },
-                alternatives: "<strong>I've been trying to improve my diet.</strong><br><strong>I'm on a health kick.</strong> (สำนวนแปลว่า 'กำลังเห่อเรื่องสุขภาพ')"
-            },
-             // --- 3. Definite Future Plans ---
-            {
-                eng: "I'm meeting my friends tonight.", th: "คืนนี้ฉันมีนัดเจอเพื่อน",
-                context: "ใช้บอกแผนการในอนาคตอันใกล้ที่ 'แน่นอนแล้ว' มีการนัดหมายหรือเตรียมการไว้แล้ว",
-                dialogue: { a: "Are you free to join us for dinner?", b: "Sorry, I can't. I'm meeting my friends tonight." },
-                alternatives: "<strong>I have plans to meet my friends tonight.</strong><br><strong>I'm going to meet my friends tonight.</strong>"
-            },
-            {
-                eng: "I'm flying to Japan next week.", th: "ฉันจะบินไปญี่ปุ่นสัปดาห์หน้า",
-                context: "ใช้บอกแผนการเดินทางในอนาคตที่มีการจองตั๋วหรือวางแผนไว้เรียบร้อยแล้ว",
-                dialogue: { a: "You look excited!", b: "I am! I'm flying to Japan next week for a holiday." },
-                alternatives: "<strong>I'm going to fly to Japan next week.</strong><br><strong>My flight to Japan is next week.</strong>"
-            },
-            {
-                eng: "I'm starting my new job on Monday.", th: "ฉันจะเริ่มงานใหม่วันจันทร์นี้",
-                context: "ใช้บอกถึงเหตุการณ์สำคัญในอนาคตที่มีกำหนดการชัดเจนและแน่นอน",
-                dialogue: { a: "So, what's next for you?", b: "Actually, I'm starting my new job on Monday." },
-                alternatives: "<strong>I start my new job on Monday.</strong> (ใช้ Present Simple ก็ได้สำหรับตารางเวลาที่แน่นอน)"
-            },
-            {
-                eng: "I'm giving a presentation tomorrow morning.", th: "พรุ่งนี้เช้าฉันต้องนำเสนองาน",
-                context: "ใช้บอกตารางงานหรือนัดหมายที่ถูกกำหนดไว้แล้วในอนาคตอันใกล้",
-                dialogue: { a: "Why are you still at the office?", b: "I'm giving a presentation tomorrow morning and I need to prepare." },
-                alternatives: "<strong>I have a presentation tomorrow morning.</strong>"
-            },
-            {
-                eng: "I'm not going to the party.", th: "ฉันจะไม่ไปงานปาร์ตี้",
-                context: "ใช้ในรูปปฏิเสธเพื่อบอกการตัดสินใจที่แน่นอนแล้วว่าจะไม่ทำอะไรบางอย่างในอนาคต",
-                dialogue: { a: "Are you coming to Mark's party on Saturday?", b: "No, I'm not going to the party. I have other plans." },
-                alternatives: "<strong>I've decided not to go to the party.</strong><br><strong>I can't make it to the party.</strong>"
-            },
-            {
-                eng: "I'm having a small get-together at my place.", th: "ฉันจะจัดงานเลี้ยงเล็กๆ ที่บ้าน",
-                context: "ใช้บอกแผนการที่เป็นการเชิญชวนอีกฝ่ายให้มาร่วมงานที่เรากำลังจะจัดขึ้น",
-                dialogue: { a: "Are you free this Friday?", b: "I think so. Why?", a: "I'm having a small get-together at my place. You should come!" },
-                alternatives: "<strong>I'm planning a small party.</strong><br><strong>I'm hosting a get-together.</strong>"
-            },
-            {
-                eng: "I'm getting married in June.", th: "ฉันจะแต่งงานในเดือนมิถุนายน",
-                context: "ใช้บอกแผนการในชีวิตที่ยิ่งใหญ่และมีการวางแผนเตรียมการมาเป็นอย่างดี",
-                dialogue: { a: "I heard you have some big news!", b: "Yes! I'm getting married in June." },
-                alternatives: "<strong>My wedding is in June.</strong><br><strong>We are going to get married in June.</strong>"
+        document.addEventListener('DOMContentLoaded', function () {
+            const sentencesData = [
+                { 
+                    eng: "I'm trying my best.", 
+                    thai: "ฉันกำลังพยายามอย่างดีที่สุด", 
+                    usage: [
+                        "**เมื่อถูกกดดัน:** 'Are you going to finish on time?' 'I don't know, but I'm trying my best.' (คุณจะเสร็จทันเวลาไหม 'ฉันไม่รู้ แต่ฉันกำลังพยายามอย่างดีที่สุด')",
+                        "**ให้กำลังใจตัวเอง:** 'This is really difficult.' 'I know, but I'm trying my best.' (นี่มันยากจริงๆ 'ฉันรู้ แต่ฉันก็กำลังพยายามอย่างเต็มที่')",
+                        "**อธิบายผลงาน:** 'The result isn't perfect.' 'I understand, but I'm trying my best with the resources I have.' (ผลลัพธ์ยังไม่สมบูรณ์แบบ 'ฉันเข้าใจ แต่ฉันกำลังพยายามอย่างดีที่สุดด้วยทรัพยากรที่มี')"
+                    ], 
+                    collocations: [
+                        { term: "give it my all", example: "For this final match, I'm going to give it my all. (สำหรับการแข่งขันนัดสุดท้ายนี้ ฉันจะทุ่มสุดตัวเลย)" },
+                        { term: "doing everything I can", example: "Believe me, I'm doing everything I can to help. (เชื่อฉันเถอะ ฉันกำลังทำทุกอย่างที่ทำได้เพื่อช่วย)" },
+                        { term: "put in the effort", example: "As long as you put in the effort, that's what matters. (ตราบใดที่คุณใช้ความพยายาม นั่นคือสิ่งที่สำคัญ)" }
+                    ] 
+                },
+                { 
+                    eng: "I'm looking for my keys.", 
+                    thai: "ฉันกำลังหากุญแจอยู่", 
+                    usage: [
+                        "**ทางโทรศัพท์:** 'Can you talk now?' 'Not really, I'm looking for my keys. I can't find them anywhere.' (ตอนนี้คุยได้ไหม 'ยังไม่ค่อยสะดวก ฉันกำลังหากุญแจอยู่ หาไม่เจอเลย')",
+                        "**เมื่อมีคนทัก:** 'What are you doing?' 'I'm looking for my keys. Have you seen them?' (คุณกำลังทำอะไรอยู่ 'ฉันกำลังหากุญแจอยู่น่ะ คุณเห็นมันบ้างไหม')",
+                        "**ในบ้าน:** 'Why is the whole house a mess?' 'Sorry, I'm looking for my keys.' (ทำไมบ้านรกขนาดนี้ 'ขอโทษที ฉันกำลังหากุญแจอยู่น่ะ')"
+                    ], 
+                    collocations: [
+                        { term: "search for", example: "I'm searching for information online. (ฉันกำลังค้นหาข้อมูลออนไลน์อยู่)" },
+                        { term: "can't find it anywhere", example: "I've looked everywhere, but I can't find it anywhere. (ฉันหาทุกที่แล้ว แต่ก็หามันไม่เจอเลย)" },
+                        { term: "retrace my steps", example: "Let me try to retrace my steps to see where I left them. (ให้ฉันลองย้อนรอยดูสิว่าฉันทิ้งมันไว้ที่ไหน)" }
+                    ] 
+                },
+                { 
+                    eng: "I'm feeling much better.", 
+                    thai: "ฉันรู้สึกดีขึ้นมากแล้ว", 
+                    usage: [
+                        "**หลังจากการเจ็บป่วย:** 'How are you feeling today?' 'I'm feeling much better, thank you.' (วันนี้คุณรู้สึกเป็นอย่างไรบ้าง 'ฉันรู้สึกดีขึ้นมากแล้ว ขอบคุณครับ/ค่ะ')",
+                        "**หลังจากพักผ่อน:** 'You look more rested.' 'Yes, I'm feeling much better after a good night's sleep.' (คุณดูสดชื่นขึ้นนะ 'ใช่ ฉันรู้สึกดีขึ้นมากเลยหลังจากได้นอนหลับเต็มอิ่ม')",
+                        "**เมื่อมีคนให้กำลังใจ:** 'Does our talk help?' 'Yes, I'm feeling much better now.' (การที่เราได้คุยกันช่วยได้ไหม 'ช่วยสิ ตอนนี้ฉันรู้สึกดีขึ้นมากแล้ว')"
+                    ], 
+                    collocations: [
+                        { term: "on the mend", example: "She was very sick, but she's on the mend now. (เธอป่วยหนักมาก แต่ตอนนี้เธอกำลังดีขึ้นแล้ว)" },
+                        { term: "back on my feet", example: "I'll be back on my feet in no time. (เดี๋ยวฉันก็จะกลับมาแข็งแรงเหมือนเดิมในไม่ช้า)" },
+                        { term: "a speedy recovery", example: "I wish you a speedy recovery. (ฉันขอให้คุณหายป่วยเร็วๆนะ)" }
+                    ] 
+                },
+                { 
+                    eng: "I'm just browsing.", 
+                    thai: "ฉันแค่เดินดูเฉยๆ", 
+                    usage: [
+                        "**ในร้านเสื้อผ้า:** 'Can I help you find anything?' 'No, thank you. I'm just browsing.' (ให้ช่วยหาอะไรไหมคะ 'ไม่เป็นไรค่ะ ขอบคุณค่ะ ฉันแค่เดินดูเฉยๆ')",
+                        "**ในร้านหนังสือ:** 'Are you looking for a specific author?' 'Not really, I'm just browsing.' (คุณกำลังมองหานักเขียนคนไหนเป็นพิเศษหรือเปล่าครับ 'ไม่เชิงครับ ผมแค่เดินดูไปเรื่อยๆ')",
+                        "**ในตลาด:** 'This one is very beautiful, miss!' 'It is, but I'm just browsing for now.' (ชิ้นนี้สวยมากเลยนะครับคุณผู้หญิง! 'สวยค่ะ แต่ตอนนี้ขอเดินดูเฉยๆก่อนนะคะ')"
+                    ], 
+                    collocations: [
+                        { term: "window shopping", example: "We don't have money to buy anything, so we're just window shopping. (เราไม่มีเงินจะซื้ออะไรหรอก เราก็เลยแค่เดินดูของตามตู้โชว์เฉยๆ)" },
+                        { term: "have a look around", example: "I think I'll just have a look around first. (ฉันคิดว่าฉันจะขอเดินดูรอบๆก่อนแล้วกัน)" },
+                        { term: "let me know if you need anything", example: "Okay, just let me know if you need anything. (ได้เลยค่ะ ถ้าคุณต้องการอะไรก็บอกได้เลยนะคะ)" }
+                    ] 
+                },
+                { 
+                    eng: "I'm running late.", 
+                    thai: "ฉันกำลังจะไปสาย", 
+                    usage: [
+                        "**ส่งข้อความหาเพื่อน:** 'Hey, I'm running about 10 minutes late. The traffic is terrible.' (เฮ้ ฉันกำลังจะสายประมาณ 10 นาทีนะ รถติดมากเลย)",
+                        "**โทรหาที่ทำงาน:** 'Hello, this is Sali. I'm calling to say I'm running late this morning.' (สวัสดีค่ะ สาลีนะคะ โทรมาแจ้งว่าเช้านี้จะเข้าไปสายค่ะ)",
+                        "**ในรถแท็กซี่:** 'Can you please go a bit faster? I'm running late for my flight.' (คุณช่วยขับเร็วขึ้นหน่อยได้ไหมครับ ผมกำลังจะไปขึ้นเครื่องสาย)"
+                    ], 
+                    collocations: [
+                        { term: "stuck in traffic", example: "Sorry, I'm stuck in traffic. I'll be there as soon as I can. (ขอโทษที ฉันติดอยู่บนถนนน่ะ จะรีบไปให้เร็วที่สุดนะ)" },
+                        { term: "behind schedule", example: "We are running behind schedule on this project. (เรากำลังทำงานล่าช้ากว่ากำหนดในโครงการนี้)" },
+                        { term: "in a hurry", example: "I can't talk now, I'm in a hurry. (ตอนนี้คุยไม่ได้นะ ฉันกำลังรีบอยู่)" }
+                    ] 
+                },
+                { 
+                    eng: "I'm packing for my trip.", 
+                    thai: "ฉันกำลังจัดกระเป๋าเดินทาง", 
+                    usage: [
+                        "**ทางโทรศัพท์:** 'What are you doing?' 'I'm packing for my trip to Japan tomorrow.' (ทำอะไรอยู่ 'ฉันกำลังจัดกระเป๋าจะไปญี่ปุ่นพรุ่งนี้น่ะ')",
+                        "**ในบ้าน:** 'Why are there clothes all over the bed?' 'I'm packing for my trip and can't decide what to bring.' (ทำไมมีเสื้อผ้าเต็มเตียงไปหมดเลย 'ฉันกำลังจัดกระเป๋าเดินทางแล้วก็ตัดสินใจไม่ได้ว่าจะเอาอะไรไปบ้าง')",
+                        "**ปฏิเสธคำชวน:** 'Want to go out tonight?' 'I can't, I'm packing for my trip.' (คืนนี้ออกไปเที่ยวกันไหม 'ไปไม่ได้หรอก ฉันกำลังจัดกระเป๋าเดินทางอยู่')"
+                    ], 
+                    collocations: [
+                        { term: "pack a suitcase", example: "It took me two hours to pack my suitcase. (ฉันใช้เวลาสองชั่วโมงในการจัดกระเป๋าเดินทาง)" },
+                        { term: "travel light", example: "I always try to travel light, but I never succeed. (ฉันพยายามจะเดินทางแบบมีสัมภาระน้อยๆเสมอ แต่ก็ไม่เคยสำเร็จเลย)" },
+                        { term: "pack at the last minute", example: "He is always packing at the last minute before a flight. (เขามักจะจัดกระเป๋าในนาทีสุดท้ายก่อนขึ้นเครื่องเสมอ)" }
+                    ] 
+                },
+                { 
+                    eng: "I'm considering my options.", 
+                    thai: "ฉันกำลังพิจารณาทางเลือกต่างๆอยู่", 
+                    usage: [
+                        "**เมื่อถูกถามเรื่องการตัดสินใจ:** 'Have you decided which university to go to?' 'Not yet, I'm still considering my options.' (คุณตัดสินใจหรือยังว่าจะไปเรียนมหาวิทยาลัยไหน 'ยังเลย ฉันยังคงพิจารณาทางเลือกต่างๆอยู่')",
+                        "**ในที่ทำงาน:** 'We need your answer on the job offer.' 'I understand. I'm considering my options and will let you know by Friday.' (เราต้องการคำตอบของคุณเกี่ยวกับข้อเสนองาน 'ดิฉันเข้าใจค่ะ ดิฉันกำลังพิจารณาทางเลือกอยู่และจะแจ้งให้ทราบภายในวันศุกร์ค่ะ')",
+                        "**ปรึกษาเพื่อน:** 'What should I do?' 'Take your time. You're considering your options carefully, and that's smart.' (ฉันควรทำอย่างไรดี 'ใช้เวลาคิดเถอะ เธอกำลังพิจารณาทางเลือกอย่างรอบคอบนะ ซึ่งเป็นเรื่องที่ฉลาดแล้ว')"
+                    ], 
+                    collocations: [
+                        { term: "weighing the pros and cons", example: "I'm weighing the pros and cons of moving to a new city. (ฉันกำลังชั่งน้ำหนักข้อดีข้อเสียของการย้ายไปอยู่เมืองใหม่)" },
+                        { term: "explore the possibilities", example: "Before you commit, you should explore all the possibilities. (ก่อนที่คุณจะตัดสินใจ คุณควรจะสำรวจความเป็นไปได้ทั้งหมดก่อน)" },
+                        { term: "keep your options open", example: "It's always a good idea to keep your options open. (การเปิดทางเลือกไว้เสมอนับเป็นความคิดที่ดี)" }
+                    ] 
+                },
+                { 
+                    eng: "I'm working on a new project.", 
+                    thai: "ฉันกำลังทำโปรเจกต์ใหม่อยู่", 
+                    usage: [
+                        "**เพื่อนร่วมงานถาม:** 'You seem busy lately.' 'Yes, I'm working on a new project for the marketing team.' (ช่วงนี้คุณดูยุ่งๆนะ 'ใช่ ผมกำลังทำโปรเจกต์ใหม่ให้ทีมการตลาดอยู่น่ะครับ')",
+                        "**ปฏิเสธคำชวน:** 'Can you help me with this?' 'I'd love to, but I'm working on a tight deadline for a new project.' (คุณช่วยฉันเรื่องนี้หน่อยได้ไหม 'อยากจะช่วยนะ แต่ฉันกำลังทำงานในโปรเจกต์ใหม่ที่กำหนดส่งกระชั้นชิดมาก')",
+                        "**อัปเดตสถานะ:** 'What have you been up to?' 'I'm working on a new project that I'm very excited about.' (ช่วงนี้ทำอะไรอยู่บ้าง 'ฉันกำลังทำโปรเจกต์ใหม่ที่ฉันตื่นเต้นกับมันมากเลยล่ะ')"
+                    ], 
+                    collocations: [
+                        { term: "involved in", example: "What project are you involved in right now? (ตอนนี้คุณมีส่วนร่วมในโครงการอะไรอยู่)" },
+                        { term: "focused on", example: "Right now, I'm focused on finishing this report. (ตอนนี้ฉันกำลังมุ่งมั่นที่จะทำรายงานนี้ให้เสร็จ)" },
+                        { term: "from the ground up", example: "We are building this new brand from the ground up. (เรากำลังสร้างแบรนด์ใหม่นี้ขึ้นมาจากศูนย์เลย)" }
+                    ] 
+                },
+                { 
+                    eng: "I'm having a great time.", 
+                    thai: "ฉันกำลังสนุกมาก", 
+                    usage: [
+                        "**ทางโทรศัพท์:** 'How's the party?' 'It's amazing! I'm having a great time!' (ปาร์ตี้เป็นไงบ้าง 'สุดยอดไปเลย! ฉันกำลังสนุกมาก!')",
+                        "**เจ้าภาพถาม:** 'Are you enjoying yourself?' 'Yes, thank you for inviting me. I'm having a great time.' (คุณกำลังสนุกอยู่หรือเปล่าครับ 'สนุกค่ะ ขอบคุณที่เชิญนะคะ ฉันกำลังสนุกมากเลยค่ะ')",
+                        "**ไปเที่ยว:** 'This is the best vacation ever!' 'I agree! I'm having a great time.' (นี่เป็นวันหยุดพักผ่อนที่ดีที่สุดเลย! 'เห็นด้วยเลย! ฉันกำลังสนุกมาก')"
+                    ], 
+                    collocations: [
+                        { term: "having a blast", example: "The kids are having a blast at the water park. (พวกเด็กๆกำลังสนุกสุดเหวี่ยงอยู่ที่สวนน้ำ)" },
+                        { term: "the time of my life", example: "I'm having the time of my life on this trip. (ฉันมีความสุขที่สุดในชีวิตเลยในทริปนี้)" },
+                        { term: "enjoying every minute", example: "I'm enjoying every minute of it. (ฉันกำลังสนุกกับทุกนาทีของมันเลย)" }
+                    ] 
+                },
+                { 
+                    eng: "I'm learning to play chess.", 
+                    thai: "ฉันกำลังเรียนเล่นหมากรุก", 
+                    usage: [
+                        "**คุยเรื่องงานอดิเรก:** 'What are you doing this weekend?' 'I'm learning to play chess with my grandfather.' (สุดสัปดาห์นี้ทำอะไร 'ฉันกำลังเรียนเล่นหมากรุกกับคุณปู่น่ะ')",
+                        "**เพื่อนเห็น:** 'Is that a chess app on your phone?' 'Yes, I'm learning to play chess in my free time.' (นั่นแอปหมากรุกในโทรศัพท์เธอเหรอ 'ใช่ ฉันกำลังเรียนเล่นหมากรุกในเวลาว่างน่ะ')",
+                        "**บอกความคืบหน้า:** 'It's more difficult than I thought, but I'm slowly learning to play chess.' (มันยากกว่าที่ฉันคิดนะ แต่ฉันก็กำลังค่อยๆเรียนรู้ที่จะเล่นหมากรุกอยู่)"
+                    ], 
+                    collocations: [
+                        { term: "get the hang of", example: "I'm slowly getting the hang of the rules. (ฉันกำลังค่อยๆจับทางของกฎได้แล้ว)" },
+                        { term: "a steep learning curve", example: "The game has a steep learning curve, but it's rewarding. (เกมนี้ต้องใช้เวลาเรียนรู้เยอะในช่วงแรก แต่ก็คุ้มค่า)" },
+                        { term: "practice makes perfect", example: "They say practice makes perfect, so I play every day. (เขาว่ากันว่าการฝึกฝนทำให้สมบูรณ์แบบ ฉันก็เลยเล่นทุกวัน)" }
+                    ] 
+                },
+                { 
+                    eng: "I'm waiting in line.", 
+                    thai: "ฉันกำลังรอคิวอยู่", 
+                    usage: [
+                        "**ทางโทรศัพท์:** 'Where are you?' 'I'm at the coffee shop, but I'm waiting in a long line.' (เธออยู่ที่ไหน 'ฉันอยู่ที่ร้านกาแฟน่ะ แต่กำลังรอคิวยาวอยู่เลย')",
+                        "**ส่งข้อความ:** 'Almost there. Still waiting in line at the bank.' (เกือบจะถึงแล้วนะ ยังรอคิวที่ธนาคารอยู่เลย)",
+                        "**คุยกับคนข้างๆ:** 'This is taking forever, isn't it?' 'Yes, I feel like I've been waiting in line for ages.' (นี่มันนานมากเลยเนอะ 'ใช่ ฉันรู้สึกเหมือนรอคิวมาเป็นชาติแล้ว')"
+                    ], 
+                    collocations: [
+                        { term: "a long queue", example: "There was a long queue outside the new bakery. (มีคิวยาวเหยียดอยู่นอกร้านเบเกอรี่เปิดใหม่)" },
+                        { term: "jump the queue", example: "It's rude to try and jump the queue. (มันไม่สุภาพที่จะพยายามแซงคิว)" },
+                        { term: "your turn", example: "It's almost your turn to see the doctor. (ใกล้จะถึงตาคุณเข้าพบหมอแล้ว)" }
+                    ] 
+                },
+                { 
+                    eng: "I'm saving up for a new phone.", 
+                    thai: "ฉันกำลังเก็บเงินซื้อมือถือใหม่", 
+                    usage: [
+                        "**ปฏิเสธคำชวน:** 'Want to go shopping?' 'I can't this month. I'm saving up for a new phone.' (ไปชอปปิ้งกันไหม 'เดือนนี้ไปไม่ได้หรอก ฉันกำลังเก็บเงินซื้อมือถือใหม่อยู่')",
+                        "**พ่อแม่ถาม:** 'Why are you working a part-time job?' 'I'm saving up for a new phone.' (ทำไมลูกถึงทำงานพิเศษล่ะ 'หนูกำลังเก็บเงินซื้อโทรศัพท์ใหม่ค่ะ')",
+                        "**เพื่อนคุยกัน:** 'Your phone is so old.' 'I know! That's why I'm saving up for a new one.' (โทรศัพท์ของเธอเก่ามากเลยนะ 'ฉันรู้! นั่นแหละเหตุผลที่ฉันกำลังเก็บเงินซื้อเครื่องใหม่อยู่')"
+                    ], 
+                    collocations: [
+                        { term: "put aside some money", example: "I'm trying to put aside some money each week. (ฉันกำลังพยายามจะเก็บเงินไว้ส่วนหนึ่งทุกสัปดาห์)" },
+                        { term: "on a tight budget", example: "I'm on a tight budget at the moment. (ตอนนี้ฉันมีงบจำกัดมาก)" },
+                        { term: "afford", example: "I hope I can afford it by Christmas. (ฉันหวังว่าฉันจะซื้อไหวภายในคริสต์มาสนี้)" }
+                    ] 
+                },
+                { 
+                    eng: "I'm getting ready for the party.", 
+                    thai: "ฉันกำลังเตรียมตัวไปงานปาร์ตี้", 
+                    usage: [
+                        "**เพื่อนโทรมา:** 'Are you on your way?' 'Not yet, I'm still getting ready for the party.' (เธอกำลังมาหรือยัง 'ยังเลย ฉันยังเตรียมตัวไปงานปาร์ตี้อยู่เลย')",
+                        "**ในบ้าน:** 'Why are you taking so long in the bathroom?' 'I'm getting ready for the party!' (ทำไมเธออยู่ในห้องน้ำนานจัง 'ฉันกำลังเตรียมตัวไปงานปาร์ตี้น่ะสิ!')",
+                        "**คุยกับแฟน:** 'You look beautiful.' 'Thanks, I'm getting ready for Sali's party tonight.' (คุณดูสวยจัง 'ขอบคุณค่ะ ฉันกำลังเตรียมตัวไปงานปาร์ตี้ของสาลี่คืนนี้')"
+                    ], 
+                    collocations: [
+                        { term: "get dressed up", example: "I love getting dressed up for special occasions. (ฉันชอบแต่งตัวสวยๆสำหรับโอกาสพิเศษ)" },
+                        { term: "do my hair and makeup", example: "I need at least an hour to do my hair and makeup. (ฉันต้องการเวลาอย่างน้อยหนึ่งชั่วโมงเพื่อทำผมและแต่งหน้า)" },
+                        { term: "pick out an outfit", example: "I still haven't picked out an outfit for tonight. (ฉันยังไม่ได้เลือกชุดสำหรับคืนนี้เลย)" }
+                    ] 
+                },
+                { 
+                    eng: "I'm just kidding.", 
+                    thai: "ฉันแค่ล้อเล่น", 
+                    usage: [
+                        "**เมื่อเพื่อนตกใจ:** 'You're moving to another country? Really?' 'No, I'm just kidding!' (เธอจะย้ายไปต่างประเทศเหรอ จริงๆนะ 'เปล่า ฉันแค่ล้อเล่น!')",
+                        "**เมื่อพูดอะไรแรงๆ:** 'You're the worst singer I've ever heard.' 'Hey!' 'Relax, I'm just kidding.' (เธอเป็นนักร้องที่แย่ที่สุดที่ฉันเคยได้ยินมาเลย 'เฮ้!' 'ใจเย็นน่า ฉันแค่ล้อเล่น')",
+                        "**อธิบายมุก:** 'Of course, the Earth is not flat. I was just kidding.' (แน่นอนว่าโลกไม่ได้แบน ฉันก็แค่พูดเล่นไปงั้นแหละ)"
+                    ], 
+                    collocations: [
+                        { term: "pulling your leg", example: "Don't be so serious, I was just pulling your leg. (อย่าจริงจังไปเลยน่า ฉันก็แค่ล้อเธอเล่นเฉยๆ)" },
+                        { term: "joking around", example: "We were just joking around; we didn't mean to offend anyone. (เราก็แค่พูดเล่นกันไปเรื่อยเปื่อย ไม่ได้ตั้งใจจะทำให้ใครขุ่นเคือง)" },
+                        { term: "can't you take a joke?", example: "Lighten up! Can't you take a joke? (ทำตัวให้สบายๆหน่อยสิ! รับมุกตลกไม่ได้เลยเหรอ)" }
+                    ] 
+                },
+                { 
+                    eng: "I'm following the instructions.", 
+                    thai: "ฉันกำลังทำตามคำแนะนำ", 
+                    usage: [
+                        "**ประกอบเฟอร์นิเจอร์:** 'Are you sure that piece goes there?' 'Yes, I'm following the instructions exactly.' (แน่ใจนะว่าชิ้นส่วนนั้นต้องอยู่ตรงนั้น 'แน่ใจสิ ฉันกำลังทำตามคู่มือเป๊ะๆเลย')",
+                        "**ทำอาหาร:** 'That doesn't look right.' 'Trust me, I'm following the recipe.' (มันดูไม่น่าจะใช่นะ 'เชื่อฉันเถอะ ฉันกำลังทำตามสูตรอยู่')",
+                        "**ในที่ทำงาน:** 'Why are you doing it that way?' 'Because I'm following the instructions from the manual.' (ทำไมคุณถึงทำแบบนั้นล่ะ 'เพราะว่าผมกำลังทำตามคำแนะนำจากคู่มือน่ะครับ')"
+                    ], 
+                    collocations: [
+                        { term: "step-by-step", example: "The guide shows you how to do it step-by-step. (คู่มือจะแสดงให้คุณเห็นวิธีทำทีละขั้นตอน)" },
+                        { term: "according to the manual", example: "According to the manual, we should connect the red wire first. (ตามคู่มือแล้ว เราควรจะต่อสายสีแดงก่อน)" },
+                        { term: "go by the book", example: "He's very strict; he always goes by the book. (เขาเป็นคนเข้มงวดมาก เขาทำตามกฎระเบียบเสมอ)" }
+                    ] 
+                },
+                { 
+                    eng: "I'm having second thoughts.", 
+                    thai: "ฉันเริ่มลังเล/ไม่แน่ใจแล้ว", 
+                    usage: [
+                        "**ก่อนจะตัดสินใจครั้งใหญ่:** 'Are you still going to quit your job?' 'I don't know. I'm having second thoughts.' (เธอยังจะลาออกจากงานอยู่ไหม 'ฉันไม่รู้สิ ฉันเริ่มลังเลแล้วล่ะ')",
+                        "**ก่อนซื้อของแพง:** 'Are you ready to buy the car?' 'Actually, I'm having second thoughts. Maybe it's too expensive.' (คุณพร้อมจะซื้อรถหรือยัง 'จริงๆแล้วผมเริ่มไม่แน่ใจแล้ว บางทีมันอาจจะแพงเกินไป')",
+                        "**ก่อนแต่งงาน:** 'The wedding is next week!' 'I know, and I'm having second thoughts.' (งานแต่งงานสัปดาห์หน้าแล้วนะ! 'ฉันรู้ แล้วฉันก็เริ่มลังเลใจแล้วเนี่ย')"
+                    ], 
+                    collocations: [
+                        { term: "cold feet", example: "The groom got cold feet and didn't show up at the wedding. (เจ้าบ่าวเกิดปอดแหกขึ้นมาและไม่ปรากฏตัวในงานแต่งงาน)" },
+                        { term: "a change of heart", example: "She had a change of heart and decided not to sell the house. (เธอเปลี่ยนใจและตัดสินใจที่จะไม่ขายบ้าน)" },
+                        { term: "on the fence", example: "I'm still on the fence about whether to accept the offer. (ฉันยังคงลังเลอยู่ว่าจะตอบรับข้อเสนอดีไหม)" }
+                    ] 
+                },
+                { 
+                    eng: "I'm catching up on emails.", 
+                    thai: "ฉันกำลังไล่ตอบ/อ่านอีเมลที่ค้างอยู่", 
+                    usage: [
+                        "**เช้าวันจันทร์:** 'What are you doing?' 'I'm catching up on emails from last week.' (ทำอะไรอยู่ 'ฉันกำลังไล่เคลียร์อีเมลจากสัปดาห์ที่แล้วอยู่น่ะ')",
+                        "**เมื่อกลับจากพักร้อน:** 'Welcome back! Are you busy?' 'Very. I'm catching up on hundreds of emails.' (ยินดีต้อนรับกลับมานะ! ยุ่งไหม 'ยุ่งมากเลย ฉันกำลังไล่อ่านอีเมลเป็นร้อยๆฉบับอยู่')",
+                        "**ในร้านกาแฟ:** 'Are you working?' 'Sort of. I'm just catching up on some emails.' (ทำงานอยู่เหรอ 'ก็ประมาณนั้นแหละ ฉันแค่กำลังไล่ตอบอีเมลที่ค้างอยู่น่ะ')"
+                    ], 
+                    collocations: [
+                        { term: "an overflowing inbox", example: "After my vacation, I came back to an overflowing inbox. (หลังจากวันหยุดพักร้อนของฉัน ฉันกลับมาเจออีเมลเต็มกล่องเลย)" },
+                        { term: "get back to someone", example: "I need to get back to him about the proposal. (ฉันต้องตอบกลับเขาเรื่องข้อเสนอ)" },
+                        { term: "swamped with work", example: "I'm completely swamped with work this week. (สัปดาห์นี้ฉันมีงานท่วมหัวเลย)" }
+                    ] 
+                },
+                { 
+                    eng: "I'm taking a break.", 
+                    thai: "ฉันกำลังพักอยู่", 
+                    usage: [
+                        "**ในที่ทำงาน:** 'Do you have a minute?' 'I'm taking a coffee break right now. Can it wait?' (มีเวลาสักครู่ไหม 'ตอนนี้ฉันกำลังพักดื่มกาแฟอยู่ รอสักครู่ได้ไหม')",
+                        "**ตอนอ่านหนังสือ:** 'You've been studying for hours.' 'I know, my brain is tired. I'm taking a short break.' (เธออ่านหนังสือมาหลายชั่วโมงแล้วนะ 'ฉันรู้ สมองฉันล้าไปหมดแล้ว ฉันขอพักสักครู่นะ')",
+                        "**เปรียบเปรย:** 'You haven't been dating anyone.' 'No, I'm taking a break from relationships.' (เธอไม่ได้คบใครเลยนะ 'ใช่ ฉันกำลังพักจากเรื่องความสัมพันธ์อยู่')"
+                    ], 
+                    collocations: [
+                        { term: "take five", example: "Okay team, let's take five and come back refreshed. (โอเคทุกคน เรามาพัก 5 นาทีแล้วกลับมาอย่างสดชื่นกันเถอะ)" },
+                        { term: "recharge my batteries", example: "I need a vacation to recharge my batteries. (ฉันต้องการวันหยุดพักผ่อนเพื่อชาร์จพลังงานให้ตัวเอง)" },
+                        { term: "a well-deserved break", example: "After finishing that project, you need a well-deserved break. (หลังจากทำโครงการนั้นเสร็จ คุณสมควรได้รับการพักผ่อนอย่างยิ่ง)" }
+                    ] 
+                },
+                { 
+                    eng: "I'm just guessing.", 
+                    thai: "ฉันก็แค่เดาไปงั้น", 
+                    usage: [
+                        "**เมื่อตอบถูก:** 'How did you know the answer?' 'I didn't! I was just guessing.' (เธอรู้คำตอบได้อย่างไร 'ฉันไม่รู้หรอก! ฉันก็แค่เดาไปงั้น')",
+                        "**เมื่อคาดการณ์:** 'What do you think will happen next?' 'I have no idea, I'm just guessing.' (คุณคิดว่าจะเกิดอะไรขึ้นต่อไป 'ฉันไม่รู้เลยจริงๆ ฉันก็แค่เดาไปเรื่อย')",
+                        "**เมื่อไม่แน่ใจ:** 'Are you sure this is the right way?' 'Honestly, I'm just guessing at this point.' (แน่ใจนะว่านี่คือทางที่ถูกต้อง 'พูดตามตรงนะ ถึงจุดนี้ฉันก็แค่เดาสุ่มไปแล้วล่ะ')"
+                    ], 
+                    collocations: [
+                        { term: "a wild guess", example: "It was just a wild guess, but I got it right! (มันก็แค่การเดาสุ่มๆไปเท่านั้นแหละ แต่ฉันดันตอบถูก!)" },
+                        { term: "take a stab in the dark", example: "I'll take a stab in the dark and say the answer is C. (ฉันจะลองเดาสุ่มดูแล้วกันว่าคำตอบคือข้อ C)" },
+                        { term: "your guess is as good as mine", example: "I don't know what's going on. Your guess is as good as mine. (ฉันไม่รู้ว่าเกิดอะไรขึ้น คุณก็คงเดาได้ดีพอๆกับฉันนั่นแหละ)" }
+                    ] 
+                },
+                { 
+                    eng: "I'm losing my patience.", 
+                    thai: "ฉันกำลังจะหมดความอดทนแล้ว", 
+                    usage: [
+                        "**เมื่อรอคิวนาน:** 'We've been waiting for an hour! I'm losing my patience.' (เรารอมาเป็นชั่วโมงแล้วนะ! ฉันกำลังจะหมดความอดทนแล้ว)",
+                        "**เมื่อสอนอะไรซ้ำๆ:** 'I've explained this three times already. I'm losing my patience.' (ฉันอธิบายเรื่องนี้ไปสามรอบแล้วนะ ฉันชักจะหมดความอดทนแล้ว)",
+                        "**เมื่อเจอคนกวนประสาท:** 'Please stop making that noise. I'm losing my patience.' (กรุณาหยุดทำเสียงนั้นได้แล้ว ฉันกำลังจะหมดความอดทนแล้วนะ)"
+                    ], 
+                    collocations: [
+                        { term: "at the end of my rope", example: "With all this work, I'm at the end of my rope. (ด้วยงานทั้งหมดนี้ ฉันใกล้จะหมดความอดทนเต็มทีแล้ว)" },
+                        { term: "my last nerve", example: "That sound is getting on my last nerve. (เสียงนั่นมันกวนประสาทฉันอย่างแรงเลย)" },
+                        { term: "run out of patience", example: "Hurry up! I'm running out of patience. (เร็วๆเข้า! ฉันจะหมดความอดทนแล้วนะ)" }
+                    ] 
+                },
+                { 
+                    eng: "I'm enjoying the silence.", 
+                    thai: "ฉันกำลังเพลิดเพลินกับความเงียบ", 
+                    usage: [
+                        "**เมื่ออยู่คนเดียว:** 'Why don't you turn on some music?' 'No, it's okay. I'm enjoying the silence.' (ทำไมไม่เปิดเพลงล่ะ 'ไม่ล่ะ ไม่เป็นไร ฉันกำลังเพลิดเพลินกับความเงียบน่ะ')",
+                        "**หลังจากวันที่วุ่นวาย:** 'You seem very peaceful.' 'I am. I'm just enjoying the silence after a chaotic day.' (เธอดูสงบมากเลยนะ 'ใช่แล้วล่ะ ฉันแค่กำลังดื่มด่ำกับความเงียบหลังจากวันที่วุ่นวาย')",
+                        "**ในธรรมชาติ:** 'It's so quiet out here.' 'I know. I'm enjoying the silence and the fresh air.' (ข้างนอกนี่มันเงียบสงบจังเลยนะ 'ฉันรู้ ฉันกำลังเพลิดเพลินกับความเงียบและอากาศบริสุทธิ์')"
+                    ], 
+                    collocations: [
+                        { term: "peace and quiet", example: "All I want is a little peace and quiet. (ทั้งหมดที่ฉันต้องการก็คือความสงบสุขเล็กๆน้อยๆ)" },
+                        { term: "a moment of calm", example: "I'm just taking a moment of calm for myself. (ฉันแค่กำลังใช้เวลาสงบๆสักครู่เพื่อตัวเอง)" },
+                        { term: "tranquility", example: "I love the tranquility of the countryside. (ฉันรักความสงบสุขของชนบท)" }
+                    ] 
+                },
+                { 
+                    eng: "I'm planning a surprise.", 
+                    thai: "ฉันกำลังวางแผนเซอร์ไพรส์", 
+                    usage: [
+                        "**เพื่อนถาม:** 'Why are you being so secretive?' 'I can't tell you! I'm planning a surprise for Sali's birthday.' (ทำไมเธอทำตัวมีความลับจัง 'ฉันบอกเธอไม่ได้หรอก! ฉันกำลังวางแผนเซอร์ไพรส์วันเกิดให้สาลี่อยู่น่ะ')",
+                        "**แฟนสงสัย:** 'What was that phone call about?' 'Nothing important! Don't ask too many questions. I'm planning a surprise.' (โทรศัพท์เมื่อกี้เรื่องอะไรเหรอ 'ไม่มีอะไรสำคัญหรอก! อย่าถามเยอะน่า ฉันกำลังวางแผนเซอร์ไพรส์อยู่')",
+                        "**ในที่ทำงาน:** 'The team has been whispering a lot.' 'Yes, we're planning a surprise farewell party for our boss.' (ทีมงานกระซิบกระซาบกันบ่อยมาก 'ใช่ เรากำลังวางแผนจัดงานเลี้ยงอำลาเซอร์ไพรส์ให้เจ้านายของเรา')"
+                    ], 
+                    collocations: [
+                        { term: "keep it under wraps", example: "We need to keep this under wraps until Friday. (เราต้องเก็บเรื่องนี้เป็นความลับจนถึงวันศุกร์นะ)" },
+                        { term: "ruin the surprise", example: "Don't say anything to him! You'll ruin the surprise. (อย่าพูดอะไรกับเขานะ! เดี๋ยวเธอจะทำเซอร์ไพรส์พังหมด)" },
+                        { term: "in on the secret", example: "Is everyone in on the secret? (ทุกคนรู้ความลับนี้กันหมดแล้วใช่ไหม)" }
+                    ] 
+                },
+                { 
+                    eng: "I'm developing a new skill.", 
+                    thai: "ฉันกำลังพัฒนาทักษะใหม่ๆ", 
+                    usage: [
+                        "**เพื่อนถาม:** 'What have you been doing with your free time?' 'I'm developing a new skill: I'm learning how to code.' (เธอใช้เวลาว่างทำอะไรบ้างเหรอ 'ฉันกำลังพัฒนาทักษะใหม่ๆอยู่น่ะ: ฉันกำลังเรียนเขียนโค้ด')",
+                        "**ในที่ทำงาน:** 'You've improved so much.' 'Thank you. I'm constantly developing new skills to stay competitive.' (คุณพัฒนาขึ้นมากเลยนะ 'ขอบคุณครับ ผมพัฒนาทักษะใหม่ๆอยู่เสมอเพื่อที่จะแข่งขันได้')",
+                        "**คุยกัน:** 'I feel a bit stuck in my routine.' 'Maybe you should try developing a new skill. It's very rewarding.' (ฉันรู้สึกติดอยู่ในกิจวัตรเดิมๆนิดหน่อย 'บางทีเธอควรจะลองพัฒนาทักษะใหม่ๆดูนะ มันคุ้มค่ามากเลยล่ะ')"
+                    ], 
+                    collocations: [
+                        { term: "acquire a skill", example: "This course will help you acquire the skills needed for the job. (คอร์สนี้จะช่วยให้คุณได้รับทักษะที่จำเป็นสำหรับงานนี้)" },
+                        { term: "hone my skills", example: "I'm taking an advanced class to hone my skills. (ฉันกำลังลงเรียนคลาสขั้นสูงเพื่อฝึกฝนทักษะของฉันให้เฉียบคมยิ่งขึ้น)" },
+                        { term: "a lifelong learner", example: "My grandfather is 80, but he's a lifelong learner. (คุณปู่ของฉันอายุ 80 แล้ว แต่ท่านเป็นผู้เรียนรู้ตลอดชีวิต)" }
+                    ] 
+                },
+                { 
+                    eng: "I'm focusing on my health.", 
+                    thai: "ฉันกำลังใส่ใจสุขภาพของฉัน", 
+                    usage: [
+                        "**เพื่อนชวน:** 'Let's go get some pizza.' 'Maybe next time. I'm focusing on my health right now.' (ไปหาพิซซ่ากินกันเถอะ 'ไว้คราวหน้าแล้วกันนะ ตอนนี้ฉันกำลังใส่ใจสุขภาพของฉันอยู่')",
+                        "**อัปเดตชีวิต:** 'What's new with you?' 'Not much, just I'm focusing on my health, eating better and exercising.' (มีอะไรใหม่ๆกับเธอบ้าง 'ก็ไม่ค่อยมีอะไรมาก แค่กำลังใส่ใจสุขภาพ กินอาหารดีขึ้นแล้วก็ออกกำลังกายน่ะ')",
+                        "**หลังจากป่วย:** 'I've realized I need to make a change. I'm focusing on my health from now on.' (ฉันตระหนักได้ว่าต้องเปลี่ยนแปลงอะไรบางอย่างแล้วล่ะ จากนี้ไปฉันจะใส่ใจสุขภาพของฉันให้ดี)"
+                    ], 
+                    collocations: [
+                        { term: "take care of myself", example: "I need to start taking better care of myself. (ฉันต้องเริ่มดูแลตัวเองให้ดีขึ้นแล้ว)" },
+                        { term: "a healthy lifestyle", example: "I'm trying to adopt a healthier lifestyle. (ฉันกำลังพยายามจะปรับเปลี่ยนมาใช้ชีวิตแบบสุขภาพดี)" },
+                        { term: "well-being", example: "Your overall well-being is very important. (สุขภาวะโดยรวมของคุณเป็นสิ่งสำคัญมาก)" }
+                    ] 
+                },
+                { 
+                    eng: "I'm catching a cold.", 
+                    thai: "ฉันกำลังจะเริ่มเป็นหวัด", 
+                    usage: [
+                        "**ในออฟฟิศ:** 'You don't sound very well.' 'I think I'm catching a cold. I should probably go home.' (เสียงคุณดูไม่ค่อยดีเลยนะ 'ฉันคิดว่าฉันกำลังจะเริ่มเป็นหวัดน่ะ ฉันควรจะกลับบ้านดีกว่า')",
+                        "**คุยกับเพื่อน:** 'I have a sore throat and I'm sneezing a lot.' 'Oh no, it sounds like you're catching a cold.' (ฉันเจ็บคอแล้วก็จามบ่อยมากเลย 'โอ้ ไม่นะ ฟังดูเหมือนเธอกำลังจะเป็นหวัดเลย')",
+                        "**โทรลาป่วย:** 'Hello, I won't be able to come in today. I think I'm catching a cold.' (สวัสดีค่ะ วันนี้ดิฉันคงเข้าไปทำงานไม่ได้ค่ะ คิดว่ากำลังจะเริ่มเป็นหวัดค่ะ)"
+                    ], 
+                    collocations: [
+                        { term: "under the weather", example: "I'm feeling a bit under the weather today. (วันนี้ฉันรู้สึกไม่ค่อยสบายนิดหน่อย)" },
+                        { term: "coming down with something", example: "I hope I'm not coming down with the flu. (ฉันหวังว่าฉันคงไม่ได้กำลังจะเป็นไข้หวัดใหญ่นะ)" },
+                        { term: "a runny nose", example: "I have a headache and a runny nose. (ฉันปวดหัวและมีน้ำมูกไหล)" }
+                    ] 
+                },
+                { 
+                    eng: "I'm having doubts.", 
+                    thai: "ฉันเริ่มสงสัย/ไม่แน่ใจแล้ว", 
+                    usage: [
+                        "**เกี่ยวกับแผน:** 'I thought we were all agreed on this plan.' 'I was, but now I'm having doubts.' (ฉันคิดว่าเราทุกคนเห็นด้วยกับแผนนี้แล้วซะอีก 'ฉันเคยเห็นด้วยนะ แต่ตอนนี้ฉันเริ่มสงสัยแล้วล่ะ')",
+                        "**เกี่ยวกับความสัมพันธ์:** 'Everything seems perfect between you two.' 'On the surface, yes. But lately, I'm having doubts.' (ทุกอย่างดูสมบูรณ์แบบมากเลยนะระหว่างเธอสองคน 'ก็แค่เปลือกนอกน่ะใช่ แต่ช่วงหลังๆนี้ฉันเริ่มไม่แน่ใจแล้ว')",
+                        "**เกี่ยวกับตัวเอง:** 'You're so talented!' 'Thank you, but sometimes I'm having doubts about my own abilities.' (เธอมีพรสวรรค์มากเลยนะ! 'ขอบคุณนะ แต่บางครั้งฉันก็สงสัยในความสามารถของตัวเองเหมือนกัน')"
+                    ], 
+                    collocations: [
+                        { term: "second thoughts", example: "I'm having second thoughts about quitting my job. (ฉันเริ่มลังเลเรื่องการลาออกจากงานแล้วล่ะ)" },
+                        { term: "a nagging doubt", example: "I have a nagging doubt that he's not telling the truth. (ฉันมีความสงสัยเล็กๆอยู่ในใจว่าเขาไม่ได้พูดความจริง)" },
+                        { term: "cast doubt on", example: "The new evidence casts doubt on his alibi. (หลักฐานใหม่ทำให้ข้ออ้างที่อยู่ของเขาเป็นที่น่าสงสัย)" }
+                    ] 
+                },
+                { 
+                    eng: "I'm following a tutorial.", 
+                    thai: "ฉันกำลังทำตามวิดีโอ/บทเรียนสอน", 
+                    usage: [
+                        "**เพื่อนถาม:** 'What are you watching so intently?' 'I'm following a tutorial on how to knit.' (เธอกำลังดูอะไรอย่างตั้งใจขนาดนั้น 'ฉันกำลังดูวิดีโอสอนวิธีถักไหมพรมน่ะ')",
+                        "**ทำอาหาร:** 'This looks complicated.' 'It's okay, I'm following a YouTube tutorial.' (นี่ดูซับซ้อนจังเลยนะ 'ไม่เป็นไรหรอก ฉันกำลังทำตามวิดีโอสอนในยูทูบอยู่')",
+                        "**ซ่อมของ:** 'Do you know how to fix that?' 'Not really, but I'm following a tutorial online.' (คุณรู้วิธีซ่อมเจ้านั่นเหรอ 'ก็ไม่เชิงหรอก แต่ฉันกำลังทำตามบทเรียนออนไลน์อยู่น่ะ')"
+                    ], 
+                    collocations: [
+                        { term: "step-by-step guide", example: "This blog post has a great step-by-step guide. (บล็อกโพสต์นี้มีคำแนะนำทีละขั้นตอนที่ดีมากเลย)" },
+                        { term: "how-to video", example: "I learned everything from a how-to video. (ฉันเรียนรู้ทุกอย่างมาจากวิดีโอสอน)" },
+                        { term: "DIY project", example: "This is my first DIY project. (นี่เป็นโปรเจกต์ DIY (ทำด้วยตัวเอง) ชิ้นแรกของฉัน)" }
+                    ] 
+                },
+                { 
+                    eng: "I'm moving to a new apartment.", 
+                    thai: "ฉันกำลังจะย้ายไปอพาร์ตเมนต์ใหม่", 
+                    usage: [
+                        "**อัปเดตชีวิต:** 'I have some big news! I'm moving to a new apartment next month.' (ฉันมีข่าวใหญ่จะบอก! ฉันกำลังจะย้ายไปอพาร์ตเมนต์ใหม่เดือนหน้านี้)",
+                        "**ขอความช่วยเหลือ:** 'Are you free this weekend? I'm moving to a new apartment and could use some help.' (สุดสัปดาห์นี้เธอว่างไหม ฉันกำลังจะย้ายไปอพาร์ตเมนต์ใหม่และอยากจะขอแรงหน่อย)",
+                        "**ในบ้าน:** 'Why are all your things in boxes?' 'I told you, I'm moving to a new apartment.' (ทำไมของของเธอทั้งหมดอยู่ในกล่องล่ะ 'ฉันบอกเธอแล้วไงว่าฉันกำลังจะย้ายไปอพาร์ตเมนต์ใหม่')"
+                    ], 
+                    collocations: [
+                        { term: "packing up", example: "I'm spending the whole day packing up my stuff. (ฉันใช้เวลาทั้งวันในการเก็บของย้ายบ้าน)" },
+                        { term: "moving out", example: "I'm moving out of my parents' house for the first time. (นี่เป็นครั้งแรกที่ฉันจะย้ายออกจากบ้านพ่อแม่)" },
+                        { term: "housewarming party", example: "Once I'm settled in, I'll throw a housewarming party. (เมื่อฉันเข้าที่เข้าทางแล้ว ฉันจะจัดงานเลี้ยงขึ้นบ้านใหม่)" }
+                    ] 
+                },
+                { 
+                    eng: "I'm quitting social media.", 
+                    thai: "ฉันกำลังจะเลิกเล่นโซเชียลมีเดีย", 
+                    usage: [
+                        "**เพื่อนถาม:** 'I haven't seen you on Instagram lately.' 'That's because I'm quitting social media for a while.' (ช่วงนี้ฉันไม่เห็นเธอในอินสตาแกรมเลย 'นั่นก็เพราะว่าฉันกำลังจะเลิกเล่นโซเชียลมีเดียสักพักน่ะ')",
+                        "**ประกาศ:** 'Just so everyone knows, I'm quitting social media. If you need me, please call.' (แค่จะบอกให้ทุกคนทราบนะว่าฉันกำลังจะเลิกเล่นโซเชียลมีเดีย ถ้าใครต้องการติดต่อฉัน กรุณาโทรมานะ)",
+                        "**อธิบาย:** 'I feel much more peaceful now that I'm quitting social media.' (ฉันรู้สึกสงบสุขมากขึ้นเยอะเลยตอนนี้ที่ฉันกำลังจะเลิกเล่นโซเชียลมีเดีย)"
+                    ], 
+                    collocations: [
+                        { term: "a digital detox", example: "I think I need a digital detox for a month. (ฉันคิดว่าฉันต้องการจะดีท็อกซ์จากโลกดิจิทัลสักเดือนหนึ่ง)" },
+                        { term: "unplug", example: "It's healthy to unplug from your devices sometimes. (การหยุดใช้อุปกรณ์อิเล็กทรอนิกส์บ้างเป็นเรื่องที่ดีต่อสุขภาพ)" },
+                        { term: "delete my account", example: "I'm thinking about deleting my Facebook account permanently. (ฉันกำลังคิดว่าจะลบบัญชีเฟซบุ๊กของฉันอย่างถาวร)" }
+                    ] 
+                },
+                { 
+                    eng: "I'm taking it one day at a time.", 
+                    thai: "ฉันกำลังใช้ชีวิตไปทีละวัน (ไม่คิดไกล)", 
+                    usage: [
+                        "**เมื่อผ่านเรื่องยากลำบาก:** 'How are you coping with everything?' 'I'm taking it one day at a time.' (คุณรับมือกับทุกอย่างอย่างไรบ้าง 'ฉันก็ใช้ชีวิตไปทีละวันน่ะครับ')",
+                        "**เมื่อเริ่มโปรเจกต์ใหญ่:** 'This project seems overwhelming.' 'It is. We just have to take it one day at a time.' (โปรเจกต์นี้ดูใหญ่โตเกินกำลังนะ 'ใช่ เราก็แค่ต้องค่อยๆทำไปทีละวัน')",
+                        "**เมื่อถูกถามเรื่องอนาคต:** 'What are your plans for the future?' 'I'm not sure yet. I'm just taking it one day at a time.' (คุณมีแผนอะไรสำหรับอนาคตบ้าง 'ฉันยังไม่แน่ใจเลยค่ะ ตอนนี้ก็แค่ใช้ชีวิตไปวันๆก่อน')"
+                    ], 
+                    collocations: [
+                        { term: "live in the moment", example: "I'm trying to worry less and live in the moment more. (ฉันกำลังพยายามจะกังวลให้น้อยลงและใช้ชีวิตอยู่กับปัจจุบันให้มากขึ้น)" },
+                        { term: "go with the flow", example: "Sometimes it's best not to have a strict plan and just go with the flow. (บางครั้งการไม่มีแผนที่ตายตัวและแค่ปล่อยให้มันเป็นไปตามธรรมชาติก็ดีที่สุด)" },
+                        { term: "step by step", example: "We will solve this problem step by step. (เราจะแก้ปัญหานี้ไปทีละขั้นตอน)" }
+                    ] 
+                }
+            ];
+
+            const sentencesGrid = document.getElementById('sentences-grid');
+            const modal = document.getElementById('sentence-modal');
+            const modalContent = document.getElementById('modal-content');
+            const modalSentence = document.getElementById('modal-sentence');
+            const modalTranslation = document.getElementById('modal-translation');
+            const modalUsage = document.getElementById('modal-usage');
+            const modalCollocations = document.getElementById('modal-collocations');
+
+            function displaySentences() {
+                sentencesGrid.innerHTML = ''; 
+                sentencesData.forEach((data, index) => {
+                    const item = document.createElement('div');
+                    item.className = 'sentence-item cursor-pointer p-4 rounded-lg shadow-sm border border-gray-200';
+                    item.dataset.index = index;
+                    
+                    const engText = document.createElement('p');
+                    engText.className = 'font-semibold text-violet-800 pointer-events-none';
+                    engText.textContent = data.eng;
+                    
+                    const thaiText = document.createElement('p');
+                    thaiText.className = 'text-gray-600 text-sm pointer-events-none';
+                    thaiText.textContent = `(${data.thai})`;
+                    
+                    item.appendChild(engText);
+                    item.appendChild(thaiText);
+                    
+                    sentencesGrid.appendChild(item);
+                });
             }
-        ];
-        
-        const grid = document.getElementById('sentences-grid');
-        const modal = document.getElementById('modal');
-        const modalHeader = document.getElementById('modal-header');
-        const modalEnglish = document.getElementById('modal-english');
-        const modalThai = document.getElementById('modal-thai');
-        const modalDetails = document.getElementById('modal-details');
-        const closeModalBtn = document.getElementById('close-modal-btn');
 
-        const buttonColors = [
-            { base: 'bg-pink-100 border-pink-200', hover: 'hover:bg-pink-500 hover:border-pink-500', text: 'text-pink-800', hoverText: 'group-hover:text-white', subText: 'text-pink-700', subHoverText: 'group-hover:text-white/80' },
-            { base: 'bg-purple-100 border-purple-200', hover: 'hover:bg-purple-500 hover:border-purple-500', text: 'text-purple-800', hoverText: 'group-hover:text-white', subText: 'text-purple-700', subHoverText: 'group-hover:text-white/80' },
-            { base: 'bg-rose-100 border-rose-200', hover: 'hover:bg-rose-500 hover:border-rose-500', text: 'text-rose-800', hoverText: 'group-hover:text-white', subText: 'text-rose-700', subHoverText: 'group-hover:text-white/80' },
-            { base: 'bg-violet-100 border-violet-200', hover: 'hover:bg-violet-500 hover:border-violet-500', text: 'text-violet-800', hoverText: 'group-hover:text-white', subText: 'text-violet-700', subHoverText: 'group-hover:text-white/80' },
-        ];
+            function openModal(index) {
+                const data = sentencesData[index];
+                
+                modalSentence.textContent = data.eng;
+                modalTranslation.textContent = data.thai;
 
-        sentences.forEach((sentence, index) => {
-            const button = document.createElement('button');
-            const colorTheme = buttonColors[index % buttonColors.length];
-            
-            button.className = `group sentence-btn p-5 rounded-xl text-left border-2 ${colorTheme.base} ${colorTheme.hover}`;
-            
-            button.innerHTML = `
-                <span class="font-poppins font-semibold ${colorTheme.text} ${colorTheme.hoverText} transition-colors duration-200">${sentence.eng}</span>
-                <span class="block text-sm ${colorTheme.subText} font-normal mt-1 ${colorTheme.subHoverText} transition-colors duration-200">${sentence.th}</span>
-            `;
-            
-            button.addEventListener('click', () => openModal(sentence));
-            grid.appendChild(button);
-        });
+                modalUsage.innerHTML = '';
+                modalUsage.className = 'space-y-4'; 
 
-        function openModal(sentence) {
-            modalEnglish.textContent = sentence.eng;
-            modalThai.textContent = sentence.th;
+                data.usage.forEach(use => {
+                    const li = document.createElement('li');
+                    li.className = 'bg-purple-50 border-l-4 border-purple-300 p-4 rounded-r-md shadow-sm';
+                    const parts = use.match(/\*\*(.*?):\*\* '(.*?)' \((.*?)\)/);
 
-            modalDetails.innerHTML = `
-                <div class="p-4 bg-slate-100 rounded-lg">
-                    <h4 class="font-semibold text-lg text-slate-800 mb-2">💡 บริบทการใช้งาน (Context)</h4>
-                    <p class="text-slate-600">${sentence.context}</p>
-                </div>
-                <div class="p-4 bg-slate-100 rounded-lg">
-                    <h4 class="font-semibold text-lg text-slate-800 mb-2">💬 ตัวอย่างบทสนทนา (Dialogue)</h4>
-                    <div class="space-y-1 text-slate-600">
-                        <p><strong>A:</strong> ${sentence.dialogue.a}</p>
-                        <p><strong>B:</strong> ${sentence.dialogue.b}</p>
-                    </div>
-                </div>
-                <div class="p-4 bg-slate-100 rounded-lg">
-                    <h4 class="font-semibold text-lg text-slate-800 mb-2">🔄 คำที่เกี่ยวข้อง / ใช้แทนได้ (Alternatives)</h4>
-                    <div class="text-slate-600">${sentence.alternatives}</div>
-                </div>
-            `;
+                    if (parts && parts.length === 4) {
+                        const context = parts[1];
+                        const english = parts[2];
+                        const thai = parts[3];
 
-            modal.classList.add('active');
-            modal.classList.remove('opacity-0', 'pointer-events-none');
-            document.body.style.overflow = 'hidden';
-        }
+                        const contentDiv = document.createElement('div');
+                        
+                        const line1 = document.createElement('div');
+                        const contextSpan = document.createElement('span');
+                        contextSpan.className = 'font-semibold text-amber-700 mr-2 text-lg';
+                        contextSpan.textContent = `${context}:`;
+                        
+                        const englishSpan = document.createElement('span');
+                        englishSpan.className = 'italic text-gray-800 text-lg';
+                        englishSpan.textContent = `'${english}'`;
+                        line1.appendChild(contextSpan);
+                        line1.appendChild(englishSpan);
 
-        function closeModal() {
-            modal.classList.add('opacity-0', 'pointer-events-none');
-            modal.classList.remove('active');
-            document.body.style.overflow = 'auto';
-        }
+                        const line2 = document.createElement('div');
+                        const thaiSpan = document.createElement('span');
+                        thaiSpan.className = 'text-gray-600 mt-1 text-base';
+                        thaiSpan.textContent = `(${thai})`;
+                        line2.appendChild(thaiSpan);
 
-        closeModalBtn.addEventListener('click', closeModal);
-        modal.addEventListener('click', (e) => {
-            if (e.target.id === 'modal') {
-                closeModal();
+                        contentDiv.appendChild(line1);
+                        contentDiv.appendChild(line2);
+                        li.appendChild(contentDiv);
+
+                    } else {
+                        li.innerHTML = use.replace(/\*\*(.*?)\*\*/g, '<strong class="font-semibold text-gray-800">$1</strong>');
+                    }
+                    modalUsage.appendChild(li);
+                });
+
+                modalCollocations.innerHTML = '';
+                const collocationList = document.createElement('ul');
+                collocationList.className = 'list-disc list-inside text-gray-700 space-y-3 text-base';
+                data.collocations.forEach(col => {
+                    const li = document.createElement('li');
+                    li.innerHTML = `<strong class="font-semibold text-gray-800">${col.term}:</strong> ${col.example}`;
+                    collocationList.appendChild(li);
+                });
+                modalCollocations.appendChild(collocationList);
+                
+                modal.classList.remove('opacity-0', 'pointer-events-none', 'invisible');
+                modalContent.classList.remove('scale-95');
+                modalContent.classList.add('scale-100');
             }
+
+            function closeModal() {
+                modal.classList.add('opacity-0');
+                modalContent.classList.add('scale-95');
+                setTimeout(() => {
+                    modal.classList.add('pointer-events-none', 'invisible');
+                }, 300); 
+            }
+
+            document.body.addEventListener('click', (e) => {
+                const sentenceItem = e.target.closest('.sentence-item');
+                const closeButton = e.target.closest('#close-modal-btn');
+                const modalContentArea = e.target.closest('#modal-content');
+                const modalIsVisible = !modal.classList.contains('invisible');
+
+                if (sentenceItem) {
+                    openModal(sentenceItem.dataset.index);
+                    return;
+                }
+
+                if (closeButton || (modalIsVisible && !modalContentArea)) {
+                    closeModal();
+                }
+            });
+
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape' && !modal.classList.contains('invisible')) {
+                    closeModal();
+                }
+            });
+
+            displaySentences();
         });
     </script>
+
 </body>
 </html>

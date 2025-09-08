@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>English News for Beginners - Khon La Krueng 2025</title>
+    <style>
+        body {
+            font-family: 'Tahoma', 'Geneva', sans-serif;
+            font-size: 20px;
+            line-height: 1.8;
+            color: #333;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 900px;
+            margin: auto;
+            background: #fff;
+            padding: 30px 40px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+        h1, h2 {
+            color: #0056b3;
+            border-bottom: 3px solid #f0f0f0;
+            padding-bottom: 15px;
+        }
+        h1 {
+            font-size: 2.3em;
+            text-align: center;
+            margin-bottom: 10px;
+            color: #17a2b8;
+        }
+        h2 {
+            font-size: 1.9em;
+            margin-top: 40px;
+        }
+        .branding {
+            text-align: center;
+            color: #555;
+            font-size: 0.9em;
+            margin-bottom: 30px;
+        }
+        
+        /* Vocabulary Section */
+        .vocab-list {
+            margin-top: 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+            gap: 20px;
+        }
+        .vocab-item {
+            background-color: #fefdf5;
+            padding: 20px;
+            border: 1px solid #eee;
+            border-left: 6px solid #ffc107;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+        }
+        .vocab-word {
+            font-weight: bold;
+            color: #c9302c;
+            font-size: 1.3em;
+        }
+        .pronunciation-th {
+            font-weight: bold;
+            color: #007bff;
+        }
+        .pronunciation-th u {
+            text-decoration: underline;
+            text-decoration-color: #c9302c;
+        }
+        .example-sentence {
+            font-style: italic;
+            color: #555;
+            margin-top: 10px;
+        }
+        .toggle-translation {
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px dashed #ddd;
+        }
+        .translation-th {
+            color: #28a745;
+            font-weight: bold;
+        }
+        .vocab-item button {
+            background-color: #5bc0de;
+            color: white;
+            padding: 8px 12px;
+            font-size: 16px;
+            margin-top: 15px;
+            align-self: flex-start;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .vocab-item button:hover {
+            background-color: #31b0d5;
+        }
+
+        /* News Article Section */
+        .news-article {
+            background-color: #f0faff;
+            padding: 25px;
+            border-radius: 8px;
+            margin-top: 20px;
+            border: 1px solid #cce5ff;
+        }
+
+        /* Tooltip styles */
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            border-bottom: 2px dotted #17a2b8;
+            cursor: pointer;
+            font-weight: bold;
+            color: #17a2b8;
+        }
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 320px;
+            background-color: #333;
+            color: #fff;
+            text-align: left;
+            border-radius: 6px;
+            padding: 15px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -160px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+        .tooltip .tooltiptext::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: #333 transparent transparent transparent;
+        }
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+        .tooltip-title {
+            font-weight: bold;
+            color: #ffc107;
+        }
+        .tooltip-content {
+            font-weight: normal;
+            color: #fff;
+        }
+        .tooltip-pronunciation-th u {
+            text-decoration: underline;
+            text-decoration-color: #ffc107;
+        }
+        
+        /* Exercise and Q&A Section */
+        .exercise, .q-and-a {
+            margin-top: 30px;
+            background-color: #f4f4f9;
+            padding: 25px;
+            border-radius: 8px;
+        }
+        .word-bank {
+            background-color: #e9ecef;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .word-bank span {
+            background-color: #fff;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            border: 1px solid #ccc;
+        }
+        .question {
+            margin-bottom: 20px;
+        }
+        .answer-input {
+            width: 180px;
+            padding: 10px;
+            font-size: 18px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        #results {
+            margin-top: 15px;
+            font-weight: bold;
+        }
+        .main-button {
+            background-color: #28a745;
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 18px;
+            margin-top: 10px;
+        }
+        .main-button:hover {
+            background-color: #218838;
+        }
+        .qa-answer {
+            display: none;
+            background-color: #e9ecef;
+            padding: 15px;
+            margin-top: 10px;
+            border-radius: 5px;
+            border-left: 5px solid #17a2b8;
+        }
+        .qa-answer ul {
+            padding-left: 20px;
+            margin: 0;
+        }
+        .qa-answer li {
+            margin-bottom: 10px;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+            color: #666;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>"Khon La Krueng 2025" Project is Coming Back!</h1>
+        <p class="branding">ครูสาลี่ -- อังกฤษฉบับคนเรียนไม่รู้เรื่อง</p>
+        
+        <h2>Key Words to Know First 🔑</h2>
+        <div class="vocab-list">
+             <div class="vocab-item">
+                <p><span class="vocab-word">Government (n.)</span></p>
+                <p class="pronunciation-th">คำอ่าน: <u>กัฟ</u>-เวิน-เมินทฺ</p>
+                <p><strong>Meaning:</strong> the group of people who officially control a country.</p>
+                <p class="example-sentence">"The government will announce a new holiday."</p>
+                <div class="toggle-translation" style="display:none;">
+                    <p class="translation-th">คำแปล: รัฐบาล</p>
+                    <p class="translation-th">แปลประโยค: "รัฐบาลจะประกาศวันหยุดใหม่"</p>
+                </div>
+                <button onclick="toggleTranslation(this)">แสดงคำแปล</button>
+            </div>
+             <div class="vocab-item">
+                <p><span class="vocab-word">Project (n.)</span></p>
+                <p class="pronunciation-th">คำอ่าน: <u>โพs</u>-เจคทฺ</p>
+                <p><strong>Meaning:</strong> a planned piece of work that has a specific purpose.</p>
+                <p class="example-sentence">"This is a new project to help the economy."</p>
+                <div class="toggle-translation" style="display:none;">
+                    <p class="translation-th">คำแปล: โครงการ</p>
+                    <p class="translation-th">แปลประโยค: "นี่คือโครงการใหม่เพื่อช่วยเศรษฐกิจ"</p>
+                </div>
+                <button onclick="toggleTranslation(this)">แสดงคำแปล</button>
+            </div>
+             <div class="vocab-item">
+                <p><span class="vocab-word">Register (v.)</span></p>
+                <p class="pronunciation-th">คำอ่าน: <u>เรจ</u>-จิส-เทอร์</p>
+                <p><strong>Meaning:</strong> to put your name and other information on an official list.</p>
+                <p class="example-sentence">"You need to register on the website to join."</p>
+                <div class="toggle-translation" style="display:none;">
+                    <p class="translation-th">คำแปล: ลงทะเบียน</p>
+                    <p class="translation-th">แปลประโยค: "คุณต้องลงทะเบียนบนเว็บไซต์เพื่อเข้าร่วม"</p>
+                </div>
+                <button onclick="toggleTranslation(this)">แสดงคำแปล</button>
+            </div>
+             <div class="vocab-item">
+                <p><span class="vocab-word">Citizen (n.)</span></p>
+                <p class="pronunciation-th">คำอ่าน: <u>ซิ</u>-ทิ-เซิน</p>
+                <p><strong>Meaning:</strong> a person who is a member of a particular country.</p>
+                <p class="example-sentence">"You must be a Thai citizen to get this benefit."</p>
+                <div class="toggle-translation" style="display:none;">
+                    <p class="translation-th">คำแปล: พลเมือง, ประชาชน (ผู้มีสัญชาติ)</p>
+                    <p class="translation-th">แปลประโยค: "คุณต้องเป็นพลเมืองไทยเพื่อรับสิทธินี้"</p>
+                </div>
+                <button onclick="toggleTranslation(this)">แสดงคำแปล</button>
+            </div>
+             <div class="vocab-item">
+                <p><span class="vocab-word">Rule (n.)</span></p>
+                <p class="pronunciation-th">คำอ่าน: รูล</p>
+                <p><strong>Meaning:</strong> an official instruction that says how things must be done.</p>
+                <p class="example-sentence">"You need to follow the rules to use the money."</p>
+                <div class="toggle-translation" style="display:none;">
+                    <p class="translation-th">คำแปล: กฎ, เงื่อนไข</p>
+                    <p class="translation-th">แปลประโยค: "คุณต้องทำตามกฎเพื่อใช้เงิน"</p>
+                </div>
+                <button onclick="toggleTranslation(this)">แสดงคำแปล</button>
+            </div>
+             <div class="vocab-item">
+                <p><span class="vocab-word">Pay (v.)</span></p>
+                <p class="pronunciation-th">คำอ่าน: เพ</p>
+                <p><strong>Meaning:</strong> to give money to someone for something you have bought.</p>
+                <p class="example-sentence">"I will pay for the food with my phone."</p>
+                <div class="toggle-translation" style="display:none;">
+                    <p class="translation-th">คำแปล: จ่าย</p>
+                    <p class="translation-th">แปลประโยค: "ฉันจะจ่ายค่าอาหารด้วยโทรศัพท์ของฉัน"</p>
+                </div>
+                <button onclick="toggleTranslation(this)">แสดงคำแปล</button>
+            </div>
+             <div class="vocab-item">
+                <p><span class="vocab-word">Application (n.)</span></p>
+                <p class="pronunciation-th">คำอ่าน: แอพ-พลิ-<u>เค</u>-เชิน</p>
+                <p><strong>Meaning:</strong> a program designed to do a particular job; a piece of software.</p>
+                <p class="example-sentence">"You need to download the 'Paotang' application."</p>
+                <div class="toggle-translation" style="display:none;">
+                    <p class="translation-th">คำแปล: แอปพลิเคชัน</p>
+                    <p class="translation-th">แปลประโยค: "คุณต้องดาวน์โหลดแอปพลิเคชัน 'เป๋าตัง'"</p>
+                </div>
+                <button onclick="toggleTranslation(this)">แสดงคำแปล</button>
+            </div>
+             <div class="vocab-item">
+                <p><span class="vocab-word">Website (n.)</span></p>
+                <p class="pronunciation-th">คำอ่าน: <u>เวบ</u>-ไซทฺ</p>
+                <p><strong>Meaning:</strong> a set of pages of information on the internet about a particular subject.</p>
+                <p class="example-sentence">"You can register for the project on the official website."</p>
+                <div class="toggle-translation" style="display:none;">
+                    <p class="translation-th">คำแปล: เว็บไซต์</p>
+                    <p class="translation-th">แปลประโยค: "คุณสามารถลงทะเบียนโครงการได้ที่เว็บไซต์ทางการ"</p>
+                </div>
+                <button onclick="toggleTranslation(this)">แสดงคำแปล</button>
+            </div>
+             <div class="vocab-item">
+                <p><span class="vocab-word">Limit (n.)</span></p>
+                <p class="pronunciation-th">คำอ่าน: <u>ลิ</u>-มิท</p>
+                <p><strong>Meaning:</strong> the greatest amount of something that is possible or allowed.</p>
+                <p class="example-sentence">"There is a 150 baht limit per day."</p>
+                <div class="toggle-translation" style="display:none;">
+                    <p class="translation-th">คำแปล: ขีดจำกัด</p>
+                    <p class="translation-th">แปลประโยค: "มีขีดจำกัด 150 บาทต่อวัน"</p>
+                </div>
+                <button onclick="toggleTranslation(this)">แสดงคำแปล</button>
+            </div>
+             <div class="vocab-item">
+                <p><span class="vocab-word">Support (v.)</span></p>
+                <p class="pronunciation-th">คำอ่าน: ซัพ-<u>พอร์ท</u></p>
+                <p><strong>Meaning:</strong> to help or encourage someone or something.</p>
+                <p class="example-sentence">"The government will support people by paying 50%."</p>
+                <div class="toggle-translation" style="display:none;">
+                    <p class="translation-th">คำแปล: สนับสนุน, ช่วยเหลือ</p>
+                    <p class="translation-th">แปลประโยค: "รัฐบาลจะสนับสนุนประชาชนโดยการจ่ายให้ 50%"</p>
+                </div>
+                <button onclick="toggleTranslation(this)">แสดงคำแปล</button>
+            </div>
+             <div class="vocab-item">
+                <p><span class="vocab-word">Benefit (n.)</span></p>
+                <p class="pronunciation-th">คำอ่าน: <u>เบน</u>-เน-ฟิท</p>
+                <p><strong>Meaning:</strong> a helpful or good effect, or something intended to help.</p>
+                <p class="example-sentence">"This project has a big benefit for the economy."</p>
+                <div class="toggle-translation" style="display:none;">
+                    <p class="translation-th">คำแปล: ประโยชน์, สิทธิประโยชน์</p>
+                    <p class="translation-th">แปลประโยค: "โครงการนี้มีประโยชน์อย่างยิ่งต่อเศรษฐกิจ"</p>
+                </div>
+                <button onclick="toggleTranslation(this)">แสดงคำแปล</button>
+            </div>
+             <div class="vocab-item">
+                <p><span class="vocab-word">Condition (n.)</span></p>
+                <p class="pronunciation-th">คำอ่าน: คอน-<u>ดิ</u>-เชิน</p>
+                <p><strong>Meaning:</strong> something that must be true or be done before something else can happen.</p>
+                <p class="example-sentence">"You must agree to the conditions before you can join."</p>
+                <div class="toggle-translation" style="display:none;">
+                    <p class="translation-th">คำแปล: เงื่อนไข</p>
+                    <p class="translation-th">แปลประโยค: "คุณต้องยอมรับเงื่อนไขก่อนจึงจะสามารถเข้าร่วมได้"</p>
+                </div>
+                <button onclick="toggleTranslation(this)">แสดงคำแปล</button>
+            </div>
+        </div>
+
+        <h2>News Story 📰</h2>
+        <div class="news-article">
+            <p>
+                The new 
+                <span class="tooltip">government
+                    <span class="tooltiptext">
+                        <span class="tooltip-title">Pronunciation (TH):</span> <span class="tooltip-content tooltip-pronunciation-th"><u>กัฟ</u>-เวิน-เมินทฺ</span><br>
+                        <span class="tooltip-title">Meaning:</span> <span class="tooltip-content">รัฐบาล</span><br>
+                        <span class="tooltip-title">Synonyms:</span> <span class="tooltip-content">authorities, the state</span>
+                    </span>
+                </span>
+                in Thailand plans to bring back a popular 
+                <span class="tooltip">project
+                    <span class="tooltiptext">
+                        <span class="tooltip-title">Pronunciation (TH):</span> <span class="tooltip-content tooltip-pronunciation-th"><u>โพs</u>-เจคทฺ</span><br>
+                        <span class="tooltip-title">Meaning:</span> <span class="tooltip-content">โครงการ</span><br>
+                        <span class="tooltip-title">Synonyms:</span> <span class="tooltip-content">plan, scheme</span>
+                    </span>
+                </span>
+                called "Khon La Krueng" for the year 2025. In English, "Khon La Krueng" means "half-half." This project helps people with their daily spending.
+            </p>
+            <p>
+                The main idea is simple: the government will 
+                <span class="tooltip">support
+                    <span class="tooltiptext">
+                        <span class="tooltip-title">Pronunciation (TH):</span> <span class="tooltip-content tooltip-pronunciation-th">ซัพ-<u>พอร์ท</u></span><br>
+                        <span class="tooltip-title">Meaning:</span> <span class="tooltip-content">สนับสนุน</span><br>
+                        <span class="tooltip-title">Synonyms:</span> <span class="tooltip-content">help, assist, fund</span>
+                    </span>
+                </span>
+                people by paying 50% when they buy things, and people 
+                <span class="tooltip">pay
+                    <span class="tooltiptext">
+                        <span class="tooltip-title">Pronunciation (TH):</span> <span class="tooltip-content tooltip-pronunciation-th">เพ</span><br>
+                        <span class="tooltip-title">Meaning:</span> <span class="tooltip-content">จ่าย</span><br>
+                        <span class="tooltip-title">Synonyms:</span> <span class="tooltip-content">spend, give money</span>
+                    </span>
+                </span>
+                the other 50%. This is all done through a special phone 
+                <span class="tooltip">application
+                    <span class="tooltiptext">
+                        <span class="tooltip-title">Pronunciation (TH):</span> <span class="tooltip-content tooltip-pronunciation-th">แอพ-พลิ-<u>เค</u>-เชิน</span><br>
+                        <span class="tooltip-title">Meaning:</span> <span class="tooltip-content">แอปพลิเคชัน</span><br>
+                        <span class="tooltip-title">Synonyms:</span> <span class="tooltip-content">app, program</span>
+                    </span>
+                </span>
+                called "Paotang."
+            </p>
+             <h3>Who can join and what are the rules?</h3>
+             <p>
+                There are some 
+                <span class="tooltip">rules
+                    <span class="tooltiptext">
+                        <span class="tooltip-title">Pronunciation (TH):</span> <span class="tooltip-content tooltip-pronunciation-th">รูลสฺ</span><br>
+                        <span class="tooltip-title">Meaning:</span> <span class="tooltip-content">กฎ/เงื่อนไข</span><br>
+                        <span class="tooltip-title">Synonyms:</span> <span class="tooltip-content">conditions, regulations</span>
+                    </span>
+                </span>
+                or 
+                <span class="tooltip">conditions
+                    <span class="tooltiptext">
+                        <span class="tooltip-title">Pronunciation (TH):</span> <span class="tooltip-content tooltip-pronunciation-th">คอน-<u>ดิ</u>-เชินสฺ</span><br>
+                        <span class="tooltip-title">Meaning:</span> <span class="tooltip-content">เงื่อนไข</span><br>
+                        <span class="tooltip-title">Synonyms:</span> <span class="tooltip-content">rules, requirements</span>
+                    </span>
+                </span>
+                . To get this 
+                <span class="tooltip">benefit
+                    <span class="tooltiptext">
+                        <span class="tooltip-title">Pronunciation (TH):</span> <span class="tooltip-content tooltip-pronunciation-th"><u>เบน</u>-เน-ฟิท</span><br>
+                        <span class="tooltip-title">Meaning:</span> <span class="tooltip-content">สิทธิประโยชน์</span><br>
+                        <span class="tooltip-title">Synonyms:</span> <span class="tooltip-content">advantage, help</span>
+                    </span>
+                </span>
+                , you must be a Thai 
+                <span class="tooltip">citizen
+                    <span class="tooltiptext">
+                        <span class="tooltip-title">Pronunciation (TH):</span> <span class="tooltip-content tooltip-pronunciation-th"><u>ซิ</u>-ทิ-เซิน</span><br>
+                        <span class="tooltip-title">Meaning:</span> <span class="tooltip-content">พลเมือง</span><br>
+                        <span class="tooltip-title">Synonyms:</span> <span class="tooltip-content">national, resident</span>
+                    </span>
+                </span>
+                and be 18 years old or older. There is also a daily 
+                <span class="tooltip">limit
+                    <span class="tooltiptext">
+                        <span class="tooltip-title">Pronunciation (TH):</span> <span class="tooltip-content tooltip-pronunciation-th"><u>ลิ</u>-มิท</span><br>
+                        <span class="tooltip-title">Meaning:</span> <span class="tooltip-content">ขีดจำกัด</span><br>
+                        <span class="tooltip-title">Synonyms:</span> <span class="tooltip-content">cap, maximum</span>
+                    </span>
+                </span>
+                on how much the government will pay for you, which is 150 baht per day. You can only use it at shops that are part of the project.
+             </p>
+             <h3>How to Register</h3>
+             <p>
+                To join, people will need to 
+                <span class="tooltip">register
+                    <span class="tooltiptext">
+                        <span class="tooltip-title">Pronunciation (TH):</span> <span class="tooltip-content tooltip-pronunciation-th"><u>เรจ</u>-จิส-เทอร์</span><br>
+                        <span class="tooltip-title">Meaning:</span> <span class="tooltip-content">ลงทะเบียน</span><br>
+                        <span class="tooltip-title">Synonyms:</span> <span class="tooltip-content">sign up, enroll</span>
+                    </span>
+                </span>
+                on a 
+                <span class="tooltip">website
+                    <span class="tooltiptext">
+                        <span class="tooltip-title">Pronunciation (TH):</span> <span class="tooltip-content tooltip-pronunciation-th"><u>เวบ</u>-ไซทฺ</span><br>
+                        <span class="tooltip-title">Meaning:</span> <span class="tooltip-content">เว็บไซต์</span><br>
+                        <span class="tooltip-title">Synonyms:</span> <span class="tooltip-content">site, webpage</span>
+                    </span>
+                </span>. The website is not open yet. After you register, you will need to download and use the "Paotang" app. The government will announce more details soon.
+             </p>
+        </div>
+
+        <div class="exercise">
+            <h2>Vocabulary Exercise ✍️</h2>
+            <p>Fill in the blanks with a correct word from the word bank below.</p>
+            <div class="word-bank">
+                <span>government</span><span>project</span><span>register</span><span>citizen</span>
+                <span>rule</span><span>pay</span><span>application</span><span>website</span>
+                <span>limit</span><span>support</span>
+            </div>
+            <div class="question">
+                1. The __________ is planning to help people with their shopping.
+                <input type="text" id="q1" class="answer-input">
+            </div>
+            <div class="question">
+                2. You need to be a Thai __________ and be over 18 years old to join.
+                <input type="text" id="q2" class="answer-input">
+            </div>
+            <div class="question">
+                3. First, you must __________ for the project on a special website.
+                <input type="text" id="q3" class="answer-input">
+            </div>
+            <div class="question">
+                4. People use a phone __________ called 'Paotang' to pay for things.
+                <input type="text" id="q4" class="answer-input">
+            </div>
+            <div class="question">
+                5. There is a __________ on how much money you can get each day.
+                <input type="text" id="q5" class="answer-input">
+            </div>
+            <button class="main-button" onclick="checkAnswers()">Check My Answers</button>
+            <div id="results"></div>
+        </div>
+
+        <div class="q-and-a">
+            <h2>Questions & Answers 🤔</h2>
+            <p>Read the story and answer the questions. Click the button to see different ways to answer.</p>
+            
+            <div class="question">
+                <p><strong>1. What does "Khon La Krueng" mean?</strong></p>
+                <button class="main-button" onclick="toggleAnswer('qa1')">Show Answer Choices</button>
+                <div id="qa1" class="qa-answer">
+                    <ul>
+                        <li>"Khon La Krueng" means "half-half" in English.</li>
+                        <li>It means the government pays half and you pay half.</li>
+                        <li>The name of the project is "half-half".</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="question">
+                <p><strong>2. Who can join this project?</strong></p>
+                <button class="main-button" onclick="toggleAnswer('qa2')">Show Answer Choices</button>
+                <div id="qa2" class="qa-answer">
+                   <ul>
+                        <li>Thai citizens who are 18 years old or older can join.</li>
+                        <li>You must be a Thai citizen and at least 18 years old.</li>
+                        <li>Only Thai people who are over 18 can register.</li>
+                   </ul>
+                </div>
+            </div>
+
+            <div class="question">
+                <p><strong>3. How do people pay for things in this project?</strong></p>
+                <button class="main-button" onclick="toggleAnswer('qa3')">Show Answer Choices</button>
+                <div id="qa3" class="qa-answer">
+                   <ul>
+                        <li>People pay using a phone application called "Paotang."</li>
+                        <li>They use the "Paotang" app to pay.</li>
+                        <li>Payment is made through the "Paotang" application.</li>
+                   </ul>
+                </div>
+            </div>
+
+        </div>
+        
+        <footer>
+            <p>ครูสาลี่ -- อังกฤษฉบับคนเรียนไม่รู้เรื่อง</p>
+        </footer>
+
+    </div>
+
+    <script>
+        function toggleTranslation(button) {
+            const vocabItem = button.parentElement;
+            const translationDiv = vocabItem.querySelector('.toggle-translation');
+            
+            if (translationDiv.style.display === 'none' || translationDiv.style.display === '') {
+                translationDiv.style.display = 'block';
+                button.textContent = 'ซ่อนคำแปล';
+            } else {
+                translationDiv.style.display = 'none';
+                button.textContent = 'แสดงคำแปล';
+            }
+        }
+
+        function checkAnswers() {
+            const answers = {
+                q1: "government",
+                q2: "citizen",
+                q3: "register",
+                q4: "application",
+                q5: "limit"
+            };
+            let correctCount = 0;
+            const totalQuestions = 5;
+
+            for (let i = 1; i <= totalQuestions; i++) {
+                const questionId = "q" + i;
+                const userAnswer = document.getElementById(questionId).value.trim().toLowerCase();
+                if (userAnswer === answers[questionId]) {
+                    correctCount++;
+                    document.getElementById(questionId).style.border = '2px solid green';
+                } else {
+                    document.getElementById(questionId).style.border = '2px solid red';
+                }
+            }
+
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = `You got ${correctCount} out of ${totalQuestions} correct!`;
+            if (correctCount === totalQuestions) {
+                resultsDiv.style.color = 'green';
+            } else {
+                resultsDiv.style.color = 'red';
+            }
+        }
+
+        function toggleAnswer(id) {
+            const answerDiv = document.getElementById(id);
+            if (answerDiv.style.display === "block") {
+                answerDiv.style.display = "none";
+            } else {
+                answerDiv.style.display = "block";
+            }
+        }
+    </script>
+
+</body>
+</html>

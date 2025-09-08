@@ -1,439 +1,631 @@
 <!DOCTYPE html>
-<html lang="th">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mr. News - Temple Donation Scandal</title>
+    <title>English News for Beginners - Temple Donation Drama</title>
     <style>
-        /* Import Google Font */
-        @import url('https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap');
-
-        /* Global Styles */
-        :root {
-            --primary-color: #8E44AD; /* A deep purple */
-            --secondary-color: #F39C12; /* A warm orange for highlights */
-            --background-color: #f5f3f7;
-            --text-color: #34495E;
-            --card-background: #ffffff;
-            --shadow-color: rgba(0, 0, 0, 0.1);
-            --border-radius: 12px;
-        }
-
         body {
-            font-family: 'Kanit', sans-serif;
-            background-color: var(--background-color);
-            margin: 0;
-            padding: 20px;
-            color: var(--text-color);
-            line-height: 1.7;
-        }
-
-        /* App Container */
-        .app-container {
-            max-width: 800px;
-            margin: auto;
-            background: var(--card-background);
-            border-radius: var(--border-radius);
-            box-shadow: 0 8px 25px var(--shadow-color);
-            overflow: hidden;
-            border: 1px solid #e0e0e0;
-        }
-
-        /* Header */
-        .app-header {
-            background: linear-gradient(135deg, var(--primary-color), #9B59B6);
-            color: white;
-            padding: 25px 30px;
-            text-align: center;
-        }
-
-        .app-header h1 {
-            margin: 0;
-            font-size: 2.2rem;
-            font-weight: 700;
-        }
-
-        .app-header p {
-            margin: 5px 0 0;
-            font-size: 1.1rem;
-            opacity: 0.9;
-        }
-
-        /* Toggle Buttons */
-        .toggle-buttons {
-            display: flex;
-            justify-content: center;
-            padding: 20px;
-            background-color: #f2eef5;
-        }
-
-        .toggle-btn {
-            background-color: #fff;
-            color: var(--primary-color);
-            border: 2px solid var(--primary-color);
-            padding: 10px 25px;
-            margin: 0 10px;
-            border-radius: 50px;
-            cursor: pointer;
-            font-size: 1rem;
-            font-weight: 600;
-            transition: all 0.3s ease;
-        }
-
-        .toggle-btn:hover {
-            background-color: var(--primary-color);
-            color: white;
-        }
-
-        .toggle-btn.active-btn {
-            background-color: var(--primary-color);
-            color: white;
-            box-shadow: 0 4px 10px rgba(142, 68, 173, 0.4);
-        }
-
-        /* Content Box */
-        .content-box {
-            padding: 30px;
-            font-size: 1.1rem;
-        }
-
-        .content-box.advanced {
-            display: none; /* Initially hide advanced content */
-        }
-        
-        .content-box h2 {
-            color: var(--primary-color);
-            border-bottom: 3px solid var(--secondary-color);
-            padding-bottom: 10px;
-            margin-top: 0;
-        }
-        
-        /* Highlighted Text */
-        .highlight {
-            background-color: #fff9e6;
-            color: #b87b00;
-            padding: 2px 5px;
-            border-radius: 4px;
-            cursor: pointer;
-            text-decoration: none;
-            border-bottom: 2px dotted var(--secondary-color);
-            transition: all 0.2s ease-in-out;
-        }
-
-        .highlight:hover {
-            background-color: var(--secondary-color);
-            color: white;
-        }
-
-        /* Modal (Popup) Styles */
-        .modal {
-            display: none; 
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgba(0,0,0,0.6);
-            animation: fadeIn 0.4s;
-        }
-
-        .modal-content {
-            background-color: #fff;
-            margin: 10% auto;
-            padding: 25px 35px;
-            border: none;
-            width: 90%;
-            max-width: 550px;
-            border-radius: var(--border-radius);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            position: relative;
-            animation: slideIn 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        }
-
-        @keyframes fadeIn {
-            from {opacity: 0;}
-            to {opacity: 1;}
-        }
-
-        @keyframes slideIn {
-            from {transform: translateY(-50px); opacity: 0;}
-            to {transform: translateY(0); opacity: 1;}
-        }
-
-        .close-button {
-            color: #aaa;
-            float: right;
-            font-size: 32px;
-            font-weight: bold;
-            position: absolute;
-            top: 10px;
-            right: 20px;
-        }
-
-        .close-button:hover,
-        .close-button:focus {
+            font-family: 'Tahoma', 'Geneva', sans-serif;
+            font-size: 20px;
+            line-height: 1.8;
             color: #333;
-            text-decoration: none;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 900px;
+            margin: auto;
+            background: #fff;
+            padding: 30px 40px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+        h1, h2 {
+            color: #0056b3;
+            border-bottom: 3px solid #f0f0f0;
+            padding-bottom: 15px;
+        }
+        h1 {
+            font-size: 2.3em;
+            text-align: center;
+            margin-bottom: 10px;
+            color: #8B4513;
+        }
+        h2 {
+            font-size: 1.9em;
+            margin-top: 40px;
+        }
+        .branding {
+            text-align: center;
+            color: #555;
+            font-size: 0.9em;
+            margin-bottom: 30px;
+        }
+        
+        /* Vocabulary Section */
+        .vocab-list {
+            margin-top: 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+            gap: 20px;
+        }
+        .vocab-item {
+            background-color: #fefdf5;
+            padding: 20px;
+            border: 1px solid #eee;
+            border-left: 6px solid #ffc107;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+        }
+        .vocab-word {
+            font-weight: bold;
+            color: #c9302c;
+            font-size: 1.3em;
+        }
+        .pronunciation-th {
+            font-weight: bold;
+            color: #007bff;
+        }
+        .pronunciation-th u {
+            text-decoration: underline;
+            text-decoration-color: #c9302c;
+        }
+        .example-sentence {
+            font-style: italic;
+            color: #555;
+            margin-top: 10px;
+        }
+        .toggle-translation {
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px dashed #ddd;
+        }
+        .translation-th {
+            color: #28a745;
+            font-weight: bold;
+        }
+        .vocab-item button {
+            background-color: #5bc0de;
+            color: white;
+            padding: 8px 12px;
+            font-size: 16px;
+            margin-top: 15px;
+            align-self: flex-start;
+            border: none;
+            border-radius: 5px;
             cursor: pointer;
         }
-
-        .modal-content h3 {
-            color: var(--primary-color);
-            font-size: 1.8rem;
-            margin-top: 0;
+        .vocab-item button:hover {
+            background-color: #31b0d5;
         }
 
-        .modal-content p {
-            font-size: 1.1rem;
-            margin-bottom: 15px;
-        }
-        
-        .modal-content strong {
-            color: var(--text-color);
-            font-weight: 600;
-        }
-
-        .modal-example {
-            background-color: #f8f9fa;
-            border-left: 5px solid var(--primary-color);
-            padding: 15px;
+        /* News Article Section */
+        .news-article {
+            background-color: #fff8f0;
+            padding: 25px;
+            border-radius: 8px;
             margin-top: 20px;
-            border-radius: 0 8px 8px 0;
-        }
-        
-        .modal-example p {
-            margin: 0;
-            font-style: italic;
-        }
-        
-        .modal-example .translation {
-            color: #6c757d;
-            font-size: 0.95rem;
-            margin-top: 5px;
+            border: 1px solid #ffe8cc;
         }
 
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            body {
-                padding: 10px;
-            }
-            .app-header h1 {
-                font-size: 1.8rem;
-            }
-            .app-header p {
-                font-size: 1rem;
-            }
-            .toggle-btn {
-                padding: 8px 20px;
-                font-size: 0.9rem;
-            }
-            .content-box {
-                padding: 20px;
-                font-size: 1rem;
-            }
-            .modal-content {
-                width: 95%;
-                margin: 20% auto;
-                padding: 20px;
-            }
-            .modal-content h3 {
-                font-size: 1.5rem;
-            }
+        /* Tooltip styles */
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            border-bottom: 2px dotted #d9534f;
+            cursor: pointer;
+            font-weight: bold;
+            color: #d9534f;
+        }
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 320px;
+            background-color: #333;
+            color: #fff;
+            text-align: left;
+            border-radius: 6px;
+            padding: 15px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -160px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+        .tooltip .tooltiptext::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: #333 transparent transparent transparent;
+        }
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+        .tooltip-title {
+            font-weight: bold;
+            color: #ffc107;
+        }
+        .tooltip-content {
+            font-weight: normal;
+            color: #fff;
+        }
+        .tooltip-pronunciation-th u {
+            text-decoration: underline;
+            text-decoration-color: #ffc107;
+        }
+        
+        /* Exercise and Q&A Section */
+        .exercise, .q-and-a {
+            margin-top: 30px;
+            background-color: #f4f4f9;
+            padding: 25px;
+            border-radius: 8px;
+        }
+        .word-bank {
+            background-color: #e9ecef;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .word-bank span {
+            background-color: #fff;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            border: 1px solid #ccc;
+        }
+        .question {
+            margin-bottom: 20px;
+        }
+        .answer-input {
+            width: 180px;
+            padding: 10px;
+            font-size: 18px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        #results {
+            margin-top: 15px;
+            font-weight: bold;
+        }
+        .main-button {
+            background-color: #28a745;
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 18px;
+            margin-top: 10px;
+        }
+        .main-button:hover {
+            background-color: #218838;
+        }
+        .qa-answer {
+            display: none;
+            background-color: #e9ecef;
+            padding: 15px;
+            margin-top: 10px;
+            border-radius: 5px;
+            border-left: 5px solid #17a2b8;
+        }
+        .qa-answer ul {
+            padding-left: 20px;
+            margin: 0;
+        }
+        .qa-answer li {
+            margin-bottom: 10px;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+            color: #666;
+            font-size: 0.9em;
         }
     </style>
 </head>
 <body>
 
-    <div class="app-container">
-        <header class="app-header">
-            <h1>ข่าว: วัดพระบาทน้ำพุ</h1>
-            <p>จากศูนย์รวมศรัทธาสู่ข่าวฉาวการยักยอกเงินบริจาค</p>
-        </header>
-
-        <div class="toggle-buttons">
-            <button id="btn-basic" class="toggle-btn active-btn">ระดับพื้นฐาน (Basic)</button>
-            <button id="btn-advanced" class="toggle-btn">ระดับสูง (Advanced)</button>
-        </div>
-
-        <div id="basic-content" class="content-box">
-            <h2>สรุปข่าวเวอร์ชั่นพื้นฐาน</h2>
-            <p>
-                Wat Phra Bat Nam Phu, a famous temple in Thailand, is in the news for <span class="highlight" data-key="big_problem">a big problem</span>. Its main monk, Alongkot, and a famous medium named 'Mor Bee' were <span class="highlight" data-key="arrested">arrested</span>. They are accused of <span class="highlight" data-key="taking_money">taking money</span> that people <span class="highlight" data-key="donated">donated</span> to the temple.
-            </p>
-            <p>
-                For over 30 years, the temple was very well-known for helping <span class="highlight" data-key="aids_patients">AIDS patients</span>. This good work made many people trust the temple and give a lot of money. Now, police are investigating where the billions of baht in donations really went.
-            </p>
-        </div>
-
-        <div id="advanced-content" class="content-box advanced">
-            <h2>สรุปข่าวเวอร์ชั่นขั้นสูง</h2>
-            <p>
-                Wat Phra Bat Nam Phu, a <span class="highlight" data-key="prominent">prominent</span> temple in Thailand, has become the center of a major <span class="highlight" data-key="scandal">scandal</span>. Its abbot, Alongkot Poolmuk, and a well-known spiritual medium have been arrested on charges of <span class="highlight" data-key="embezzling">embezzling donations</span>.
-            </p>
-            <p>
-                The temple built its reputation over three decades as a <span class="highlight" data-key="sanctuary">sanctuary</span> for AIDS patients, a cause that <span class="highlight" data-key="garnered">garnered immense public sympathy</span>. This compassionate image was <span class="highlight" data-key="instrumental">instrumental in attracting</span> billions of baht in contributions. Authorities are now investigating if these funds were <span class="highlight" data-key="misappropriated">misappropriated</span>.
-            </p>
-        </div>
-    </div>
-
-    <div id="popup-modal" class="modal">
-        <div class="modal-content">
-            <span class="close-button">&times;</span>
-            <h3 id="modal-term"></h3>
-            <p><strong>ความหมาย:</strong> <span id="modal-meaning"></span></p>
-            <p><strong>คำอ่าน:</strong> <span id="modal-pronunciation"></span></p>
-            <div class="modal-example">
-                <p><strong>ตัวอย่างประโยค:</strong> "<span id="modal-example-en"></span>"</p>
-                <p class="translation"><span id="modal-example-th"></span></p>
+    <div class="container">
+        <h1>Drama at a Famous Temple in Thailand</h1>
+        <p class="branding">ครูสาลี่ -- อังกฤษฉบับคนเรียนไม่รู้เรื่อง</p>
+        
+        <h2>Key Words to Know First 🔑</h2>
+        <div class="vocab-list">
+             <div class="vocab-item">
+                <p><span class="vocab-word">Donation (n.)</span></p>
+                <p class="pronunciation-th">คำอ่าน: โด-<u>เน</u>-เชิน</p>
+                <p><strong>Meaning:</strong> money or things that are given to help a person or organization.</p>
+                <p class="example-sentence">"People gave a big donation to help the poor."</p>
+                <div class="toggle-translation" style="display:none;">
+                    <p class="translation-th">คำแปล: เงินบริจาค, ของบริจาค</p>
+                    <p class="translation-th">แปลประโยค: "ผู้คนได้มอบเงินบริจาคจำนวนมากเพื่อช่วยเหลือคนจน"</p>
+                </div>
+                <button onclick="toggleTranslation(this)">แสดงคำแปล</button>
+            </div>
+             <div class="vocab-item">
+                <p><span class="vocab-word">Temple (n.)</span></p>
+                <p class="pronunciation-th">คำอ่าน: <u>เท็ม</u>-เพิล</p>
+                <p><strong>Meaning:</strong> a building used for religious worship, especially in Buddhism.</p>
+                <p class="example-sentence">"We went to the temple to pray."</p>
+                <div class="toggle-translation" style="display:none;">
+                    <p class="translation-th">คำแปล: วัด</p>
+                    <p class="translation-th">แปลประโยค: "พวกเราไปวัดเพื่อสวดมนต์"</p>
+                </div>
+                <button onclick="toggleTranslation(this)">แสดงคำแปล</button>
+            </div>
+             <div class="vocab-item">
+                <p><span class="vocab-word">Problem (n.)</span></p>
+                <p class="pronunciation-th">คำอ่าน: <u>พร็อบ</u>-เบลิม</p>
+                <p><strong>Meaning:</strong> a situation that is difficult to deal with or understand.</p>
+                <p class="example-sentence">"The car has a problem with its engine."</p>
+                <div class="toggle-translation" style="display:none;">
+                    <p class="translation-th">คำแปล: ปัญหา</p>
+                    <p class="translation-th">แปลประโยค: "รถยนต์มีปัญหากับเครื่องยนต์ของมัน"</p>
+                </div>
+                <button onclick="toggleTranslation(this)">แสดงคำแปล</button>
+            </div>
+             <div class="vocab-item">
+                <p><span class="vocab-word">Investigate (v.)</span></p>
+                <p class="pronunciation-th">คำอ่าน: อิน-<u>เวส</u>-ทิ-เกท</p>
+                <p><strong>Meaning:</strong> to try to find out the facts about something, like a crime or an accident.</p>
+                <p class="example-sentence">"The police will investigate the situation."</p>
+                <div class="toggle-translation" style="display:none;">
+                    <p class="translation-th">คำแปล: ตรวจสอบ, สืบสวน</p>
+                    <p class="translation-th">แปลประโยค: "ตำรวจจะสืบสวนสถานการณ์ดังกล่าว"</p>
+                </div>
+                <button onclick="toggleTranslation(this)">แสดงคำแปล</button>
+            </div>
+             <div class="vocab-item">
+                <p><span class="vocab-word">Arrest (v.)</span></p>
+                <p class="pronunciation-th">คำอ่าน: เออ-<u>เรสท</u></p>
+                <p><strong>Meaning:</strong> when the police take someone away because they believe the person has done something illegal.</p>
+                <p class="example-sentence">"The police will arrest the man who stole the money."</p>
+                <div class="toggle-translation" style="display:none;">
+                    <p class="translation-th">คำแปล: จับกุม</p>
+                    <p class="translation-th">แปลประโยค: "ตำรวจจะจับกุมชายผู้ขโมยเงินไป"</p>
+                </div>
+                <button onclick="toggleTranslation(this)">แสดงคำแปล</button>
+            </div>
+             <div class="vocab-item">
+                <p><span class="vocab-word">Famous (adj.)</span></p>
+                <p class="pronunciation-th">คำอ่าน: <u>เฟ</u>-มัส</p>
+                <p><strong>Meaning:</strong> known by many people.</p>
+                <p class="example-sentence">"He is a very famous actor in Thailand."</p>
+                <div class="toggle-translation" style="display:none;">
+                    <p class="translation-th">คำแปล: มีชื่อเสียง, โด่งดัง</p>
+                    <p class="translation-th">แปลประโยค: "เขาเป็นนักแสดงที่มีชื่อเสียงมากในประเทศไทย"</p>
+                </div>
+                <button onclick="toggleTranslation(this)">แสดงคำแปล</button>
+            </div>
+             <div class="vocab-item">
+                <p><span class="vocab-word">Money (n.)</span></p>
+                <p class="pronunciation-th">คำอ่าน: <u>มัน</u>-นี</p>
+                <p><strong>Meaning:</strong> what you use to buy things.</p>
+                <p class="example-sentence">"I don't have enough money to buy that car."</p>
+                <div class="toggle-translation" style="display:none;">
+                    <p class="translation-th">คำแปล: เงิน</p>
+                    <p class="translation-th">แปลประโยค: "ฉันมีเงินไม่พอที่จะซื้อรถคันนั้น"</p>
+                </div>
+                <button onclick="toggleTranslation(this)">แสดงคำแปล</button>
+            </div>
+             <div class="vocab-item">
+                <p><span class="vocab-word">Police (n.)</span></p>
+                <p class="pronunciation-th">คำอ่าน: โพ-<u>ลิส</u></p>
+                <p><strong>Meaning:</strong> the official organization that protects people and makes sure they obey the law.</p>
+                <p class="example-sentence">"If you have a problem, you should call the police."</p>
+                <div class="toggle-translation" style="display:none;">
+                    <p class="translation-th">คำแปล: ตำรวจ</p>
+                    <p class="translation-th">แปลประโยค: "ถ้าคุณมีปัญหา คุณควรโทรหาตำรวจ"</p>
+                </div>
+                <button onclick="toggleTranslation(this)">แสดงคำแปล</button>
+            </div>
+             <div class="vocab-item">
+                <p><span class="vocab-word">Question (n.)</span></p>
+                <p class="pronunciation-th">คำอ่าน: <u>เควส</u>-เชิน</p>
+                <p><strong>Meaning:</strong> a sentence or phrase used to find out information.</p>
+                <p class="example-sentence">"The reporter asked the man a difficult question."</p>
+                <div class="toggle-translation" style="display:none;">
+                    <p class="translation-th">คำแปล: คำถาม, ข้อสงสัย</p>
+                    <p class="translation-th">แปลประโยค: "นักข่าวถามคำถามที่ยากกับชายคนนั้น"</p>
+                </div>
+                <button onclick="toggleTranslation(this)">แสดงคำแปล</button>
+            </div>
+             <div class="vocab-item">
+                <p><span class="vocab-word">Accusation (n.)</span></p>
+                <p class="pronunciation-th">คำอ่าน: แอค-คิว-<u>เซ</u>-เชิน</p>
+                <p><strong>Meaning:</strong> a statement saying that someone has done something wrong.</p>
+                <p class="example-sentence">"He denied the accusation that he stole the money."</p>
+                <div class="toggle-translation" style="display:none;">
+                    <p class="translation-th">คำแปล: ข้อกล่าวหา</p>
+                    <p class="translation-th">แปลประโยค: "เขาปฏิเสธข้อกล่าวหาว่าเขาขโมยเงินไป"</p>
+                </div>
+                <button onclick="toggleTranslation(this)">แสดงคำแปล</button>
+            </div>
+             <div class="vocab-item">
+                <p><span class="vocab-word">Truth (n.)</span></p>
+                <p class="pronunciation-th">คำอ่าน: ทรูธ</p>
+                <p><strong>Meaning:</strong> the real facts about a situation, event, or person.</p>
+                <p class="example-sentence">"The police are trying to find the truth."</p>
+                <div class="toggle-translation" style="display:none;">
+                    <p class="translation-th">คำแปล: ความจริง</p>
+                    <p class="translation-th">แปลประโยค: "ตำรวจกำลังพยายามค้นหาความจริง"</p>
+                </div>
+                <button onclick="toggleTranslation(this)">แสดงคำแปล</button>
+            </div>
+             <div class="vocab-item">
+                <p><span class="vocab-word">Lawyer (n.)</span></p>
+                <p class="pronunciation-th">คำอ่าน: <u>ลอ</u>-เยอร์</p>
+                <p><strong>Meaning:</strong> a person whose job is to give advice about the law and to speak for people in court.</p>
+                <p class="example-sentence">"If you have legal problems, you need a good lawyer."</p>
+                <div class="toggle-translation" style="display:none;">
+                    <p class="translation-th">คำแปล: ทนายความ</p>
+                    <p class="translation-th">แปลประโยค: "ถ้าคุณมีปัญหาทางกฎหมาย คุณต้องการทนายความที่ดี"</p>
+                </div>
+                <button onclick="toggleTranslation(this)">แสดงคำแปล</button>
             </div>
         </div>
+
+        <h2>News Story 📰</h2>
+        <div class="news-article">
+            <p>
+                A big story in Thailand is about a 
+                <span class="tooltip">famous
+                    <span class="tooltiptext">
+                        <span class="tooltip-title">Pronunciation (TH):</span> <span class="tooltip-content tooltip-pronunciation-th"><u>เฟ</u>-มัส</span><br>
+                        <span class="tooltip-title">Meaning:</span> <span class="tooltip-content">มีชื่อเสียง</span><br>
+                        <span class="tooltip-title">Synonyms:</span> <span class="tooltip-content">well-known, popular</span>
+                    </span>
+                </span>
+                <span class="tooltip">temple
+                    <span class="tooltiptext">
+                        <span class="tooltip-title">Pronunciation (TH):</span> <span class="tooltip-content tooltip-pronunciation-th"><u>เท็ม</u>-เพิล</span><br>
+                        <span class="tooltip-title">Meaning:</span> <span class="tooltip-content">วัด</span><br>
+                        <span class="tooltip-title">Synonyms:</span> <span class="tooltip-content">monastery, pagoda</span>
+                    </span>
+                </span>, Wat Phra Bat Nam Phu. The story involves its former abbot (head monk), Luang Phor Alongkot, and a spirit medium named Mor Bee. The main 
+                <span class="tooltip">problem
+                    <span class="tooltiptext">
+                        <span class="tooltip-title">Pronunciation (TH):</span> <span class="tooltip-content tooltip-pronunciation-th"><u>พร็อบ</u>-เบลิม</span><br>
+                        <span class="tooltip-title">Meaning:</span> <span class="tooltip-content">ปัญหา</span><br>
+                        <span class="tooltip-title">Synonyms:</span> <span class="tooltip-content">issue, trouble, difficulty</span>
+                    </span>
+                </span>
+                is about the 
+                <span class="tooltip">money
+                    <span class="tooltiptext">
+                        <span class="tooltip-title">Pronunciation (TH):</span> <span class="tooltip-content tooltip-pronunciation-th"><u>มัน</u>-นี</span><br>
+                        <span class="tooltip-title">Meaning:</span> <span class="tooltip-content">เงิน</span><br>
+                        <span class="tooltip-title">Synonyms:</span> <span class="tooltip-content">cash, funds</span>
+                    </span>
+                </span>
+                from 
+                <span class="tooltip">donations
+                    <span class="tooltiptext">
+                        <span class="tooltip-title">Pronunciation (TH):</span> <span class="tooltip-content tooltip-pronunciation-th">โด-<u>เน</u>-เชินสฺ</span><br>
+                        <span class="tooltip-title">Meaning:</span> <span class="tooltip-content">เงินบริจาค</span><br>
+                        <span class="tooltip-title">Synonyms:</span> <span class="tooltip-content">contributions, gifts</span>
+                    </span>
+                </span>.
+            </p>
+            <p>
+                It started with people asking 
+                <span class="tooltip">questions
+                    <span class="tooltiptext">
+                        <span class="tooltip-title">Pronunciation (TH):</span> <span class="tooltip-content tooltip-pronunciation-th"><u>เควส</u>-เชินสฺ</span><br>
+                        <span class="tooltip-title">Meaning:</span> <span class="tooltip-content">คำถาม/ข้อสงสัย</span><br>
+                        <span class="tooltip-title">Synonyms:</span> <span class="tooltip-content">inquiries, doubts</span>
+                    </span>
+                </span>
+                about how the donation money was shared. Mor Bee opened a bank account for donations, and some people thought this was strange. Mor Bee said that Luang Phor Alongkot told him to do it. He also said he gave all the money in cash to the monk.
+            </p>
+             <p>
+                The 
+                <span class="tooltip">police
+                    <span class="tooltiptext">
+                        <span class="tooltip-title">Pronunciation (TH):</span> <span class="tooltip-content tooltip-pronunciation-th">โพ-<u>ลิส</u></span><br>
+                        <span class="tooltip-title">Meaning:</span> <span class="tooltip-content">ตำรวจ</span><br>
+                        <span class="tooltip-title">Synonyms:</span> <span class="tooltip-content">cops, law enforcement</span>
+                    </span>
+                </span>
+                started to 
+                <span class="tooltip">investigate
+                    <span class="tooltiptext">
+                        <span class="tooltip-title">Pronunciation (TH):</span> <span class="tooltip-content tooltip-pronunciation-th">อิน-<u>เวส</u>-ทิ-เกท</span><br>
+                        <span class="tooltip-title">Meaning:</span> <span class="tooltip-content">ตรวจสอบ</span><br>
+                        <span class="tooltip-title">Synonyms:</span> <span class="tooltip-content">check, examine</span>
+                    </span>
+                </span>
+                to find the 
+                <span class="tooltip">truth
+                    <span class="tooltiptext">
+                        <span class="tooltip-title">Pronunciation (TH):</span> <span class="tooltip-content tooltip-pronunciation-th">ทรูธ</span><br>
+                        <span class="tooltip-title">Meaning:</span> <span class="tooltip-content">ความจริง</span><br>
+                        <span class="tooltip-title">Synonyms:</span> <span class="tooltip-content">facts, reality</span>
+                    </span>
+                </span>.
+                As they looked deeper, they found other problems. There were 
+                <span class="tooltip">accusations
+                    <span class="tooltiptext">
+                        <span class="tooltip-title">Pronunciation (TH):</span> <span class="tooltip-content tooltip-pronunciation-th">แอค-คิว-<u>เซ</u>-เชินสฺ</span><br>
+                        <span class="tooltip-title">Meaning:</span> <span class="tooltip-content">ข้อกล่าวหา</span><br>
+                        <span class="tooltip-title">Synonyms:</span> <span class="tooltip-content">claims, allegations</span>
+                    </span>
+                </span>
+                about land, an old building with expired donations, and even 20 dead bodies that were kept improperly. There were also questions about the monk's real name. Many 
+                <span class="tooltip">lawyers
+                    <span class="tooltiptext">
+                        <span class="tooltip-title">Pronunciation (TH):</span> <span class="tooltip-content tooltip-pronunciation-th"><u>ลอ</u>-เยอร์สฺ</span><br>
+                        <span class="tooltip-title">Meaning:</span> <span class="tooltip-content">ทนายความ</span><br>
+                        <span class="tooltip-title">Synonyms:</span> <span class="tooltip-content">attorneys</span>
+                    </span>
+                </span>
+                got involved in the case.
+            </p>
+             <p>
+                Because of all these serious problems, the story ended with the police deciding to 
+                <span class="tooltip">arrest
+                    <span class="tooltiptext">
+                        <span class="tooltip-title">Pronunciation (TH):</span> <span class="tooltip-content tooltip-pronunciation-th">เออ-<u>เรสท</u></span><br>
+                        <span class="tooltip-title">Meaning:</span> <span class="tooltip-content">จับกุม</span><br>
+                        <span class="tooltip-title">Synonyms:</span> <span class="tooltip-content">capture, take into custody</span>
+                    </span>
+                </span>
+                both Luang Phor Alongkot and Mor Bee.
+             </p>
+        </div>
+
+        <div class="exercise">
+            <h2>Vocabulary Exercise ✍️</h2>
+            <p>Fill in the blanks with a correct word from the word bank below.</p>
+            <div class="word-bank">
+                <span>donation</span><span>temple</span><span>problem</span><span>investigate</span>
+                <span>arrest</span><span>famous</span><span>money</span><span>police</span>
+                <span>truth</span><span>lawyer</span>
+            </div>
+            <div class="question">
+                1. A person who helps with the law is called a __________.
+                <input type="text" id="q1" class="answer-input">
+            </div>
+            <div class="question">
+                2. If there is a crime, the __________ will come to help.
+                <input type="text" id="q2" class="answer-input">
+            </div>
+            <div class="question">
+                3. The story is about a __________ monk that many people know.
+                <input type="text" id="q3" class="answer-input">
+            </div>
+            <div class="question">
+                4. People give __________ to help the temple and sick people.
+                <input type="text" id="q4" class="answer-input">
+            </div>
+            <div class="question">
+                5. At the end, the police decided to __________ both men.
+                <input type="text" id="q5" class="answer-input">
+            </div>
+            <button class="main-button" onclick="checkAnswers()">Check My Answers</button>
+            <div id="results"></div>
+        </div>
+
+        <div class="q-and-a">
+            <h2>Questions & Answers 🤔</h2>
+            <p>Read the story and answer the questions. Click the button to see different ways to answer.</p>
+            
+            <div class="question">
+                <p><strong>1. Who are the two main people in this news story?</strong></p>
+                <button class="main-button" onclick="toggleAnswer('qa1')">Show Answer Choices</button>
+                <div id="qa1" class="qa-answer">
+                    <ul>
+                        <li>The two main people are a monk named Luang Phor Alongkot and a man named Mor Bee.</li>
+                        <li>They are Luang Phor Alongkot and Mor Bee.</li>
+                        <li>The story is about a famous monk and a spirit medium.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="question">
+                <p><strong>2. What was the main problem at the beginning of the story?</strong></p>
+                <button class="main-button" onclick="toggleAnswer('qa2')">Show Answer Choices</button>
+                <div id="qa2" class="qa-answer">
+                   <ul>
+                        <li>The main problem was about donation money for the temple.</li>
+                        <li>It was about how the money from donations was shared.</li>
+                        <li>People had questions about the money.</li>
+                   </ul>
+                </div>
+            </div>
+
+            <div class="question">
+                <p><strong>3. What did the police do at the end of the story?</strong></p>
+                <button class="main-button" onclick="toggleAnswer('qa3')">Show Answer Choices</button>
+                <div id="qa3" class="qa-answer">
+                   <ul>
+                        <li>At the end, the police arrested Luang Phor Alongkot and Mor Bee.</li>
+                        <li>They arrested the two men.</li>
+                        <li>The police decided to arrest them because of all the problems.</li>
+                   </ul>
+                </div>
+            </div>
+
+        </div>
+        
+        <footer>
+            <p>ครูสาลี่ -- อังกฤษฉบับคนเรียนไม่รู้เรื่อง</p>
+        </footer>
+
     </div>
 
     <script>
-        // --- Data for Popups ---
-        const vocabData = {
-            // Basic
-            big_problem: {
-                term: 'A Big Problem',
-                meaning: 'ปัญหาใหญ่',
-                pronunciation: 'อะ <u>บิ๊ก</u> <u>พรอบ</u>-เบลิม',
-                example_en: 'Pollution is a big problem in many cities.',
-                example_th: 'มลพิษเป็นปัญหาใหญ่ในหลายเมือง'
-            },
-            arrested: {
-                term: 'Arrested',
-                meaning: 'ถูกจับกุม',
-                pronunciation: 'อะ-<u>เรส</u>-เต็ด',
-                example_en: 'The suspect was arrested by the police last night.',
-                example_th: 'ผู้ต้องสงสัยถูกตำรวจจับกุมเมื่อคืนนี้'
-            },
-            taking_money: {
-                term: 'Taking Money (illegally)',
-                meaning: 'การนำเงินไปโดยมิชอบ, การยักยอกเงิน (ภาษาพูด)',
-                pronunciation: '<u>เทค</u>-คิ่ง <u>มัน</u>-นี่',
-                example_en: 'He was fired for taking money from the company’s cash register.',
-                example_th: 'เขาถูกไล่ออกเพราะยักยอกเงินจากเครื่องเก็บเงินของบริษัท'
-            },
-            donated: {
-                term: 'Donated',
-                meaning: 'บริจาค',
-                pronunciation: '<u>โด</u>-เน-เต็ด',
-                example_en: 'She donated a large sum of money to the charity.',
-                example_th: 'เธอบริจาคเงินจำนวนมากให้กับองค์กรการกุศล'
-            },
-            aids_patients: {
-                term: 'AIDS Patients',
-                meaning: 'ผู้ป่วยโรคเอดส์',
-                pronunciation: '<u>เอดส์</u> <u>เพ</u>-เชินส์',
-                example_en: 'The hospital has a special ward for AIDS patients.',
-                example_th: 'โรงพยาบาลมีหอผู้ป่วยพิเศษสำหรับผู้ป่วยโรคเอดส์'
-            },
-            // Advanced
-            prominent: {
-                term: 'Prominent',
-                meaning: 'ที่มีชื่อเสียง, โดดเด่น, ที่รู้จักกันอย่างกว้างขวาง',
-                pronunciation: '<u>พรอม</u>-มิ-เนินท์',
-                example_en: 'She is a prominent figure in the world of science.',
-                example_th: 'เธอเป็นบุคคลที่โดดเด่นในโลกวิทยาศาสตร์'
-            },
-            scandal: {
-                term: 'Scandal',
-                meaning: 'เรื่องอื้อฉาว, เรื่องเสื่อมเสีย',
-                pronunciation: 'สะ-<u>แคน</u>-เดิล',
-                example_en: 'The news of the politician taking bribes caused a huge political scandal.',
-                example_th: 'ข่าวที่นักการเมืองรับสินบนก่อให้เกิดเรื่องอื้อฉาวทางการเมืองครั้งใหญ่'
-            },
-            embezzling: {
-                term: 'Embezzling Donations',
-                meaning: 'การยักยอกเงินบริจาค',
-                pronunciation: 'เอ็ม-<u>เบซ</u>-ลิ่ง โด-<u>เน</u>-ชั่นส์',
-                example_en: 'The manager was charged with embezzling donations meant for the disaster victims.',
-                example_th: 'ผู้จัดการถูกตั้งข้อหายักยอกเงินบริจาคสำหรับผู้ประสบภัยพิบัติ'
-            },
-            sanctuary: {
-                term: 'Sanctuary',
-                meaning: 'สถานที่ศักดิ์สิทธิ์, ที่พึ่งพิง, ที่หลบภัย',
-                pronunciation: '<u>แซงค์</u>-ชู-เอ-รี่',
-                example_en: 'For the refugees, the camp was a sanctuary from the war.',
-                example_th: 'สำหรับผู้ลี้ภัยแล้ว ค่ายพักพิงเปรียบเสมือนที่หลบภัยจากสงคราม'
-            },
-            garnered: {
-                term: 'Garnered Immense Public Sympathy',
-                meaning: 'ได้รับความเห็นอกเห็นใจจากสาธารณชนอย่างท่วมท้น',
-                pronunciation: '<u>การ์</u>-เนิด อิม-<u>เมนส์</u> <u>พับ</u>-ลิค <u>ซิม</u>-พะ-ธี',
-                example_en: 'The story of the lost dog garnered immense public sympathy online.',
-                example_th: 'เรื่องราวของสุนัขที่หายไปได้รับความเห็นอกเห็นใจจากสาธารณชนทางออนไลน์อย่างท่วมท้น'
-            },
-            instrumental: {
-                term: 'Instrumental in Attracting',
-                meaning: 'เป็นเครื่องมือสำคัญในการดึงดูด, มีส่วนสำคัญที่ทำให้เกิดการดึงดูด',
-                pronunciation: 'อิน-สตรู-<u>เมน</u>-ทอล อิน อะ-<u>แทรค</u>-ติ้ง',
-                example_en: 'Her leadership was instrumental in attracting new investors to the company.',
-                example_th: 'ภาวะผู้นำของเธอเป็นส่วนสำคัญในการดึงดูดนักลงทุนรายใหม่มาสู่บริษัท'
-            },
-            misappropriated: {
-                term: 'Misappropriated',
-                meaning: 'นำไปใช้ในทางที่ผิด, ยักยอก (ใช้กับเงินทุนหรือทรัพย์สิน)',
-                pronunciation: 'มิส-อะ-<u>โพร</u>-พริ-เอ-เต็ด',
-                example_en: 'The official was accused of having misappropriated government funds.',
-                example_th: 'เจ้าหน้าที่คนดังกล่าวถูกกล่าวหาว่ายักยอกเงินทุนของรัฐบาล'
+        function toggleTranslation(button) {
+            const vocabItem = button.parentElement;
+            const translationDiv = vocabItem.querySelector('.toggle-translation');
+            
+            if (translationDiv.style.display === 'none' || translationDiv.style.display === '') {
+                translationDiv.style.display = 'block';
+                button.textContent = 'ซ่อนคำแปล';
+            } else {
+                translationDiv.style.display = 'none';
+                button.textContent = 'แสดงคำแปล';
             }
-        };
+        }
 
-        // --- DOM Elements ---
-        const btnBasic = document.getElementById('btn-basic');
-        const btnAdvanced = document.getElementById('btn-advanced');
-        const basicContent = document.getElementById('basic-content');
-        const advancedContent = document.getElementById('advanced-content');
-        const modal = document.getElementById('popup-modal');
-        const closeModalBtn = document.querySelector('.close-button');
-        
-        // --- Event Listeners ---
+        function checkAnswers() {
+            const answers = {
+                q1: "lawyer",
+                q2: "police",
+                q3: "famous",
+                q4: "donation",
+                q5: "arrest"
+            };
+            let correctCount = 0;
+            const totalQuestions = 5;
 
-        // Toggle content visibility
-        btnBasic.addEventListener('click', () => {
-            basicContent.style.display = 'block';
-            advancedContent.style.display = 'none';
-            btnBasic.classList.add('active-btn');
-            btnAdvanced.classList.remove('active-btn');
-        });
-
-        btnAdvanced.addEventListener('click', () => {
-            basicContent.style.display = 'none';
-            advancedContent.style.display = 'block';
-            btnAdvanced.classList.add('active-btn');
-            btnBasic.classList.remove('active-btn');
-        });
-
-        // Open Modal
-        document.querySelectorAll('.highlight').forEach(item => {
-            item.addEventListener('click', event => {
-                const key = event.target.dataset.key;
-                if (vocabData[key]) {
-                    const data = vocabData[key];
-                    document.getElementById('modal-term').textContent = data.term;
-                    document.getElementById('modal-meaning').textContent = data.meaning;
-                    document.getElementById('modal-pronunciation').innerHTML = data.pronunciation;
-                    document.getElementById('modal-example-en').textContent = data.example_en;
-                    document.getElementById('modal-example-th').textContent = data.example_th;
-                    modal.style.display = 'block';
+            for (let i = 1; i <= totalQuestions; i++) {
+                const questionId = "q" + i;
+                const userAnswer = document.getElementById(questionId).value.trim().toLowerCase();
+                if (userAnswer === answers[questionId]) {
+                    correctCount++;
+                    document.getElementById(questionId).style.border = '2px solid green';
+                } else {
+                    document.getElementById(questionId).style.border = '2px solid red';
                 }
-            });
-        });
-
-        // Close Modal
-        closeModalBtn.addEventListener('click', () => {
-            modal.style.display = 'none';
-        });
-
-        window.addEventListener('click', (event) => {
-            if (event.target == modal) {
-                modal.style.display = 'none';
             }
-        });
 
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = `You got ${correctCount} out of ${totalQuestions} correct!`;
+            if (correctCount === totalQuestions) {
+                resultsDiv.style.color = 'green';
+            } else {
+                resultsDiv.style.color = 'red';
+            }
+        }
+
+        function toggleAnswer(id) {
+            const answerDiv = document.getElementById(id);
+            if (answerDiv.style.display === "block") {
+                answerDiv.style.display = "none";
+            } else {
+                answerDiv.style.display = "block";
+            }
+        }
     </script>
+
 </body>
 </html>

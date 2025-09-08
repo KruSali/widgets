@@ -3,267 +3,632 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Structure #3 - I'm getting + (adjective) (with translation)</title>
+    <title>App Box: โครงสร้าง I'm getting +(adjective).</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Mitr:wght@300;400;500;600&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         body {
-            font-family: 'Mitr', sans-serif;
+            font-family: 'Kanit', sans-serif;
         }
-        .font-poppins {
-            font-family: 'Poppins', sans-serif;
+        .sentence-item {
+            background-color: rgba(255, 255, 255, 0.85);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
         }
-        .sentence-btn {
-            transition: all 0.2s ease-in-out;
+        .sentence-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
         }
-        #modal {
-            transition: opacity 0.3s ease;
-        }
-        .modal-content-container {
+        .modal-content {
             transition: transform 0.3s ease, opacity 0.3s ease;
-            opacity: 0;
-            transform: translateY(20px) scale(0.95);
-        }
-        #modal.active .modal-content-container {
-            opacity: 1;
-            transform: translateY(0) scale(1);
         }
     </style>
 </head>
-<body class="bg-gradient-to-br from-green-100 via-teal-100 to-lime-200 min-h-screen">
+<body class="bg-gradient-to-br from-emerald-400 to-teal-500 min-h-screen text-gray-800">
 
-    <div class="container mx-auto p-4 sm:p-6 lg:p-8">
-
-        <header class="text-center mb-10">
-            <h1 class="text-4xl sm:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-green-600 to-lime-500 font-poppins">Structure #3</h1>
-            <h2 class="text-2xl sm:text-3xl font-bold text-slate-800 mt-2 font-poppins">"I'm getting + (adjective)"</h2>
-            <p class="text-slate-600 mt-4 max-w-2xl mx-auto text-lg">
-                ใช้บอกถึง <strong class="text-green-700">"การเปลี่ยนแปลง"</strong> หรือการเปลี่ยนผ่านไปสู่สภาวะใหม่ มีความหมายว่า "ฉันเริ่มที่จะ...แล้ว" หรือ "กำลังจะ...ขึ้นเรื่อยๆ"
+    <!-- Main Content -->
+    <div class="container mx-auto px-4 py-8 md:py-12">
+        <header class="text-center mb-8 md:mb-12 text-white">
+            <h1 class="text-4xl md:text-5xl font-bold mb-3 text-white shadow-sm">โครงสร้าง: I'm getting +(adjective).</h1>
+            <p class="text-lg md:text-xl max-w-3xl mx-auto text-emerald-100">
+                ใช้เพื่ออธิบายสภาวะหรือความรู้สึกที่กำลังเปลี่ยนแปลงไป คือ "กำลังจะ...ขึ้นเรื่อยๆ" หรือ "เริ่มจะ...แล้ว"
             </p>
         </header>
 
-        <main id="sentences-grid" class="grid grid-cols-1 md:grid-cols-2 gap-5">
-            </main>
-
-        <footer class="text-center mt-12">
-            <p class="text-slate-700 font-medium">อังกฤษฉบับคนเรียนไม่รู้เรื่อง โดยครูสาลี่</p>
+        <main id="sentences-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+            <!-- Sentences will be populated by JavaScript -->
+        </main>
+        
+        <footer class="text-center mt-12 text-white text-lg">
+            <p>ครูสาลี่ - อังกฤษฉบับคนเรียนไม่รู้เรื่อง</p>
         </footer>
-
     </div>
 
-    <div id="modal" class="fixed inset-0 bg-black bg-opacity-60 flex justify-center items-center p-4 z-50 opacity-0 pointer-events-none">
-        <div class="modal-content-container w-full max-w-2xl max-h-[90vh] overflow-y-auto bg-slate-50 rounded-2xl shadow-2xl">
-            <div id="modal-header" class="p-6 sm:p-8 rounded-t-2xl bg-gradient-to-r from-green-600 to-lime-500">
-                <p id="modal-english" class="font-poppins font-bold text-2xl text-white text-center"></p>
-                <p id="modal-thai" class="text-xl text-white text-center mt-2 opacity-90"></p>
+    <!-- Modal -->
+    <div id="sentence-modal" class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center p-4 opacity-0 pointer-events-none invisible transition-opacity duration-300 z-50">
+        <div id="modal-content" class="modal-content bg-white rounded-2xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto p-6 md:p-8 scale-95">
+            <!-- Modal Header -->
+            <div class="flex justify-between items-center mb-6 border-b pb-4">
+                <div>
+                    <h2 id="modal-sentence" class="text-2xl font-bold text-teal-600"></h2>
+                    <p id="modal-translation" class="text-gray-600"></p>
+                </div>
+                <button id="close-modal-btn" class="text-gray-400 hover:text-gray-700 transition-colors">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
             </div>
-            <div class="p-6 sm:p-8">
-                <div id="modal-details" class="space-y-5">
+            
+            <!-- Modal Body -->
+            <div class="space-y-6">
+                <div>
+                    <h3 class="font-semibold text-xl text-gray-800 mb-3">ตัวอย่างการใช้งานในสถานการณ์ต่างๆ:</h3>
+                    <ul id="modal-usage" class="space-y-4">
+                        <!-- Usage examples will be injected here -->
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold text-xl text-gray-800 mb-3">คำที่มักใช้ร่วมกันพร้อมตัวอย่าง:</h4>
+                    <div id="modal-collocations">
+                        <!-- Collocation list will be injected here -->
                     </div>
-                <div class="text-center mt-8">
-                    <button id="close-modal-btn" class="bg-slate-600 hover:bg-slate-700 text-white font-bold py-2 px-8 rounded-full shadow-lg transform hover:scale-105 transition-transform duration-300">
-                        ปิด
-                    </button>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        const sentences = [
-            {
-                eng: "I'm getting tired.", th: "ฉันเริ่มเหนื่อยแล้ว",
-                context: "บอกสภาวะร่างกายที่กำลังเปลี่ยนจาก 'ยังไหว' ไปสู่ 'เหนื่อย' เป็นสัญญาณว่าต้องการพักผ่อน",
-                dialogue: { a: "Do you want to watch another episode?", b: "I can't. It's late and I'm getting tired." },
-                alternatives: "<strong>I'm starting to feel tired.</strong> (ฉันเริ่มรู้สึกเหนื่อย)<br><strong>My energy is running low.</strong> (พลังงานของฉันเริ่มจะหมดแล้ว)"
-            },
-            {
-                eng: "I'm getting hungry.", th: "ฉันเริ่มหิวแล้ว",
-                context: "ใช้บอกร่างกายที่กำลังเปลี่ยนจาก 'ไม่หิว' ไปสู่ 'หิว' เป็นสัญญาณว่าถึงเวลาหาอะไรกิน",
-                dialogue: { a: "Should we finish this report first?", b: "Let's take a break. I'm getting hungry." },
-                alternatives: "<strong>I'm starting to feel hungry.</strong> (ฉันเริ่มรู้สึกหิว)<br><strong>My stomach is starting to rumble.</strong> (ท้องฉันเริ่มร้องแล้ว)"
-            },
-            {
-                eng: "I'm getting excited.", th: "ฉันเริ่มตื่นเต้นแล้ว",
-                context: "บอกความรู้สึกที่กำลังเพิ่มขึ้นเรื่อยๆ เมื่อมีเหตุการณ์ดีๆ หรือน่าสนุกกำลังจะมาถึง",
-                dialogue: { a: "Our trip to Korea is next week!", b: "I know! I'm getting excited just thinking about it." },
-                alternatives: "<strong>I'm starting to get excited.</strong><br><strong>I can't wait!</strong> (ฉันรอไม่ไหวแล้ว!)"
-            },
-            {
-                eng: "I'm getting better.", th: "ฉันเริ่มดีขึ้นแล้ว (อาการป่วย)",
-                context: "ใช้บอกว่าอาการป่วยหรือบาดเจ็บกำลังทุเลาลง อยู่ในกระบวนการฟื้นตัว",
-                dialogue: { a: "How are you feeling today?", b: "Much better, thanks. I'm getting better each day." },
-                alternatives: "<strong>I'm feeling better now.</strong><br><strong>I'm on the road to recovery.</strong> (ฉันกำลังอยู่ในช่วงพักฟื้น)"
-            },
-            {
-                eng: "It's getting late.", th: "มันเริ่มจะดึกแล้ว",
-                context: "ใช้ 'It's getting...' เพื่อบอกการเปลี่ยนแปลงของเวลาหรือสภาพอากาศ เป็นสัญญาณว่าควรกลับบ้านหรือเข้านอน",
-                dialogue: { a: "Look at the time! It's getting late.", b: "You're right. We should probably head home." },
-                alternatives: "<strong>The hour is getting late.</strong>"
-            },
-            {
-                eng: "I'm getting ready for the party.", th: "ฉันกำลังเตรียมตัวไปงานปาร์ตี้",
-                context: "บอกกระบวนการเตรียมความพร้อมสำหรับเหตุการณ์บางอย่าง เช่น แต่งตัว, แต่งหน้า",
-                dialogue: { a: "What are you doing?", b: "I'm getting ready for the party. I need to choose a dress." },
-                alternatives: "<strong>I'm preparing for the party.</strong><br><strong>I'm in the process of getting ready.</strong>"
-            },
-            {
-                eng: "I'm getting confused.", th: "ฉันเริ่มสับสนแล้ว",
-                context: "บอกสภาวะทางความคิดที่กำลังเปลี่ยนจาก 'เข้าใจ' ไปสู่ 'ไม่เข้าใจ' เพราะข้อมูลที่ซับซ้อนหรือขัดแย้งกัน",
-                dialogue: { a: "So first you do this, then you do that, but not before you do this...", b: "Wait, slow down. I'm getting confused." },
-                alternatives: "<strong>This is starting to confuse me.</strong><br><strong>I'm losing track.</strong> (ฉันเริ่มตามไม่ทันแล้ว)"
-            },
-            {
-                eng: "I'm getting worried.", th: "ฉันเริ่มเป็นห่วงแล้ว",
-                context: "ใช้แสดงความกังวลที่กำลังก่อตัวขึ้น เมื่อสถานการณ์ดูไม่ปกติหรือไม่เป็นไปตามที่คาด",
-                dialogue: { a: "She was supposed to be here an hour ago.", b: "I know. I'm getting worried." },
-                alternatives: "<strong>I'm starting to worry.</strong><br><strong>This is making me nervous.</strong>"
-            },
-            {
-                eng: "This is getting interesting.", th: "นี่มันเริ่มจะน่าสนใจขึ้นแล้ว",
-                context: "ใช้ 'This is getting...' เพื่อบรรยายสถานการณ์ที่กำลังพัฒนาไปในทางที่น่าติดตามหรือคาดไม่ถึง",
-                dialogue: { a: "I thought they were enemies, but now they are working together.", b: "Oh, this is getting interesting." },
-                alternatives: "<strong>The plot thickens.</strong> (สำนวนแปลว่า 'เรื่องราวกำลังเข้มข้นขึ้น')"
-            },
-            {
-                eng: "I'm getting good at this.", th: "ฉันเริ่มจะเก่งเรื่องนี้แล้ว",
-                context: "ใช้บอกถึงทักษะที่กำลังพัฒนาขึ้นเรื่อยๆ จากการฝึกฝน จากที่เคยทำไม่ได้จนตอนนี้เริ่มทำได้ดี",
-                dialogue: { a: "Wow, you baked a perfect cake!", b: "Thanks! After so many tries, I think I'm getting good at this." },
-                alternatives: "<strong>I'm starting to get the hang of it.</strong> (สำนวนแปลว่า 'ฉันเริ่มจะจับทางได้แล้ว')<br><strong>My skills are improving.</strong>"
-            },
-            {
-                eng: "I'm getting old.", th: "ฉันเริ่มแก่แล้ว",
-                context: "ใช้พูดแบบติดตลกหรือยอมรับความจริง เมื่อเริ่มรู้สึกว่าร่างกายไม่เหมือนเดิม เช่น ปวดหลังง่าย หรือลืมของบ่อย",
-                dialogue: { a: "My back hurts from just sitting down.", b: "I know the feeling. I'm getting old." },
-                alternatives: "<strong>I'm not as young as I used to be.</strong> (ฉันไม่หนุ่ม/สาวเหมือนเคยแล้ว)"
-            },
-            {
-                eng: "It's getting dark outside.", th: "ข้างนอกเริ่มมืดแล้ว",
-                context: "ใช้บอกการเปลี่ยนแปลงของแสงธรรมชาติ เป็นสัญญาณของเวลาเย็นหรือค่ำ",
-                dialogue: { a: "We should turn on the lights.", b: "Good idea. It's getting dark outside." },
-                alternatives: "<strong>The sun is going down.</strong> (พระอาทิตย์กำลังจะตก)"
-            },
-            {
-                eng: "I'm getting nervous.", th: "ฉันเริ่มประหม่า/กังวลแล้ว",
-                context: "บอกความรู้สึกที่กำลังก่อตัวขึ้นก่อนเหตุการณ์สำคัญ เช่น การสอบ, การสัมภาษณ์, การพูดในที่สาธารณะ",
-                dialogue: { a: "You're next to go on stage.", b: "Oh, my hands are sweating. I'm getting nervous." },
-                alternatives: "<strong>I'm starting to feel nervous.</strong><br><strong>I have butterflies in my stomach.</strong> (สำนวนแปลว่า 'รู้สึกประหม่า/ตื่นเต้น')"
-            },
-            {
-                eng: "The situation is getting worse.", th: "สถานการณ์กำลังแย่ลง",
-                context: "ใช้ 'The situation is getting...' เพื่อบรรยายเหตุการณ์ที่กำลังพัฒนาไปในทางลบ",
-                dialogue: { a: "Did the rain stop?", b: "No, in fact, the situation is getting worse. The wind is picking up." },
-                alternatives: "<strong>Things are going from bad to worse.</strong><br><strong>It's deteriorating.</strong> (มันกำลังเสื่อมถอยลง)"
-            },
-            {
-                eng: "I'm getting used to the new system.", th: "ฉันเริ่มชินกับระบบใหม่แล้ว",
-                context: "ใช้บอกกระบวนการปรับตัวเข้ากับสิ่งใหม่ๆ จากที่ไม่คุ้นเคยจนเริ่มคุ้นเคยมากขึ้น",
-                dialogue: { a: "How's the new software?", b: "It was confusing at first, but I'm getting used to it now." },
-                alternatives: "<strong>I'm becoming accustomed to the new system.</strong><br><strong>I'm starting to feel comfortable with it.</strong>"
-            },
-            {
-                eng: "My coffee is getting cold.", th: "กาแฟของฉันเริ่มเย็นแล้ว",
-                context: "ใช้บอกการเปลี่ยนแปลงของอุณหภูมิของสิ่งของ เป็นสัญญาณว่าควรรีบดื่มหรือกิน",
-                dialogue: { a: "Stop checking your phone and drink your coffee.", b: "You're right. My coffee is getting cold." },
-                alternatives: "<strong>My coffee is cooling down.</strong>"
-            },
-            {
-                eng: "I'm getting bored.", th: "ฉันเริ่มเบื่อแล้ว",
-                context: "บอกความรู้สึกที่เปลี่ยนจาก 'ยังโอเค' ไปสู่ 'เบื่อ' เมื่อต้องทำอะไรซ้ำๆ หรือฟังอะไรที่ไม่น่าสนใจ",
-                dialogue: { a: "The movie has been on for three hours.", b: "I know. To be honest, I'm getting bored." },
-                alternatives: "<strong>I'm starting to lose interest.</strong> (ฉันเริ่มจะหมดความสนใจแล้ว)<br><strong>This is dragging on.</strong> (เรื่องนี้มันยืดเยื้อน่าเบื่อ)"
-            },
-            {
-                eng: "I'm getting closer to my goal.", th: "ฉันกำลังเข้าใกล้เป้าหมายของฉันมากขึ้น",
-                context: "ใช้บอกความคืบหน้าที่กำลังขยับเข้าใกล้เป้าหมายที่ตั้งไว้",
-                dialogue: { a: "You've saved a lot of money.", b: "Yes! I'm getting closer to my goal of buying a house." },
-                alternatives: "<strong>I'm nearing my goal.</strong><br><strong>I'm almost there.</strong> (ฉันเกือบจะถึงแล้ว)"
-            },
-            {
-                eng: "He's getting angry.", th: "เขาเริ่มโมโหแล้ว",
-                context: "ใช้บรรยายการเปลี่ยนแปลงทางอารมณ์ของบุคคลที่สามที่เราสังเกตเห็น",
-                dialogue: { a: "We should probably stop teasing him.", b: "I agree. Look at his face. He's getting angry." },
-                alternatives: "<strong>He's starting to lose his temper.</strong> (เขาเริ่มจะควบคุมอารมณ์ไม่อยู่แล้ว)<br><strong>He looks mad.</strong> (เขาดูโกรธ)"
-            },
-            {
-                eng: "I'm getting married!", th: "ฉันกำลังจะแต่งงาน!",
-                context: "ใช้ประกาศข่าวดีที่แสดงถึงการเปลี่ยนแปลงสถานะครั้งใหญ่ในชีวิต จาก 'โสด' ไปสู่ 'แต่งงาน'",
-                dialogue: { a: "Why are you smiling so much?", b: "I have big news... I'm getting married!" },
-                alternatives: "<strong>We've decided to get married.</strong><br><strong>I'm tying the knot!</strong> (สำนวน แปลว่า 'ฉันกำลังจะแต่งงาน')"
-            }
-        ];
-        
-        const grid = document.getElementById('sentences-grid');
-        const modal = document.getElementById('modal');
-        const modalHeader = document.getElementById('modal-header');
-        const modalEnglish = document.getElementById('modal-english');
-        const modalThai = document.getElementById('modal-thai');
-        const modalDetails = document.getElementById('modal-details');
-        const closeModalBtn = document.getElementById('close-modal-btn');
-
-        const buttonColors = [
-            { base: 'bg-lime-100 border-lime-300', hover: 'hover:bg-lime-500 hover:border-lime-500', text: 'text-lime-800', hoverText: 'group-hover:text-white', subText: 'text-lime-700', subHoverText: 'group-hover:text-white/80' },
-            { base: 'bg-green-100 border-green-300', hover: 'hover:bg-green-600 hover:border-green-600', text: 'text-green-800', hoverText: 'group-hover:text-white', subText: 'text-green-700', subHoverText: 'group-hover:text-white/80' },
-            { base: 'bg-emerald-100 border-emerald-300', hover: 'hover:bg-emerald-500 hover:border-emerald-500', text: 'text-emerald-800', hoverText: 'group-hover:text-white', subText: 'text-emerald-700', subHoverText: 'group-hover:text-white/80' },
-            { base: 'bg-teal-100 border-teal-300', hover: 'hover:bg-teal-500 hover:border-teal-500', text: 'text-teal-800', hoverText: 'group-hover:text-white', subText: 'text-teal-700', subHoverText: 'group-hover:text-white/80' },
-        ];
-
-        sentences.forEach((sentence, index) => {
-            const button = document.createElement('button');
-            const colorTheme = buttonColors[index % buttonColors.length];
-            
-            button.className = `group sentence-btn p-5 rounded-xl text-left border-2 ${colorTheme.base} ${colorTheme.hover}`;
-            
-            button.innerHTML = `
-                <span class="font-poppins font-semibold ${colorTheme.text} ${colorTheme.hoverText} transition-colors duration-200">${sentence.eng}</span>
-                <span class="block text-sm ${colorTheme.subText} font-normal mt-1 ${colorTheme.subHoverText} transition-colors duration-200">${sentence.th}</span>
-            `;
-            
-            button.addEventListener('click', () => openModal(sentence));
-            grid.appendChild(button);
-        });
-
-        function openModal(sentence) {
-            modalEnglish.textContent = sentence.eng;
-            modalThai.textContent = sentence.th;
-
-            modalDetails.innerHTML = `
-                <div class="p-4 bg-slate-100 rounded-lg">
-                    <h4 class="font-semibold text-lg text-slate-800 mb-2">💡 บริบทการใช้งาน (Context)</h4>
-                    <p class="text-slate-600">${sentence.context}</p>
-                </div>
-                <div class="p-4 bg-slate-100 rounded-lg">
-                    <h4 class="font-semibold text-lg text-slate-800 mb-2">💬 ตัวอย่างบทสนทนา (Dialogue)</h4>
-                    <div class="space-y-1 text-slate-600">
-                        <p><strong>A:</strong> ${sentence.dialogue.a}</p>
-                        <p><strong>B:</strong> ${sentence.dialogue.b}</p>
-                    </div>
-                </div>
-                <div class="p-4 bg-slate-100 rounded-lg">
-                    <h4 class="font-semibold text-lg text-slate-800 mb-2">🔄 คำที่เกี่ยวข้อง / ใช้แทนได้ (Alternatives)</h4>
-                    <div class="text-slate-600">${sentence.alternatives}</div>
-                </div>
-            `;
-
-            modal.classList.add('active');
-            modal.classList.remove('opacity-0', 'pointer-events-none');
-            document.body.style.overflow = 'hidden';
+        document.addEventListener('DOMContentLoaded', function () {
+            const sentencesData = [
+                { 
+                    eng: "I'm getting impatient.", 
+                    thai: "ฉันชักจะหมดความอดทนแล้ว", 
+                    usage: [
+                        "**เมื่อรอคิวนาน:** 'The line isn't moving at all. I'm getting impatient.' (แถวไม่ขยับเลย ฉันชักจะหมดความอดทนแล้วนะ)",
+                        "**เมื่อรอคำตอบ:** 'He said he would call back in five minutes. It's been an hour. I'm getting impatient.' (เขาบอกว่าจะโทรกลับในห้านาที นี่มันหนึ่งชั่วโมงแล้วนะ ฉันเริ่มจะทนไม่ไหวแล้ว)",
+                        "**กับเด็กๆ:** 'Please hurry up and get your shoes on. Mommy is getting impatient.' (เร็วๆเข้าแล้วใส่รองเท้าได้แล้วจ้ะ แม่จะหมดความอดทนแล้วนะ)"
+                    ], 
+                    collocations: [
+                        { term: "run out of patience", example: "I'm about to run out of patience with all these delays. (ฉันใกล้จะหมดความอดทนกับความล่าช้าทั้งหมดนี้แล้ว)" },
+                        { term: "at the end of my rope", example: "After trying to fix it for hours, I'm at the end of my rope. (หลังจากพยายามซ่อมมันมาหลายชั่วโมง ฉันก็หมดปัญญาแล้วจริงๆ)" },
+                        { term: "fed up with", example: "I'm getting fed up with all the excuses. (ฉันเริ่มจะเบื่อหน่ายกับข้อแก้ตัวทั้งหมดแล้ว)" }
+                    ] 
+                },
+                { 
+                    eng: "I'm getting curious.", 
+                    thai: "ฉันชักจะสงสัย/อยากรู้แล้วสิ", 
+                    usage: [
+                        "**เมื่อเพื่อนมีความลับ:** 'You keep smiling at your phone. I'm getting curious about who you're texting.' (เธอยิ้มให้โทรศัพท์ไม่หยุดเลยนะ ฉันชักจะอยากรู้แล้วสิว่าเธอกำลังส่งข้อความหาใคร)",
+                        "**เมื่อเห็นกล่องของขวัญ:** 'What's in the big box? Don't tell me, but I'm getting curious.' (ในกล่องใบใหญ่นั่นมีอะไรเหรอ ไม่ต้องบอกฉันหรอกนะ แต่ฉันเริ่มจะอยากรู้แล้วล่ะ)",
+                        "**ในการประชุม:** 'You mentioned a 'secret project.' Now I'm getting curious.' (คุณพูดถึง 'โครงการลับ' ขึ้นมา ตอนนี้ผมเริ่มจะสงสัยแล้วสิครับ)"
+                    ], 
+                    collocations: [
+                        { term: "piqued my curiosity", example: "The strange noise from the attic has piqued my curiosity. (เสียงแปลกๆจากห้องใต้หลังคาได้กระตุ้นความอยากรู้ของฉัน)" },
+                        { term: "dying to know", example: "Tell me what happened! I'm dying to know! (บอกฉันมานะว่าเกิดอะไรขึ้น! ฉันอยากรู้ใจจะขาดแล้ว!)" },
+                        { term: "arouse suspicion", example: "His secretive behavior is starting to arouse my suspicion. (พฤติกรรมลับๆล่อๆของเขาเริ่มจะทำให้ฉันสงสัยแล้ว)" }
+                    ] 
+                },
+                { 
+                    eng: "I'm getting sentimental.", 
+                    thai: "ฉันกำลังรู้สึกซาบซึ้ง/อ่อนไหว", 
+                    usage: [
+                        "**เมื่อดูรูปเก่าๆ:** 'Look at this photo from our childhood. I'm getting sentimental.' (ดูรูปนี้สิ ตอนเราเด็กๆ ฉันรู้สึกซาบซึ้งใจจังเลย)",
+                        "**ในวันเรียนจบ:** 'I can't believe we're finally graduating. I'm getting a little sentimental.' (ไม่อยากจะเชื่อเลยว่าในที่สุดเราก็เรียนจบกันแล้ว ฉันรู้สึกอ่อนไหวขึ้นมานิดหน่อยเลย)",
+                        "**เมื่อทิ้งของเก่า:** 'I should throw this old teddy bear away, but I can't. I'm getting sentimental.' (ฉันควรจะทิ้งตุ๊กตาหมีเก่าๆตัวนี้ไปนะ แต่ฉันทำไม่ได้ ฉันรู้สึกผูกพันกับมันน่ะ)"
+                    ], 
+                    collocations: [
+                        { term: "take a trip down memory lane", example: "Listening to this music is like taking a trip down memory lane. (การฟังเพลงนี้เหมือนกับการเดินทางย้อนรำลึกความหลังเลย)" },
+                        { term: "in my feelings", example: "Sorry, this movie always gets me in my feelings. (ขอโทษที หนังเรื่องนี้ทำให้ฉันอินกับความรู้สึกตัวเองเสมอเลย)" },
+                        { term: "choke up", example: "I started to choke up during his farewell speech. (ฉันเริ่มจะพูดไม่ออก (ตื้นตัน) ระหว่างสุนทรพจน์อำลาของเขา)" }
+                    ] 
+                },
+                { 
+                    eng: "I'm getting frustrated.", 
+                    thai: "ฉันเริ่มจะหงุดหงิด/หัวเสียแล้ว", 
+                    usage: [
+                        "**เมื่อคอมพิวเตอร์ค้าง:** 'This program keeps crashing! I'm getting frustrated.' (โปรแกรมนี้ค้างตลอดเลย! ฉันเริ่มจะหัวเสียแล้วนะ)",
+                        "**เมื่อสอนการบ้าน:** 'I've explained this concept five times. I'm getting frustrated.' (แม่ได้อธิบายแนวคิดนี้ไปห้ารอบแล้วนะ แม่เริ่มจะหงุดหงิดแล้วนะ)",
+                        "**เมื่อพยายามทำอะไรบางอย่าง:** 'I can't open this jar. I'm getting frustrated with it.' (ฉันเปิดโหลนี้ไม่ได้ ฉันเริ่มจะหงุดหงิดกับมันแล้ว)"
+                    ], 
+                    collocations: [
+                        { term: "at my wit's end", example: "I'm at my wit's end with this difficult client. (ฉันหมดปัญญาจะรับมือกับลูกค้ายากๆคนนี้แล้ว)" },
+                        { term: "lose my cool", example: "I'm trying not to lose my cool, but it's difficult. (ฉันพยายามจะไม่หัวเสียนะ แต่มันก็ยาก)" },
+                        { term: "annoyed with", example: "I'm getting annoyed with the constant noise. (ฉันเริ่มจะรำคาญกับเสียงดังที่ไม่หยุดหย่อนนี้แล้ว)" }
+                    ] 
+                },
+                { 
+                    eng: "I'm getting better at this.", 
+                    thai: "ฉันเริ่มจะเก่งเรื่องนี้ขึ้นแล้ว", 
+                    usage: [
+                        "**หลังฝึกฝน:** 'Wow, your guitar playing has improved!' 'Thanks! I'm getting better at it.' (ว้าว ฝีมือการเล่นกีตาร์ของเธอพัฒนาขึ้นนะ! 'ขอบใจนะ! ฉันเริ่มจะเล่นเก่งขึ้นแล้วล่ะ')",
+                        "**ตอนทำอาหาร:** 'My first attempt was a disaster, but I think I'm getting better at baking.' (ความพยายามครั้งแรกของฉันคือหายนะเลย แต่ฉันคิดว่าฉันเริ่มจะอบขนมเก่งขึ้นแล้ว)",
+                        "**ในที่ทำงาน:** 'This task was hard at first, but now I feel more confident. I'm getting better at it.' (งานนี้ตอนแรกก็ยากนะ แต่ตอนนี้ฉันรู้สึกมั่นใจมากขึ้น ฉันเริ่มจะทำมันเก่งขึ้นแล้ว)"
+                    ], 
+                    collocations: [
+                        { term: "get the hang of it", example: "It's tricky, but I'm starting to get the hang of it. (มันมีเล่ห์เหลี่ยมนิดหน่อย แต่ฉันเริ่มจะจับทางมันได้แล้ว)" },
+                        { term: "making progress", example: "I feel like I'm finally making progress. (ฉันรู้สึกเหมือนว่าในที่สุดฉันก็มีความคืบหน้าแล้ว)" },
+                        { term: "practice pays off", example: "See? All that practice is finally paying off. (เห็นไหมล่ะ การฝึกฝนทั้งหมดนั่นกำลังจะเห็นผลแล้ว)" }
+                    ] 
+                },
+                { 
+                    eng: "I'm getting used to the noise.", 
+                    thai: "ฉันเริ่มจะชินกับเสียงดังแล้ว", 
+                    usage: [
+                        "**เมื่อย้ายบ้านใหม่:** 'Your apartment is next to the train tracks. Isn't it loud?' 'It was at first, but I'm getting used to the noise.' (อพาร์ตเมนต์ของเธออยู่ติดกับรางรถไฟเลยนะ มันไม่ดังเหรอ 'ตอนแรกก็ดังนะ แต่ฉันเริ่มจะชินแล้วล่ะ')",
+                        "**ในออฟฟิศ:** 'How can you work in such a busy office?' 'You learn to tune it out. I'm getting used to the noise.' (คุณทำงานในออฟฟิศที่วุ่นวายขนาดนี้ได้อย่างไร 'คุณต้องเรียนรู้ที่จะไม่สนใจมันน่ะ ผมเริ่มจะชินกับเสียงแล้ว')",
+                        "**มีลูกอ่อน:** 'The baby cries a lot at night.' 'I know, but I'm getting used to it.' (ทารกร้องไห้บ่อยมากตอนกลางคืน 'ฉันรู้ แต่ฉันก็เริ่มจะชินแล้วล่ะ')"
+                    ], 
+                    collocations: [
+                        { term: "adjust to", example: "It took me a while to adjust to the new work environment. (ฉันใช้เวลาสักพักเลยกว่าจะปรับตัวเข้ากับสภาพแวดล้อมการทำงานใหม่ได้)" },
+                        { term: "become accustomed to", example: "You'll soon become accustomed to the local culture. (เดี๋ยวคุณก็จะคุ้นเคยกับวัฒนธรรมท้องถิ่นไปเอง)" },
+                        { term: "it doesn't bother me anymore", example: "The smell of durian used to be strong, but it doesn't bother me anymore. (กลิ่นทุเรียนเคยแรงมากนะ แต่ตอนนี้มันไม่รบกวนฉันอีกแล้ว)" }
+                    ] 
+                },
+                { 
+                    eng: "I'm getting dizzy.", 
+                    thai: "ฉันเริ่มจะเวียนหัวแล้ว", 
+                    usage: [
+                        "**บนเครื่องเล่น:** 'This ride is spinning too fast! I'm getting dizzy!' (เครื่องเล่นนี่มันหมุนเร็วเกินไปแล้ว! ฉันเริ่มจะเวียนหัวแล้ว!)",
+                        "**เมื่อทำงานนาน:** 'I've been staring at the screen for too long. I need a break, I'm getting dizzy.' (ฉันจ้องหน้าจอมานานเกินไปแล้ว ต้องพักหน่อยแล้วล่ะ เริ่มเวียนหัวแล้ว)",
+                        "**เมื่อไม่สบาย:** 'I think I need to sit down. I'm getting dizzy all of a sudden.' (ฉันคิดว่าฉันต้องนั่งลงแล้วล่ะ จู่ๆก็รู้สึกเวียนหัวขึ้นมา)"
+                    ], 
+                    collocations: [
+                        { term: "light-headed", example: "I feel a bit light-headed; maybe I stood up too quickly. (ฉันรู้สึกมึนๆนิดหน่อย บางทีฉันอาจจะลุกขึ้นเร็วเกินไป)" },
+                        { term: "the room is spinning", example: "Whoa, the room is spinning. I need some water. (โอ้โห ห้องหมุนไปหมดเลย ฉันต้องขอน้ำหน่อย)" },
+                        { term: "feel faint", example: "It's so hot in here that I feel faint. (ในนี้มันร้อนมากจนฉันรู้สึกเหมือนจะเป็นลมเลย)" }
+                    ] 
+                },
+                { 
+                    eng: "I'm getting suspicious.", 
+                    thai: "ฉันเริ่มจะสงสัยแล้ว", 
+                    usage: [
+                        "**ในการสืบสวน:** 'His story keeps changing. I'm getting suspicious.' (เรื่องเล่าของเขาเปลี่ยนไปเรื่อยเลยนะ ผมเริ่มจะสงสัยแล้ว)",
+                        "**เพื่อนทำตัวแปลกๆ:** 'He's being too quiet and secretive. I'm getting suspicious that he's planning something.' (เขาเงียบและมีความลับมากเกินไปแล้วนะ ฉันเริ่มจะสงสัยแล้วว่าเขากำลังวางแผนอะไรบางอย่างอยู่')",
+                        "**อีเมลหลอกลวง:** 'This email says I've won a million dollars. I'm getting suspicious.' (อีเมลฉบับนี้บอกว่าฉันถูกรางวัลหนึ่งล้านดอลลาร์ ฉันเริ่มจะสงสัยแล้วล่ะ)"
+                    ], 
+                    collocations: [
+                        { term: "something fishy", example: "There's something fishy going on here. (มีบางอย่างไม่ชอบมาพากลเกิดขึ้นที่นี่)" },
+                        { term: "doesn't add up", example: "His explanation just doesn't add up. (คำอธิบายของเขามันฟังไม่ขึ้นเลย)" },
+                        { term: "have my doubts", example: "He says he can finish it in one day, but I have my doubts. (เขาบอกว่าเขาสามารถทำเสร็จได้ในวันเดียว แต่ฉันก็ยังสงสัยอยู่)" }
+                    ] 
+                },
+                { 
+                    eng: "I'm getting closer.", 
+                    thai: "ฉันใกล้จะถึง/ใกล้จะสำเร็จแล้ว", 
+                    usage: [
+                        "**เล่นเกมซ่อนหา:** 'Are you warm?' 'Yes, you're getting closer!' (เธอเข้าใกล้หรือยัง 'ใช่ เธอใกล้เข้ามาแล้ว!')",
+                        "**แก้ปัญหา:** 'I've tried a few solutions and they failed, but I feel like I'm getting closer to the answer.' (ฉันลองวิธีแก้ไปสองสามอย่างแล้วก็ล้มเหลว แต่ฉันรู้สึกว่าฉันใกล้จะเจอคำตอบแล้วนะ)",
+                        "**เป้าหมาย:** 'I just saved another thousand baht. I'm getting closer to my goal of buying a new laptop.' (ฉันเพิ่งเก็บเงินได้อีกพันบาท ฉันใกล้จะบรรลุเป้าหมายในการซื้อแล็ปท็อปเครื่องใหม่แล้ว)"
+                    ], 
+                    collocations: [
+                        { term: "in the ballpark", example: "Your guess wasn't exactly right, but you're in the ballpark. (การเดาของคุณไม่ถูกเป๊ะๆ แต่ก็ใกล้เคียงแล้วล่ะ)" },
+                        { term: "on the right track", example: "This looks promising. I think we're on the right track. (นี่ดูมีความหวังนะ ฉันว่าเรามาถูกทางแล้ว)" },
+                        { term: "almost there", example: "Keep going, you're almost there! (ทำต่อไปนะ เธอใกล้จะถึงแล้ว!)" }
+                    ] 
+                },
+                { 
+                    eng: "I'm getting defensive.", 
+                    thai: "ฉันเริ่มจะตั้งป้อม/ปกป้องตัวเองแล้ว", 
+                    usage: [
+                        "**ในการโต้เถียง:** 'You don't have to attack my ideas like that.' 'Sorry, I don't mean to. I guess I'm getting defensive.' (คุณไม่จำเป็นต้องโจมตีความคิดของฉันแบบนั้นก็ได้นะ 'ขอโทษที ฉันไม่ได้ตั้งใจ ฉันเดาว่าฉันคงจะเริ่มตั้งป้อมแล้วล่ะ')",
+                        "**เมื่อถูกวิจารณ์:** 'It was just constructive criticism.' 'I know, but I'm getting defensive because I worked hard on it.' (มันก็เป็นแค่คำวิจารณ์เชิงสร้างสรรค์นะ 'ฉันรู้ แต่ฉันก็อดที่จะปกป้องตัวเองไม่ได้เพราะฉันทำงานหนักกับมันมาก')",
+                        "**เพื่อนเตือน:** 'Whoa, calm down. Why are you getting so defensive?' (เฮ้ ใจเย็นๆสิ ทำไมเธอถึงต้องตั้งท่าปกป้องตัวเองขนาดนั้นด้วย)"
+                    ], 
+                    collocations: [
+                        { term: "on the defensive", example: "His questions immediately put me on the defensive. (คำถามของเขาทำให้ฉันต้องตั้งท่าปกป้องตัวเองทันที)" },
+                        { term: "take it personally", example: "Don't take it personally; it's not about you. (อย่าเก็บเอามาเป็นเรื่องส่วนตัวเลย มันไม่ได้เกี่ยวกับคุณซะหน่อย)" },
+                        { term: "jump to conclusions", example: "Stop jumping to conclusions and listen to my explanation. (หยุดด่วนสรุปแล้วฟังคำอธิบายของฉันก่อน)" }
+                    ] 
+                },
+                { 
+                    eng: "I'm getting stronger.", 
+                    thai: "ฉันกำลังแข็งแรงขึ้น", 
+                    usage: [
+                        "**ในยิม:** 'You're lifting heavier weights now!' 'Yes, I can feel it. I'm getting stronger every week.' (ตอนนี้คุณยกน้ำหนักที่หนักขึ้นนะ! 'ใช่ ผมรู้สึกได้เลย ผมกำลังแข็งแรงขึ้นทุกสัปดาห์')",
+                        "**หลังจากการฟื้นตัว:** 'Walking was hard at first, but now I can go for miles. I'm getting stronger.' (ตอนแรกการเดินมันยากนะ แต่ตอนนี้ฉันไปได้เป็นไมล์เลย ฉันกำลังแข็งแรงขึ้น)",
+                        "**เปรียบเปรย:** 'Going through that experience was tough, but I think I'm getting stronger as a person.' (การผ่านประสบการณ์นั้นมามันหนักหนามาก แต่ฉันคิดว่ามันทำให้ฉันเข้มแข็งขึ้นในฐานะคนคนหนึ่ง)"
+                    ], 
+                    collocations: [
+                        { term: "build up my strength", example: "I need to build up my strength after the surgery. (ฉันต้องสร้างความแข็งแรงของฉันขึ้นมาใหม่หลังจากการผ่าตัด)" },
+                        { term: "gain muscle", example: "He's been working out a lot and is starting to gain muscle. (เขาออกกำลังกายอย่างหนักและเริ่มจะมีกล้ามเนื้อแล้ว)" },
+                        { term: "inner strength", example: "She has a quiet inner strength that is very admirable. (เธอมีความเข้มแข็งภายในที่เงียบสงบซึ่งน่าชื่นชมมาก)" }
+                    ] 
+                },
+                { 
+                    eng: "I'm getting forgetful.", 
+                    thai: "ฉันเริ่มจะขี้ลืมแล้ว", 
+                    usage: [
+                        "**เพื่อนถาม:** 'Did you remember to bring the book?' 'Oh no! I completely forgot. I'm getting so forgetful these days.' (เธอจำได้ไหมว่าต้องเอาหนังสือมา 'โอ้ ไม่นะ! ฉันลืมสนิทเลย ช่วงนี้ฉันขี้ลืมจัง')",
+                        "**คุยกับตัวเอง:** 'Where did I put my glasses? I'm getting forgetful in my old age.' (ฉันไปวางแว่นตาไว้ที่ไหนนะ นี่ฉันแก่แล้วก็เริ่มขี้ลืมแล้วสิ)",
+                        "**เมื่อลืมชื่อ:** 'I'm so sorry, your name is on the tip of my tongue. I'm getting so forgetful.' (ฉันขอโทษจริงๆนะ ชื่อของคุณติดอยู่ที่ปากฉันเลยเนี่ย ฉันขี้ลืมจังเลย)"
+                    ], 
+                    collocations: [
+                        { term: "a memory like a sieve", example: "I have a memory like a sieve; I forget things instantly. (ฉันมีความจำที่แย่มาก (เหมือนตะแกรง) ฉันลืมทุกอย่างทันทีเลย)" },
+                        { term: "slip my mind", example: "I meant to call you, but it completely slipped my mind. (ฉันตั้งใจจะโทรหาเธอนะ แต่มันหลุดออกจากหัวไปเลย)" },
+                        { term: "on the tip of my tongue", example: "The answer is on the tip of my tongue, but I can't quite say it. (คำตอบมันติดอยู่ที่ปากฉันเลย แต่ฉันก็นึกไม่ออกซะที)" }
+                    ] 
+                },
+                { 
+                    eng: "I'm getting restless.", 
+                    thai: "ฉันเริ่มจะกระสับกระส่าย/อยู่นิ่งไม่ได้แล้ว", 
+                    usage: [
+                        "**ในการประชุมที่ยาวนาน:** 'This meeting has been going on for three hours. I'm getting restless.' (การประชุมนี้ดำเนินมาสามชั่วโมงแล้วนะ ฉันเริ่มจะอยู่นิ่งไม่ได้แล้ว)",
+                        "**เมื่อรอข่าว:** 'I can't just sit here and wait. I'm getting restless. I need to do something.' (ฉันจะนั่งรออยู่เฉยๆตรงนี้ไม่ได้นะ ฉันเริ่มจะกระวนกระวายแล้ว ฉันต้องทำอะไรสักอย่าง)",
+                        "**เมื่อเบื่อ:** 'I've been at home all week. I'm getting restless and need a change of scenery.' (ฉันอยู่บ้านมาทั้งสัปดาห์แล้ว ฉันเริ่มจะเบื่อและต้องการจะเปลี่ยนบรรยากาศ)"
+                    ], 
+                    collocations: [
+                        { term: "ants in my pants", example: "The kids have ants in their pants waiting for the party to start. (พวกเด็กๆกระสับกระส่ายรอให้งานปาร์ตี้เริ่ม)" },
+                        { term: "stir-crazy", example: "After a week of rain, I'm going stir-crazy indoors. (หลังจากที่ฝนตกมาทั้งสัปดาห์ ฉันเริ่มจะเบื่อหน่ายกับการต้องอยู่แต่ในบ้านแล้ว)" },
+                        { term: "can't sit still", example: "He's so full of energy, he can't sit still for a minute. (เขาเต็มไปด้วยพลังงานมาก เขาอยู่นิ่งๆไม่ได้เลยสักนาที)" }
+                    ] 
+                },
+                { 
+                    eng: "I'm getting sleepy.", 
+                    thai: "ฉันเริ่มจะง่วงแล้ว", 
+                    usage: [
+                        "**ดูหนังตอนดึก:** 'This movie is a bit slow. I'm getting sleepy.' (หนังเรื่องนี้ดำเนินเรื่องช้าไปหน่อยนะ ฉันเริ่มจะง่วงแล้ว)",
+                        "**ในห้องเรียน:** 'The lecture is so boring. I'm getting sleepy.' (การบรรยายน่าเบื่อมากเลย ฉันเริ่มจะง่วงแล้ว)",
+                        "**บอกเพื่อน:** 'I think I'm going to head home soon. I'm getting sleepy.' (ฉันคิดว่าฉันจะกลับบ้านเร็วๆนี้แล้วล่ะ เริ่มจะง่วงแล้ว)"
+                    ], 
+                    collocations: [
+                        { term: "start to yawn", example: "I can't stop yawning; I must be tired. (ฉันหยุดหาวไม่ได้เลย ฉันต้องเหนื่อยแน่ๆ)" },
+                        { term: "my eyelids are heavy", example: "I can barely keep my eyes open; my eyelids are so heavy. (ฉันแทบจะลืมตาไม่ขึ้นเลย เปลือกตาของฉันมันหนักอึ้งไปหมด)" },
+                        { term: "hit the sack", example: "It's getting late. I think it's time to hit the sack. (มันดึกแล้วนะ ฉันคิดว่าได้เวลาเข้านอนแล้ว)" }
+                    ] 
+                },
+                { 
+                    eng: "I'm getting comfortable.", 
+                    thai: "ฉันเริ่มจะรู้สึกสบาย/คุ้นเคยแล้ว", 
+                    usage: [
+                        "**ในที่ทำงานใหม่:** 'How's the new job?' 'It's good! I'm finally getting comfortable with the team.' (งานใหม่เป็นไงบ้าง 'ก็ดีนะ! ในที่สุดฉันก็เริ่มจะรู้สึกคุ้นเคยกับทีมแล้ว')",
+                        "**บนโซฟา:** 'Do you need anything?' 'No, I'm good. I'm just getting comfortable here with my book.' (คุณต้องการอะไรไหม 'ไม่ล่ะ ฉันโอเค ฉันแค่กำลังจะนั่งสบายๆตรงนี้กับหนังสือของฉัน')",
+                        "**ในการพูดภาษาใหม่:** 'At first I was nervous to speak, but now I'm getting comfortable.' (ตอนแรกฉันก็ประหม่าที่จะพูดนะ แต่ตอนนี้ฉันเริ่มจะรู้สึกสบายๆขึ้นแล้ว)"
+                    ], 
+                    collocations: [
+                        { term: "settle in", example: "It took a few weeks to really settle in to the new house. (มันใช้เวลาสองสามสัปดาห์เลยกว่าจะปรับตัวเข้ากับบ้านใหม่ได้อย่างแท้จริง)" },
+                        { term: "feel at home", example: "The hosts were so friendly that I immediately felt at home. (เจ้าบ้านเป็นมิตรมากจนฉันรู้สึกเหมือนอยู่บ้านตัวเองทันที)" },
+                        { term: "at ease", example: "Her calm voice put everyone at ease. (น้ำเสียงที่สงบของเธอทำให้ทุกคนรู้สึกผ่อนคลาย)" }
+                    ] 
+                },
+                { 
+                    eng: "I'm getting emotional.", 
+                    thai: "ฉันเริ่มจะอิน/ซึ้ง/อารมณ์อ่อนไหวแล้ว", 
+                    usage: [
+                        "**ในงานแต่งงาน:** 'This is such a beautiful ceremony. I'm getting emotional.' (นี่เป็นพิธีที่สวยงามมากเลยนะ ฉันเริ่มจะซึ้งแล้ว)",
+                        "**ดูหนังเศร้า:** 'Please don't cry.' 'I can't help it. I'm getting emotional.' (อย่าร้องไห้สิ 'ฉันช่วยไม่ได้นี่นา ฉันกำลังอินกับมันน่ะ')",
+                        "**เมื่อพูดถึงเรื่องเก่าๆ:** 'Talking about my grandmother always makes me sad. Sorry, I'm getting emotional.' (การพูดถึงคุณย่าของฉันทำให้ฉันเศร้าเสมอเลย ขอโทษนะ ฉันเริ่มจะอารมณ์อ่อนไหวแล้ว)"
+                    ], 
+                    collocations: [
+                        { term: "teary-eyed", example: "She became teary-eyed when she heard the news. (เธอน้ำตาคลอเมื่อได้ยินข่าวนั้น)" },
+                        { term: "a lump in my throat", example: "I had a lump in my throat during the farewell scene. (ฉันรู้สึกจุกที่คอ (ตื้นตัน) ระหว่างฉากอำลา)" },
+                        { term: "wear my heart on my sleeve", example: "I'm a very open person; I tend to wear my heart on my sleeve. (ฉันเป็นคนที่เปิดเผยมาก ฉันมักจะแสดงความรู้สึกอย่างชัดเจน)" }
+                    ] 
+                },
+                { 
+                    eng: "I'm getting annoyed.", 
+                    thai: "ฉันเริ่มจะรำคาญแล้ว", 
+                    usage: [
+                        "**เมื่อมีคนทำเสียงดัง:** 'Could you please stop tapping your pen? I'm getting annoyed.' (คุณช่วยหยุดเคาะปากกาได้ไหม ฉันเริ่มจะรำคาญแล้วนะ)",
+                        "**เมื่อเจอโฆษณาบ่อย:** 'This app has too many ads. I'm getting annoyed.' (แอปนี้มีโฆษณาเยอะเกินไป ฉันเริ่มจะรำคาญแล้ว)",
+                        "**เมื่อเพื่อนกวน:** 'Stop asking the same question! I'm getting annoyed.' (หยุดถามคำถามเดิมๆได้แล้ว! ฉันเริ่มจะรำคาญแล้วนะ)"
+                    ], 
+                    collocations: [
+                        { term: "get on my nerves", example: "That constant humming sound is really getting on my nerves. (เสียงฮัมที่ไม่หยุดหย่อนนั่นมันกวนประสาทฉันจริงๆ)" },
+                        { term: "irritated", example: "I'm getting irritated by all the interruptions. (ฉันเริ่มจะหงุดหงิดกับการถูกขัดจังหวะตลอดเวลา)" },
+                        { term: "patience is wearing thin", example: "My patience is wearing thin with all of his excuses. (ความอดทนของฉันเริ่มจะบางลงเต็มทีกับข้อแก้ตัวทั้งหมดของเขา)" }
+                    ] 
+                },
+                { 
+                    eng: "I'm getting hopeful.", 
+                    thai: "ฉันเริ่มจะมีความหวังแล้ว", 
+                    usage: [
+                        "**เมื่อสถานการณ์ดีขึ้น:** 'The doctor said the treatment is working. I'm getting hopeful.' (หมอบอกว่าการรักษาได้ผลนะ ฉันเริ่มจะมีความหวังแล้ว)",
+                        "**ในการสัมภาษณ์:** 'The interview went better than I expected. I'm getting hopeful about this job.' (การสัมภาษณ์ผ่านไปได้ดีกว่าที่ฉันคาดไว้นะ ฉันเริ่มจะมีความหวังกับงานนี้แล้ว)",
+                        "**เมื่อทีมกำลังจะชนะ:** 'We just scored another goal! I'm getting hopeful that we might actually win!' (เราเพิ่งทำประตูได้อีกลูก! ฉันเริ่มจะมีความหวังแล้วว่าเราอาจจะชนะจริงๆก็ได้!)"
+                    ], 
+                    collocations: [
+                        { term: "a glimmer of hope", example: "The rescue team saw a glimmer of hope. (ทีมกู้ภัยได้เห็นแสงริบหรี่แห่งความหวัง)" },
+                        { term: "keep my fingers crossed", example: "I'm keeping my fingers crossed for you. (ฉันขอเอาใจช่วยให้เธอโชคดีนะ)" },
+                        { term: "light at the end of the tunnel", example: "After months of hard work, we can finally see the light at the end of the tunnel. (หลังจากทำงานหนักมาหลายเดือน ในที่สุดเราก็เริ่มจะเห็นแสงสว่างที่ปลายอุโมงค์แล้ว)" }
+                    ] 
+                },
+                { 
+                    eng: "I'm getting the hang of it.", 
+                    thai: "ฉันเริ่มจะจับทางได้/ทำเป็นแล้ว", 
+                    usage: [
+                        "**เรียนรู้ทักษะใหม่:** 'This new software is complicated.' 'It is, but after a few days, I think I'm getting the hang of it.' (ซอฟต์แวร์ใหม่นี้ซับซ้อนนะ 'ใช่ แต่หลังจากใช้ไปสองสามวัน ฉันคิดว่าฉันเริ่มจะจับทางมันได้แล้วล่ะ')",
+                        "**เล่นกีฬา:** 'At first, I couldn't even hit the ball, but now I'm getting the hang of tennis.' (ตอนแรกฉันตีลูกไม่โดนเลยด้วยซ้ำ แต่ตอนนี้ฉันเริ่มจะเล่นเทนนิสเป็นแล้ว)",
+                        "**ขับรถ:** 'Driving in the city is crazy!' 'I know, but I'm getting the hang of it.' (การขับรถในเมืองนี่มันบ้ามากเลย! 'ฉันรู้ แต่ฉันก็เริ่มจะชินแล้วล่ะ')"
+                    ], 
+                    collocations: [
+                        { term: "a learning curve", example: "There's a steep learning curve with this new system. (มันต้องใช้เวลาเรียนรู้เยอะในช่วงแรกกับระบบใหม่นี้)" },
+                        { term: "become second nature", example: "After you do it a hundred times, it will become second nature. (หลังจากที่คุณทำมันเป็นร้อยๆครั้ง มันก็จะกลายเป็นเรื่องปกติไปเอง)" },
+                        { term: "get the feel for it", example: "Just keep practicing and you'll get the feel for it. (แค่ฝึกฝนต่อไปเรื่อยๆแล้วเดี๋ยวเธอก็จะคุ้นเคยกับมันไปเอง)" }
+                    ] 
+                },
+                { 
+                    eng: "I'm getting worried about you.", 
+                    thai: "ฉันเริ่มจะเป็นห่วงคุณแล้วนะ", 
+                    usage: [
+                        "**เมื่อเพื่อนดูไม่สบาย:** 'You haven't eaten all day. I'm getting worried about you.' (เธอไม่ได้กินอะไรเลยทั้งวันนะ ฉันเริ่มจะเป็นห่วงเธอแล้ว)",
+                        "**เมื่อติดต่อไม่ได้:** 'You didn't answer my calls last night. I was getting worried about you.' (เมื่อคืนเธอไม่รับโทรศัพท์ฉันเลยนะ ฉันเป็นห่วงมากเลย)",
+                        "**เมื่อเพื่อนทำอะไรเสี่ยงๆ:** 'You've been working too hard and not sleeping. I'm getting worried about your health.' (เธอทำงานหนักเกินไปแล้วก็นอนไม่พอด้วยนะ ฉันเริ่มจะเป็นห่วงสุขภาพของเธอแล้ว)"
+                    ], 
+                    collocations: [
+                        { term: "concerned about", example: "I'm concerned about his recent behavior. (ฉันกังวลเกี่ยวกับพฤติกรรมล่าสุดของเขา)" },
+                        { term: "anxious about", example: "She is anxious about her son who is traveling alone. (เธอวิตกกังวลเกี่ยวกับลูกชายของเธอที่กำลังเดินทางคนเดียว)" },
+                        { term: "something is wrong", example: "Please call me back. I have a feeling something is wrong. (กรุณาโทรกลับหาฉันด้วยนะ ฉันรู้สึกว่ามีบางอย่างผิดปกติ)" }
+                    ] 
+                },
+                { 
+                    eng: "I'm getting hungry.", 
+                    thai: "ฉันเริ่มหิวแล้ว", 
+                    usage: [
+                        "**ใกล้เวลาอาหารกลางวัน:** 'What time is it? I'm getting hungry.' (นี่กี่โมงแล้ว ฉันเริ่มหิวแล้วนะ)",
+                        "**ในที่ประชุม:** 'Let's try to wrap this up in the next 15 minutes. I'm getting hungry.' (เรามาพยายามสรุปเรื่องนี้กันใน 15 นาทีข้างหน้านะครับ ผมเริ่มจะหิวแล้ว)",
+                        "**บอกเพื่อน:** 'We should find a place to eat soon. I'm getting hungry.' (เราควรจะหาร้านกินข้าวกันเร็วๆนี้แล้วนะ ฉันเริ่มหิวแล้ว)"
+                    ], 
+                    collocations: [
+                        { term: "starving", example: "I haven't eaten since this morning, I'm starving! (ฉันยังไม่ได้กินอะไรเลยตั้งแต่เช้า ฉันหิวมาก!)" },
+                        { term: "could eat a horse", example: "After that long hike, I'm so hungry I could eat a horse. (หลังจากเดินป่ามาไกลขนาดนั้น ฉันหิวมากจนกินม้าได้ทั้งตัวเลย)" },
+                        { term: "my stomach is rumbling", example: "Let's eat. My stomach is rumbling. (กินข้าวกันเถอะ ท้องฉันร้องแล้วเนี่ย)" }
+                    ] 
+                },
+                { 
+                    eng: "I'm getting cold.", 
+                    thai: "ฉันเริ่มหนาวแล้ว", 
+                    usage: [
+                        "**ตอนกลางคืน:** 'The sun has set. I'm getting cold. Can you close the window?' (พระอาทิตย์ตกแล้ว ฉันเริ่มหนาวแล้วล่ะ คุณช่วยปิดหน้าต่างหน่อยได้ไหม)",
+                        "**ในโรงหนัง:** 'Why is the air conditioning so strong? I'm getting cold.' (ทำไมเครื่องปรับอากาศถึงแรงขนาดนี้นะ ฉันเริ่มจะหนาวแล้ว)",
+                        "**เมื่อฝนตก:** 'Let's go inside. I'm getting cold and wet.' (เราเข้าไปข้างในกันเถอะ ฉันเริ่มจะหนาวและเปียกแล้ว)"
+                    ], 
+                    collocations: [
+                        { term: "a bit chilly", example: "It's getting a bit chilly in here. (ในนี้เริ่มจะเย็นๆแล้วนะ)" },
+                        { term: "freezing", example: "Can you turn up the heat? I'm freezing! (คุณช่วยเร่งเครื่องทำความร้อนหน่อยได้ไหม ฉันหนาวจะแข็งอยู่แล้ว!)" },
+                        { term: "get goosebumps", example: "That scary story gave me goosebumps. (เรื่องน่ากลัวนั่นทำให้ฉันขนลุกเลย)" }
+                    ] 
+                },
+                { 
+                    eng: "I'm getting ready.", 
+                    thai: "ฉันกำลังเตรียมตัว", 
+                    usage: [
+                        "**เพื่อนโทรตาม:** 'Are you on your way?' 'Almost! I'm getting ready now, I'll leave in 10 minutes.' (เธอกำลังมาหรือยัง 'เกือบแล้ว! ตอนนี้กำลังเตรียมตัวอยู่ เดี๋ยวจะออกไปใน 10 นาที')",
+                        "**ก่อนการนำเสนอ:** 'The presentation starts in 30 minutes.' 'I know, I'm getting ready mentally.' (การนำเสนอจะเริ่มใน 30 นาทีนะ 'ฉันรู้ ฉันกำลังเตรียมความพร้อมทางใจอยู่')",
+                        "**ตอนเช้า:** 'What are you doing?' 'I'm getting ready for work.' (ทำอะไรอยู่ 'ฉันกำลังเตรียมตัวไปทำงานน่ะ')"
+                    ], 
+                    collocations: [
+                        { term: "get prepared for", example: "I'm getting prepared for the interview. (ฉันกำลังเตรียมตัวสำหรับการสัมภาษณ์)" },
+                        { term: "all set", example: "My bags are packed and I'm all set to go. (กระเป๋าของฉันจัดเสร็จแล้วและฉันก็พร้อมจะไปแล้ว)" },
+                        { term: "in the process of", example: "I'm in the process of getting ready. (ฉันอยู่ในระหว่างขั้นตอนการเตรียมตัว)" }
+                    ] 
+                },
+                { 
+                    eng: "I'm getting excited.", 
+                    thai: "ฉันเริ่มจะตื่นเต้นแล้ว", 
+                    usage: [
+                        "**ก่อนไปเที่ยว:** 'Only one more week until our vacation! I'm getting excited!' (อีกแค่สัปดาห์เดียวก่อนจะถึงวันหยุดพักผ่อนของเรา! ฉันเริ่มจะตื่นเต้นแล้ว!)",
+                        "**ก่อนคอนเสิร์ต:** 'The band is about to come on stage. I'm getting so excited!' (วงดนตรีกำลังจะขึ้นเวทีแล้ว ฉันตื่นเต้นมากเลย!)",
+                        "**เมื่อได้ข่าวดี:** 'They confirmed the project! I'm getting excited about the possibilities.' (พวกเขาอนุมัติโครงการแล้ว! ฉันเริ่มจะตื่นเต้นกับความเป็นไปได้ต่างๆแล้วล่ะ)"
+                    ], 
+                    collocations: [
+                        { term: "look forward to", example: "I'm really looking forward to seeing you. (ฉันตั้งตารอที่จะได้เจอคุณจริงๆนะ)" },
+                        { term: "can't wait", example: "I can't wait for the movie to come out. (ฉันแทบจะรอไม่ไหวให้หนังเรื่องนี้เข้าฉาย)" },
+                        { term: "butterflies in my stomach", example: "I always get butterflies in my stomach before a performance. (ฉันรู้สึกตื่นเต้นประหม่าเสมอเลยก่อนการแสดง)" }
+                    ] 
+                },
+                { 
+                    eng: "I'm getting confused.", 
+                    thai: "ฉันเริ่มจะสับสนแล้ว", 
+                    usage: [
+                        "**เมื่อฟังคำอธิบาย:** 'Wait, can you explain that again? I'm getting confused.' (เดี๋ยวนะ คุณช่วยอธิบายอีกครั้งได้ไหม ฉันเริ่มจะสับสนแล้ว)",
+                        "**เมื่ออ่านแผนที่:** 'This map is hard to read. I'm getting confused about which way to go.' (แผนที่นี้อ่านยากจัง ฉันเริ่มจะสับสนแล้วว่าต้องไปทางไหน)",
+                        "**เมื่อเรื่องราวยุ่งเหยิง:** 'So, he said she said... okay, I'm getting confused. Let's start from the beginning.' (แล้วเขาก็บอกว่าเธอบอกว่า... โอเค ฉันเริ่มจะงงแล้วล่ะ เรามาเริ่มกันใหม่ตั้งแต่ต้นเถอะ)"
+                    ], 
+                    collocations: [
+                        { term: "mixed up", example: "I think I got the dates mixed up. (ฉันคิดว่าฉันจำวันสลับกัน)" },
+                        { term: "lose track of", example: "There are so many characters, I'm losing track of who is who. (มีตัวละครเยอะมากเลย ฉันเริ่มจะสับสนแล้วว่าใครเป็นใคร)" },
+                        { term: "it doesn't make sense", example: "This part of the story doesn't make sense. (ส่วนนี้ของเรื่องราวมันไม่สมเหตุสมผลเลย)" }
+                    ] 
+                },
+                { 
+                    eng: "I'm getting tired of this.", 
+                    thai: "ฉันเริ่มจะเบื่อ/เหนื่อยกับสิ่งนี้แล้ว", 
+                    usage: [
+                        "**เมื่อทำงานซ้ำๆ:** 'I've been doing the same task all day. I'm getting tired of this.' (ฉันทำงานเดิมๆนี้มาทั้งวันแล้ว ฉันเริ่มจะเบื่อมันแล้ว)",
+                        "**เมื่อฟังคนบ่น:** 'He complains about everything. I'm getting tired of his negativity.' (เขาบ่นทุกเรื่องเลย ฉันเริ่มจะเหนื่อยกับความคิดลบๆของเขาแล้ว)",
+                        "**เมื่อเจอสถานการณ์เดิมๆ:** 'We have this same argument every week. I'm getting tired of it.' (เราทะเลาะกันเรื่องเดิมๆนี้ทุกสัปดาห์เลยนะ ฉันเริ่มจะเบื่อมันแล้ว)"
+                    ], 
+                    collocations: [
+                        { term: "sick and tired of", example: "I'm sick and tired of your excuses. (ฉันเบื่อและเอือมระอากับข้อแก้ตัวของเธอเต็มทีแล้ว)" },
+                        { term: "fed up with", example: "She was fed up with her noisy neighbors. (เธอเบื่อหน่ายกับเพื่อนบ้านที่เสียงดังของเธอ)" },
+                        { term: "had enough of", example: "I've had enough of this nonsense. (ฉันทนกับเรื่องไร้สาระนี้มาพอแล้ว)" }
+                    ] 
+                },
+                { 
+                    eng: "I'm getting nervous.", 
+                    thai: "ฉันเริ่มจะประหม่า/กังวลแล้ว", 
+                    usage: [
+                        "**ก่อนการสัมภาษณ์:** 'My interview is in five minutes. I'm getting nervous.' (การสัมภาษณ์ของฉันจะเริ่มในอีกห้านาที ฉันเริ่มจะประหม่าแล้ว)",
+                        "**ก่อนการแสดง:** 'The curtains are about to open. I'm getting nervous.' (ม่านกำลังจะเปิดแล้ว ฉันเริ่มจะตื่นเต้นแล้ว)",
+                        "**ก่อนจะพบคนสำคัญ:** 'Her parents are coming to dinner. I'm getting nervous about meeting them.' (พ่อแม่ของเธอกำลังจะมาทานข้าวเย็นด้วย ฉันเริ่มจะกังวลเรื่องการพบพวกเขาแล้ว)"
+                    ], 
+                    collocations: [
+                        { term: "butterflies in my stomach", example: "I always get butterflies in my stomach before a big test. (ฉันรู้สึกตื่นเต้นประหม่าเสมอเลยก่อนการสอบครั้งใหญ่)" },
+                        { term: "on edge", example: "He seems a bit on edge today. (วันนี้เขาดูหงุดหงิดนิดหน่อยนะ)" },
+                        { term: "break a sweat", example: "Don't worry, you'll do great. No need to break a sweat. (ไม่ต้องกังวลหรอก เธอจะทำได้ดีน่า ไม่จำเป็นต้องเครียดเลย)" }
+                    ] 
+                },
+                { 
+                    eng: "I'm getting old.", 
+                    thai: "ฉันเริ่มจะแก่แล้ว", 
+                    usage: [
+                        "**เมื่อลืมของ:** 'Where did I put my phone? Ugh, I'm getting old.' (ฉันไปวางโทรศัพท์ไว้ที่ไหนนะ โอ้ย ฉันเริ่มจะแก่แล้วสิ)",
+                        "**เมื่อปวดหลัง:** 'My back hurts after sitting for just an hour. I'm getting old.' (หลังของฉันปวดหลังจากนั่งไปแค่ชั่วโมงเดียวเอง ฉันแก่แล้วจริงๆ)",
+                        "**เมื่อไม่เข้าใจแฟชั่น:** 'I don't understand the fashion these days. I must be getting old.' (ฉันไม่เข้าใจแฟชั่นสมัยนี้เลย ฉันต้องแก่แล้วแน่ๆ)"
+                    ], 
+                    collocations: [
+                        { term: "not as young as I used to be", example: "I can't stay up all night anymore; I'm not as young as I used to be. (ฉันอยู่ดึกทั้งคืนไม่ได้อีกแล้ว ฉันไม่ได้หนุ่ม/สาวเหมือนเมื่อก่อน)" },
+                        { term: "over the hill", example: "He thinks he's over the hill just because he turned 40. (เขาคิดว่าเขาแก่เกินแกงแล้วเพียงเพราะเขาอายุ 40)" },
+                        { term: "feel my age", example: "After that long hike, I'm really feeling my age. (หลังจากเดินป่ามาไกล ฉันรู้สึกถึงอายุของฉันจริงๆเลย)" }
+                    ] 
+                },
+{ 
+            eng: "I'm getting serious.", 
+            thai: "ฉันเริ่มจะจริงจังแล้วนะ", 
+            usage: [
+                "**ในการแข่งขัน:** 'Okay, no more joking around. I'm getting serious now.' (โอเค ไม่ล้อเล่นแล้วนะ ตอนนี้ฉันจะเอาจริงแล้ว)",
+                "**ในความสัมพันธ์:** 'I think I really like her. It's more than just a crush, I'm getting serious.' (ฉันคิดว่าฉันชอบเธอจริงๆนะ มันมากกว่าแค่ความรู้สึกปลื้ม ฉันเริ่มจะจริงจังแล้วล่ะ)",
+                "**ในการทำงาน:** 'Let's focus. The deadline is tomorrow. I'm getting serious about finishing this.' (เรามาตั้งใจกันเถอะ กำหนดส่งคือพรุ่งนี้นะ ฉันจะจริงจังกับการทำให้เสร็จแล้ว)"
+            ], 
+            collocations: [
+                { term: "get down to business", example: "Alright everyone, let's get down to business. (เอาล่ะทุกคน เรามาเริ่มเข้าเรื่องงานกันเถอะ)" },
+                { term: "no laughing matter", example: "This isn't a joke; it's no laughing matter. (นี่ไม่ใช่เรื่องตลกนะ มันเป็นเรื่องที่ต้องจริงจัง)" },
+                { term: "knuckle down", example: "It's time to knuckle down and study for the exam. (ถึงเวลาที่จะต้องตั้งใจอย่างจริงจังและอ่านหนังสือสอบแล้ว)" }
+            ] 
+        },
+        { 
+            eng: "I'm getting crafty.", 
+            thai: "ฉันเริ่มอยากจะทำงานฝีมือ/ประดิษฐ์ของแล้ว", 
+            usage: [
+                "**เมื่อเห็นของ DIY:** 'After watching that video, I'm getting crafty. I want to make my own decorations.' (หลังจากดูวิดีโอนั้น ฉันก็เริ่มอยากทำงานฝีมือเลย อยากจะทำของตกแต่งของตัวเองน่ะ)",
+                "**ช่วงวันหยุด:** 'I have some free time this weekend. I'm getting crafty and might try painting.' (ฉันมีเวลาว่างสุดสัปดาห์นี้ ฉันรู้สึกอยากจะทำงานฝีมือและอาจจะลองวาดภาพดู)",
+                "**เมื่อเจอวัสดุ:** 'Look at all these colorful ribbons! Now I'm getting crafty. What can we make?' (ดูริบบิ้นสีสวยๆพวกนี้สิ! ทำให้ฉันอยากประดิษฐ์ของขึ้นมาเลย เราจะทำอะไรกันดี)"
+            ], 
+            collocations: [
+                { term: "DIY (Do It Yourself)", example: "I love watching DIY projects on YouTube. (ฉันชอบดูโปรเจกต์ DIY ในยูทูบ)" },
+                { term: "arts and crafts", example: "The store has a great selection of arts and crafts supplies. (ร้านค้านั้นมีอุปกรณ์สำหรับงานศิลปะและงานฝีมือให้เลือกมากมาย)" },
+                { term: "get my hands dirty", example: "I don't mind getting my hands dirty when I'm gardening. (ฉันไม่รังเกียจที่จะมือเปื้อนตอนที่ฉันทำสวน)" }
+            ] 
         }
+            ];
 
-        function closeModal() {
-            modal.classList.add('opacity-0', 'pointer-events-none');
-            modal.classList.remove('active');
-            document.body.style.overflow = 'auto';
-        }
+            const sentencesGrid = document.getElementById('sentences-grid');
+            const modal = document.getElementById('sentence-modal');
+            const modalContent = document.getElementById('modal-content');
+            const modalSentence = document.getElementById('modal-sentence');
+            const modalTranslation = document.getElementById('modal-translation');
+            const modalUsage = document.getElementById('modal-usage');
+            const modalCollocations = document.getElementById('modal-collocations');
 
-        closeModalBtn.addEventListener('click', closeModal);
-        modal.addEventListener('click', (e) => {
-            if (e.target.id === 'modal') {
-                closeModal();
+            function displaySentences() {
+                sentencesGrid.innerHTML = ''; 
+                sentencesData.forEach((data, index) => {
+                    const item = document.createElement('div');
+                    item.className = 'sentence-item cursor-pointer p-4 rounded-lg shadow-sm border border-gray-200';
+                    item.dataset.index = index;
+                    
+                    const engText = document.createElement('p');
+                    engText.className = 'font-semibold text-red-800 pointer-events-none';
+                    engText.textContent = data.eng;
+                    
+                    const thaiText = document.createElement('p');
+                    thaiText.className = 'text-gray-600 text-sm pointer-events-none';
+                    thaiText.textContent = `(${data.thai})`;
+                    
+                    item.appendChild(engText);
+                    item.appendChild(thaiText);
+                    
+                    sentencesGrid.appendChild(item);
+                });
             }
+
+            function openModal(index) {
+                const data = sentencesData[index];
+                
+                modalSentence.textContent = data.eng;
+                modalTranslation.textContent = data.thai;
+
+                modalUsage.innerHTML = '';
+                modalUsage.className = 'space-y-4'; 
+
+                data.usage.forEach(use => {
+                    const li = document.createElement('li');
+                    li.className = 'bg-rose-50 border-l-4 border-rose-300 p-4 rounded-r-md shadow-sm';
+                    const parts = use.match(/\*\*(.*?):\*\* '(.*?)' \((.*?)\)/);
+
+                    if (parts && parts.length === 4) {
+                        const context = parts[1];
+                        const english = parts[2];
+                        const thai = parts[3];
+
+                        const contentDiv = document.createElement('div');
+                        
+                        const line1 = document.createElement('div');
+                        const contextSpan = document.createElement('span');
+                        contextSpan.className = 'font-semibold text-amber-700 mr-2 text-lg';
+                        contextSpan.textContent = `${context}:`;
+                        
+                        const englishSpan = document.createElement('span');
+                        englishSpan.className = 'italic text-gray-800 text-lg';
+                        englishSpan.textContent = `'${english}'`;
+                        line1.appendChild(contextSpan);
+                        line1.appendChild(englishSpan);
+
+                        const line2 = document.createElement('div');
+                        const thaiSpan = document.createElement('span');
+                        thaiSpan.className = 'text-gray-600 mt-1 text-base';
+                        thaiSpan.textContent = `(${thai})`;
+                        line2.appendChild(thaiSpan);
+
+                        contentDiv.appendChild(line1);
+                        contentDiv.appendChild(line2);
+                        li.appendChild(contentDiv);
+
+                    } else {
+                        li.innerHTML = use.replace(/\*\*(.*?)\*\*/g, '<strong class="font-semibold text-gray-800">$1</strong>');
+                    }
+                    modalUsage.appendChild(li);
+                });
+
+                modalCollocations.innerHTML = '';
+                const collocationList = document.createElement('ul');
+                collocationList.className = 'list-disc list-inside text-gray-700 space-y-3 text-base';
+                data.collocations.forEach(col => {
+                    const li = document.createElement('li');
+                    li.innerHTML = `<strong class="font-semibold text-gray-800">${col.term}:</strong> ${col.example}`;
+                    collocationList.appendChild(li);
+                });
+                modalCollocations.appendChild(collocationList);
+                
+                modal.classList.remove('opacity-0', 'pointer-events-none', 'invisible');
+                modalContent.classList.remove('scale-95');
+                modalContent.classList.add('scale-100');
+            }
+
+            function closeModal() {
+                modal.classList.add('opacity-0');
+                modalContent.classList.add('scale-95');
+                setTimeout(() => {
+                    modal.classList.add('pointer-events-none', 'invisible');
+                }, 300); 
+            }
+
+            document.body.addEventListener('click', (e) => {
+                const sentenceItem = e.target.closest('.sentence-item');
+                const closeButton = e.target.closest('#close-modal-btn');
+                const modalContentArea = e.target.closest('#modal-content');
+                const modalIsVisible = !modal.classList.contains('invisible');
+
+                if (sentenceItem) {
+                    openModal(sentenceItem.dataset.index);
+                    return;
+                }
+
+                if (closeButton || (modalIsVisible && !modalContentArea)) {
+                    closeModal();
+                }
+            });
+
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape' && !modal.classList.contains('invisible')) {
+                    closeModal();
+                }
+            });
+
+            displaySentences();
         });
     </script>
+
 </body>
 </html>

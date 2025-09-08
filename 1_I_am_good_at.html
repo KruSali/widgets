@@ -3,267 +3,619 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Structure #1 - I'm good at... (with translation)</title>
+    <title>App Box: โครงสร้างที่ 1: I'm good at +(noun/ gerund).</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Mitr:wght@300;400;500;600&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         body {
-            font-family: 'Mitr', sans-serif;
+            font-family: 'Kanit', sans-serif;
         }
-        .font-poppins {
-            font-family: 'Poppins', sans-serif;
+        .sentence-item {
+            background-color: rgba(255, 255, 255, 0.85);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
         }
-        .sentence-btn {
-            transition: all 0.2s ease-in-out;
+        .sentence-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
         }
-        #modal {
-            transition: opacity 0.3s ease;
-        }
-        .modal-content-container {
+        .modal-content {
             transition: transform 0.3s ease, opacity 0.3s ease;
-            opacity: 0;
-            transform: translateY(20px) scale(0.95);
-        }
-        #modal.active .modal-content-container {
-            opacity: 1;
-            transform: translateY(0) scale(1);
         }
     </style>
 </head>
-<body class="bg-gradient-to-br from-green-100 via-cyan-100 to-blue-200 min-h-screen">
+<body class="bg-gradient-to-br from-sky-400 to-cyan-500 min-h-screen text-gray-800">
 
-    <div class="container mx-auto p-4 sm:p-6 lg:p-8">
-
-        <header class="text-center mb-10">
-            <h1 class="text-4xl sm:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-teal-500 to-cyan-500 font-poppins">Structure #1</h1>
-            <h2 class="text-2xl sm:text-3xl font-bold text-slate-800 mt-2 font-poppins">"I'm good at + (noun/gerund)"</h2>
-            <p class="text-slate-600 mt-4 max-w-2xl mx-auto text-lg">
-                โครงสร้างนี้ใช้ง่ายมากๆ! ใช้เพื่อบอกว่าเรา 'เก่ง' หรือ 'ถนัด' ในเรื่องอะไร<br>
-                โดยคำที่ตามหลัง <strong>"at"</strong> จะต้องเป็น: <strong class="text-teal-600">คำนาม (Noun)</strong> หรือ <strong class="text-cyan-600">Gerund (V-ing)</strong>
+    <!-- Main Content -->
+    <div class="container mx-auto px-4 py-8 md:py-12">
+        <header class="text-center mb-8 md:mb-12 text-white">
+            <h1 class="text-4xl md:text-5xl font-bold mb-3 text-white shadow-sm">โครงสร้าง: I'm good at +(noun/ gerund).</h1>
+            <p class="text-lg md:text-xl max-w-3xl mx-auto text-sky-100">
+                ใช้เพื่อบอกว่าคุณมีความสามารถหรือทักษะที่ดีในเรื่องใดเรื่องหนึ่ง โดยตามหลัง "at" จะเป็นคำนาม (noun) หรือคำกริยาที่เติม -ing (gerund)
             </p>
         </header>
 
-        <main id="sentences-grid" class="grid grid-cols-1 md:grid-cols-2 gap-5">
-            </main>
-
-        <footer class="text-center mt-12">
-            <p class="text-slate-700 font-medium">อังกฤษฉบับคนเรียนไม่รู้เรื่อง โดยครูสาลี่</p>
+        <main id="sentences-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+            <!-- Sentences will be populated by JavaScript -->
+        </main>
+        
+        <footer class="text-center mt-12 text-white text-lg">
+            <p>ครูสาลี่ - อังกฤษฉบับคนเรียนไม่รู้เรื่อง</p>
         </footer>
-
     </div>
 
-    <div id="modal" class="fixed inset-0 bg-black bg-opacity-60 flex justify-center items-center p-4 z-50 opacity-0 pointer-events-none">
-        <div class="modal-content-container w-full max-w-2xl max-h-[90vh] overflow-y-auto bg-slate-50 rounded-2xl shadow-2xl">
-            <div id="modal-header" class="p-6 sm:p-8 rounded-t-2xl bg-gradient-to-r from-teal-500 to-cyan-500">
-                <p id="modal-english" class="font-poppins font-bold text-2xl text-white text-center"></p>
-                <p id="modal-thai" class="text-xl text-white text-center mt-2 opacity-90"></p>
+    <!-- Modal -->
+    <div id="sentence-modal" class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center p-4 opacity-0 pointer-events-none invisible transition-opacity duration-300 z-50">
+        <div id="modal-content" class="modal-content bg-white rounded-2xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto p-6 md:p-8 scale-95">
+            <!-- Modal Header -->
+            <div class="flex justify-between items-center mb-6 border-b pb-4">
+                <div>
+                    <h2 id="modal-sentence" class="text-2xl font-bold text-cyan-600"></h2>
+                    <p id="modal-translation" class="text-gray-600"></p>
+                </div>
+                <button id="close-modal-btn" class="text-gray-400 hover:text-gray-700 transition-colors">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
             </div>
-            <div class="p-6 sm:p-8">
-                <div id="modal-details" class="space-y-5">
+            
+            <!-- Modal Body -->
+            <div class="space-y-6">
+                <div>
+                    <h3 class="font-semibold text-xl text-gray-800 mb-3">ตัวอย่างการใช้งานในสถานการณ์ต่างๆ:</h3>
+                    <ul id="modal-usage" class="space-y-4">
+                        <!-- Usage examples will be injected here -->
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold text-xl text-gray-800 mb-3">คำที่มักใช้ร่วมกันพร้อมตัวอย่าง:</h4>
+                    <div id="modal-collocations">
+                        <!-- Collocation list will be injected here -->
                     </div>
-                <div class="text-center mt-8">
-                    <button id="close-modal-btn" class="bg-slate-600 hover:bg-slate-700 text-white font-bold py-2 px-8 rounded-full shadow-lg transform hover:scale-105 transition-transform duration-300">
-                        ปิด
-                    </button>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        const sentences = [
-            {
-                eng: "I'm good at remembering names.", th: "ฉันเก่งเรื่องการจำชื่อคน",
-                context: "ใช้เมื่อพูดถึงทักษะทางสังคม โดยเฉพาะในการพบปะผู้คนใหม่ๆ เป็นการสร้างความประทับใจที่ดี",
-                dialogue: { a: "Wow, you remember my name from the party last year!", b: "Of course! I'm good at remembering names." },
-                alternatives: "<strong>I have a good memory for names.</strong> (ฉันมีความจำดีเรื่องชื่อ)<br><strong>Remembering names is one of my strengths.</strong> (การจำชื่อคือหนึ่งในจุดแข็งของฉัน)"
-            },
-            {
-                eng: "I'm good at cooking.", th: "ฉันทำอาหารเก่ง",
-                context: "เป็นประโยคพื้นฐานสำหรับบอกเล่าถึงทักษะการทำอาหาร ใช้พูดคุยเรื่องงานอดิเรกหรือเมื่อมีคนชมอาหารของเรา",
-                dialogue: { a: "This pasta is amazing! You should be a chef.", b: "Haha, thank you! I'm good at cooking." },
-                alternatives: "<strong>I'm a good cook.</strong> (ฉันเป็นคนทำอาหารเก่ง)<br><strong>I know my way around a kitchen.</strong> (สำนวนแปลว่า 'ฉันทำอาหารเป็น/คล่องแคล่วในครัว')"
-            },
-            {
-                eng: "I'm good at math.", th: "ฉันเก่งคณิตศาสตร์",
-                context: "ใช้บอกความสามารถทางวิชาการ มักใช้ในบริบทของโรงเรียน, มหาวิทยาลัย, หรือการแนะนำตัวที่เกี่ยวข้องกับการศึกษา",
-                dialogue: { a: "I can't solve this equation.", b: "Let me see. I'm good at math." },
-                alternatives: "<strong>I'm strong in math.</strong> (ฉันแข็งวิชาคณิต)<br><strong>Numbers are my thing.</strong> (ตัวเลขคือทางของฉัน/เรื่องถนัดของฉัน)"
-            },
-            {
-                eng: "I'm good at listening to people.", th: "ฉันเป็นผู้ฟังที่ดี",
-                context: "ใช้บอกทักษะด้านความเข้าอกเข้าใจ (empathy) เหมาะสำหรับใช้เมื่อต้องการปลอบใจเพื่อน หรือในบริบทที่ต้องทำงานกับคน",
-                dialogue: { a: "I feel like no one understands what I'm going through.", b: "You can talk to me anytime. I'm good at listening to people." },
-                alternatives: "<strong>I'm a good listener.</strong> (ฉันเป็นผู้ฟังที่ดี)<br><strong>I'm all ears.</strong> (สำนวนแปลว่า 'ฉันพร้อมจะฟังอย่างตั้งใจ')"
-            },
-            {
-                eng: "I'm good at solving puzzles.", th: "ฉันเก่งเรื่องการแก้ปริศนา",
-                context: "ใช้เมื่อพูดถึงงานอดิเรก หรือแสดงทักษะการคิดวิเคราะห์ในสถานการณ์ต่างๆ เช่น การเล่นเกมหรือการทำงาน",
-                dialogue: { a: "This escape room is so hard!", b: "Let me try. I'm good at solving puzzles." },
-                alternatives: "<strong>I have a knack for puzzles.</strong> (ฉันมีพรสวรรค์เรื่องปริศนา)<br><strong>I'm a natural at solving puzzles.</strong> (ฉันแก้ปริศนาเก่งโดยธรรมชาติ)"
-            },
-            {
-                eng: "I'm good at public speaking.", th: "ฉันพูดในที่สาธารณะเก่ง",
-                context: "ใช้บอกทักษะสำคัญในการทำงาน โดยเฉพาะในตำแหน่งที่ต้องนำเสนอผลงานหรือพูดต่อหน้าคนจำนวนมาก",
-                dialogue: { a: "Who should present our project to the client?", b: "Let Sarah do it. I'm good at public speaking." },
-                alternatives: "<strong>I'm a confident speaker.</strong> (ฉันเป็นคนที่พูดอย่างมั่นใจ)<br><strong>Presenting is my strong suit.</strong> (การนำเสนอคืองานถนัดของฉัน)"
-            },
-            {
-                eng: "I'm good at finding bargains.", th: "ฉันเก่งเรื่องการหาของถูก",
-                context: "ใช้พูดคุยแบบไม่เป็นทางการ เกี่ยวกับนิสัยการชอปปิงที่ชาญฉลาดและประหยัด",
-                dialogue: { a: "How did you get this jacket for such a low price?", b: "Hehe, I'm good at finding bargains." },
-                alternatives: "<strong>I'm a bargain hunter.</strong> (ฉันเป็นนักล่าของถูก)<br><strong>I have an eye for a good deal.</strong> (ฉันสายตาแหลมคมเรื่องของลดราคา)"
-            },
-            {
-                eng: "I'm good at managing my time.", th: "ฉันเก่งเรื่องการบริหารเวลา",
-                context: "ทักษะที่สำคัญมากในการทำงานหรือเรียน ใช้บอกว่าเราสามารถจัดลำดับความสำคัญและทำงานเสร็จตรงเวลาได้",
-                dialogue: { a: "You never seem stressed, even with so many tasks.", b: "Well, I'm good at managing my time." },
-                alternatives: "<strong>I have good time management skills.</strong><br><strong>I'm very organized.</strong> (ฉันเป็นคนมีระเบียบ)"
-            },
-            {
-                eng: "I'm good at playing the guitar.", th: "ฉันเล่นกีตาร์เก่ง",
-                context: "ใช้บอกความสามารถทางดนตรี เมื่อพูดคุยถึงงานอดิเรกหรือความสามารถพิเศษ",
-                dialogue: { a: "We need someone for the band.", b: "I can help. I'm good at playing the guitar." },
-                alternatives: "<strong>I play the guitar well.</strong><br><strong>I'm a decent guitarist.</strong> (ฉันเป็นนักกีตาร์ที่ใช้ได้เลย)"
-            },
-            {
-                eng: "I'm good at strategy games.", th: "ฉันเก่งเกมวางแผน",
-                context: "ใช้เมื่อพูดถึงงานอดิเรกเกี่ยวกับการเล่นเกม หรือแสดงถึงทักษะการคิดเชิงกลยุทธ์",
-                dialogue: { a: "Do you want to play chess?", b: "Sure, but be warned, I'm good at strategy games." },
-                alternatives: "<strong>I excel at strategy games.</strong> (ฉันเก่งเกมวางแผนเป็นพิเศษ)<br><strong>I'm a strategist at heart.</strong> (โดยเนื้อแท้แล้วฉันเป็นนักวางแผน)"
-            },
-            {
-                eng: "I'm good at telling stories.", th: "ฉันเล่าเรื่องเก่ง",
-                context: "ใช้บอกทักษะการสื่อสารที่สามารถทำให้เรื่องราวน่าสนใจและดึงดูดผู้ฟังได้",
-                dialogue: { a: "The kids love you so much.", b: "It's because I'm good at telling stories." },
-                alternatives: "<strong>I'm a good storyteller.</strong> (ฉันเป็นนักเล่าเรื่องที่ดี)<br><strong>I can spin a good yarn.</strong> (สำนวนหมายถึง เล่าเรื่องได้น่าสนุก)"
-            },
-            {
-                eng: "I'm good at staying calm under pressure.", th: "ฉันรับมือกับความกดดันได้ดี (ใจเย็น)",
-                context: "ทักษะสำคัญที่มักพูดถึงในที่ทำงาน แสดงถึงวุฒิภาวะทางอารมณ์และความเป็นมืออาชีพ",
-                dialogue: { a: "Everything is going wrong today!", b: "Deep breaths. We can fix this. I'm good at staying calm under pressure." },
-                alternatives: "<strong>I work well under pressure.</strong><br><strong>I don't crack under pressure.</strong> (ฉันไม่สติแตกภายใต้ความกดดัน)"
-            },
-            {
-                eng: "I'm good at giving advice.", th: "ฉันให้คำแนะนำเก่ง",
-                context: "ใช้เมื่อเพื่อนหรือคนรู้จักกำลังมีปัญหา และเราต้องการเสนอความช่วยเหลือด้วยการให้คำปรึกษา",
-                dialogue: { a: "I don't know what to do about my job.", b: "Let's talk. People say I'm good at giving advice." },
-                alternatives: "<strong>People often come to me for advice.</strong> (คนมักจะมาขอคำแนะนำจากฉัน)<br><strong>I can offer a fresh perspective.</strong> (ฉันสามารถเสนอมุมมองใหม่ๆ ได้นะ)"
-            },
-            {
-                eng: "I'm good at fixing things.", th: "ฉันเก่งเรื่องการซ่อมของ",
-                context: "ใช้บอกทักษะเชิงปฏิบัติ (practical skill) เมื่อมีของพังหรือต้องแก้ไขปัญหาเฉพาะหน้า",
-                dialogue: { a: "My bicycle chain fell off again.", b: "Bring it here. I'm good at fixing things." },
-                alternatives: "<strong>I'm handy around the house.</strong> (ฉันทำงานช่างเล็กๆ น้อยๆ ในบ้านเก่ง)<br><strong>I'm a good handyman.</strong> (ฉันเป็นช่างซ่อมที่เก่ง)"
-            },
-            {
-                eng: "I'm good at directions.", th: "ฉันเก่งเรื่องทิศทาง/จำทางแม่น",
-                context: "ใช้เมื่อเดินทางไปยังสถานที่ใหม่ๆ กับเพื่อน แสดงว่าเราเป็นคนนำทางและไม่ค่อยหลง",
-                dialogue: { a: "Are you sure this is the right way? I feel lost.", b: "Don't worry, I'm good at directions." },
-                alternatives: "<strong>I have a good sense of direction.</strong> (ฉันมีเซนส์เรื่องทิศทางดี)<br><strong>I never get lost.</strong> (ฉันไม่เคยหลงทางเลย)"
-            },
-            {
-                eng: "I'm good at making people laugh.", th: "ฉันเก่งเรื่องการทำให้คนอื่นหัวเราะ",
-                context: "ใช้บอกลักษณะนิสัยว่าเป็นคนตลกขบขัน มีอารมณ์ขัน และเข้ากับคนง่าย",
-                dialogue: { a: "Why is everyone always happy around you?", b: "I guess I'm good at making people laugh." },
-                alternatives: "<strong>I have a good sense of humor.</strong> (ฉันมีอารมณ์ขันดี)<br><strong>I'm the class clown.</strong> (ฉันเป็นตัวตลกของกลุ่ม)"
-            },
-            {
-                eng: "I'm good at learning languages.", th: "ฉันเรียนรู้ภาษาได้เก่ง",
-                context: "ใช้บอกความสามารถพิเศษด้านภาษา โดยเฉพาะเมื่อกำลังเรียนภาษาใหม่หรือพูดได้หลายภาษา",
-                dialogue: { a: "You speak Thai so well! How long have you been learning?", b: "Only six months. I'm good at learning languages." },
-                alternatives: "<strong>I have a knack for languages.</strong> (ฉันมีพรสวรรค์ด้านภาษา)<br><strong>I pick up languages quickly.</strong> (ฉันเรียนรู้ภาษาได้เร็ว)"
-            },
-            {
-                eng: "I'm good at taking photos.", th: "ฉันถ่ายรูปเก่ง",
-                context: "ใช้บอกทักษะด้านการถ่ายภาพ ซึ่งเป็นงานอดิเรกที่นิยมมาก",
-                dialogue: { a: "Can you take a picture of me here?", b: "Of course! I'm good at taking photos." },
-                alternatives: "<strong>I'm a decent photographer.</strong> (ฉันเป็นช่างภาพที่ใช้ได้เลย)<br><strong>I have an eye for a good shot.</strong> (ฉันมีสายตาในการหามุมถ่ายรูปสวยๆ)"
-            },
-            {
-                eng: "I'm good at planning events.", th: "ฉันเก่งเรื่องการวางแผนงานอีเวนต์",
-                context: "ใช้บอกทักษะการจัดการและวางแผน เหมาะสำหรับคนที่ทำงานด้านการจัดงาน หรือชอบเป็นโต้โผจัดปาร์ตี้",
-                dialogue: { a: "Who is going to organize the year-end party?", b: "I can do it. I'm good at planning events." },
-                alternatives: "<strong>I'm a great organizer.</strong> (ฉันเป็นนักจัดการที่ยอดเยี่ยม)<br><strong>Event planning is my forte.</strong> ('Forte' แปลว่า จุดแข็ง, ของถนัด)"
-            },
-            {
-                eng: "I'm good at reading people.", th: "ฉันเก่งเรื่องการอ่านคน",
-                context: "ใช้บอกว่าเรามีความสามารถในการเข้าใจความรู้สึกหรือเจตนาที่แท้จริงของคนอื่น แม้ว่าเขาจะไม่ได้พูดออกมาตรงๆ เป็นทักษะด้านสัญชาตญาณ",
-                dialogue: { a: "I don't trust our new business partner. He seems too nice.", b: "I feel the same way. I'm good at reading people, and something feels off." },
-                alternatives: "<strong>I'm a good judge of character.</strong> (ฉันเป็นคนดูคนเป็น/ตัดสินคนได้ดี)<br><strong>I have good intuition about people.</strong> (ฉันมีสัญชาตญาณที่ดีเกี่ยวกับผู้คน)"
+        document.addEventListener('DOMContentLoaded', function () {
+            const sentencesData = [
+                { 
+                    eng: "I'm good at remembering names.", 
+                    thai: "ฉันจำชื่อคนเก่ง", 
+                    usage: [
+                        "**ในงานเลี้ยง:** 'Wow, you just met twenty people! How do you do it?' 'I'm good at remembering names.' (ว้าว คุณเพิ่งเจอคนยี่สิบคน! ทำได้ยังไงเนี่ย 'ฉันจำชื่อคนเก่งน่ะ')",
+                        "**วันแรกของการทำงาน:** 'Don't worry, I'll catch on quickly. I'm good at remembering names and faces.' (ไม่ต้องห่วงครับ เดี๋ยวผมก็เรียนรู้ได้เร็วเอง ผมเป็นคนจำชื่อและใบหน้าคนเก่งครับ)",
+                        "**แนะนำเพื่อน:** 'Let me introduce you to everyone. I'm good at remembering names, so I can help.' (ให้ฉันแนะนำเธอให้รู้จักทุกคนนะ ฉันจำชื่อคนเก่ง ฉันช่วยได้)"
+                    ], 
+                    collocations: [
+                        { term: "a knack for", example: "She has a real knack for remembering dates. (เธอมีความสามารถพิเศษในการจำวันที่)" },
+                        { term: "put a name to a face", example: "I recognize him, but I can't put a name to the face. (ฉันจำเขาได้ แต่บอกชื่อไม่ถูก)" },
+                        { term: "slips my mind", example: "His name completely slips my mind right now. (ตอนนี้ฉันลืมชื่อเขาไปสนิทเลย)" }
+                    ] 
+                },
+                { 
+                    eng: "I'm good at public speaking.", 
+                    thai: "ฉันพูดในที่สาธารณะเก่ง", 
+                    usage: [
+                        "**ในที่ทำงาน:** 'We need someone to present our project. Any volunteers?' 'I can do it. I'm good at public speaking.' (เราต้องการคนนำเสนอโปรเจคต์ มีใครอาสาไหม 'ฉันทำเอง ฉันพูดในที่สาธารณะเก่ง')",
+                        "**เพื่อนปรึกษา:** 'I'm so nervous about my speech tomorrow.' 'Do you want some tips? I'm good at public speaking.' (ฉันกังวลเรื่องสุนทรพจน์พรุ่งนี้จังเลย 'เธออยากได้คำแนะนำไหม ฉันพูดในที่สาธารณะเก่งนะ')",
+                        "**สัมภาษณ์งาน:** 'The job requires presentations to clients.' 'That's perfect. I'm good at public speaking.' (งานนี้ต้องมีการนำเสนอต่อลูกค้านะครับ 'เยี่ยมเลยค่ะ ดิฉันพูดในที่สาธารณะเก่งค่ะ')"
+                    ], 
+                    collocations: [
+                        { term: "address an audience", example: "She knows how to address an audience and capture their attention. (เธอรู้วิธีที่จะพูดกับผู้ฟังและดึงดูดความสนใจของพวกเขา)" },
+                        { term: "stage fright", example: "Many people suffer from stage fright before speaking. (หลายคนมีอาการตื่นเวทีก่อนที่จะพูด)" },
+                        { term: "deliver a speech", example: "He is going to deliver a speech at the conference. (เขากำลังจะกล่าวสุนทรพจน์ในที่ประชุม)" }
+                    ] 
+                },
+                { 
+                    eng: "I'm good at solving puzzles.", 
+                    thai: "ฉันแก้ปริศนาเก่ง", 
+                    usage: [
+                        "**เล่นเกม:** 'This escape room is so difficult!' 'Let me see the clue. I'm good at solving puzzles.' (ห้องปริศนานี่ยากจัง! 'ขอดูคำใบ้หน่อยสิ ฉันแก้ปริศนาเก่งนะ')",
+                        "**เพื่อนชวน:** 'Do you want to do this crossword with me?' 'Sure! I'm good at solving puzzles.' (เธออยากจะเล่นปริศนาอักษรไขว้นี่กับฉันไหม 'ได้เลย! ฉันแก้ปริศนาเก่ง')",
+                        "**คุยเรื่องงานอดิเรก:** 'What do you do for fun?' 'I like to relax with a cup of tea. I'm good at solving Sudoku puzzles.' (คุณทำอะไรสนุกๆเหรอ 'ฉันชอบพักผ่อนกับชาสักถ้วย ฉันแก้ปริศนาซูโดกุเก่งน่ะ')"
+                    ], 
+                    collocations: [
+                        { term: "figure out", example: "I can't figure out the answer to the last clue. (ฉันคิดคำตอบของคำใบ้สุดท้ายไม่ออก)" },
+                        { term: "a brain teaser", example: "This riddle is a real brain teaser. (ปริศนานี้เป็นปัญหาเชาว์ที่ท้าทายมาก)" },
+                        { term: "piece together", example: "The detective had to piece together the evidence. (นักสืบต้องปะติดปะต่อหลักฐานเข้าด้วยกัน)" }
+                    ] 
+                },
+                { 
+                    eng: "I'm good at cooking Thai food.", 
+                    thai: "ฉันทำอาหารไทยเก่ง", 
+                    usage: [
+                        "**ชวนเพื่อนมาบ้าน:** 'Come over for dinner on Saturday! I'm good at cooking Thai food.' (วันเสาร์มาทานข้าวเย็นที่บ้านฉันสิ! ฉันทำอาหารไทยเก่งนะ)",
+                        "**แลกเปลี่ยนวัฒนธรรม:** 'I can teach you some English if you teach me how to cook. I've heard you're good at cooking Thai food.' (ฉันสอนภาษาอังกฤษให้เธอได้นะถ้าเธอสอนฉันทำอาหาร ได้ยินมาว่าเธอทำอาหารไทยเก่ง)",
+                        "**ในงานเลี้ยง:** 'This green curry is delicious! Who made it?' 'I did. I'm good at cooking Thai food.' (แกงเขียวหวานนี่อร่อยจัง! ใครทำเหรอ 'ฉันเองแหละ ฉันทำอาหารไทยเก่งน่ะ')"
+                    ], 
+                    collocations: [
+                        { term: "a dash of", example: "The recipe says to add a dash of fish sauce. (ในสูตรบอกให้เติมน้ำปลาสักเล็กน้อย)" },
+                        { term: "authentic taste", example: "I want to learn how to get that authentic Thai taste. (ฉันอยากเรียนรู้วิธีที่จะทำให้อาหารมีรสชาติไทยแท้ๆ)" },
+                        { term: "from scratch", example: "She made the curry paste from scratch. (เธอทำพริกแกงเองตั้งแต่ต้น)" }
+                    ] 
+                },
+                { 
+                    eng: "I'm good at gardening.", 
+                    thai: "ฉันทำสวนเก่ง", 
+                    usage: [
+                        "**เพื่อนชม:** 'Your garden is beautiful!' 'Thank you! I spend a lot of time here. I'm good at gardening.' (สวนของเธอสวยจัง! 'ขอบใจนะ! ฉันใช้เวลาที่นี่เยอะเลยล่ะ ฉันทำสวนเก่งน่ะ')",
+                        "**ให้คำแนะนำ:** 'My tomato plants keep dying.' 'I can help. I'm good at gardening.' (ต้นมะเขือเทศของฉันตายตลอดเลย 'ฉันช่วยได้นะ ฉันทำสวนเก่ง')",
+                        "**คุยเรื่องวันหยุด:** 'What did you do over the weekend?' 'Nothing much, just spent time in my vegetable patch. I'm good at gardening.' (สุดสัปดาห์ที่ผ่านมาทำอะไรบ้าง 'ก็ไม่ค่อยมีอะไรมาก แค่ใช้เวลาในแปลงผักของฉันน่ะ ฉันทำสวนเก่ง')"
+                    ], 
+                    collocations: [
+                        { term: "a green thumb", example: "My mother has a green thumb; everything she plants grows. (แม่ของฉันมีพรสวรรค์ในการปลูกต้นไม้ อะไรก็ตามที่ท่านปลูกจะงอกงามหมด)" },
+                        { term: "potting plants", example: "I find potting new plants very relaxing. (ฉันรู้สึกว่าการย้ายต้นไม้ลงกระถางใหม่มันผ่อนคลายมาก)" },
+                        { term: "pulling weeds", example: "The least favorite part of gardening is pulling weeds. (ส่วนที่ชอบน้อยที่สุดของการทำสวนคือการถอนวัชพืช)" }
+                    ] 
+                },
+                { 
+                    eng: "I'm good at managing my time.", 
+                    thai: "ฉันบริหารเวลาเก่ง", 
+                    usage: [
+                        "**เจ้านายถาม:** 'How do you handle so many projects at once?' 'I'm good at managing my time.' (คุณจัดการโปรเจคต์มากมายในเวลาเดียวกันได้อย่างไรครับ 'ดิฉันบริหารเวลาเก่งค่ะ')",
+                        "**เพื่อนถาม:** 'You work, study, and volunteer. How do you do it all?' 'I'm good at managing my time effectively.' (เธอทั้งทำงาน เรียน แล้วก็เป็นอาสาสมัครอีก ทำทั้งหมดนั่นได้ยังไง 'ฉันบริหารเวลาอย่างมีประสิทธิภาพเก่งน่ะ')",
+                        "**ให้คำปรึกษา:** 'I always feel stressed and behind.' 'Let me share my schedule with you. I'm good at managing my time.' (ฉันรู้สึกเครียดและทำงานไม่ทันตลอดเลย 'เดี๋ยวฉันแบ่งปันตารางเวลาของฉันให้เธอดูนะ ฉันบริหารเวลาเก่ง')"
+                    ], 
+                    collocations: [
+                        { term: "prioritize tasks", example: "The first step is to learn how to prioritize your tasks. (ขั้นตอนแรกคือการเรียนรู้ที่จะจัดลำดับความสำคัญของงาน)" },
+                        { term: "meet deadlines", example: "She is very reliable and always meets her deadlines. (เธอเป็นคนที่น่าเชื่อถือมากและทำงานเสร็จทันกำหนดเสมอ)" },
+                        { term: "procrastinate", example: "I have a bad habit of procrastinating on big projects. (ฉันมีนิสัยเสียที่ชอบผัดวันประกันพรุ่งกับโครงการใหญ่ๆ)" }
+                    ] 
+                },
+                { 
+                    eng: "I'm good at finding bargains.", 
+                    thai: "ฉันหาของถูกเก่ง", 
+                    usage: [
+                        "**เพื่อนชม:** 'I love your dress! It must have been expensive.' 'Not at all! I got it on sale. I'm good at finding bargains.' (ฉันชอบชุดของเธอจัง! ต้องแพงแน่เลย 'ไม่เลยนะ! ฉันซื้อมันตอนลดราคา ฉันหาของถูกเก่งน่ะ')",
+                        "**วางแผนชอปปิ้ง:** 'Let's go shopping this weekend.' 'Okay, you should come with me. I'm good at finding bargains.' (สุดสัปดาห์นี้ไปชอปปิ้งกันเถอะ 'ได้เลย เธอควรจะมากับฉันนะ ฉันหาของถูกเก่ง')",
+                        "**คุยเรื่องการเงิน:** 'How do you save so much money?' 'One way is that I'm good at finding bargains on everyday items.' (เธอเก็บเงินได้เยอะขนาดนี้ได้ยังไง 'วิธีหนึ่งก็คือฉันหาซื้อของใช้ในชีวิตประจำวันราคาถูกเก่งน่ะ')"
+                    ], 
+                    collocations: [
+                        { term: "on sale", example: "I never buy anything unless it's on sale. (ฉันไม่เคยซื้ออะไรเลยถ้ามันไม่ลดราคา)" },
+                        { term: "a good deal", example: "This was such a good deal, I couldn't pass it up. (นี่เป็นข้อเสนอที่ดีมากเลยนะ ฉันจะพลาดไปไม่ได้)" },
+                        { term: "hunt for", example: "I love hunting for treasures in second-hand shops. (ฉันชอบตามล่าหาสมบัติในร้านขายของมือสอง)" }
+                    ] 
+                },
+                { 
+                    eng: "I'm good at navigating new cities.", 
+                    thai: "ฉันเดินทางในเมืองใหม่ๆเก่ง", 
+                    usage: [
+                        "**วางแผนเที่ยว:** 'Are you sure we don't need a tour guide?' 'Don't worry, I'm good at navigating new cities.' (แน่ใจนะว่าเราไม่ต้องการไกด์นำเที่ยว 'ไม่ต้องห่วงน่า ฉันเดินทางในเมืองที่ไม่คุ้นเคยเก่ง')",
+                        "**เพื่อนหลงทาง:** 'I think we're lost.' 'Give me the map. I'm good at navigating.' (ฉันว่าเราหลงทางแล้วล่ะ 'เอาแผนที่มาให้ฉันสิ ฉันดูเส้นทางเก่งนะ')",
+                        "**คุยกับเพื่อน:** 'You travel so much alone. Isn't it scary?' 'Not really. I'm good at navigating and I enjoy exploring.' (เธอเดินทางคนเดียวบ่อยมากเลยนะ ไม่น่ากลัวเหรอ 'ก็ไม่เท่าไหร่นะ ฉันหาเส้นทางเก่งและก็ชอบสำรวจด้วย')"
+                    ], 
+                    collocations: [
+                        { term: "find my way around", example: "It took me a while to learn how to find my way around Tokyo. (ฉันใช้เวลาสักพักเลยกว่าจะเรียนรู้วิธีเดินทางไปไหนมาไหนในโตเกียว)" },
+                        { term: "a sense of direction", example: "Luckily, I was born with a good sense of direction. (โชคดีที่ฉันเกิดมาพร้อมกับความสามารถในการหาทิศทางที่ดี)" },
+                        { term: "get lost", example: "Even with a GPS, I still manage to get lost. (แม้จะมี GPS ฉันก็ยังคงหลงทางได้อยู่ดี)" }
+                    ] 
+                },
+                { 
+                    eng: "I'm good at strategy games.", 
+                    thai: "ฉันเล่นเกมวางแผนเก่ง", 
+                    usage: [
+                        "**ชวนเล่นเกม:** 'Anyone for a game of chess?' 'I'll play! I'm pretty good at strategy games.' (ใครอยากเล่นหมากรุกบ้าง 'ฉันเล่นด้วย! ฉันค่อนข้างเก่งเกมวางแผนนะ')",
+                        "**เพื่อนคุยกัน:** 'I can never beat my dad at checkers.' 'I might be able to help. I'm good at strategy games.' (ฉันไม่เคยเล่นหมากฮอสชนะพ่อได้เลย 'ฉันอาจจะช่วยได้นะ ฉันเล่นเกมวางแผนเก่ง')",
+                        "**ในที่ทำงาน:** 'Your approach to this problem was brilliant.' 'Thanks, I guess it's because I'm good at strategy games.' (แนวทางการแก้ปัญหาของคุณยอดเยี่ยมมาก 'ขอบคุณครับ ผมเดาว่าเป็นเพราะผมเล่นเกมวางแผนเก่งน่ะครับ')"
+                    ], 
+                    collocations: [
+                        { term: "think ahead", example: "In chess, you always have to think several moves ahead. (ในเกมหมากรุก คุณต้องคิดล่วงหน้าไปหลายตาก่อนเสมอ)" },
+                        { term: "outsmart an opponent", example: "The goal is to outsmart your opponent. (เป้าหมายคือการชิงไหวชิงพริบให้เหนือกว่าคู่ต่อสู้ของคุณ)" },
+                        { term: "a calculated risk", example: "Sometimes you have to take a calculated risk to win. (บางครั้งคุณก็ต้องเสี่ยงอย่างมีหลักการเพื่อที่จะชนะ)" }
+                    ] 
+                },
+                { 
+                    eng: "I'm good at listening to others.", 
+                    thai: "ฉันเป็นผู้ฟังที่ดี", 
+                    usage: [
+                        "**เพื่อนขอบคุณ:** 'Thanks for listening to me vent.' 'No problem. I'm good at listening.' (ขอบคุณนะที่ฟังฉันระบาย 'ไม่เป็นไรเลย ฉันเป็นผู้ฟังที่ดีอยู่แล้ว')",
+                        "**ในความสัมพันธ์:** 'What makes you a good friend?' 'I think it's because I'm good at listening to others.' (อะไรทำให้เธอเป็นเพื่อนที่ดี 'ฉันคิดว่าเป็นเพราะฉันเป็นผู้ฟังที่ดีน่ะ')",
+                        "**สัมภาษณ์งาน (HR):** 'This job requires a lot of empathy.' 'I understand. I'm good at listening to people's problems.' (งานนี้ต้องใช้ความเข้าอกเข้าใจสูงมาก 'ดิฉันเข้าใจค่ะ ดิฉันเป็นคนรับฟังปัญหาของผู้อื่นเก่งค่ะ')"
+                    ], 
+                    collocations: [
+                        { term: "lend an ear", example: "If you ever need someone to talk to, I can always lend an ear. (ถ้าเธอต้องการใครสักคนคุยด้วย ฉันพร้อมรับฟังเสมอนะ)" },
+                        { term: "a shoulder to cry on", example: "She was a shoulder to cry on when I was going through a tough time. (เธอเป็นที่พึ่งให้ฉันได้ซบไหล่ร้องไห้ตอนที่ฉันผ่านช่วงเวลาที่ยากลำบาก)" },
+                        { term: "read between the lines", example: "He didn't say he was sad, but I could read between the lines. (เขาไม่ได้พูดว่าเขาเศร้า แต่ฉันสามารถเข้าใจความหมายที่ซ่อนอยู่ได้)" }
+                    ] 
+                },
+                { 
+                    eng: "I'm good at fixing things.", 
+                    thai: "ฉันซ่อมของเก่ง", 
+                    usage: [
+                        "**เพื่อนบ้าน:** 'My faucet is leaking again.' 'I can take a look if you want. I'm good at fixing things around the house.' (ก๊อกน้ำของฉันรั่วอีกแล้ว 'ถ้าคุณต้องการให้ผมดูให้ก็ได้นะครับ ผมซ่อมของใช้ในบ้านเก่ง')",
+                        "**ในครอบครัว:** 'The toaster is broken. We should buy a new one.' 'Wait, let me try first. I'm good at fixing things.' (เครื่องปิ้งขนมปังเสียแล้ว เราควรจะซื้อใหม่นะ 'เดี๋ยวก่อน ให้ฉันลองดูก่อน ฉันซ่อมของเก่งนะ')",
+                        "**คุยกับแฟน:** 'What's one of your hidden talents?' 'Well, I'm good at fixing things.' (อะไรคือพรสวรรค์ที่ซ่อนอยู่ของเธอเหรอ 'อืม ฉันซ่อมของเก่งนะ')"
+                    ], 
+                    collocations: [
+                        { term: "handy around the house", example: "My husband is very handy around the house; he can fix almost anything. (สามีของฉันทำงานช่างในบ้านเก่งมาก เขาสามารถซ่อมได้เกือบทุกอย่าง)" },
+                        { term: "do-it-yourself (DIY)", example: "I saved a lot of money by doing it myself. (ฉันประหยัดเงินไปได้เยอะเลยจากการทำด้วยตัวเอง)" },
+                        { term: "tinker with", example: "He loves to tinker with old radios in his garage. (เขาชอบไปซ่อมนู่นซ่อมนี่กับวิทยุเก่าๆ ในโรงรถของเขา)" }
+                    ] 
+                },
+                { 
+                    eng: "I'm good at learning languages.", 
+                    thai: "ฉันเรียนภาษาเก่ง", 
+                    usage: [
+                        "**เพื่อนต่างชาติ:** 'You learned Thai so quickly!' 'Thanks! I'm good at learning languages.' (คุณเรียนภาษาไทยได้เร็วมากเลย! 'ขอบคุณครับ! ผมเรียนภาษาเก่งน่ะครับ')",
+                        "**วางแผนเที่ยว:** 'It will be hard to communicate in Italy.' 'Don't worry, I can pick up some basic phrases. I'm good at learning languages.' (การสื่อสารที่อิตาลีต้องยากแน่ๆ 'ไม่ต้องห่วง ฉันพอจะเรียนรู้วลีพื้นฐานได้บ้าง ฉันเรียนภาษาเก่งน่ะ')",
+                        "**เลือกวิชาเรียน:** 'Why did you choose to major in linguistics?' 'Because I'm good at learning languages.' (ทำไมเธอถึงเลือกเรียนเอกภาษาศาสตร์ล่ะ 'เพราะว่าฉันเรียนภาษาเก่งน่ะ')"
+                    ], 
+                    collocations: [
+                        { term: "pick up a language", example: "Children can pick up a new language very easily. (เด็กๆสามารถเรียนรู้ภาษาใหม่ได้อย่างง่ายดายมาก)" },
+                        { term: "fluent in", example: "My goal is to be fluent in three languages. (เป้าหมายของฉันคือการพูดได้คล่องสามภาษา)" },
+                        { term: "mother tongue", example: "English is not my mother tongue. (ภาษาอังกฤษไม่ใช่ภาษาแม่ของฉัน)" }
+                    ] 
+                },
+                { 
+                    eng: "I'm good at making people laugh.", 
+                    thai: "ฉันทำให้คนอื่นหัวเราะเก่ง", 
+                    usage: [
+                        "**เพื่อนคุยกัน:** 'You're always so funny.' 'I try! I'm good at making people laugh.' (เธอตลกตลอดเลยนะ 'ฉันก็พยายามน่ะ! ฉันทำให้คนอื่นหัวเราะเก่ง')",
+                        "**ในงานเลี้ยง:** 'The party was a bit dull until you arrived.' 'I just told a few jokes. I'm good at making people laugh.' (งานเลี้ยงมันน่าเบื่อไปหน่อยจนกระทั่งเธอมาถึง 'ฉันก็แค่เล่าเรื่องตลกสองสามเรื่องเอง ฉันทำให้คนหัวเราะเก่งน่ะ')",
+                        "**แนะนำตัว:** 'What's your best quality?' 'I think I'm good at making people laugh.' (อะไรคือคุณสมบัติที่ดีที่สุดของคุณ 'ฉันคิดว่าฉันทำให้คนอื่นหัวเราะเก่งนะ')"
+                    ], 
+                    collocations: [
+                        { term: "a sense of humor", example: "He has a great sense of humor. (เขามีอารมณ์ขันดีมาก)" },
+                        { term: "crack a joke", example: "He's always the first to crack a joke and lighten the mood. (เขามักจะเป็นคนแรกเสมอที่ปล่อยมุกตลกและทำให้บรรยากาศดีขึ้น)" },
+                        { term: "the life of the party", example: "With her stories and laughter, she's always the life of the party. (ด้วยเรื่องเล่าและเสียงหัวเราะของเธอ เธอจึงเป็นสีสันของงานปาร์ตี้เสมอ)" }
+                    ] 
+                },
+                { 
+                    eng: "I'm good at saving money.", 
+                    thai: "ฉันเก็บเงินเก่ง", 
+                    usage: [
+                        "**เพื่อนปรึกษา:** 'How did you afford that new car?' 'I've been putting money aside for years. I'm good at saving money.' (เธอมีเงินซื้อรถคันใหม่นั่นได้ยังไง 'ฉันเก็บเงินมาหลายปีแล้วล่ะ ฉันเก็บเงินเก่งน่ะ')",
+                        "**คุยกับแฟน:** 'We need to save for a house.' 'Leave it to me. I'm good at saving money.' (เราต้องเก็บเงินซื้อบ้านกันนะ 'ปล่อยให้เป็นหน้าที่ฉันเอง ฉันเก็บเงินเก่ง')",
+                        "**พ่อแม่สอนลูก:** 'You should start learning to save.' 'I know, Mom. I'm good at saving money from my allowance.' (ลูกควรจะเริ่มเรียนรู้ที่จะเก็บออมได้แล้วนะ 'หนูรู้ค่ะแม่ หนูเก็บเงินจากค่าขนมเก่งค่ะ')"
+                    ], 
+                    collocations: [
+                        { term: "on a budget", example: "I'm on a tight budget this month. (เดือนนี้ฉันมีงบจำกัดมาก)" },
+                        { term: "put money aside", example: "I try to put some money aside every month for emergencies. (ฉันพยายามจะกันเงินไว้ส่วนหนึ่งทุกเดือนสำหรับเหตุฉุกเฉิน)" },
+                        { term: "cut back on", example: "We need to cut back on eating out to save more. (เราต้องลดการกินข้าวนอกบ้านลงเพื่อที่จะเก็บเงินได้มากขึ้น)" }
+                    ] 
+                },
+                { 
+                    eng: "I'm good at organizing events.", 
+                    thai: "ฉันจัดงานอีเวนต์เก่ง", 
+                    usage: [
+                        "**ในที่ทำงาน:** 'Who is going to plan the company's annual party?' 'I can take the lead. I'm good at organizing events.' (ใครจะเป็นคนวางแผนงานเลี้ยงประจำปีของบริษัท 'ให้ดิฉันเป็นผู้นำเองค่ะ ดิฉันจัดงานอีเวนต์เก่งค่ะ')",
+                        "**เพื่อนชวน:** 'Can you help me plan my wedding?' 'Of course! I'd love to. I'm good at organizing events.' (เธอช่วยฉันวางแผนงานแต่งงานหน่อยได้ไหม 'แน่นอน! ด้วยความยินดีเลย ฉันจัดงานอีเวนต์เก่งนะ')",
+                        "**อาสาสมัคร:** 'We need someone to organize the fundraising gala.' 'I have some experience. I'm good at organizing events.' (เราต้องการคนมาจัดงานกาลาเพื่อระดมทุน 'ฉันมีประสบการณ์อยู่บ้างค่ะ ฉันจัดงานเก่ง')"
+                    ], 
+                    collocations: [
+                        { term: "plan ahead", example: "It's crucial to plan ahead for a large event. (การวางแผนล่วงหน้าเป็นสิ่งสำคัญอย่างยิ่งสำหรับงานขนาดใหญ่)" },
+                        { term: "attention to detail", example: "Event planning requires great attention to detail. (การวางแผนงานอีเวนต์ต้องการความใส่ใจในรายละเอียดอย่างมาก)" },
+                        { term: "run smoothly", example: "Everything was well-organized, so the event ran smoothly. (ทุกอย่างถูกจัดเตรียมไว้อย่างดี ดังนั้นงานจึงดำเนินไปอย่างราบรื่น)" }
+                    ] 
+                },
+                { 
+                    eng: "I'm good at taking photos.", 
+                    thai: "ฉันถ่ายรูปเก่ง", 
+                    usage: [
+                        "**เพื่อนขอ:** 'Can you take a picture of me?' 'Sure, I'm good at taking photos. Stand over there.' (เธอช่วยถ่ายรูปให้ฉันหน่อยได้ไหม 'ได้เลย ฉันถ่ายรูปเก่งนะ ไปยืนตรงนั้นสิ')",
+                        "**ไปเที่ยว:** 'You should be the designated photographer for our trip. You're good at taking photos.' (เธอควรจะเป็นตากล้องประจำทริปของเรานะ เธอถ่ายรูปเก่งจะตาย)",
+                        "**คุยเรื่องงานอดิเรก:** 'Your Instagram feed is amazing!' 'Thanks! It's my hobby. I'm good at taking photos.' (ฟีดอินสตาแกรมของเธอสุดยอดมากเลย! 'ขอบใจนะ! มันเป็นงานอดิเรกของฉันน่ะ ฉันถ่ายรูปเก่ง')"
+                    ], 
+                    collocations: [
+                        { term: "capture the moment", example: "This photo really captures the moment perfectly. (ภาพนี้เก็บช่วงเวลานั้นไว้ได้อย่างสมบูรณ์แบบจริงๆ)" },
+                        { term: "a good eye for", example: "You have a good eye for composition. (คุณมีสายตาที่ดีในเรื่องการจัดองค์ประกอบภาพ)" },
+                        { term: "in focus", example: "Make sure the subject is in focus before you press the shutter. (ตรวจสอบให้แน่ใจว่าตัวแบบอยู่ในโฟกัสก่อนที่คุณจะกดชัตเตอร์)" }
+                    ] 
+                },
+                { 
+                    eng: "I'm good at math.", 
+                    thai: "ฉันเก่งคณิตศาสตร์", 
+                    usage: [
+                        "**เพื่อนร่วมงาน:** 'I can't get these figures to add up.' 'Let me help. I'm good at math.' (ฉันรวมตัวเลขพวกนี้ไม่ได้เลย 'เดี๋ยวฉันช่วยเอง ฉันเก่งคณิตศาสตร์นะ')",
+                        "**แบ่งบิล:** 'Let's split the bill.' 'Okay, I'll calculate it. I'm good at math.' (เรามาหารค่าอาหารกันเถอะ 'โอเค เดี๋ยวฉันคำนวณให้เอง ฉันเก่งคณิตศาสตร์')",
+                        "**นักเรียน:** 'Why are you so confident about the exam?' 'Because it's all calculations, and I'm good at math.' (ทำไมเธอดูมั่นใจเรื่องสอบจัง 'เพราะว่ามันเป็นการคำนวณล้วนๆเลยน่ะสิ แล้วฉันก็เก่งคณิตศาสตร์ด้วย')"
+                    ], 
+                    collocations: [
+                        { term: "a head for figures", example: "As an accountant, you need to have a good head for figures. (ในฐานะนักบัญชี คุณจำเป็นต้องเก่งเรื่องตัวเลข)" },
+                        { term: "do the math", example: "If you do the math, you'll see it's not a good investment. (ถ้าคุณลองคำนวณดู คุณจะเห็นว่ามันไม่ใช่การลงทุนที่ดี)" },
+                        { term: "problem-solving", example: "Math is essentially about problem-solving. (โดยพื้นฐานแล้ว คณิตศาสตร์คือเรื่องของการแก้ปัญหา)" }
+                    ] 
+                },
+                { 
+                    eng: "I'm good at staying calm under pressure.", 
+                    thai: "ฉันรับมือกับความกดดันได้ดี", 
+                    usage: [
+                        "**ในภาวะวิกฤต:** 'Everyone is panicking!' 'Don't worry, I've got this. I'm good at staying calm under pressure.' (ทุกคนกำลังแตกตื่นกันหมดเลย! 'ไม่ต้องห่วง ฉันจัดการเอง ฉันรับมือกับความกดดันได้ดี')",
+                        "**สัมภาษณ์งาน:** 'This can be a very stressful job.' 'I understand. I'm good at staying calm under pressure.' (งานนี้อาจจะเครียดมากนะครับ 'ดิฉันเข้าใจค่ะ ดิฉันเป็นคนที่ไม่ลนลานเมื่ออยู่ภายใต้ความกดดันค่ะ')",
+                        "**เพื่อนชม:** 'I don't know how you handled that situation so well.' 'It's a skill. I'm good at staying calm under pressure.' (ฉันไม่รู้เลยว่าเธอรับมือกับสถานการณ์นั้นได้ดีขนาดนั้นได้ยังไง 'มันเป็นทักษะน่ะ ฉันใจเย็นได้เวลาที่กดดัน')"
+                    ], 
+                    collocations: [
+                        { term: "keep a cool head", example: "It's important to keep a cool head in an emergency. (การรักษาความใจเย็นเป็นสิ่งสำคัญในสถานการณ์ฉุกเฉิน)" },
+                        { term: "work well under pressure", example: "She works well under pressure and never misses a deadline. (เธอทำงานภายใต้ความกดดันได้ดีและไม่เคยทำงานพลาดกำหนดส่ง)" },
+                        { term: "unflappable", example: "Even when things go wrong, he seems completely unflappable. (แม้ว่าเรื่องต่างๆจะผิดพลาดไป เขาก็ยังดูไม่หวั่นไหวเลย)" }
+                    ] 
+                },
+                { 
+                    eng: "I'm good at assembling furniture.", 
+                    thai: "ฉันประกอบเฟอร์นิเจอร์เก่ง", 
+                    usage: [
+                        "**เพื่อนขอความช่วยเหลือ:** 'I just bought a new bookshelf from IKEA and the instructions are confusing.' 'I can help you with that. I'm good at assembling furniture.' (ฉันเพิ่งซื้อชั้นหนังสือใหม่มาจากอิเกียแล้วคู่มือก็ดูสับสนไปหมด 'ฉันช่วยเธอได้นะ ฉันประกอบเฟอร์นิเจอร์เก่ง')",
+                        "**ย้ายบ้าน:** 'We have so many boxes of flat-pack furniture.' 'Don't worry. I'm good at assembling furniture. We'll get it done.' (เรามีเฟอร์นิเจอร์ที่ต้องประกอบเป็นกล่องๆเต็มไปหมดเลย 'ไม่ต้องห่วงน่า ฉันประกอบเฟอร์นิเจอร์เก่ง เดี๋ยวเราก็ทำเสร็จเอง')",
+                        "**คุยกับแฟน:** 'We should hire someone to build this wardrobe.' 'No need. I'm good at assembling furniture.' (เราควรจะจ้างคนมาประกอบตู้เสื้อผ้านี้นะ 'ไม่จำเป็นหรอก ฉันประกอบเฟอร์นิเจอร์เก่งจะตาย')"
+                    ], 
+                    collocations: [
+                        { term: "follow instructions", example: "The key is to follow the instructions carefully. (หัวใจสำคัญคือการทำตามคู่มืออย่างระมัดระวัง)" },
+                        { term: "put together", example: "Can you help me put this table together? (คุณช่วยฉันประกอบโต๊ะตัวนี้หน่อยได้ไหม)" },
+                        { term: "flat-pack furniture", example: "I have a love-hate relationship with flat-pack furniture. (ฉันมีความรู้สึกทั้งรักทั้งเกลียดกับเฟอร์นิเจอร์ที่ต้องประกอบเอง)" }
+                    ] 
+                },
+                { 
+                    eng: "I'm good at making friends.", 
+                    thai: "ฉันผูกมิตรเก่ง", 
+                    usage: [
+                        "**เมื่อย้ายไปที่ใหม่:** 'Aren't you nervous about moving to a new school?' 'A little, but I'm good at making friends.' (ไม่กังวลเหรอที่จะต้องย้ายไปโรงเรียนใหม่ 'นิดหน่อยนะ แต่ฉันผูกมิตรเก่งน่ะ')",
+                        "**เพื่อนชม:** 'You seem to know everyone here!' 'I like talking to people. I'm good at making friends.' (เธอดูเหมือนจะรู้จักทุกคนที่นี่เลยนะ! 'ฉันชอบคุยกับผู้คนน่ะ ฉันผูกมิตรเก่ง')",
+                        "**แนะนำตัว:** 'I'm a very sociable person. I'm good at making new friends.' (ผมเป็นคนที่เข้าสังคมเก่งมากครับ ผมผูกมิตรกับคนใหม่ๆได้ดี)"
+                    ], 
+                    collocations: [
+                        { term: "strike up a conversation", example: "I find it easy to strike up a conversation with strangers. (ฉันรู้สึกว่าการเริ่มต้นบทสนทนากับคนแปลกหน้าเป็นเรื่องง่าย)" },
+                        { term: "a social butterfly", example: "She's a real social butterfly; she loves parties. (เธอเป็นคนที่ชอบเข้าสังคมมาก เธอรักงานปาร์ตี้)" },
+                        { term: "break the ice", example: "Telling a joke is a good way to break the ice. (การเล่าเรื่องตลกเป็นวิธีที่ดีในการทำลายความอึดอัด)" }
+                    ] 
+                },
+                { 
+                    eng: "I'm good at dancing.", 
+                    thai: "ฉันเต้นเก่ง", 
+                    usage: [
+                        "**ในงานปาร์ตี้:** 'Come on, let's go dance!' 'You go first. I'm not good at dancing.' (มาเถอะ ไปเต้นกัน! 'เธอไปก่อนเลย ฉันเต้นไม่เก่งน่ะ')",
+                        "**เพื่อนชวน:** 'They're offering salsa classes.' 'That sounds fun! I'm pretty good at dancing.' (พวกเขามีเปิดคลาสสอนเต้นซัลซ่านะ 'ฟังดูน่าสนุกนะ! ฉันค่อนข้างเต้นเก่งเลยล่ะ')",
+                        "**คุยเรื่องความสามารถ:** 'I can't sing at all, but I'm good at dancing.' (ฉันร้องเพลงไม่เป็นเลยนะ แต่ฉันเต้นเก่ง)"
+                    ], 
+                    collocations: [
+                        { term: "have rhythm", example: "You need to have good rhythm to be a good dancer. (คุณต้องมีจังหวะที่ดีถึงจะเป็นนักเต้นที่ดีได้)" },
+                        { term: "on the dance floor", example: "He's amazing on the dance floor. (เขาเต้นเก่งมากบนฟลอร์เต้นรำ)" },
+                        { term: "dance moves", example: "Can you teach me some of your dance moves? (เธอช่วยสอนท่าเต้นของเธอให้ฉันบ้างได้ไหม)" }
+                    ]
+                },
+                { 
+                    eng: "I'm good at telling stories.", 
+                    thai: "ฉันเล่าเรื่องเก่ง", 
+                    usage: [
+                        "**รอบกองไฟ:** 'Okay, who wants to tell a ghost story?' 'I will! I'm good at telling scary stories.' (โอเค ใครอยากจะเล่าเรื่องผีบ้าง 'ฉันเอง! ฉันเล่าเรื่องน่ากลัวเก่งนะ')",
+                        "**ในที่ทำงาน:** 'Your presentation was very engaging.' 'Thanks, I think it's because I'm good at telling stories.' (การนำเสนอของคุณน่าติดตามมากเลยครับ 'ขอบคุณค่ะ ฉันคิดว่าเป็นเพราะฉันเล่าเรื่องเก่งค่ะ')",
+                        "**เพื่อนขอ:** 'Tell me about your trip to India.' 'Okay, sit back and relax. I'm good at telling stories.' (เล่าเรื่องทริปอินเดียให้ฟังหน่อยสิ 'ได้เลย นั่งลงสบายๆนะ ฉันเล่าเรื่องเก่งจะตาย')"
+                    ], 
+                    collocations: [
+                        { term: "spin a yarn", example: "My grandfather can spin a yarn like no one else. (คุณปู่ของฉันสามารถเล่านิทานได้อย่างไม่มีใครเหมือน)" },
+                        { term: "capture the audience", example: "A good storyteller can capture the audience's imagination. (นักเล่าเรื่องที่ดีสามารถครอบงำจินตนาการของผู้ฟังได้)" },
+                        { term: "narrative skills", example: "Her narrative skills are impressive. (ทักษะการเล่าเรื่องของเธอน่าประทับใจมาก)" }
+                    ] 
+                },
+                { 
+                    eng: "I'm good at giving advice.", 
+                    thai: "ฉันให้คำแนะนำเก่ง", 
+                    usage: [
+                        "**เพื่อนปรึกษา:** 'I don't know what to do about my job.' 'You came to the right person. I'm good at giving advice.' (ฉันไม่รู้จะทำยังไงกับงานของฉันดี 'เธอมาถูกคนแล้วล่ะ ฉันให้คำแนะนำเก่งนะ')",
+                        "**ในครอบครัว:** 'Everyone in the family comes to me with their problems. I guess I'm good at giving advice.' (ทุกคนในครอบครัวมาหาฉันพร้อมกับปัญหาของพวกเขา ฉันเดาว่าฉันคงให้คำแนะนำเก่งล่ะมั้ง)",
+                        "**ตัวเอง:** 'I'm good at giving advice to others, but not so good at taking my own.' (ฉันให้คำแนะนำคนอื่นเก่งนะ แต่ไม่ค่อยเก่งเท่าไหร่กับการทำตามคำแนะนำของตัวเอง)"
+                    ], 
+                    collocations: [
+                        { term: "offer advice", example: "Can I offer you some advice? (ฉันขอเสนอคำแนะนำให้คุณหน่อยได้ไหม)" },
+                        { term: "sound advice", example: "That was some sound advice. Thank you. (นั่นเป็นคำแนะนำที่ดีมากเลยนะ ขอบคุณครับ)" },
+                        { term: "a piece of advice", example: "Here's a piece of advice: always be honest. (นี่คือคำแนะนำหนึ่งอย่างนะ: จงซื่อสัตย์เสมอ)" }
+                    ] 
+                },
+                { 
+                    eng: "I'm good at sports.", 
+                    thai: "ฉันเล่นกีฬาเก่ง", 
+                    usage: [
+                        "**เลือกทีม:** 'We need one more player for our team.' 'Pick me! I'm good at sports.' (เราต้องการผู้เล่นอีกหนึ่งคนสำหรับทีมของเรา 'เลือกฉันสิ! ฉันเล่นกีฬาเก่งนะ')",
+                        "**คุยกัน:** 'Are you an athletic person?' 'Yes, I'm good at most sports, especially basketball.' (คุณเป็นคนชอบออกกำลังกายไหม 'ใช่ ฉันเล่นกีฬาเก่งส่วนใหญ่เลย โดยเฉพาะบาสเกตบอล')",
+                        "**แนะนำตัว:** 'In my free time, I like to stay active. I'm good at sports.' (ในเวลาว่าง ฉันชอบทำกิจกรรมให้กระฉับกระเฉงน่ะ ฉันเล่นกีฬาเก่ง)"
+                    ], 
+                    collocations: [
+                        { term: "a natural athlete", example: "He's a natural athlete; he excels at every sport he tries. (เขาเป็นนักกีฬาโดยธรรมชาติ เขาทำได้ดีเยี่ยมในทุกกีฬาที่เขาลอง)" },
+                        { term: "competitive", example: "I have a competitive streak when it comes to sports. (ฉันมีนิสัยชอบแข่งขันเมื่อเป็นเรื่องของกีฬา)" },
+                        { term: "team player", example: "To be successful in most sports, you need to be a good team player. (เพื่อที่จะประสบความสำเร็จในกีฬาส่วนใหญ่ คุณต้องเป็นผู้เล่นที่ทำงานเป็นทีมได้ดี)" }
+                    ] 
+                },
+                { 
+                    eng: "I'm good at writing.", 
+                    thai: "ฉันเขียนเก่ง", 
+                    usage: [
+                        "**เพื่อนร่วมงาน:** 'Can you help me check this email before I send it?' 'Sure. I'm good at writing.' (คุณช่วยตรวจอีเมลฉบับนี้ให้ฉันหน่อยได้ไหมก่อนที่จะส่ง 'ได้เลย ฉันเขียนเก่งนะ')",
+                        "**เลือกอาชีพ:** 'I think I want to be a journalist because I'm good at writing.' (ฉันคิดว่าฉันอยากจะเป็นนักข่าวนะเพราะว่าฉันเขียนเก่ง)",
+                        "**ให้ความช่วยเหลือ:** 'I need to write a speech.' 'I can help you brainstorm. I'm good at writing.' (ฉันต้องเขียนสุนทรพจน์น่ะ 'ฉันช่วยเธอระดมสมองได้นะ ฉันเขียนเก่ง')"
+                    ], 
+                    collocations: [
+                        { term: "a way with words", example: "As a poet, she has a beautiful way with words. (ในฐานะกวี เธอมีวิธีการใช้ถ้อยคำที่ไพเราะ)" },
+                        { term: "put it in writing", example: "A verbal agreement is not enough; you need to put it in writing. (ข้อตกลงปากเปล่าไม่เพียงพอ คุณต้องทำเป็นลายลักษณ์อักษร)" },
+                        { term: "eloquent", example: "He wrote an eloquent letter of apology. (เขาเขียนจดหมายขอโทษที่สละสลวยมาก)" }
+                    ] 
+                },
+                 { 
+                    eng: "I'm good at swimming.", 
+                    thai: "ฉันว่ายน้ำเก่ง", 
+                    usage: [
+                        "**ที่สระว่ายน้ำ:** 'The water is deep here.' 'It's okay. I'm good at swimming.' (ตรงนี้น้ำลึกนะ 'ไม่เป็นไร ฉันว่ายน้ำเก่ง')",
+                        "**วางแผนไปทะเล:** 'Are you excited for the beach trip?' 'Yes! I love the ocean. I'm good at swimming.' (ตื่นเต้นกับทริปทะเลไหม 'ตื่นเต้นสิ! ฉันรักทะเล ฉันว่ายน้ำเก่งจะตาย')",
+                        "**คุยเรื่องกีฬา:** 'What sports do you play?' 'I'm not much of a team player, but I'm good at swimming.' (คุณเล่นกีฬาอะไรบ้าง 'ฉันไม่ค่อยเก่งกีฬาประเภททีมเท่าไหร่ แต่ฉันว่ายน้ำเก่งนะ')"
+                    ], 
+                    collocations: [
+                        { term: "do the backstroke", example: "I can do the backstroke, but I prefer freestyle. (ฉันว่ายท่ากรรเชียงได้นะ แต่ฉันชอบท่าฟรีสไตล์มากกว่า)" },
+                        { term: "hold my breath", example: "How long can you hold your breath underwater? (คุณกลั้นหายใจใต้น้ำได้นานแค่ไหน)" },
+                        { term: "go for a dip", example: "The water looks inviting. Let's go for a dip. (น้ำดูน่าลงไปเล่นจังเลย เราไปแช่น้ำกันเถอะ)" }
+                    ] 
+                },
+                { 
+                    eng: "I'm good at remembering details.", 
+                    thai: "ฉันจำรายละเอียดเก่ง", 
+                    usage: [
+                        "**นักสืบ:** 'How did you notice that tiny clue?' 'I'm good at remembering small details.' (คุณสังเกตเห็นคำใบ้เล็กๆนั่นได้อย่างไร 'ผมจำรายละเอียดเล็กๆน้อยๆเก่งน่ะครับ')",
+                        "**วางแผนงาน:** 'Did you remember to book the vegetarian meal option?' 'Of course. I'm good at remembering details.' (คุณจำได้ไหมว่าต้องจองอาหารมังสวิรัติด้วย 'แน่นอนสิ ฉันจำรายละเอียดเก่งนะ')",
+                        "**เพื่อนคุยกัน:** 'I can't believe you remembered what I wore on our first date!' 'Well, I'm good at remembering details.' (ไม่อยากจะเชื่อเลยว่าเธอจำได้ว่าฉันใส่ชุดอะไรในเดทแรกของเรา! 'ก็นะ ฉันจำรายละเอียดเก่งน่ะ')"
+                    ], 
+                    collocations: [
+                        { term: "attention to detail", example: "Her work shows great attention to detail. (ผลงานของเธอแสดงให้เห็นถึงความใส่ใจในรายละเอียดอย่างมาก)" },
+                        { term: "a photographic memory", example: "He seems to have a photographic memory for numbers. (ดูเหมือนว่าเขาจะมีความทรงจำที่แม่นยำเหมือนภาพถ่ายสำหรับตัวเลข)" },
+                        { term: "overlook", example: "Let's check again to make sure we didn't overlook anything. (เรามาตรวจดูกันอีกครั้งเพื่อให้แน่ใจว่าเราไม่ได้มองข้ามอะไรไป)" }
+                    ] 
+                },
+                { 
+                    eng: "I'm good at predicting movie endings.", 
+                    thai: "ฉันเดาตอนจบของหนังเก่ง", 
+                    usage: [
+                        "**ดูหนังกับเพื่อน:** 'Don't tell me! You always spoil it.' 'I can't help it! I'm good at predicting movie endings.' (อย่าบอกฉันนะ! เธอสปอยล์ตลอดเลย 'ฉันช่วยไม่ได้นี่นา! ฉันเดาตอนจบหนังเก่งน่ะ')",
+                        "**คุยกัน:** 'How did you know he was the killer?' 'The clues were obvious. I'm good at predicting movie endings.' (เธอรู้ได้ยังไงว่าเขาคือฆาตกร 'คำใบ้มันชัดเจนจะตายไป ฉันเดาตอนจบหนังเก่งน่ะ')",
+                        "**เขียนรีวิว:** 'As someone who is good at predicting movie endings, I was genuinely surprised by this one.' (ในฐานะคนที่เดาตอนจบหนังเก่งคนหนึ่ง ฉันประหลาดใจกับเรื่องนี้อย่างแท้จริง)"
+                    ], 
+                    collocations: [
+                        { term: "plot twist", example: "I did not see that plot twist coming. (ฉันไม่คิดเลยว่าเนื้อเรื่องจะหักมุมแบบนั้น)" },
+                        { term: "spoiler alert", example: "Spoiler alert: the main character dies in the end. (สปอยล์นะ: ตัวละครหลักตายตอนจบ)" },
+                        { term: "predictable", example: "The ending was so predictable; I knew it from the first 10 minutes. (ตอนจบมันเดาง่ายมาก ฉันรู้ตั้งแต่ 10 นาทีแรกแล้ว)" }
+                    ] 
+                },
+                { 
+                    eng: "I'm good at playing the guitar.", 
+                    thai: "ฉันเล่นกีตาร์เก่ง", 
+                    usage: [
+                        "**ในวงดนตรี:** 'We need a lead guitarist.' 'I can do it. I'm good at playing the guitar.' (เราต้องการมือกีตาร์นำ 'ฉันเล่นได้ ฉันเล่นกีตาร์เก่งนะ')",
+                        "**รอบกองไฟ:** 'Does anyone know how to play an instrument?' 'I do! I'm good at playing the guitar.' (มีใครเล่นดนตรีเป็นบ้างไหม 'ฉันเล่นเป็น! ฉันเล่นกีตาร์เก่งนะ')",
+                        "**เพื่อนชวน:** 'Let's start a band!' 'Okay, I can be the guitarist. I'm good at playing the guitar.' (เรามาตั้งวงดนตรีกันเถอะ! 'โอเค ฉันเป็นมือกีตาร์ได้นะ ฉันเล่นกีตาร์เก่ง')"
+                    ], 
+                    collocations: [
+                        { term: "strum a few chords", example: "I can only strum a few basic chords. (ฉันดีดได้แค่คอร์ดพื้นฐานไม่กี่คอร์ดเท่านั้น)" },
+                        { term: "play by ear", example: "He's so talented he can play almost any song by ear. (เขามีพรสวรรค์มาก เขาสามารถเล่นเพลงได้เกือบทุกเพลงโดยการฟัง)" },
+                        { term: "in tune", example: "Could you help me check if my guitar is in tune? (คุณช่วยฉันเช็คหน่อยได้ไหมว่ากีตาร์ของฉันตั้งสายตรงหรือยัง)" }
+                    ] 
+                }
+            ];
+
+            const sentencesGrid = document.getElementById('sentences-grid');
+            const modal = document.getElementById('sentence-modal');
+            const modalContent = document.getElementById('modal-content');
+            const modalSentence = document.getElementById('modal-sentence');
+            const modalTranslation = document.getElementById('modal-translation');
+            const modalUsage = document.getElementById('modal-usage');
+            const modalCollocations = document.getElementById('modal-collocations');
+
+            function displaySentences() {
+                sentencesGrid.innerHTML = ''; 
+                sentencesData.forEach((data, index) => {
+                    const item = document.createElement('div');
+                    item.className = 'sentence-item cursor-pointer p-4 rounded-lg shadow-sm border border-gray-200';
+                    item.dataset.index = index;
+                    
+                    const engText = document.createElement('p');
+                    engText.className = 'font-semibold text-cyan-800 pointer-events-none';
+                    engText.textContent = data.eng;
+                    
+                    const thaiText = document.createElement('p');
+                    thaiText.className = 'text-gray-600 text-sm pointer-events-none';
+                    thaiText.textContent = `(${data.thai})`;
+                    
+                    item.appendChild(engText);
+                    item.appendChild(thaiText);
+                    
+                    sentencesGrid.appendChild(item);
+                });
             }
-        ];
-        
-        const grid = document.getElementById('sentences-grid');
-        const modal = document.getElementById('modal');
-        const modalHeader = document.getElementById('modal-header');
-        const modalEnglish = document.getElementById('modal-english');
-        const modalThai = document.getElementById('modal-thai');
-        const modalDetails = document.getElementById('modal-details');
-        const closeModalBtn = document.getElementById('close-modal-btn');
 
-        sentences.forEach((sentence, index) => {
-            const button = document.createElement('button');
-            const colorClasses = [
-                'border-cyan-400 hover:bg-cyan-400 text-cyan-700',
-                'border-teal-400 hover:bg-teal-400 text-teal-700',
-                'border-emerald-400 hover:bg-emerald-400 text-emerald-700',
-                'border-sky-400 hover:bg-sky-400 text-sky-700',
-            ]
-            const colorClass = colorClasses[index % colorClasses.length];
-            
-            button.className = `group sentence-btn p-5 rounded-xl text-left bg-white border-2 ${colorClass} hover:text-white`;
-            
-            button.innerHTML = `
-                <span class="font-poppins font-semibold text-slate-800 group-hover:text-white transition-colors duration-200">${sentence.eng}</span>
-                <span class="block text-sm text-slate-600 font-normal mt-1 group-hover:text-white/80 transition-colors duration-200">${sentence.th}</span>
-            `;
-            
-            button.addEventListener('click', () => openModal(sentence));
-            grid.appendChild(button);
-        });
+            function openModal(index) {
+                const data = sentencesData[index];
+                
+                modalSentence.textContent = data.eng;
+                modalTranslation.textContent = data.thai;
 
-        function openModal(sentence) {
-            modalEnglish.textContent = sentence.eng;
-            modalThai.textContent = sentence.th;
+                modalUsage.innerHTML = '';
+                modalUsage.className = 'space-y-4'; 
 
-            modalDetails.innerHTML = `
-                <div class="p-4 bg-slate-100 rounded-lg">
-                    <h4 class="font-semibold text-lg text-slate-800 mb-2">💡 บริบทการใช้งาน (Context)</h4>
-                    <p class="text-slate-600">${sentence.context}</p>
-                </div>
-                <div class="p-4 bg-slate-100 rounded-lg">
-                    <h4 class="font-semibold text-lg text-slate-800 mb-2">💬 ตัวอย่างบทสนทนา (Dialogue)</h4>
-                    <div class="space-y-1 text-slate-600">
-                        <p><strong>A:</strong> ${sentence.dialogue.a}</p>
-                        <p><strong>B:</strong> ${sentence.dialogue.b}</p>
-                    </div>
-                </div>
-                <div class="p-4 bg-slate-100 rounded-lg">
-                    <h4 class="font-semibold text-lg text-slate-800 mb-2">🔄 คำที่เกี่ยวข้อง / ใช้แทนได้ (Alternatives)</h4>
-                    <div class="text-slate-600">${sentence.alternatives}</div>
-                </div>
-            `;
+                data.usage.forEach(use => {
+                    const li = document.createElement('li');
+                    li.className = 'bg-sky-50 border-l-4 border-sky-300 p-4 rounded-r-md shadow-sm';
+                    const parts = use.match(/\*\*(.*?):\*\* '(.*?)' \((.*?)\)/);
 
-            modal.classList.add('active');
-            modal.classList.remove('opacity-0', 'pointer-events-none');
-            document.body.style.overflow = 'hidden';
-        }
+                    if (parts && parts.length === 4) {
+                        const context = parts[1];
+                        const english = parts[2];
+                        const thai = parts[3];
 
-        function closeModal() {
-            modal.classList.add('opacity-0', 'pointer-events-none');
-            modal.classList.remove('active');
-            document.body.style.overflow = 'auto';
-        }
+                        const contentDiv = document.createElement('div');
+                        
+                        const line1 = document.createElement('div');
+                        const contextSpan = document.createElement('span');
+                        contextSpan.className = 'font-semibold text-amber-700 mr-2 text-lg';
+                        contextSpan.textContent = `${context}:`;
+                        
+                        const englishSpan = document.createElement('span');
+                        englishSpan.className = 'italic text-gray-800 text-lg';
+                        englishSpan.textContent = `'${english}'`;
+                        line1.appendChild(contextSpan);
+                        line1.appendChild(englishSpan);
 
-        closeModalBtn.addEventListener('click', closeModal);
-        modal.addEventListener('click', (e) => {
-            if (e.target.id === 'modal') {
-                closeModal();
+                        const line2 = document.createElement('div');
+                        const thaiSpan = document.createElement('span');
+                        thaiSpan.className = 'text-gray-600 mt-1 text-base';
+                        thaiSpan.textContent = `(${thai})`;
+                        line2.appendChild(thaiSpan);
+
+                        contentDiv.appendChild(line1);
+                        contentDiv.appendChild(line2);
+                        li.appendChild(contentDiv);
+
+                    } else {
+                        li.innerHTML = use.replace(/\*\*(.*?)\*\*/g, '<strong class="font-semibold text-gray-800">$1</strong>');
+                    }
+                    modalUsage.appendChild(li);
+                });
+
+                modalCollocations.innerHTML = '';
+                const collocationList = document.createElement('ul');
+                collocationList.className = 'list-disc list-inside text-gray-700 space-y-3 text-base';
+                data.collocations.forEach(col => {
+                    const li = document.createElement('li');
+                    li.innerHTML = `<strong class="font-semibold text-gray-800">${col.term}:</strong> ${col.example}`;
+                    collocationList.appendChild(li);
+                });
+                modalCollocations.appendChild(collocationList);
+                
+                modal.classList.remove('opacity-0', 'pointer-events-none', 'invisible');
+                modalContent.classList.remove('scale-95');
+                modalContent.classList.add('scale-100');
             }
+
+            function closeModal() {
+                modal.classList.add('opacity-0');
+                modalContent.classList.add('scale-95');
+                setTimeout(() => {
+                    modal.classList.add('pointer-events-none', 'invisible');
+                }, 300); 
+            }
+
+            document.body.addEventListener('click', (e) => {
+                const sentenceItem = e.target.closest('.sentence-item');
+                const closeButton = e.target.closest('#close-modal-btn');
+                const modalContentArea = e.target.closest('#modal-content');
+                const modalIsVisible = !modal.classList.contains('invisible');
+
+                if (sentenceItem) {
+                    openModal(sentenceItem.dataset.index);
+                    return;
+                }
+
+                if (closeButton || (modalIsVisible && !modalContentArea)) {
+                    closeModal();
+                }
+            });
+
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape' && !modal.classList.contains('invisible')) {
+                    closeModal();
+                }
+            });
+
+            displaySentences();
         });
     </script>
+
 </body>
 </html>
+

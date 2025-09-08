@@ -3,267 +3,591 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Structure #4 - I'm trying to + (verb) (with translation)</title>
+    <title>App Box: โครงสร้าง I'm trying to + (verb).</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Mitr:wght@300;400;500;600&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         body {
-            font-family: 'Mitr', sans-serif;
+            font-family: 'Kanit', sans-serif;
         }
-        .font-poppins {
-            font-family: 'Poppins', sans-serif;
+        .sentence-item {
+            background-color: rgba(255, 255, 255, 0.85);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
         }
-        .sentence-btn {
-            transition: all 0.2s ease-in-out;
+        .sentence-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
         }
-        #modal {
-            transition: opacity 0.3s ease;
-        }
-        .modal-content-container {
+        .modal-content {
             transition: transform 0.3s ease, opacity 0.3s ease;
-            opacity: 0;
-            transform: translateY(20px) scale(0.95);
-        }
-        #modal.active .modal-content-container {
-            opacity: 1;
-            transform: translateY(0) scale(1);
         }
     </style>
 </head>
-<body class="bg-slate-900">
+<body class="bg-gradient-to-br from-blue-400 to-indigo-500 min-h-screen text-gray-800">
 
-    <div class="container mx-auto p-4 sm:p-6 lg:p-8">
-
-        <header class="text-center mb-10">
-            <h1 class="text-4xl sm:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-cyan-300 font-poppins">Structure #4</h1>
-            <h2 class="text-2xl sm:text-3xl font-bold text-white mt-2 font-poppins">"I'm trying to + (verb)"</h2>
-            <p class="text-indigo-200 mt-4 max-w-2xl mx-auto text-lg">
-                ใช้เน้นถึง <strong class="text-sky-300">"ความพยายาม"</strong> ในการทำบางสิ่ง ซึ่งบ่งบอกว่าสิ่งนั้นอาจจะยากหรือมีอุปสรรค และยังใช้เพื่อ <strong class="text-cyan-300">"ปฏิเสธอย่างสุภาพ"</strong> ได้ด้วย
+    <!-- Main Content -->
+    <div class="container mx-auto px-4 py-8 md:py-12">
+        <header class="text-center mb-8 md:mb-12 text-white">
+            <h1 class="text-4xl md:text-5xl font-bold mb-3 text-white shadow-sm">โครงสร้าง: I'm trying to + (verb).</h1>
+            <p class="text-lg md:text-xl max-w-3xl mx-auto text-blue-100">
+                ใช้เพื่อบอกว่าคุณกำลังใช้ความพยายามที่จะทำบางสิ่งบางอย่าง ซึ่งอาจจะสำเร็จหรือไม่ก็ได้
             </p>
         </header>
 
-        <main id="sentences-grid" class="grid grid-cols-1 md:grid-cols-2 gap-5">
-            </main>
-
-        <footer class="text-center mt-12">
-            <p class="text-indigo-300 font-medium text-sm">อังกฤษฉบับคนเรียนไม่รู้เรื่อง โดยครูสาลี่</p>
+        <main id="sentences-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+            <!-- Sentences will be populated by JavaScript -->
+        </main>
+        
+        <footer class="text-center mt-12 text-white text-lg">
+            <p>ครูสาลี่ - อังกฤษฉบับคนเรียนไม่รู้เรื่อง</p>
         </footer>
-
     </div>
 
-    <div id="modal" class="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center p-4 z-50 opacity-0 pointer-events-none">
-        <div class="modal-content-container w-full max-w-2xl max-h-[90vh] overflow-y-auto bg-slate-800 rounded-2xl shadow-2xl border border-slate-700">
-            <div id="modal-header" class="p-6 sm:p-8 rounded-t-2xl bg-gradient-to-r from-sky-500 to-cyan-400">
-                <p id="modal-english" class="font-poppins font-bold text-2xl text-slate-900 text-center"></p>
-                <p id="modal-thai" class="text-xl text-slate-800 text-center mt-2"></p>
+    <!-- Modal -->
+    <div id="sentence-modal" class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center p-4 opacity-0 pointer-events-none invisible transition-opacity duration-300 z-50">
+        <div id="modal-content" class="modal-content bg-white rounded-2xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto p-6 md:p-8 scale-95">
+            <!-- Modal Header -->
+            <div class="flex justify-between items-center mb-6 border-b pb-4">
+                <div>
+                    <h2 id="modal-sentence" class="text-2xl font-bold text-indigo-600"></h2>
+                    <p id="modal-translation" class="text-gray-600"></p>
+                </div>
+                <button id="close-modal-btn" class="text-gray-400 hover:text-gray-700 transition-colors">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
             </div>
-            <div class="p-6 sm:p-8">
-                <div id="modal-details" class="space-y-5">
+            
+            <!-- Modal Body -->
+            <div class="space-y-6">
+                <div>
+                    <h3 class="font-semibold text-xl text-gray-800 mb-3">ตัวอย่างการใช้งานในสถานการณ์ต่างๆ:</h3>
+                    <ul id="modal-usage" class="space-y-4">
+                        <!-- Usage examples will be injected here -->
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold text-xl text-gray-800 mb-3">คำที่มักใช้ร่วมกันพร้อมตัวอย่าง:</h4>
+                    <div id="modal-collocations">
+                        <!-- Collocation list will be injected here -->
                     </div>
-                <div class="text-center mt-8">
-                    <button id="close-modal-btn" class="bg-slate-600 hover:bg-slate-500 text-white font-bold py-2 px-8 rounded-full shadow-lg transform hover:scale-105 transition-transform duration-300">
-                        ปิด
-                    </button>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        const sentences = [
-            {
-                eng: "I'm trying to understand.", th: "ฉันกำลังพยายามทำความเข้าใจอยู่",
-                context: "ใช้เมื่อเผชิญกับข้อมูลหรือสถานการณ์ที่ซับซ้อน เป็นการบอกว่าเรากำลังใช้ความคิด แต่ยังไม่เข้าใจเต็มร้อย",
-                dialogue: { a: "Do you get what I mean?", b: "Give me a second. I'm trying to understand your point." },
-                alternatives: "<strong>I'm doing my best to understand.</strong><br><strong>Let me see if I can wrap my head around this.</strong> (สำนวนแปลว่า 'ขอฉันพยายามทำความเข้าใจเรื่องนี้ก่อน')"
-            },
-            {
-                eng: "I'm trying to fix my computer.", th: "ฉันกำลังพยายามซ่อมคอมพิวเตอร์อยู่",
-                context: "บอกถึงความพยายามในการแก้ปัญหาทางเทคนิคที่กำลังเกิดขึ้น ซึ่งอาจจะสำเร็จหรือไม่ก็ได้",
-                dialogue: { a: "Are you free? I need some help.", b: "Not right now. I'm trying to fix my computer. It crashed again." },
-                alternatives: "<strong>I'm attempting to fix my computer.</strong><br><strong>I'm working on getting my computer fixed.</strong>"
-            },
-            {
-                eng: "I'm trying to eat healthier.", th: "ฉันกำลังพยายามกินอาหารที่ดีต่อสุขภาพมากขึ้น",
-                context: "บอกถึงเป้าหมายด้านสุขภาพที่ต้องใช้ความพยายามในการปรับเปลี่ยนพฤติกรรมการกิน",
-                dialogue: { a: "Wow, a salad for lunch?", b: "Yes, I'm trying to eat healthier these days." },
-                alternatives: "<strong>I'm making an effort to eat better.</strong><br><strong>I'm working on improving my diet.</strong>"
-            },
-            {
-                eng: "I'm trying to save money.", th: "ฉันกำลังพยายามเก็บเงินอยู่",
-                context: "ใช้บอกถึงเป้าหมายทางการเงินที่ต้องใช้ความพยายามและวินัยในการลดค่าใช้จ่าย มักใช้เป็นเหตุผลในการปฏิเสธคำชวน",
-                dialogue: { a: "Let's go shopping this weekend!", b: "I'd love to, but I can't. I'm trying to save money for a trip." },
-                alternatives: "<strong>I'm on a budget.</strong> (ฉันกำลังคุมงบประมาณอยู่)<br><strong>I'm cutting back on my spending.</strong> (ฉันกำลังลดค่าใช้จ่าย)"
-            },
-            {
-                eng: "I'm trying to concentrate.", th: "ฉันกำลังพยายามใช้สมาธิอยู่",
-                context: "เป็นวิธีสุภาพในการบอกให้คนอื่นหยุดรบกวน เพราะเราต้องการสมาธิในการทำงานหรืออ่านหนังสือ",
-                dialogue: { a: "(Someone is talking loudly nearby)", b: "Excuse me, could you keep it down? I'm trying to concentrate." },
-                alternatives: "<strong>I'm trying to focus.</strong><br><strong>I need some quiet to concentrate.</strong>"
-            },
-            {
-                eng: "I'm trying to learn Spanish.", th: "ฉันกำลังพยายามเรียนภาษาสเปน",
-                context: "บอกถึงการเรียนรู้ทักษะใหม่ที่ต้องใช้เวลาและความพยายามอย่างต่อเนื่อง",
-                dialogue: { a: "What are you doing with all those flashcards?", b: "I'm trying to learn Spanish for my trip to Mexico." },
-                alternatives: "<strong>I've been learning Spanish.</strong><br><strong>I'm taking a Spanish course.</strong>"
-            },
-            {
-                eng: "I'm trying to find a solution.", th: "ฉันกำลังพยายามหาทางแก้ไขอยู่",
-                context: "ใช้ในสถานการณ์ที่มีปัญหาเกิดขึ้น เพื่อบอกว่าเรากำลังพยายามอย่างเต็มที่ในการหาทางออก",
-                dialogue: { a: "This bug is causing a lot of problems.", b: "I know. I'm trying to find a solution as we speak." },
-                alternatives: "<strong>I'm working on a solution.</strong><br><strong>I'm trying to figure out how to solve this.</strong>"
-            },
-            {
-                eng: "I'm trying to be more patient.", th: "ฉันกำลังพยายามที่จะใจเย็นให้มากขึ้น",
-                context: "บอกถึงความพยายามในการพัฒนาตัวเองด้านอารมณ์หรือนิสัยส่วนตัว",
-                dialogue: { a: "You didn't get angry when he was late.", b: "I know. I'm trying to be more patient with people." },
-                alternatives: "<strong>I'm working on my patience.</strong><br><strong>I'm making an effort to be more patient.</strong>"
-            },
-            {
-                eng: "I'm trying to call my mom.", th: "ฉันกำลังพยายามโทรหาแม่อยู่",
-                context: "บอกถึงความพยายามในการติดต่อสื่อสารที่อาจมีอุปสรรค เช่น ไม่มีสัญญาณโทรศัพท์",
-                dialogue: { a: "Why do you look frustrated?", b: "The signal is so weak here. I'm trying to call my mom." },
-                alternatives: "<strong>I can't seem to get through to my mom.</strong> (ดูเหมือนว่าฉันจะโทรหาแม่ไม่ติดเลย)"
-            },
-            {
-                eng: "I'm trying to finish this book.", th: "ฉันกำลังพยายามอ่านหนังสือเล่มนี้ให้จบ",
-                context: "ใช้บอกความตั้งใจที่จะทำกิจกรรมบางอย่างให้สำเร็จลุล่วง แม้อาจจะมีสิ่งรบกวน",
-                dialogue: { a: "Are you coming out with us?", b: "Not tonight. I'm trying to finish this book before the movie comes out." },
-                alternatives: "<strong>I'm determined to finish this book.</strong><br><strong>My goal is to finish this book.</strong>"
-            },
-            {
-                eng: "I'm trying to lose weight.", th: "ฉันกำลังพยายามลดน้ำหนักอยู่",
-                context: "บอกถึงเป้าหมายด้านสุขภาพที่ต้องใช้ความพยายามทั้งการคุมอาหารและออกกำลังกาย",
-                dialogue: { a: "No dessert for you?", b: "Nope. I'm trying to lose weight." },
-                alternatives: "<strong>I'm on a diet.</strong><br><strong>I'm working on getting in shape.</strong> (ฉันกำลังพยายามทำให้หุ่นดี)"
-            },
-            {
-                eng: "I'm trying to stay positive.", th: "ฉันกำลังพยายามมองโลกในแง่ดี",
-                context: "ใช้ในสถานการณ์ที่ยากลำบาก เพื่อบอกว่าเรากำลังพยายามรักษาทัศนคติที่ดีและไม่ยอมแพ้",
-                dialogue: { a: "This is a really tough situation.", b: "It is, but I'm trying to stay positive." },
-                alternatives: "<strong>I'm trying to look on the bright side.</strong><br><strong>I'm doing my best to keep my spirits up.</strong>"
-            },
-            {
-                eng: "I'm trying to explain what happened.", th: "ฉันกำลังพยายามอธิบายว่าเกิดอะไรขึ้น",
-                context: "ใช้เมื่อการอธิบายเรื่องราวเป็นไปอย่างยากลำบาก อาจเพราะเรื่องซับซ้อนหรือไม่มีใครฟัง",
-                dialogue: { a: "Everyone is shouting!", b: "Please, be quiet for a moment! I'm trying to explain what happened." },
-                alternatives: "<strong>I'm attempting to explain.</strong><br><strong>Let me explain.</strong>"
-            },
-            {
-                eng: "I'm trying my best.", th: "ฉันกำลังพยายามอย่างดีที่สุดแล้ว",
-                context: "เป็นประโยคที่ใช้เพื่อยืนยันว่าเราได้ทุ่มเทความพยายามทั้งหมดที่มีแล้ว แม้ผลลัพธ์อาจจะยังไม่ดีพอ",
-                dialogue: { a: "Is this all you've done?", b: "I know it's not much, but I'm trying my best." },
-                alternatives: "<strong>I'm giving it my all.</strong><br><strong>I'm doing everything I can.</strong>"
-            },
-            {
-                eng: "I'm trying to make a good impression.", th: "ฉันกำลังพยายามสร้างความประทับใจที่ดี",
-                context: "ใช้ในสถานการณ์สำคัญ เช่น การสัมภาษณ์งาน หรือการพบพ่อแม่ของแฟนครั้งแรก",
-                dialogue: { a: "Why are you so formally dressed?", b: "It's my first day. I'm trying to make a good impression." },
-                alternatives: "<strong>I want to make a good first impression.</strong><br><strong>I'm trying to put my best foot forward.</strong> (สำนวน)"
-            },
-            {
-                eng: "I'm trying to figure out how to use this.", th: "ฉันกำลังพยายามหาวิธีใช้เจ้านี่อยู่",
-                context: "ใช้เมื่อเจออุปกรณ์หรือโปรแกรมใหม่ๆ ที่ยังใช้งานไม่เป็น",
-                dialogue: { a: "What is that new gadget?", b: "I don't know yet. I'm trying to figure out how to use this." },
-                alternatives: "<strong>I'm trying to get the hang of this.</strong> (ฉันกำลังพยายามจับทาง/หัดใช้เจ้านี่อยู่)"
-            },
-            {
-                eng: "I'm trying to be a better person.", th: "ฉันกำลังพยายามเป็นคนที่ดีขึ้น",
-                context: "บอกถึงเป้าหมายในการพัฒนาตนเองในภาพรวม ทั้งด้านนิสัย ความคิด และการกระทำ",
-                dialogue: { a: "You've changed a lot since last year.", b: "Thank you. I'm trying to be a better person." },
-                alternatives: "<strong>I'm working on self-improvement.</strong><br><strong>I'm on a journey of personal growth.</strong>"
-            },
-            {
-                eng: "I'm trying to quit smoking.", th: "ฉันกำลังพยายามเลิกบุหรี่",
-                context: "ใช้บอกถึงการพยายามเลิกนิสัยที่ไม่ดีต่อสุขภาพ ซึ่งต้องใช้ความตั้งใจและความพยายามอย่างสูง",
-                dialogue: { a: "You seem stressed.", b: "I am. It's my third day... I'm trying to quit smoking." },
-                alternatives: "<strong>I'm in the process of quitting smoking.</strong>"
-            },
-            {
-                eng: "I'm trying to get your attention.", th: "ฉันกำลังพยายามเรียกความสนใจจากคุณ",
-                context: "ใช้เมื่อเราพยายามเรียกหรือสื่อสารกับใครบางคน แต่เขาไม่สังเกตเห็นหรือไม่สนใจ",
-                dialogue: { a: "(Waving hands) Hello! Hello!", b: "Oh, sorry! I didn't see you.", a: "I know. I'm trying to get your attention for five minutes." },
-                alternatives: "<strong>I've been trying to get a hold of you.</strong>"
-            },
-            {
-                eng: "I'm trying to move on.", th: "ฉันกำลังพยายามที่จะก้าวต่อไป",
-                context: "ใช้ในบริบทของความสัมพันธ์หรือเหตุการณ์ที่น่าเศร้า เพื่อบอกว่ากำลังพยายามทำใจและใช้ชีวิตต่อไป",
-                dialogue: { a: "Thinking about him again?", b: "Sometimes. But I'm trying to move on." },
-                alternatives: "<strong>I'm trying to put it behind me.</strong> (ฉันพยายามจะทิ้งมันไว้ข้างหลัง)<br><strong>I'm working on letting go.</strong> (ฉันกำลังพยายามปล่อยวาง)"
-            }
-        ];
-        
-        const grid = document.getElementById('sentences-grid');
-        const modal = document.getElementById('modal');
-        const modalHeader = document.getElementById('modal-header');
-        const modalEnglish = document.getElementById('modal-english');
-        const modalThai = document.getElementById('modal-thai');
-        const modalDetails = document.getElementById('modal-details');
-        const closeModalBtn = document.getElementById('close-modal-btn');
-
-        const buttonColors = [
-            { base: 'border-cyan-500', hover: 'hover:bg-cyan-400 hover:border-cyan-400', text: 'text-cyan-400', hoverText: 'group-hover:text-slate-900', subText: 'text-slate-400', subHoverText: 'group-hover:text-slate-800' },
-            { base: 'border-fuchsia-500', hover: 'hover:bg-fuchsia-400 hover:border-fuchsia-400', text: 'text-fuchsia-400', hoverText: 'group-hover:text-slate-900', subText: 'text-slate-400', subHoverText: 'group-hover:text-slate-800' },
-            { base: 'border-lime-500', hover: 'hover:bg-lime-400 hover:border-lime-400', text: 'text-lime-400', hoverText: 'group-hover:text-slate-900', subText: 'text-slate-400', subHoverText: 'group-hover:text-slate-800' },
-            { base: 'border-teal-500', hover: 'hover:bg-teal-400 hover:border-teal-400', text: 'text-teal-400', hoverText: 'group-hover:text-slate-900', subText: 'text-slate-400', subHoverText: 'group-hover:text-slate-800' },
-        ];
-
-        sentences.forEach((sentence, index) => {
-            const button = document.createElement('button');
-            const colorTheme = buttonColors[index % buttonColors.length];
-            
-            button.className = `group sentence-btn p-5 rounded-xl text-left bg-slate-800 border-2 ${colorTheme.base} ${colorTheme.hover}`;
-            
-            button.innerHTML = `
-                <span class="font-poppins font-semibold ${colorTheme.text} ${colorTheme.hoverText} transition-colors duration-200">${sentence.eng}</span>
-                <span class="block text-sm ${colorTheme.subText} font-normal mt-1 ${colorTheme.subHoverText} transition-colors duration-200">${sentence.th}</span>
-            `;
-            
-            button.addEventListener('click', () => openModal(sentence));
-            grid.appendChild(button);
-        });
-
-        function openModal(sentence) {
-            modalEnglish.textContent = sentence.eng;
-            modalThai.textContent = sentence.th;
-
-            modalDetails.innerHTML = `
-                <div class="p-4 bg-slate-700 rounded-lg text-slate-300">
-                    <h4 class="font-semibold text-lg text-white mb-2">💡 บริบทการใช้งาน (Context)</h4>
-                    <p>${sentence.context}</p>
-                </div>
-                <div class="p-4 bg-slate-700 rounded-lg text-slate-300">
-                    <h4 class="font-semibold text-lg text-white mb-2">💬 ตัวอย่างบทสนทนา (Dialogue)</h4>
-                    <div class="space-y-1">
-                        <p><strong>A:</strong> ${sentence.dialogue.a}</p>
-                        <p><strong>B:</strong> ${sentence.dialogue.b}</p>
-                    </div>
-                </div>
-                <div class="p-4 bg-slate-700 rounded-lg text-slate-300">
-                    <h4 class="font-semibold text-lg text-white mb-2">🔄 คำที่เกี่ยวข้อง / ใช้แทนได้ (Alternatives)</h4>
-                    <div class="text-slate-300">${sentence.alternatives}</div>
-                </div>
-            `;
-
-            modal.classList.add('active');
-            modal.classList.remove('opacity-0', 'pointer-events-none');
-            document.body.style.overflow = 'hidden';
+        document.addEventListener('DOMContentLoaded', function () {
+            const sentencesData = [
+                { 
+                    eng: "I'm trying to understand.", 
+                    thai: "ฉันกำลังพยายามจะทำความเข้าใจ", 
+                    usage: [
+                        "**ในการโต้เถียง:** 'Please, just listen to my side of the story. I'm trying to understand your perspective.' (ได้โปรด ฟังเรื่องราวในมุมของฉันบ้าง ฉันกำลังพยายามจะทำความเข้าใจมุมมองของคุณนะ)",
+                        "**เมื่อเจอเรื่องยาก:** 'This physics concept is so complex.' 'I know, I'm trying to understand it too.' (แนวคิดทางฟิสิกส์นี่มันซับซ้อนมากเลย 'ฉันรู้ ฉันก็กำลังพยายามจะเข้าใจมันอยู่เหมือนกัน')",
+                        "**ปลอบใจ:** 'I know you're upset. I'm trying to understand what you're going through.' (ฉันรู้ว่าเธอเสียใจนะ ฉันกำลังพยายามจะเข้าใจว่าเธอกำลังเผชิญกับอะไรอยู่)"
+                    ], 
+                    collocations: [
+                        { term: "make sense of", example: "I'm trying to make sense of this confusing situation. (ฉันกำลังพยายามจะทำความเข้าใจสถานการณ์ที่น่าสับสนนี้)" },
+                        { term: "get my head around", example: "I can't get my head around this new policy. (ฉันไม่สามารถทำความเข้าใจนโยบายใหม่นี้ได้เลย)" },
+                        { term: "see where you're coming from", example: "I can see where you're coming from, but I disagree. (ฉันพอจะเข้าใจว่าทำไมคุณถึงคิดแบบนั้นนะ แต่ฉันก็ไม่เห็นด้วย)" }
+                    ] 
+                },
+                { 
+                    eng: "I'm trying to be patient.", 
+                    thai: "ฉันกำลังพยายามจะอดทน", 
+                    usage: [
+                        "**เมื่อรอคิวนาน:** 'This is taking forever.' 'I know, but I'm trying to be patient.' (นี่มันนานมากเลยนะ 'ฉันรู้ แต่ฉันก็กำลังพยายามจะอดทนอยู่นี่ไง')",
+                        "**กับเด็กๆ:** 'The kids are so loud today.' 'Deep breaths. I'm trying to be patient.' (วันนี้เด็กๆเสียงดังมากเลยนะ 'หายใจลึกๆเข้าไว้ ฉันกำลังพยายามจะใจเย็นอยู่')",
+                        "**เมื่อเรียนรู้สิ่งใหม่:** 'Learning the piano is so slow.' 'Yes, but I'm trying to be patient with myself.' (การเรียนเปียโนมันช้ามากเลย 'ใช่ แต่ฉันก็กำลังพยายามจะอดทนกับตัวเองอยู่')"
+                    ], 
+                    collocations: [
+                        { term: "patience is a virtue", example: "Remember, patience is a virtue. (จำไว้นะว่า ความอดทนคือคุณธรรมอย่างหนึ่ง)" },
+                        { term: "hold my horses", example: "I want to start now, but I have to hold my horses and wait for approval. (ฉันอยากจะเริ่มตอนนี้เลย แต่ฉันต้องใจเย็นๆและรอการอนุมัติก่อน)" },
+                        { term: "keep my cool", example: "I'm trying to keep my cool, but he's really testing me. (ฉันกำลังพยายามจะรักษาความสงบอยู่นะ แต่เขาก็กำลังทดสอบฉันอย่างหนักเลย)" }
+                    ] 
+                },
+                { 
+                    eng: "I'm trying to eat healthier.", 
+                    thai: "ฉันกำลังพยายามจะกินอาหารที่ดีต่อสุขภาพมากขึ้น", 
+                    usage: [
+                        "**ปฏิเสธของหวาน:** 'Want some cake?' 'It looks delicious, but I'm trying to eat healthier.' (อยากกินเค้กไหม 'มันดูน่าอร่อยมากเลยนะ แต่ฉันกำลังพยายามจะกินเพื่อสุขภาพอยู่น่ะ')",
+                        "**เพื่อนทัก:** 'You're eating a salad again?' 'Yes, I'm trying to eat healthier this year.' (เธอกินสลัดอีกแล้วเหรอ 'ใช่ ปีนี้ฉันกำลังพยายามจะกินเพื่อสุขภาพมากขึ้นน่ะ')",
+                        "**คุยกัน:** 'I have more energy these days.' 'That's because you're trying to eat healthier.' (ช่วงนี้ฉันมีพลังงานมากขึ้นนะ 'นั่นก็เพราะว่าเธอกำลังพยายามจะกินอาหารที่ดีต่อสุขภาพมากขึ้นไงล่ะ')"
+                    ], 
+                    collocations: [
+                        { term: "cut down on", example: "I'm trying to cut down on junk food. (ฉันกำลังพยายามจะลดอาหารขยะ)" },
+                        { term: "a balanced diet", example: "It's important to have a balanced diet with fruits and vegetables. (การรับประทานอาหารที่สมดุลซึ่งมีผักและผลไม้เป็นสิ่งสำคัญ)" },
+                        { term: "watch what I eat", example: "I'm not on a diet, but I'm trying to watch what I eat. (ฉันไม่ได้กำลังไดเอทนะ แต่ฉันกำลังพยายามจะระวังเรื่องที่ฉันกิน)" }
+                    ] 
+                },
+                { 
+                    eng: "I'm trying to save money.", 
+                    thai: "ฉันกำลังพยายามจะเก็บเงิน", 
+                    usage: [
+                        "**ปฏิเสธคำชวน:** 'Let's go shopping this weekend.' 'I can't. I'm trying to save money for a new car.' (สุดสัปดาห์นี้ไปชอปปิ้งกันเถอะ 'ฉันไปไม่ได้หรอก ฉันกำลังพยายามเก็บเงินซื้อรถใหม่อยู่')",
+                        "**เพื่อนถาม:** 'Why are you cooking at home so much?' 'Because I'm trying to save money.' (ทำไมเธอทำอาหารกินเองบ่อยจัง 'ก็เพราะว่าฉันกำลังพยายามจะประหยัดเงินน่ะสิ')",
+                        "**บอกเป้าหมาย:** 'My goal is to travel next year. I'm trying to save money wherever I can.' (เป้าหมายของฉันคือการไปเที่ยวปีหน้า ฉันกำลังพยายามจะประหยัดเงินในทุกๆทางที่ทำได้)"
+                    ], 
+                    collocations: [
+                        { term: "on a tight budget", example: "We're on a tight budget, so we can't eat out. (เรามีงบจำกัดมาก เราเลยไปกินข้าวนอกบ้านไม่ได้)" },
+                        { term: "cut back on expenses", example: "I'm trying to cut back on my monthly expenses. (ฉันกำลังพยายามจะลดค่าใช้จ่ายรายเดือนของฉัน)" },
+                        { term: "for a rainy day", example: "It's wise to save some money for a rainy day. (มันเป็นเรื่องฉลาดที่จะเก็บเงินไว้บ้างสำหรับยามฉุกเฉิน)" }
+                    ] 
+                },
+                { 
+                    eng: "I'm trying to find a solution.", 
+                    thai: "ฉันกำลังพยายามจะหาทางแก้ไข", 
+                    usage: [
+                        "**ในที่ทำงาน:** 'What's the status of the problem?' 'I'm trying to find a solution, but it's very complex.' (สถานะของปัญหาเป็นอย่างไรบ้าง 'ผมกำลังพยายามจะหาทางแก้ไขอยู่ครับ แต่มันซับซ้อนมาก')",
+                        "**เพื่อนปรึกษา:** 'I don't know how to fix this.' 'Let's think together. I'm trying to find a solution too.' (ฉันไม่รู้จะแก้ปัญหานี้ยังไง 'เรามาช่วยกันคิดเถอะ ฉันก็กำลังพยายามหาทางออกอยู่เหมือนกัน')",
+                        "**คุยกับตัวเอง:** 'Okay, panicking won't help. I need to calm down and try to find a solution.' (โอเค การแตกตื่นมันไม่ช่วยอะไร ฉันต้องใจเย็นลงแล้วพยายามหาทางแก้ปัญหา)"
+                    ], 
+                    collocations: [
+                        { term: "figure out", example: "I'm trying to figure out what went wrong. (ฉันกำลังพยายามจะหาสาเหตุว่าอะไรที่ผิดพลาดไป)" },
+                        { term: "work out a solution", example: "We need to work out a solution that benefits everyone. (เราต้องหาทางออกที่ทุกฝ่ายได้ประโยชน์ร่วมกัน)" },
+                        { term: "brainstorm", example: "Let's brainstorm some ideas to solve this. (เรามาระดมสมองหาไอเดียเพื่อแก้ปัญหานี้กันเถอะ)" }
+                    ] 
+                },
+                { 
+                    eng: "I'm trying to concentrate.", 
+                    thai: "ฉันกำลังพยายามจะใช้สมาธิ", 
+                    usage: [
+                        "**ในที่ทำงาน:** 'Could you please lower your voice? I'm trying to concentrate on this report.' (คุณช่วยลดเสียงลงหน่อยได้ไหมครับ ผมกำลังพยายามจะใช้สมาธิกับรายงานฉบับนี้อยู่)",
+                        "**ในห้องสมุด:** 'The music from your headphones is too loud.' 'Oh, sorry. I'm trying to concentrate.' (เพลงจากหูฟังของเธอดังเกินไปนะ 'โอ้ ขอโทษที ฉันกำลังพยายามจะใช้สมาธิอยู่น่ะ')",
+                        "**ตอนอ่านหนังสือ:** 'The kids are making so much noise. It's hard when I'm trying to concentrate.' (พวกเด็กๆส่งเสียงดังมากเลย มันยากนะเวลาที่ฉันกำลังพยายามจะตั้งสมาธิ)"
+                    ], 
+                    collocations: [
+                        { term: "focus on", example: "I need to focus on my work and ignore the distractions. (ฉันต้องมุ่งมั่นกับงานของฉันและไม่สนใจสิ่งรบกวน)" },
+                        { term: "in the zone", example: "Don't disturb him; he's in the zone. (อย่าไปรบกวนเขานะ เขากำลังมีสมาธิเต็มที่)" },
+                        { term: "tune out", example: "I'm trying to tune out the noise from the construction site. (ฉันกำลังพยายามจะไม่สนใจเสียงดังจากสถานที่ก่อสร้าง)" }
+                    ] 
+                },
+                { 
+                    eng: "I'm trying to reach you.", 
+                    thai: "ฉันกำลังพยายามจะติดต่อคุณ", 
+                    usage: [
+                        "**ข้อความเสียง:** 'Hi, this is Sali. I'm trying to reach you about the meeting tomorrow. Please call me back.' (สวัสดีค่ะ สาลีนะคะ ดิฉันพยายามจะติดต่อคุณเรื่องประชุมพรุ่งนี้ค่ะ กรุณาโทรกลับด้วยนะคะ)",
+                        "**ส่งอีเมล:** 'I've sent you two emails and a text. I'm trying to reach you.' (ฉันส่งอีเมลไปให้คุณสองฉบับแล้วก็ข้อความอีกหนึ่งนะ ฉันกำลังพยายามจะติดต่อคุณอยู่)",
+                        "**เพื่อนบอก:** 'Your mom called me. She said she's been trying to reach you all day.' (แม่ของเธอโทรมาหาฉันนะ เขาบอกว่าเขาพยายามจะติดต่อเธอมาทั้งวันแล้ว)"
+                    ], 
+                    collocations: [
+                        { term: "get a hold of", example: "I've been trying to get a hold of him, but his phone is off. (ฉันพยายามจะติดต่อเขามาตลอด แต่โทรศัพท์เขาปิดเครื่อง)" },
+                        { term: "get in touch with", example: "Who do I need to get in touch with to solve this problem? (ฉันต้องติดต่อกับใครเพื่อแก้ปัญหานี้)" },
+                        { term: "return my call", example: "Please ask him to return my call as soon as possible. (กรุณาบอกให้เขาโทรกลับหาฉันโดยเร็วที่สุด)" }
+                    ] 
+                },
+                { 
+                    eng: "I'm trying to make a good impression.", 
+                    thai: "ฉันกำลังพยายามจะสร้างความประทับใจที่ดี", 
+                    usage: [
+                        "**วันแรกที่ทำงาน:** 'Why are you so dressed up?' 'It's my first day. I'm trying to make a good impression.' (ทำไมเธอถึงแต่งตัวเต็มยศขนาดนี้ล่ะ 'ก็มันเป็นวันแรกของฉันน่ะสิ ฉันกำลังพยายามจะสร้างความประทับใจที่ดี')",
+                        "**เจอพ่อแม่แฟน:** 'I'm so nervous. I'm trying to make a good impression on your parents.' (ฉันประหม่ามากเลย ฉันกำลังพยายามจะสร้างความประทับใจที่ดีให้กับพ่อแม่ของคุณ)",
+                        "**นำเสนอผลงาน:** 'Speak clearly and confidently. You're trying to make a good impression on the investors.' (พูดให้ชัดเจนและมั่นใจนะ คุณกำลังพยายามจะสร้างความประทับใจให้กับนักลงทุน)"
+                    ], 
+                    collocations: [
+                        { term: "put my best foot forward", example: "For this interview, I really need to put my best foot forward. (สำหรับการสัมภาษณ์ครั้งนี้ ฉันต้องแสดงความสามารถอย่างเต็มที่จริงๆ)" },
+                        { term: "dress to impress", example: "She always dresses to impress. (เธอแต่งตัวสวยเพื่อสร้างความประทับใจเสมอ)" },
+                        { term: "first impressions matter", example: "Remember that first impressions matter a lot. (จำไว้นะว่าความประทับใจแรกนั้นสำคัญมาก)" }
+                    ] 
+                },
+                { 
+                    eng: "I'm trying to quit a bad habit.", 
+                    thai: "ฉันกำลังพยายามจะเลิกนิสัยเสีย", 
+                    usage: [
+                        "**เพื่อนทัก:** 'You're not smoking?' 'No, I'm trying to quit. It's a bad habit.' (เธอไม่สูบบุหรี่เหรอ 'ใช่ ฉันกำลังพยายามจะเลิกน่ะ มันเป็นนิสัยที่ไม่ดี')",
+                        "**คุยกับตัวเอง:** 'I need more self-control. I'm trying to quit my bad habit of procrastinating.' (ฉันต้องควบคุมตัวเองให้มากขึ้น ฉันกำลังพยายามจะเลิกนิสัยผัดวันประกันพรุ่งของฉัน)",
+                        "**บอกเพื่อน:** 'Please don't offer me any sweets. I'm trying to quit my bad habit of eating too much sugar.' (กรุณาอย่าเสนอของหวานให้ฉันนะ ฉันกำลังพยายามจะเลิกนิสัยกินน้ำตาลเยอะเกินไปของฉันอยู่)"
+                    ], 
+                    collocations: [
+                        { term: "break a habit", example: "It's very difficult to break a habit you've had for years. (มันยากมากที่จะเลิกนิสัยที่คุณมีมานานหลายปี)" },
+                        { term: "go cold turkey", example: "He decided to go cold turkey and quit smoking all at once. (เขาตัดสินใจที่จะหักดิบและเลิกสูบบุหรี่ในทันที)" },
+                        { term: "kick the habit", example: "I need to find a new hobby to help me kick the habit. (ฉันต้องหางานอดิเรกใหม่ๆมาช่วยให้ฉันเลิกนิสัยนี้ให้ได้)" }
+                    ] 
+                },
+                { 
+                    eng: "I'm trying to cheer you up.", 
+                    thai: "ฉันกำลังพยายามจะทำให้เธอร่าเริงขึ้น", 
+                    usage: [
+                        "**เมื่อเพื่อนเศร้า:** 'Why did you bring me ice cream?' 'Because I'm trying to cheer you up.' (เธอเอาไอศกรีมมาให้ฉันทำไม 'ก็เพราะว่าฉันกำลังพยายามจะทำให้เธอร่าเริงขึ้นไงล่ะ')",
+                        "**เล่าเรื่องตลก:** 'That wasn't funny.' 'Sorry, I'm trying my best to cheer you up.' (มันไม่ตลกเลยนะ 'ขอโทษที ฉันกำลังพยายามอย่างดีที่สุดที่จะทำให้เธออารมณ์ดีขึ้น')",
+                        "**ชวนไปเที่ยว:** 'Let's go to the beach this weekend. I'm trying to cheer you up.' (สุดสัปดาห์นี้ไปทะเลกันเถอะ ฉันกำลังพยายามจะทำให้เธอกลับมาสดใสนะ)"
+                    ], 
+                    collocations: [
+                        { term: "lift your spirits", example: "Maybe some good music will lift your spirits. (บางทีเพลงดีๆอาจจะช่วยให้คุณอารมณ์ดีขึ้นนะ)" },
+                        { term: "put a smile on your face", example: "I just want to put a smile on your face. (ฉันก็แค่ต้องการจะทำให้เธอยิ้มได้เท่านั้นแหละ)" },
+                        { term: "look on the bright side", example: "Come on, try to look on the bright side. (เอาน่า พยายามมองในด้านดีสิ)" }
+                    ] 
+                },
+                { 
+                    eng: "I'm trying to fix this.", 
+                    thai: "ฉันกำลังพยายามจะซ่อม/แก้ไขสิ่งนี้", 
+                    usage: [
+                        "**ในที่ทำงาน:** 'The website is down!' 'I know, I'm trying to fix it right now!' (เว็บไซต์ล่ม! 'ฉันรู้ ฉันกำลังพยายามจะแก้ไขมันอยู่เดี๋ยวนี้เลย!')",
+                        "**ที่บ้าน:** 'The sink is still leaking.' 'I see that. I'm trying to fix it, but I might need to call a plumber.' (อ่างล้างจานยังรั่วอยู่เลยนะ 'ฉันเห็นแล้วน่า ฉันกำลังพยายามจะซ่อมมันอยู่ แต่ฉันอาจจะต้องโทรหาช่างประปา')",
+                        "**ความสัมพันธ์:** 'We've been arguing a lot.' 'I know. I'm trying to fix our relationship.' (เราทะเลาะกันบ่อยมากเลยนะ 'ฉันรู้ ฉันกำลังพยายามจะแก้ไขความสัมพันธ์ของเราอยู่')"
+                    ], 
+                    collocations: [
+                        { term: "get it to work", example: "I've been trying to get this old printer to work for an hour. (ฉันพยายามจะทำให้เครื่องพิมพ์เก่าๆนี่กลับมาทำงานได้เป็นชั่วโมงแล้ว)" },
+                        { term: "figure out the problem", example: "I need to figure out the problem first. (ฉันต้องหาสาเหตุของปัญหาก่อน)" },
+                        { term: "make things right", example: "I know I made a mistake, and I want to make things right. (ฉันรู้ว่าฉันทำผิดไป และฉันก็อยากจะแก้ไขให้มันถูกต้อง)" }
+                    ] 
+                },
+                { 
+                    eng: "I'm trying to stay awake.", 
+                    thai: "ฉันกำลังพยายามจะฝืนไม่ให้หลับ", 
+                    usage: [
+                        "**ในการประชุมที่น่าเบื่อ:** 'I need more coffee. I'm trying to stay awake.' (ฉันต้องการกาแฟเพิ่ม ฉันกำลังพยายามจะไม่ให้หลับ)",
+                        "**อ่านหนังสือดึก:** 'It's 2 AM already.' 'I know, I'm trying to stay awake to finish this chapter.' (นี่มันตีสองแล้วนะ 'ฉันรู้ ฉันกำลังพยายามจะถ่างตาอ่านบทนี้ให้จบ')",
+                        "**ขับรถทางไกล:** 'You look tired. Should I drive?' 'Maybe in a bit. I'm trying to stay awake.' (คุณดูเหนื่อยนะ ให้ฉันขับไหม 'อาจจะอีกสักพักนะ ฉันกำลังพยายามจะไม่ให้หลับอยู่')"
+                    ], 
+                    collocations: [
+                        { term: "keep my eyes open", example: "It was so hard to keep my eyes open during that movie. (มันยากมากเลยที่จะฝืนลืมตาระหว่างดูหนังเรื่องนั้น)" },
+                        { term: "fight off sleep", example: "I was fighting off sleep all afternoon. (ฉันต่อสู้กับความง่วงมาตลอดบ่ายเลย)" },
+                        { term: "pull an all-nighter", example: "I have to pull an all-nighter to study for the exam. (ฉันต้องโต้รุ่งเพื่ออ่านหนังสือสอบ)" }
+                    ] 
+                },
+                { 
+                    eng: "I'm trying to be reasonable.", 
+                    thai: "ฉันกำลังพยายามจะใช้เหตุผล", 
+                    usage: [
+                        "**ในการเจรจา:** 'Your demands are too high.' 'I don't think so. I'm trying to be reasonable.' (ข้อเรียกร้องของคุณสูงเกินไปนะ 'ผมไม่คิดอย่างนั้นนะ ผมกำลังพยายามจะใช้เหตุผลอยู่')",
+                        "**ในการโต้เถียง:** 'Please, let's not shout. I'm trying to be reasonable here.' (ได้โปรดเถอะ เราอย่าตะโกนใส่กันเลย ฉันกำลังพยายามจะคุยกันด้วยเหตุผลนะ)",
+                        "**กับลูก:** 'But I want it now!' 'I understand, but I'm trying to be reasonable. We can buy it next week.' (แต่หนูอยากได้มันตอนนี้นี่นา! 'แม่เข้าใจจ้ะ แต่แม่กำลังพยายามจะคุยกันด้วยเหตุผลนะ เราซื้อกันสัปดาห์หน้าก็ได้')"
+                    ], 
+                    collocations: [
+                        { term: "meet in the middle", example: "Let's try to meet in the middle and find a compromise. (เรามาพยายามเจอกันครึ่งทางและหาข้อตกลงที่ประนีประนอมกันเถอะ)" },
+                        { term: "see it from my perspective", example: "Please try to see it from my perspective. (กรุณาพยายามมองมันจากมุมมองของฉันบ้าง)" },
+                        { term: "a fair compromise", example: "I believe this is a fair compromise for both sides. (ผมเชื่อว่านี่เป็นการประนีประนอมที่ยุติธรรมสำหรับทั้งสองฝ่าย)" }
+                    ] 
+                },
+                { 
+                    eng: "I'm trying to warn you.", 
+                    thai: "ฉันกำลังพยายามจะเตือนคุณ", 
+                    usage: [
+                        "**เพื่อนทำอะไรเสี่ยงๆ:** 'Don't invest all your money in that! I'm trying to warn you.' (อย่าเอาเงินทั้งหมดของเธอไปลงทุนกับสิ่งนั้นนะ! ฉันกำลังพยายามจะเตือนเธออยู่)",
+                        "**ในที่ทำงาน:** 'Be careful what you say to the new boss. I'm trying to warn you.' (ระวังสิ่งที่คุณจะพูดกับเจ้านายคนใหม่ด้วยนะ ผมกำลังพยายามจะเตือนคุณ)",
+                        "**ในหนัง:** 'The old man said, 'Don't go into the forest at night!' He was trying to warn them.' (ชายชราพูดว่า 'อย่าเข้าไปในป่าตอนกลางคืนนะ!' เขากำลังพยายามจะเตือนพวกเขา)"
+                    ], 
+                    collocations: [
+                        { term: "a word of warning", example: "Let me give you a word of warning about that company. (ให้ฉันให้คำเตือนคุณสักหน่อยเกี่ยวกับบริษัทนั้นนะ)" },
+                        { term: "a red flag", example: "His refusal to answer the question was a big red flag for me. (การที่เขาปฏิเสธที่จะตอบคำถามนั้นเป็นสัญญาณเตือนภัยที่สำคัญสำหรับฉันเลย)" },
+                        { term: "better safe than sorry", example: "Check the locks again. Better safe than sorry. (ตรวจดูกลอนอีกครั้งนะ ปลอดภัยไว้ก่อนดีกว่าเสียใจทีหลัง)" }
+                    ] 
+                },
+                { 
+                    eng: "I'm trying to get in shape.", 
+                    thai: "ฉันกำลังพยายามจะลดหุ่น/ทำให้หุ่นดี", 
+                    usage: [
+                        "**เพื่อนทัก:** 'You're at the gym again?' 'Yes, I'm trying to get in shape for the summer.' (เธอมาที่ยิมอีกแล้วเหรอ 'ใช่ ฉันกำลังพยายามจะฟิตหุ่นสำหรับฤดูร้อนน่ะ')",
+                        "**อธิบาย:** 'Why did you stop eating sweets?' 'I'm trying to get in shape.' (ทำไมเธอถึงเลิกกินของหวานล่ะ 'ฉันกำลังพยายามจะทำให้หุ่นดีน่ะ')",
+                        "**คุยกัน:** 'My new year's resolution is to exercise more. I'm trying to get in shape.' (ปณิธานปีใหม่ของฉันคือการออกกำลังกายให้มากขึ้น ฉันกำลังพยายามจะฟิตหุ่น)"
+                    ], 
+                    collocations: [
+                        { term: "work out", example: "I'm trying to work out three times a week. (ฉันพยายามจะออกกำลังกายให้ได้สัปดาห์ละสามครั้ง)" },
+                        { term: "lose weight", example: "My main goal is to lose some weight. (เป้าหมายหลักของฉันคือการลดน้ำหนัก)" },
+                        { term: "build muscle", example: "He's trying to build muscle by lifting weights. (เขากำลังพยายามจะสร้างกล้ามเนื้อด้วยการยกน้ำหนัก)" }
+                    ] 
+                },
+                { 
+                    eng: "I'm trying to retrace my steps.", 
+                    thai: "ฉันกำลังพยายามจะย้อนรอยตัวเอง", 
+                    usage: [
+                        "**เมื่อทำของหาย:** 'I can't find my wallet. I'm trying to retrace my steps. Where did we go after lunch?' (ฉันหากระเป๋าสตางค์ไม่เจอ ฉันกำลังพยายามจะย้อนรอยตัวเองอยู่ หลังจากมื้อกลางวันเราไปไหนกันมานะ)",
+                        "**เมื่อลืม:** 'What was I about to do? I'm trying to retrace my steps.' (ฉันกำลังจะทำอะไรนะ ฉันกำลังพยายามจะนึกย้อนอยู่)",
+                        "**ในการสืบสวน:** 'The detective is trying to retrace the victim's last known steps.' (นักสืบกำลังพยายามจะย้อนรอยเส้นทางสุดท้ายที่เหยื่อไป)"
+                    ], 
+                    collocations: [
+                        { term: "go back over", example: "Let's go back over our conversation. I think I missed something. (เรามาย้อนทบทวนบทสนทนาของเรากันเถอะ ฉันคิดว่าฉันพลาดอะไรไปบางอย่าง)" },
+                        { term: "think back", example: "Try to think back to exactly what you saw. (พยายามนึกย้อนกลับไปให้ดีว่าคุณเห็นอะไรกันแน่)" },
+                        { term: "jog my memory", example: "Can you tell me what we discussed? I need something to jog my memory. (คุณช่วยบอกฉันหน่อยได้ไหมว่าเราคุยอะไรกันไป ฉันต้องการอะไรมาช่วยกระตุ้นความจำหน่อย)" }
+                    ] 
+                },
+                { 
+                    eng: "I'm trying to set a good example.", 
+                    thai: "ฉันกำลังพยายามจะทำตัวเป็นแบบอย่างที่ดี", 
+                    usage: [
+                        "**ในฐานะพี่คนโต:** 'Why are you always so responsible?' 'Because I'm the oldest. I'm trying to set a good example for my younger siblings.' (ทำไมเธอถึงมีความรับผิดชอบสูงขนาดนี้ล่ะ 'ก็เพราะว่าฉันเป็นคนโตน่ะสิ ฉันกำลังพยายามจะทำตัวเป็นแบบอย่างที่ดีให้น้องๆ')",
+                        "**ในฐานะหัวหน้า:** 'I always come to work on time because I'm trying to set a good example for my team.' (ผมมาทำงานตรงเวลาเสมอเพราะผมกำลังพยายามจะเป็นแบบอย่างที่ดีให้ทีมของผม)",
+                        "**ในฐานะพ่อแม่:** 'We don't use bad words in this house. We're trying to set a good example for our children.' (เราไม่พูดคำหยาบในบ้านหลังนี้นะ เรากำลังพยายามจะเป็นตัวอย่างที่ดีให้ลูกๆของเรา)"
+                    ], 
+                    collocations: [
+                        { term: "a role model", example: "As a teacher, you are a role model for your students. (ในฐานะครู คุณคือแบบอย่างสำหรับนักเรียนของคุณ)" },
+                        { term: "lead by example", example: "A true leader leads by example. (ผู้นำที่แท้จริงจะนำโดยการทำเป็นตัวอย่าง)" },
+                        { term: "practice what you preach", example: "You should practice what you preach. (คุณควรจะปฏิบัติในสิ่งที่คุณสั่งสอนคนอื่นด้วย)" }
+                    ] 
+                },
+                { 
+                    eng: "I'm trying to keep an open mind.", 
+                    thai: "ฉันกำลังพยายามจะเปิดใจให้กว้าง", 
+                    usage: [
+                        "**เมื่อเจอความคิดใหม่ๆ:** 'I've never thought about it that way before, but I'm trying to keep an open mind.' (ฉันไม่เคยคิดเกี่ยวกับมันในแง่นั้นมาก่อนเลยนะ แต่ฉันก็กำลังพยายามจะเปิดใจให้กว้าง)",
+                        "**เมื่อลองอะไรใหม่ๆ:** 'I don't usually like modern art, but I'm trying to keep an open mind.' (ปกติฉันไม่ค่อยชอบศิลปะสมัยใหม่หรอกนะ แต่ฉันก็พยายามจะเปิดใจดู)",
+                        "**ในการเจรจา:** 'Please, listen to their proposal. We need to try to keep an open mind.' (ได้โปรด ฟังข้อเสนอของพวกเขาก่อนนะ เราต้องพยายามจะเปิดใจให้กว้าง)"
+                    ], 
+                    collocations: [
+                        { term: "be receptive to", example: "You should be receptive to new ideas. (คุณควรจะเปิดรับความคิดใหม่ๆ)" },
+                        { term: "without prejudice", example: "Let's listen to his side of the story without prejudice. (เรามาฟังเรื่องราวในมุมของเขาโดยปราศจากอคติกันเถอะ)" },
+                        { term: "see things from a different perspective", example: "It's helpful to see things from a different perspective. (การมองสิ่งต่างๆจากมุมมองที่แตกต่างออกไปเป็นประโยชน์นะ)" }
+                    ] 
+                },
+                { 
+                    eng: "I'm trying to break the ice.", 
+                    thai: "ฉันกำลังพยายามจะทำลายความอึดอัด", 
+                    usage: [
+                        "**ในงานเลี้ยง:** 'Why are you telling that silly joke?' 'I'm trying to break the ice. Everyone is so quiet.' (ทำไมเธอถึงเล่ามุกตลกไร้สาระนั่นล่ะ 'ฉันกำลังพยายามจะทำลายความอึดอัดน่ะสิ ทุกคนเงียบกันหมดเลย')",
+                        "**วันแรกของคลาส:** 'The teacher asked us to play a name game. She was trying to break the ice.' (คุณครูขอให้เราเล่นเกมทายชื่อ เธอกำลังพยายามจะละลายพฤติกรรม)",
+                        "**ในการเดทครั้งแรก:** 'So... do you like movies?' 'Yes... sorry, I'm a bit nervous. I'm trying to break the ice.' (แล้ว... คุณชอบดูหนังไหมครับ 'ค่ะ... ขอโทษนะคะ ฉันประหม่านิดหน่อย ฉันกำลังพยายามจะเริ่มบทสนทนาน่ะค่ะ')"
+                    ], 
+                    collocations: [
+                        { term: "an icebreaker", example: "Let's start with a quick icebreaker activity. (เรามาเริ่มต้นด้วยกิจกรรมละลายพฤติกรรมสั้นๆกันเถอะ)" },
+                        { term: "strike up a conversation", example: "He's very shy; he finds it hard to strike up a conversation. (เขาเป็นคนขี้อายมาก เขารู้สึกว่าการเริ่มต้นบทสนทนาเป็นเรื่องยาก)" },
+                        { term: "awkward silence", example: "There was an awkward silence after his comment. (เกิดความเงียบที่น่าอึดอัดขึ้นหลังจากความคิดเห็นของเขา)" }
+                    ] 
+                },
+                { 
+                    eng: "I'm trying to get your attention.", 
+                    thai: "ฉันกำลังพยายามจะเรียกความสนใจจากคุณ", 
+                    usage: [
+                        "**ในห้องเรียน:** 'Excuse me, professor! I'm trying to get your attention. I have a question.' (ขอโทษครับ ศาสตราจารย์! ผมกำลังพยายามจะเรียกความสนใจจากท่านครับ ผมมีคำถาม)",
+                        "**ในร้านอาหาร:** 'I've been waving at the waiter for five minutes. I'm trying to get his attention.' (ฉันโบกมือให้พนักงานเสิร์ฟมาห้านาทีแล้วนะ ฉันกำลังพยายามจะเรียกความสนใจจากเขา)",
+                        "**เพื่อนคุยกัน:** 'Why are you acting so strange?' 'Because you're not listening to me! I'm trying to get your attention.' (ทำไมเธอทำตัวแปลกๆ 'ก็เพราะเธอไม่ฟังฉันเลยน่ะสิ! ฉันกำลังพยายามจะเรียกความสนใจจากเธออยู่เนี่ย')"
+                    ], 
+                    collocations: [
+                        { term: "catch your eye", example: "I wore a bright red dress, trying to catch his eye. (ฉันใส่ชุดสีแดงสด พยายามที่จะดึงดูดสายตาของเขา)" },
+                        { term: "make myself heard", example: "With all this noise, it's hard to make myself heard. (ด้วยเสียงดังทั้งหมดนี้ มันยากที่จะทำให้คนอื่นได้ยินเสียงฉัน)" },
+                        { term: "signal to", example: "I was trying to signal to you that we should leave. (ฉันกำลังพยายามจะส่งสัญญาณให้เธอว่าเราควรจะกลับได้แล้ว)" }
+                    ] 
+                },
+                { 
+                    eng: "I'm trying to apologize.", 
+                    thai: "ฉันกำลังพยายามจะขอโทษ", 
+                    usage: [
+                        "**หลังจากการทะเลาะ:** 'Please, just let me speak. I'm trying to apologize for what I said.' (ได้โปรด ให้ฉันได้พูดเถอะ ฉันกำลังพยายามจะขอโทษสำหรับสิ่งที่ฉันพูดไป)",
+                        "**ทางโทรศัพท์:** 'Don't hang up! I know I messed up. I'm trying to apologize.' (อย่าเพิ่งวางสายนะ! ฉันรู้ว่าฉันทำพลาดไป ฉันกำลังพยายามจะขอโทษ)",
+                        "**เมื่อมีคนไม่รับฟัง:** 'He won't even look at me. It's hard when I'm trying to apologize.' (เขาไม่ยอมแม้แต่จะมองหน้าฉันเลย มันยากนะเวลาที่ฉันกำลังพยายามจะขอโทษ)"
+                    ], 
+                    collocations: [
+                        { term: "make amends", example: "I want to make amends for the trouble I've caused. (ฉันต้องการจะชดใช้สำหรับปัญหาที่ฉันได้ก่อขึ้น)" },
+                        { term: "say I'm sorry", example: "It's hard for him to say he's sorry. (มันเป็นเรื่องยากสำหรับเขาที่จะพูดว่าขอโทษ)" },
+                        { term: "ask for forgiveness", example: "I'm here to ask for your forgiveness. (ฉันมาที่นี่เพื่อที่จะขอการให้อภัยจากคุณ)" }
+                    ] 
+                },
+                { 
+                    eng: "I'm trying to be supportive.", 
+                    thai: "ฉันกำลังพยายามจะเป็นกำลังใจให้", 
+                    usage: [
+                        "**เมื่อเพื่อนล้มเหลว:** 'I know your business failed, but I'm here for you. I'm trying to be supportive.' (ฉันรู้ว่าธุรกิจของเธอล้มเหลวนะ แต่ฉันอยู่ตรงนี้เพื่อเธอ ฉันกำลังพยายามจะเป็นกำลังใจให้นะ)",
+                        "**เมื่อลูกตัดสินใจ:** 'I don't agree with your decision, but you're an adult. I'm trying to be supportive.' (พ่อไม่เห็นด้วยกับการตัดสินใจของลูกนะ แต่ลูกก็โตแล้ว พ่อกำลังพยายามจะสนับสนุนนะ)",
+                        "**ในทีม:** 'Even though it wasn't my idea, I'm trying to be supportive of the team's choice.' (แม้ว่ามันจะไม่ใช่ความคิดของฉัน แต่ฉันก็กำลังพยายามจะสนับสนุนการตัดสินใจของทีม)"
+                    ], 
+                    collocations: [
+                        { term: "have your back", example: "No matter what you decide, I'll have your back. (ไม่ว่าเธอจะตัดสินใจอย่างไร ฉันจะคอยหนุนหลังเธอเสมอ)" },
+                        { term: "be there for you", example: "I'll be there for you if you need me. (ฉันจะอยู่เคียงข้างเธอนะถ้าเธอต้องการฉัน)" },
+                        { term: "a pillar of support", example: "My husband has been a pillar of support throughout my illness. (สามีของฉันเป็นเสาหลักแห่งการสนับสนุนตลอดการเจ็บป่วยของฉัน)" }
+                    ] 
+                },
+                { 
+                    eng: "I'm trying to be myself.", 
+                    thai: "ฉันกำลังพยายามจะเป็นตัวของตัวเอง", 
+                    usage: [
+                        "**ในสังคมใหม่:** 'It's hard to fit in at a new school.' 'I know, but I'm just trying to be myself.' (การปรับตัวเข้ากับโรงเรียนใหม่มันยากนะ 'ฉันรู้ แต่ฉันก็แค่กำลังพยายามจะเป็นตัวของตัวเอง')",
+                        "**เมื่อโดนกดดัน:** 'People want me to act a certain way, but I'm trying to be myself.' (ผู้คนต้องการให้ฉันทำตัวในแบบที่แน่นอนแบบหนึ่ง แต่ฉันกำลังพยายามจะเป็นตัวของฉันเอง)",
+                        "**คุยกับตัวเอง:** 'No more pretending. From now on, I'm trying to be myself.' (ไม่มีการเสแสร้งอีกต่อไป จากนี้ไปฉันจะพยายามเป็นตัวของตัวเอง)"
+                    ], 
+                    collocations: [
+                        { term: "true to myself", example: "The most important thing is to be true to myself. (สิ่งที่สำคัญที่สุดคือการซื่อสัตย์ต่อตัวเอง)" },
+                        { term: "let my guard down", example: "I'm trying to let my guard down and be more open. (ฉันกำลังพยายามจะลดกำแพงลงและเปิดใจให้มากขึ้น)" },
+                        { term: "in my own skin", example: "It took a long time to feel comfortable in my own skin. (มันใช้เวลานานมากเลยกว่าจะรู้สึกสบายใจกับการเป็นตัวเอง)" }
+                    ] 
+                },
+                { 
+                    eng: "I'm trying to avoid conflict.", 
+                    thai: "ฉันกำลังพยายามจะหลีกเลี่ยงความขัดแย้ง", 
+                    usage: [
+                        "**ในการประชุม:** 'I disagree, but I won't say anything. I'm trying to avoid conflict.' (ผมไม่เห็นด้วยนะ แต่ผมจะไม่พูดอะไร ผมกำลังพยายามจะหลีกเลี่ยงความขัดแย้ง)",
+                        "**กับเพื่อนร่วมห้อง:** 'Why didn't you tell him you were annoyed?' 'Because I'm trying to avoid conflict.' (ทำไมเธอไม่บอกเขาล่ะว่าเธอรำคาญ 'ก็เพราะว่าฉันกำลังพยายามจะหลีกเลี่ยงการทะเลาะกันน่ะสิ')",
+                        "**ในครอบครัว:** 'Let's not talk about politics at dinner. I'm trying to avoid conflict.' (เราอย่าคุยเรื่องการเมืองตอนทานข้าวเย็นกันเลยนะ ฉันกำลังพยายามจะหลีกเลี่ยงความขัดแย้ง)"
+                    ], 
+                    collocations: [
+                        { term: "steer clear of", example: "I try to steer clear of controversial topics. (ฉันพยายามจะหลีกเลี่ยงหัวข้อที่ก่อให้เกิดความขัดแย้ง)" },
+                        { term: "keep the peace", example: "Sometimes it's easier to just agree to keep the peace. (บางครั้งมันก็ง่ายกว่าที่จะแค่ยอมๆไปเพื่อรักษาความสงบ)" },
+                        { term: "not looking for a fight", example: "I'm not looking for a fight; I just want to solve the problem. (ฉันไม่ได้ต้องการจะหาเรื่องทะเลาะนะ ฉันก็แค่ต้องการจะแก้ปัญหา)" }
+                    ] 
+                },
+                { 
+                    eng: "I'm trying to let it go.", 
+                    thai: "ฉันกำลังพยายามจะปล่อยมันไป", 
+                    usage: [
+                        "**หลังจากการทะเลาะ:** 'Are you still angry at him?' 'I was, but I'm trying to let it go. It's not worth it.' (เธอยังโกรธเขาอยู่ไหม 'เคยโกรธนะ แต่ฉันกำลังพยายามจะปล่อยมันไป มันไม่คุ้มค่าเลย')",
+                        "**เมื่อผิดหวัง:** 'I can't believe I didn't get the job.' 'I know it's hard, but I'm trying to let it go and move on.' (ไม่อยากจะเชื่อเลยว่าฉันไม่ได้งานนั้น 'ฉันรู้ว่ามันยาก แต่ฉันก็กำลังพยายามจะปล่อยวางและก้าวต่อไป')",
+                        "**เรื่องในอดีต:** 'You still think about that mistake?' 'Sometimes, but I'm trying to let it go.' (เธอยังคงคิดถึงความผิดพลาดนั้นอยู่เหรอ 'บางครั้งนะ แต่ฉันก็กำลังพยายามจะปล่อยมันไป')"
+                    ], 
+                    collocations: [
+                        { term: "move on", example: "It's time to accept it and move on. (มันถึงเวลาที่จะต้องยอมรับมันและก้าวต่อไปแล้ว)" },
+                        { term: "forgive and forget", example: "I'm trying to forgive and forget, but it's not easy. (ฉันกำลังพยายามจะให้อภัยและลืมไปซะ แต่มันก็ไม่ง่ายเลย)" },
+                        { term: "water under the bridge", example: "Our argument is in the past. It's water under the bridge now. (การทะเลาะของเรามันเป็นเรื่องในอดีตไปแล้ว ตอนนี้มันผ่านไปแล้วล่ะ)" }
+                    ] 
+                },
+                { 
+                    eng: "I'm trying to stay relevant.", 
+                    thai: "ฉันกำลังพยายามจะตามให้ทันโลก", 
+                    usage: [
+                        "**คนรุ่นเก่า:** 'Why are you on TikTok?' 'I'm trying to stay relevant with the younger generation.' (ทำไมคุณถึงเล่น TikTok ล่ะ 'ฉันกำลังพยายามจะตามให้ทันคนรุ่นใหม่น่ะ')",
+                        "**ในสายอาชีพ:** 'Technology is changing so fast. I'm trying to stay relevant by learning new software.' (เทคโนโลยีเปลี่ยนแปลงเร็วมากเลยนะ ฉันกำลังพยายามจะตามให้ทันด้วยการเรียนรู้ซอฟต์แวร์ใหม่ๆ')",
+                        "**ศิลปิน:** 'Her music style has changed a lot.' 'She's trying to stay relevant in the modern music scene.' (สไตล์เพลงของเธอเปลี่ยนไปมากเลยนะ 'เธอกำลังพยายามจะปรับตัวให้เข้ากับวงการเพลงสมัยใหม่น่ะ')"
+                    ], 
+                    collocations: [
+                        { term: "keep up with the times", example: "You have to keep up with the times or you'll be left behind. (คุณต้องตามโลกให้ทันไม่อย่างนั้นคุณจะถูกทิ้งไว้ข้างหลัง)" },
+                        { term: "adapt to change", example: "The company is trying to adapt to the changing market. (บริษัทกำลังพยายามจะปรับตัวเข้ากับการเปลี่ยนแปลงของตลาด)" },
+                        { term: "stay up-to-date", example: "It's important to stay up-to-date with the latest technology. (การติดตามเทคโนโลยีล่าสุดเป็นสิ่งสำคัญ)" }
+                    ] 
+                },
+{ 
+            eng: "I'm trying to process this.", 
+            thai: "ฉันกำลังพยายามทำความเข้าใจเรื่องนี้", 
+            usage: [
+                "**เมื่อได้รับข่าวร้าย:** 'I just heard about the accident. I'm still trying to process this news.' (ฉันเพิ่งได้ยินข่าวอุบัติเหตุ ฉันยังคงพยายามทำความเข้าใจข่าวนี้อยู่)",
+                "**เมื่อเจอเรื่องประหลาดใจ:** 'They told me I got the promotion! Give me a minute, I'm trying to process this.' (พวกเขาบอกว่าฉันได้เลื่อนตำแหน่ง! ขอเวลาฉันสักครู่นะ ฉันกำลังพยายามทำความเข้าใจอยู่)",
+                "**เมื่อเจอข้อมูลซับซ้อน:** 'The lawyer explained the contract, but it's a lot to take in. I'm trying to process it all.' (ทนายความอธิบายสัญญาแล้ว แต่มันมีข้อมูลเยอะมากที่ต้องรับรู้ ฉันกำลังพยายามทำความเข้าใจทั้งหมด)"
+            ], 
+            collocations: [
+                { term: "let it sink in", example: "I need a moment to let it all sink in. (ฉันต้องการเวลาสักครู่เพื่อให้ข้อมูลทั้งหมดซึมซับเข้าไป)" },
+                { term: "a lot to take in", example: "The lecture was great, but it was a lot to take in at once. (การบรรยายนั้นยอดเยี่ยมมาก แต่มันก็มีข้อมูลเยอะเกินกว่าจะรับไหวในครั้งเดียว)" },
+                { term: "come to terms with", example: "She's still trying to come to terms with her loss. (เธอยังคงพยายามที่จะยอมรับความสูญเสียของเธอ)" }
+            ] 
         }
+            ];
 
-        function closeModal() {
-            modal.classList.add('opacity-0', 'pointer-events-none');
-            modal.classList.remove('active');
-            document.body.style.overflow = 'auto';
-        }
+            const sentencesGrid = document.getElementById('sentences-grid');
+            const modal = document.getElementById('sentence-modal');
+            const modalContent = document.getElementById('modal-content');
+            const modalSentence = document.getElementById('modal-sentence');
+            const modalTranslation = document.getElementById('modal-translation');
+            const modalUsage = document.getElementById('modal-usage');
+            const modalCollocations = document.getElementById('modal-collocations');
 
-        closeModalBtn.addEventListener('click', closeModal);
-        modal.addEventListener('click', (e) => {
-            if (e.target.id === 'modal') {
-                closeModal();
+            function displaySentences() {
+                sentencesGrid.innerHTML = ''; 
+                sentencesData.forEach((data, index) => {
+                    const item = document.createElement('div');
+                    item.className = 'sentence-item cursor-pointer p-4 rounded-lg shadow-sm border border-gray-200';
+                    item.dataset.index = index;
+                    
+                    const engText = document.createElement('p');
+                    engText.className = 'font-semibold text-indigo-800 pointer-events-none';
+                    engText.textContent = data.eng;
+                    
+                    const thaiText = document.createElement('p');
+                    thaiText.className = 'text-gray-600 text-sm pointer-events-none';
+                    thaiText.textContent = `(${data.thai})`;
+                    
+                    item.appendChild(engText);
+                    item.appendChild(thaiText);
+                    
+                    sentencesGrid.appendChild(item);
+                });
             }
+
+            function openModal(index) {
+                const data = sentencesData[index];
+                
+                modalSentence.textContent = data.eng;
+                modalTranslation.textContent = data.thai;
+
+                modalUsage.innerHTML = '';
+                modalUsage.className = 'space-y-4'; 
+
+                data.usage.forEach(use => {
+                    const li = document.createElement('li');
+                    li.className = 'bg-blue-50 border-l-4 border-blue-300 p-4 rounded-r-md shadow-sm';
+                    const parts = use.match(/\*\*(.*?):\*\* '(.*?)' \((.*?)\)/);
+
+                    if (parts && parts.length === 4) {
+                        const context = parts[1];
+                        const english = parts[2];
+                        const thai = parts[3];
+
+                        const contentDiv = document.createElement('div');
+                        
+                        const line1 = document.createElement('div');
+                        const contextSpan = document.createElement('span');
+                        contextSpan.className = 'font-semibold text-amber-700 mr-2 text-lg';
+                        contextSpan.textContent = `${context}:`;
+                        
+                        const englishSpan = document.createElement('span');
+                        englishSpan.className = 'italic text-gray-800 text-lg';
+                        englishSpan.textContent = `'${english}'`;
+                        line1.appendChild(contextSpan);
+                        line1.appendChild(englishSpan);
+
+                        const line2 = document.createElement('div');
+                        const thaiSpan = document.createElement('span');
+                        thaiSpan.className = 'text-gray-600 mt-1 text-base';
+                        thaiSpan.textContent = `(${thai})`;
+                        line2.appendChild(thaiSpan);
+
+                        contentDiv.appendChild(line1);
+                        contentDiv.appendChild(line2);
+                        li.appendChild(contentDiv);
+
+                    } else {
+                        li.innerHTML = use.replace(/\*\*(.*?)\*\*/g, '<strong class="font-semibold text-gray-800">$1</strong>');
+                    }
+                    modalUsage.appendChild(li);
+                });
+
+                modalCollocations.innerHTML = '';
+                const collocationList = document.createElement('ul');
+                collocationList.className = 'list-disc list-inside text-gray-700 space-y-3 text-base';
+                data.collocations.forEach(col => {
+                    const li = document.createElement('li');
+                    li.innerHTML = `<strong class="font-semibold text-gray-800">${col.term}:</strong> ${col.example}`;
+                    collocationList.appendChild(li);
+                });
+                modalCollocations.appendChild(collocationList);
+                
+                modal.classList.remove('opacity-0', 'pointer-events-none', 'invisible');
+                modalContent.classList.remove('scale-95');
+                modalContent.classList.add('scale-100');
+            }
+
+            function closeModal() {
+                modal.classList.add('opacity-0');
+                modalContent.classList.add('scale-95');
+                setTimeout(() => {
+                    modal.classList.add('pointer-events-none', 'invisible');
+                }, 300); 
+            }
+
+            document.body.addEventListener('click', (e) => {
+                const sentenceItem = e.target.closest('.sentence-item');
+                const closeButton = e.target.closest('#close-modal-btn');
+                const modalContentArea = e.target.closest('#modal-content');
+                const modalIsVisible = !modal.classList.contains('invisible');
+
+                if (sentenceItem) {
+                    openModal(sentenceItem.dataset.index);
+                    return;
+                }
+
+                if (closeButton || (modalIsVisible && !modalContentArea)) {
+                    closeModal();
+                }
+            });
+
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape' && !modal.classList.contains('invisible')) {
+                    closeModal();
+                }
+            });
+
+            displaySentences();
         });
     </script>
+
 </body>
 </html>
+

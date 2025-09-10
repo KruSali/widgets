@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>English News for Beginners - Dangers of "Magic Paper"</title>
+    <style>
+        body {
+            font-family: 'Tahoma', 'Geneva', sans-serif;
+            font-size: 20px;
+            line-height: 1.8;
+            color: #333;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 900px;
+            margin: auto;
+            background: #fff;
+            padding: 30px 40px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+        h1, h2 {
+            color: #0056b3;
+            border-bottom: 3px solid #f0f0f0;
+            padding-bottom: 15px;
+        }
+        h1 {
+            font-size: 2.3em;
+            text-align: center;
+            margin-bottom: 10px;
+            color: #dc3545;
+        }
+        h2 {
+            font-size: 1.9em;
+            margin-top: 40px;
+        }
+        .branding {
+            text-align: center;
+            color: #555;
+            font-size: 0.9em;
+            margin-bottom: 30px;
+        }
+        
+        /* Vocabulary Section */
+        .vocab-list {
+            margin-top: 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+            gap: 20px;
+        }
+        .vocab-item {
+            background-color: #fefdf5;
+            padding: 20px;
+            border: 1px solid #eee;
+            border-left: 6px solid #ffc107;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+        }
+        .vocab-word {
+            font-weight: bold;
+            color: #c9302c;
+            font-size: 1.3em;
+        }
+        .pronunciation-th {
+            font-weight: bold;
+            color: #007bff;
+        }
+        .pronunciation-th u {
+            text-decoration: underline;
+            text-decoration-color: #c9302c;
+        }
+        .example-sentence {
+            font-style: italic;
+            color: #555;
+            margin-top: 10px;
+        }
+        .toggle-translation {
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px dashed #ddd;
+        }
+        .translation-th {
+            color: #28a745;
+            font-weight: bold;
+        }
+        .vocab-item button {
+            background-color: #5bc0de;
+            color: white;
+            padding: 8px 12px;
+            font-size: 16px;
+            margin-top: 15px;
+            align-self: flex-start;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .vocab-item button:hover {
+            background-color: #31b0d5;
+        }
+
+        /* News Article Section */
+        .news-article {
+            background-color: #fff5f5;
+            padding: 25px;
+            border-radius: 8px;
+            margin-top: 20px;
+            border: 1px solid #f5c6cb;
+        }
+
+        /* Tooltip styles */
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            border-bottom: 2px dotted #dc3545;
+            cursor: pointer;
+            font-weight: bold;
+            color: #dc3545;
+        }
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 320px;
+            background-color: #333;
+            color: #fff;
+            text-align: left;
+            border-radius: 6px;
+            padding: 15px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -160px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+        .tooltip .tooltiptext::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: #333 transparent transparent transparent;
+        }
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+        .tooltip-title {
+            font-weight: bold;
+            color: #ffc107;
+        }
+        .tooltip-content {
+            font-weight: normal;
+            color: #fff;
+        }
+        .tooltip-pronunciation-th u {
+            text-decoration: underline;
+            text-decoration-color: #ffc107;
+        }
+        
+        /* Exercise and Q&A Section */
+        .exercise, .q-and-a {
+            margin-top: 30px;
+            background-color: #f4f4f9;
+            padding: 25px;
+            border-radius: 8px;
+        }
+        .word-bank {
+            background-color: #e9ecef;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .word-bank span {
+            background-color: #fff;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            border: 1px solid #ccc;
+        }
+        .question {
+            margin-bottom: 20px;
+        }
+        .answer-input {
+            width: 180px;
+            padding: 10px;
+            font-size: 18px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        #results {
+            margin-top: 15px;
+            font-weight: bold;
+        }
+        .main-button {
+            background-color: #28a745;
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 18px;
+            margin-top: 10px;
+        }
+        .main-button:hover {
+            background-color: #218838;
+        }
+        .qa-answer {
+            display: none;
+            background-color: #e9ecef;
+            padding: 15px;
+            margin-top: 10px;
+            border-radius: 5px;
+            border-left: 5px solid #17a2b8;
+        }
+        .qa-answer ul {
+            padding-left: 20px;
+            margin: 0;
+        }
+        .qa-answer li {
+            margin-bottom: 10px;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+            color: #666;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Warning: "Magic Paper" is Dangerous and Can Kill You!</h1>
+        <p class="branding">ครูสาลี่ -- อังกฤษฉบับคนเรียนไม่รู้เรื่อง</p>
+        
+        <h2>Key Words to Know First 🔑</h2>
+        <div class="vocab-list">
+             <div class="vocab-item">
+                <p><span class="vocab-word">Dangerous (adj.)</span></p>
+                <p class="pronunciation-th">คำอ่าน: <u>เดน</u>-เจอ-เริส</p>
+                <p><strong>Meaning:</strong> able or likely to cause harm or injury.</p>
+                <p class="example-sentence">"It is dangerous to play with fire."</p>
+                <div class="toggle-translation" style="display:none;">
+                    <p class="translation-th">คำแปล: อันตราย</p>
+                    <p class="translation-th">แปลประโยค: "การเล่นกับไฟเป็นสิ่งที่อันตราย"</p>
+                </div>
+                <button onclick="toggleTranslation(this)">แสดงคำแปล</button>
+            </div>
+             <div class="vocab-item">
+                <p><span class="vocab-word">Drug (n.)</span></p>
+                <p class="pronunciation-th">คำอ่าน: ดรัก</p>
+                <p><strong>Meaning:</strong> a chemical substance that can have a strong effect on the body and mind.</p>
+                <p class="example-sentence">"LSD is a very powerful and illegal drug."</p>
+                <div class="toggle-translation" style="display:none;">
+                    <p class="translation-th">คำแปล: ยา, ยาเสพติด</p>
+                    <p class="translation-th">แปลประโยค: "LSD เป็นยาเสพติดที่ผิดกฎหมายและมีฤทธิ์รุนแรงมาก"</p>
+                </div>
+                <button onclick="toggleTranslation(this)">แสดงคำแปล</button>
+            </div>
+             <div class="vocab-item">
+                <p><span class="vocab-word">Effect (n.)</span></p>
+                <p class="pronunciation-th">คำอ่าน: อิ-<u>เฟ็คท</u></p>
+                <p><strong>Meaning:</strong> a change that is a result of an action or other cause.</p>
+                <p class="example-sentence">"This drug has strange effects on the brain."</p>
+                <div class="toggle-translation" style="display:none;">
+                    <p class="translation-th">คำแปล: ผลกระทบ, ฤทธิ์</p>
+                    <p class="translation-th">แปลประโยค: "ยานี้มีฤทธิ์แปลกๆ ต่อสมอง"</p>
+                </div>
+                <button onclick="toggleTranslation(this)">แสดงคำแปล</button>
+            </div>
+             <div class="vocab-item">
+                <p><span class="vocab-word">Hallucination (n.)</span></p>
+                <p class="pronunciation-th">คำอ่าน: ฮา-ลู-ซิ-<u>เน</u>-เชิน</p>
+                <p><strong>Meaning:</strong> seeing, hearing, or feeling things that are not really there.</p>
+                <p class="example-sentence">"After taking the drug, he had hallucinations."</p>
+                <div class="toggle-translation" style="display:none;">
+                    <p class="translation-th">คำแปล: อาการประสาทหลอน</p>
+                    <p class="translation-th">แปลประโยค: "หลังจากใช้ยาเสพติด เขาก็เกิดอาการประสาทหลอน"</p>
+                </div>
+                <button onclick="toggleTranslation(this)">แสดงคำแปล</button>
+            </div>
+             <div class="vocab-item">
+                <p><span class="vocab-word">Severe (adj.)</span></p>
+                <p class="pronunciation-th">คำอ่าน: ซิ-<u>เวียร์</u></p>
+                <p><strong>Meaning:</strong> very bad or serious.</p>
+                <p class="example-sentence">"The man had a severe headache."</p>
+                <div class="toggle-translation" style="display:none;">
+                    <p class="translation-th">คำแปล: รุนแรง, ร้ายแรง</p>
+                    <p class="translation-th">แปลประโยค: "ผู้ชายคนนั้นมีอาการปวดหัวอย่างรุนแรง"</p>
+                </div>
+                <button onclick="toggleTranslation(this)">แสดงคำแปล</button>
+            </div>
+             <div class="vocab-item">
+                <p><span class="vocab-word">Risk (n.)</span></p>
+                <p class="pronunciation-th">คำอ่าน: ริสคฺ</p>
+                <p><strong>Meaning:</strong> a situation involving exposure to danger.</p>
+                <p class="example-sentence">"There is a high risk of getting sick if you don't wash your hands."</p>
+                <div class="toggle-translation" style="display:none;">
+                    <p class="translation-th">คำแปล: ความเสี่ยง</p>
+                    <p class="translation-th">แปลประโยค: "มีความเสี่ยงสูงที่จะป่วยถ้าคุณไม่ล้างมือ"</p>
+                </div>
+                <button onclick="toggleTranslation(this)">แสดงคำแปล</button>
+            </div>
+             <div class="vocab-item">
+                <p><span class="vocab-word">Body (n.)</span></p>
+                <p class="pronunciation-th">คำอ่าน: <u>บอ</u>-ดี</p>
+                <p><strong>Meaning:</strong> the whole physical structure of a person or animal.</p>
+                <p class="example-sentence">"The drug has bad effects on your body and mind."</p>
+                <div class="toggle-translation" style="display:none;">
+                    <p class="translation-th">คำแปล: ร่างกาย</p>
+                    <p class="translation-th">แปลประโยค: "ยาเสพติดมีผลเสียต่อร่างกายและจิตใจของคุณ"</p>
+                </div>
+                <button onclick="toggleTranslation(this)">แสดงคำแปล</button>
+            </div>
+             <div class="vocab-item">
+                <p><span class="vocab-word">Mind (n.)</span></p>
+                <p class="pronunciation-th">คำอ่าน: ไมนดฺ</p>
+                <p><strong>Meaning:</strong> the part of a person that thinks, feels, and remembers.</p>
+                <p class="example-sentence">"A healthy body is good for your mind."</p>
+                <div class="toggle-translation" style="display:none;">
+                    <p class="translation-th">คำแปล: จิตใจ</p>
+                    <p class="translation-th">แปลประโยค: "ร่างกายที่แข็งแรงดีต่อจิตใจของคุณ"</p>
+                </div>
+                <button onclick="toggleTranslation(this)">แสดงคำแปล</button>
+            </div>
+             <div class="vocab-item">
+                <p><span class="vocab-word">Warn (v.)</span></p>
+                <p class="pronunciation-th">คำอ่าน: วอร์น</p>
+                <p><strong>Meaning:</strong> to tell someone about a possible danger or problem.</p>
+                <p class="example-sentence">"Doctors warn people not to use this drug."</p>
+                <div class="toggle-translation" style="display:none;">
+                    <p class="translation-th">คำแปล: เตือน</p>
+                    <p class="translation-th">แปลประโยค: "แพทย์เตือนประชาชนไม่ให้ใช้ยานี้"</p>
+                </div>
+                <button onclick="toggleTranslation(this)">แสดงคำแปล</button>
+            </div>
+             <div class="vocab-item">
+                <p><span class="vocab-word">Life (n.)</span></p>
+                <p class="pronunciation-th">คำอ่าน: ไลฟฺ</p>
+                <p><strong>Meaning:</strong> the state of being alive.</p>
+                <p class="example-sentence">"This dangerous drug can end a person's life."</p>
+                <div class="toggle-translation" style="display:none;">
+                    <p class="translation-th">คำแปล: ชีวิต</p>
+                    <p class="translation-th">แปลประโยค: "ยาเสพติดอันตรายนี้สามารถจบชีวิตของคนได้"</p>
+                </div>
+                <button onclick="toggleTranslation(this)">แสดงคำแปล</button>
+            </div>
+             <div class="vocab-item">
+                <p><span class="vocab-word">Illegal (adj.)</span></p>
+                <p class="pronunciation-th">คำอ่าน: อิล-<u>ลี</u>-เกิล</p>
+                <p><strong>Meaning:</strong> against the law.</p>
+                <p class="example-sentence">"It is illegal to sell these drugs."</p>
+                <div class="toggle-translation" style="display:none;">
+                    <p class="translation-th">คำแปล: ผิดกฎหมาย</p>
+                    <p class="translation-th">แปลประโยค: "การขายยาเสพติดเหล่านี้เป็นสิ่งผิดกฎหมาย"</p>
+                </div>
+                <button onclick="toggleTranslation(this)">แสดงคำแปล</button>
+            </div>
+             <div class="vocab-item">
+                <p><span class="vocab-word">Control (v.)</span></p>
+                <p class="pronunciation-th">คำอ่าน: คอน-<u>โทรล</u></p>
+                <p><strong>Meaning:</strong> to have the power to manage or direct something.</p>
+                <p class="example-sentence">"Sometimes, users cannot control their own actions."</p>
+                <div class="toggle-translation" style="display:none;">
+                    <p class="translation-th">คำแปล: ควบคุม</p>
+                    <p class="translation-th">แปลประโยค: "บางครั้ง ผู้ใช้ไม่สามารถควบคุมการกระทำของตนเองได้"</p>
+                </div>
+                <button onclick="toggleTranslation(this)">แสดงคำแปล</button>
+            </div>
+        </div>
+
+        <h2>News Story 📰</h2>
+        <div class="news-article">
+            <p>
+                Doctors in Thailand 
+                <span class="tooltip">warn
+                    <span class="tooltiptext">
+                        <span class="tooltip-title">Pronunciation (TH):</span> <span class="tooltip-content tooltip-pronunciation-th">วอร์น</span><br>
+                        <span class="tooltip-title">Meaning:</span> <span class="tooltip-content">เตือน</span><br>
+                        <span class="tooltip-title">Synonyms:</span> <span class="tooltip-content">advise, caution</span>
+                    </span>
+                </span>
+                everyone about a very 
+                <span class="tooltip">dangerous
+                    <span class="tooltiptext">
+                        <span class="tooltip-title">Pronunciation (TH):</span> <span class="tooltip-content tooltip-pronunciation-th"><u>เดน</u>-เจอ-เริส</span><br>
+                        <span class="tooltip-title">Meaning:</span> <span class="tooltip-content">อันตราย</span><br>
+                        <span class="tooltip-title">Synonyms:</span> <span class="tooltip-content">risky, unsafe, harmful</span>
+                    </span>
+                </span>
+                <span class="tooltip">drug
+                    <span class="tooltiptext">
+                        <span class="tooltip-title">Pronunciation (TH):</span> <span class="tooltip-content tooltip-pronunciation-th">ดรัก</span><br>
+                        <span class="tooltip-title">Meaning:</span> <span class="tooltip-content">ยาเสพติด</span><br>
+                        <span class="tooltip-title">Synonyms:</span> <span class="tooltip-content">narcotic, substance</span>
+                    </span>
+                </span>
+                called "magic paper" or "death stamp." This is an 
+                <span class="tooltip">illegal
+                    <span class="tooltiptext">
+                        <span class="tooltip-title">Pronunciation (TH):</span> <span class="tooltip-content tooltip-pronunciation-th">อิล-<u>ลี</u>-เกิล</span><br>
+                        <span class="tooltip-title">Meaning:</span> <span class="tooltip-content">ผิดกฎหมาย</span><br>
+                        <span class="tooltip-title">Synonyms:</span> <span class="tooltip-content">unlawful, forbidden</span>
+                    </span>
+                </span>
+                drug called LSD on a small piece of paper. People put it under their tongue.
+            </p>
+            <p>
+                The 
+                <span class="tooltip">effects
+                    <span class="tooltiptext">
+                        <span class="tooltip-title">Pronunciation (TH):</span> <span class="tooltip-content tooltip-pronunciation-th">อิ-<u>เฟ็คท</u>สฺ</span><br>
+                        <span class="tooltip-title">Meaning:</span> <span class="tooltip-content">ผลกระทบ/ฤทธิ์</span><br>
+                        <span class="tooltip-title">Synonyms:</span> <span class="tooltip-content">results, consequences</span>
+                    </span>
+                </span>
+                start in 30-90 minutes and can last for 8-12 hours. They are very bad for the 
+                <span class="tooltip">body
+                    <span class="tooltiptext">
+                        <span class="tooltip-title">Pronunciation (TH):</span> <span class="tooltip-content tooltip-pronunciation-th"><u>บอ</u>-ดี</span><br>
+                        <span class="tooltip-title">Meaning:</span> <span class="tooltip-content">ร่างกาย</span><br>
+                        <span class="tooltip-title">Synonyms:</span> <span class="tooltip-content">physique, physical form</span>
+                    </span>
+                </span>
+                and 
+                <span class="tooltip">mind
+                    <span class="tooltiptext">
+                        <span class="tooltip-title">Pronunciation (TH):</span> <span class="tooltip-content tooltip-pronunciation-th">ไมนดฺ</span><br>
+                        <span class="tooltip-title">Meaning:</span> <span class="tooltip-content">จิตใจ</span><br>
+                        <span class="tooltip-title">Synonyms:</span> <span class="tooltip-content">brain, thoughts</span>
+                    </span>
+                </span>. People who use it can have a high body temperature, a fast heart, and cannot sleep.
+            </p>
+             <p>
+                The worst effect is 
+                <span class="tooltip">severe
+                    <span class="tooltiptext">
+                        <span class="tooltip-title">Pronunciation (TH):</span> <span class="tooltip-content tooltip-pronunciation-th">ซิ-<u>เวียร์</u></span><br>
+                        <span class="tooltip-title">Meaning:</span> <span class="tooltip-content">รุนแรง</span><br>
+                        <span class="tooltip-title">Synonyms:</span> <span class="tooltip-content">serious, extreme, harsh</span>
+                    </span>
+                </span>
+                <span class="tooltip">hallucinations
+                    <span class="tooltiptext">
+                        <span class="tooltip-title">Pronunciation (TH):</span> <span class="tooltip-content tooltip-pronunciation-th">ฮา-ลู-ซิ-<u>เน</u>-เชินสฺ</span><br>
+                        <span class="tooltip-title">Meaning:</span> <span class="tooltip-content">อาการประสาทหลอน</span><br>
+                        <span class="tooltip-title">Synonyms:</span> <span class="tooltip-content">visions, delusions</span>
+                    </span>
+                </span>. This means they see or hear things that are not real. They can become very scared and cannot 
+                <span class="tooltip">control
+                    <span class="tooltiptext">
+                        <span class="tooltip-title">Pronunciation (TH):</span> <span class="tooltip-content tooltip-pronunciation-th">คอน-<u>โทรล</u></span><br>
+                        <span class="tooltip-title">Meaning:</span> <span class="tooltip-content">ควบคุม</span><br>
+                        <span class="tooltip-title">Synonyms:</span> <span class="tooltip-content">manage, handle</span>
+                    </span>
+                </span>
+                themselves. This can lead to hurting themselves or other people. It can even cause death.
+             </p>
+             <p>
+                Using this drug for a long time has a high 
+                <span class="tooltip">risk
+                    <span class="tooltiptext">
+                        <span class="tooltip-title">Pronunciation (TH):</span> <span class="tooltip-content tooltip-pronunciation-th">ริสคฺ</span><br>
+                        <span class="tooltip-title">Meaning:</span> <span class="tooltip-content">ความเสี่ยง</span><br>
+                        <span class="tooltip-title">Synonyms:</span> <span class="tooltip-content">danger, chance, threat</span>
+                    </span>
+                </span>
+                of causing long-term mental illness. Doctors say that even after you stop using it, the mental problems can come back. So, please do not try this drug. It can ruin your 
+                <span class="tooltip">life
+                    <span class="tooltiptext">
+                        <span class="tooltip-title">Pronunciation (TH):</span> <span class="tooltip-content tooltip-pronunciation-th">ไลฟฺ</span><br>
+                        <span class="tooltip-title">Meaning:</span> <span class="tooltip-content">ชีวิต</span><br>
+                        <span class="tooltip-title">Synonyms:</span> <span class="tooltip-content">existence</span>
+                    </span>
+                </span>.
+             </p>
+        </div>
+
+        <div class="exercise">
+            <h2>Vocabulary Exercise ✍️</h2>
+            <p>Fill in the blanks with a correct word from the word bank below.</p>
+            <div class="word-bank">
+                <span>dangerous</span><span>drug</span><span>effect</span><span>hallucination</span>
+                <span>severe</span><span>risk</span><span>body</span><span>warn</span>
+                <span>life</span><span>illegal</span>
+            </div>
+            <div class="question">
+                1. Seeing things that are not real is called a __________.
+                <input type="text" id="q1" class="answer-input">
+            </div>
+            <div class="question">
+                2. Doctors __________ young people to stay away from drugs.
+                <input type="text" id="q2" class="answer-input">
+            </div>
+            <div class="question">
+                3. This __________ is very bad for your health and can kill you.
+                <input type="text" id="q3" class="answer-input">
+            </div>
+            <div class="question">
+                4. LSD is an __________ substance; you can be arrested for having it.
+                <input type="text" id="q4" class="answer-input">
+            </div>
+            <div class="question">
+                5. Using "magic paper" has many bad __________ on your brain.
+                <input type="text" id="q5" class="answer-input">
+            </div>
+            <button class="main-button" onclick="checkAnswers()">Check My Answers</button>
+            <div id="results"></div>
+        </div>
+
+        <div class="q-and-a">
+            <h2>Questions & Answers 🤔</h2>
+            <p>Read the story and answer the questions. Click the button to see different ways to answer.</p>
+            
+            <div class="question">
+                <p><strong>1. What is "magic paper"?</strong></p>
+                <button class="main-button" onclick="toggleAnswer('qa1')">Show Answer Choices</button>
+                <div id="qa1" class="qa-answer">
+                    <ul>
+                        <li>It is a dangerous and illegal drug called LSD on a piece of paper.</li>
+                        <li>"Magic paper" is paper with the drug LSD on it.</li>
+                        <li>It is a drug that causes hallucinations.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="question">
+                <p><strong>2. What is one of the worst effects of this drug?</strong></p>
+                <button class="main-button" onclick="toggleAnswer('qa2')">Show Answer Choices</button>
+                <div id="qa2" class="qa-answer">
+                   <ul>
+                        <li>One of the worst effects is severe hallucinations.</li>
+                        <li>People can see or hear things that are not real.</li>
+                        <li>It can make people lose control and hurt themselves.</li>
+                   </ul>
+                </div>
+            </div>
+
+            <div class="question">
+                <p><strong>3. Why should you never try this drug?</strong></p>
+                <button class="main-button" onclick="toggleAnswer('qa3')">Show Answer Choices</button>
+                <div id="qa3" class="qa-answer">
+                   <ul>
+                        <li>You should never try it because it is very dangerous and can ruin your life.</li>
+                        <li>It can cause long-term mental illness and can even cause death.</li>
+                        <li>It is illegal and extremely harmful to your body and mind.</li>
+                   </ul>
+                </div>
+            </div>
+
+        </div>
+        
+        <footer>
+            <p>ครูสาลี่ -- อังกฤษฉบับคนเรียนไม่รู้เรื่อง</p>
+        </footer>
+
+    </div>
+
+    <script>
+        function toggleTranslation(button) {
+            const vocabItem = button.parentElement;
+            const translationDiv = vocabItem.querySelector('.toggle-translation');
+            
+            if (translationDiv.style.display === 'none' || translationDiv.style.display === '') {
+                translationDiv.style.display = 'block';
+                button.textContent = 'ซ่อนคำแปล';
+            } else {
+                translationDiv.style.display = 'none';
+                button.textContent = 'แสดงคำแปล';
+            }
+        }
+
+        function checkAnswers() {
+            const answers = {
+                q1: "hallucination",
+                q2: "warn",
+                q3: "dangerous",
+                q4: "illegal",
+                q5: "effects"
+            };
+            let correctCount = 0;
+            const totalQuestions = 5;
+
+            for (let i = 1; i <= totalQuestions; i++) {
+                const questionId = "q" + i;
+                const userAnswer = document.getElementById(questionId).value.trim().toLowerCase();
+                // Allow "effect" or "effects" for q5
+                if (questionId === 'q5' && (userAnswer === 'effect' || userAnswer === 'effects')) {
+                    correctCount++;
+                    document.getElementById(questionId).style.border = '2px solid green';
+                } else if (userAnswer === answers[questionId]) {
+                    correctCount++;
+                    document.getElementById(questionId).style.border = '2px solid green';
+                } else {
+                    document.getElementById(questionId).style.border = '2px solid red';
+                }
+            }
+
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = `You got ${correctCount} out of ${totalQuestions} correct!`;
+            if (correctCount === totalQuestions) {
+                resultsDiv.style.color = 'green';
+            } else {
+                resultsDiv.style.color = 'red';
+            }
+        }
+
+        function toggleAnswer(id) {
+            const answerDiv = document.getElementById(id);
+            if (answerDiv.style.display === "block") {
+                answerDiv.style.display = "none";
+            } else {
+                answerDiv.style.display = "block";
+            }
+        }
+    </script>
+
+</body>
+</html>

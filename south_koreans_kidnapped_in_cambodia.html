@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>English News for Beginners (Revised)</title>
+    <style>
+        body {
+            font-family: 'Tahoma', 'Geneva', sans-serif;
+            font-size: 20px;
+            line-height: 1.8;
+            color: #333;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 900px;
+            margin: auto;
+            background: #fff;
+            padding: 30px 40px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+        h1, h2 {
+            color: #0056b3;
+            border-bottom: 3px solid #f0f0f0;
+            padding-bottom: 15px;
+        }
+        h1 {
+            font-size: 2.3em;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        h2 {
+            font-size: 1.9em;
+            margin-top: 40px;
+        }
+        .branding {
+            text-align: center;
+            color: #555;
+            font-size: 0.9em;
+            margin-bottom: 30px;
+        }
+        
+        /* Vocabulary Section */
+        .vocab-list {
+            margin-top: 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+            gap: 20px;
+        }
+        .vocab-item {
+            background-color: #fefdf5;
+            padding: 20px;
+            border: 1px solid #eee;
+            border-left: 6px solid #ffc107;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+        }
+        .vocab-word {
+            font-weight: bold;
+            color: #c9302c;
+            font-size: 1.3em;
+        }
+        .pronunciation-th {
+            font-weight: bold;
+            color: #007bff;
+        }
+        .pronunciation-th u {
+            text-decoration: underline;
+            text-decoration-color: #c9302c;
+        }
+        .example-sentence {
+            font-style: italic;
+            color: #555;
+            margin-top: 10px;
+        }
+        .toggle-translation {
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px dashed #ddd;
+        }
+        .translation-th {
+            color: #28a745;
+            font-weight: bold;
+        }
+        .vocab-item button {
+            background-color: #5bc0de;
+            color: white;
+            padding: 8px 12px;
+            font-size: 16px;
+            margin-top: 15px;
+            align-self: flex-start;
+        }
+        .vocab-item button:hover {
+            background-color: #31b0d5;
+        }
+
+        /* News Article Section */
+        .news-article {
+            background-color: #f0f8ff;
+            padding: 25px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+
+        /* Tooltip styles */
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            border-bottom: 2px dotted #007bff;
+            cursor: pointer;
+            font-weight: bold;
+            color: #0056b3;
+        }
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 320px;
+            background-color: #333;
+            color: #fff;
+            text-align: left;
+            border-radius: 6px;
+            padding: 15px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -160px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+        .tooltip .tooltiptext::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: #333 transparent transparent transparent;
+        }
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+        .tooltip-title {
+            font-weight: bold;
+            color: #ffc107;
+        }
+        .tooltip-content {
+            font-weight: normal;
+            color: #fff;
+        }
+        .tooltip-pronunciation-th u {
+            text-decoration: underline;
+            text-decoration-color: #ffc107;
+        }
+        
+        /* Exercise and Q&A Section */
+        .exercise, .q-and-a {
+            margin-top: 30px;
+            background-color: #f4f4f9;
+            padding: 25px;
+            border-radius: 8px;
+        }
+        .word-bank {
+            background-color: #e9ecef;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .word-bank span {
+            background-color: #fff;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            border: 1px solid #ccc;
+        }
+        .question {
+            margin-bottom: 20px;
+        }
+        .answer-input {
+            width: 180px;
+            padding: 10px;
+            font-size: 18px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        #results {
+            margin-top: 15px;
+            font-weight: bold;
+        }
+        .main-button {
+            background-color: #28a745;
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 18px;
+            margin-top: 10px;
+        }
+        .main-button:hover {
+            background-color: #218838;
+        }
+        .qa-answer {
+            display: none;
+            background-color: #e9ecef;
+            padding: 15px;
+            margin-top: 10px;
+            border-radius: 5px;
+            border-left: 5px solid #17a2b8;
+        }
+        .qa-answer ul {
+            padding-left: 20px;
+            margin: 0;
+        }
+        .qa-answer li {
+            margin-bottom: 10px;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+            color: #666;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>English News: A Sad Story in Cambodia</h1>
+        <p class="branding">ครูสาลี่ -- อังกฤษฉบับคนเรียนไม่รู้เรื่อง</p>
+        
+        <h2>Key Words to Know First 🔑</h2>
+        <div class="vocab-list">
+            <div class="vocab-item">
+                <p><span class="vocab-word">Kidnap (v.)</span></p>
+                <p class="pronunciation-th">คำอ่าน: <u>คิด</u>-แน็พ</p>
+                <p><strong>Meaning:</strong> to take a person away illegally by force.</p>
+                <p class="example-sentence">"The criminals tried to kidnap the rich man's son."</p>
+                <div class="toggle-translation" style="display:none;">
+                    <p class="translation-th">คำแปล: ลักพาตัว</p>
+                    <p class="translation-th">แปลประโยค: "พวกอาชญากรพยายามลักพาตัวลูกชายของเศรษฐี"</p>
+                </div>
+                <button onclick="toggleTranslation(this)">แสดงคำแปล</button>
+            </div>
+             <div class="vocab-item">
+                <p><span class="vocab-word">Criminal (n.)</span></p>
+                <p class="pronunciation-th">คำอ่าน: <u>คริม</u>-อิ-เนิล</p>
+                <p><strong>Meaning:</strong> a person who has committed a crime.</p>
+                <p class="example-sentence">"The police caught the criminal who stole the car."</p>
+                <div class="toggle-translation" style="display:none;">
+                    <p class="translation-th">คำแปล: อาชญากร</p>
+                    <p class="translation-th">แปลประโยค: "ตำรวจจับอาชญากรที่ขโมยรถไป"</p>
+                </div>
+                <button onclick="toggleTranslation(this)">แสดงคำแปล</button>
+            </div>
+             <div class="vocab-item">
+                <p><span class="vocab-word">Promise (v.)</span></p>
+                <p class="pronunciation-th">คำอ่าน: <u>พรอม</u>-อิส</p>
+                <p><strong>Meaning:</strong> to tell someone that you will certainly do something.</p>
+                <p class="example-sentence">"She promised to help me with my homework."</p>
+                <div class="toggle-translation" style="display:none;">
+                    <p class="translation-th">คำแปล: สัญญา</p>
+                    <p class="translation-th">แปลประโยค: "เธอสัญญาว่าจะช่วยฉันทำการบ้าน"</p>
+                </div>
+                <button onclick="toggleTranslation(this)">แสดงคำแปล</button>
+            </div>
+             <div class="vocab-item">
+                <p><span class="vocab-word">Escape (v.)</span></p>
+                <p class="pronunciation-th">คำอ่าน: เอส-<u>เคพ</u></p>
+                <p><strong>Meaning:</strong> to get free from a person or place.</p>
+                <p class="example-sentence">"The prisoner tried to escape from the jail."</p>
+                <div class="toggle-translation" style="display:none;">
+                    <p class="translation-th">คำแปล: หลบหนี</p>
+                    <p class="translation-th">แปลประโยค: "นักโทษพยายามหลบหนีออกจากคุก"</p>
+                </div>
+                <button onclick="toggleTranslation(this)">แสดงคำแปล</button>
+            </div>
+             <div class="vocab-item">
+                <p><span class="vocab-word">Force (v.)</span></p>
+                <p class="pronunciation-th">คำอ่าน: ฟอร์ซ</p>
+                <p><strong>Meaning:</strong> to make someone do something they do not want to do.</p>
+                <p class="example-sentence">"They force the workers to work for many hours."</p>
+                <div class="toggle-translation" style="display:none;">
+                    <p class="translation-th">คำแปล: บังคับ</p>
+                    <p class="translation-th">แปลประโยค: "พวกเขาบังคับคนงานให้ทำงานเป็นเวลาหลายชั่วโมง"</p>
+                </div>
+                <button onclick="toggleTranslation(this)">แสดงคำแปล</button>
+            </div>
+             <div class="vocab-item">
+                <p><span class="vocab-word">Government (n.)</span></p>
+                <p class="pronunciation-th">คำอ่าน: <u>กัฟ</u>-เวิน-เมินทฺ</p>
+                <p><strong>Meaning:</strong> the group of people who officially control a country.</p>
+                <p class="example-sentence">"The government is trying to solve the problem."</p>
+                <div class="toggle-translation" style="display:none;">
+                    <p class="translation-th">คำแปล: รัฐบาล</p>
+                    <p class="translation-th">แปลประโยค: "รัฐบาลกำลังพยายามแก้ไขปัญหานั้น"</p>
+                </div>
+                <button onclick="toggleTranslation(this)">แสดงคำแปล</button>
+            </div>
+            <div class="vocab-item">
+                <p><span class="vocab-word">Hurt (v.)</span></p>
+                <p class="pronunciation-th">คำอ่าน: เฮิร์ท</p>
+                <p><strong>Meaning:</strong> to cause physical pain to someone.</p>
+                <p class="example-sentence">"Be careful not to hurt yourself with that knife."</p>
+                 <div class="toggle-translation" style="display:none;">
+                    <p class="translation-th">คำแปล: ทำร้าย, ทำให้เจ็บ</p>
+                    <p class="translation-th">แปลประโยค: "ระวังอย่าทำตัวเองเจ็บด้วยมีดเล่มนั้น"</p>
+                </div>
+                <button onclick="toggleTranslation(this)">แสดงคำแปล</button>
+            </div>
+            <div class="vocab-item">
+                <p><span class="vocab-word">Slave (n.)</span></p>
+                <p class="pronunciation-th">คำอ่าน: สเลฝ</p>
+                <p><strong>Meaning:</strong> a person who is owned by another person and is forced to work.</p>
+                <p class="example-sentence">"They were treated like a slave and had no freedom."</p>
+                 <div class="toggle-translation" style="display:none;">
+                    <p class="translation-th">คำแปล: ทาส</p>
+                    <p class="translation-th">แปลประโยค: "พวกเขาถูกปฏิบัติเหมือนทาสและไม่มีอิสระ"</p>
+                </div>
+                <button onclick="toggleTranslation(this)">แสดงคำแปล</button>
+            </div>
+            <div class="vocab-item">
+                <p><span class="vocab-word">Arrive (v.)</span></p>
+                <p class="pronunciation-th">คำอ่าน: เออ-<u>ไรฝ</u></p>
+                <p><strong>Meaning:</strong> to reach a place, especially at the end of a journey.</p>
+                <p class="example-sentence">"What time will your train arrive?"</p>
+                 <div class="toggle-translation" style="display:none;">
+                    <p class="translation-th">คำแปล: มาถึง</p>
+                    <p class="translation-th">แปลประโยค: "รถไฟของคุณจะมาถึงกี่โมง?"</p>
+                </div>
+                <button onclick="toggleTranslation(this)">แสดงคำแปล</button>
+            </div>
+            <div class="vocab-item">
+                <p><span class="vocab-word">Case (n.)</span></p>
+                <p class="pronunciation-th">คำอ่าน: เคส</p>
+                <p><strong>Meaning:</strong> an event or set of events that are being investigated by the police.</p>
+                <p class="example-sentence">"The police are working on a difficult case."</p>
+                 <div class="toggle-translation" style="display:none;">
+                    <p class="translation-th">คำแปล: คดี, กรณี</p>
+                    <p class="translation-th">แปลประโยค: "ตำรวจกำลังสืบสวนคดีที่ยากคดีหนึ่ง"</p>
+                </div>
+                <button onclick="toggleTranslation(this)">แสดงคำแปล</button>
+            </div>
+            <div class="vocab-item">
+                <p><span class="vocab-word">Trick (v.)</span></p>
+                <p class="pronunciation-th">คำอ่าน: ทริค</p>
+                <p><strong>Meaning:</strong> to make someone believe something that is not true.</p>
+                <p class="example-sentence">"He tried to trick the old woman out of her money."</p>
+                 <div class="toggle-translation" style="display:none;">
+                    <p class="translation-th">คำแปล: หลอกลวง</p>
+                    <p class="translation-th">แปลประโยค: "เขาพยายามหลอกลวงเงินจากหญิงชรา"</p>
+                </div>
+                <button onclick="toggleTranslation(this)">แสดงคำแปล</button>
+            </div>
+            <div class="vocab-item">
+                <p><span class="vocab-word">Trap (v.)</span></p>
+                <p class="pronunciation-th">คำอ่าน: แทร็พ</p>
+                <p><strong>Meaning:</strong> to put someone in a dangerous or unpleasant situation that is hard to escape.</p>
+                <p class="example-sentence">"The police will trap the criminals."</p>
+                 <div class="toggle-translation" style="display:none;">
+                    <p class="translation-th">คำแปล: วางกับดัก, ทำให้ติดกับ</p>
+                    <p class="translation-th">แปลประโยค: "ตำรวจจะวางกับดักพวกอาชญากร"</p>
+                </div>
+                <button onclick="toggleTranslation(this)">แสดงคำแปล</button>
+            </div>
+        </div>
+
+        <h2>News Story 📰</h2>
+        <div class="news-article">
+            <p>
+                A sad story is happening in Cambodia. Many South Korean people were 
+                <span class="tooltip">tricked
+                    <span class="tooltiptext">
+                        <span class="tooltip-title">Pronunciation (TH):</span> <span class="tooltip-content tooltip-pronunciation-th">ทริค</span><br>
+                        <span class="tooltip-title">Meaning:</span> <span class="tooltip-content">หลอกลวง</span><br>
+                        <span class="tooltip-title">Synonyms:</span> <span class="tooltip-content">deceived, fooled</span>
+                    </span>
+                </span> 
+                and taken to Cambodia. They were 
+                <span class="tooltip">promised
+                    <span class="tooltiptext">
+                        <span class="tooltip-title">Pronunciation (TH):</span> <span class="tooltip-content tooltip-pronunciation-th"><u>พรอม</u>-อิส</span><br>
+                        <span class="tooltip-title">Meaning:</span> <span class="tooltip-content">ถูกสัญญาว่า</span><br>
+                        <span class="tooltip-title">Synonyms:</span> <span class="tooltip-content">assured, guaranteed</span>
+                    </span>
+                </span>
+                good jobs with high pay. But it was a lie.
+            </p>
+            <p>
+                When they 
+                <span class="tooltip">arrived
+                    <span class="tooltiptext">
+                        <span class="tooltip-title">Pronunciation (TH):</span> <span class="tooltip-content tooltip-pronunciation-th">เออ-<u>ไรฝ</u>-ดฺ</span><br>
+                        <span class="tooltip-title">Meaning:</span> <span class="tooltip-content">มาถึง</span><br>
+                        <span class="tooltip-title">Synonyms:</span> <span class="tooltip-content">reached, got to</span>
+                    </span>
+                </span>, 
+                <span class="tooltip">criminals
+                    <span class="tooltiptext">
+                        <span class="tooltip-title">Pronunciation (TH):</span> <span class="tooltip-content tooltip-pronunciation-th"><u>คริม</u>-อิ-เนิลสฺ</span><br>
+                        <span class="tooltip-title">Meaning:</span> <span class="tooltip-content">อาชญากร</span><br>
+                        <span class="tooltip-title">Synonyms:</span> <span class="tooltip-content">gangsters, lawbreakers</span>
+                    </span>
+                </span> 
+                <span class="tooltip">kidnapped
+                    <span class="tooltiptext">
+                        <span class="tooltip-title">Pronunciation (TH):</span> <span class="tooltip-content tooltip-pronunciation-th"><u>คิด</u>-แน็พ-ทฺ</span><br>
+                        <span class="tooltip-title">Meaning:</span> <span class="tooltip-content">ลักพาตัว</span><br>
+                        <span class="tooltip-title">Synonyms:</span> <span class="tooltip-content">abducted, captured</span>
+                    </span>
+                </span>
+                them. A young woman who 
+                <span class="tooltip">escaped
+                    <span class="tooltiptext">
+                        <span class="tooltip-title">Pronunciation (TH):</span> <span class="tooltip-content tooltip-pronunciation-th">เอส-<u>เคพ</u>-ทฺ</span><br>
+                        <span class="tooltip-title">Meaning:</span> <span class="tooltip-content">หลบหนี</span><br>
+                        <span class="tooltip-title">Synonyms:</span> <span class="tooltip-content">got away, broke free</span>
+                    </span>
+                </span>
+                said they took her money and 
+                <span class="tooltip">hurt
+                    <span class="tooltiptext">
+                        <span class="tooltip-title">Pronunciation (TH):</span> <span class="tooltip-content tooltip-pronunciation-th">เฮิร์ท</span><br>
+                        <span class="tooltip-title">Meaning:</span> <span class="tooltip-content">ทำร้าย</span><br>
+                        <span class="tooltip-title">Synonyms:</span> <span class="tooltip-content">injured, harmed</span>
+                    </span>
+                </span>
+                her. She said many other Korean people are still 
+                <span class="tooltip">trapped
+                    <span class="tooltiptext">
+                        <span class="tooltip-title">Pronunciation (TH):</span> <span class="tooltip-content tooltip-pronunciation-th">แทร็พ-ทฺ</span><br>
+                        <span class="tooltip-title">Meaning:</span> <span class="tooltip-content">ติดกับ, ถูกกักขัง</span><br>
+                        <span class="tooltip-title">Synonyms:</span> <span class="tooltip-content">stuck, imprisoned</span>
+                    </span>
+                </span>
+                in a building. The criminals 
+                <span class="tooltip">force
+                    <span class="tooltiptext">
+                        <span class="tooltip-title">Pronunciation (TH):</span> <span class="tooltip-content tooltip-pronunciation-th">ฟอร์ซ</span><br>
+                        <span class="tooltip-title">Meaning:</span> <span class="tooltip-content">บังคับ</span><br>
+                        <span class="tooltip-title">Synonyms:</span> <span class="tooltip-content">compel, make</span>
+                    </span>
+                </span>
+                them to work like 
+                <span class="tooltip">slaves
+                    <span class="tooltiptext">
+                        <span class="tooltip-title">Pronunciation (TH):</span> <span class="tooltip-content tooltip-pronunciation-th">สเลฝสฺ</span><br>
+                        <span class="tooltip-title">Meaning:</span> <span class="tooltip-content">ทาส</span><br>
+                        <span class="tooltip-title">Synonyms:</span> <span class="tooltip-content">servants</span>
+                    </span>
+                </span>. They are not called by their names. They are called by numbers.
+            </p>
+            <p>
+                The number of kidnapped Koreans is growing. Last year, there were 17 
+                <span class="tooltip">cases
+                    <span class="tooltiptext">
+                        <span class="tooltip-title">Pronunciation (TH):</span> <span class="tooltip-content tooltip-pronunciation-th"><u>เค</u>-เซส</span><br>
+                        <span class="tooltip-title">Meaning:</span> <span class="tooltip-content">คดี / กรณี</span><br>
+                        <span class="tooltip-title">Synonyms:</span> <span class="tooltip-content">incidents, situations</span>
+                    </span>
+                </span>. This year, there are already 252 cases. One Korean man was found dead. He was hurt badly.
+            </p>
+            <p>
+                The South Korean 
+                <span class="tooltip">government
+                    <span class="tooltiptext">
+                        <span class="tooltip-title">Pronunciation (TH):</span> <span class="tooltip-content tooltip-pronunciation-th"><u>กัฟ</u>-เวิน-เมินทฺ</span><br>
+                        <span class="tooltip-title">Meaning:</span> <span class="tooltip-content">รัฐบาล</span><br>
+                        <span class="tooltip-title">Synonyms:</span> <span class="tooltip-content">authorities, the state</span>
+                    </span>
+                </span>
+                has asked Cambodia to help find these people and stop the criminals. Many people believe that big criminal groups from China are working with local people in Cambodia to do these bad things.
+            </p>
+        </div>
+
+        <div class="exercise">
+            <h2>Vocabulary Exercise ✍️</h2>
+            <p>Fill in the blanks with a correct word from the word bank below.</p>
+            <div class="word-bank">
+                <span>kidnap</span><span>criminal</span><span>promise</span><span>escape</span>
+                <span>force</span><span>government</span><span>hurt</span><span>slave</span>
+                <span>arrive</span><span>case</span><span>trick</span><span>trap</span>
+            </div>
+            <div class="question">
+                1. A bad person who breaks the law is a __________.
+                <input type="text" id="q1" class="answer-input">
+            </div>
+            <div class="question">
+                2. If you want to get out of a bad place, you try to __________.
+                <input type="text" id="q2" class="answer-input">
+            </div>
+            <div class="question">
+                3. The bad guys __________ people and ask for money.
+                <input type="text" id="q3" class="answer-input">
+            </div>
+            <div class="question">
+                4. The __________ of a country makes rules and laws.
+                <input type="text" id="q4" class="answer-input">
+            </div>
+            <div class="question">
+                5. Don't __________ them to do things they don't like.
+                <input type="text" id="q5" class="answer-input">
+            </div>
+            <button class="main-button" onclick="checkAnswers()">Check My Answers</button>
+            <div id="results"></div>
+        </div>
+
+        <div class="q-and-a">
+            <h2>Questions & Answers 🤔</h2>
+            <p>Read the news and answer the questions. Click the button to see different ways to answer.</p>
+            
+            <div class="question">
+                <p><strong>1. Why did South Korean people go to Cambodia?</strong></p>
+                <button class="main-button" onclick="toggleAnswer('qa1')">Show Answer Choices</button>
+                <div id="qa1" class="qa-answer">
+                    <ul>
+                        <li>They went to Cambodia because they were promised jobs with high pay.</li>
+                        <li>They were looking for a good job.</li>
+                        <li>They believed they would get a job with a high salary.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="question">
+                <p><strong>2. What happened to them when they arrived?</strong></p>
+                <button class="main-button" onclick="toggleAnswer('qa2')">Show Answer Choices</button>
+                <div id="qa2" class="qa-answer">
+                   <ul>
+                        <li>Criminals kidnapped them when they arrived.</li>
+                        <li>They were kidnapped by criminals.</li>
+                        <li>After they arrived, they were taken by bad people.</li>
+                   </ul>
+                </div>
+            </div>
+
+        </div>
+        
+        <footer>
+            <p>ครูสาลี่ -- อังกฤษฉบับคนเรียนไม่รู้เรื่อง</p>
+        </footer>
+
+    </div>
+
+    <script>
+        function toggleTranslation(button) {
+            const vocabItem = button.parentElement;
+            const translationDiv = vocabItem.querySelector('.toggle-translation');
+            
+            if (translationDiv.style.display === 'none') {
+                translationDiv.style.display = 'block';
+                button.textContent = 'ซ่อนคำแปล';
+            } else {
+                translationDiv.style.display = 'none';
+                button.textContent = 'แสดงคำแปล';
+            }
+        }
+
+        function checkAnswers() {
+            const answers = {
+                q1: "criminal",
+                q2: "escape",
+                q3: "kidnap",
+                q4: "government",
+                q5: "force"
+            };
+            let correctCount = 0;
+            const totalQuestions = 5;
+
+            for (let i = 1; i <= totalQuestions; i++) {
+                const questionId = "q" + i;
+                const userAnswer = document.getElementById(questionId).value.trim().toLowerCase();
+                if (userAnswer === answers[questionId]) {
+                    correctCount++;
+                    document.getElementById(questionId).style.border = '2px solid green';
+                } else {
+                    document.getElementById(questionId).style.border = '2px solid red';
+                }
+            }
+
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = `You got ${correctCount} out of ${totalQuestions} correct!`;
+            if (correctCount === totalQuestions) {
+                resultsDiv.style.color = 'green';
+            } else {
+                resultsDiv.style.color = 'red';
+            }
+        }
+
+        function toggleAnswer(id) {
+            const answerDiv = document.getElementById(id);
+            if (answerDiv.style.display === "block") {
+                answerDiv.style.display = "none";
+            } else {
+                answerDiv.style.display = "block";
+            }
+        }
+    </script>
+
+</body>
+</html>

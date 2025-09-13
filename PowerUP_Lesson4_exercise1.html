@@ -1,0 +1,914 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>แบบฝึกหัดภาษาอังกฤษขั้นสูง บทที่ 4: Getting About (ฉบับปรับปรุง)</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f0f2f5;
+            color: #333;
+        }
+        .container {
+            max-width: 850px;
+            margin: auto;
+            background: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        h1, h2, h3 {
+            color: #0056b3;
+            border-bottom: 2px solid #0056b3;
+            padding-bottom: 10px;
+        }
+        h1 {
+            text-align: center;
+            font-size: 2em;
+        }
+        .question-block {
+            margin-bottom: 25px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-left: 5px solid #007bff;
+            border-radius: 8px;
+            transition: box-shadow 0.3s;
+        }
+        .question-block:hover {
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+        }
+        .question-title {
+            font-weight: bold;
+            font-size: 1.15em;
+            margin-bottom: 15px;
+            color: #212529;
+        }
+        .options label {
+            display: block;
+            margin-bottom: 10px;
+            padding: 12px;
+            background: #fff;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .options label:hover {
+            background-color: #e9ecef;
+            border-color: #007bff;
+        }
+        input[type="radio"], input[type="text"] {
+            margin-right: 12px;
+        }
+        input[type="text"] {
+            width: 60%;
+            padding: 8px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            font-size: 1em;
+        }
+        button {
+            background-color: #28a745;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            margin-top: 15px;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        .answer {
+            display: none;
+            margin-top: 15px;
+            padding: 15px;
+            background-color: #e2f0d9;
+            border: 1px solid #b6d7a8;
+            border-radius: 5px;
+            color: #385723;
+        }
+        .answer p {
+            margin: 0;
+        }
+        .answer .explanation {
+            margin-top: 10px;
+            font-style: italic;
+            color: #4f6f2b;
+        }
+        .section-intro {
+            background-color: #fff3cd;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            border-left: 5px solid #ffc107;
+        }
+        .reading-passage {
+            background-color: #d1ecf1; 
+            padding: 20px;
+            border-radius: 8px;
+            margin: 25px 0;
+            border-left: 5px solid #17a2b8;
+        }
+        .dialogue {
+            padding: 15px; 
+            border: 1px dashed #6c757d; 
+            margin-top: 10px; 
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>แบบฝึกหัดภาษาอังกฤษขั้นสูง บทที่ 4: Getting About ✈️</h1>
+        <p>แบบฝึกหัดฉบับนี้ ถูกออกแบบมาเพื่อทบทวนเนื้อหาจากบทที่ 4 ในเชิงลึก โดยเน้นการวิเคราะห์และประยุกต์ใช้ความรู้ ขอให้ตั้งใจและสนุกกับการทำข้อสอบ!</p>
+        
+        <div id="quiz-container"></div>
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // --- DATA FOR QUESTIONS ---
+
+        const questions = [
+            // Part 1: Advanced Vocabulary (25 questions)
+            { type: 'header', title: 'Part 1: Advanced Vocabulary', section_intro: 'ทดสอบความเข้าใจคำศัพท์ในระดับลึกผ่านบริบทที่ซับซ้อน' },
+            {
+                type: 'mcq',
+                q: "The tour guide gave a very brief ______ of the historical site, leaving us wanting to know more.",
+                options: ["announcement", "account", "itinerary", "exchange"],
+                answer: "account",
+                explanation: "Account ในบริบทนี้หมายถึง 'คำอธิบาย' หรือ 'การบรรยายเรื่องราว' ซึ่งเหมาะสมที่สุด ในขณะที่ announcement คือ 'การประกาศ', itinerary คือ 'กำหนดการเดินทาง', และ exchange คือ 'การแลกเปลี่ยน'"
+            },
+            {
+                type: 'mcq',
+                q: "After the long, turbulent flight, the passengers were relieved to feel the plane finally ______ smoothly.",
+                options: ["take off", "check in", "land", "board"],
+                answer: "land",
+                explanation: "Land (ลงจอด) คือคำกริยาที่เหมาะสมกับสถานการณ์หลังจากเที่ยวบินที่ยาวนานและวุ่นวาย"
+            },
+            {
+                type: 'mcq',
+                q: "The word 'filthy' in the story suggests that the holiday flat was not just untidy, but ______.",
+                options: ["extremely dirty", "very small", "dark and gloomy", "recently cleaned"],
+                answer: "extremely dirty",
+                explanation: "'Filthy' เป็นคำที่มีความหมายรุนแรงกว่า 'dirty' หมายถึง สกปรกมาก"
+            },
+            {
+                type: 'mcq',
+                q: "A seasoned ______ knows to pack light, carrying only the essentials for their journey.",
+                options: ["backpacker", "pilot", "tour guide", "passenger"],
+                answer: "backpacker",
+                explanation: "Backpacker (นักท่องเที่ยวแบบสะพายเป้) คือกลุ่มคนที่เน้นการเดินทางแบบเรียบง่ายและพกของน้อยชิ้น"
+            },
+            {
+                type: 'mcq',
+                q: "The airport was in chaos; we could barely hear the ______ for our gate change over the noise.",
+                options: ["announcement", "security check", "exchange rate", "duty-free offer"],
+                answer: "announcement",
+                explanation: "Announcement (การประกาศ) เป็นการให้ข้อมูลสำคัญในสนามบิน เช่น การเปลี่ยนประตูขึ้นเครื่อง"
+            },
+            {
+                type: 'mcq',
+                q: "The sharp drop in the ______ meant our travel budget suddenly became much tighter.",
+                options: ["exchange rate", "temperature", "altitude", "security level"],
+                answer: "exchange rate",
+                explanation: "Exchange rate (อัตราแลกเปลี่ยน) มีผลโดยตรงกับงบประมาณในการเดินทางเมื่อต้องใช้จ่ายในสกุลเงินต่างประเทศ"
+            },
+            {
+                type: 'mcq',
+                q: "Which of the following is NOT typically part of the process at an airport's 'departures' area?",
+                options: ["Checking in luggage", "Going through security", "Waiting at a gate", "Collecting baggage from a carousel"],
+                answer: "Collecting baggage from a carousel",
+                explanation: "การรับกระเป๋าจากสายพาน (Collecting baggage from a carousel) เป็นขั้นตอนในส่วนของ 'arrivals' (ผู้โดยสารขาเข้า)"
+            },
+            {
+                type: 'mcq',
+                q: "To be 'furious' is to be extremely ______.",
+                options: ["angry", "tired", "sad", "happy"],
+                answer: "angry",
+                explanation: "'Furious' เป็นคำคุณศัพท์ที่แสดงถึงความโกรธอย่างรุนแรง"
+            },
+            {
+                type: 'mcq',
+                q: "The feeling of a plane accelerating down the runway just before ______ can be both thrilling and nerve-wracking.",
+                options: ["take-off", "landing", "cruising", "boarding"],
+                answer: "take-off",
+                explanation: "Take-off คือช่วงเวลาที่เครื่องบินเร่งความเร็วก่อนจะทะยานขึ้นสู่ท้องฟ้า"
+            },
+            {
+                type: 'mcq',
+                q: "A valid ______ is the most crucial document for international travel.",
+                options: ["passport", "boarding pass", "guide book", "driving license"],
+                answer: "passport",
+                explanation: "Passport (หนังสือเดินทาง) เป็นเอกสารยืนยันตัวตนและสัญชาติที่จำเป็นสำหรับการเดินทางระหว่างประเทศ"
+            },
+            {
+                type: 'mcq',
+                q: "The opposite of 'departures' is ______.",
+                options: ["arrivals", "entrances", "exists", "gates"],
+                answer: "arrivals",
+                explanation: "Departures คือขาออก ส่วน Arrivals คือขาเข้า"
+            },
+            {
+                type: 'mcq',
+                q: "If your luggage is overweight, you might have to pay for ______ baggage.",
+                options: ["excess", "extra", "additional", "All are correct"],
+                answer: "All are correct",
+                explanation: "ทั้งสามคำมีความหมายว่า 'ส่วนเกิน' หรือ 'เพิ่มเติม' และสามารถใช้ในบริบทนี้ได้ทั้งหมด"
+            },
+            {
+                type: 'mcq',
+                q: "A pilot, a tour guide, and a backpacker are all types of ______.",
+                options: ["travellers", "staff", "vehicles", "locations"],
+                answer: "travellers",
+                explanation: "แม้ว่า pilot และ tour guide จะเป็นอาชีพ แต่ในบริบทของการเดินทาง พวกเขาทั้งหมดคือผู้เดินทาง (travellers)"
+            },
+            {
+                type: 'mcq',
+                q: "The customs officer carefully inspected the contents of my ______.",
+                options: ["luggage", "flight", "gate", "passport"],
+                answer: "luggage",
+                explanation: "Luggage (สัมภาระ) คือสิ่งที่เจ้าหน้าที่ศุลกากรจะตรวจสอบ"
+            },
+            {
+                type: 'mcq',
+                q: "The captain's ______ assured the passengers that the turbulence was normal.",
+                options: ["announcement", "boarding pass", "check-in", "security"],
+                answer: "announcement",
+                explanation: "กัปตันจะใช้การประกาศ (announcement) เพื่อสื่อสารกับผู้โดยสาร"
+            },
+            {
+                type: 'mcq',
+                q: "The ______ across the choppy sea to the island was an unforgettable adventure.",
+                options: ["ferry ride", "flight", "drive", "walk"],
+                answer: "ferry ride",
+                explanation: "Ferry (เรือข้ามฟาก) เป็นพาหนะที่ใช้เดินทางข้ามทะเลไปยังเกาะ"
+            },
+            {
+                type: 'mcq',
+                q: "My ______ was full of useful maps and information about the city's history.",
+                options: ["guidebook", "passport", "luggage tag", "boarding pass"],
+                answer: "guidebook",
+                explanation: "Guidebook (หนังสือนำเที่ยว) คือแหล่งข้อมูลสำหรับนักท่องเที่ยว"
+            },
+            {
+                type: 'mcq',
+                q: "He felt completely lost without his ______, who knew all the hidden gems of the city.",
+                options: ["tour guide", "pilot", "driver", "friend"],
+                answer: "tour guide",
+                explanation: "Tour guide (มัคคุเทศก์) คือผู้ที่มีความรู้เกี่ยวกับสถานที่ท่องเที่ยวต่างๆ เป็นอย่างดี"
+            },
+            {
+                type: 'mcq',
+                q: "A problem with his ______ meant he couldn't leave the country.",
+                options: ["passport", "luggage", "ticket", "money"],
+                answer: "passport",
+                explanation: "Passport (หนังสือเดินทาง) ที่มีปัญหา เช่น หมดอายุ จะทำให้ไม่สามารถเดินทางออกนอกประเทศได้"
+            },
+            {
+                type: 'mcq',
+                q: "The airline staff at the ______ desk were incredibly helpful when I had to change my flight.",
+                options: ["check-in", "gate", "security", "information"],
+                answer: "check-in",
+                explanation: "Check-in desk คือเคาน์เตอร์ที่ให้บริการเกี่ยวกับการลงทะเบียนเที่ยวบินและสัมภาระ"
+            },
+            {
+                type: 'mcq',
+                q: "What is a 'propeller'?",
+                options: ["A device with rotating blades that moves a plane forward", "The main body of an aircraft", "The tail of an airplane", "The landing wheels of a plane"],
+                answer: "A device with rotating blades that moves a plane forward",
+                explanation: "Propeller (ใบพัด) คือส่วนที่สร้างแรงขับเคลื่อนให้กับเครื่องบินในยุคของ Amy Johnson"
+            },
+            {
+                type: 'mcq',
+                q: "In the story 'Chronos Airways', 'time-travel petrol' is a fictional concept representing ______.",
+                options: ["the fuel needed for travelling through time", "a special kind of gasoline", "the energy of the pilot", "the electricity for the plane"],
+                answer: "the fuel needed for travelling through time",
+                explanation: "จากบริบทของเรื่อง 'time-travel petrol' คือเชื้อเพลิงพิเศษสำหรับการเดินทางข้ามเวลา"
+            },
+            {
+                type: 'mcq',
+                q: "To be 'stuck' in Feudal Japan means the family was ______.",
+                options: ["unable to leave that time period", "lost in the forest", "arrested by samurai", "out of money"],
+                answer: "unable to leave that time period",
+                explanation: "'Stuck' ในที่นี้หมายถึงติดอยู่และไม่สามารถเดินทางต่อไปยังช่วงเวลาอื่นได้"
+            },
+            {
+                type: 'mcq',
+                q: "What does it mean if a flat is 'filthy'?",
+                options: ["It is disgustingly dirty.", "It is beautifully furnished.", "It is very quiet.", "It is located in the city center."],
+                answer: "It is disgustingly dirty.",
+                explanation: "'Filthy' เป็นคำคุณศัพท์ที่แสดงถึงความสกปรกอย่างมาก"
+            },
+            {
+                type: 'mcq',
+                q: "The sentence 'Carla remained calm' implies she was ______.",
+                options: ["not worried or frightened", "very angry", "excited and happy", "confused and lost"],
+                answer: "not worried or frightened",
+                explanation: "Calm (สงบ) คือสภาวะที่ไม่ตื่นตระหนกหรือกังวล"
+            },
+
+            // Part 2: Grammar in Context (35 questions)
+            { type: 'header', title: 'Part 2: Grammar in Context', section_intro: 'เน้นการใช้ไวยากรณ์ (Passive Voice & Phrasal Verbs) ในสถานการณ์จริง ผ่านโจทย์แบบแก้ไขข้อผิดพลาดและเติมบทสนทนา' },
+            // Passive Voice
+            {
+                type: 'mcq',
+                q: "Find the error: 'The flight to Bristol last night was cancel due to bad weather.'",
+                options: ["was cancel -> was cancelled", "to -> for", "last night -> yesterday", "due to -> because"],
+                answer: "was cancel -> was cancelled",
+                explanation: "ในโครงสร้าง Passive Voice (was/were + V.3) คำกริยา 'cancel' ต้องเปลี่ยนเป็นรูป Past Participle คือ 'cancelled'"
+            },
+            {
+                type: 'mcq',
+                q: "Which sentence correctly changes 'They are building a new terminal at the airport' to passive voice?",
+                options: ["A new terminal is being built at the airport.", "A new terminal is built at the airport.", "A new terminal was being built at the airport.", "A new terminal has been built at the airport."],
+                answer: "A new terminal is being built at the airport.",
+                explanation: "Present Continuous (am/is/are + V.ing) ใน Active Voice จะเปลี่ยนเป็น am/is/are + being + V.3 ใน Passive Voice"
+            },
+            {
+                type: 'mcq',
+                q: "The notice says, 'All electronic devices must ______ off during take-off and landing.'",
+                options: ["be switched", "switch", "to be switched", "have switched"],
+                answer: "be switched",
+                explanation: "หลัง modal verb (must) ใน Passive Voice ต้องตามด้วย be + V.3"
+            },
+            {
+                type: 'mcq',
+                q: "Our passports ______ by the immigration officer upon arrival.",
+                options: ["were checked", "was checked", "have checked", "did check"],
+                answer: "were checked",
+                explanation: "ประธาน 'passports' เป็นพหูพจน์ และเหตุการณ์เกิดขึ้นในอดีต จึงใช้ were + V.3"
+            },
+            {
+                type: 'mcq',
+                q: "Find the error: 'This guidebook has been wrote by a famous travel blogger.'",
+                options: ["wrote -> written", "has been -> was", "by -> from", "a -> the"],
+                answer: "wrote -> written",
+                explanation: "รูป Past Participle (V.3) ของ 'write' คือ 'written', ไม่ใช่ 'wrote'"
+            },
+            {
+                type: 'mcq',
+                q: "The safety instructions ______ to us before the flight took off.",
+                options: ["were explained", "was explained", "explained", "has been explained"],
+                answer: "were explained",
+                explanation: "ประธาน 'instructions' เป็นพหูพจน์และเหตุการณ์เกิดในอดีต จึงใช้ 'were explained' (Past Simple Passive)"
+            },
+            {
+                type: 'mcq',
+                q: "This airport ______ to be one of the best in the world.",
+                options: ["is considered", "considers", "was considering", "has considered"],
+                answer: "is considered",
+                explanation: "สนามบิน 'ถูกพิจารณา' ว่าเป็นหนึ่งในสนามบินที่ดีที่สุด เป็นการใช้ Present Simple Passive เพื่อบอกข้อเท็จจริงทั่วไป"
+            },
+            {
+                type: 'mcq',
+                q: "Active: 'Someone had left the bag under the seat.' Passive: 'The bag ______ under the seat.'",
+                options: ["had been left", "was left", "has been left", "was being left"],
+                answer: "had been left",
+                explanation: "Past Perfect Active (had + V.3) จะเปลี่ยนเป็น Past Perfect Passive (had + been + V.3)"
+            },
+            {
+                type: 'mcq',
+                q: "In the 1930s, long-distance flights ______ to be very dangerous.",
+                options: ["were thought", "are thought", "have been thought", "will be thought"],
+                answer: "were thought",
+                explanation: "เหตุการณ์ในอดีต (in the 1930s) ต้องใช้ Past Simple Passive"
+            },
+            {
+                type: 'mcq',
+                q: "The solution to the 'time-travel petrol' problem ______ on page 12 of the guidebook.",
+                options: ["might be found", "might find", "can find", "has found"],
+                answer: "might be found",
+                explanation: "เป็นการคาดคะเนในรูป Passive Voice จึงใช้ modal verb (might) + be + V.3"
+            },
+            // Phrasal Verbs
+            {
+                type: 'mcq',
+                q: "The flight was delayed, so we had to wait ______ for three hours.",
+                options: ["around", "out", "off", "in"],
+                answer: "around",
+                explanation: "'Wait around' เป็น Phrasal Verb หมายถึง รอโดยไม่ได้ทำอะไรเป็นพิเศษ"
+            },
+            {
+                type: 'mcq',
+                q: "Which sentence is grammatically INCORRECT?",
+                options: ["She took off her coat.", "She took her coat off.", "She took off it.", "She took it off."],
+                answer: "She took off it.",
+                explanation: "เมื่อกรรม (object) เป็น pronoun (it, them, him, her) จะต้องวางไว้ระหว่าง verb และ preposition เสมอ"
+            },
+            {
+                type: 'mcq',
+                q: "Dialogue: A: 'The room is a mess.' B: 'Don't worry, I'll ______.'",
+                options: ["clean it up", "clean up it", "it clean up", "clean up"],
+                answer: "clean it up",
+                explanation: "กรรม 'it' ต้องอยู่ระหว่าง 'clean' และ 'up'"
+            },
+            {
+                type: 'mcq',
+                q: "Before you board the ferry, make sure you don't ______ any of your luggage.",
+                options: ["leave behind", "put off", "get on", "check out"],
+                answer: "leave behind",
+                explanation: "'Leave behind' หมายถึง ลืมทิ้งไว้"
+            },
+            {
+                type: 'mcq',
+                q: "The tour guide told us to ______ the bus at the next stop.",
+                options: ["get off", "get away", "get over", "get in"],
+                answer: "get off",
+                explanation: "'Get off' หมายถึง ลงจากยานพาหนะขนาดใหญ่ เช่น รถบัส, รถไฟ, เครื่องบิน"
+            },
+            {
+                type: 'mcq',
+                q: "Find the error: 'Could you please fill in this form out for me?'",
+                options: ["fill in this form out -> fill this form in / fill in this form", "Could you -> Can you", "for me -> to me", "please -> delete"],
+                answer: "fill in this form out -> fill this form in / fill in this form",
+                explanation: "Phrasal verb คือ 'fill in' หรือ 'fill out' แต่ไม่ใช่ 'fill in out' และ 'fill in this form' หรือ 'fill this form in' ถูกต้อง แต่ 'fill out this form' ก็เป็นที่นิยมเช่นกัน"
+            },
+            {
+                type: 'mcq',
+                q: "I was looking for my passport for an hour before I finally ______ it in my jacket pocket.",
+                options: ["came across", "looked up", "took off", "gave up"],
+                answer: "came across",
+                explanation: "'Come across' หมายถึง พบโดยบังเอิญ"
+            },
+            {
+                type: 'mcq',
+                q: "The plane couldn't ______ because of the thick fog.",
+                options: ["take off", "land on", "get away", "turn up"],
+                answer: "take off",
+                explanation: "'Take off' หมายถึง เครื่องบินขึ้น"
+            },
+            {
+                type: 'mcq',
+                q: "Which sentence correctly uses the phrasal verb?",
+                options: ["He put his sunglasses on.", "He put on them.", "He sunglasses put on.", "He put his on sunglasses."],
+                answer: "He put his sunglasses on.",
+                explanation: "เมื่อกรรมเป็นคำนาม (his sunglasses) สามารถวางไว้ตรงกลางหรือท้ายประโยคได้ แต่เมื่อเป็น pronoun (them) ต้องวางไว้ตรงกลางเท่านั้น ('He put them on.')"
+            },
+            {
+                type: 'mcq',
+                q: "After a long discussion, we finally ______ a plan for our holiday.",
+                options: ["worked out", "gave up", "looked after", "checked in"],
+                answer: "worked out",
+                explanation: "'Work out' ในที่นี้หมายถึง คิดหาทางแก้ไขหรือวางแผนจนสำเร็จ"
+            },
+            // Mixed Grammar
+            {
+                type: 'mcq',
+                q: "Find the error: 'After the luggage had been check in, we went to the departure lounge.'",
+                options: ["check -> checked", "had been -> was", "went -> have gone", "After -> Before"],
+                answer: "check -> checked",
+                explanation: "โครงสร้าง Past Perfect Passive คือ had been + V.3 ดังนั้น 'check' ต้องเป็น 'checked'"
+            },
+            {
+                type: 'mcq',
+                q: "The old airport terminal ______ and a new one will be built in its place.",
+                options: ["is going to be pulled down", "is pulling down", "will pull down", "has been pulled down"],
+                answer: "is going to be pulled down",
+                explanation: "เป็นการบอกถึงแผนในอนาคตในรูป Passive Voice (is going to be + V.3) และ 'pull down' คือ phrasal verb ที่หมายถึง 'รื้อถอน'"
+            },
+            {
+                type: 'mcq',
+                q: "All valuables should ______ in the hotel safe before you go out.",
+                options: ["be put away", "put away", "being put away", "have put away"],
+                answer: "be put away",
+                explanation: "โครงสร้างคือ modal verb (should) + be + V.3 และ 'put away' คือ phrasal verb ที่หมายถึง 'เก็บเข้าที่'"
+            },
+            {
+                type: 'mcq',
+                q: "I can't find my boarding pass. It must ______ somewhere.",
+                options: ["have been dropped", "be dropped", "drop", "have dropped"],
+                answer: "have been dropped",
+                explanation: "เป็นการสันนิษฐานถึงเหตุการณ์ในอดีตในรูป Passive Voice (must have been + V.3)"
+            },
+            {
+                type: 'mcq',
+                q: "A formal complaint ______ by several passengers about the flight delay.",
+                options: ["has been made", "has made", "was making", "makes"],
+                answer: "has been made",
+                explanation: "การร้องเรียน 'ได้ถูกทำขึ้น' และยังส่งผลถึงปัจจุบัน จึงใช้ Present Perfect Passive"
+            },
+             {
+                type: 'mcq',
+                q: "This problem needs ______ immediately.",
+                options: ["to be looked into", "looking into", "to look into", "be looked into"],
+                answer: "to be looked into",
+                explanation: "'Look into' เป็น phrasal verb หมายถึง 'ตรวจสอบ' และในโครงสร้างนี้ต้องใช้ passive infinitive (to be + V.3)"
+            },
+            {
+                type: 'mcq',
+                q: "The story about the time-travelling family was quite amusing. It made me ______.",
+                options: ["laugh", "to laugh", "laughing", "laughed"],
+                answer: "laugh",
+                explanation: "โครงสร้าง 'make someone do something' ต้องตามด้วย bare infinitive (กริยาช่อง 1 ไม่มี่ to)"
+            },
+            {
+                type: 'mcq',
+                q: "If I were the pilot in 'Chronos Airways', I ______ the passengers much sooner.",
+                options: ["would have told", "will tell", "would tell", "told"],
+                answer: "would have told",
+                explanation: "เป็นการสมมติตรงข้ามกับความจริงในอดีต (Third Conditional): If + past perfect, would have + V.3"
+            },
+             {
+                type: 'mcq',
+                q: "Find the error: 'The tour guide warned us to not touch the ancient artifacts.'",
+                options: ["to not touch -> not to touch", "warned -> said", "us -> we", "The -> A"],
+                answer: "to not touch -> not to touch",
+                explanation: "โครงสร้างการเตือนคือ 'warn someone not to do something'"
+            },
+            {
+                type: 'mcq',
+                q: "My wallet ______ while I was sleeping on the train.",
+                options: ["was stolen", "stole", "has been stolen", "had stolen"],
+                answer: "was stolen",
+                explanation: "เหตุการณ์ถูกขโมยเกิดขึ้นและจบลงในอดีต (ขณะที่กำลังหลับ) จึงใช้ Past Simple Passive"
+            },
+             {
+                type: 'mcq',
+                q: "The children were told ______.",
+                options: ["to put their toys away", "put their toys away", "to put away them", "to put away their toys"],
+                answer: "to put their toys away",
+                explanation: "หลัง 'told' ต้องใช้ to-infinitive และเมื่อกรรมเป็นคำนาม (their toys) สามารถวางไว้หลัง phrasal verb 'put away' ได้"
+            },
+            {
+                type: 'mcq',
+                q: "My application for the visa ______ yet.",
+                options: ["has not been approved", "was not approved", "did not approve", "is not being approved"],
+                answer: "has not been approved",
+                explanation: "คำว่า 'yet' เป็นสัญญาณของ Present Perfect Tense และในรูปประโยคนี้ต้องเป็น Passive Voice"
+            },
+             {
+                type: 'mcq',
+                q: "She was annoyed because her flight ______ for over two hours.",
+                options: ["had been delayed", "was delayed", "was delaying", "has been delayed"],
+                answer: "had been delayed",
+                explanation: "ใช้ Past Perfect Passive เพื่อบอกว่าเหตุการณ์ (ถูกทำให้ล่าช้า) เกิดขึ้นก่อนอีกเหตุการณ์หนึ่งในอดีต (ที่เธอรู้สึกรำคาญ)"
+            },
+            {
+                type: 'mcq',
+                q: "I looked for the information online, but nothing could ______.",
+                options: ["be found", "find", "have found", "be finding"],
+                answer: "be found",
+                explanation: "หลัง modal verb 'could' ในรูป Passive Voice ต้องตามด้วย be + V.3"
+            },
+            {
+                type: 'mcq',
+                q: "The final boarding call for flight BA249 ______ now.",
+                options: ["is being made", "is made", "has been made", "was made"],
+                answer: "is being made",
+                explanation: "คำว่า 'now' บ่งบอกว่าเหตุการณ์กำลังเกิดขึ้นในขณะที่พูด จึงใช้ Present Continuous Passive"
+            },
+
+            // Part 3: Reading Comprehension & Inference (20 questions)
+            { type: 'header', title: 'Part 3: Reading Comprehension & Inference', section_intro: 'ฝึกการอ่านจับใจความเชิงวิเคราะห์ ไม่ใช่แค่การหาคำตอบตรงๆ จากเนื้อเรื่อง' },
+            // Amy Johnson Inference
+            {
+                type: 'mcq',
+                q: "What does the text imply about society's view of women in the 1930s?",
+                options: ["They were generally underestimated in fields like aviation.", "They were widely encouraged to become pilots.", "They had more opportunities than men.", "They were considered better pilots than men."],
+                answer: "They were generally underestimated in fields like aviation.",
+                explanation: "ข้อความที่ว่า 'many people thought a woman couldn't do it' บ่งบอกว่าสังคมในตอนนั้นยังไม่เชื่อมั่นในความสามารถของผู้หญิงในด้านการบิน"
+            },
+            {
+                type: 'mcq',
+                q: "From the fact that Amy Johnson fixed her own propeller, we can infer that she was ______.",
+                options: ["resourceful and skilled", "wealthy and could afford help", "lucky to find a mechanic", "scared of flying"],
+                answer: "resourceful and skilled",
+                explanation: "การที่เธอสามารถซ่อมใบพัดเครื่องบินได้ด้วยตัวเอง แสดงให้เห็นว่าเธอมีทักษะและสามารถแก้ปัญหาเฉพาะหน้าได้ดี"
+            },
+            {
+                type: 'mcq',
+                q: "Why was Amy's flight still considered a major achievement even though she didn't break the record?",
+                options: ["It challenged stereotypes and inspired others.", "It was the longest flight ever made at the time.", "She discovered a new route to Australia.", "Her plane was the most advanced of its era."],
+                answer: "It challenged stereotypes and inspired others.",
+                explanation: "ประโยคสุดท้าย 'she showed the world that women could be pilots too' คือหัวใจสำคัญของความสำเร็จของเธอ ซึ่งเป็นการทลายกำแพงทางความคิดเกี่ยวกับเพศ"
+            },
+            {
+                type: 'mcq',
+                q: "The author's tone towards Amy Johnson can be described as ______.",
+                options: ["admiring and respectful", "critical and disapproving", "neutral and objective", "humorous and lighthearted"],
+                answer: "admiring and respectful",
+                explanation: "การเลือกใช้คำ เช่น 'pioneering' และการเน้นย้ำความสำเร็จของเธอในตอนท้าย แสดงถึงทัศนคติที่ชื่นชมและให้เกียรติ"
+            },
+            {
+                type: 'mcq',
+                q: "What does the phrase 'she didn't give up' reveal about Amy's character?",
+                options: ["She was determined and persistent.", "She was stubborn and reckless.", "She was afraid of failure.", "She had no other choice."],
+                answer: "She was determined and persistent.",
+                explanation: "การที่ไม่ยอมแพ้แม้จะรู้ว่าทำลายสถิติไม่ได้แล้ว แสดงถึงความมุ่งมั่นและไม่ย่อท้อต่ออุปสรรค"
+            },
+             // Chronos Airways Inference
+            {
+                type: 'mcq',
+                q: "What can be inferred about the world in which the 'Chronos Airways' story is set?",
+                options: ["Time travel is a common and commercialized activity.", "Only scientists are allowed to travel through time.", "Time travel is a new and dangerous experiment.", "The story is set in the distant past."],
+                answer: "Time travel is a common and commercialized activity.",
+                explanation: "การที่มีสายการบิน (Airways), เคาน์เตอร์เช็คอิน, และตั๋วโดยสารสำหรับเดินทางข้ามเวลา บ่งบอกว่าการเดินทางข้ามเวลาเป็นเรื่องปกติและเป็นธุรกิจไปแล้ว"
+            },
+            {
+                type: 'mcq',
+                q: "The name 'Chronos Airways' is likely a reference to ______.",
+                options: ["the Greek god of time", "the name of the inventor", "a type of fuel", "the main destination"],
+                answer: "the Greek god of time",
+                explanation: "Chronos (หรือ Cronus) คือเทพเจ้าแห่งกาลเวลาในตำนานกรีก ซึ่งเข้ากับธีมของเรื่อง"
+            },
+            {
+                type: 'mcq',
+                q: "What does Carla's reaction to being stuck suggest about her personality?",
+                options: ["She is a logical problem-solver.", "She does not understand the danger.", "She relies on others to help her.", "She is easily frightened."],
+                answer: "She is a logical problem-solver.",
+                explanation: "แทนที่จะตื่นตระหนก เธอกลับมองว่า 'We've got a problem, so all we need is a solution' และพยายามหาทางแก้ไขทันที แสดงถึงการคิดอย่างเป็นเหตุเป็นผล"
+            },
+            {
+                type: 'mcq',
+                q: "The main purpose of this short story excerpt is likely to ______.",
+                options: ["introduce a conflict and a potential solution", "provide a detailed history of time travel", "describe the geography of Feudal Japan", "teach a moral lesson about being prepared"],
+                answer: "introduce a conflict and a potential solution",
+                explanation: "เนื้อเรื่องสร้างปัญหาหลัก (น้ำมันหมด) และทิ้งท้ายไว้ด้วยความหวังที่จะมีทางออก (คู่มือ) ซึ่งเป็นโครงสร้างพื้นฐานของการเปิดเรื่องเพื่อสร้างความขัดแย้ง"
+            },
+            {
+                type: 'mcq',
+                q: "The fact that travellers 'can't be seen by the people of the past' serves what purpose in the story?",
+                options: ["It prevents the travellers from altering history.", "It makes the journey more dangerous.", "It allows them to steal ancient artifacts.", "It is the main reason they got stuck."],
+                answer: "It prevents the travellers from altering history.",
+                explanation: "กฎข้อนี้เป็นหลักการพื้นฐานของการเดินทางข้ามเวลาในนิยายหลายๆ เรื่อง เพื่อป้องกันไม่ให้ผู้เดินทางไปมีปฏิสัมพันธ์และเปลี่ยนแปลงอดีต"
+            },
+             // Mixed Reading
+            {
+                type: 'mcq',
+                q: "Comparing the two stories, what is a key difference between Amy Johnson's journey and the family's trip?",
+                options: ["Amy's journey was a real historical event, while the family's trip is science fiction.", "Amy travelled to the past, while the family travelled to Australia.", "Amy faced technical problems, while the family's trip was flawless.", "Amy travelled with her family, while the family in the story travelled alone."],
+                answer: "Amy's journey was a real historical event, while the family's trip is science fiction.",
+                explanation: "เรื่องของ Amy Johnson อ้างอิงจากบุคคลและเหตุการณ์จริง ในขณะที่ Chronos Airways เป็นเรื่องแต่งแนววิทยาศาสตร์"
+            },
+            {
+                type: 'mcq',
+                q: "What common theme is shared between Amy Johnson and the character Carla?",
+                options: ["Resilience and a refusal to give up in the face of problems.", "A love for flying and adventure.", "The challenges faced by female travellers.", "A reliance on guidebooks for solutions."],
+                answer: "Resilience and a refusal to give up in the face of problems.",
+                explanation: "ทั้งคู่แสดงออกถึงความไม่ย่อท้อเมื่อเจอปัญหา: เอมี่ซ่อมเครื่องบินและบินต่อ ส่วนคาร์ล่ามองหาทางแก้ปัญหาทันที"
+            },
+            {
+                type: 'mcq',
+                q: "The description of flying in the 1930s as 'noisy, cold, and dirty' contrasts with the implied experience on Chronos Airways, which seems more like ______.",
+                options: ["a routine commercial flight", "a dangerous military mission", "a budget backpacking trip", "a scientific exploration"],
+                answer: "a routine commercial flight",
+                explanation: "การมีเคาน์เตอร์เช็คอิน, บัตรขึ้นเครื่อง และการประกาศจากกัปตัน ทำให้การเดินทางกับ Chronos Airways ดูเหมือนเที่ยวบินพาณิชย์ทั่วไป (เพียงแต่เดินทางข้ามเวลา)"
+            },
+            {
+                type: 'mcq',
+                q: "What can be inferred about the 'Guidebook to Time-Travelling'?",
+                options: ["It likely contains emergency procedures.", "It is a regular travel guide with maps.", "It was written by the pilot.", "It is useless in their situation."],
+                answer: "It likely contains emergency procedures.",
+                explanation: "การที่คาร์ล่าเชื่อว่าจะมี 'solution' อยู่ในคู่มือ แสดงว่ามันน่าจะบรรจุข้อมูลมากกว่าแค่สถานที่ท่องเที่ยว เช่น ขั้นตอนรับมือเหตุฉุกเฉิน"
+            },
+            {
+                type: 'mcq',
+                q: "The main conflict in Amy Johnson's story is ______, while the main conflict in the Chronos story is ______.",
+                options: ["person vs. nature/technology; person vs. technology", "person vs. society; person vs. self", "person vs. person; person vs. nature", "person vs. self; person vs. technology"],
+                answer: "person vs. nature/technology; person vs. technology",
+                explanation: "เอมี่ต้องต่อสู้กับสภาพการบินที่เลวร้ายและเครื่องบินที่เสีย (ธรรมชาติ/เทคโนโลยี) ส่วนครอบครัวต้องเผชิญกับปัญหาจากเทคโนโลยีการเดินทางข้ามเวลาที่ขัดข้อง"
+            },
+            {
+                type: 'mcq',
+                q: "Why did the pilot in 'Chronos Airways' look at his shoes when delivering the bad news?",
+                options: ["He likely felt ashamed or nervous to tell the passengers.", "His shoes were untied.", "It was a signal to his co-pilot.", "He was reading a script on the floor."],
+                answer: "He likely felt ashamed or nervous to tell the passengers.",
+                explanation: "การหลบสายตาและมองลงต่ำเป็นภาษากายที่มักแสดงถึงความรู้สึกผิด, อับอาย, หรือความประหม่า"
+            },
+            {
+                type: 'mcq',
+                q: "The fact that Amy Johnson had to raise her own funds suggests that in the 1930s, long-distance flights were ______.",
+                options: ["often funded by private individuals rather than large companies", "fully sponsored by the government", "considered a safe and routine investment", "only for the extremely wealthy"],
+                answer: "often funded by private individuals rather than large companies",
+                explanation: "การที่เธอต้องหาเงินทุนเองบ่งบอกว่าการบินระยะไกลในยุคนั้นยังไม่ได้รับการสนับสนุนจากองค์กรขนาดใหญ่เหมือนในปัจจุบัน และมักจะเป็นความพยายามของปัจเจกบุคคล"
+            },
+            {
+                type: 'mcq',
+                q: "What is the most likely reason the author of 'Chronos Airways' chose Feudal Japan as a destination?",
+                options: ["It provides a dramatic and visually distinct historical setting.", "It is the easiest time period to travel to.", "The author is an expert in Japanese history.", "It was the only destination available."],
+                answer: "It provides a dramatic and visually distinct historical setting.",
+                explanation: "ยุคซามูไรและนินจาเป็นฉากหลังที่น่าตื่นเต้นและเป็นที่รู้จักดี ทำให้เรื่องราวมีความน่าสนใจมากขึ้น"
+            },
+            {
+                type: 'mcq',
+                q: "A key message from Amy Johnson's story is that success is not only about ______.",
+                options: ["breaking records", "making money", "being famous", "having the best equipment"],
+                answer: "breaking records",
+                explanation: "แม้เธอจะทำลายสถิติไม่สำเร็จ แต่การเดินทางของเธอก็ยังถือว่าประสบความสำเร็จอย่างยิ่งในแง่ของการสร้างแรงบันดาลใจและทลายกำแพงทางความคิด"
+            },
+            {
+                type: 'mcq',
+                q: "What does the existence of a 'Guidebook to Time-Travelling' imply about the company Chronos Airways?",
+                options: ["They are a well-established company that anticipates potential problems.", "They are disorganized and often have emergencies.", "They do not care about passenger safety.", "The guidebook is just for marketing purposes."],
+                answer: "They are a well-established company that anticipates potential problems.",
+                explanation: "การจัดทำคู่มือที่มีข้อมูลแก้ปัญหาฉุกเฉินแสดงให้เห็นถึงความเป็นมืออาชีพและการเตรียมพร้อมของบริษัท"
+            },
+
+            // Part 4: Integrated Skills (20 questions)
+            { type: 'header', title: 'Part 4: Integrated Skills', section_intro: 'รวมทักษะทุกอย่างเพื่อแก้โจทย์ Cloze Test ที่ท้าทาย และเติมบทสนทนาด้วยโครงสร้างที่ซับซ้อน' },
+            {
+                type: 'cloze',
+                passage: "Last year, a fascinating documentary about pioneer aviators (1)______ on television. It told the story of how the first transatlantic flight (2)______ by Alcock and Brown in 1919. Many people don't know that their plane almost crashed. If the heavy ice on the wings (3)______, they would have plunged into the ocean. The programme also showed how modern planes are much safer. For example, every aircraft (4)______ thoroughly before it is allowed to (5)______. My father, who is a pilot, says that passengers (6)______ to listen carefully to the safety announcements. He told me that once, a passenger's bag (7)______ under a seat, and it caused a problem. He also said he wished he (8)______ a time-travelling plane like in the movies! If he had one, he said he (9)______ to see Amy Johnson complete her flight. After watching, I had to (10)______ the history of aviation for a school project.",
+                blanks: [
+                    { id: 1, answer: "was shown", hint: "Passive voice, past simple" },
+                    { id: 2, answer: "was completed", hint: "Passive voice, past simple" },
+                    { id: 3, answer: "hadn't been cleared", hint: "Third conditional, passive voice" },
+                    { id: 4, answer: "is inspected", hint: "Passive voice, present simple" },
+                    { id: 5, answer: "take off", hint: "Phrasal verb" },
+                    { id: 6, answer: "are always told", hint: "Passive voice, present simple" },
+                    { id: 7, answer: "had been left", hint: "Passive voice, past perfect" },
+                    { id: 8, answer: "could fly", hint: "I wish + could" },
+                    { id: 9, answer: "would go", hint: "Second conditional" },
+                    { id: 10, answer: "look up", hint: "Phrasal verb" }
+                ]
+            },
+            {
+                type: 'dialogue',
+                personaA: "Airport Staff", personaB: "Passenger",
+                lines: [
+                    { persona: "A", text: "Good morning, sir. I see you're flying to Singapore. (11)______ your passport ______ yet?" },
+                    { persona: "B", text: "Yes, it was just checked at security. But I'm worried about my connection." },
+                    { persona: "A", text: "Let me see. It seems your connecting flight (12)______ by twenty minutes." },
+                    { persona: "B", text: "Oh no! If I had known that, I (13)______ a later flight." },
+                    { persona: "A", text: "Don't worry, sir. Your luggage (14)______ directly to your final destination." },
+                    { persona: "B", text: "That's a relief. But what should I do about the time?" },
+                    { persona: "A", text: "If I were you, I'd just relax. An announcement (15)______ when it's time to board." },
+                    { persona: "B", text: "Okay. Could you tell me where I can (16)______ my currency?" },
+                    { persona: "A", "text": "The exchange counter is just over there. All passengers must (17)______ their electronic devices before take-off." },
+                    { persona: "B", "text": "I will. I just wish this whole process (18)______ so complicated." },
+                    { persona: "A", "text": "I understand, sir. We are trying to (19)______ the procedures to make them faster." },
+                    { persona: "B", "text": "Thank you. I appreciate your help. I'll just (20)______ my jacket and wait." }
+                ],
+                answers: ["Has... been stamped", "has been delayed", "would have booked", "will be transferred", "will be made", "exchange", "turn off", "wasn't", "work on", "put on"],
+                hints: ["Present Perfect Passive", "Present Perfect Passive", "Third Conditional", "Future Simple Passive", "Future Simple Passive", "Verb", "Phrasal Verb", "I wish + past simple", "Phrasal Verb", "Phrasal Verb"]
+            }
+        ];
+
+        // --- SCRIPT TO BUILD AND RENDER THE QUIZ ---
+        const quizContainer = document.getElementById('quiz-container');
+        let questionCounter = 0;
+
+        function shuffle(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        function toggleAnswer(id) {
+            const answer = document.getElementById(id);
+            if (answer) {
+                answer.style.display = answer.style.display === 'block' ? 'none' : 'block';
+            }
+        }
+        
+        function renderQuiz() {
+            questions.forEach(item => {
+                if (item.type === 'header') {
+                    const header = document.createElement('h2');
+                    header.textContent = item.title;
+                    const intro = document.createElement('div');
+                    intro.className = 'section-intro';
+                    intro.innerHTML = `<p>${item.section_intro}</p>`;
+                    quizContainer.appendChild(header);
+                    quizContainer.appendChild(intro);
+                } else if (item.type === 'mcq') {
+                    renderMcq(item);
+                } else if (item.type === 'cloze') {
+                    renderCloze(item);
+                } else if (item.type === 'dialogue') {
+                    renderDialogue(item);
+                }
+            });
+        }
+        
+        function renderMcq(item) {
+            questionCounter++;
+            const block = document.createElement('div');
+            block.className = 'question-block';
+
+            const questionText = document.createElement('div');
+            questionText.className = 'question-title';
+            questionText.innerHTML = `${questionCounter}. ${item.q}`;
+            block.appendChild(questionText);
+            
+            const optionsDiv = document.createElement('div');
+            optionsDiv.className = 'options';
+            const shuffledOptions = shuffle([...item.options]);
+            shuffledOptions.forEach(opt => {
+                const label = document.createElement('label');
+                const radio = document.createElement('input');
+                radio.type = 'radio';
+                radio.name = `q${questionCounter}`;
+                label.appendChild(radio);
+                label.append(document.createTextNode(opt));
+                optionsDiv.appendChild(label);
+            });
+            block.appendChild(optionsDiv);
+
+            const button = document.createElement('button');
+            button.textContent = 'เฉลย';
+            const answerId = `ans${questionCounter}`;
+            button.onclick = () => toggleAnswer(answerId);
+            block.appendChild(button);
+
+            const answerDiv = document.createElement('div');
+            answerDiv.id = answerId;
+            answerDiv.className = 'answer';
+            answerDiv.innerHTML = `<p><strong>คำตอบที่ถูกต้อง:</strong> ${item.answer}</p><p class="explanation"><strong>คำอธิบาย:</strong> ${item.explanation}</p>`;
+            block.appendChild(answerDiv);
+            
+            quizContainer.appendChild(block);
+        }
+
+        function renderCloze(item) {
+            const block = document.createElement('div');
+            block.className = 'question-block';
+            const questionText = document.createElement('div');
+            questionText.className = 'question-title';
+            
+            let startNum = questionCounter + 1;
+            let passageHTML = item.passage;
+            let answersHtmlList = [];
+
+            item.blanks.forEach((blank, index) => {
+                questionCounter++;
+                passageHTML = passageHTML.replace(`(${blank.id})______`, `(${questionCounter}) <input type='text' placeholder='คำใบ้: ${blank.hint}'>`);
+                answersHtmlList.push(`<div><strong>(${questionCounter}):</strong> ${blank.answer}</div>`);
+            });
+            
+            questionText.innerHTML = `<strong>คำถามข้อที่ ${startNum} - ${questionCounter}:</strong><br>${passageHTML}`;
+            block.appendChild(questionText);
+
+            const button = document.createElement('button');
+            button.textContent = 'เฉลย';
+            const answerId = `ans${questionCounter}`;
+            button.onclick = () => toggleAnswer(answerId);
+            block.appendChild(button);
+
+            const answerDiv = document.createElement('div');
+            answerDiv.id = answerId;
+            answerDiv.className = 'answer';
+            answerDiv.innerHTML = `<p><strong>คำตอบที่ถูกต้อง:</strong></p>${answersHtmlList.join('')}`;
+            block.appendChild(answerDiv);
+
+            quizContainer.appendChild(block);
+        }
+
+        function renderDialogue(item) {
+             const block = document.createElement('div');
+            block.className = 'question-block';
+            
+            const questionTitle = document.createElement('div');
+            questionTitle.className = 'question-title';
+            let startNum = questionCounter + 1;
+            let endNum = questionCounter + item.answers.length;
+            questionTitle.innerHTML = `<strong>คำถามข้อที่ ${startNum} - ${endNum}:</strong> เติมบทสนทนาให้สมบูรณ์`;
+            block.appendChild(questionTitle);
+            
+            let dialogueHtml = `<div class="dialogue">`;
+            let answerIndex = 0;
+            item.lines.forEach(line => {
+                let text = line.text;
+                if(text.includes("______")){
+                   questionCounter++;
+                   text = text.replace("______", `(${questionCounter}) <input type="text" placeholder="คำใบ้: ${item.hints[answerIndex]}">`);
+                   answerIndex++;
+                }
+                dialogueHtml += `<p><strong>${line.persona === 'A' ? item.personaA : item.personaB}:</strong> ${text}</p>`;
+            });
+            dialogueHtml += `</div>`;
+            block.innerHTML += dialogueHtml;
+
+            const button = document.createElement('button');
+            button.textContent = 'เฉลย';
+            const answerId = `ans${questionCounter}`;
+            button.onclick = () => toggleAnswer(answerId);
+            block.appendChild(button);
+
+            const answerDiv = document.createElement('div');
+            answerDiv.id = answerId;
+            answerDiv.className = 'answer';
+            let answersHtml = item.answers.map((ans, i) => `<div><strong>(${startNum + i}):</strong> ${ans}</div>`).join('');
+            answerDiv.innerHTML = `<p><strong>คำตอบที่ถูกต้อง:</strong></p>${answersHtml}`;
+            block.appendChild(answerDiv);
+
+            quizContainer.appendChild(block);
+        }
+
+        renderQuiz();
+    });
+    </script>
+
+</body>
+</html>

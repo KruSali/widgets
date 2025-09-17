@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>English News for Beginners - Vietnam & Thailand Tourism</title>
+    <style>
+        body {
+            font-family: 'Tahoma', 'Geneva', sans-serif;
+            font-size: 20px;
+            line-height: 1.8;
+            color: #333;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 900px;
+            margin: auto;
+            background: #fff;
+            padding: 30px 40px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+        h1, h2 {
+            color: #0056b3;
+            border-bottom: 3px solid #f0f0f0;
+            padding-bottom: 15px;
+        }
+        h1 {
+            font-size: 2.3em;
+            text-align: center;
+            margin-bottom: 10px;
+            color: #28a745;
+        }
+        h2 {
+            font-size: 1.9em;
+            margin-top: 40px;
+        }
+        .branding {
+            text-align: center;
+            color: #555;
+            font-size: 0.9em;
+            margin-bottom: 30px;
+        }
+        
+        /* Vocabulary Section */
+        .vocab-list {
+            margin-top: 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+            gap: 20px;
+        }
+        .vocab-item {
+            background-color: #fefdf5;
+            padding: 20px;
+            border: 1px solid #eee;
+            border-left: 6px solid #ffc107;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+        }
+        .vocab-word {
+            font-weight: bold;
+            color: #c9302c;
+            font-size: 1.3em;
+        }
+        .pronunciation-th {
+            font-weight: bold;
+            color: #007bff;
+        }
+        .pronunciation-th u {
+            text-decoration: underline;
+            text-decoration-color: #c9302c;
+        }
+        .example-sentence {
+            font-style: italic;
+            color: #555;
+            margin-top: 10px;
+        }
+        .toggle-translation {
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px dashed #ddd;
+        }
+        .translation-th {
+            color: #28a745;
+            font-weight: bold;
+        }
+        .vocab-item button {
+            background-color: #5bc0de;
+            color: white;
+            padding: 8px 12px;
+            font-size: 16px;
+            margin-top: 15px;
+            align-self: flex-start;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .vocab-item button:hover {
+            background-color: #31b0d5;
+        }
+
+        /* News Article Section */
+        .news-article {
+            background-color: #f4fdf8;
+            padding: 25px;
+            border-radius: 8px;
+            margin-top: 20px;
+            border: 1px solid #d4edda;
+        }
+
+        /* Tooltip styles */
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            border-bottom: 2px dotted #28a745;
+            cursor: pointer;
+            font-weight: bold;
+            color: #155724;
+        }
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 320px;
+            background-color: #333;
+            color: #fff;
+            text-align: left;
+            border-radius: 6px;
+            padding: 15px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -160px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+        .tooltip .tooltiptext::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: #333 transparent transparent transparent;
+        }
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+        .tooltip-title {
+            font-weight: bold;
+            color: #ffc107;
+        }
+        .tooltip-content {
+            font-weight: normal;
+            color: #fff;
+        }
+        .tooltip-pronunciation-th u {
+            text-decoration: underline;
+            text-decoration-color: #ffc107;
+        }
+        
+        /* Exercise and Q&A Section */
+        .exercise, .q-and-a {
+            margin-top: 30px;
+            background-color: #f4f4f9;
+            padding: 25px;
+            border-radius: 8px;
+        }
+        .word-bank {
+            background-color: #e9ecef;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .word-bank span {
+            background-color: #fff;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            border: 1px solid #ccc;
+        }
+        .question {
+            margin-bottom: 20px;
+        }
+        .answer-input {
+            width: 180px;
+            padding: 10px;
+            font-size: 18px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        #results {
+            margin-top: 15px;
+            font-weight: bold;
+        }
+        .main-button {
+            background-color: #28a745;
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 18px;
+            margin-top: 10px;
+        }
+        .main-button:hover {
+            background-color: #218838;
+        }
+        .qa-answer {
+            display: none;
+            background-color: #e9ecef;
+            padding: 15px;
+            margin-top: 10px;
+            border-radius: 5px;
+            border-left: 5px solid #17a2b8;
+        }
+        .qa-answer ul {
+            padding-left: 20px;
+            margin: 0;
+        }
+        .qa-answer li {
+            margin-bottom: 10px;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+            color: #666;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Vietnam is Now Number 1 for Chinese Tourists in ASEAN</h1>
+        <p class="branding">ครูสาลี่ -- อังกฤษฉบับคนเรียนไม่รู้เรื่อง</p>
+        
+        <h2>Key Words to Know First 🔑</h2>
+        <div class="vocab-list">
+            <div class="vocab-item">
+                <p><span class="vocab-word">Tourism (n.)</span></p>
+                <p class="pronunciation-th">คำอ่าน: <u>ทัว</u>-ริ-ซึม</p>
+                <p><strong>Meaning:</strong> the business of providing services for people who are travelling for pleasure.</p>
+                <p class="example-sentence">"Tourism is very important for Thailand's economy."</p>
+                <div class="toggle-translation" style="display:none;">
+                    <p class="translation-th">คำแปล: การท่องเที่ยว</p>
+                    <p class="translation-th">แปลประโยค: "การท่องเที่ยวมีความสำคัญต่อเศรษฐกิจของประเทศไทยอย่างมาก"</p>
+                </div>
+                <button onclick="toggleTranslation(this)">แสดงคำแปล</button>
+            </div>
+             <div class="vocab-item">
+                <p><span class="vocab-word">Tourist (n.)</span></p>
+                <p class="pronunciation-th">คำอ่าน: <u>ทัว</u>-ริสทฺ</p>
+                <p><strong>Meaning:</strong> a person who is travelling or visiting a place for pleasure.</p>
+                <p class="example-sentence">"Many tourists from China visit Vietnam."</p>
+                <div class="toggle-translation" style="display:none;">
+                    <p class="translation-th">คำแปล: นักท่องเที่ยว</p>
+                    <p class="translation-th">แปลประโยค: "นักท่องเที่ยวจำนวนมากจากประเทศจีนมาเที่ยวเวียดนาม"</p>
+                </div>
+                <button onclick="toggleTranslation(this)">แสดงคำแปล</button>
+            </div>
+             <div class="vocab-item">
+                <p><span class="vocab-word">Popular (adj.)</span></p>
+                <p class="pronunciation-th">คำอ่าน: <u>พ็อพ</u>-พิว-ลาร์</p>
+                <p><strong>Meaning:</strong> liked, enjoyed, or supported by many people.</p>
+                <p class="example-sentence">"Bangkok is a very popular city for tourists."</p>
+                <div class="toggle-translation" style="display:none;">
+                    <p class="translation-th">คำแปล: เป็นที่นิยม</p>
+                    <p class="translation-th">แปลประโยค: "กรุงเทพฯ เป็นเมืองที่นิยมมากสำหรับนักท่องเที่ยว"</p>
+                </div>
+                <button onclick="toggleTranslation(this)">แสดงคำแปล</button>
+            </div>
+             <div class="vocab-item">
+                <p><span class="vocab-word">Destination (n.)</span></p>
+                <p class="pronunciation-th">คำอ่าน: เดส-ทิ-<u>เน</u>-เชิน</p>
+                <p><strong>Meaning:</strong> the place where someone is going.</p>
+                <p class="example-sentence">"Phuket is a famous holiday destination."</p>
+                <div class="toggle-translation" style="display:none;">
+                    <p class="translation-th">คำแปล: จุดหมายปลายทาง</p>
+                    <p class="translation-th">แปลประโยค: "ภูเก็ตเป็นจุดหมายปลายทางสำหรับวันหยุดที่มีชื่อเสียง"</p>
+                </div>
+                <button onclick="toggleTranslation(this)">แสดงคำแปล</button>
+            </div>
+             <div class="vocab-item">
+                <p><span class="vocab-word">Attract (v.)</span></p>
+                <p class="pronunciation-th">คำอ่าน: แอ็ท-<u>แทรคท</u></p>
+                <p><strong>Meaning:</strong> to pull or draw someone or something towards them.</p>
+                <p class="example-sentence">"Thailand wants to attract more visitors."</p>
+                <div class="toggle-translation" style="display:none;">
+                    <p class="translation-th">คำแปล: ดึงดูด</p>
+                    <p class="translation-th">แปลประโยค: "ประเทศไทยต้องการดึงดูดนักท่องเที่ยวให้มากขึ้น"</p>
+                </div>
+                <button onclick="toggleTranslation(this)">แสดงคำแปล</button>
+            </div>
+             <div class="vocab-item">
+                <p><span class="vocab-word">Change (n.)</span></p>
+                <p class="pronunciation-th">คำอ่าน: เชนจฺ</p>
+                <p><strong>Meaning:</strong> the act or result of something becoming different.</p>
+                <p class="example-sentence">"This is a big change for the tourism industry."</p>
+                <div class="toggle-translation" style="display:none;">
+                    <p class="translation-th">คำแปล: การเปลี่ยนแปลง</p>
+                    <p class="translation-th">แปลประโยค: "นี่คือการเปลี่ยนแปลงครั้งใหญ่สำหรับอุตสาหกรรมการท่องเที่ยว"</p>
+                </div>
+                <button onclick="toggleTranslation(this)">แสดงคำแปล</button>
+            </div>
+             <div class="vocab-item">
+                <p><span class="vocab-word">Worry (v.)</span></p>
+                <p class="pronunciation-th">คำอ่าน: <u>เวอ</u>-รี</p>
+                <p><strong>Meaning:</strong> to think about problems or feel nervous.</p>
+                <p class="example-sentence">"Some tourists worry about their safety."</p>
+                <div class="toggle-translation" style="display:none;">
+                    <p class="translation-th">คำแปล: กังวล</p>
+                    <p class="translation-th">แปลประโยค: "นักท่องเที่ยวบางคนกังวลเกี่ยวกับความปลอดภัยของพวกเขา"</p>
+                </div>
+                <button onclick="toggleTranslation(this)">แสดงคำแปล</button>
+            </div>
+             <div class="vocab-item">
+                <p><span class="vocab-word">Safety (n.)</span></p>
+                <p class="pronunciation-th">คำอ่าน: <u>เซฟ</u>-ที</p>
+                <p><strong>Meaning:</strong> the condition of being protected from danger or harm.</p>
+                <p class="example-sentence">"The government is working to improve safety for visitors."</p>
+                <div class="toggle-translation" style="display:none;">
+                    <p class="translation-th">คำแปล: ความปลอดภัย</p>
+                    <p class="translation-th">แปลประโยค: "รัฐบาลกำลังทำงานเพื่อปรับปรุงความปลอดภัยสำหรับนักท่องเที่ยว"</p>
+                </div>
+                <button onclick="toggleTranslation(this)">แสดงคำแปล</button>
+            </div>
+             <div class="vocab-item">
+                <p><span class="vocab-word">Campaign (n.)</span></p>
+                <p class="pronunciation-th">คำอ่าน: แคม-<u>เพน</u></p>
+                <p><strong>Meaning:</strong> a planned group of activities that are intended to achieve a goal.</p>
+                <p class="example-sentence">"They started a new campaign to promote tourism."</p>
+                <div class="toggle-translation" style="display:none;">
+                    <p class="translation-th">คำแปล: โครงการรณรงค์, แคมเปญ</p>
+                    <p class="translation-th">แปลประโยค: "พวกเขาเริ่มแคมเปญใหม่เพื่อส่งเสริมการท่องเที่ยว"</p>
+                </div>
+                <button onclick="toggleTranslation(this)">แสดงคำแปล</button>
+            </div>
+             <div class="vocab-item">
+                <p><span class="vocab-word">Increase (v.)</span></p>
+                <p class="pronunciation-th">คำอ่าน: อิน-<u>ครีส</u></p>
+                <p><strong>Meaning:</strong> to become or make something greater in amount, number, or value.</p>
+                <p class="example-sentence">"The number of visitors to Vietnam will increase this year."</p>
+                <div class="toggle-translation" style="display:none;">
+                    <p class="translation-th">คำแปล: เพิ่มขึ้น</p>
+                    <p class="translation-th">แปลประโยค: "จำนวนผู้มาเยือนเวียดนามจะเพิ่มขึ้นในปีนี้"</p>
+                </div>
+                <button onclick="toggleTranslation(this)">แสดงคำแปล</button>
+            </div>
+             <div class="vocab-item">
+                <p><span class="vocab-word">Decrease (v.)</span></p>
+                <p class="pronunciation-th">คำอ่าน: ดี-<u>ครีส</u></p>
+                <p><strong>Meaning:</strong> to become or make something smaller or less.</p>
+                <p class="example-sentence">"The number of Chinese tourists in Thailand may decrease."</p>
+                <div class="toggle-translation" style="display:none;">
+                    <p class="translation-th">คำแปล: ลดลง</p>
+                    <p class="translation-th">แปลประโยค: "จำนวนนักท่องเที่ยวจีนในไทยอาจจะลดลง"</p>
+                </div>
+                <button onclick="toggleTranslation(this)">แสดงคำแปล</button>
+            </div>
+             <div class="vocab-item">
+                <p><span class="vocab-word">Experience (n.)</span></p>
+                <p class="pronunciation-th">คำอ่าน: อิค-<u>สเพีย</u>-เรียนซฺ</p>
+                <p><strong>Meaning:</strong> something that you have done or that has happened to you.</p>
+                <p class="example-sentence">"Young tourists want a new and real experience."</p>
+                <div class="toggle-translation" style="display:none;">
+                    <p class="translation-th">คำแปล: ประสบการณ์</p>
+                    <p class="translation-th">แปลประโยค: "นักท่องเที่ยวรุ่นใหม่ต้องการประสบการณ์ที่แปลกใหม่และเป็นจริง"</p>
+                </div>
+                <button onclick="toggleTranslation(this)">แสดงคำแปล</button>
+            </div>
+        </div>
+
+        <h2>News Story 📰</h2>
+        <div class="news-article">
+            <p>
+                There is a big 
+                <span class="tooltip">change
+                    <span class="tooltiptext">
+                        <span class="tooltip-title">Pronunciation (TH):</span> <span class="tooltip-content tooltip-pronunciation-th">เชนจฺ</span><br>
+                        <span class="tooltip-title">Meaning:</span> <span class="tooltip-content">การเปลี่ยนแปลง</span><br>
+                        <span class="tooltip-title">Synonyms:</span> <span class="tooltip-content">shift, difference</span>
+                    </span>
+                </span>
+                happening in Southeast Asian 
+                <span class="tooltip">tourism
+                    <span class="tooltiptext">
+                        <span class="tooltip-title">Pronunciation (TH):</span> <span class="tooltip-content tooltip-pronunciation-th"><u>ทัว</u>-ริ-ซึม</span><br>
+                        <span class="tooltip-title">Meaning:</span> <span class="tooltip-content">การท่องเที่ยว</span><br>
+                        <span class="tooltip-title">Synonyms:</span> <span class="tooltip-content">travel, holiday-making</span>
+                    </span>
+                </span>.
+                Vietnam is now the number one 
+                <span class="tooltip">destination
+                    <span class="tooltiptext">
+                        <span class="tooltip-title">Pronunciation (TH):</span> <span class="tooltip-content tooltip-pronunciation-th">เดส-ทิ-<u>เน</u>-เชิน</span><br>
+                        <span class="tooltip-title">Meaning:</span> <span class="tooltip-content">จุดหมายปลายทาง</span><br>
+                        <span class="tooltip-title">Synonyms:</span> <span class="tooltip-content">place, location, spot</span>
+                    </span>
+                </span>
+                for Chinese 
+                <span class="tooltip">tourists
+                    <span class="tooltiptext">
+                        <span class="tooltip-title">Pronunciation (TH):</span> <span class="tooltip-content tooltip-pronunciation-th"><u>ทัว</u>-ริสทฺ</span><br>
+                        <span class="tooltip-title">Meaning:</span> <span class="tooltip-content">นักท่องเที่ยว</span><br>
+                        <span class="tooltip-title">Synonyms:</span> <span class="tooltip-content">visitors, travelers</span>
+                    </span>
+                </span>, passing Thailand and Malaysia.
+            </p>
+            <h3>Why is Vietnam So Popular?</h3>
+            <p>
+                The number of Chinese visitors to Vietnam will 
+                <span class="tooltip">increase
+                    <span class="tooltiptext">
+                        <span class="tooltip-title">Pronunciation (TH):</span> <span class="tooltip-content tooltip-pronunciation-th">อิน-<u>ครีส</u></span><br>
+                        <span class="tooltip-title">Meaning:</span> <span class="tooltip-content">เพิ่มขึ้น</span><br>
+                        <span class="tooltip-title">Synonyms:</span> <span class="tooltip-content">grow, rise</span>
+                    </span>
+                </span>
+                a lot this year. One reason is that a new type of Chinese tourist likes to travel alone, not with big tour groups. They want a new and real 
+                <span class="tooltip">experience
+                    <span class="tooltiptext">
+                        <span class="tooltip-title">Pronunciation (TH):</span> <span class="tooltip-content tooltip-pronunciation-th">อิค-<u>สเพีย</u>-เรียนซฺ</span><br>
+                        <span class="tooltip-title">Meaning:</span> <span class="tooltip-content">ประสบการณ์</span><br>
+                        <span class="tooltip-title">Synonyms:</span> <span class="tooltip-content">adventure, event</span>
+                    </span>
+                </span>.
+                Vietnam is working hard to 
+                <span class="tooltip">attract
+                    <span class="tooltiptext">
+                        <span class="tooltip-title">Pronunciation (TH):</span> <span class="tooltip-content tooltip-pronunciation-th">แอ็ท-<u>แทรคท</u></span><br>
+                        <span class="tooltip-title">Meaning:</span> <span class="tooltip-content">ดึงดูด</span><br>
+                        <span class="tooltip-title">Synonyms:</span> <span class="tooltip-content">draw, invite</span>
+                    </span>
+                </span>
+                them, with signs in Chinese and special festivals.
+            </p>
+             <h3>Why is Thailand Becoming Less Popular?</h3>
+             <p>
+                The number of Chinese tourists visiting Thailand will 
+                <span class="tooltip">decrease
+                    <span class="tooltiptext">
+                        <span class="tooltip-title">Pronunciation (TH):</span> <span class="tooltip-content tooltip-pronunciation-th">ดี-<u>ครีส</u></span><br>
+                        <span class="tooltip-title">Meaning:</span> <span class="tooltip-content">ลดลง</span><br>
+                        <span class="tooltip-title">Synonyms:</span> <span class="tooltip-content">drop, fall, go down</span>
+                    </span>
+                </span>.
+                Many visitors 
+                <span class="tooltip">worry
+                    <span class="tooltiptext">
+                        <span class="tooltip-title">Pronunciation (TH):</span> <span class="tooltip-content tooltip-pronunciation-th"><u>เวอ</u>-รี</span><br>
+                        <span class="tooltip-title">Meaning:</span> <span class="tooltip-content">กังวล</span><br>
+                        <span class="tooltip-title">Synonyms:</span> <span class="tooltip-content">are concerned, are afraid</span>
+                    </span>
+                </span>
+                about 
+                <span class="tooltip">safety
+                    <span class="tooltiptext">
+                        <span class="tooltip-title">Pronunciation (TH):</span> <span class="tooltip-content tooltip-pronunciation-th"><u>เซฟ</u>-ที</span><br>
+                        <span class="tooltip-title">Meaning:</span> <span class="tooltip-content">ความปลอดภัย</span><br>
+                        <span class="tooltip-title">Synonyms:</span> <span class="tooltip-content">security, protection</span>
+                    </span>
+                </span>
+                because of news about scams and crime. Some also complain that hotels, food, and taxis are becoming too expensive.
+             </p>
+             <p>
+                But Thailand is not giving up. The Tourism Authority of Thailand (TAT) has started a new 
+                <span class="tooltip">campaign
+                    <span class="tooltiptext">
+                        <span class="tooltip-title">Pronunciation (TH):</span> <span class="tooltip-content tooltip-pronunciation-th">แคม-<u>เพน</u></span><br>
+                        <span class="tooltip-title">Meaning:</span> <span class="tooltip-content">แคมเปญ</span><br>
+                        <span class="tooltip-title">Synonyms:</span> <span class="tooltip-content">project, drive</span>
+                    </span>
+                </span>
+                called "Nihao Month" to make Chinese tourists feel welcome and safe again. They hope this will make Thailand a 
+                <span class="tooltip">popular
+                    <span class="tooltiptext">
+                        <span class="tooltip-title">Pronunciation (TH):</span> <span class="tooltip-content tooltip-pronunciation-th"><u>พ็อพ</u>-พิว-ลาร์</span><br>
+                        <span class="tooltip-title">Meaning:</span> <span class="tooltip-content">เป็นที่นิยม</span><br>
+                        <span class="tooltip-title">Synonyms:</span> <span class="tooltip-content">well-liked, favored</span>
+                    </span>
+                </span>
+                choice for the high season at the end of the year.
+             </p>
+        </div>
+
+        <div class="exercise">
+            <h2>Vocabulary Exercise ✍️</h2>
+            <p>Fill in the blanks with a correct word from the word bank below.</p>
+            <div class="word-bank">
+                <span>tourism</span><span>tourist</span><span>popular</span><span>destination</span>
+                <span>attract</span><span>worry</span><span>safety</span><span>campaign</span>
+                <span>increase</span><span>decrease</span>
+            </div>
+            <div class="question">
+                1. A __________ is a person who travels for fun.
+                <input type="text" id="q1" class="answer-input">
+            </div>
+            <div class="question">
+                2. Vietnam is now a very __________ place to visit.
+                <input type="text" id="q2" class="answer-input">
+            </div>
+            <div class="question">
+                3. Some visitors __________ about crime in other countries.
+                <input type="text" id="q3" class="answer-input">
+            </div>
+            <div class="question">
+                4. The number of visitors to Vietnam is expected to __________.
+                <input type="text" id="q4" class="answer-input">
+            </div>
+            <div class="question">
+                5. Thailand started a new __________ called "Nihao Month" to bring tourists back.
+                <input type="text" id="q5" class="answer-input">
+            </div>
+            <button class="main-button" onclick="checkAnswers()">Check My Answers</button>
+            <div id="results"></div>
+        </div>
+
+        <div class="q-and-a">
+            <h2>Questions & Answers 🤔</h2>
+            <p>Read the story and answer the questions. Click the button to see different ways to answer.</p>
+            
+            <div class="question">
+                <p><strong>1. Which country is now the most popular destination for Chinese tourists in Southeast Asia?</strong></p>
+                <button class="main-button" onclick="toggleAnswer('qa1')">Show Answer Choices</button>
+                <div id="qa1" class="qa-answer">
+                    <ul>
+                        <li>Vietnam is now the most popular destination for Chinese tourists.</li>
+                        <li>The number one country is Vietnam.</li>
+                        <li>Chinese tourists like to go to Vietnam the most now.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="question">
+                <p><strong>2. Why are fewer Chinese tourists visiting Thailand?</strong></p>
+                <button class="main-button" onclick="toggleAnswer('qa2')">Show Answer Choices</button>
+                <div id="qa2" class="qa-answer">
+                   <ul>
+                        <li>They are visiting less because they worry about safety and high prices.</li>
+                        <li>Some tourists are concerned about crime and think Thailand is too expensive.</li>
+                        <li>There are two main reasons: safety concerns and cost.</li>
+                   </ul>
+                </div>
+            </div>
+
+            <div class="question">
+                <p><strong>3. What is Thailand doing to attract Chinese tourists again?</strong></p>
+                <button class="main-button" onclick="toggleAnswer('qa3')">Show Answer Choices</button>
+                <div id="qa3" class="qa-answer">
+                   <ul>
+                        <li>Thailand is starting a new campaign called "Nihao Month."</li>
+                        <li>It is creating projects to make Chinese tourists feel welcome and safe.</li>
+                        <li>They are launching new campaigns and working with big companies to offer discounts.</li>
+                   </ul>
+                </div>
+            </div>
+
+        </div>
+        
+        <footer>
+            <p>ครูสาลี่ -- อังกฤษฉบับคนเรียนไม่รู้เรื่อง</p>
+        </footer>
+
+    </div>
+
+    <script>
+        function toggleTranslation(button) {
+            const vocabItem = button.parentElement;
+            const translationDiv = vocabItem.querySelector('.toggle-translation');
+            
+            if (translationDiv.style.display === 'none' || translationDiv.style.display === '') {
+                translationDiv.style.display = 'block';
+                button.textContent = 'ซ่อนคำแปล';
+            } else {
+                translationDiv.style.display = 'none';
+                button.textContent = 'แสดงคำแปล';
+            }
+        }
+
+        function checkAnswers() {
+            const answers = {
+                q1: "tourist",
+                q2: "popular",
+                q3: "worry",
+                q4: "increase",
+                q5: "campaign"
+            };
+            let correctCount = 0;
+            const totalQuestions = 5;
+
+            for (let i = 1; i <= totalQuestions; i++) {
+                const questionId = "q" + i;
+                const userAnswer = document.getElementById(questionId).value.trim().toLowerCase();
+                if (userAnswer === answers[questionId]) {
+                    correctCount++;
+                    document.getElementById(questionId).style.border = '2px solid green';
+                } else {
+                    document.getElementById(questionId).style.border = '2px solid red';
+                }
+            }
+
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = `You got ${correctCount} out of ${totalQuestions} correct!`;
+            if (correctCount === totalQuestions) {
+                resultsDiv.style.color = 'green';
+            } else {
+                resultsDiv.style.color = 'red';
+            }
+        }
+
+        function toggleAnswer(id) {
+            const answerDiv = document.getElementById(id);
+            if (answerDiv.style.display === "block") {
+                answerDiv.style.display = "none";
+            } else {
+                answerDiv.style.display = "block";
+            }
+        }
+    </script>
+
+</body>
+</html>

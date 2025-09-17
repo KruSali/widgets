@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>English for Beginners - What If a Nuke Explodes?</title>
+    <style>
+        body {
+            font-family: 'Tahoma', 'Geneva', sans-serif;
+            font-size: 20px;
+            line-height: 1.8;
+            color: #333;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 900px;
+            margin: auto;
+            background: #fff;
+            padding: 30px 40px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+        h1, h2 {
+            color: #0056b3;
+            border-bottom: 3px solid #f0f0f0;
+            padding-bottom: 15px;
+        }
+        h1 {
+            font-size: 2.3em;
+            text-align: center;
+            margin-bottom: 10px;
+            color: #ff8c00; /* Orange for warning */
+        }
+        h2 {
+            font-size: 1.9em;
+            margin-top: 40px;
+        }
+        .branding {
+            text-align: center;
+            color: #555;
+            font-size: 0.9em;
+            margin-bottom: 30px;
+        }
+        
+        /* Vocabulary Section */
+        .vocab-list {
+            margin-top: 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+            gap: 20px;
+        }
+        .vocab-item {
+            background-color: #fefdf5;
+            padding: 20px;
+            border: 1px solid #eee;
+            border-left: 6px solid #ffc107;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+        }
+        .vocab-word {
+            font-weight: bold;
+            color: #c9302c;
+            font-size: 1.3em;
+        }
+        .pronunciation-th {
+            font-weight: bold;
+            color: #007bff;
+        }
+        .pronunciation-th u {
+            text-decoration: underline;
+            text-decoration-color: #c9302c;
+        }
+        .example-sentence {
+            font-style: italic;
+            color: #555;
+            margin-top: 10px;
+        }
+        .toggle-translation {
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px dashed #ddd;
+        }
+        .translation-th {
+            color: #28a745;
+            font-weight: bold;
+        }
+        .vocab-item button {
+            background-color: #5bc0de;
+            color: white;
+            padding: 8px 12px;
+            font-size: 16px;
+            margin-top: 15px;
+            align-self: flex-start;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .vocab-item button:hover {
+            background-color: #31b0d5;
+        }
+
+        /* News Article Section */
+        .news-article {
+            background-color: #fff8f0;
+            padding: 25px;
+            border-radius: 8px;
+            margin-top: 20px;
+            border: 1px solid #ffeedb;
+        }
+        .news-article h3 {
+            color: #d9534f;
+        }
+        .news-article p {
+            margin-bottom: 20px;
+        }
+
+        /* Tooltip styles */
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            border-bottom: 2px dotted #d9534f;
+            cursor: pointer;
+            font-weight: bold;
+            color: #d9534f;
+        }
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 320px;
+            background-color: #333;
+            color: #fff;
+            text-align: left;
+            border-radius: 6px;
+            padding: 15px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -160px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+        .tooltip .tooltiptext::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: #333 transparent transparent transparent;
+        }
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+        .tooltip-title {
+            font-weight: bold;
+            color: #ffc107;
+        }
+        .tooltip-content {
+            font-weight: normal;
+            color: #fff;
+        }
+        .tooltip-pronunciation-th u {
+            text-decoration: underline;
+            text-decoration-color: #ffc107;
+        }
+        
+        /* Exercise and Q&A Section */
+        .exercise, .q-and-a {
+            margin-top: 30px;
+            background-color: #f4f4f9;
+            padding: 25px;
+            border-radius: 8px;
+        }
+        .word-bank {
+            background-color: #e9ecef;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .word-bank span {
+            background-color: #fff;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            border: 1px solid #ccc;
+        }
+        .question {
+            margin-bottom: 20px;
+        }
+        .answer-input {
+            width: 180px;
+            padding: 10px;
+            font-size: 18px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        #results {
+            margin-top: 15px;
+            font-weight: bold;
+        }
+        .main-button {
+            background-color: #28a745;
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 18px;
+            margin-top: 10px;
+        }
+        .main-button:hover {
+            background-color: #218838;
+        }
+        .qa-answer {
+            display: none;
+            background-color: #e9ecef;
+            padding: 15px;
+            margin-top: 10px;
+            border-radius: 5px;
+            border-left: 5px solid #17a2b8;
+        }
+        .qa-answer ul {
+            padding-left: 20px;
+            margin: 0;
+        }
+        .qa-answer li {
+            margin-bottom: 10px;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+            color: #666;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>What Happens if a Nuclear Bomb Explodes? 💥</h1>
+        <p class="branding">ครูสาลี่ -- อังกฤษฉบับคนเรียนไม่รู้เรื่อง</p>
+        
+        <h2>Key Words to Know First 🔑</h2>
+        <div class="vocab-list">
+            <div class="vocab-item">
+                <p><span class="vocab-word">Nuclear (adj.)</span></p>
+                <p class="pronunciation-th">คำอ่าน: <u>นิว</u>-เคลียร์</p>
+                <p><strong>Meaning:</strong> relating to the energy that is released when the nucleus of an atom is split.</p>
+                <p class="example-sentence">"A nuclear bomb is a very powerful weapon."</p>
+                <div class="toggle-translation" style="display:none;">
+                    <p class="translation-th">คำแปล: เกี่ยวกับนิวเคลียร์</p>
+                    <p class="translation-th">แปลประโยค: "ระเบิดนิวเคลียร์เป็นอาวุธที่ทรงพลังมาก"</p>
+                </div>
+                <button onclick="toggleTranslation(this)">แสดงคำแปล</button>
+            </div>
+             <div class="vocab-item">
+                <p><span class="vocab-word">Explode (v.)</span></p>
+                <p class="pronunciation-th">คำอ่าน: เอ็ค-<u>ซโพลด</u></p>
+                <p><strong>Meaning:</strong> to burst or shatter violently and noisily as a result of rapid combustion.</p>
+                <p class="example-sentence">"The bomb could explode at any second."</p>
+                <div class="toggle-translation" style="display:none;">
+                    <p class="translation-th">คำแปล: ระเบิด</p>
+                    <p class="translation-th">แปลประโยค: "ระเบิดสามารถระเบิดได้ทุกวินาที"</p>
+                </div>
+                <button onclick="toggleTranslation(this)">แสดงคำแปล</button>
+            </div>
+             <div class="vocab-item">
+                <p><span class="vocab-word">Radiation (n.)</span></p>
+                <p class="pronunciation-th">คำอ่าน: เร-ดิ-<u>เอ</u>-เชิน</p>
+                <p><strong>Meaning:</strong> a form of energy that can be very harmful to living things.</p>
+                <p class="example-sentence">"Too much radiation can make people very sick."</p>
+                <div class="toggle-translation" style="display:none;">
+                    <p class="translation-th">คำแปล: กัมมันตภาพรังสี</p>
+                    <p class="translation-th">แปลประโยค: "การได้รับรังสีมากเกินไปสามารถทำให้คนป่วยหนักได้"</p>
+                </div>
+                <button onclick="toggleTranslation(this)">แสดงคำแปล</button>
+            </div>
+             <div class="vocab-item">
+                <p><span class="vocab-word">Effect (n.)</span></p>
+                <p class="pronunciation-th">คำอ่าน: อิ-<u>เฟ็คท</u></p>
+                <p><strong>Meaning:</strong> a change that is a result of an action or other cause.</p>
+                <p class="example-sentence">"The effects of the explosion were terrible."</p>
+                <div class="toggle-translation" style="display:none;">
+                    <p class="translation-th">คำแปล: ผลกระทบ</p>
+                    <p class="translation-th">แปลประโยค: "ผลกระทบจากการระเบิดนั้นเลวร้ายมาก"</p>
+                </div>
+                <button onclick="toggleTranslation(this)">แสดงคำแปล</button>
+            </div>
+             <div class="vocab-item">
+                <p><span class="vocab-word">Destroy (v.)</span></p>
+                <p class="pronunciation-th">คำอ่าน: ดิ-<u>สทรอย</u></p>
+                <p><strong>Meaning:</strong> to damage something so badly that it cannot be used or does not exist.</p>
+                <p class="example-sentence">"The blast wave can destroy strong buildings."</p>
+                <div class="toggle-translation" style="display:none;">
+                    <p class="translation-th">คำแปล: ทำลาย</p>
+                    <p class="translation-th">แปลประโยค: "คลื่นระเบิดสามารถทำลายตึกที่แข็งแรงได้"</p>
+                </div>
+                <button onclick="toggleTranslation(this)">แสดงคำแปล</button>
+            </div>
+             <div class="vocab-item">
+                <p><span class="vocab-word">Dangerous (adj.)</span></p>
+                <p class="pronunciation-th">คำอ่าน: <u>เดน</u>-เจอ-เริส</p>
+                <p><strong>Meaning:</strong> able or likely to cause harm or injury.</p>
+                <p class="example-sentence">"The radioactive dust is very dangerous."</p>
+                <div class="toggle-translation" style="display:none;">
+                    <p class="translation-th">คำแปล: อันตราย</p>
+                    <p class="translation-th">แปลประโยค: "ฝุ่นกัมมันตรังสีนั้นอันตรายมาก"</p>
+                </div>
+                <button onclick="toggleTranslation(this)">แสดงคำแปล</button>
+            </div>
+             <div class="vocab-item">
+                <p><span class="vocab-word">Weapon (n.)</span></p>
+                <p class="pronunciation-th">คำอ่าน: <u>เว็พ</u>-เพิน</p>
+                <p><strong>Meaning:</strong> an object such as a knife, gun, or bomb that is used for fighting or attacking.</p>
+                <p class="example-sentence">"A nuclear bomb is the most powerful weapon in the world."</p>
+                <div class="toggle-translation" style="display:none;">
+                    <p class="translation-th">คำแปล: อาวุธ</p>
+                    <p class="translation-th">แปลประโยค: "ระเบิดนิวเคลียร์คืออาวุธที่ทรงพลังที่สุดในโลก"</p>
+                </div>
+                <button onclick="toggleTranslation(this)">แสดงคำแปล</button>
+            </div>
+             <div class="vocab-item">
+                <p><span class="vocab-word">Survive (v.)</span></p>
+                <p class="pronunciation-th">คำอ่าน: เซอ-<u>ไฝฝ</u></p>
+                <p><strong>Meaning:</strong> to continue to live or exist, especially after a difficult or dangerous event.</p>
+                <p class="example-sentence">"It is very difficult to survive a nuclear explosion."</p>
+                <div class="toggle-translation" style="display:none;">
+                    <p class="translation-th">คำแปล: เอาชีวิตรอด</p>
+                    <p class="translation-th">แปลประโยค: "มันยากมากที่จะเอาชีวิตรอดจากการระเบิดของนิวเคลียร์"</p>
+                </div>
+                <button onclick="toggleTranslation(this)">แสดงคำแปล</button>
+            </div>
+             <div class="vocab-item">
+                <p><span class="vocab-word">Immediately (adv.)</span></p>
+                <p class="pronunciation-th">คำอ่าน: อิม-<u>มี</u>-เดียท-ลี</p>
+                <p><strong>Meaning:</strong> at once; instantly.</p>
+                <p class="example-sentence">"The bright flash happens immediately."</p>
+                <div class="toggle-translation" style="display:none;">
+                    <p class="translation-th">คำแปล: ทันทีทันใด</p>
+                    <p class="translation-th">แปลประโยค: "แสงวาบที่สว่างจ้าเกิดขึ้นในทันที"</p>
+                </div>
+                <button onclick="toggleTranslation(this)">แสดงคำแปล</button>
+            </div>
+             <div class="vocab-item">
+                <p><span class="vocab-word">Global (adj.)</span></p>
+                <p class="pronunciation-th">คำอ่าน: <u>โกล</u>-เบิล</p>
+                <p><strong>Meaning:</strong> relating to the whole world.</p>
+                <p class="example-sentence">"A nuclear war could cause a global winter."</p>
+                <div class="toggle-translation" style="display:none;">
+                    <p class="translation-th">คำแปล: ระดับโลก, ทั่วโลก</p>
+                    <p class="translation-th">แปลประโยค: "สงครามนิวเคลียร์อาจทำให้เกิดฤดูหนาวทั่วโลก"</p>
+                </div>
+                <button onclick="toggleTranslation(this)">แสดงคำแปล</button>
+            </div>
+             <div class="vocab-item">
+                <p><span class="vocab-word">Energy (n.)</span></p>
+                <p class="pronunciation-th">คำอ่าน: <u>เอ็น</u>-เนอ-จี</p>
+                <p><strong>Meaning:</strong> the strength and power to be active.</p>
+                <p class="example-sentence">"The bomb releases a huge amount of energy."</p>
+                <div class="toggle-translation" style="display:none;">
+                    <p class="translation-th">คำแปล: พลังงาน</p>
+                    <p class="translation-th">แปลประโยค: "ระเบิดปลดปล่อยพลังงานจำนวนมหาศาล"</p>
+                </div>
+                <button onclick="toggleTranslation(this)">แสดงคำแปล</button>
+            </div>
+             <div class="vocab-item">
+                <p><span class="vocab-word">Protect (v.)</span></p>
+                <p class="pronunciation-th">คำอ่าน: โพร-<u>เท็คท</u></p>
+                <p><strong>Meaning:</strong> to keep someone or something safe from harm or injury.</p>
+                <p class="example-sentence">"You need to find a special shelter to protect yourself."</p>
+                <div class="toggle-translation" style="display:none;">
+                    <p class="translation-th">คำแปล: ปกป้อง</p>
+                    <p class="translation-th">แปลประโยค: "คุณต้องหาที่หลบภัยพิเศษเพื่อปกป้องตัวเอง"</p>
+                </div>
+                <button onclick="toggleTranslation(this)">แสดงคำแปล</button>
+            </div>
+        </div>
+
+        <h2>News Story 📰</h2>
+        <div class="news-article">
+            <p>
+                Have you ever wondered what happens when a 
+                <span class="tooltip">nuclear
+                    <span class="tooltiptext">
+                        <span class="tooltip-title">Pronunciation (TH):</span> <span class="tooltip-content tooltip-pronunciation-th"><u>นิว</u>-เคลียร์</span><br>
+                        <span class="tooltip-title">Meaning:</span> <span class="tooltip-content">เกี่ยวกับนิวเคลียร์</span><br>
+                        <span class="tooltip-title">Synonyms:</span> <span class="tooltip-content">atomic</span>
+                    </span>
+                </span>
+                <span class="tooltip">weapon
+                    <span class="tooltiptext">
+                        <span class="tooltip-title">Pronunciation (TH):</span> <span class="tooltip-content tooltip-pronunciation-th"><u>เว็พ</u>-เพิน</span><br>
+                        <span class="tooltip-title">Meaning:</span> <span class="tooltip-content">อาวุธ</span><br>
+                        <span class="tooltip-title">Synonyms:</span> <span class="tooltip-content">bomb, missile</span>
+                    </span>
+                </span>
+                <span class="tooltip">explodes
+                    <span class="tooltiptext">
+                        <span class="tooltip-title">Pronunciation (TH):</span> <span class="tooltip-content tooltip-pronunciation-th">เอ็ค-<u>ซโพลด</u>สฺ</span><br>
+                        <span class="tooltip-title">Meaning:</span> <span class="tooltip-content">ระเบิด</span><br>
+                        <span class="tooltip-title">Synonyms:</span> <span class="tooltip-content">bursts, goes off</span>
+                    </span>
+                </span>?
+                It's a scary thought, but understanding the science is interesting. Let's look at what happens step-by-step.
+            </p>
+            <h3>Step 1: The First Second - A New Sun ☀️</h3>
+            <p>
+                <span class="tooltip">Immediately
+                    <span class="tooltiptext">
+                        <span class="tooltip-title">Pronunciation (TH):</span> <span class="tooltip-content tooltip-pronunciation-th">อิม-<u>มี</u>-เดียท-ลี</span><br>
+                        <span class="tooltip-title">Meaning:</span> <span class="tooltip-content">ทันทีทันใด</span><br>
+                        <span class="tooltip-title">Synonyms:</span> <span class="tooltip-content">instantly, right away</span>
+                    </span>
+                </span>, there is a flash of light brighter than the sun. This light releases powerful heat and 
+                <span class="tooltip">energy
+                    <span class="tooltiptext">
+                        <span class="tooltip-title">Pronunciation (TH):</span> <span class="tooltip-content tooltip-pronunciation-th"><u>เอ็น</u>-เนอ-จี</span><br>
+                        <span class="tooltip-title">Meaning:</span> <span class="tooltip-content">พลังงาน</span><br>
+                        <span class="tooltip-title">Synonyms:</span> <span class="tooltip-content">power, force</span>
+                    </span>
+                </span>. It can make people blind and cause very bad burns, even from far away. At the same time, an invisible wave (called an EMP) can 
+                <span class="tooltip">destroy
+                    <span class="tooltiptext">
+                        <span class="tooltip-title">Pronunciation (TH):</span> <span class="tooltip-content tooltip-pronunciation-th">ดิ-<u>สทรอย</u></span><br>
+                        <span class="tooltip-title">Meaning:</span> <span class="tooltip-content">ทำลาย</span><br>
+                        <span class="tooltip-title">Synonyms:</span> <span class="tooltip-content">ruin, break, damage</span>
+                    </span>
+                </span>
+                all electronics like phones and cars.
+            </p>
+             <h3>Step 2: A Few Seconds Later - The Giant Push 💨</h3>
+             <p>
+                After the flash, a powerful blast wave comes. It's like a wall of wind moving faster than sound. This wave is strong enough to destroy buildings, trees, and everything in its path. This is one of the most destructive 
+                <span class="tooltip">effects
+                    <span class="tooltiptext">
+                        <span class="tooltip-title">Pronunciation (TH):</span> <span class="tooltip-content tooltip-pronunciation-th">อิ-<u>เฟ็คท</u>สฺ</span><br>
+                        <span class="tooltip-title">Meaning:</span> <span class="tooltip-content">ผลกระทบ</span><br>
+                        <span class="tooltip-title">Synonyms:</span> <span class="tooltip-content">results, consequences</span>
+                    </span>
+                </span>.
+             </p>
+             <h3>Step 3: The Weeks After - Dangerous Dust ☢️</h3>
+             <p>
+                The explosion creates a giant mushroom cloud. This cloud is full of 
+                <span class="tooltip">dangerous
+                    <span class="tooltiptext">
+                        <span class="tooltip-title">Pronunciation (TH):</span> <span class="tooltip-content tooltip-pronunciation-th"><u>เดน</u>-เจอ-เริส</span><br>
+                        <span class="tooltip-title">Meaning:</span> <span class="tooltip-content">อันตราย</span><br>
+                        <span class="tooltip-title">Synonyms:</span> <span class="tooltip-content">harmful, risky, unsafe</span>
+                    </span>
+                </span>
+                dust called radioactive fallout. This dust falls from the sky for many days and weeks. It is invisible, but it carries a lot of 
+                <span class="tooltip">radiation
+                    <span class="tooltiptext">
+                        <span class="tooltip-title">Pronunciation (TH):</span> <span class="tooltip-content tooltip-pronunciation-th">เร-ดิ-<u>เอ</u>-เชิน</span><br>
+                        <span class="tooltip-title">Meaning:</span> <span class="tooltip-content">กัมมันตภาพรังสี</span><br>
+                        <span class="tooltip-title">Synonyms:</span> <span class="tooltip-content">radioactivity</span>
+                    </span>
+                </span>.
+                It can make people very sick and is a very difficult thing to 
+                <span class="tooltip">survive
+                    <span class="tooltiptext">
+                        <span class="tooltip-title">Pronunciation (TH):</span> <span class="tooltip-content tooltip-pronunciation-th">เซอ-<u>ไฝฝ</u></span><br>
+                        <span class="tooltip-title">Meaning:</span> <span class="tooltip-content">เอาชีวิตรอด</span><br>
+                        <span class="tooltip-title">Synonyms:</span> <span class="tooltip-content">live, stay alive</span>
+                    </span>
+                </span>.
+                You would need a special shelter to 
+                <span class="tooltip">protect
+                    <span class="tooltiptext">
+                        <span class="tooltip-title">Pronunciation (TH):</span> <span class="tooltip-content tooltip-pronunciation-th">โพร-<u>เท็คท</u></span><br>
+                        <span class="tooltip-title">Meaning:</span> <span class="tooltip-content">ปกป้อง</span><br>
+                        <span class="tooltip-title">Synonyms:</span> <span class="tooltip-content">defend, guard</span>
+                    </span>
+                </span>
+                yourself.
+             </p>
+             <h3>Step 4: The Years After - A Cold, Dark World 🥶</h3>
+             <p>If many bombs explode, it can cause a 
+                <span class="tooltip">global
+                    <span class="tooltiptext">
+                        <span class="tooltip-title">Pronunciation (TH):</span> <span class="tooltip-content tooltip-pronunciation-th"><u>โกล</u>-เบิล</span><br>
+                        <span class="tooltip-title">Meaning:</span> <span class="tooltip-content">ทั่วโลก</span><br>
+                        <span class="tooltip-title">Synonyms:</span> <span class="tooltip-content">worldwide, international</span>
+                    </span>
+                </span>
+                problem. So much dust and smoke can go into the sky that it blocks the sun. This would make the Earth very cold and dark for years. This is called a "nuclear winter," and it would make it impossible to grow food.
+            </p>
+        </div>
+
+        <div class="exercise">
+            <h2>Vocabulary Exercise ✍️</h2>
+            <p>Fill in the blanks with a correct word from the word bank below.</p>
+            <div class="word-bank">
+                <span>nuclear</span><span>explode</span><span>radiation</span><span>effect</span>
+                <span>destroy</span><span>dangerous</span><span>weapon</span><span>survive</span>
+                <span>global</span>
+            </div>
+            <div class="question">
+                1. A __________ is an object used for fighting, like a bomb.
+                <input type="text" id="q1" class="answer-input">
+            </div>
+            <div class="question">
+                2. The blast wave is strong enough to __________ an entire city.
+                <input type="text" id="q2" class="answer-input">
+            </div>
+            <div class="question">
+                3. The invisible dust is very __________ because it has radiation.
+                <input type="text" id="q3" class="answer-input">
+            </div>
+            <div class="question">
+                4. A nuclear winter would be a __________ problem for the whole world.
+                <input type="text" id="q4" class="answer-input">
+            </div>
+            <div class="question">
+                5. It is very hard to __________ without a special shelter.
+                <input type="text" id="q5" class="answer-input">
+            </div>
+            <button class="main-button" onclick="checkAnswers()">Check My Answers</button>
+            <div id="results"></div>
+        </div>
+
+        <div class="q-and-a">
+            <h2>Questions & Answers 🤔</h2>
+            <p>Read the story and answer the questions. Click the button to see different ways to answer.</p>
+            
+            <div class="question">
+                <p><strong>1. What is the very first thing that happens when a nuclear bomb explodes?</strong></p>
+                <button class="main-button" onclick="toggleAnswer('qa1')">Show Answer Choices</button>
+                <div id="qa1" class="qa-answer">
+                    <ul>
+                        <li>The first thing is a very bright flash of light, like a new sun.</li>
+                        <li>It starts with a flash of light and a wave of heat.</li>
+                        <li>Immediately, there is a bright light that can make you blind.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="question">
+                <p><strong>2. What is "radioactive fallout"?</strong></p>
+                <button class="main-button" onclick="toggleAnswer('qa2')">Show Answer Choices</button>
+                <div id="qa2" class="qa-answer">
+                   <ul>
+                        <li>It is dangerous, invisible dust that falls from the mushroom cloud.</li>
+                        <li>Radioactive fallout is dust with radiation that can make you sick.</li>
+                        <li>It is the dangerous dust that comes down after the explosion.</li>
+                   </ul>
+                </div>
+            </div>
+
+            <div class="question">
+                <p><strong>3. What is a "nuclear winter"?</strong></p>
+                <button class="main-button" onclick="toggleAnswer('qa3')">Show Answer Choices</button>
+                <div id="qa3" class="qa-answer">
+                   <ul>
+                        <li>It's when dust and smoke from many bombs block the sun and make the Earth cold and dark.</li>
+                        <li>A nuclear winter is a long, cold period that happens after a nuclear war.</li>
+                        <li>It is a dangerous global effect that would make it hard to grow food.</li>
+                   </ul>
+                </div>
+            </div>
+
+        </div>
+        
+        <footer>
+            <p>ครูสาลี่ -- อังกฤษฉบับคนเรียนไม่รู้เรื่อง</p>
+        </footer>
+
+    </div>
+
+    <script>
+        function toggleTranslation(button) {
+            const vocabItem = button.parentElement;
+            const translationDiv = vocabItem.querySelector('.toggle-translation');
+            
+            if (translationDiv.style.display === 'none' || translationDiv.style.display === '') {
+                translationDiv.style.display = 'block';
+                button.textContent = 'ซ่อนคำแปล';
+            } else {
+                translationDiv.style.display = 'none';
+                button.textContent = 'แสดงคำแปล';
+            }
+        }
+
+        function checkAnswers() {
+            const answers = {
+                q1: "weapon",
+                q2: "destroy",
+                q3: "dangerous",
+                q4: "global",
+                q5: "survive"
+            };
+            let correctCount = 0;
+            const totalQuestions = 5;
+
+            for (let i = 1; i <= totalQuestions; i++) {
+                const questionId = "q" + i;
+                const userAnswer = document.getElementById(questionId).value.trim().toLowerCase();
+                if (userAnswer === answers[questionId]) {
+                    correctCount++;
+                    document.getElementById(questionId).style.border = '2px solid green';
+                } else {
+                    document.getElementById(questionId).style.border = '2px solid red';
+                }
+            }
+
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = `You got ${correctCount} out of ${totalQuestions} correct!`;
+            if (correctCount === totalQuestions) {
+                resultsDiv.style.color = 'green';
+            } else {
+                resultsDiv.style.color = 'red';
+            }
+        }
+
+        function toggleAnswer(id) {
+            const answerDiv = document.getElementById(id);
+            if (answerDiv.style.display === "block") {
+                answerDiv.style.display = "none";
+            } else {
+                answerDiv.style.display = "block";
+            }
+        }
+    </script>
+
+</body>
+</html>

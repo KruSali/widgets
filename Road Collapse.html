@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>สื่อการสอนภาษาอังกฤษ: ข่าวถนนทรุด</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* CSS Variables for colors and fonts */
+        :root {
+            --font-main: 'Sarabun', sans-serif;
+            --color-primary: #005A9C;
+            --color-secondary: #FFC107;
+            --color-background: #f4f7f9;
+            --color-text: #333333;
+            --color-light-text: #666666;
+            --color-white: #ffffff;
+            --color-vocab-bg: #e3f2fd;
+            --color-story-bg: #ffffff;
+            --color-exercise-bg: #e8f5e9;
+            --color-qa-bg: #fff3e0;
+            --shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        /* General Body Styles */
+        body {
+            font-family: var(--font-main);
+            background-color: var(--color-background);
+            color: var(--color-text);
+            line-height: 1.8;
+            margin: 0;
+            padding: 0;
+            font-size: 18px;
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: var(--color-white);
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+        }
+        
+        /* Header */
+        header {
+            text-align: center;
+            padding-bottom: 20px;
+            border-bottom: 2px solid var(--color-primary);
+        }
+        header h1 {
+            color: var(--color-primary);
+            margin: 0;
+        }
+        header .subtitle {
+            font-size: 1.1em;
+            color: var(--color-light-text);
+            font-weight: bold;
+            margin-top: 8px;
+        }
+
+        /* Section Styling */
+        .content-section {
+            margin-top: 30px;
+            padding: 25px;
+            border-radius: 10px;
+        }
+        .content-section h2 {
+            margin-top: 0;
+            border-bottom: 2px solid var(--color-secondary);
+            padding-bottom: 10px;
+            color: var(--color-primary);
+        }
+
+        /* Section-specific colors */
+        #vocabulary { background-color: var(--color-vocab-bg); }
+        #story { background-color: var(--color-story-bg); }
+        #exercise { background-color: var(--color-exercise-bg); }
+        #questions { background-color: var(--color-qa-bg); }
+
+        /* Vocabulary Section */
+        .vocab-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        .vocab-card {
+            background-color: var(--color-white);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            border-left: 5px solid var(--color-primary);
+        }
+        .vocab-card .word {
+            font-weight: bold;
+            font-size: 1.4em;
+            color: var(--color-primary);
+        }
+        .vocab-card .pronounce {
+            font-style: italic;
+            color: var(--color-light-text);
+        }
+        .vocab-card p { margin: 10px 0; }
+        .vocab-card strong { color: var(--color-text); }
+        
+        .translation-area {
+            display: none; /* Initially hidden */
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            padding: 10px;
+            margin-top: 10px;
+            border: 1px dashed #ccc;
+        }
+
+        /* Buttons */
+        .toggle-btn {
+            background-color: var(--color-secondary);
+            color: var(--color-text);
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-family: var(--font-main);
+            font-size: 0.9em;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        .toggle-btn:hover {
+            background-color: #fbc02d;
+        }
+
+        /* News Story Tooltips */
+        .tooltip-word {
+            color: var(--color-primary);
+            font-weight: bold;
+            text-decoration: underline;
+            text-decoration-style: dotted;
+            position: relative;
+            cursor: help;
+        }
+
+        .tooltip-word .tooltip-text {
+            visibility: hidden;
+            width: 220px;
+            background-color: #333;
+            color: #fff;
+            text-align: left;
+            border-radius: 6px;
+            padding: 10px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -110px; /* Use half of the width */
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 0.9em;
+            line-height: 1.5;
+            font-weight: normal;
+        }
+        
+        .tooltip-word .tooltip-text::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: #333 transparent transparent transparent;
+        }
+
+        .tooltip-word:hover .tooltip-text {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        /* Vocabulary Exercise */
+        .word-bank {
+            background-color: var(--color-white);
+            padding: 15px;
+            border-radius: 8px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 25px;
+            border: 2px dashed var(--color-secondary);
+        }
+        .word-bank span {
+            background-color: #fffde7;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-weight: bold;
+            font-family: monospace;
+        }
+        #exercise ol {
+            padding-left: 20px;
+        }
+        #exercise li {
+            margin-bottom: 15px;
+        }
+        .blank {
+            display: inline-block;
+            width: 150px;
+            border-bottom: 2px solid var(--color-light-text);
+            margin: 0 5px;
+        }
+
+        /* Q&A Section */
+        .qa-item {
+            margin-bottom: 20px;
+        }
+        .qa-item p {
+            margin: 0 0 10px 0;
+        }
+        .answer-area {
+            display: none; /* Initially hidden */
+            background-color: var(--color-white);
+            border: 1px solid #ddd;
+            border-left: 5px solid var(--color-secondary);
+            padding: 15px;
+            border-radius: 5px;
+        }
+        .answer-area ul {
+            padding-left: 20px;
+            margin: 0;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+            color: var(--color-light-text);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            body { font-size: 16px; }
+            .container {
+                margin: 10px;
+                padding: 15px;
+            }
+            .content-section { padding: 15px; }
+            .vocab-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>ถนนทรุดในกรุงเทพฯ: เกิดอะไรขึ้น?</h1>
+            <div class="subtitle">ครูสาลี่ -- อังกฤษฉบับคนเรียนไม่รู้เรื่อง</div>
+        </header>
+
+        <main>
+            <section id="vocabulary" class="content-section">
+                <h2>คำศัพท์ที่น่าสนใจ (Key Words to Know First)</h2>
+                <div class="vocab-grid">
+                    
+                    <div class="vocab-card">
+                        <div class="word">Collapse (v.)</div>
+                        <div class="pronounce">คำอ่าน: <u>คะ</u>-แลพซฺ</div>
+                        <p><strong>Meaning:</strong> to fall down suddenly because of pressure or having no support.</p>
+                        <p><strong>Example Sentence:</strong> The old building might <em>collapse</em> soon.</p>
+                        <button class="toggle-btn">แสดงคำแปล</button>
+                        <div class="translation-area">
+                            <p><strong>คำแปล:</strong> ทรุดตัว, พังทลาย</p>
+                            <p><strong>แปลประโยค:</strong> ตึกเก่าหลังนั้นอาจจะพังทลายลงมาเร็วๆ นี้</p>
+                        </div>
+                    </div>
+                    
+                    <div class="vocab-card">
+                        <div class="word">Department (n.)</div>
+                        <div class="pronounce">คำอ่าน: ดิ-<u>พาท</u>-เมินทฺ</div>
+                        <p><strong>Meaning:</strong> a part of a large organization such as a government or a university.</p>
+                        <p><strong>Example Sentence:</strong> He works for the Health <em>Department</em>.</p>
+                        <button class="toggle-btn">แสดงคำแปล</button>
+                        <div class="translation-area">
+                            <p><strong>คำแปล:</strong> กรม, แผนก</p>
+                            <p><strong>แปลประโยค:</strong> เขาทำงานให้กับกรมอนามัย</p>
+                        </div>
+                    </div>
+
+                    <div class="vocab-card">
+                        <div class="word">Underground (adj.)</div>
+                        <div class="pronounce">คำอ่าน: <u>อัน</u>-เดอะ-กราวเดฺ</div>
+                        <p><strong>Meaning:</strong> below the surface of the ground.</p>
+                        <p><strong>Example Sentence:</strong> Many animals live <em>underground</em>.</p>
+                        <button class="toggle-btn">แสดงคำแปล</button>
+                        <div class="translation-area">
+                            <p><strong>คำแปล:</strong> ใต้ดิน</p>
+                            <p><strong>แปลประโยค:</strong> สัตว์หลายชนิดอาศัยอยู่ใต้ดิน</p>
+                        </div>
+                    </div>
+
+                    <div class="vocab-card">
+                        <div class="word">Pipe (n.)</div>
+                        <div class="pronounce">คำอ่าน: ไพพฺ</div>
+                        <p><strong>Meaning:</strong> a long tube that water or gas can move through.</p>
+                        <p><strong>Example Sentence:</strong> There is a problem with the water <em>pipe</em>.</p>
+                        <button class="toggle-btn">แสดงคำแปล</button>
+                        <div class="translation-area">
+                            <p><strong>คำแปล:</strong> ท่อ</p>
+                            <p><strong>แปลประโยค:</strong> มีปัญหากับท่อน้ำ</p>
+                        </div>
+                    </div>
+
+                    <div class="vocab-card">
+                        <div class="word">Create (v.)</div>
+                        <div class="pronounce">คำอ่าน: ครี-<u>เอท</u></div>
+                        <p><strong>Meaning:</strong> to make something new exist or happen.</p>
+                        <p><strong>Example Sentence:</strong> The artist will <em>create</em> a new painting.</p>
+                        <button class="toggle-btn">แสดงคำแปล</button>
+                        <div class="translation-area">
+                            <p><strong>คำแปล:</strong> สร้าง</p>
+                            <p><strong>แปลประโยค:</strong> ศิลปินจะสร้างสรรค์ผลงานภาพวาดชิ้นใหม่</p>
+                        </div>
+                    </div>
+
+                    <div class="vocab-card">
+                        <div class="word">Cavity (n.)</div>
+                        <div class="pronounce">คำอ่าน: <u>แค</u>-ฝิ-ทิ</div>
+                        <p><strong>Meaning:</strong> a hole, or an empty space inside something solid.</p>
+                        <p><strong>Example Sentence:</strong> The water leak made a large <em>cavity</em> under the floor.</p>
+                        <button class="toggle-btn">แสดงคำแปล</button>
+                        <div class="translation-area">
+                            <p><strong>คำแปล:</strong> โพรง</p>
+                            <p><strong>แปลประโยค:</strong> น้ำรั่วทำให้เกิดโพรงขนาดใหญ่ใต้พื้น</p>
+                        </div>
+                    </div>
+                    
+                    <div class="vocab-card">
+                        <div class="word">Support (v.)</div>
+                        <div class="pronounce">คำอ่าน: ซะ-<u>พอท</u></div>
+                        <p><strong>Meaning:</strong> to hold the weight of something or someone.</p>
+                        <p><strong>Example Sentence:</strong> The old table cannot <em>support</em> heavy books.</p>
+                        <button class="toggle-btn">แสดงคำแปล</button>
+                        <div class="translation-area">
+                            <p><strong>คำแปล:</strong> รองรับ, ค้ำจุน</p>
+                            <p><strong>แปลประโยค:</strong> โต๊ะเก่าตัวนั้นไม่สามารถรองรับหนังสือน้ำหนักเยอะได้</p>
+                        </div>
+                    </div>
+
+                    <div class="vocab-card">
+                        <div class="word">Construction (n.)</div>
+                        <div class="pronounce">คำอ่าน: เคิน-<u>สตรัค</u>-เชิน</div>
+                        <p><strong>Meaning:</strong> the work of building something, like houses or roads.</p>
+                        <p><strong>Example Sentence:</strong> The <em>construction</em> of the new bridge will take two years.</p>
+                        <button class="toggle-btn">แสดงคำแปล</button>
+                        <div class="translation-area">
+                            <p><strong>คำแปล:</strong> การก่อสร้าง</p>
+                            <p><strong>แปลประโยค:</strong> การก่อสร้างสะพานใหม่จะใช้เวลาสองปี</p>
+                        </div>
+                    </div>
+                    
+                    <div class="vocab-card">
+                        <div class="word">Mistake (n.)</div>
+                        <div class="pronounce">คำอ่าน: มิ-<u>สเทค</u></div>
+                        <p><strong>Meaning:</strong> an action or an opinion that is wrong.</p>
+                        <p><strong>Example Sentence:</strong> I made a <em>mistake</em> on my test.</p>
+                        <button class="toggle-btn">แสดงคำแปล</button>
+                        <div class="translation-area">
+                            <p><strong>คำแปล:</strong> ความผิดพลาด</p>
+                            <p><strong>แปลประโยค:</strong> ฉันทำข้อสอบผิดพลาด</p>
+                        </div>
+                    </div>
+                    
+                    <div class="vocab-card">
+                        <div class="word">Stable (adj.)</div>
+                        <div class="pronounce">คำอ่าน: <u>สเท</u>-เบิล</div>
+                        <p><strong>Meaning:</strong> not likely to move or change.</p>
+                        <p><strong>Example Sentence:</strong> The chair is not <em>stable</em>; be careful.</p>
+                        <button class="toggle-btn">แสดงคำแปล</button>
+                        <div class="translation-area">
+                            <p><strong>คำแปล:</strong> มั่นคง, คงที่</p>
+                            <p><strong>แปลประโยค:</strong> เก้าอี้ตัวนี้ไม่มั่นคง โปรดระวัง</p>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+            <section id="story" class="content-section">
+                <h2>เนื้อเรื่องข่าว (News Story)</h2>
+                <p>
+                    A big road in front of Vajira Hospital in Bangkok suddenly 
+                    <span class="tooltip-word">collapsed<span class="tooltip-text"><b>คำอ่าน:</b> <u>คะ</u>-แลพซฺ<br><b>ความหมาย:</b> ทรุดตัว, พังทลาย<br><b>Synonyms:</b> fall down, cave in</span></span>. 
+                    The Thai 
+                    <span class="tooltip-word">Department<span class="tooltip-text"><b>คำอ่าน:</b> ดิ-<u>พาท</u>-เมินทฺ<br><b>ความหมาย:</b> กรม, หน่วยงาน<br><b>Synonyms:</b> agency, division</span></span> of Mineral Resources explained why it happened.
+                </p>
+                <p>
+                    They said that a large water 
+                    <span class="tooltip-word">pipe<span class="tooltip-text"><b>คำอ่าน:</b> ไพพฺ<br><b>ความหมาย:</b> ท่อ<br><b>Synonyms:</b> tube, conduit</span></span> 
+                    <span class="tooltip-word">underground<span class="tooltip-text"><b>คำอ่าน:</b> <u>อัน</u>-เดอะ-กราวเดฺ<br><b>ความหมาย:</b> ใต้ดิน<br><b>Synonyms:</b> subterranean, buried</span></span> broke. The water from the pipe washed away the soil. This 
+                    <span class="tooltip-word">created<span class="tooltip-text"><b>คำอ่าน:</b> ครี-<u>เอท</u>-อิด<br><b>ความหมาย:</b> สร้างขึ้น<br><b>Synonyms:</b> made, formed</span></span> a big, empty space, or a 
+                    <span class="tooltip-word">cavity<span class="tooltip-text"><b>คำอ่าน:</b> <u>แค</u>-ฝิ-ทิ<br><b>ความหมาย:</b> โพรง<br><b>Synonyms:</b> hole, hollow</span></span>, under the road. Because there was nothing to 
+                    <span class="tooltip-word">support<span class="tooltip-text"><b>คำอ่าน:</b> ซะ-<u>พอท</u><br><b>ความหมาย:</b> รองรับ, ค้ำจุน<br><b>Synonyms:</b> hold up, sustain</span></span> it, the road fell down.
+                </p>
+                <p>
+                    Officials believe the water pipe broke because of a 
+                    <span class="tooltip-word">mistake<span class="tooltip-text"><b>คำอ่าน:</b> มิ-<u>สเทค</u><br><b>ความหมาย:</b> ความผิดพลาด<br><b>Synonyms:</b> error, fault</span></span> during the 
+                    <span class="tooltip-word">construction<span class="tooltip-text"><b>คำอ่าน:</b> เคิน-<u>สตรัค</u>-เชิน<br><b>ความหมาย:</b> การก่อสร้าง<br><b>Synonyms:</b> building, development</span></span> of a new subway line nearby. The ground in Bangkok is made of soft clay, but it is usually 
+                    <span class="tooltip-word">stable<span class="tooltip-text"><b>คำอ่าน:</b> <u>สเท</u>-เบิล<br><b>ความหมาย:</b> มั่นคง<br><b>Synonyms:</b> firm, steady</span></span>. An event like a broken pipe can cause a serious problem like this.
+                </p>
+            </section>
+            
+            <section id="exercise" class="content-section">
+                <h2>แบบฝึกหัดคำศัพท์ (Vocabulary Exercise)</h2>
+                <p>เลือกคำศัพท์จากกล่องนี้ไปเติมในช่องว่างให้ถูกต้อง</p>
+                <div class="word-bank">
+                    <span>collapse</span>
+                    <span>underground</span>
+                    <span>construction</span>
+                    <span>cavity</span>
+                    <span>mistake</span>
+                </div>
+                <ol>
+                    <li>The new subway system is a very big <span class="blank"></span> project.</li>
+                    <li>Be careful! The roof of the old cave might <span class="blank"></span>.</li>
+                    <li>I think there was a <span class="blank"></span> in my calculation; the answer is wrong.</li>
+                    <li>Rabbits often live in holes <span class="blank"></span>.</li>
+                    <li>After the big tree was removed, it left a large <span class="blank"></span> in the ground.</li>
+                </ol>
+            </section>
+            
+            <section id="questions" class="content-section">
+                <h2>คำถามและแนวคำตอบ (Questions & Answers)</h2>
+
+                <div class="qa-item">
+                    <p><strong>1. What happened to the road in Bangkok?</strong></p>
+                    <button class="toggle-btn answer-toggle">แสดงแนวคำตอบ</button>
+                    <div class="answer-area">
+                        <p><strong>แนวทางการตอบ:</strong></p>
+                        <ul>
+                            <li>The road in Bangkok collapsed.</li>
+                            <li>A big road in Bangkok fell down suddenly.</li>
+                            <li>There was a road collapse in front of a hospital in Bangkok.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="qa-item">
+                    <p><strong>2. Why did the road collapse?</strong></p>
+                    <button class="toggle-btn answer-toggle">แสดงแนวคำตอบ</button>
+                    <div class="answer-area">
+                        <p><strong>แนวทางการตอบ:</strong></p>
+                        <ul>
+                            <li>It collapsed because an underground water pipe broke.</li>
+                            <li>The road fell down because a broken pipe created a cavity under it.</li>
+                            <li>The cause was a broken water pipe that washed away the soil.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="qa-item">
+                    <p><strong>3. What might have caused the water pipe to break?</strong></p>
+                    <button class="toggle-btn answer-toggle">แสดงแนวคำตอบ</button>
+                    <div class="answer-area">
+                        <p><strong>แนวทางการตอบ:</strong></p>
+                        <ul>
+                            <li>A mistake during subway construction probably broke the pipe.</li>
+                            <li>Officials believe the construction of a new subway line caused it.</li>
+                            <li>The pipe may have broken because of a mistake while building a new subway.</li>
+                        </ul>
+                    </div>
+                </div>
+                
+            </section>
+
+        </main>
+
+        <footer>
+            <p>ครูสาลี่ -- อังกฤษฉบับคนเรียนไม่รู้เรื่อง</p>
+        </footer>
+    </div>
+
+    <script>
+        // JavaScript for interactivity
+        document.addEventListener('DOMContentLoaded', function() {
+            
+            // --- Script for Vocabulary Translation Toggle ---
+            const translationButtons = document.querySelectorAll('#vocabulary .toggle-btn');
+            
+            translationButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const translationArea = this.nextElementSibling;
+                    const isVisible = translationArea.style.display === 'block';
+                    
+                    if (isVisible) {
+                        translationArea.style.display = 'none';
+                        this.textContent = 'แสดงคำแปล';
+                    } else {
+                        translationArea.style.display = 'block';
+                        this.textContent = 'ซ่อนคำแปล';
+                    }
+                });
+            });
+
+            // --- Script for Q&A Answer Toggle ---
+            const answerButtons = document.querySelectorAll('#questions .answer-toggle');
+
+            answerButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const answerArea = this.nextElementSibling;
+                    const isVisible = answerArea.style.display === 'block';
+
+                    if (isVisible) {
+                        answerArea.style.display = 'none';
+                    } else {
+                        answerArea.style.display = 'block';
+                    }
+                });
+            });
+
+        });
+    </script>
+
+</body>
+</html>

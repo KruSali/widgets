@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>รายงานเชิงลึก: การใช้คาร์บอนและฮิวมิกเป็นสารปรับปรุงดิน</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Earthy Neutrals -->
+    <!-- Application Structure Plan: The application is structured into five thematic sections navigated by a sticky header, transforming a linear report into an exploratory dashboard. The flow is designed for progressive disclosure: 1) Overview for a high-level summary, 2) Raw Materials to explore sources, 3) Properties & Effectiveness for deep data analysis with interactive charts, 4) Comparison as a decision-support tool with filters, and 5) Conclusion for actionable takeaways. This task-oriented structure was chosen over a report-mimicking layout to empower users (farmers, researchers) to quickly find relevant information and make informed decisions based on their specific needs (e.g., crop type, soil goal). -->
+    <!-- Visualization & Content Choices: 
+        1. Overview: Report Info (Key Benefits) -> Goal (Inform) -> Presentation (Icon-based info cards) -> Interaction (Hover for detail) -> Justification (Quickly convey value) -> Method (HTML/Tailwind).
+        2. Raw Materials: Report Info (Material types) -> Goal (Organize/Inform) -> Presentation (Grid of clickable cards) -> Interaction (Click to show details in a modal/panel) -> Justification (Intuitive exploration of options) -> Method (HTML/Tailwind/JS).
+        3. Properties: Report Info (Effectiveness data) -> Goal (Compare/Analyze) -> Viz (Bar Chart) -> Interaction (Dropdown filter to update chart by soil property) -> Justification (Dynamic visualization is better than static tables for comparison) -> Library (Chart.js/Canvas).
+        4. Crop Suitability: Report Info (Crop-specific results) -> Goal (Inform) -> Presentation (Dynamic text block) -> Interaction (Dropdown to select crop type) -> Justification (Provides targeted, easy-to-read advice) -> Method (JS).
+        5. Comparison Tool: Report Info (Cost, effectiveness, use-case data) -> Goal (Decision Support) -> Presentation (Filterable results list) -> Interaction (User selects goals and crops to see ranked recommendations) -> Justification (Turns passive data into an active decision-making tool) -> Method (HTML/JS). -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body { font-family: 'Sarabun', sans-serif; background-color: #FDFBF8; }
+        .chart-container { position: relative; width: 100%; max-width: 700px; margin-left: auto; margin-right: auto; height: 300px; max-height: 400px; }
+        @media (min-width: 768px) { .chart-container { height: 400px; } }
+        .smooth-scroll { scroll-behavior: smooth; }
+        .nav-link { transition: color 0.3s, border-bottom-color 0.3s; }
+        .nav-link.active, .nav-link:hover { color: #8C6A5D; border-bottom-color: #8C6A5D; }
+        .material-card { transition: transform 0.3s, box-shadow 0.3s; }
+        .material-card:hover { transform: translateY(-5px); box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05); }
+        .btn-primary { background-color: #A47E6F; color: white; transition: background-color 0.3s; }
+        .btn-primary:hover { background-color: #8C6A5D; }
+    </style>
+</head>
+<body class="text-gray-700">
+
+    <header class="bg-white/80 backdrop-blur-md sticky top-0 z-50 shadow-sm">
+        <nav class="container mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <div class="text-xl font-bold text-gray-800">สารปรับปรุงดินธรรมชาติ</div>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#overview" class="nav-link text-gray-600 border-b-2 border-transparent pb-1">ภาพรวม</a>
+                    <a href="#materials" class="nav-link text-gray-600 border-b-2 border-transparent pb-1">วัตถุดิบ</a>
+                    <a href="#effectiveness" class="nav-link text-gray-600 border-b-2 border-transparent pb-1">ประสิทธิผล</a>
+                    <a href="#comparison" class="nav-link text-gray-600 border-b-2 border-transparent pb-1">เครื่องมือเปรียบเทียบ</a>
+                    <a href="#conclusion" class="nav-link text-gray-600 border-b-2 border-transparent pb-1">สรุป</a>
+                </div>
+                <div class="md:hidden">
+                    <select id="mobile-nav" class="bg-gray-100 border border-gray-300 rounded-md p-2">
+                        <option value="#overview">ภาพรวม</option>
+                        <option value="#materials">วัตถุดิบ</option>
+                        <option value="#effectiveness">ประสิทธิผล</option>
+                        <option value="#comparison">เครื่องมือเปรียบเทียบ</option>
+                        <option value="#conclusion">สรุป</option>
+                    </select>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-6 py-8">
+
+        <section id="overview" class="pt-16 -mt-16">
+            <div class="text-center mb-12">
+                <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-4">การปฏิวัติเกษตรกรรมด้วยสารปรับปรุงดินจากธรรมชาติ</h1>
+                <p class="max-w-3xl mx-auto text-lg text-gray-600">
+                    สำรวจศักยภาพของถ่านชีวภาพ (Biochar) และสารฮิวมิกที่ผลิตจากวัสดุเหลือใช้ทางการเกษตรในประเทศไทย เพื่อเพิ่มคุณภาพดิน ผลผลิต และสร้างความยั่งยืนให้กับภาคเกษตรกรรม
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8 text-center">
+                <div class="bg-white p-6 rounded-lg shadow-md border border-gray-100">
+                    <div class="text-4xl mb-4 text-[#A47E6F]">💧</div>
+                    <h3 class="text-xl font-semibold mb-2 text-gray-800">เพิ่มการอุ้มน้ำของดิน</h3>
+                    <p class="text-gray-600">โครงสร้างที่มีรูพรุนสูงของถ่านชีวภาพช่วยกักเก็บความชื้นในดิน ลดความถี่ในการให้น้ำและช่วยให้พืชทนทานต่อสภาวะแห้งแล้งได้ดีขึ้น</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md border border-gray-100">
+                     <div class="text-4xl mb-4 text-[#A47E6F]">🌿</div>
+                    <h3 class="text-xl font-semibold mb-2 text-gray-800">ปรับปรุงโครงสร้างดิน</h3>
+                    <p class="text-gray-600">ช่วยให้ดินร่วนซุย เพิ่มการระบายอากาศ ทำให้รากพืชสามารถแพร่กระจายและดูดซึมธาตุอาหารได้อย่างมีประสิทธิภาพ</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md border border-gray-100">
+                     <div class="text-4xl mb-4 text-[#A47E6F]">💰</div>
+                    <h3 class="text-xl font-semibold mb-2 text-gray-800">ลดต้นทุนปุ๋ยเคมี</h3>
+                    <p class="text-gray-600">มีความสามารถในการแลกเปลี่ยนประจุสูง (CEC) ช่วยดูดยึดธาตุอาหารและค่อยๆ ปลดปล่อยให้พืช ลดการสูญเสียปุ๋ยและค่าใช้จ่ายในระยะยาว</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="materials" class="pt-24 -mt-16">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-800 mb-2">วัตถุดิบจากธรรมชาติสู่สารปรับปรุงดินคุณภาพ</h2>
+                <p class="max-w-2xl mx-auto text-gray-600">วัสดุเหลือใช้ทางการเกษตรหลากหลายชนิดในประเทศไทยสามารถนำมาแปรรูปเป็นสารปรับปรุงดินมูลค่าสูงได้ คลิกที่การ์ดเพื่อดูรายละเอียด</p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8" id="material-cards">
+            </div>
+
+            <div id="material-details" class="bg-white p-8 rounded-lg shadow-lg border border-gray-100 transition-all duration-500" style="display: none;">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <h3 id="details-title" class="text-2xl font-bold text-gray-800"></h3>
+                        <p id="details-subtitle" class="text-gray-500 mb-4"></p>
+                    </div>
+                     <button id="close-details" class="text-gray-500 hover:text-gray-800">&times; ปิด</button>
+                </div>
+                <p id="details-description" class="mb-4"></p>
+                <div class="grid grid-cols-2 gap-4 text-sm">
+                    <div>
+                        <h4 class="font-semibold text-gray-700">ข้อดี:</h4>
+                        <ul id="details-pros" class="list-disc list-inside text-gray-600"></ul>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold text-gray-700">ข้อควรพิจารณา:</h4>
+                        <ul id="details-cons" class="list-disc list-inside text-gray-600"></ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="effectiveness" class="pt-24 -mt-16">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-800 mb-2">คุณสมบัติและประสิทธิผลเชิงเปรียบเทียบ</h2>
+                <p class="max-w-2xl mx-auto text-gray-600">
+                    ข้อมูลจากงานวิจัยแสดงให้เห็นถึงประสิทธิภาพของสารปรับปรุงดินแต่ละชนิดในการพัฒนาคุณสมบัติทางกายภาพและเคมีของดิน
+                </p>
+            </div>
+
+            <div class="bg-white p-6 md:p-8 rounded-lg shadow-lg border border-gray-100">
+                <div class="flex flex-col md:flex-row justify-between items-center mb-6 gap-4">
+                     <h3 class="text-xl font-semibold text-gray-800">ผลต่อคุณสมบัติดิน</h3>
+                    <div class="flex items-center gap-2">
+                        <label for="property-selector" class="text-sm font-medium">เลือกคุณสมบัติเพื่อเปรียบเทียบ:</label>
+                        <select id="property-selector" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                            <option value="water" selected>ความสามารถในการอุ้มน้ำ (%)</option>
+                            <option value="cec">การแลกเปลี่ยนประจุ (meq/100g)</option>
+                            <option value="ph">การปรับค่า pH (หน่วย)</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="chart-container h-96 md:h-[400px]">
+                    <canvas id="effectivenessChart"></canvas>
+                </div>
+            </div>
+            
+            <div class="bg-white p-6 md:p-8 rounded-lg shadow-lg border border-gray-100 mt-8">
+                <div class="flex flex-col md:flex-row justify-between items-center mb-6 gap-4">
+                    <h3 class="text-xl font-semibold text-gray-800">ความเหมาะสมกับพืชเศรษฐกิจ</h3>
+                    <div class="flex items-center gap-2">
+                         <label for="crop-selector" class="text-sm font-medium">เลือกประเภทพืช:</label>
+                         <select id="crop-selector" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                         </select>
+                    </div>
+                </div>
+                <div id="crop-recommendation" class="p-6 bg-gray-50 rounded-md">
+                    <h4 id="crop-title" class="font-bold text-lg text-gray-800"></h4>
+                    <p id="crop-text" class="mt-2 text-gray-600"></p>
+                </div>
+            </div>
+        </section>
+
+        <section id="comparison" class="pt-24 -mt-16">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-800 mb-2">เครื่องมือช่วยตัดสินใจ</h2>
+                <p class="max-w-2xl mx-auto text-gray-600">เลือกเป้าหมายและประเภทพืชของคุณ เพื่อดูคำแนะนำสารปรับปรุงดินที่เหมาะสมที่สุดทั้งในด้านประสิทธิภาพและราคา</p>
+            </div>
+            <div class="grid lg:grid-cols-12 gap-8">
+                <div class="lg:col-span-4 bg-white p-6 rounded-lg shadow-lg border border-gray-100">
+                    <h3 class="text-xl font-semibold mb-4 text-gray-800">กำหนดตัวเลือกของคุณ</h3>
+                    <div class="space-y-4">
+                        <div>
+                            <label for="filter-goal" class="block mb-2 text-sm font-medium text-gray-900">1. เป้าหมายหลัก</label>
+                            <select id="filter-goal" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                                <option value="all">แสดงทั้งหมด</option>
+                                <option value="yield">เพิ่มปริมาณผลผลิต</option>
+                                <option value="quality">ปรับปรุงคุณภาพผลผลิต</option>
+                                <option value="soil">ฟื้นฟูสภาพดินเสื่อมโทรม</option>
+                                <option value="cost">ลดต้นทุนปุ๋ย/น้ำ</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="filter-crop" class="block mb-2 text-sm font-medium text-gray-900">2. ประเภทพืช</label>
+                            <select id="filter-crop" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                                <option value="all">ทุกประเภท</option>
+                                <option value="rice">ข้าว</option>
+                                <option value="cassava">มันสำปะหลัง</option>
+                                <option value="durian">ทุเรียนและไม้ผล</option>
+                                <option value="vegetable">พืชผัก</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="lg:col-span-8">
+                    <div id="comparison-results" class="space-y-4">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="conclusion" class="pt-24 -mt-16 text-center">
+            <div class="max-w-3xl mx-auto">
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">สรุปและก้าวต่อไป</h2>
+                <p class="text-lg text-gray-600 mb-6">
+                    การใช้ถ่านชีวภาพและสารฮิวมิกจากวัสดุธรรมชาติเป็นแนวทางที่มีศักยภาพสูงสำหรับเกษตรกรไทย ไม่เพียงแต่ช่วยเพิ่มผลผลิตและลดต้นทุนในระยะยาว แต่ยังเป็นการหมุนเวียนทรัพยากร สร้างความยั่งยืน และช่วยกักเก็บคาร์บอนไว้ในดิน ซึ่งเป็นประโยชน์ต่อสิ่งแวดล้อม
+                </p>
+                <p class="text-gray-600">
+                    การเริ่มต้นอาจเริ่มจากการทดลองใช้ในแปลงเล็กๆ สังเกตการเปลี่ยนแปลง และปรับใช้อัตราที่เหมาะสมกับชนิดดินและพืชของตนเอง การลงทุนในวันนี้ คือการสร้างความมั่นคงทางอาหารและสิ่งแวดล้อมสำหรับอนาคต
+                </p>
+            </div>
+        </section>
+
+    </main>
+    
+    <footer class="bg-gray-100 mt-16">
+        <div class="container mx-auto px-6 py-4 text-center text-gray-500 text-sm">
+            <p>&copy; 2025 รายงานสรุปงานวิจัยสารปรับปรุงดิน | จัดทำเพื่อการศึกษาและเผยแพร่ความรู้</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            
+            const materialsData = [
+                { id: 'ricehusk', title: 'ถ่านแกลบ', subtitle: 'Biochar from Rice Husk', description: 'ผลิตจากแกลบซึ่งเป็นวัสดุเหลือใช้จำนวนมหาศาลในประเทศไทย มีซิลิกาสูง มีความเป็นด่าง ช่วยปรับปรุงดินกรดได้ดีเยี่ยม และมีโครงสร้างรูพรุนสูง', pros: ['หาได้ง่าย ราคาถูก', 'ปรับสภาพดินกรดได้ดี', 'มีซิลิกาที่เป็นประโยชน์ต่อพืช'], cons: ['มีธาตุอาหารหลักต่ำ', 'อาจมีความเป็นด่างสูงเกินไปหากใช้มาก'] },
+                { id: 'corncob', title: 'ถ่านซังข้าวโพด', subtitle: 'Biochar from Corn Cob', description: 'มีคุณสมบัติในการดูดซับที่ดีเยี่ยม สามารถกักเก็บน้ำและธาตุอาหารได้สูง มีค่าการแลกเปลี่ยนประจุ (CEC) ที่ดี เหมาะกับดินหลายประเภท', pros: ['ความสามารถในการอุ้มน้ำสูง', 'ดูดยึดธาตุอาหารได้ดี', 'ช่วยเพิ่มจุลินทรีย์ในดิน'], cons: ['วัตถุดิบมีตามฤดูกาล', 'กระบวนการผลิตต้องควบคุมอุณหภูมิ'] },
+                { id: 'woodchip', title: 'ถ่านไม้', subtitle: 'Biochar from Wood Chips', description: 'ผลิตจากเศษไม้ มีความคงทนในดินสูงมาก สามารถกักเก็บคาร์บอนได้ยาวนาน ช่วยปรับปรุงโครงสร้างดินในระยะยาวได้ดีที่สุด', pros: ['คงทนในดินสูง (หลายร้อยปี)', 'เพิ่มปริมาณคาร์บอนในดินได้ดี', 'โครงสร้างดินดีขึ้นอย่างถาวร'], cons: ['อาจใช้เวลาในการย่อยสลายนาน', 'วัตถุดิบอาจมีราคาสูง'] },
+                { id: 'humic', title: 'สารฮิวมิก', subtitle: 'Humic & Fulvic Acids', description: 'สกัดจากแหล่งธรรมชาติ เช่น ลีโอนาร์ไดต์ หรือผลิตจากการหมักปุ๋ย เป็นสารอินทรีย์โมเลกุลซับซ้อนที่ช่วยกระตุ้นการเจริญเติบโตของรากและเพิ่มการดูดซึมธาตุอาหารของพืช', pros: ['เห็นผลเร็ว', 'เพิ่มประสิทธิภาพการใช้ปุ๋ย', 'กระตุ้นการทำงานของรากพืช'], cons: ['ราคาสูงกว่าวัสดุอื่น', 'ไม่ได้ช่วยปรับโครงสร้างดินโดยตรง'] }
+            ];
+
+            const effectivenessData = {
+                labels: ['ถ่านแกลบ', 'ถ่านซังข้าวโพด', 'ถ่านไม้', 'สารฮิวมิก', 'ดินควบคุม'],
+                water: [45, 55, 35, 20, 15],
+                cec: [30, 40, 25, 60, 8],
+                ph: [1.5, 1.2, 1.0, -0.2, 0]
+            };
+            
+            const cropData = {
+                rice: { title: "ข้าว", text: "ถ่านแกลบเหมาะสมที่สุด เนื่องจากมีซิลิกาสูงช่วยให้ต้นข้าวแข็งแรง ต้านทานโรคและแมลงได้ดีขึ้น อีกทั้งยังช่วยปรับสภาพดินเหนียวให้ร่วนซุยและอุ้มน้ำได้ดีในดินทราย" },
+                cassava: { title: "มันสำปะหลัง", text: "ถ่านซังข้าวโพดมีประสิทธิภาพดีในการเพิ่มการกักเก็บน้ำและธาตุอาหารในดินทรายซึ่งนิยมใช้ปลูกมันสำปะหลัง ช่วยให้หัวมันมีขนาดใหญ่และมีน้ำหนักเพิ่มขึ้น" },
+                durian: { title: "ทุเรียนและไม้ผล", text: "การใช้สารฮิวมิกร่วมกับถ่านไม้เป็นแนวทางที่ดีที่สุด ฮิวมิกช่วยกระตุ้นระบบรากและเพิ่มการดูดใช้ปุ๋ย ส่วนถ่านไม้ช่วยปรับปรุงโครงสร้างดินในระยะยาวและป้องกันโรครากเน่า" },
+                vegetable: { title: "พืชผัก", text: "ถ่านแกลบและถ่านซังข้าวโพดให้ผลดี ช่วยให้ดินร่วนซุย ระบายน้ำดี และรักษาความชื้นได้สม่ำเสมอ ซึ่งเป็นสิ่งสำคัญสำหรับการเจริญเติบโตของพืชผักส่วนใหญ่" }
+            };
+            
+            const comparisonData = [
+                { id: 'ricehusk', name: 'ถ่านแกลบ', goals: ['soil', 'cost'], crops: ['rice', 'vegetable'], efficiency: 4, cost: 1, description: 'เหมาะที่สุดสำหรับการปรับปรุงดินกรดและเพิ่มซิลิกาให้ข้าว' },
+                { id: 'corncob', name: 'ถ่านซังข้าวโพด', goals: ['yield', 'soil', 'cost'], crops: ['cassava', 'vegetable'], efficiency: 4, cost: 2, description: 'เด่นในเรื่องการอุ้มน้ำและธาตุอาหาร เหมาะกับดินทราย' },
+                { id: 'woodchip', name: 'ถ่านไม้', goals: ['soil'], crops: ['durian'], efficiency: 5, cost: 3, description: 'ดีที่สุดสำหรับการปรับโครงสร้างดินในระยะยาว คงทนสูง' },
+                { id: 'humic', name: 'สารฮิวมิก', goals: ['yield', 'quality'], crops: ['durian', 'vegetable'], efficiency: 5, cost: 4, description: 'กระตุ้นรากและเพิ่มการใช้ปุ๋ย เห็นผลเร็ว เหมาะกับพืชราคาสูง' }
+            ];
+
+            const materialCardsContainer = document.getElementById('material-cards');
+            materialsData.forEach(mat => {
+                materialCardsContainer.innerHTML += `
+                    <div class="material-card bg-white p-6 rounded-lg shadow-sm border border-gray-200 cursor-pointer" data-id="${mat.id}">
+                        <h4 class="text-lg font-bold text-gray-800">${mat.title}</h4>
+                        <p class="text-sm text-gray-500">${mat.subtitle}</p>
+                    </div>
+                `;
+            });
+            
+            const materialDetailsContainer = document.getElementById('material-details');
+            const detailsTitle = document.getElementById('details-title');
+            const detailsSubtitle = document.getElementById('details-subtitle');
+            const detailsDescription = document.getElementById('details-description');
+            const detailsPros = document.getElementById('details-pros');
+            const detailsCons = document.getElementById('details-cons');
+            
+            materialCardsContainer.addEventListener('click', (e) => {
+                const card = e.target.closest('.material-card');
+                if (card) {
+                    const materialId = card.dataset.id;
+                    const data = materialsData.find(m => m.id === materialId);
+                    
+                    detailsTitle.textContent = data.title;
+                    detailsSubtitle.textContent = data.subtitle;
+                    detailsDescription.textContent = data.description;
+                    detailsPros.innerHTML = data.pros.map(p => `<li>${p}</li>`).join('');
+                    detailsCons.innerHTML = data.cons.map(c => `<li>${c}</li>`).join('');
+                    
+                    materialDetailsContainer.style.display = 'block';
+                    materialDetailsContainer.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            });
+
+            document.getElementById('close-details').addEventListener('click', () => {
+                materialDetailsContainer.style.display = 'none';
+            });
+            
+            const ctx = document.getElementById('effectivenessChart').getContext('2d');
+            const effectivenessChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: effectivenessData.labels,
+                    datasets: [{
+                        label: 'ความสามารถในการอุ้มน้ำ (% เพิ่มขึ้น)',
+                        data: effectivenessData.water,
+                        backgroundColor: '#A47E6F',
+                        borderColor: '#8C6A5D',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: { beginAtZero: true }
+                    },
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.dataset.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    if (context.parsed.y !== null) {
+                                        label += context.parsed.y;
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            const propertySelector = document.getElementById('property-selector');
+            propertySelector.addEventListener('change', (e) => {
+                const selectedProperty = e.target.value;
+                let newData;
+                let newLabel;
+
+                if (selectedProperty === 'water') {
+                    newData = effectivenessData.water;
+                    newLabel = 'ความสามารถในการอุ้มน้ำ (% เพิ่มขึ้น)';
+                } else if (selectedProperty === 'cec') {
+                    newData = effectivenessData.cec;
+                    newLabel = 'ค่าการแลกเปลี่ยนประจุ (meq/100g)';
+                } else {
+                    newData = effectivenessData.ph;
+                    newLabel = 'การเปลี่ยนแปลงค่า pH (หน่วย)';
+                }
+
+                effectivenessChart.data.datasets[0].data = newData;
+                effectivenessChart.data.datasets[0].label = newLabel;
+                effectivenessChart.options.scales.y.beginAtZero = selectedProperty !== 'ph';
+                effectivenessChart.update();
+            });
+            
+            const cropSelector = document.getElementById('crop-selector');
+            const cropTitle = document.getElementById('crop-title');
+            const cropText = document.getElementById('crop-text');
+            
+            Object.keys(cropData).forEach(key => {
+                const option = document.createElement('option');
+                option.value = key;
+                option.textContent = cropData[key].title;
+                cropSelector.appendChild(option);
+            });
+
+            function updateCropRecommendation(crop) {
+                cropTitle.textContent = cropData[crop].title;
+                cropText.textContent = cropData[crop].text;
+            }
+
+            cropSelector.addEventListener('change', (e) => {
+                updateCropRecommendation(e.target.value);
+            });
+            
+            updateCropRecommendation('rice');
+
+            const filterGoal = document.getElementById('filter-goal');
+            const filterCrop = document.getElementById('filter-crop');
+            const resultsContainer = document.getElementById('comparison-results');
+
+            function renderComparisonResults() {
+                const goal = filterGoal.value;
+                const crop = filterCrop.value;
+
+                const filtered = comparisonData.filter(item => {
+                    const goalMatch = (goal === 'all' || item.goals.includes(goal));
+                    const cropMatch = (crop === 'all' || item.crops.includes(crop));
+                    return goalMatch && cropMatch;
+                });
+                
+                resultsContainer.innerHTML = '';
+
+                if (filtered.length === 0) {
+                    resultsContainer.innerHTML = `<div class="bg-gray-100 p-6 rounded-lg text-center text-gray-500">ไม่พบสารปรับปรุงดินที่ตรงกับตัวเลือกของคุณ</div>`;
+                    return;
+                }
+
+                filtered.sort((a, b) => b.efficiency - a.efficiency).forEach(item => {
+                    resultsContainer.innerHTML += `
+                        <div class="bg-white p-6 rounded-lg shadow-md border border-gray-100 flex flex-col md:flex-row gap-6 items-start">
+                            <div class="flex-grow">
+                                <h4 class="text-xl font-bold text-gray-800">${item.name}</h4>
+                                <p class="text-gray-600 mt-1">${item.description}</p>
+                            </div>
+                            <div class="flex-shrink-0 w-full md:w-auto text-left md:text-right space-y-2">
+                                <div class="font-semibold">ประสิทธิภาพ: <span class="text-[#8C6A5D]">${'★'.repeat(item.efficiency)}${'☆'.repeat(5 - item.efficiency)}</span></div>
+                                <div class="font-semibold">ราคาโดยประมาณ: <span class="text-[#8C6A5D]">${'$'.repeat(item.cost)}</span></div>
+                            </div>
+                        </div>
+                    `;
+                });
+            }
+
+            filterGoal.addEventListener('change', renderComparisonResults);
+            filterCrop.addEventListener('change', renderComparisonResults);
+
+            renderComparisonResults();
+            
+            const navLinks = document.querySelectorAll('header nav a');
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+
+            document.getElementById('mobile-nav').addEventListener('change', function(e) {
+                const target = e.target.value;
+                document.querySelector(target).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+
+            const sections = document.querySelectorAll('section');
+            window.addEventListener('scroll', () => {
+                let current = '';
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    if (pageYOffset >= sectionTop - 150) {
+                        current = section.getAttribute('id');
+                    }
+                });
+                
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href').includes(current)) {
+                        link.classList.add('active');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>English for Parents: Waking Up</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- ใช้ฟอนต์ที่รองรับภาษาไทย -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+Thai:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            /* กำหนดฟอนต์หลักเป็น Inter และสำรองด้วย Noto Sans Thai */
+            font-family: 'Inter', 'Noto Sans Thai', sans-serif;
+        }
+        .section {
+            display: none;
+        }
+        .section.active {
+            display: block;
+        }
+        .quiz-option {
+            transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out;
+        }
+    </style>
+</head>
+<body class="bg-sky-50 text-slate-800">
+
+    <div class="container mx-auto p-4 sm:p-6 md:p-8 max-w-3xl">
+        
+        <header class="mb-8 text-center">
+            <h1 class="text-3xl sm:text-4xl font-bold text-sky-700 mb-2">English for Parents ☀️</h1>
+            <p class="text-slate-600 text-lg">บทเรียนภาษาอังกฤษสำหรับคุณพ่อคุณแม่: ธีม "ปลุกลูกตอนเช้า"</p>
+        </header>
+
+        <nav class="bg-white rounded-lg shadow-md p-2 mb-8 flex flex-wrap justify-center gap-2">
+            <button data-target="introduction" class="nav-button bg-sky-600 text-white py-2 px-4 rounded-md font-semibold shadow-sm hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-opacity-75">1. บทนำ 📚</button>
+            <button data-target="phrases" class="nav-button bg-slate-200 text-slate-700 py-2 px-4 rounded-md font-semibold hover:bg-slate-300 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-opacity-75">2. วลีสำคัญ 💡</button>
+            <button data-target="summary" class="nav-button bg-slate-200 text-slate-700 py-2 px-4 rounded-md font-semibold hover:bg-slate-300 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-opacity-75">3. ตารางสรุป 📋</button>
+            <button data-target="quiz" class="nav-button bg-slate-200 text-slate-700 py-2 px-4 rounded-md font-semibold hover:bg-slate-300 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-opacity-75">4. แบบทดสอบ ✍️</button>
+            <button data-target="answers" class="nav-button bg-slate-200 text-slate-700 py-2 px-4 rounded-md font-semibold hover:bg-slate-300 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-opacity-75">5. เฉลย ✅</button>
+        </nav>
+
+        <main id="lesson-content" class="bg-white rounded-lg shadow-lg p-6 sm:p-8">
+
+            <!-- Section 1: Introduction -->
+            <section id="introduction" class="section active">
+                <h2 class="text-2xl font-bold text-sky-800 mb-4 border-b-2 border-sky-200 pb-2">สวัสดีค่ะ คุณพ่อคุณแม่!</h2>
+                <div class="space-y-4 text-slate-700 leading-relaxed">
+                    <p>การเริ่มต้นวันใหม่ด้วยภาษาอังกฤษง่ายๆ กับลูก เป็นการสร้างสภาพแวดล้อมสองภาษา (Bilingual Environment) ที่ดีที่สุดเลยค่ะ ไม่จำเป็นต้องพูดเก่งหรือใช้แกรมมาร์เป๊ะๆ แค่เราใช้ "วลีซ้ำๆ" ทุกวัน ลูกก็จะซึมซับไปเองค่ะ</p>
+                    <p>บทเรียนนี้เน้นประโยคที่ใช้ได้จริง ง่าย และฟังดูอบอุ่น สำหรับใช้ในช่วงเวลา "ปลุกลูกให้ตื่นนอน" ไปจนถึง "ลุกจากเตียง" ค่ะ</p>
+                    <div class="bg-sky-50 border-l-4 border-sky-500 p-4 rounded-r-lg">
+                        <h3 class="font-semibold text-sky-900">เป้าหมายของบทเรียนนี้</h3>
+                        <p class="mt-2">เมื่อเรียนจบแล้ว คุณพ่อคุณแม่จะสามารถ:</p>
+                        <ul class="list-disc list-inside mt-2 space-y-1">
+                            <li>ใช้วลีภาษาอังกฤษง่ายๆ ปลุกลูกอย่างนุ่มนวล</li>
+                            <li>ถามคำถามง่ายๆ เกี่ยวกับเช้าวันใหม่</li>
+                            <li>บอกให้ลูกทำกิจวัตรตอนเช้า (ล้างหน้า, แปรงฟัน)</li>
+                            <li>รู้สึกมั่นใจในการใช้ภาษาอังกฤษกับลูกมากขึ้น</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 2: Key Phrases -->
+            <section id="phrases" class="section">
+                <h2 class="text-2xl font-bold text-sky-800 mb-6 border-b-2 border-sky-200 pb-2">วลีสำคัญ (Key Phrases)</h2>
+                <div class="space-y-8">
+                    
+                    <div>
+                        <h3 class="text-xl font-semibold text-slate-700 mb-3">กลุ่มที่ 1: ปลุกแบบนุ่มนวล (Gently Waking Up)</h3>
+                        <div class="space-y-4 pl-4 border-l-4 border-slate-200">
+                            <p><strong class="font-semibold">"Good morning, sweetheart."</strong><br> (กู้ด มอร์นิ่ง สวีทฮาร์ท) - สวัสดีตอนเช้าจ้ะ ลูกรัก</p>
+                            <p><strong class="font-semibold">"It's time to wake up."</strong><br> (อิทส์ ไทม์ ทู เวค อัพ) - ได้เวลาตื่นแล้วจ้ะ</p>
+                            <p><strong class="font-semibold">"Wake up, sleepyhead."</strong><br> (เวค อัพ สลีปปี้เฮด) - ตื่นได้แล้วจ้า เจ้าขี้เซา (เป็นคำที่น่ารักค่ะ)</p>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h3 class="text-xl font-semibold text-slate-700 mb-3">กลุ่มที่ 2: ถามไถ่หลังตื่น (Asking Questions)</h3>
+                        <div class="space-y-4 pl-4 border-l-4 border-slate-200">
+                             <p><strong class="font-semibold">"Did you sleep well?"</strong><br> (ดิด ยู สลีพ เวล) - เมื่อคืนหลับสบายดีไหมลูก?</p>
+                            <p><strong class="font-semibold">"How are you feeling this morning?"</strong><br> (ฮาว อาร์ ยู ฟีลลิ่ง ดิส มอร์นิ่ง) - เช้านี้รู้สึกยังไงบ้าง?</p>
+                            <p><strong class="font-semibold">"Are you still sleepy?"</strong><br> (อาร์ ยู สติล สลีปปี้) - ยังง่วงอยู่หรือเปล่า?</p>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h3 class="text-xl font-semibold text-slate-700 mb-3">กลุ่มที่ 3: ชวนลุกจากเตียง (Getting Up)</h3>
+                        <div class="space-y-4 pl-4 border-l-4 border-slate-200">
+                             <p><strong class="font-semibold">"Let's get up now."</strong><br> (เลทส์ เก็ท อัพ นาว) - ลุกกันเถอะ</p>
+                             <p><strong class="font-semibold">"Time for school!"</strong><br> (ไทม์ ฟอร์ สคูล) - ได้เวลาไปโรงเรียนแล้ว!</p>
+                            <p><strong class="font-semibold">"We need to hurry."</strong><br> (วี นีด ทู เฮอร์รี่) - เราต้องรีบหน่อยนะ</p>
+                            <p><strong class="font-semibold">"Can you stretch?"</strong><br> (แคน ยู สเตรทช์) - บิดขี้เกียจหน่อยเร็ว</p>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h3 class="text-xl font-semibold text-slate-700 mb-3">กลุ่มที่ 4: กิจวัตรยามเช้า (Morning Routine)</h3>
+                        <div class="space-y-4 pl-4 border-l-4 border-slate-200">
+                            <p><strong class="font-semibold">"Let's make your bed."</strong><br> (เลทส์ เมค ยัวร์ เบด) - มาเก็บที่นอนกันเถอะ</p>
+                             <p><strong class="font-semibold">"Go wash your face."</strong><br> (โก วอช ยัวร์ เฟซ) - ไปล้างหน้าเลยลูก</p>
+                            <p><strong class="font-semibold">"Go brush your teeth."</strong><br> (โก บรัช ยัวร์ ทีธ) - ไปแปรงฟันด้วยนะ</p>
+                            <p><strong class="font-semibold">"Let's get dressed."</strong><br> (เลทส์ เก็ท เดรสท์) - ไปแต่งตัวกันเถอะ</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 3: Summary Table -->
+            <section id="summary" class="section">
+                <h2 class="text-2xl font-bold text-sky-800 mb-4 border-b-2 border-sky-200 pb-2">ตารางสรุป (Summary Table)</h2>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead class="bg-slate-100">
+                            <tr>
+                                <th class="p-3 font-semibold text-sm text-slate-600 border border-slate-200">English Phrase (ประโยคอังกฤษ)</th>
+                                <th class="p-3 font-semibold text-sm text-slate-600 border border-slate-200">Thai Meaning (ความหมาย)</th>
+                                <th class="p-3 font-semibold text-sm text-slate-600 border border-slate-200">When to use (ใช้เมื่อไหร่)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                             <tr class="hover:bg-slate-50">
+                                <td class="p-3 border border-slate-200 font-semibold">"Good morning, sweetheart."</td>
+                                <td class="p-3 border border-slate-200">สวัสดีตอนเช้าจ้ะ ลูกรัก</td>
+                                <td class="p-3 border border-slate-200">ใช้ทักทายครั้งแรกของวัน</td>
+                             </tr>
+                            <tr class="hover:bg-slate-50">
+                                <td class="p-3 border border-slate-200 font-semibold">"It's time to wake up."</td>
+                                <td class="p-3 border border-slate-200">ได้เวลาตื่นแล้วจ้ะ</td>
+                                <td class="p-3 border border-slate-200">ใช้เริ่มปลุก (เสียง 1)</td>
+                            </tr>
+                            <tr class="hover:bg-slate-50">
+                                <td class="p-3 border border-slate-200 font-semibold">"Wake up, sleepyhead."</td>
+                                <td class="p-3 border border-slate-200">ตื่นได้แล้ว เจ้าขี้เซา</td>
+                                <td class="p-3 border border-slate-200">ใช้ปลุกแบบติดตลก (เมื่อลูกไม่ยอมตื่น)</td>
+                            </tr>
+                            <tr class="hover:bg-slate-50">
+                                <td class="p-3 border border-slate-200 font-semibold">"Did you sleep well?"</td>
+                                <td class="p-3 border border-slate-200">เมื่อคืนหลับสบายดีไหม?</td>
+                                <td class="p-3 border border-slate-200">ใช้ถามไถ่ เมื่อลูกตื่นแล้ว</td>
+                            </tr>
+                            <tr class="hover:bg-slate-50">
+                                <td class="p-3 border border-slate-200 font-semibold">"Are you still sleepy?"</td>
+                                <td class="p-3 border border-slate-200">ยังง่วงอยู่หรือเปล่า?</td>
+                                <td class="p-3 border border-slate-200">ใช้ถามเมื่อลูกดูงัวเงีย</td>
+                            </tr>
+                             <tr class="hover:bg-slate-50">
+                                <td class="p-3 border border-slate-200 font-semibold">"Let's get up now."</td>
+                                <td class="p-3 border border-slate-200">ลุกกันเถอะ</td>
+                                <td class="p-3 border border-slate-200">ใช้ชวนให้ลุกออกจากเตียง</td>
+                            </tr>
+                            <tr class="hover:bg-slate-50">
+                                <td class="p-3 border border-slate-200 font-semibold">"We need to hurry."</td>
+                                <td class="p-3 border border-slate-200">เราต้องรีบหน่อยนะ</td>
+                                <td class="p-3 border border-slate-200">ใช้เมื่อเริ่มสายแล้ว</td>
+                            </tr>
+                            <tr class="hover:bg-slate-50">
+                                <td class="p-3 border border-slate-200 font-semibold">"Go wash your face."</td>
+                                <td class="p-3 border border-slate-200">ไปล้างหน้าเลยลูก</td>
+                                <td class="p-3 border border-slate-200">สั่งให้ทำกิจวัตรข้อที่ 1</td>
+                            </tr>
+                            <tr class="hover:bg-slate-50">
+                                <td class="p-3 border border-slate-200 font-semibold">"Go brush your teeth."</td>
+                                <td class="p-3 border border-slate-200">ไปแปรงฟันด้วยนะ</td>
+                                <td class="p-3 border border-slate-200">สั่งให้ทำกิจวัตรข้อที่ 2</td>
+                            </tr>
+                            <tr class="hover:bg-slate-50">
+                                <td class="p-3 border border-slate-200 font-semibold">"Let's get dressed."</td>
+                                <td class="p-3 border border-slate-200">ไปแต่งตัวกันเถอะ</td>
+                                <td class="p-3 border border-slate-200">ใช้ชวนไปแต่งตัว</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Section 4: Interactive Quiz -->
+            <section id="quiz" class="section">
+                <h2 class="text-2xl font-bold text-sky-800 mb-4 border-b-2 border-sky-200 pb-2">แบบทดสอบ (Interactive Quiz)</h2>
+                <p class="text-slate-600 mb-6">ลองดูซิคะว่าจำได้ไหม? เลือกประโยคที่เหมาะสมกับสถานการณ์ค่ะ</p>
+                <div id="quiz-container" class="space-y-6"></div>
+                <button id="submit-quiz-btn" class="mt-8 bg-sky-600 text-white py-3 px-6 rounded-lg font-semibold text-lg shadow-md hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-opacity-75 disabled:bg-slate-400 disabled:cursor-not-allowed">ส่งคำตอบ</button>
+                <div id="quiz-results" class="mt-6 text-2xl font-bold text-center p-4 rounded-lg hidden"></div>
+            </section>
+            
+            <!-- Section 5: Answer Key -->
+            <section id="answers" class="section">
+                <h2 class="text-2xl font-bold text-sky-800 mb-6 border-b-2 border-sky-200 pb-2">เฉลย (Answer Key)</h2>
+                <div id="answer-key-container" class="space-y-6"></div>
+            </section>
+        </main>
+
+        <footer class="text-center mt-8 text-slate-500 text-sm">
+            <p class="font-semibold mb-2 text-slate-600">ครูสาลี่ -- อังกฤษฉบับคนเรียนไม่รู้เรื่อง</p>
+            <p>&copy; 2025 KruSali.com. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <script>
+        const navButtons = document.querySelectorAll('.nav-button');
+        const sections = document.querySelectorAll('.section');
+        const quizContainer = document.getElementById('quiz-container');
+        const submitButton = document.getElementById('submit-quiz-btn');
+        const quizResults = document.getElementById('quiz-results');
+        const answerKeyContainer = document.getElementById('answer-key-container');
+
+        // Data สำหรับ Quiz และ เฉลย (เป็นภาษาไทยเพื่อให้คุณพ่อคุณแม่เข้าใจง่าย)
+        const quizData = [
+            {
+                question: "ถ้าคุณแม่ muốn ปลุกลูกแบบน่ารักๆ โดยเรียกว่า 'เจ้าขี้เซา' ควรพูดว่าอะไร?",
+                options: ["Wake up, sleepyhead.", "Go wash your face.", "Did you sleep well?", "We need to hurry."],
+                answer: 0
+            },
+            {
+                question: "เมื่อลูกตื่นแล้ว เราควรถามไถ่อาการนอนของลูกว่าอย่างไร?",
+                options: ["Let's get up now.", "Time for school!", "Did you sleep well?", "Let's make your bed."],
+                answer: 2
+            },
+            {
+                question: "ประโยคใดเหมาะจะใช้ 'ชวนลูกให้ลุกออกจากเตียง'?",
+                options: ["Are you still sleepy?", "Let's get up now.", "Go brush your teeth.", "Good morning."],
+                answer: 1
+            },
+            {
+                question: "ถ้าคุณแม่ muốn บอกลูกว่า 'ไปแปรงฟัน' ควรพูดว่าอะไร?",
+                options: ["Go wash your face.", "Go brush your teeth.", "Let's get dressed.", "Can you stretch?"],
+                answer: 1
+            },
+            {
+                question: "สถานการณ์: 8 โมงเช้าแล้ว ลูกยังไม่ลุก คุณแม่ต้องพูดว่าอะไรเพื่อ 'เร่ง'?",
+                options: ["Did you sleep well?", "Are you still sleepy?", "We need to hurry.", "Good morning, sweetheart."],
+                answer: 2
+            },
+            {
+                question: "ประโยค 'Let's get dressed.' หมายความว่าอะไร?",
+                options: ["ไปล้างหน้ากัน", "ไปแปรงฟันกัน", "ไปแต่งตัวกัน", "ไปเก็บที่นอนกัน"],
+                answer: 2
+            },
+            {
+                question: "ถ้าเห็นลูกยังงัวเงีย เราควรถามว่า 'ยังง่วงอยู่เหรอ' อย่างไร?",
+                options: ["Are you still sleepy?", "Did you sleep well?", "How are you feeling?", "Can you stretch?"],
+                answer: 0
+            },
+            {
+                question: "ประโยคใดคือการชวนลูก 'เก็บที่นอน'?",
+                options: ["Let's make your bed.", "Let's get dressed.", "Let's get up now.", "Go wash your face."],
+                answer: 0
+            }
+        ];
+
+        let userAnswers = {};
+
+        function renderQuiz() {
+            quizContainer.innerHTML = '';
+            quizData.forEach((item, index) => {
+                const questionBlock = document.createElement('div');
+                questionBlock.classList.add('p-4', 'border', 'border-slate-200', 'rounded-lg');
+
+                const questionText = document.createElement('p');
+                questionText.classList.add('font-semibold', 'mb-3', 'text-slate-800');
+                questionText.textContent = `${index + 1}. ${item.question}`;
+                questionBlock.appendChild(questionText);
+
+                const optionsContainer = document.createElement('div');
+                optionsContainer.classList.add('grid', 'grid-cols-1', 'sm:grid-cols-2', 'gap-3');
+                
+                item.options.forEach((option, optionIndex) => {
+                    const optionButton = document.createElement('button');
+                    optionButton.classList.add('quiz-option', 'w-full', 'text-left', 'p-3', 'border-2', 'border-slate-300', 'rounded-md', 'hover:bg-sky-100', 'hover:border-sky-400', 'focus:outline-none', 'focus:border-sky-500');
+                    optionButton.textContent = option;
+                    optionButton.dataset.questionIndex = index;
+                    optionButton.dataset.optionIndex = optionIndex;
+                    optionButton.onclick = () => selectAnswer(index, optionIndex);
+                    optionsContainer.appendChild(optionButton);
+                });
+                
+                questionBlock.appendChild(optionsContainer);
+                quizContainer.appendChild(questionBlock);
+            });
+        }
+        
+        function selectAnswer(questionIndex, optionIndex) {
+            if (submitButton.disabled) return;
+            userAnswers[questionIndex] = optionIndex;
+            const questionOptions = document.querySelectorAll(`button[data-question-index='${questionIndex}']`);
+            questionOptions.forEach(btn => {
+                btn.classList.remove('bg-sky-200', 'border-sky-500');
+                btn.classList.add('bg-white', 'border-slate-300');
+            });
+            const selectedButton = document.querySelector(`button[data-question-index='${questionIndex}'][data-option-index='${optionIndex}']`);
+            selectedButton.classList.add('bg-sky-200', 'border-sky-500');
+        }
+
+        function handleSubmit() {
+            let score = 0;
+            submitButton.disabled = true;
+
+            quizData.forEach((item, index) => {
+                const questionOptions = document.querySelectorAll(`button[data-question-index='${index}']`);
+                questionOptions.forEach(btn => btn.disabled = true);
+
+                const correctOptionIndex = item.answer;
+                const userAnswerIndex = userAnswers[index];
+                
+                const correctButton = document.querySelector(`button[data-question-index='${index}'][data-option-index='${correctOptionIndex}']`);
+
+                if (userAnswerIndex !== undefined) {
+                    const selectedButton = document.querySelector(`button[data-question-index='${index}'][data-option-index='${userAnswerIndex}']`);
+                    if (userAnswerIndex === correctOptionIndex) {
+                        score++;
+                        selectedButton.classList.remove('bg-sky-200');
+                        selectedButton.classList.add('bg-green-200', 'border-green-500');
+                    } else {
+                        selectedButton.classList.remove('bg-sky-200');
+                        selectedButton.classList.add('bg-red-200', 'border-red-500');
+                        correctButton.classList.add('bg-green-200', 'border-green-500');
+                    }
+                } else {
+                    correctButton.classList.add('bg-yellow-200', 'border-yellow-500');
+                }
+            });
+
+            quizResults.textContent = `คุณได้ ${score} จาก ${quizData.length} คะแนนค่ะ! 🎉`;
+            quizResults.className = 'mt-6 text-2xl font-bold text-center p-4 rounded-lg'; // reset classes
+            if (score / quizData.length > 0.7) {
+                quizResults.classList.add('bg-green-100', 'text-green-800');
+            } else if (score / quizData.length > 0.4) {
+                 quizResults.classList.add('bg-yellow-100', 'text-yellow-800');
+            } else {
+                 quizResults.classList.add('bg-red-100', 'text-red-800');
+            }
+        }
+
+        function renderAnswerKey() {
+            answerKeyContainer.innerHTML = '';
+            // คำอธิบายเฉลย (ภาษาไทย)
+            const explanations = [
+                 "'Sleepyhead' (เจ้าขี้เซา) เป็นคำที่น่ารักสำหรับใช้ปลุกลูกค่ะ",
+                 "'Did you sleep well?' (หลับสบายดีไหม) เป็นคำถามทั่วไปที่ดีที่สุดสำหรับถามไถ่หลังตื่นนอนค่ะ",
+                 "'Let's get up now.' (ลุกกันเถอะ) เป็นการชวนให้ลุกออกจากเตียงโดยตรงค่ะ",
+                 "'Brush your teeth' แปลว่า 'แปรงฟัน' ส่วน 'Wash your face' คือ 'ล้างหน้า' ค่ะ",
+                 "'We need to hurry.' (เราต้องรีบ) เป็นประโยคที่ชัดเจนที่สุดสำหรับเวลาที่เร่งรีบค่ะ",
+                 "'Get dressed' เป็นวลีที่แปลว่า 'แต่งตัว' ค่ะ",
+                 "'Sleepy' (ง่วง) ตรงกับคำว่า 'งัวเงีย' หรือ 'ยังง่วงอยู่' เราจึงใช้ 'Are you still sleepy?'",
+                 "'Make your bed' (หรือ 'make the bed') เป็นวลีที่แปลว่า 'เก็บที่นอน' ค่ะ",
+            ];
+
+            quizData.forEach((item, index) => {
+                const keyBlock = document.createElement('div');
+                keyBlock.classList.add('p-4', 'bg-slate-50', 'rounded-lg', 'border', 'border-slate-200');
+
+                const questionText = document.createElement('p');
+                questionText.classList.add('font-semibold', 'text-slate-800');
+                questionText.textContent = `${index + 1}. ${item.question}`;
+
+                const answerText = document.createElement('p');
+                answerText.classList.add('mt-2', 'text-green-700', 'font-bold');
+                answerText.innerHTML = `✅ คำตอบที่ถูกต้อง: <span class="font-mono bg-green-100 px-2 py-1 rounded">${item.options[item.answer]}</span>`;
+                
+                const explanationText = document.createElement('p');
+                explanationText.classList.add('mt-2', 'text-slate-600');
+                explanationText.textContent = `💡 คำอธิบาย: ${explanations[index]}`;
+
+                keyBlock.appendChild(questionText);
+                keyBlock.appendChild(answerText);
+                keyBlock.appendChild(explanationText);
+                answerKeyContainer.appendChild(keyBlock);
+            });
+        }
+        
+        navButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const targetId = button.dataset.target;
+
+                sections.forEach(section => section.classList.remove('active'));
+                navButtons.forEach(btn => {
+                    btn.classList.remove('bg-sky-600', 'text-white');
+                    btn.classList.add('bg-slate-200', 'text-slate-700');
+                });
+
+                document.getElementById(targetId).classList.add('active');
+                button.classList.add('bg-sky-600', 'text-white');
+                button.classList.remove('bg-slate-200', 'text-slate-700');
+            });
+        });
+        
+        submitButton.addEventListener('click', handleSubmit);
+
+        // Initial setup
+        renderQuiz();
+        renderAnswerKey();
+    </script>
+
+</body>
+</html>

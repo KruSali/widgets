@@ -1,0 +1,914 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>English for Exams - ครูสาลี่</title>
+    <!-- Import Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Import Google Fonts (Inter and Noto Sans Thai) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Noto+Sans+Thai:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <style>
+        /* * กำหนดฟอนต์หลักที่อ่านง่าย
+         * Inter สำหรับภาษาอังกฤษ
+         * Noto Sans Thai สำหรับภาษาไทย
+        */
+        body {
+            font-family: 'Inter', 'Noto Sans Thai', sans-serif;
+            background-color: #f3f4f6; /* สีพื้นหลังเทาอ่อน สบายตา */
+        }
+
+        /* * Custom Styles
+         * สีสำหรับคำแปลภาษาไทย
+        */
+        .thai-translation {
+            color: #2563eb; /* สีน้ำเงินที่ชัดเจนแต่อ่อนโยน */
+        }
+        
+        /* การไล่ระดับสีพื้นหลัง (Optional - เพิ่มความสวยงาม) */
+        .gradient-bg {
+            background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%);
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center min-h-screen p-4">
+
+    <!-- App Container -->
+    <div id="app-container" class="w-full max-w-md bg-white rounded-2xl shadow-xl overflow-hidden" style="min-height: 600px;">
+        
+        <!-- Header -->
+        <header class="gradient-bg text-white p-5 shadow-md text-center">
+            <h1 class="text-2xl font-bold">English for A2-B2 Exams</h1>
+            <p class="text-sm opacity-90">ประโยค สำนวน ที่ออกสอบบ่อย</p>
+        </header>
+
+        <!-- Main Content Area (Dynamic) -->
+        <!-- เนื้อหาจะถูกแทรกที่นี่โดย JavaScript -->
+        <main id="content-area" class="p-6">
+            <!-- Loading... or Home Page Content -->
+        </main>
+
+        <!-- Navigation Area (Dynamic) -->
+        <!-- ปุ่มต่างๆ จะถูกแทรกที่นี่โดย JavaScript -->
+        <nav id="navigation-area" class="p-4 border-t border-gray-100 bg-gray-50"></nav>
+
+        <!-- Footer -->
+        <footer class="text-center p-4 text-xs text-gray-400 border-t border-gray-100">
+            ครูสาลี่ -- อังกฤษสำหรับคนเรียนไม่รู้เรื่อง
+        </footer>
+    </div>
+
+    <script>
+        // --- 1. DATA (ที่เก็บข้อมูล) ---
+        // โครงสร้างนี้ออกแบบมาให้ "เพิ่มหัวข้อใหม่" ได้ง่ายในอนาคต
+        // เพียงแค่เพิ่ม Object ใหม่เข้าไปใน Array นี้
+        
+        // --- FIXED SECTION START ---
+        // แก้ไขโครงสร้างข้อมูล topics ที่มี diff markers ปนอยู่
+        const topics = [
+            {
+                id: 'greetings',
+                title: 'Introductions & Greetings',
+                emoji: '👋',
+                description: 'การทักทายและแนะนำตัว',
+                phrases: [
+                    { en: 'How’s it going?', th: 'เป็นยังไงบ้าง?' },
+                    { en: 'What’s up?', th: 'ว่าไง / เป็นไง?' },
+                    { en: 'Long time no see!', th: 'ไม่เจอกันนานเลยนะ!' },
+                    { en: 'Pleased to meet you.', th: 'ยินดีที่ได้รู้จัก (ทางการ)' },
+                    { en: 'It\'s a pleasure to make your acquaintance.', th: 'เป็นเกียรติอย่างยิ่งที่ได้รู้จักคุณ (ทางการมาก)' },
+                    { en: 'How have you been?', th: 'ช่วงนี้เป็นยังไงบ้าง? (ถามถึงอดีตถึงปัจจุบัน)' },
+                    { en: 'What have you been up to lately?', th: 'ช่วงนี้ไปทำอะไรมาบ้าง?' },
+                    { en: 'I don\'t think we\'ve met before, have we?', th: 'เรายังไม่เคยเจอกันใช่ไหมครับ/คะ?' },
+                    { en: 'I\'ve heard so much about you.', th: 'ฉันได้ยินเรื่องของคุณมาเยอะเลย' },
+                    { en: 'How do you know each other?', th: 'คุณรู้จักกันได้ยังไง?' },
+                    { en: 'We go way back.', th: 'เรารู้จักกันมานานมากแล้ว' },
+                    { en: 'I\'ll let you two get acquainted.', th: 'งั้นเดี๋ยวฉันปล่อยให้พวกคุณทำความรู้จักกันนะ' }
+                ]
+            },
+            // --- NEW TOPICS START HERE ---
+            {
+                id: 'personal-details',
+                title: 'Asking for & Giving Personal Details',
+                emoji: '👤',
+                description: 'การถามและให้ข้อมูลส่วนตัว',
+                phrases: [
+                    { en: 'Where are you from originally?', th: 'เดิมทีคุณมาจากที่ไหน?' },
+                    { en: 'What do you do for a living?', th: 'คุณทำงานอะไร?' },
+                    { en: 'Could you tell me your date of birth, please?', th: 'รบกวนบอกวันเกิดของคุณได้ไหม?' },
+                    { en: 'What\'s your marital status?', th: 'สถานภาพสมรสของคุณคืออะไร? (โสด/แต่งงาน)' },
+                    { en: 'Do you have any siblings?', th: 'คุณมีพี่น้องบ้างไหม?' },
+                    { en: 'Where did you grow up?', th: 'คุณเติบโตที่ไหน?' },
+                    { en: 'What do you do in your free time?', th: 'คุณทำอะไรในเวลาว่าง?' },
+                    { en: 'May I have your contact details?', th: 'ฉันขอข้อมูลติดต่อของคุณได้ไหม?' },
+                    { en: 'What\'s your educational background?', th: 'คุณมีวุฒิการศึกษาอะไรบ้าง?' },
+                    { en: 'How long have you been living here?', th: 'คุณอาศัยอยู่ที่นี่มานานแค่ไหนแล้ว?' },
+                    { en: 'Are you on any social media?', th: 'คุณเล่นโซเชียลมีเดียอะไรบ้างไหม?' },
+                    { en: 'What brings you here today?', th: 'อะไรทำให้คุณมาที่นี่ในวันนี้?' }
+                ]
+            },
+            {
+                id: 'forms',
+                title: 'Understanding & Completing Forms',
+                emoji: '📝',
+                description: 'การเข้าใจและการกรอกแบบฟอร์ม',
+                phrases: [
+                    { en: 'Please fill in this form.', th: 'กรุณากรอกแบบฟอร์มนี้' },
+                    { en: 'Please fill out this application.', th: 'กรุณากรอกใบสมัครนี้' },
+                    { en: 'Use capital letters, please.', th: 'กรุณาใช้ตัวพิมพ์ใหญ่' },
+                    { en: 'What is your surname / last name?', th: 'นามสกุลของคุณคืออะไร?' },
+                    { en: 'Please state your occupation.', th: 'โปรดระบุอาชีพของคุณ' },
+                    { en: 'D.O.B. stands for \'Date of Birth\'.', th: 'D.O.B. ย่อมาจาก \'วันเกิด\'' },
+                    { en: 'Please sign here.', th: 'กรุณาเซ็นชื่อตรงนี้' },
+                    { en: 'Your signature is required.', th: 'จำเป็นต้องมีลายเซ็นของคุณ' },
+                    { en: 'N/A means \'Not Applicable\'.', th: 'N/A หมายถึง \'ไม่เกี่ยวข้อง / ไม่มีข้อมูล\'' },
+                    { en: 'Please provide an emergency contact.', th: 'โปรดให้ข้อมูลติดต่อฉุกเฉิน' },
+                    { en: 'Make sure all fields are completed.', th: 'ตรวจสอบให้แน่ใจว่ากรอกข้อมูลครบทุกช่อง' },
+                    { en: 'Leave this field blank if not applicable.', th: 'เว้นช่องนี้ว่างไว้หากไม่เกี่ยวข้อง' }
+                ]
+            },
+            {
+                id: 'describing-people',
+                title: 'Describing People',
+                emoji: '🧑‍🎨',
+                description: 'การบรรยายลักษณะและนิสัยผู้คน',
+                phrases: [
+                    { en: 'He\'s in his early twenties.', th: 'เขาอายุประมาณ 20 ต้นๆ' },
+                    { en: 'She\'s of medium height and slim build.', th: 'เธอสูงปานกลางและหุ่นผอมเพรียว' },
+                    { en: 'He has broad shoulders.', th: 'เขามีไหล่กว้าง' },
+                    { en: 'She wears her hair in a ponytail.', th: 'เธอมัดผมหางม้า' },
+                    { en: 'He has receding hair.', th: 'เขามีผมที่เริ่มเถิกขึ้นไป' },
+                    { en: 'She bears a striking resemblance to her mother.', th: 'เธอหน้าตาคล้ายแม่ของเธอมาก' },
+                    { en: 'He\'s very outgoing and sociable.', th: 'เขาเป็นคนเปิดเผยและเข้ากับคนง่ายมาก' },
+                    { en: 'She\'s quite reserved and shy.', th: 'เธอค่อนข้างเก็บตัวและขี้อาย' },
+                    { en: 'He has a great sense of humor.', th: 'เขามีอารมณ์ขันดีมาก' },
+                    { en: 'She\'s known for being very reliable.', th: 'เธอเป็นที่รู้จักในฐานะคนที่พึ่งพาได้มาก' },
+                    { en: 'He can be a bit short-tempered at times.', th: 'บางครั้งเขาก็เป็นคนอารมณ์ร้อนง่าย' },
+                    { en: 'She\'s very hardworking and dedicated.', th: 'เธอเป็นคนขยันและทุ่มเทมาก' }
+                ]
+            },
+            {
+                id: 'spelling',
+                title: 'Spelling Words',
+                emoji: '🔡',
+                description: 'การถามและบอกการสะกดคำ',
+                phrases: [
+                    { en: 'How do you spell that?', th: 'คุณสะกดคำนั้นอย่างไร?' },
+                    { en: 'Could you spell that for me, please?', th: 'คุณช่วยสะกดคำนั้นให้ฉันหน่อยได้ไหม?' },
+                    { en: 'Am I spelling this correctly?', th: 'ฉันสะกดคำนี้ถูกต้องไหม?' },
+                    { en: 'Is that S as in \'Sam\'?', th: 'นั่นคือ S แบบ \'Sam\' ใช่ไหม?' },
+                    { en: 'Is that a double \'L\'?', th: 'นั่นคือ \'L\' สองตัวใช่ไหม?' },
+                    { en: 'Could you repeat the spelling?', th: 'คุณช่วยสะกดซ้ำอีกครั้งได้ไหม?' },
+                    { en: 'Let me spell it out for you.', th: 'เดี๋ยวฉันจะสะกดให้คุณฟัง' },
+                    { en: 'It\'s spelled...', th: 'มันสะกดว่า...' },
+                    { en: 'Is there a hyphen?', th: 'มีเครื่องหมายยัติภังค์ (ขีดกลาง) ไหม?' },
+                    { en: 'Does it end with an \'E\'?', th: 'มันลงท้ายด้วย \'E\' หรือเปล่า?' },
+                    { en: 'Did you say B for \'Bravo\' or P for \'Papa\'?', th: 'คุณพูดว่า B (Bravo) หรือ P (Papa)?' },
+                    { en: 'My surname is spelled P-A-R-K.', th: 'นามสกุลของฉันสะกดว่า P-A-R-K' }
+                ]
+            },
+            {
+                id: 'numbers',
+                title: 'Numbers & Telephone Numbers',
+                emoji: '📞',
+                description: 'การนับ การใช้ตัวเลขและเบอร์โทร',
+                phrases: [
+                    { en: 'What\'s your phone number?', th: 'เบอร์โทรศัพท์ของคุณคืออะไร?' },
+                    { en: 'My number is 081-234-5678.', th: 'เบอร์ของฉันคือ 081-234-5678' },
+                    { en: 'It\'s oh-eight-one, double two, three...', th: 'มันคือ ศูนย์-แปด-หนึ่ง, สอง-สอง, สาม...' },
+                    { en: 'You can reach me at 02-987-6543.', th: 'คุณติดต่อฉันได้ที่เบอร์ 02-987-6543' },
+                    { en: 'How many people are there?', th: 'มีคนทั้งหมดกี่คน?' },
+                    { en: 'There are about 2.5 million residents.', th: 'มีผู้อยู่อาศัยประมาณ 2.5 ล้านคน' },
+                    { en: 'It costs nine ninety-nine (9.99).', th: 'มันราคาเก้าเหรียญเก้าสิบเก้า (9.99)' },
+                    { en: 'Please turn to page 101.', th: 'กรุณาเปิดไปที่หน้า 101' },
+                    { en: 'He won the first prize.', th: 'เขาได้รับรางวัลที่หนึ่ง' },
+                    { en: 'This is my third attempt.', th: 'นี่เป็นความพยายามครั้งที่สามของฉัน' },
+                    { en: 'The office is on the 22nd floor.', th: 'ออฟฟิศอยู่บนชั้นที่ 22' },
+                    { en: 'A quarter of the students passed.', th: 'หนึ่งในสี่ของนักเรียนสอบผ่าน' }
+                ]
+            },
+            {
+                id: 'shopping',
+                title: 'Buying & Selling',
+                emoji: '🛍️',
+                description: 'การซื้อขาย ราคา และจำนวน',
+                phrases: [
+                    { en: 'How much is this?', th: 'ราคาเท่าไหร่?' },
+                    { en: 'How much does it cost?', th: 'มันราคาเท่าไหร่?' },
+                    { en: 'Is this on sale?', th: 'ชิ้นนี้ลดราคาอยู่หรือเปล่า?' },
+                    { en: 'Can I get a discount?', th: 'ฉันขอส่วนลดได้ไหม?' },
+                    { en: 'Do you have this in a different size/color?', th: 'คุณมีแบบนี้ ขนาด/สี อื่นไหม?' },
+                    { en: 'Can I try this on?', th: 'ฉันขอลองชิ้นนี้ได้ไหม?' },
+                    { en: 'Where is the fitting room?', th: 'ห้องลองเสื้ออยู่ไหน?' },
+                    { en: 'I\'ll take it.', th: 'ฉันเอาอันนี้ / ฉันตกลงซื้อ' },
+                    { en: 'I\'m just browsing, thank you.', th: 'ฉันแค่เดินดูเฉยๆ ขอบคุณค่ะ' },
+                    { en: 'Do you accept credit cards?', th: 'คุณรับบัตรเครดิตไหม?' },
+                    { en: 'Can I get a receipt, please?', th: 'ฉันขอใบเสร็จได้ไหม?' },
+                    { en: 'Can I return this if it doesn\'t fit?', th: 'ฉันสามารถคืนสินค้านี้ได้ไหมถ้ามันใส่ไม่ได้?' }
+                ]
+            },
+            {
+                id: 'time-date',
+                title: 'Time, Day & Date',
+                emoji: '⏰',
+                description: 'การถามและบอกเวลา วัน และวันที่',
+                phrases: [
+                    { en: 'What time is it?', th: 'ตอนนี้กี่โมงแล้ว?' },
+                    { en: 'Could you tell me the time, please?', th: 'กรุณาบอกเวลาฉันหน่อยได้ไหม?' },
+                    { en: 'It\'s half past three.', th: 'เวลาสามโมงครึ่ง' },
+                    { en: 'It\'s a quarter to five.', th: 'เวลาตีสี่สี่สิบห้า (อีก 15 นาทีตีห้า)' },
+                    { en: 'The meeting is at 2:00 PM sharp.', th: 'การประชุมเริ่มเวลาบ่ายสองโมงตรง' },
+                    { en: 'What day is it today?', th: 'วันนี้วันอะไร?' },
+                    { en: 'What\'s the date today?', th: 'วันนี้วันที่เท่าไหร่?' },
+                    { en: 'Today is November 6th.', th: 'วันนี้คือวันที่ 6 พฤศจิกายน' },
+                    { en: 'When is your appointment?', th: 'คุณมีนัดเมื่อไหร่?' },
+                    { en: 'My birthday is on the 10th of May.', th: 'วันเกิดของฉันคือวันที่ 10 พฤษภาคม' },
+                    { en: 'I\'ll see you in a couple of days.', th: 'เจอกันในอีก 2-3 วันนะ' },
+                    { en: 'The deadline is next Friday.', th: 'กำหนดส่งคือวันศุกร์หน้า' }
+                ]
+            },
+            {
+                id: 'present-continuous',
+                title: 'Talking About the Moment',
+                emoji: '🏃',
+                description: 'การพูดถึงสิ่งที่กำลังทำอยู่',
+                phrases: [
+                    { en: 'What are you doing?', th: 'คุณกำลังทำอะไรอยู่?' },
+                    { en: 'I\'m currently working on a project.', th: 'ฉันกำลังทำงานในโครงการหนึ่งอยู่' },
+                    { en: 'She\'s talking on the phone right now.', th: 'เธอกำลังคุยโทรศัพท์อยู่ตอนนี้' },
+                    { en: 'They are watching a movie.', th: 'พวกเขากำลังดูหนัง' },
+                    { en: 'Are you listening to me?', th: 'คุณกำลังฟังฉันอยู่หรือเปล่า?' },
+                    { en: 'He\'s not feeling well at the moment.', th: 'เขาไม่ค่อยสบายในตอนนี้' },
+                    { en: 'We\'re having lunch.', th: 'เรากำลังทานอาหารกลางวัน' },
+                    { en: 'It\'s raining outside.', th: 'ข้างนอกฝนกำลังตก' },
+                    { en: 'The kids are playing in the garden.', th: 'เด็กๆ กำลังเล่นในสวน' },
+                    { en: 'I\'m just browsing, thanks.', th: 'ฉันแค่กำลังเดินดูเฉยๆ ขอบคุณ' },
+                    { en: 'What\'s happening here?', th: 'เกิดอะไรขึ้นที่นี่?' },
+                    { en: 'Why are you laughing?', th: 'คุณกำลังหัวเราะทำไม?' }
+                ]
+            },
+            {
+                id: 'past-events',
+                title: 'Talking About the Past',
+                emoji: '🕰️',
+                description: 'การพูดถึงเหตุการณ์ในอดีต',
+                phrases: [
+                    { en: 'What did you do last weekend?', th: 'คุณทำอะไรเมื่อสุดสัปดาห์ที่แล้ว?' },
+                    { en: 'I went to the beach.', th: 'ฉันไปชายหาดมา' },
+                    { en: 'We visited our grandparents.', th: 'เราไปเยี่ยมปู่ย่าตายาย' },
+                    { en: 'She graduated from university in 2020.', th: 'เธอจบการศึกษาจากมหาวิทยาลัยในปี 2020' },
+                    { en: 'I\'ve already finished my homework.', th: 'ฉันทำการบ้านเสร็จเรียบร้อยแล้ว' },
+                    { en: 'Have you ever been to Japan?', th: 'คุณเคยไปประเทศญี่ปุ่นไหม?' },
+                    { en: 'I saw that movie last night.', th: 'ฉันดูหนังเรื่องนั้นเมื่อคืนนี้' },
+                    { en: 'We used to be colleagues.', th: 'เราเคยเป็นเพื่อนร่วมงานกัน' },
+                    { en: 'I\'ve just received the email.', th: 'ฉันเพิ่งได้รับอีเมล' },
+                    { en: 'I haven\'t seen him today.', th: 'ฉันยังไม่เห็นเขาเลยวันนี้' },
+                    { en: 'They weren\'t at home yesterday.', th: 'พวกเขาไม่ได้อยู่บ้านเมื่อวานนี้' },
+                    { en: 'He lived in London for five years.', th: 'เขาอาศัยอยู่ในลอนดอนเป็นเวลาห้าปี' }
+                ]
+            },
+            {
+                id: 'narratives',
+                title: 'Simple Narratives',
+                emoji: '📖',
+                description: 'การเข้าใจและเล่าเรื่องง่ายๆ',
+                phrases: [
+                    { en: 'Once upon a time, there was a princess.', th: 'กาลครั้งหนึ่งนานมาแล้ว มีเจ้าหญิงองค์หนึ่ง' },
+                    { en: 'First, I woke up early.', th: 'อย่างแรก ฉันตื่นแต่เช้า' },
+                    { en: 'Next, I had breakfast.', th: 'ต่อมา ฉันก็ทานอาหารเช้า' },
+                    { en: 'Then, I went to work.', th: 'หลังจากนั้น ฉันก็ไปทำงาน' },
+                    { en: 'After that, I met my friends.', th: 'หลังจากนั้น ฉันก็ได้พบกับเพื่อนๆ' },
+                    { en: 'Finally, I went home.', th: 'สุดท้าย ฉันก็กลับบ้าน' },
+                    { en: 'Suddenly, the phone rang.', th: 'ทันใดนั้น โทรศัพท์ก็ดังขึ้น' },
+                    { en: 'In the end, everyone was happy.', th: 'ในท้ายที่สุด ทุกคนก็มีความสุข' },
+                    { en: 'It all started when...', th: 'เรื่องทั้งหมดเริ่มต้นขึ้นเมื่อ...' },
+                    { en: 'Meanwhile, the hero was training.', th: 'ในขณะเดียวกัน ฮีโร่ก็กำลังฝึกฝน' },
+                    { en: 'To cut a long story short, we won.', th: 'สรุปสั้นๆ ก็คือ เราชนะ' },
+                    { en: 'And they lived happily ever after.', th: 'และพวกเขาก็อยู่ด้วยกันอย่างมีความสุขตลอดไป' }
+                ]
+            },
+            {
+                id: 'future-plans',
+                title: 'Future Plans & Intentions',
+                emoji: '🗓️',
+                description: 'การพูดถึงอนาคต แผน และความตั้งใจ',
+                phrases: [
+                    { en: 'What are you going to do tomorrow?', th: 'คุณจะทำอะไรในวันพรุ่งนี้?' },
+                    { en: 'I\'m going to visit my aunt.', th: 'ฉันกำลังจะไปเยี่ยมป้าของฉัน' },
+                    { en: 'I\'m planning to travel to Europe.', th: 'ฉันกำลังวางแผนที่จะไปเที่ยวยุโรป' },
+                    { en: 'We intend to start a new business.', th: 'เราตั้งใจที่จะเริ่มต้นธุรกิจใหม่' },
+                    { en: 'I\'m thinking of moving to a new apartment.', th: 'ฉันกำลังคิดว่าจะย้ายไปอยู่อพาร์ตเมนต์ใหม่' },
+                    { en: 'Are you doing anything this evening?', th: 'เย็นนี้คุณทำอะไรหรือเปล่า?' },
+                    { en: 'My flight departs at 10 AM tomorrow.', th: 'เที่ยวบินของฉันจะออกเวลา 10.00 น. พรุ่งนี้' },
+                    { en: 'We\'re meeting at 7 PM.', th: 'เราจะเจอกันตอน 1 ทุ่ม' },
+                    { en: 'I might go to the party.', th: 'ฉันอาจจะไปงานปาร์ตี้' },
+                    { en: 'I probably won\'t go out tonight.', th: 'คืนนี้ฉันคงจะไม่ออกไปไหน' },
+                    { en: 'I\'m not sure about my plans yet.', th: 'ฉันยังไม่แน่ใจเกี่ยวกับแผนการของฉัน' },
+                    { en: 'I hope to see you soon.', th: 'ฉันหวังว่าจะได้เจอคุณเร็วๆ นี้' }
+                ]
+            },
+            {
+                id: 'predictions',
+                title: 'Making Predictions',
+                emoji: '🔮',
+                description: 'การคาดเดาอนาคต',
+                phrases: [
+                    { en: 'I think it will rain tomorrow.', th: 'ฉันคิดว่าพรุ่งนี้ฝนจะตก' },
+                    { en: 'It looks like it\'s going to snow.', th: 'ดูเหมือนว่าหิมะกำลังจะตก' },
+                    { en: 'I predict that our team will win.', th: 'ฉันทำนายว่าทีมของเราจะชนะ' },
+                    { en: 'She\'s unlikely to agree.', th: 'เธอไม่น่าจะเห็นด้วย' },
+                    { en: 'He will definitely pass the exam.', th: 'เขาจะสอบผ่านอย่างแน่นอน' },
+                    { en: 'I doubt they will arrive on time.', th: 'ฉันสงสัยว่าพวกเขาจะมาตรงเวลา' },
+                    { en: 'In the future, people might live on Mars.', th: 'ในอนาคต ผู้คนอาจจะอาศัยอยู่บนดาวอังคาร' },
+                    { en: 'It\'s possible that he forgot.', th: 'มันเป็นไปได้ว่าเขาลืม' },
+                    { en: 'I bet he\'s late again.', th: 'ฉันพนันได้เลยว่าเขาสายอีกแล้ว' },
+                    { en: 'There\'s a good chance she\'ll get the job.', th: 'มีโอกาสสูงที่เธอจะได้งานนั้น' },
+                    { en: 'I wouldn\'t be surprised if that happens.', th: 'ฉันจะไม่แปลกใจเลยถ้ามันเกิดขึ้น' },
+                    { en: 'That\'s bound to happen sooner or later.', th: 'มันต้องเกิดขึ้นแน่นอน ไม่ช้าก็เร็ว' }
+                ]
+            },
+            {
+                id: 'instructions',
+                title: 'Following & Giving Instructions',
+                emoji: '👉',
+                description: 'การทำตามและให้คำแนะนำง่ายๆ',
+                phrases: [
+                    { en: 'First, open the box.', th: 'อย่างแรก เปิดกล่องก่อน' },
+                    { en: 'Make sure to read the manual.', th: 'อย่าลืมอ่านคู่มือ' },
+                    { en: 'Don\'t forget to save your work.', th: 'อย่าลืมบันทึกงานของคุณ' },
+                    { en: 'You need to turn left at the corner.', th: 'คุณต้องเลี้ยวซ้ายตรงหัวมุม' },
+                    { en: 'Press the red button to start.', th: 'กดปุ่มสีแดงเพื่อเริ่ม' },
+                    { en: 'Could you show me how to do that?', th: 'คุณช่วยแสดงให้ฉันดูหน่อยได้ไหมว่าทำอย่างไร?' },
+                    { en: 'What\'s the next step?', th: 'ขั้นตอนต่อไปคืออะไร?' },
+                    { en: 'I\'m not sure what to do next.', th: 'ฉันไม่แน่ใจว่าต้องทำอะไรต่อ' },
+                    { en: 'Please repeat the instructions.', th: 'กรุณาพูดคำแนะนำซ้ำอีกครั้ง' },
+                    { en: 'You should plug it in first.', th: 'คุณควรเสียบปลั๊กก่อน' },
+                    { en: 'Be careful not to spill it.', th: 'ระวังอย่าทำมันหก' },
+                    { en: 'Go straight ahead and it\'s on your left.', th: 'เดินตรงไปแล้วมันจะอยู่ซ้ายมือ' }
+                ]
+            },
+            {
+                id: 'signs-notices',
+                title: 'Understanding Signs & Notices',
+                emoji: '🚫',
+                description: 'การเข้าใจป้ายและประกาศ',
+                phrases: [
+                    { en: 'What does this sign mean?', th: 'ป้ายนี้หมายความว่าอะไร?' },
+                    { en: 'No entry / Do not enter.', th: 'ห้ามเข้า' },
+                    { en: 'Mind the gap.', th: 'ระวังช่องว่าง (ระหว่างรถไฟกับชานชาลา)' },
+                    { en: 'Out of order.', th: 'เสีย / ใช้งานไม่ได้' },
+                    { en: 'This way to the exit.', th: 'ทางไปทางออก' },
+                    { en: 'No smoking allowed.', th: 'ไม่อนุญาตให้สูบบุหรี่' },
+                    { en: 'Please queue here.', th: 'กรุณาต่อแถวตรงนี้' },
+                    { en: 'Keep off the grass.', th: 'ห้ามเดินลัดสนามหญ้า' },
+                    { en: 'Staff only.', th: 'เฉพาะเจ้าหน้าที่เท่านั้น' },
+                    { en: 'Caution: Wet floor.', th: 'ระวัง: พื้นเปียก' },
+                    { en: 'Emergency exit.', th: 'ทางออกฉุกเฉิน' },
+                    { en: 'Fasten your seatbelts.', th: 'กรุณารัดเข็มขัดนิรภัย' }
+                ]
+            },
+            {
+                id: 'directions',
+                title: 'Asking & Giving Directions',
+                emoji: '🗺️',
+                description: 'การถามและบอกทิศทาง',
+                phrases: [
+                    { en: 'Excuse me, how do I get to the station?', th: 'ขอโทษครับ/ค่ะ สถานีรถไฟไปทางไหน?' },
+                    { en: 'Could you tell me the way to the post office?', th: 'คุณช่วยบอกทางไปไปรษณีย์ได้ไหม?' },
+                    { en: 'Go straight on.', th: 'เดินตรงไป' },
+                    { en: 'Turn left at the traffic lights.', th: 'เลี้ยวซ้ายตรงสัญญาณไฟจราจร' },
+                    { en: 'It\'s on your right.', th: 'มันอยู่ทางขวามือของคุณ' },
+                    { en: 'It\'s just around the corner.', th: 'มันอยู่ตรงหัวมุมนี่เอง' },
+                    { en: 'You can\'t miss it.', th: 'คุณไม่พลาดแน่ (หาง่าย)' },
+                    { en: 'Take the second exit at the roundabout.', th: 'ใช้ทางออกที่สองที่วงเวียน' },
+                    { en: 'I\'m sorry, I\'m not from around here.', th: 'ขอโทษครับ/ค่ะ ฉันไม่ใช่คนแถวนี้' },
+                    { en: 'Is it far from here?', th: 'มันไกลจากที่นี่ไหม?' },
+                    { en: 'It\'s about a 10-minute walk.', th: 'ใช้เวลาเดินประมาณ 10 นาที' },
+                    { en: 'You\'re going in the wrong direction.', th: 'คุณกำลังไปผิดทาง' }
+                ]
+            },
+            {
+                id: 'travel-info',
+                title: 'Travel Information',
+                emoji: '✈️',
+                description: 'การถามและให้ข้อมูลการเดินทาง',
+                phrases: [
+                    { en: 'I\'d like to book a flight to Paris.', th: 'ฉันต้องการจองตั๋วเครื่องบินไปปารีส' },
+                    { en: 'Is this a direct flight?', th: 'นี่เป็นเที่ยวบินตรงหรือเปล่า?' },
+                    { en: 'What time does the train leave?', th: 'รถไฟออกกี่โมง?' },
+                    { en: 'Which platform does it leave from?', th: 'มันออกจากชานชาลาไหน?' },
+                    { en: 'A single/round-trip ticket, please.', th: 'ขอตั๋วเที่ยวเดียว/ไปกลับ ครับ/ค่ะ' },
+                    { en: 'Here is my passport and boarding pass.', th: 'นี่คือพาสปอร์ตและบอร์ดดิ้งพาสของฉัน' },
+                    { en: 'Is my flight on time or delayed?', th: 'เที่ยวบินของฉันตรงเวลาหรือล่าช้า?' },
+                    { en: 'Where is the baggage claim?', th: 'ที่รับกระเป๋าอยู่ที่ไหน?' },
+                    { en: 'Have a pleasant journey!', th: 'ขอให้เดินทางโดยสวัสดิภาพ!' },
+                    { en: 'The train has been cancelled.', th: 'รถไฟขบวนนี้ถูกยกเลิกแล้ว' },
+                    { en: 'Do I need to check in?', th: 'ฉันจำเป็นต้องเช็คอินไหม?' },
+                    { en: 'Enjoy your stay.', th: 'ขอให้มีความสุขกับการเข้าพัก' }
+                ]
+            },
+            {
+                id: 'describing-objects',
+                title: 'Describing Objects',
+                emoji: '📦',
+                description: 'การระบุและบรรยายสิ่งของ',
+                phrases: [
+                    { en: 'What\'s it made of?', th: 'มันทำมาจากอะไร?' },
+                    { en: 'It\'s made of wood/metal/plastic.', th: 'มันทำมาจากไม้/โลหะ/พลาสติก' },
+                    { en: 'What\'s it used for?', th: 'มันใช้สำหรับทำอะไร?' },
+                    { en: 'It\'s used for cutting things.', th: 'มันใช้สำหรับตัดสิ่งของ' },
+                    { en: 'It\'s a kind of tool.', th: 'มันเป็นเครื่องมือชนิดหนึ่ง' },
+                    { en: 'It\'s rectangular in shape.', th: 'มันมีรูปร่างสี่เหลี่ยมผืนผ้า' },
+                    { en: 'It\'s medium-sized.', th: 'มันมีขนาดปานกลาง' },
+                    { en: 'It weighs about 5 kilograms.', th: 'มันหนักประมาณ 5 กิโลกรัม' },
+                    { en: 'It\'s light blue in color.', th: 'มันมีสีฟ้าอ่อน' },
+                    { en: 'It\'s a brand new model.', th: 'มันเป็นรุ่นใหม่ล่าสุด' },
+                    { en: 'It looks old-fashioned.', th: 'มันดูเหมือนล้าสมัย' },
+                    { en: 'What\'s this thing called?', th: 'สิ่งนี้เรียกว่าอะไร?' }
+                ]
+            },
+            {
+                id: 'comparisons',
+                title: 'Making Comparisons',
+                emoji: '📊',
+                description: 'การเปรียบเทียบและแสดงความแตกต่าง',
+                phrases: [
+                    { en: 'This one is cheaper than that one.', th: 'อันนี้ถูกกว่าอันนั้น' },
+                    { en: 'This is the best restaurant in town.', th: 'นี่คือร้านอาหารที่ดีที่สุดในเมือง' },
+                    { en: 'She is as tall as her brother.', th: 'เธอสูงเท่ากับน้องชายของเธอ' },
+                    { en: 'He\'s not as smart as he thinks.', th: 'เขาไม่ได้ฉลาดอย่างที่เขาคิด' },
+                    { en: 'This is much more difficult.', th: 'อันนี้ยากกว่ามาก' },
+                    { en: 'The new model is slightly better.', th: 'รุ่นใหม่ดีกว่าเล็กน้อย' },
+                    { en: 'This is the least expensive option.', th: 'นี่คือตัวเลือกที่แพงน้อยที่สุด' },
+                    { en: 'It\'s less crowded today.', th: 'วันนี้คนน้อยกว่า' },
+                    { en: 'They are very similar to each other.', th: 'พวกมันคล้ายกันมาก' },
+                    { en: 'There\'s a big difference between them.', th: 'มีความแตกต่างอย่างมากระหว่างพวกมัน' },
+                    { en: 'Which one do you prefer?', th: 'คุณชอบอันไหนมากกว่ากัน?' },
+                    { en: 'I\'d rather have tea than coffee.', th: 'ฉันอยากดื่มชามากกว่ากาแฟ' }
+                ]
+            },
+            {
+                id: 'purpose-cause-result',
+                title: 'Purpose, Cause & Result',
+                emoji: '💡',
+                description: 'การแสดงจุดประสงค์ สาเหตุ และผลลัพธ์',
+                phrases: [
+                    { en: 'I went to the shop to buy milk.', th: 'ฉันไปร้านค้าเพื่อซื้อนม' },
+                    { en: 'She\'s studying hard so that she can pass.', th: 'เธอเรียนหนักเพื่อที่เธอจะสอบผ่าน' },
+                    { en: 'He did it in order to help us.', th: 'เขาทำเพื่อที่จะช่วยเรา' },
+                    { en: 'Why did you do that?', th: 'คุณทำอย่างนั้นทำไม?' },
+                    { en: 'I did it because I was curious.', th: 'ฉันทำไปเพราะว่าฉันสงสัย' },
+                    { en: 'He was late due to the traffic.', th: 'เขาสายเนื่องจากการจราจร' },
+                    { en: 'The game was cancelled owing to the rain.', th: 'เกมถูกยกเลิกเนื่องจากฝนตก' },
+                    { en: 'As a result, everyone was disappointed.', th: 'ผลก็คือ ทุกคนผิดหวัง' },
+                    { en: 'The consequence was that he lost his job.', th: 'ผลที่ตามมาคือเขตกงาน' },
+                    { en: 'What was the reason for the delay?', th: 'อะไรคือสาเหตุของความล่าช้า?' },
+                    { en: 'He failed, therefore he has to retake the test.', th: 'เขาสอบตก ดังนั้น เขาจึงต้องสอบใหม่' },
+                    { en: 'Thanks to your help, we succeeded.', th: 'ต้องขอบคุณความช่วยเหลือของคุณ เราถึงสำเร็จ' }
+                ]
+            },
+            {
+                id: 'requests-offers',
+                title: 'Requests, Offers & Suggestions',
+                emoji: '🙋',
+                description: 'การขอร้อง การเสนอ และการแนะนำ',
+                phrases: [
+                    { en: 'Could you please pass the salt?', th: 'คุณช่วยส่งเกลือให้หน่อยได้ไหม?' },
+                    { en: 'Would you mind closing the window?', th: 'คุณจะว่าอะไรไหมถ้าจะช่วยปิดหน้าต่าง?' },
+                    { en: 'Can I have the bill, please?', th: 'ขอใบเสร็จ/บิลหน่อยครับ/ค่ะ?' },
+                    { en: 'Would you like some help?', th: 'คุณต้องการความช่วยเหลือไหม?' },
+                    { en: 'Can I help you with those bags?', th: 'ฉันช่วยคุณถือกระเป๋าเหล่านั้นไหม?' },
+                    { en: 'Shall I make some coffee?', th: 'ฉันชงกาแฟให้ไหม?' },
+                    { en: 'What about going to the cinema?', th: 'ไปดูหนังกันดีไหม?' },
+                    { en: 'How about ordering pizza?', th: 'สั่งพิซซ่ากันเป็นไง?' },
+                    { en: 'Let\'s go for a walk.', th: 'ไปเดินเล่นกันเถอะ' },
+                    { en: 'I suggest we take a break.', th: 'ฉันแนะนำว่าเราควรพักกันก่อน' },
+                    { en: 'Do you need anything?', th: 'คุณต้องการอะไรไหม?' },
+                    { en: 'Thanks, that\'s very kind of you.', th: 'ขอบคุณ คุณใจดีมาก' }
+                ]
+            },
+            {
+                id: 'invitations',
+                title: 'Invitations',
+                emoji: '💌',
+                description: 'การให้และการตอบรับคำเชิญ',
+                phrases: [
+                    { en: 'Are you free on Saturday?', th: 'วันเสาร์นี้คุณว่างไหม?' },
+                    { en: 'Would you like to come to my party?', th: 'คุณอยากมางานปาร์ตี้ของฉันไหม?' },
+                    { en: 'I\'d like to invite you to dinner.', th: 'ฉันอยากจะเชิญคุณไปทานอาหารเย็น' },
+                    { en: 'That sounds great, I\'d love to come.', th: 'ฟังดูดีมาก ฉันอยากไป' },
+                    { en: 'Thanks for the invitation, but I\'m afraid I can\'t.', th: 'ขอบคุณสำหรับคำเชิญ แต่ฉันเกรงว่าฉันจะไปไม่ได้' },
+                    { en: 'I\'m sorry, I have other plans.', th: 'ขอโทษที ฉันมีแผนอื่นแล้ว' },
+                    { en: 'What time should I come?', th: 'ฉันควรจะไปกี่โมง?' },
+                    { en: 'Can I bring anything?', th: 'ฉันต้องเอาอะไรไปด้วยไหม?' },
+                    { en: 'Let me know if you can make it.', th: 'แจ้งให้ฉันทราบด้วยนะถ้าคุณมาได้' },
+                    { en: 'I\'m really looking forward to it.', th: 'ฉันตั้งตารอคอยมันจริงๆ' },
+                    { en: 'Thanks, but I\'ll have to pass.', th: 'ขอบคุณ แต่ฉันคงต้องขอผ่าน' },
+                    { en: 'That\'s a pity. Maybe next time.', th: 'น่าเสียดายจัง ไวโอกาสหน้านะ' }
+                ]
+            },
+            {
+                id: 'advice-warnings',
+                title: 'Advice, Warnings & Prohibitions',
+                emoji: '⚠️',
+                description: 'การให้คำแนะนำ คำเตือน และข้อห้าม',
+                phrases: [
+                    { en: 'You should see a doctor.', th: 'คุณควรไปหาหมอนะ' },
+                    { en: 'You ought to apologize.', th: 'คุณควรจะขอโทษ' },
+                    { en: 'If I were you, I would tell the truth.', th: 'ถ้าฉันเป็นคุณ ฉันจะบอกความจริง' },
+                    { en: 'I think you\'d better start saving money.', th: 'ฉันคิดว่าคุณควรเริ่มประหยัดเงินได้แล้ว' },
+                    { en: 'Watch out! / Look out!', th: 'ระวัง!' },
+                    { en: 'Be careful with that knife.', th: 'ระวังมีดนั่นด้วย' },
+                    { en: 'I\'m warning you, don\'t do it again.', th: 'ฉันเตือนคุณแล้วนะ อย่าทำมันอีก' },
+                    { en: 'You must not smoke in here.', th: 'คุณห้ามสูบบุหรี่ในนี้ (เด็ดขาด)' },
+                    { en: 'You are not allowed to park here.', th: 'คุณไม่ได้รับอนุญาตให้จอดรถที่นี่' },
+                    { en: 'No trespassing.', th: 'ห้ามบุกรุก' },
+                    { en: 'It\'s forbidden to feed the animals.', th: 'ห้ามให้อาหารสัตว์ (เป็นกฎ)' },
+                    { en: 'You\'d better not be late.', th: 'คุณไม่ควรมาสาย (เตือน)' }
+                ]
+            },
+            {
+                id: 'commands',
+                title: 'Asking/Telling People to Do',
+                emoji: '🗣️',
+                description: 'การขอหรือบอกให้ผู้อื่นทำบางสิ่ง',
+                phrases: [
+                    { en: 'Could you please be quiet?', th: 'กรุณาเงียบหน่อยได้ไหม?' },
+                    { en: 'Would you mind not smoking here?', th: 'จะรังเกียจไหมถ้าคุณจะไม่สูบบุหรี่ตรงนี้?' },
+                    { en: 'Stop talking!', th: 'หยุดพูด!' },
+                    { en: 'Listen to me carefully.', th: 'ฟังฉันอย่างตั้งใจ' },
+                    { en: 'Please wait outside.', th: 'กรุณารอด้านนอก' },
+                    { en: 'Don\'t touch that.', th: 'อย่าแตะต้องสิ่งนั้น' },
+                    { en: 'I need you to finish this report.', th: 'ฉันต้องการให้คุณทำรายงานนี้ให้เสร็จ' },
+                    { en: 'I\'m asking you to leave.', th: 'ฉันกำลังขอให้คุณออกไป' },
+                    { en: 'Do as I say.', th: 'ทำตามที่ฉันบอก' },
+                    { en: 'Get out of here.', th: 'ออกไปจากที่นี่' },
+                    { en: 'Follow my lead.', th: 'ทำตามฉัน' },
+                    { en: 'Please form a line.', th: 'กรุณาเข้าแถว' }
+                ]
+            },
+            {
+                id: 'obligation',
+                title: 'Obligation & Lack of Obligation',
+                emoji: '🔒',
+                description: 'การแสดงความจำเป็นและไม่จำเป็น',
+                phrases: [
+                    { en: 'You must finish your homework.', th: 'คุณต้องทำการบ้านให้เสร็จ' },
+                    { en: 'I have to go to the bank.', th: 'ฉันต้องไปธนาคาร' },
+                    { en: 'I\'ve got to make a phone call.', th: 'ฉันต้องโทรศัพท์' },
+                    { en: 'It is necessary to have a visa.', th: 'จำเป็นต้องมีวีซ่า' },
+                    { en: 'You are required to wear a uniform.', th: 'คุณถูกกำหนดให้สวมเครื่องแบบ' },
+                    { en: 'You don\'t have to pay for this.', th: 'คุณไม่จำเป็นต้องจ่ายเงินสำหรับสิ่งนี้' },
+                    { en: 'You don\'t need to bring anything.', th: 'คุณไม่จำเป็นต้องเอาอะไรมา' },
+                    { en: 'It\'s not necessary to book in advance.', th: 'ไม่จำเป็นต้องจองล่วงหน้า' },
+                    { en: 'You shouldn\'t have to wait long.', th: 'คุณไม่ควรจะต้องรอนาน' },
+                    { en: 'It\'s optional.', th: 'นี่เป็นตัวเลือก (ไม่บังคับ)' },
+                    { en: 'Is it compulsory/mandatory?', th: 'มันเป็นภาคบังคับหรือไม่?' },
+                    { en: 'I was forced to sign it.', th: 'ฉันถูกบังคับให้เซ็นมัน' }
+                ]
+            },
+            {
+                id: 'permission',
+                title: 'Asking for Permission',
+                emoji: '🔑',
+                description: 'การขอและให้/ปฏิเสธการอนุญาต',
+                phrases: [
+                    { en: 'Can I borrow your pen?', th: 'ฉันขอยืมปากกาคุณได้ไหม?' },
+                    { en: 'Could I use your phone, please?', th: 'ฉันขอใช้โทรศัพท์คุณหน่อยได้ไหม?' },
+                    { en: 'May I leave early today?', th: 'วันนี้ฉันขอออกไปก่อนได้ไหม? (สุภาพ)' },
+                    { en: 'Is it okay if I sit here?', th: 'จะเป็นอะไรไหมถ้าฉันจะนั่งตรงนี้?' },
+                    { en: 'Do you mind if I open the window?', th: 'คุณจะว่าอะไรไหมถ้าฉันจะเปิดหน้าต่าง?' },
+                    { en: 'Yes, of course. / Sure, go ahead.', th: 'ได้เลย / เอาเลย' },
+                    { en: 'No, I\'m afraid you can\'t.', th: 'ไม่ ฉันเกรงว่าคุณจะทำไม่ได้' },
+                    { en: 'I\'m sorry, but that\'s not possible.', th: 'ฉันขอโทษ แต่มันเป็นไปไม่ได้' },
+                    { en: 'You\'re not allowed to do that.', th: 'คุณไม่ได้รับอนุญาตให้ทำเช่นนั้น' },
+                    { en: 'Would it be all right if I...', th: 'มันจะเป็นอะไรไหมถ้าฉันจะ...' },
+                    { en: 'I wonder if I could...', th: 'ฉันสงสัยว่าฉันจะ...ได้ไหม' },
+                    { en: 'I\'d rather you didn\'t.', th: 'ฉันไม่อยากให้คุณทำมากกว่า' }
+                ]
+            },
+            {
+                id: 'preferences',
+                title: 'Preferences, Likes & Dislikes',
+                emoji: '❤️',
+                description: 'การแสดงความชอบและไม่ชอบ',
+                phrases: [
+                    { en: 'I love listening to music.', th: 'ฉันรักการฟังเพลง' },
+                    { en: 'I really enjoy hiking.', th: 'ฉันสนุกกับการเดินป่ามาก' },
+                    { en: 'I\'m a big fan of jazz.', th: 'ฉันเป็นแฟนตัวยงของดนตรีแจ๊ส' },
+                    { en: 'I\'m keen on photography.', th: 'ฉันสนใจในการถ่ายภาพ' },
+                    { en: 'I don\'t like spiders.', th: 'ฉันไม่ชอบแมงมุม' },
+                    { en: 'I can\'t stand traffic jams.', th: 'ฉันทนรถติดไม่ไหว' },
+                    { en: 'I\'m not very fond of spicy food.', th: 'ฉันไม่ค่อยชอบอาหารรสเผ็ด' },
+                    { en: 'That\'s not really my thing.', th: 'นั่นไม่ใช่แนวของฉันเท่าไหร่' },
+                    { en: 'I prefer tea to coffee.', th: 'ฉันชอบชามากกว่ากาแฟ' },
+                    { en: 'I\'d rather stay in than go out.', th: 'ฉันอยากอยู่บ้านมากกว่าออกไปข้างนอก' },
+                    { en: 'Which do you prefer?', th: 'คุณชอบอันไหนมากกว่ากัน?' },
+                    { en: 'What\'s your favorite color?', th: 'สีโปรดของคุณคือสีอะไร?' }
+                ]
+            },
+            {
+                id: 'feelings',
+                title: 'Talking About Feelings',
+                emoji: '😊',
+                description: 'การพูดถึงความรู้สึก',
+                phrases: [
+                    { en: 'I\'m feeling great today.', th: 'วันนี้ฉันรู้สึกดีมาก' },
+                    { en: 'I\'m a bit tired.', th: 'ฉันเหนื่อยเล็กน้อย' },
+                    { en: 'I\'m so excited about the trip!', th: 'ฉันตื่นเต้นมากเกี่ยวกับทริปนี้!' },
+                    { en: 'I\'m really nervous about the exam.', th: 'ฉันกังวลมากเกี่ยวกับการสอบ' },
+                    { en: 'She seemed upset about something.', th: 'เธอดูเหมือนกำลังอารมณ์เสียเรื่องอะไรบางอย่าง' },
+                    { en: 'He\'s in a bad mood.', th: 'เขาอยู่ในอารมณ์ที่ไม่ดี' },
+                    { en: 'I\'m over the moon!', th: 'ฉันมีความสุขมาก!' },
+                    { en: 'I\'m feeling a bit down.', th: 'ฉันรู้สึกเศร้า/หดหู่เล็กน้อย' },
+                    { en: 'What\'s wrong? You look worried.', th: 'เป็นอะไรไป? คุณดูกังวลนะ' },
+                    { en: 'I\'m really pleased with the results.', th: 'ฉันพอใจกับผลลัพธ์มาก' },
+                    { en: 'I feel guilty about what happened.', th: 'ฉันรู้สึกผิดเกี่ยวกับสิ่งที่เกิดขึ้น' },
+                    { en: 'I\'m fed up with this weather.', th: 'ฉันเบื่อกับสภาพอากาศนี้เต็มทีแล้ว' }
+                ]
+            },
+            {
+                id: 'opinions-choices',
+                title: 'Opinions & Making Choices',
+                emoji: '🤔',
+                description: 'การแสดงความคิดเห็นและการตัดสินใจ',
+                phrases: [
+                    { en: 'In my opinion, it\'s a great idea.', th: 'ในความคิดของฉัน มันเป็นความคิดที่ดี' },
+                    { en: 'I think we should wait.', th: 'ฉันคิดว่าเราควรรอ' },
+                    { en: 'If you ask me, he\'s wrong.', th: 'ถ้าคุณถามฉันนะ เขาผิด' },
+                    { en: 'What do you think about this?', th: 'คุณคิดยังไงเกี่ยวกับเรื่องนี้?' },
+                    { en: 'How do you feel about that?', th: 'คุณรู้สึกยังไงกับเรื่องนั้น?' },
+                    { en: 'As far as I\'m concerned...', th: 'ในส่วนของฉันนะ...' },
+                    { en: 'To be honest, I don\'t agree.', th: 'พูดตามตรงนะ ฉันไม่เห็นด้วย' },
+                    { en: 'I\'m not sure about that.', th: 'ฉันไม่แน่ใจเกี่ยวกับเรื่องนั้น' },
+                    { en: 'I\'ve made up my mind.', th: 'ฉันตัดสินใจแล้ว' },
+                    { en: 'It\'s hard to choose.', th: 'มันเลือกยากนะ' },
+                    { en: 'I\'m torn between A and B.', th: 'ฉันลังเลระหว่าง A กับ B' },
+                    { en: 'Let\'s go with option A.', th: 'เราเลือกตัวเลือก A กันเถอะ' }
+                ]
+            },
+            {
+                id: 'needs-wants',
+                title: 'Expressing Needs & Wants',
+                emoji: '🤚',
+                description: 'การแสดงความต้องการ',
+                phrases: [
+                    { en: 'I need some help.', th: 'ฉันต้องการความช่วยเหลือ' },
+                    { en: 'I want a new phone.', th: 'ฉันอยากได้โทรศัพท์ใหม่' },
+                    { en: 'I could really use a coffee.', th: 'ฉันอยากได้กาแฟสักแก้วจริงๆ' },
+                    { en: 'I\'m dying for a drink of water.', th: 'ฉันหิวน้ำมาก (อยากดื่มน้ำจะตายอยู่แล้ว)' },
+                    { en: 'I\'d like to make a complaint.', th: 'ฉันต้องการที่จะร้องเรียน' },
+                    { en: 'What I need is a long holiday.', th: 'สิ่งที่ฉันต้องการคือวันหยุดยาวๆ' },
+                    { en: 'All I want is the truth.', th: 'ทั้งหมดที่ฉันต้องการคือความจริง' },
+                    { en: 'I\'m looking for a pair of black shoes.', th: 'ฉันกำลังมองหารองเท้าสีดำคู่หนึ่ง' },
+                    { en: 'Do you have this in size 10?', th: 'คุณมีอันนี้ไซส์ 10 ไหม?' },
+                    { en: 'I\'m in need of some advice.', th: 'ฉันต้องการคำแนะนำ' },
+                    { en: 'I could do with a break.', th: 'ฉันอยากจะพักสักหน่อย' },
+                    { en: 'I don\'t need anything, thanks.', th: 'ฉันไม่ต้องการอะไร ขอบคุณ' }
+                ]
+            },
+            {
+                id: 'apologies',
+                title: 'Apologies & Excuses',
+                emoji: '🙏',
+                description: 'การขอโทษและการตอบรับ',
+                phrases: [
+                    { en: 'I\'m so sorry.', th: 'ฉันขอโทษจริงๆ' },
+                    { en: 'I really apologize for what I did.', th: 'ฉันขอโทษจริงๆ สำหรับสิ่งที่ฉันทำลงไป' },
+                    { en: 'It\'s my fault.', th: 'มันเป็นความผิดของฉันเอง' },
+                    { en: 'Please forgive me.', th: 'ได้โปรดให้อภัยฉัน' },
+                    { en: 'I didn\'t mean to do that.', th: 'ฉันไม่ได้ตั้งใจจะทำอย่างนั้น' },
+                    { en: 'It was an accident.', th: 'มันเป็นอุบัติเหตุ' },
+                    { en: 'That\'s okay, don\'t worry about it.', th: 'ไม่เป็นไร ไม่ต้องกังวล' },
+                    { en: 'No problem.', th: 'ไม่มีปัญหา' },
+                    { en: 'I accept your apology.', th: 'ฉันรับคำขอโทษของคุณ' },
+                    { en: 'My alarm didn\'t go off.', th: 'นาฬิกาปลุกของฉันไม่ดัง' },
+                    { en: 'I\'m sorry I\'m late, the traffic was terrible.', th: 'ฉันขอโทษที่มาสาย รถติดมาก' },
+                    { en: 'There\'s no excuse for my behavior.', th: 'ไม่มีข้อแก้ตัวใดๆ สำหรับพฤติกรรมของฉัน' }
+                ]
+            },
+            {
+                id: 'agreement',
+                title: 'Agreement & Disagreement',
+                emoji: '👍👎',
+                description: 'การเห็นด้วยและไม่เห็นด้วย',
+                phrases: [
+                    { en: 'I agree with you.', th: 'ฉันเห็นด้วยกับคุณ' },
+                    { en: 'That\'s true.', th: 'นั่นเป็นความจริง' },
+                    { en: 'Exactly! / Absolutely!', th: 'ถูกต้องเลย!' },
+                    { en: 'You\'re right.', th: 'คุณพูดถูก' },
+                    { en: 'I couldn\'t agree more.', th: 'ฉันเห็นด้วยอย่างยิ่ง (ไม่สามารถเห็นด้วยไปมากกว่านี้)' },
+                    { en: 'I think so too.', th: 'ฉันก็คิดอย่างนั้นเหมือนกัน' },
+                    { en: 'I\'m afraid I disagree.', th: 'ฉันเกรงว่าฉันจะไม่เห็นด้วย' },
+                    { en: 'I don\'t think so.', th: 'ฉันไม่คิดอย่างนั้น' },
+                    { en: 'I see your point, but...', th: 'ฉันเข้าใจประเด็นของคุณ แต่...' },
+                    { en: 'That\'s not how I see it.', th: 'นั่นไม่ใช่วิธีที่ฉันมองมัน' },
+                    { en: 'I beg to differ.', th: 'ฉันขอเห็นต่าง (สุภาพ)' },
+                    { en: 'Let\'s agree to disagree.', th: 'ตกลงกันว่าเราเห็นไม่ตรงกัน (เลิกเถียง)' }
+                ]
+            }
+            // --- END OF NEW TOPICS ---
+            // สามารถเพิ่มหัวข้อใหม่ (Object) ต่อที่นี่ได้เลย
+        ];
+        // --- FIXED SECTION END ---
+
+
+        // --- 2. STATE (ตัวแปรควบคุมสถานะ) ---
+        let currentPageId = 'home'; // 'home' หรือ id ของ topic เช่น 'greetings'
+        let currentPhraseIndex = 0;
+
+        // --- 3. DOM Elements (ตัวแปรอ้างอิง HTML) ---
+        const contentArea = document.getElementById('content-area');
+        const navArea = document.getElementById('navigation-area');
+        const appContainer = document.getElementById('app-container');
+
+        // --- 4. RENDER FUNCTIONS (ฟังก์ชันวาดหน้าจอ) ---
+
+        /**
+         * 4.1 วาดหน้า Home (หน้าเลือกหัวข้อ)
+         */
+        function renderHomePage() {
+            currentPageId = 'home';
+            currentPhraseIndex = 0;
+
+            contentArea.innerHTML = `
+                <h2 class="text-xl font-semibold text-gray-800 mb-4 text-center">เลือกหัวข้อการเรียนรู้</h2>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    ${topics.map(topic => `
+                        <button 
+                            data-topic-id="${topic.id}" 
+                            class="topic-box text-left p-4 bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-md hover:scale-105 transition-all duration-200 ease-in-out cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-400"
+                        >
+                            <div class="text-3xl mb-2">${topic.emoji}</div>
+                            <h3 class="font-semibold text-gray-900">${topic.title}</h3>
+                            <p class="text-sm text-gray-500">${topic.description}</p>
+                        </button>
+                    `).join('')}
+                </div>
+            `;
+            
+            // หน้า Home ไม่ต้องมีปุ่ม Navigation
+            navArea.innerHTML = '';
+        }
+
+        /**
+         * 4.2 วาดหน้าเนื้อหา (หน้า Flashcard)
+         */
+        function renderTopicPage(topicId) {
+            const topic = topics.find(t => t.id === topicId);
+            if (!topic) {
+                renderHomePage();
+                return;
+            }
+
+            currentPageId = topicId;
+            renderPhrase(); // วาดบัตรคำศัพท์ใบแรก
+        }
+
+        /**
+         * 4.3 วาดบัตรคำศัพท์ (Flashcard) แต่ละใบ
+         */
+        function renderPhrase() {
+            const topic = topics.find(t => t.id === currentPageId);
+            if (!topic) return; // ไม่ควรเกิดขึ้น
+
+            const phrase = topic.phrases[currentPhraseIndex];
+            
+            // -- วาดเนื้อหา (Flashcard) --
+            contentArea.innerHTML = `
+                <div class="text-center mb-4">
+                    <span class="text-sm font-semibold text-gray-500 bg-gray-100 rounded-full px-3 py-1">
+                        ${topic.title} ${topic.emoji}
+                    </span>
+                </div>
+                <div class="flashcard bg-gray-50 border border-gray-200 rounded-xl p-6 text-center" style="min-height: 250px; display: flex; flex-direction: column; justify-content: center;">
+                    <p class="text-2xl sm:text-3xl font-bold text-gray-800 mb-4">
+                        ${phrase.en}
+                    </p>
+                    <p class="text-lg sm:text-xl font-medium thai-translation">
+                        ${phrase.th}
+                    </p>
+                </div>
+            `;
+
+            // -- วาดปุ่ม Navigation --
+            const isFirstCard = currentPhraseIndex === 0;
+            const isLastCard = currentPhraseIndex === topic.phrases.length - 1;
+
+            navArea.innerHTML = `
+                <div class="flex justify-between items-center">
+                    <!-- ปุ่มกลับหน้า Home -->
+                    <button 
+                        data-action="home"
+                        class="nav-button home-button p-2 rounded-full text-gray-500 hover:bg-gray-200 hover:text-gray-800 transition-colors"
+                        aria-label="กลับหน้าหลัก"
+                    >
+                        🏠
+                    </button>
+                    
+                    <!-- กลุ่มปุ่ม Prev/Next -->
+                    <div class="flex items-center gap-2">
+                        <button 
+                            data-action="prev"
+                            class="nav-button prev-button px-4 py-2 rounded-lg bg-blue-500 text-white font-semibold shadow-sm hover:bg-blue-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                            ${isFirstCard ? 'disabled' : ''}
+                            aria-label="ก่อนหน้า"
+                        >
+                            ⬅️ ก่อนหน้า
+                        </button>
+                        
+                        <!-- ตัวนับเลขหน้า -->
+                        <span class="text-sm text-gray-600 font-medium w-12 text-center">
+                            ${currentPhraseIndex + 1} / ${topic.phrases.length}
+                        </span>
+                        
+                        <button 
+                            data-action="next"
+                            class="nav-button next-button px-4 py-2 rounded-lg bg-blue-500 text-white font-semibold shadow-sm hover:bg-blue-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                            ${isLastCard ? 'disabled' : ''}
+                            aria-label="ถัดไป"
+                        >
+                            ถัดไป ➡️
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        // --- 5. EVENT HANDLERS (ฟังก์ชันจัดการการคลิก) ---
+
+        /**
+         * 5.1 ไปยังบัตรคำถัดไป
+         */
+        function showNextPhrase() {
+            const topic = topics.find(t => t.id === currentPageId);
+            if (topic && currentPhraseIndex < topic.phrases.length - 1) {
+                currentPhraseIndex++;
+                renderPhrase();
+            }
+        }
+
+        /**
+         * 5.2 ย้อนกลับไปยังบัตรคำก่อนหน้า
+         */
+        function showPrevPhrase() {
+            if (currentPhraseIndex > 0) {
+                currentPhraseIndex--;
+                renderPhrase();
+            }
+        }
+
+        /**
+         * 5.3 ตัวจัดการการคลิกหลัก (Event Delegation)
+         */
+        function handleAppClick(event) {
+            const target = event.target;
+            
+            // --- คลิกบนกล่องหัวข้อ (จากหน้า Home) ---
+            const topicBox = target.closest('.topic-box');
+            if (topicBox) {
+                const topicId = topicBox.dataset.topicId;
+                if (topicId) {
+                    renderTopicPage(topicId);
+                    return; // จบการทำงาน
+                }
+            }
+
+            // --- คลิกบนปุ่ม Navigation ---
+            const navButton = target.closest('.nav-button');
+            if (navButton) {
+                const action = navButton.dataset.action;
+                
+                switch (action) {
+                    case 'home':
+                        renderHomePage();
+                        break;
+                    case 'next':
+                        showNextPhrase();
+                        break;
+                    case 'prev':
+                        showPrevPhrase();
+                        break;
+                }
+            }
+        }
+
+        // --- 6. INITIALIZATION (การเริ่มต้น) ---
+        
+        // เมื่อหน้าเว็บโหลดเสร็จ
+        document.addEventListener('DOMContentLoaded', () => {
+            // เริ่มต้นด้วยการวาดหน้า Home
+            renderHomePage();
+
+            // เพิ่ม Event Listener หลักที่ App Container
+            // เพื่อจัดการการคลิกทั้งหมดในที่เดียว
+            appContainer.addEventListener('click', handleAppClick);
+        });
+
+    </script>
+</body>
+</html>

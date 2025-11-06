@@ -1,0 +1,1588 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>คู่มือเตรียมสอบ A2 Key (KETfs)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Purple Pop (Indigo, Slate) -->
+    <!-- Application Structure Plan: (Version 6 - Upgraded Quizzes) Replaced all 60 questions in the 'allReadingQuizzes' object with new, more complex A2+/B1 level questions. The new questions focus on inference, complex tenses (Present Perfect, Past Cont.), nuanced vocabulary, and indirect dialogues, as requested by the user. -->
+    <!-- Visualization & Content Choices: No change to structure or JS logic. The only change is the data object 'allReadingQuizzes' to increase difficulty. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Kanit', sans-serif;
+            background-color: #f8fafc; /* bg-slate-50 */
+            color: #334155; /* text-slate-700 */
+        }
+        .tab-btn {
+            @apply px-4 py-3 text-base md:text-lg font-medium text-slate-500 border-b-4 border-transparent hover:border-indigo-500 hover:text-indigo-600 transition-all duration-200 whitespace-nowrap;
+        }
+        .tab-btn.active {
+            @apply border-indigo-500 text-indigo-600 font-semibold;
+        }
+        .section {
+            @apply hidden p-4 md:p-8;
+        }
+        .section.active {
+            @apply block;
+        }
+        .card {
+            @apply bg-white p-6 rounded-xl shadow-md border border-slate-200 transition-shadow duration-300 hover:shadow-lg;
+        }
+        
+        /* Quiz Styles */
+        .quiz-option-btn {
+            @apply w-full text-left p-4 my-2 bg-white border-2 border-slate-300 rounded-lg shadow-sm hover:bg-indigo-50 hover:border-indigo-500 transition-all duration-200 text-slate-800 font-medium disabled:opacity-70 disabled:hover:bg-white;
+        }
+        .quiz-option-btn.correct {
+            @apply bg-emerald-100 border-emerald-500 text-emerald-900 font-bold;
+        }
+        .quiz-option-btn.incorrect {
+            @apply bg-rose-100 border-rose-500 text-rose-900;
+        }
+        .quiz-category-btn {
+            @apply w-full md:w-auto text-center px-6 py-3 bg-indigo-600 text-white font-semibold rounded-lg shadow-md hover:bg-indigo-700 transition-all duration-200 m-2;
+        }
+        
+        /* Lesson Nav Styles */
+        .lesson-nav-container {
+            @apply flex flex-col md:flex-row gap-4;
+        }
+        .lesson-nav {
+            @apply w-full md:w-1/3 lg:w-1/4;
+        }
+        .lesson-nav-btn {
+            @apply w-full text-left p-3 px-4 rounded-lg font-medium text-slate-700 hover:bg-indigo-50 hover:text-indigo-700 transition-all;
+        }
+        .lesson-nav-btn.active {
+            @apply bg-indigo-100 text-indigo-800 font-bold;
+        }
+        .lesson-content-container {
+            @apply w-full md:w-2/3 lg:w-3/4;
+        }
+        .lesson-content {
+            @apply hidden bg-white p-6 rounded-xl shadow-lg border border-slate-200;
+        }
+        .lesson-content.active {
+            @apply block;
+        }
+        .lesson-content h4 {
+            @apply text-xl font-semibold text-indigo-700 mt-4 mb-2;
+        }
+        .lesson-content p {
+            @apply text-slate-700 mb-3;
+        }
+        .lesson-content ul {
+            @apply list-disc list-inside space-y-2 text-slate-700 mb-3;
+        }
+        .lesson-content .example {
+            @apply text-slate-600 italic ml-4 block;
+        }
+        .lesson-content table {
+            @apply w-full border-collapse border border-slate-300 mt-4 mb-4;
+        }
+        .lesson-content th {
+            @apply border border-slate-300 p-2 text-left bg-indigo-50 text-indigo-800 font-semibold;
+        }
+        .lesson-content td {
+            @apply border border-slate-300 p-2 align-top;
+        }
+
+        /* Accordion Styles */
+        .accordion-btn {
+            @apply w-full text-left p-4 bg-indigo-50 hover:bg-indigo-100 text-indigo-800 font-semibold rounded-lg mt-4 transition-all duration-200 flex justify-between items-center;
+        }
+        .accordion-btn::after {
+            content: '+';
+            font-size: 1.5rem;
+            font-weight: 300;
+            transition: transform 0.2s ease-in-out;
+        }
+        .accordion-btn.active::after {
+            content: '−';
+        }
+        .accordion-panel {
+            @apply p-4 bg-white border border-t-0 border-slate-200 rounded-b-lg overflow-hidden max-h-0 transition-all duration-300 ease-in-out;
+        }
+        .accordion-panel.active {
+             /* JS will set max-height */
+        }
+        .vocab-content .accordion-panel {
+             @apply overflow-y-auto;
+        }
+        .vocab-content .accordion-panel.active {
+            /* JS will set max-height */
+        }
+
+
+        /* Listening Quiz Button */
+        .play-audio-btn {
+            @apply px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all duration-200 flex items-center justify-center gap-2;
+        }
+        .play-audio-btn:disabled {
+            @apply bg-gray-400 cursor-not-allowed;
+        }
+    </style>
+</head>
+<body class="bg-slate-50">
+
+    <div class="w-full max-w-6xl mx-auto p-4">
+        
+        <header class="text-center my-8">
+            <h1 class="text-4xl md:text-5xl font-bold text-indigo-800">คู่มือเตรียมสอบ A2 Key for Schools (KETfs)</h1>
+            <p class="text-xl text-slate-600 mt-2">สรุปแนวข้อสอบ ไวยากรณ์ คำศัพท์ และแบบทดสอบเชิงโต้ตอบ</p>
+        </header>
+
+        <!-- Navigation Tabs -->
+        <nav class="sticky top-0 z-10 bg-slate-50/90 backdrop-blur-sm shadow-md rounded-xl mb-8">
+            <div class="flex flex-row justify-center border-b border-slate-300 overflow-x-auto">
+                <button class="tab-btn active" data-target="home">ภาพรวมข้อสอบ</button>
+                <button class="tab-btn" data-target="grammar-lessons">บทเรียนไวยากรณ์</button>
+                <button class="tab-btn" data-target="vocab-lists">คลังคำศัพท์</button>
+                <button class="tab-btn" data-target="reading-quiz">แบบทดสอบ (อ่าน/ทักษะ)</button>
+                <button class="tab-btn" data-target="listening-quiz">แบบทดสอบ (การฟัง)</button>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main>
+            <!-- Section 1: Home (Overview) -->
+            <section id="home" class="section active">
+                <h2 class="text-3xl font-semibold text-indigo-700 mb-6 text-center">ภาพรวมข้อสอบ A2 Key for Schools</h2>
+                <p class="text-lg text-slate-700 mb-8 max-w-3xl mx-auto text-center">
+                    ข้อสอบ A2 Key for Schools (หรือ KETfs) อยู่ในระดับ A2 ของ CEFR ถูกออกแบบมาเพื่อวัดความสามารถในการใช้ภาษาอังกฤษในสถานการณ์ง่ายๆ ในชีวิตประจำวัน เหมาะสำหรับนักเรียนระดับมัธยมต้น ข้อสอบแบ่งออกเป็น 3 ส่วนหลัก ดังนี้:
+                </p>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="card">
+                        <div class="text-center mb-4">
+                            <span class="text-5xl">📖</span>
+                            <h3 class="text-2xl font-bold text-indigo-800 mt-2">Reading and Writing</h3>
+                        </div>
+                        <ul class="space-y-2 text-slate-700">
+                            <li><strong class="text-slate-900">เวลา:</strong> 60 นาที</li>
+                            <li><strong class="text-slate-900">คะแนน:</strong> 50% ของคะแนนทั้งหมด</li>
+                            <li><strong class="text-slate-900">จำนวนพาร์ท:</strong> 7 พาร์ท</li>
+                            <li><strong class="text-slate-900">รายละเอียด:</strong> ทดสอบการอ่านป้ายประกาศ ข้อความสั้นๆ การอ่านจับใจความ การเติมคำในช่องว่าง และการเขียนข้อความสั้น (Email หรือ Story)</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <div class="text-center mb-4">
+                            <span class="text-5xl">🎧</span>
+                            <h3 class="text-2xl font-bold text-indigo-800 mt-2">Listening</h3>
+                        </div>
+                        <ul class="space-y-2 text-slate-700">
+                            <li><strong class="text-slate-900">เวลา:</strong> ประมาณ 30 นาที</li>
+                            <li><strong class="text-slate-900">คะแนน:</strong> 25% ของคะแนนทั้งหมด</li>
+                            <li><strong class="text-slate-900">จำนวนพาร์ท:</strong> 5 พาร์ท</li>
+                            <li><strong class="text-slate-900">รายละเอียด:</strong> ทดสอบการฟังเพื่อจับใจความสำคัญและข้อมูลเฉพาะจากบทสนทนาและประกาศต่างๆ</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <div class="text-center mb-4">
+                            <span class="text-5xl">🗣️</span>
+                            <h3 class="text-2xl font-bold text-indigo-800 mt-2">Speaking</h3>
+                        </div>
+                        <ul class="space-y-2 text-slate-700">
+                            <li><strong class="text-slate-900">เวลา:</strong> 8–10 นาที (ต่อคู่)</li>
+                            <li><strong class="text-slate-900">คะแนน:</strong> 25% ของคะแนนทั้งหมด</li>
+                            <li><strong class="text-slate-900">จำนวนพาร์ท:</strong> 2 พาร์ท</li>
+                            <li><strong class="text-slate-900">รายละเอียด:</strong> ทดสอบการพูดโต้ตอบ ถาม-ตอบข้อมูลส่วนตัว และการพูดแสดงความคิดเห็นเกี่ยวกับกิจกรรมต่างๆ (สอบคู่กับเพื่อน)</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 2: Grammar Lessons (ACCORDION) -->
+            <section id="grammar-lessons" class="section">
+                <h2 class="text-3xl font-semibold text-indigo-700 mb-6 text-center">บทเรียนไวยากรณ์ (Grammar)</h2>
+                <div class="lesson-nav-container">
+                    <nav class="lesson-nav flex-shrink-0">
+                        <ul class="space-y-2 sticky top-28">
+                            <li><button class="lesson-nav-btn active" data-target="g-1">Tenses (กาล)</button></li>
+                            <li><button class="lesson-nav-btn" data-target="g-2">Future Forms (รูปอนาคต)</button></li>
+                            <li><button class="lesson-nav-btn" data-target="g-3">Modal Verbs (กริยาช่วย)</button></li>
+                            <li><button class="lesson-nav-btn" data-target="g-4">Nouns & Some/Any</button></li>
+                            <li><button class="lesson-nav-btn" data-target="g-5">Articles (a/an/the)</button></li>
+                            <li><button class="lesson-nav-btn" data-target="g-6">Comparatives/Superlatives</button></li>
+                            <li><button class="lesson-nav-btn" data-target="g-7">Prepositions (in, on, at)</button></li>
+                            <li><button class="lesson-nav-btn" data-target="g-8">Conjunctions (คำเชื่อม)</button></li>
+                            <li><button class="lesson-nav-btn" data-target="g-9">Adverbs of Frequency</button></li>
+                        </ul>
+                    </nav>
+                    <div class="lesson-content-container">
+                        <!-- Grammar Content Panes (ACCORDION) -->
+                        <div id="g-1" class="lesson-content active">
+                            <h3 class="text-2xl font-bold text-indigo-800 mb-4">1. Tenses (กาล)</h3>
+                            <p>ในระดับ A2 จะเน้น Tenses พื้นฐานที่ใช้บ่อยที่สุด 3 รูปแบบ เพื่อพูดถึง ปัจจุบัน และ อดีต</p>
+                            
+                            <button class="accordion-btn">Present Simple (S + V.1)</button>
+                            <div class="accordion-panel">
+                                <h4>Present Simple (S + V.1)</h4>
+                                <p>ใช้พูดถึงสิ่งที่เป็น "ความจริง" ตามธรรมชาติ หรือ "กิจวัตร" ที่ทำเป็นประจำ</p>
+                                <ul>
+                                    <li><strong>ข้อควรจำ:</strong> ถ้าประธานเป็น He, She, It (เอกพจน์) กริยา (V.1) ต้องเติม s หรือ es</li>
+                                    <li><strong>คำบอกเวลา (Keywords):</strong> every day, every week, always, usually, often, sometimes, never</li>
+                                </ul>
+                                <span class="example">I <strong>walk</strong> to school every day.</span>
+                                <span class="example">She <strong>walks</strong> to school every day.</span>
+                                <span class="example">The sun <strong>rises</strong> in the east. (ความจริง)</span>
+                            </div>
+
+                            <button class="accordion-btn">Present Continuous (S + is/am/are + V.ing)</button>
+                            <div class="accordion-panel">
+                                <h4>Present Continuous (S + is/am/are + V.ing)</h4>
+                                <p>ใช้พูดถึงสิ่งที่ "กำลังเกิดขึ้น" ในขณะที่พูด (Now) หรือเหตุการณ์ชั่วคราวในช่วงนี้</p>
+                                <ul>
+                                    <li><strong>ข้อควรจำ:</strong> I + am, You/We/They + are, He/She/It + is</li>
+                                    <li><strong>คำบอกเวลา (Keywords):</strong> now, right now, at the moment, Listen!, Look!</li>
+                                </ul>
+                                <span class="example">Please be quiet. The baby <strong>is sleeping</strong>.</span>
+                                <span class="example">Look! They <strong>are playing</strong> football.</span>
+                                <span class="example">I <strong>am studying</strong> for an exam this week. (เหตุการณ์ชั่วคราว)</span>
+                            </div>
+                            
+                            <button class="accordion-btn">Past Simple (S + V.2)</button>
+                            <div class="accordion-panel">
+                                <h4>Past Simple (S + V.2)</h4>
+                                <p>ใช้พูดถึงเหตุการณ์ที่ "เกิดขึ้นและจบลงแล้ว" ในอดีต โดยมักจะระบุเวลาชัดเจน</p>
+                                <ul>
+                                    <li><strong>ข้อควรจำ:</strong> กริยาช่อง 2 (V.2) มีทั้งแบบเติม -ed (regular verbs) และแบบเปลี่ยนรูป (irregular verbs) เช่น go -> went, eat -> ate</li>
+                                    <li><strong>คำบอกเวลา (Keywords):</strong> yesterday, last night, last week, last month, two days ago</li>
+                                </ul>
+                                <span class="example">I <strong>watched</strong> a movie last night. (Regular: watch -> watched)</span>
+                                <span class="example">She <strong>went</strong> to Japan last year. (Irregular: go -> went)</span>
+                                <span class="example">They <strong>didn't come</strong> to the party. (รูปปฏิเสธใช้ did not + V.1)</span>
+                            </div>
+                            
+                            <button class="accordion-btn">ตารางสรุป Tenses</button>
+                            <div class="accordion-panel">
+                                <h4>ตารางสรุป Tenses</h4>
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Tense</th>
+                                            <th>โครงสร้าง</th>
+                                            <th>การใช้งาน</th>
+                                            <th>ตัวอย่าง</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><strong>Present Simple</strong></td>
+                                            <td>S + V.1 (s/es)</td>
+                                            <td>กิจวัตร, ความจริง</td>
+                                            <td>He <strong>plays</strong> tennis.</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Present Continuous</strong></td>
+                                            <td>S + is/am/are + V.ing</td>
+                                            <td>กำลังทำ (Now)</td>
+                                            <td>He <strong>is playing</strong> tennis now.</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Past Simple</strong></td>
+                                            <td>S + V.2</td>
+                                            <td>จบแล้วในอดีต</td>
+                                            <td>He <strong>played</strong> tennis yesterday.</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        
+                        <div id="g-2" class="lesson-content">
+                            <h3 class="text-2xl font-bold text-indigo-800 mb-4">2. Future Forms (รูปอนาคต)</h3>
+                            <p>การพูดถึงอนาคตในระดับ A2 มี 2 รูปแบบหลัก</p>
+                            
+                            <button class="accordion-btn">be going to (S + is/am/are + going to + V.1)</button>
+                            <div class="accordion-panel">
+                                <h4>be going to (S + is/am/are + going to + V.1)</h4>
+                                <p>ใช้พูดถึง "แผนการ" (Plan) หรือ "ความตั้งใจ" (Intention) ที่ได้ตัดสินใจไว้ล่วงหน้าแล้ว</p>
+                                <ul>
+                                    <li>ใช้คาดเดาอนาคตแบบมีหลักฐาน (Prediction with evidence)</li>
+                                </ul>
+                                <span class="example">I <strong>am going to buy</strong> a new phone next week. (แผนการ)</span>
+                                <span class="example">She <strong>is going to visit</strong> her parents this weekend. (ความตั้งใจ)</span>
+                                <span class="example">Look at those dark clouds! It <strong>is going to rain</strong>. (คาดเดาแบบมีหลักฐาน)</span>
+                            </div>
+
+                            <button class="accordion-btn">will (S + will + V.1)</button>
+                            <div class="accordion-panel">
+                                <h4>will (S + will + V.1)</h4>
+                                <p>ใช้พูดถึง "การคาดเดา" ทั่วไป (Prediction) หรือ "การตัดสินใจทันที" (Spontaneous decision) ณ ขณะที่พูด</p>
+                                <ul>
+                                    <li>มักใช้กับคำว่า think, hope, believe</li>
+                                </ul>
+                                <span class="example">I think it <strong>will be</strong> sunny tomorrow. (คาดเดา)</span>
+                                <span class="example">A: The phone is ringing. B: I <strong>will get</strong> it! (ตัดสินใจทันที)</span>
+                                <span class="example">I hope you <strong>will pass</strong> the exam. (คาดเดา/ความหวัง)</span>
+                            </div>
+                        </div>
+                        
+                        <div id="g-3" class="lesson-content">
+                            <h3 class="text-2xl font-bold text-indigo-800 mb-4">3. Modal Verbs (กริยาช่วย)</h3>
+                            <p>กริยาช่วย (Modal Verbs) ใช้คู่กับกริยาแท้ (V.1 ไม่เติม s/es/ing) เพื่อบอกความสามารถ, การอนุญาต, กฎ, คำแนะนำ</p>
+                            
+                            <button class="accordion-btn">ตารางสรุป Modal Verbs</button>
+                            <div class="accordion-panel">
+                                <h4>ตารางสรุป Modal Verbs</h4>
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Modal Verb</th>
+                                            <th>การใช้งาน</th>
+                                            <th>ตัวอย่าง</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><strong>can</strong></td>
+                                            <td>ความสามารถ (ทำได้)</td>
+                                            <td>I <strong>can</strong> swim.</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>can't</strong></td>
+                                            <td>ไม่สามารถ (ทำไม่ได้)</td>
+                                            <td>A dog <strong>can't</strong> fly.</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>must</strong></td>
+                                            <td>กฎ, ข้อบังคับ (ต้องทำ)</td>
+                                            <td>You <strong>must</strong> wear a helmet.</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>mustn't</strong></td>
+                                            <td>กฎ, ข้อห้าม (ห้ามทำ)</td>
+                                            <td>You <strong>mustn't</strong> smoke here.</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>have to</strong></td>
+                                            <td>ความจำเป็น (จำเป็นต้องทำ)</td>
+                                            <td>I <strong>have to</strong> go to school.</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>don't have to</strong></td>
+                                            <td>ไม่จำเป็นต้องทำ (ทำก็ได้ ไม่ทำก็ได้)</td>
+                                            <td>It's Sunday. You <strong>don't have to</strong> wake up early.</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>should</strong></td>
+                                            <td>คำแนะนำ (ควรจะ)</td>
+                                            <td>You <strong>should</strong> see a doctor.</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>shouldn't</strong></td>
+                                            <td>คำแนะนำ (ไม่ควรจะ)</td>
+                                            <td>You <strong>shouldn't</strong> eat too much junk food.</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        
+                        <div id="g-4" class="lesson-content">
+                            <h3 class="text-2xl font-bold text-indigo-800 mb-4">4. Nouns & Some/Any</h3>
+                            
+                            <button class="accordion-btn">Countable vs Uncountable Nouns</button>
+                            <div class="accordion-panel">
+                                <h4>Countable vs Uncountable Nouns</h4>
+                                <ul>
+                                    <li><strong>Countable Nouns (นามนับได้):</strong> คือนามที่นับเป็นชิ้น/อัน/ตัว ได้ มีรูปเอกพจน์ (a/an) และพหูพจน์ (-s/es)
+                                    <br><span class="example">an apple -> two apple<strong>s</strong>, a book -> many book<strong>s</strong>, a dog -> dogs</span>
+                                    </li>
+                                    <li><strong>Uncountable Nouns (นามนับไม่ได้):</strong> คือนามที่นับเป็นชิ้นไม่ได้ (ของเหลว, ผง, ไอเดีย) ไม่มีรูปพหูพจน์
+                                    <br><span class="example">water, milk, rice, sugar, money, information, advice (ห้ามเติม s)</span>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <button class="accordion-btn">Some vs Any</button>
+                            <div class="accordion-panel">
+                                <h4>Some vs Any</h4>
+                                <p>ใช้ 'some' และ 'any' เพื่อบอกปริมาณ "บ้าง" หรือ "เลย" มักใช้กับนามนับไม่ได้ หรือ นามนับได้พหูพจน์</p>
+                                <ul>
+                                    <li><strong>Some (บ้าง):</strong> ใช้ในประโยค "บอกเล่า"
+                                    <br><span class="example">I have <strong>some</strong> money. (ฉันมีเงินอยู่บ้าง)</span>
+                                    <br><span class="example">There are <strong>some</strong> books on the table. (มีหนังสือบางเล่มบนโต๊ะ)</span>
+                                    </li>
+                                    <li><strong>Any (บ้างไหม / เลย):</strong> ใช้ในประโยค "คำถาม" และ "ปฏิเสธ"
+                                    <br><span class="example">Do you have <strong>any</strong> money? (คุณมีเงินบ้างไหม)</span>
+                                    <br><span class="example">I don't have <strong>any</strong> money. (ฉันไม่มีเงินเลย)</span>
+                                    <br><span class="example">Are there <strong>any</strong> books on the table?</span>
+                                    <br><span class="example">There aren't <strong>any</strong> books on the table.</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div id="g-5" class="lesson-content">
+                            <h3 class="text-2xl font-bold text-indigo-800 mb-4">5. Articles (a, an, the)</h3>
+                            <p>Articles คือคำนำหน้านาม เพื่อบอกความชี้เฉพาะ</p>
+
+                            <button class="accordion-btn">a / an (Indefinite Article)</button>
+                            <div class="accordion-panel">
+                                <h4>a / an (Indefinite Article)</h4>
+                                <p>ใช้กับนามนับได้ เอกพจน์ (1 สิ่ง) ที่ "ไม่ชี้เฉพาะ" หรือ "กล่าวถึงครั้งแรก"</p>
+                                <ul>
+                                    <li><strong>a:</strong> ใช้นำหน้าคำที่ขึ้นต้นด้วยเสียง "พยัญชนะ"
+                                    <br><span class="example"><strong>a</strong> cat, <strong>a</strong> dog, <strong>a</strong> university (ยู-นิ-เวอร์-ซิ-ตี้, เสียง 'ย')</span>
+                                    </li>
+                                    <li><strong>an:</strong> ใช้นำหน้าคำที่ขึ้นต้นด้วยเสียง "สระ" (a, e, i, o, u)
+                                    <br><span class="example"><strong>an</strong> apple, <strong>an</strong> elephant, <strong>an</strong> hour (อา-เออร์, h ไม่ออกเสียง)</span>
+                                    </li>
+                                </ul>
+                                <span class="example">I bought <strong>a</strong> new car. (กล่าวถึงครั้งแรก)</span>
+                            </div>
+
+                            <button class="accordion-btn">the (Definite Article)</button>
+                            <div class="accordion-panel">
+                                <h4>the (Definite Article)</h4>
+                                <p>ใช้กับนามที่ "ชี้เฉพาะเจาะจง" (ผู้พูดและผู้ฟังรู้กันว่าคือสิ่งไหน)</p>
+                                <ul>
+                                    <li>กล่าวถึงซ้ำเป็นครั้งที่สอง
+                                    <br><span class="example">I bought <strong>a</strong> new car. <strong>The</strong> car is red. (The car = รถคันที่เพิ่งพูดถึง)</span>
+                                    </li>
+                                    <li>มีสิ่งเดียวในโลก
+                                    <br><span class="example"><strong>The</strong> sun, <strong>the</strong> moon, <strong>the</strong> world</span>
+                                    </li>
+                                    <li>ใช้กับเครื่องดนตรี (play <strong>the</strong> piano)</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div id="g-6" class="lesson-content">
+                            <h3 class="text-2xl font-bold text-indigo-800 mb-4">6. Comparatives / Superlatives</h3>
+                            <p>ใช้เปรียบเทียบคำคุณศัพท์ (Adjectives) และคำวิเศษณ์ (Adverbs)</p>
+                            
+                            <button class="accordion-btn">Comparative (ขั้นกว่า)</button>
+                            <div class="accordion-panel">
+                                <h4>Comparative (ขั้นกว่า)</h4>
+                                <p>ใช้เปรียบเทียบของ 2 สิ่ง (แปลว่า "...กว่า") ต้องมี 'than' ตามหลังเสมอ</p>
+                                <ul>
+                                    <li><strong>พยางค์สั้น (1-2 พยางค์):</strong> เติม -er + than
+                                    <br><span class="example">tall -> tall<strong>er than</strong> (สูงกว่า), big -> big<strong>ger than</strong> (ใหญ่กว่า)</span>
+                                    </li>
+                                    <li><strong>พยางค์ยาว (3 พยางค์ขึ้นไป):</strong> ใช้ more + ... + than
+                                    <br><span class="example">beautiful -> <strong>more beautiful than</strong> (สวยกว่า)</span>
+                                    <br><span class="example">expensive -> <strong>more expensive than</strong> (แพงกว่า)</span>
+                                    </li>
+                                </ul>
+                            </div>
+                            
+                            <button class="accordion-btn">Superlative (ขั้นสุด)</button>
+                            <div class="accordion-panel">
+                                <h4>Superlative (ขั้นสุด)</h4>
+                                <p>ใช้เปรียบเทียบของ 3 สิ่งขึ้นไป (แปลว่า "...ที่สุด") ต้องมี 'the' นำหน้าเสมอ</p>
+                                <ul>
+                                    <li><strong>พยางค์สั้น:</strong> a/an + -est
+                                    <br><span class="example">tall -> <strong>the</strong> tall<strong>est</strong> (สูงที่สุด)</span>
+                                    </li>
+                                    <li><strong>พยางค์ยาว:</strong> a/an + most + ...
+                                    <br><span class="example">beautiful -> <strong>the most beautiful</strong> (สวยที่สุด)</span>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <button class="accordion-btn">คำยกเว้น (Irregular)</button>
+                            <div class="accordion-panel">
+                                <h4>คำยกเว้น (Irregular)</h4>
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Adjective</th>
+                                            <th>Comparative (ขั้นกว่า)</th>
+                                            <th>Superlative (ขั้นสุด)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>good (ดี)</td>
+                                            <td><strong>better</strong> than</td>
+                                            <td><strong>the best</strong></td>
+                                        </tr>
+                                        <tr>
+                                            <td>bad (แย่)</td>
+                                            <td><strong>worse</strong> than</td>
+                                            <td><strong>the worst</strong></td>
+                                        </tr>
+                                        <tr>
+                                            <td>far (ไกล)</td>
+                                            <td><strong>farther / further</strong> than</td>
+                                            <td><strong>the farthest / the furthest</strong></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        
+                        <div id="g-7" class="lesson-content">
+                            <h3 class="text-2xl font-bold text-indigo-800 mb-4">7. Prepositions (in, on, at)</h3>
+                            <p>คำบุพบทที่ใช้บ่อยที่สุดสำหรับบอก "เวลา" และ "สถานที่"</p>
+                            
+                            <button class="accordion-btn">ตารางสรุป Prepositions</button>
+                            <div class="accordion-panel">
+                                <h4>ตารางสรุป Prepositions</h4>
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Preposition</th>
+                                            <th>การใช้กับ "เวลา" (Time)</th>
+                                            <th>การใช้กับ "สถานที่" (Place)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><strong>IN</strong><br>(ใหญ่สุด/กว้างสุด)</td>
+                                            <td>- เดือน (in July)<br>- ปี (in 2025)<br>- ฤดู (in summer)<br>- ช่วงเวลากว้างๆ (in the morning)</td>
+                                            <td>- ประเทศ (in Thailand)<br>- เมือง (in Bangkok)<br>- พื้นที่ที่มีขอบเขต (in the room, in the box)</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>ON</strong><br>(เฉพาะเจาะจงขึ้น)</td>
+                                            <td>- วัน (on Monday)<br>- วันที่ (on 5th May)<br>- วันสำคัญ (on my birthday)</td>
+                                            <td>- พื้นผิว (on the table, on the wall)<br>- ถนน (on Sukhumvit Road)</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>AT</strong><br>(เล็กสุด/เจาะจงสุด)</td>
+                                            <td>- เวลาตามนาฬิกา (at 8:00 AM)<br>- ช่วงเวลาสั้นๆ (at noon, at night)</td>
+                                            <td>- จุดที่เจาะจง (at the bus stop)<br>- ที่อยู่/สถานที่ (at home, at school)</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        
+                        <div id="g-8" class="lesson-content">
+                            <h3 class="text-2xl font-bold text-indigo-800 mb-4">8. Conjunctions (คำเชื่อม)</h3>
+                            <p>คำเชื่อมพื้นฐาน 5 ตัวที่ใช้เชื่อมคำหรือประโยค</p>
+                            
+                            <button class="accordion-btn">And, But, Or, So, Because</button>
+                            <div class="accordion-panel">
+                                <ul>
+                                    <li><strong>and (และ):</strong> เชื่อมสิ่งที่คล้อยตามกัน, เพิ่มข้อมูล
+                                    <br><span class="example">I like cats <strong>and</strong> dogs.</span>
+                                    </li>
+                                    <li><strong>but (แต่):</strong> เชื่อมสิ่งที่ขัดแย้งกัน
+                                    <br><span class="example">He is rich, <strong>but</strong> he is not happy.</span>
+                                    </li>
+                                    <li><strong>or (หรือ):</strong> ให้เลือกอย่างใดอย่างหนึ่ง
+                                    <br><span class="example">Do you want tea <strong>or</strong> coffee?</span>
+                                    </li>
+                                    <li><strong>so (ดังนั้น):</strong> บอก "ผลลัพธ์" (เหตุ -> so -> ผล)
+                                    <br><span class="example">It was raining, <strong>so</strong> I took an umbrella. (ฝนตก -> เลย -> เอาร่มไป)</span>
+                                    </li>
+                                    <li><strong>because (เพราะว่า):</strong> บอก "เหตุผล" (ผล -> because -> เหตุ)
+                                    <br><span class="example">I took an umbrella <strong>because</strong> it was raining. (เอาร่มไป -> เพราะว่า -> ฝนตก)</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div id="g-9" class="lesson-content">
+                            <h3 class="text-2xl font-bold text-indigo-800 mb-4">9. Adverbs of Frequency</h3>
+                            <p>คำบอกความถี่ ว่าทำสิ่งนั้น "บ่อยแค่ไหน" (เช่น always, never)</p>
+                            
+                            <button class="accordion-btn">ตำแหน่งการวาง</button>
+                            <div class="accordion-panel">
+                                <h4>ตำแหน่งการวาง:</h4>
+                                <ul>
+                                    <li>วางไว้ "หน้า" กริยาแท้ (V.1, V.2)
+                                    <br><span class="example">She <strong>often</strong> <u>travels</u>. (travels = V.แท้)</span>
+                                    </li>
+                                    <li>วางไว้ "หลัง" V. to be (is, am, are, was, were)
+                                    <br><span class="example">She <u>is</u> <strong>always</strong> happy. (is = V.to be)</span>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <button class="accordion-btn">ตารางสรุปความถี่</button>
+                            <div class="accordion-panel">
+                                <h4>ตารางสรุปความถี่</h4>
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>% ความถี่</th>
+                                            <th>Adverb</th>
+                                            <th>ตัวอย่าง</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>100%</td>
+                                            <td><strong>always</strong> (เสมอ)</td>
+                                            <td>I <strong>always</strong> brush my teeth.</td>
+                                        </tr>
+                                        <tr>
+                                            <td>90%</td>
+                                            <td><strong>usually</strong> (ปกติ)</td>
+                                            <td>I <strong>usually</strong> walk to work.</td>
+                                        </tr>
+                                        <tr>
+                                            <td>70%</td>
+                                            <td><strong>often</strong> (บ่อยๆ)</td>
+                                            <td>I <strong>often</strong> read books.</td>
+                                        </tr>
+                                        <tr>
+                                            <td>50%</td>
+                                            <td><strong>sometimes</strong> (บางครั้ง)</td>
+                                            <td>I <strong>sometimes</strong> eat pizza.</td>
+                                        </tr>
+                                        <tr>
+                                            <td>10%</td>
+                                            <td><strong>rarely / seldom</strong> (นานๆ ครั้ง)</td>
+                                            <td>I <strong>rarely</strong> watch TV.</td>
+                                        </tr>
+                                        <tr>
+                                            <td>0%</td>
+                                            <td><strong>never</strong> (ไม่เคย)</td>
+                                            <td>I <strong>never</strong> smoke.</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Section 3: Vocabulary Lists (ACCORDION & EXPANDED) -->
+            <section id="vocab-lists" class="section">
+                <h2 class="text-3xl font-semibold text-indigo-700 mb-6 text-center">คลังคำศัพท์ (Vocabulary)</h2>
+                <div class="lesson-nav-container">
+                    <nav class="lesson-nav flex-shrink-0">
+                        <ul class="space-y-2 sticky top-28">
+                            <li><button class="vocab-nav-btn active" data-target="v-1">Personal Information</button></li>
+                            <li><button class="vocab-nav-btn" data-target="v-2">Daily Life</button></li>
+                            <li><button class="vocab-nav-btn" data-target="v-3">School & Study</button></li>
+                            <li><button class="vocab-nav-btn" data-target="v-4">Free Time & Hobbies</button></li>
+                            <li><button class="vocab-nav-btn" data-target="v-5">Food & Drink</button></li>
+                            <li><button class="vocab-nav-btn" data-target="v-6">Travel & Transport</button></li>
+                            <li><button class="vocab-nav-btn" data-target="v-7">Shopping</button></li>
+                            <li><button class="vocab-nav-btn" data-target="v-8">The World Around Us</button></li>
+                        </ul>
+                    </nav>
+                    <div class="lesson-content-container">
+                        <!-- Vocab Content Panes (ACCORDION & EXPANDED) -->
+                        <div id="v-1" class="vocab-content active">
+                            <h3 class="text-2xl font-bold text-indigo-800 mb-4">1. Personal Information (ข้อมูลส่วนตัว)</h3>
+                            <button class="accordion-btn">คลิกเพื่อดู/ซ่อนคำศัพท์</button>
+                            <div class="accordion-panel">
+                                <ul class="list-disc list-inside columns-2 md:columns-3 text-slate-700">
+                                    <li>address (ที่อยู่)</li>
+                                    <li>age (อายุ)</li>
+                                    <li>birthday (วันเกิด)</li>
+                                    <li>brother (พี่/น้องชาย)</li>
+                                    <li>colleague (เพื่อนร่วมงาน)</li>
+                                    <li>country (ประเทศ)</li>
+                                    <li>doctor (หมอ)</li>
+                                    <li>email (อีเมล)</li>
+                                    <li>family (ครอบครัว)</li>
+                                    <li>father (พ่อ)</li>
+                                    <li>friends (เพื่อน)</li>
+                                    <li>hobby (งานอดิเรก)</li>
+                                    <li>job (งาน)</li>
+                                    <li>mother (แม่)</li>
+                                    <li>name (ชื่อ)</li>
+                                    <li>nationality (สัญชาติ)</li>
+                                    <li>occupation (อาชีพ)</li>
+                                    <li>parents (พ่อแม่)</li>
+                                    <li>phone number (เบอร์โทร)</li>
+                                    <li>relationship (ความสัมพันธ์)</li>
+                                    <li>signature (ลายเซ็น)</li>
+                                    <li>sister (พี่/น้องสาว)</li>
+                                    <li>student (นักเรียน)</li>
+                                    <li>surname (นามสกุล)</li>
+                                    <li>teacher (ครู)</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div id="v-2" class="vocab-content">
+                            <h3 class="text-2xl font-bold text-indigo-800 mb-4">2. Daily Life (ชีวิตประจำวัน)</h3>
+                            <button class="accordion-btn">คลิกเพื่อดู/ซ่อนคำศัพท์</button>
+                            <div class="accordion-panel">
+                                <ul class="list-disc list-inside columns-2 md:columns-3 text-slate-700">
+                                    <li>afternoon (ตอนบ่าย)</li>
+                                    <li>brush teeth (แปรงฟัน)</li>
+                                    <li>clean (ทำความสะอาด)</li>
+                                    <li>come home (กลับบ้าน)</li>
+                                    <li>cook (ทำอาหาร)</li>
+                                    <li>do homework (ทำการบ้าน)</li>
+                                    <li>evening (ตอนเย็น)</li>
+                                    <li>get dressed (แต่งตัว)</li>
+                                    <li>get up (ลุกจากเตียง)</li>
+                                    <li>go to bed (เข้านอน)</li>
+                                    <li>go to school (ไปรร.)</li>
+                                    <li>go to work (ไปทำงาน)</li>
+                                    <li>have breakfast (ทานเช้า)</li>
+                                    <li>have dinner (ทานเย็น)</li>
+                                    <li>have lunch (ทานเที่ยง)</li>
+                                    <li>listen to music (ฟังเพลง)</li>
+                                    <li>morning (ตอนเช้า)</li>
+                                    <li>night (ตอนกลางคืน)</li>
+                                    <li>read a book (อ่านหนังสือ)</li>
+                                    <li>routine (กิจวัตร)</li>
+                                    <li>sleep (นอนหลับ)</li>
+                                    <li>take a shower (อาบน้ำ)</li>
+                                    <li>wake up (ตื่นนอน)</li>
+                                    <li>watch TV (ดูทีวี)</li>
+                                    <li>weekend (สุดสัปดาห์)</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div id="v-3" class="vocab-content">
+                            <h3 class="text-2xl font-bold text-indigo-800 mb-4">3. School & Study (โรงเรียนและการเรียน)</h3>
+                            <button class="accordion-btn">คลิกเพื่อดู/ซ่อนคำศัพท์</button>
+                            <div class="accordion-panel">
+                                <ul class="list-disc list-inside columns-2 md:columns-3 text-slate-700">
+                                    <li>Art (ศิลปะ)</li>
+                                    <li>board (กระดาน)</li>
+                                    <li>canteen (โรงอาหาร)</li>
+                                    <li>chair (เก้าอี้)</li>
+                                    <li>classroom (ห้องเรียน)</li>
+                                    <li>desk (โต๊ะเรียน)</li>
+                                    <li>difficult (ยาก)</li>
+                                    <li>easy (ง่าย)</li>
+                                    <li>English (อังกฤษ)</li>
+                                    <li>exam / test (ข้อสอบ)</li>
+                                    <li>Geography (ภูมิศาสตร์)</li>
+                                    <li>History (ประวัติศาสตร์)</li>
+                                    <li>homework (การบ้าน)</li>
+                                    <li>learn (เรียนรู้)</li>
+                                    <li>lesson (บทเรียน)</li>
+                                    <li>library (ห้องสมุด)</li>
+                                    <li>Maths (คณิต)</li>
+                                    <li>Music (ดนตรี)</li>
+                                    <li>notebook (สมุด)</li>
+                                    <li>P.E. (พละ)</li>
+                                    <li>pen (ปากกา)</li>
+                                    <li>pencil (ดินสอ)</li>
+                                    <li>playground (สนามเด็กเล่น)</li>
+                                    <li>project (โครงงาน)</li>
+                                    <li>ruler (ไม้บรรทัด)</li>
+                                    <li>Science (วิทย์)</li>
+                                    <li>student (นักเรียน)</li>
+                                    <li>study (เรียน)</li>
+                                    <li>subject (วิชา)</li>
+                                    <li>teacher (ครู)</li>
+                                    <li>textbook (หนังสือเรียน)</li>
+                                    <li>uniform (เครื่องแบบ)</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div id="v-4" class="vocab-content">
+                            <h3 class="text-2xl font-bold text-indigo-800 mb-4">4. Free Time & Hobbies (เวลาว่างและงานอดิเรก)</h3>
+                            <button class="accordion-btn">คลิกเพื่อดู/ซ่อนคำศัพท์</button>
+                            <div class="accordion-panel">
+                                <ul class="list-disc list-inside columns-2 md:columns-3 text-slate-700">
+                                    <li>badminton (แบดมินตัน)</li>
+                                    <li>basketball (บาสเกตบอล)</li>
+                                    <li>beach (ชายหาด)</li>
+                                    <li>cinema (โรงหนัง)</li>
+                                    <li>cycling (ปั่นจักรยาน)</li>
+                                    <li>draw (วาดรูป)</li>
+                                    <li>football (ฟุตบอล)</li>
+                                    <li>game (เกม)</li>
+                                    <li>go shopping (ไปซื้อของ)</li>
+                                    <li>holiday / vacation (วันหยุด)</li>
+                                    <li>instrument (เครื่องดนตรี)</li>
+                                    <li>listen to music (ฟังเพลง)</li>
+                                    <li>mountain (ภูเขา)</li>
+                                    <li>movie / film (หนัง)</li>
+                                    <li>museum (พิพิธภัณฑ์)</li>
+                                    <li>music (ดนตรี)</li>
+                                    <li>paint (ระบายสี)</li>
+                                    <li>park (สวนสาธารณะ)</li>
+                                    <li>party (งานเลี้ยง)</li>
+                                    <li>play (เล่น)</li>
+                                    <li>play the guitar (เล่นกีตาร์)</li>
+                                    <li>play the piano (เล่นเปียโน)</li>
+                                    <li>read (อ่าน)</li>
+                                    <li>relax (พักผ่อน)</li>
+                                    <li>sing (ร้องเพลง)</li>
+                                    <li>sport (กีฬา)</li>
+                                    <li>swimming (ว่ายน้ำ)</li>
+                                    <li>tennis (เทนนิส)</li>
+                                    <li>volleyball (วอลเลย์บอล)</li>
+                                    <li>watch (ดู)</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div id="v-5" class="vocab-content">
+                            <h3 class="text-2xl font-bold text-indigo-800 mb-4">5. Food & Drink (อาหารและเครื่องดื่ม)</h3>
+                            <button class="accordion-btn">คลิกเพื่อดู/ซ่อนคำศัพท์</button>
+                            <div class="accordion-panel">
+                                <ul class="list-disc list-inside columns-2 md:columns-3 text-slate-700">
+                                    <li>apple (แอปเปิ้ล)</li>
+                                    <li>banana (กล้วย)</li>
+                                    <li>beef (เนื้อวัว)</li>
+                                    <li>biscuit (บิสกิต)</li>
+                                    <li>bread (ขนมปัง)</li>
+                                    <li>butter (เนย)</li>
+                                    <li>cafe (คาเฟ่)</li>
+                                    <li>cake (เค้ก)</li>
+                                    <li>carrot (แครอท)</li>
+                                    <li>cheese (ชีส)</li>
+                                    <li>chicken (ไก่)</li>
+                                    <li>coffee (กาแฟ)</li>
+                                    <li>delicious (อร่อย)</li>
+                                    <li>dessert (ของหวาน)</li>
+                                    <li>egg (ไข่)</li>
+                                    <li>fish (ปลา)</li>
+                                    <li>fruit (ผลไม้)</li>
+                                    <li>hungry (หิว)</li>
+                                    <li>juice (น้ำผลไม้)</li>
+                                    <li>menu (เมนู)</li>
+                                    <li>milk (นม)</li>
+                                    <li>noodles (ก๋วยเตี๋ยว)</li>
+                                    <li>orange (ส้ม)</li>
+                                    <li>pork (หมู)</li>
+                                    <li>potato (มันฝรั่ง)</li>
+                                    <li>restaurant (ร้านอาหาร)</li>
+                                    <li>rice (ข้าว)</li>
+                                    <li>salad (สลัด)</li>
+                                    <li>salt (เกลือ)</li>
+                                    <li>sandwich (แซนวิช)</li>
+                                    <li>seafood (อาหารทะเล)</li>
+                                    <li>sugar (น้ำตาล)</li>
+                                    <li>tea (ชา)</li>
+                                    <li>thirsty (กระหายน้ำ)</li>
+                                    <li>tomato (มะเขือเทศ)</li>
+                                    <li>vegetables (ผัก)</li>
+                                    <li>water (น้ำ)</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div id="v-6" class="vocab-content">
+                            <h3 class="text-2xl font-bold text-indigo-800 mb-4">6. Travel & Transport (ท่องเที่ยวและการขนส่ง)</h3>
+                            <button class="accordion-btn">คลิกเพื่อดู/ซ่อนคำศัพท์</button>
+                            <div class="accordion-panel">
+                                <ul class="list-disc list-inside columns-2 md:columns-3 text-slate-700">
+                                    <li>accommodation (ที่พัก)</li>
+                                    <li>airport (สนามบิน)</li>
+                                    <li>arrive (มาถึง)</li>
+                                    <li>bicycle (จักรยาน)</li>
+                                    <li>boat (เรือ)</li>
+                                    <li>bus (รถบัส)</li>
+                                    <li>bus stop (ป้ายรถเมล์)</li>
+                                    <li>car (รถยนต์)</li>
+                                    <li>drive (ขับรถ)</li>
+                                    <li>fly (บิน)</li>
+                                    <li>holiday (วันหยุด)</li>
+                                    <li>hotel (โรงแรม)</li>
+                                    <li>journey (การเดินทาง)</li>
+                                    <li>leave (ออกเดินทาง)</li>
+                                    <li>luggage / suitcase (กระเป๋าเดินทาง)</li>
+                                    <li>map (แผนที่)</li>
+                                    <li>motorcycle (มอเตอร์ไซค์)</li>
+                                    <li>passport (พาสปอร์ต)</li>
+                                    <li>plane (เครื่องบิน)</li>
+                                    <li>platform (ชานชาลา)</li>
+                                    <li>ride (ขี่)</li>
+                                    <li>station (สถานี)</li>
+                                    <li>taxi (แท็กซี่)</li>
+                                    <li>ticket (ตั๋ว)</li>
+                                    <li>tourist (นักท่องเที่ยว)</li>
+                                    <li>train (รถไฟ)</li>
+                                    <li>travel (ท่องเที่ยว)</li>
+                                    <li>trip (การเดินทางสั้นๆ)</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div id="v-7" class="vocab-content">
+                            <h3 class="text-2xl font-bold text-indigo-800 mb-4">7. Shopping (การซื้อของ)</h3>
+                            <button class="accordion-btn">คลิกเพื่อดู/ซ่อนคำศัพท์</button>
+                            <div class="accordion-panel">
+                                <ul class="list-disc list-inside columns-2 md:columns-3 text-slate-700">
+                                    <li>bakery (ร้านขนมปัง)</li>
+                                    <li>bookshop (ร้านหนังสือ)</li>
+                                    <li>buy (ซื้อ)</li>
+                                    <li>cash (เงินสด)</li>
+                                    <li>cheap (ถูก)</li>
+                                    <li>clothes (เสื้อผ้า)</li>
+                                    <li>color (สี)</li>
+                                    <li>cost / price (ราคา)</li>
+                                    <li>credit card (บัตรเครดิต)</li>
+                                    <li>customer (ลูกค้า)</li>
+                                    <li>department store (ห้าง)</li>
+                                    <li>dress (ชุดเดรส)</li>
+                                    <li>expensive (แพง)</li>
+                                    <li>jeans (ยีนส์)</li>
+                                    <li>market (ตลาด)</li>
+                                    <li>money (เงิน)</li>
+                                    <li>pay (จ่าย)</li>
+                                    <li>sell (ขาย)</li>
+                                    <li>shirt (เสื้อเชิ้ต)</li>
+                                    <li>shoes (รองเท้า)</li>
+                                    <li>shop / store (ร้านค้า)</li>
+                                    <li>shopping centre (ศูนย์การค้า)</li>
+                                    <li>shorts (กางเกงขาสั้น)</li>
+                                    <li>size (ขนาด)</li>
+                                    <li>skirt (กระโปรง)</li>
+                                    <li>supermarket (ซุปเปอร์มาร์เก็ต)</li>
+                                    <li>T-shirt (เสื้อยืด)</li>
+                                    <li>trousers (กางเกงขายาว)</li>
+                                    <li>try on (ลองสวม)</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div id="v-8" class="vocab-content">
+                            <h3 class="text-2xl font-bold text-indigo-800 mb-4">8. The World Around Us (โลกรอบตัว)</h3>
+                            <button class="accordion-btn">คลิกเพื่อดู/ซ่อนคำศัพท์</button>
+                            <div class="accordion-panel">
+                                <ul class="list-disc list-inside columns-2 md:columns-3 text-slate-700">
+                                    <li>animals (สัตว์)</li>
+                                    <li>beach (ชายหาด)</li>
+                                    <li>bird (นก)</li>
+                                    <li>bridge (สะพาน)</li>
+                                    <li>building (ตึก)</li>
+                                    <li>cat (แมว)</li>
+                                    <li>city / town (เมือง)</li>
+                                    <li>cloudy (มีเมฆมาก)</li>
+                                    <li>cold (หนาว)</li>
+                                    <li>continent (ทวีป)</li>
+                                    <li>countryside (ชนบท)</li>
+                                    <li>dog (สุนัข)</li>
+                                    <li>elephant (ช้าง)</li>
+                                    <li>environment (สิ่งแวดล้อม)</li>
+                                    <li>fish (ปลา)</li>
+                                    <li>flower (ดอกไม้)</li>
+                                    <li>foggy (มีหมอก)</li>
+                                    <li>forest (ป่า)</li>
+                                    <li>hot (ร้อน)</li>
+                                    <li>island (เกาะ)</li>
+                                    <li>lake (ทะเลสาบ)</li>
+                                    <li>mountain (ภูเขา)</li>
+                                    <li>pollution (มลพิษ)</li>
+                                    <li>rainy (ฝนตก)</li>
+                                    <li>river (แม่น้ำ)</li>
+                                    <li>sea (ทะเล)</li>
+                                    <li>sky (ท้องฟ้า)</li>
+                                    <li>snowy (หิมะตก)</li>
+                                    <li>sunny (แดดจ้า)</li>
+                                    <li>temperature (อุณหภูมิ)</li>
+                                    <li>tree (ต้นไม้)</li>
+                                    <li>village (หมู่บ้าน)</li>
+                                    <li>weather (อากาศ)</li>
+                                    <li>weather forecast (พยากรณ์อากาศ)</li>
+                                    <li>windy (ลมแรง)</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 4: Reading Quiz (UPGRADED QUESTIONS) -->
+            <section id="reading-quiz" class="section">
+                <div id="reading-quiz-selection" class="text-center">
+                    <h2 class="text-3xl font-semibold text-indigo-700 mb-6">เลือกหมวดแบบทดสอบ (อ่าน/ทักษะ)</h2>
+                    <p class="text-lg text-slate-700 mb-8">ทดสอบความเข้าใจด้านไวยากรณ์ คำศัพท์ และการอ่านป้าย/บทสนทนา (60 ข้อ)</p>
+                    <div class="flex flex-wrap justify-center gap-4">
+                        <button class="quiz-category-btn" data-quiz="grammar">ไวยากรณ์ (20 ข้อ)</button>
+                        <button class="quiz-category-btn" data-quiz="vocab">คำศัพท์ (15 ข้อ)</button>
+                        <button class="quiz-category-btn" data-quiz="signs">ป้าย/ประกาศ (10 ข้อ)</button>
+                        <button class="quiz-category-btn" data-quiz="dialogues">บทสนทนา (15 ข้อ)</button>
+                    </div>
+                </div>
+
+                <div id="reading-quiz-container" class="hidden w-full max-w-3xl mx-auto bg-white p-6 md:p-8 rounded-xl shadow-lg border border-slate-200">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 id="reading-quiz-title" class="text-2xl font-bold text-indigo-800"></h3>
+                        <span id="reading-quiz-progress" class="text-lg font-semibold text-slate-600"></span>
+                    </div>
+                    <hr class="mb-6">
+                    
+                    <div id="reading-question-text" class="text-xl md:text-2xl font-medium text-slate-900 mb-6 min-h-[50px]"></div>
+                    
+                    <div id="reading-options-container" class="flex flex-col"></div>
+                    
+                    <div id="reading-explanation-container" class="mt-6 hidden">
+                        <h4 class="text-lg font-semibold text-slate-800">คำอธิบาย:</h4>
+                        <p id="reading-explanation-text" class="text-md text-slate-700 p-4 bg-indigo-50 rounded-lg"></p>
+                    </div>
+                    
+                    <div class="mt-8 flex justify-between">
+                        <button id="reading-quit-quiz-btn" class="px-6 py-2 bg-slate-500 text-white font-semibold rounded-lg hover:bg-slate-600 transition-all">กลับไปเลือกหมวด</button>
+                        <button id="reading-next-btn" class="hidden px-8 py-2 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 transition-all">ข้อถัดไป</button>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Section 5: Listening Quiz (UNCHANGED) -->
+            <section id="listening-quiz" class="section">
+                <div id="listening-quiz-selection" class="text-center">
+                    <h2 class="text-3xl font-semibold text-indigo-700 mb-6">แบบทดสอบการฟัง (10 ข้อ)</h2>
+                    <p class="text-lg text-slate-700 mb-8">คลิก "เริ่มทำแบบทดสอบ" เพื่อทดสอบทักษะการฟังของคุณ (ต้องเปิดลำโพง)</p>
+                    <button id="start-listening-quiz-btn" class="quiz-category-btn bg-blue-600 hover:bg-blue-700">เริ่มทำแบบทดสอบการฟัง</button>
+                </div>
+
+                <div id="listening-quiz-container" class="hidden w-full max-w-3xl mx-auto bg-white p-6 md:p-8 rounded-xl shadow-lg border border-slate-200">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 id="listening-quiz-title" class="text-2xl font-bold text-indigo-800">แบบทดสอบการฟัง</h3>
+                        <span id="listening-quiz-progress" class="text-lg font-semibold text-slate-600"></span>
+                    </div>
+                    <hr class="mb-6">
+                    
+                    <div class="mb-4">
+                        <p class="text-lg text-slate-700 mb-4 text-center">กดปุ่มเพื่อฟังบทสนทนา แล้วเลือกคำตอบที่ถูกต้อง</p>
+                        <div class="flex justify-center mb-6">
+                            <button id="play-audio-btn" class="play-audio-btn">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                  <path stroke-linecap="round" stroke-linejoin="round" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+                                  <path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                                <span>Play Audio</span>
+                            </button>
+                        </div>
+                        <div id="listening-question-text" class="text-xl md:text-2xl font-medium text-slate-900 mb-6 min-h-[50px] text-center"></div>
+                    </div>
+
+                    <div id="listening-options-container" class="flex flex-col"></div>
+                    
+                    <div id="listening-explanation-container" class="mt-6 hidden">
+                        <h4 class="text-lg font-semibold text-slate-800">คำอธิบาย:</h4>
+                        <p id="listening-explanation-text" class="text-md text-slate-700 p-4 bg-indigo-50 rounded-lg"></p>
+                    </div>
+                    
+                    <div class="mt-8 flex justify-between">
+                        <button id="listening-quit-quiz-btn" class="px-6 py-2 bg-slate-500 text-white font-semibold rounded-lg hover:bg-slate-600 transition-all">กลับหน้าหลัก</button>
+                        <button id="listening-next-btn" class="hidden px-8 py-2 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 transition-all">ข้อถัดไป</button>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const tabs = document.querySelectorAll('.tab-btn');
+            const sections = document.querySelectorAll('.section');
+            
+            // Tab switching logic
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    tabs.forEach(t => t.classList.remove('active'));
+                    sections.forEach(s => s.classList.remove('active'));
+                    tab.classList.add('active');
+                    const targetSection = document.getElementById(tab.dataset.target);
+                    if(targetSection) {
+                        targetSection.classList.add('active');
+                    }
+                });
+            });
+            
+            document.querySelector('.tab-btn[data-target="home"]').classList.add('active');
+            document.getElementById('home').classList.add('active');
+
+
+            // --- Lesson Navigation Logic ---
+            function setupLessonNav(navBtnClass, contentClass) {
+                const navButtons = document.querySelectorAll(navBtnClass);
+                const contentPanes = document.querySelectorAll(contentClass);
+
+                navButtons.forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        navButtons.forEach(b => b.classList.remove('active'));
+                        contentPanes.forEach(p => p.classList.remove('active'));
+                        
+                        btn.classList.add('active');
+                        const targetPane = document.getElementById(btn.dataset.target);
+                        if(targetPane) {
+                            targetPane.classList.add('active');
+                            // Reset accordions in new pane
+                            targetPane.querySelectorAll('.accordion-panel').forEach(p => {
+                                p.classList.remove('active');
+                                p.style.maxHeight = '0px';
+                            });
+                            targetPane.querySelectorAll('.accordion-btn').forEach(b => b.classList.remove('active'));
+                        }
+                    });
+                });
+            }
+            setupLessonNav('.lesson-nav-btn', '.lesson-content');
+            setupLessonNav('.vocab-nav-btn', '.vocab-content');
+            
+            // --- Accordion Logic (Robust Version) ---
+            function setupAccordions(containerSelector) {
+                document.querySelector(containerSelector).addEventListener('click', function(e) {
+                    const button = e.target.closest('.accordion-btn');
+                    if (!button) return;
+
+                    const panel = button.nextElementSibling;
+                    if (!panel) return;
+                    
+                    button.classList.toggle('active');
+                    panel.classList.toggle('active');
+
+                    if (panel.classList.contains('active')) {
+                        let targetHeight = panel.scrollHeight;
+                        // Check if it's a vocab panel
+                        if (panel.closest('.vocab-content')) {
+                            // Cap vocab height at 500px
+                            targetHeight = Math.min(targetHeight, 500);
+                        }
+                        panel.style.maxHeight = targetHeight + 'px';
+                    } else {
+                        panel.style.maxHeight = '0px';
+                    }
+                });
+            }
+            setupAccordions('#grammar-lessons');
+            setupAccordions('#vocab-lists');
+
+
+            // --- Reading Quiz Logic (UPGRADED QUESTIONS) ---
+            const readingQuizSelection = document.getElementById('reading-quiz-selection');
+            const readingQuizContainer = document.getElementById('reading-quiz-container');
+            const readingQuizCategoryBtns = document.querySelectorAll('#reading-quiz-selection .quiz-category-btn');
+            const readingQuizTitle = document.getElementById('reading-quiz-title');
+            const readingQuizProgress = document.getElementById('reading-quiz-progress');
+            const readingQuestionText = document.getElementById('reading-question-text');
+            const readingOptionsContainer = document.getElementById('reading-options-container');
+            const readingExplanationContainer = document.getElementById('reading-explanation-container');
+            const readingExplanationText = document.getElementById('reading-explanation-text');
+            const readingNextBtn = document.getElementById('reading-next-btn');
+            const readingQuitQuizBtn = document.getElementById('reading-quit-quiz-btn');
+
+            let currentReadingQuiz = [];
+            let currentReadingQuestionIndex = 0;
+
+            const allReadingQuizzes = {
+                grammar: [
+                    { q: "I ... my homework yet. I'll do it later.", options: ["don't do", "am not doing", "haven't done"], correct: 2, exp: "ใช้ Present Perfect Tense (haven't done) กับคำว่า 'yet' เพื่อบอกว่ายังไม่ได้ทำสิ่งนั้น (จนถึงตอนนี้)" },
+                    { q: "She ... in this house since she was five.", options: ["lives", "has lived", "is living"], correct: 1, exp: "ใช้ Present Perfect (has lived) กับ 'since' เพื่อบอกการกระทำที่เริ่มในอดีตและต่อเนื่องถึงปัจจุบัน" },
+                    { q: "He was cooking dinner ... his friend arrived.", options: ["when", "while", "during"], correct: 0, exp: "ใช้ 'when' เชื่อมเหตุการณ์ที่กำลังดำเนินอยู่ (Past Cont: was cooking) กับเหตุการณ์ที่เข้ามาแทรก (Past Simple: arrived)" },
+                    { q: "You ... eat in the library. It's a rule.", options: ["mustn't", "don't have to", "shouldn't"], correct: 0, exp: "'Mustn't' (ห้าม) ใช้สำหรับกฎข้อห้ามที่เข้มงวด 'Don't have to' (ไม่จำเป็นต้อง) และ 'Shouldn't' (ไม่ควร) ความหมายอ่อนกว่า" },
+                    { q: "It's Saturday tomorrow, so I ... wake up early.", options: ["mustn't", "don't have to", "can't"], correct: 1, exp: "'Don't have to' (ไม่จำเป็นต้อง) ใช้บอกว่าไม่มีภาระผูกพันหรือความจำเป็นต้องทำสิ่งนั้น" },
+                    { q: "This film is ... than the last one we watched.", options: ["more boring", "boringer", "the most boring"], correct: 0, exp: "ใช้ 'more boring' (Comparative) เพราะ 'boring' เป็นคำ 2 พยางค์ที่ไม่ได้ลงท้ายด้วย -y และมีการเปรียบเทียบกับ 'than...'" },
+                    { q: "I don't have ... money, only a little.", options: ["many", "much", "a lot"], correct: 1, exp: "ใช้ 'much' กับคำนามนับไม่ได้ (money) ในประโยคปฏิเสธ (don't have)" },
+                    { q: "There are only ... students in the class today.", options: ["a little", "a few", "much"], correct: 1, exp: "ใช้ 'a few' (เล็กน้อย, 2-3 คน) กับคำนามนับได้พหูพจน์ (students)" },
+                    { q: "He wants ... a doctor when he grows up.", options: ["to be", "being", "be"], correct: 0, exp: "กริยา 'want' ต้องตามด้วย infinitive with to (to be)" },
+                    { q: "She is very good at ... the piano.", options: ["play", "playing", "to play"], correct: 1, exp: "หลังคำบุพบท (Preposition) 'at' กริยาที่ตามมาต้องอยู่ในรูป Gerund (V.ing)" },
+                    { q: "This coffee is ... hot to drink.", options: ["so", "very", "too"], correct: 2, exp: "ใช้ 'too' (มากเกินไป) ในโครงสร้าง 'too + adjective + to + V.1' เพื่อบอกว่ามีคุณสมบัติมากไปจนทำกริยานั้นไม่ได้" },
+                    { q: "He isn't tall ... to reach the top shelf.", options: ["enough", "too", "so"], correct: 0, exp: "ใช้ 'enough' (เพียงพอ) ในโครงสร้าง 'adjective + enough + to + V.1' (ในที่นี้คือ 'not tall enough')" },
+                    { q: "If it ..., we will stay at home.", options: ["rains", "will rain", "rained"], correct: 0, exp: "นี่คือ First Conditional (If + Present Simple, ... will + V.1) ใช้พูดถึงสิ่งที่เป็นไปได้ในอนาคต" },
+                    { q: "I prefer reading ... watching TV.", options: ["than", "to", "from"], correct: 1, exp: "กริยา 'prefer' (ชอบ...มากกว่า) ใช้โครงสร้าง 'prefer + V.ing + to + V.ing'" },
+                    { q: "... it was raining, we went for a walk.", options: ["Because", "So", "Although"], correct: 2, exp: "'Although' (แม้ว่า) ใช้เชื่อมประโยคที่ขัดแย้งกัน (ฝนตก แต่ก็ยังไปเดิน)" },
+                    { q: "A car is ... than a bicycle.", options: ["fast", "more fast", "faster"], correct: 2, exp: "'fast' เป็นคำพยางค์สั้น ขั้นกว่า (comparative) คือการเติม -er (faster)" },
+                    { q: "This is the ... meal I have ever eaten.", options: ["good", "best", "better"], correct: 1, exp: "โครงสร้าง 'the ... I have ever ...' (ที่สุดเท่าที่เคย...) ใช้กับขั้นสูงสุด (Superlative) 'good' -> 'best'" },
+                    { q: "The keys are ... on the table, not in the drawer.", options: ["in", "on", "at"], correct: 1, exp: "ใช้ 'on' เพื่อบอกว่าสิ่งของอยู่บนพื้นผิว (on the table)" },
+                    { q: "We ... to the cinema, but we decided to stay home.", options: ["could go", "must go", "could have gone"], correct: 0, exp: "'could go' (ไปก็ได้) ในที่นี้หมายถึงเป็นทางเลือกหนึ่งในอดีต แต่ไม่ได้ทำ (B1 level)" },
+                    { q: "There isn't ... left. It's all gone.", options: ["nothing", "anything", "something"], correct: 1, exp: "ใช้ 'anything' ในประโยคปฏิเสธ (isn't) 'nothing' จะทำให้เป็นปฏิเสธซ้อน" }
+                ],
+                vocab: [
+                    { q: "A place where you stay on holiday, like a hotel or apartment.", options: ["Accommodation", "Station", "Environment"], correct: 0, exp: "'Accommodation' (ที่พัก) คือคำรวมสำหรับสถานที่พักผ่อนในวันหยุด" },
+                    { q: "The weather was ... yesterday. It rained a little all day.", options: ["dry", "damp", "freezing"], correct: 1, exp: "'damp' (ชื้น, เปียกเล็กน้อย) เหมาะสมกว่า 'rainy' เมื่อพูดว่าฝนตกเล็กน้อย (a little)" },
+                    { q: "Can you ... my cat while I am away?", options: ["look for", "look at", "look after"], correct: 2, exp: "'look after' (ดูแล) เป็น Phrasal Verb หมายถึง 'take care of'" },
+                    { q: "He forgot his ... so he couldn't get into the house.", options: ["keys", "money", "ticket"], correct: 0, exp: "คุณต้องใช้ 'keys' (กุญแจ) เพื่อ 'get into the house' (เข้าบ้าน)" },
+                    { q: "The long ... across the desert was very tiring.", options: ["trip", "journey", "travel"], correct: 1, exp: "'Journey' (การเดินทาง) มักจะหมายถึงการเดินทางที่ยาวนานจากจุด A ไป B, 'Trip' คือการไปเที่ยว, 'Travel' คือการเดินทางทั่วไป" },
+                    { q: "You need a ... to travel to another country.", options: ["passport", "licence", "ticket"], correct: 0, exp: "'Passport' (หนังสือเดินทาง) เป็นเอกสารทางการสำหรับเดินทางระหว่างประเทศ" },
+                    { q: "She wants to be an ... because she loves animals.", options: ["engineer", "artist", "veterinarian"], correct: 2, exp: "'Veterinarian' (หรือ Vet) คือสัตวแพทย์ (หมอสัตว์)" },
+                    { q: "This test is very ... I don't know many answers.", options: ["simple", "challenging", "empty"], correct: 1, exp: "'Challenging' (ท้าทาย) เป็นคำพ้องความหมาย (synonym) ที่ดีของ 'difficult' (ยาก)" },
+                    { q: "It's important to protect the ... for future generations.", options: ["environment", "traffic", "building"], correct: 0, exp: "'Environment' (สิ่งแวดล้อม) คือสิ่งที่เราต้องปกป้อง (protect)" },
+                    { q: "Can I ... this on? I'm not sure if it's the right size.", options: ["try", "wear", "look"], correct: 0, exp: "'try on' (ลองสวม) เป็น Phrasal Verb ที่ใช้ในร้านเสื้อผ้าเพื่อลองเสื้อผ้า" },
+                    { q: "I would like to ... a complaint about the food.", options: ["do", "make", "give"], correct: 1, exp: "เราใช้ Collocation 'make a complaint' (ร้องเรียน)" },
+                    { q: "He works as a ... translating documents from Japanese to English.", options: ["translator", "tourist", "driver"], correct: 0, exp: "'Translator' (นักแปล) คือผู้ที่แปล (translating) เอกสาร" },
+                    { q: "Can I ... a table for two tonight?", options: ["book", "buy", "keep"], correct: 0, exp: "'book a table' (จองโต๊ะ) ใช้สำหรับร้านอาหาร" },
+                    { q: "I'm sorry, I didn't ... what you said.", options: ["catch", "listen", "take"], correct: 0, exp: "'didn't catch' เป็นสำนวนหมายถึง 'ไม่ได้ยิน' หรือ 'ไม่เข้าใจ' ในสิ่งที่พูด" },
+                    { q: "You need to get ... from your parents to go on the trip.", options: ["money", "permission", "a signature"], correct: 1, exp: "'Permission' (การอนุญาต) คือสิ่งที่จำเป็นต้องได้รับจากผู้ปกครอง" }
+                ],
+                signs: [
+                    { q: "SALE: 50% OFF. Was ฿400, Now ฿200. What does this mean?", options: ["You save ฿400.", "You pay ฿200.", "The item is free."], correct: 1, exp: "'50% OFF' (ลด 50%) จาก ฿400 คือลดไป ฿200 ดังนั้นราคาที่ต้องจ่าย (Now) คือ ฿200" },
+                    { q: "Museum open 10:00 - 18:00 (Tuesday - Sunday). Closed Mondays.", options: ["You can visit on Monday at noon.", "The museum closes at 10:00 AM.", "The museum is closed one day a week."], correct: 2, exp: "ป้ายบอกว่า 'Closed Mondays' (ปิดวันจันทร์) ซึ่งหมายความว่าปิด 1 วันต่อสัปดาห์" },
+                    { q: "Caution: Wet Floor. What should you do?", options: ["Run quickly.", "Walk carefully.", "Clean the floor."], correct: 1, exp: "'Caution' (ระวัง) และ 'Wet Floor' (พื้นเปียก) หมายความว่าคุณควร 'Walk carefully' (เดินอย่างระมัดระวัง) เพื่อไม่ให้ลื่น" },
+                    { q: "Buy One Get One Free. You want 4 cups of coffee.", options: ["You pay for 4 cups.", "You pay for 2 cups.", "You pay for 1 cup."], correct: 1, exp: "'Buy One Get One Free' (ซื้อ 1 แถม 1) หมายความว่าถ้าคุณซื้อ 2 คุณจะจ่ายในราคา 1 ดังนั้นถ้าคุณต้องการ 4 คุณจะจ่ายในราคา 2" },
+                    { q: "Passengers must have a valid ticket before boarding.", options: ["You can buy a ticket on the train.", "You must buy a ticket before you get on.", "You do not need a ticket."], correct: 1, exp: "'before boarding' (ก่อนขึ้น) หมายความว่าคุณต้องซื้อตั๋วก่อน (before) ที่จะก้าวขึ้นรถไฟ" },
+                    { q: "Library books must be returned by 15th June. Fines will be charged for late returns.", options: ["You can keep the book after 15th June.", "You must pay money if you are late.", "The library is closed on 15th June."], correct: 1, exp: "'Fines will be charged' (จะถูกปรับ) หาก 'late returns' (คืนช้า) หมายความว่าคุณต้องจ่ายเงิน (pay money) หากสาย" },
+                    { q: "NO ENTRY. STAFF ONLY BEYOND THIS POINT.", options: ["Only staff can go past here.", "Everyone can enter here.", "This is the main entrance."], correct: 0, exp: "'NO ENTRY' (ห้ามเข้า) และ 'STAFF ONLY' (สำหรับพนักงานเท่านั้น) หมายความว่า 'Only staff' (เฉพาะพนักงาน) ที่สามารถผ่านจุดนี้ได้" },
+                    { q: "Mind the gap. (At a train station)", options: ["Look for a gap to walk through.", "Be careful of the space between the train and the platform.", "The train is delayed."], correct: 1, exp: "'Mind the gap' (ระวังช่องว่าง) เป็นคำเตือนให้ระวังช่องว่าง (space) ระหว่างรถไฟ (train) และชานชาลา (platform)" },
+                    { q: "This lift is out of order.", options: ["The lift is working.", "The lift is broken.", "This lift is for orders only."], correct: 1, exp: "'Out of order' เป็นสำนวนหมายถึง 'เสีย' หรือ 'ใช้งานไม่ได้' (broken)" },
+                    { q: "KEEP OFF THE GRASS", options: ["You must walk on the grass.", "You must not walk on the grass.", "You can play football on the grass."], correct: 1, exp: "'KEEP OFF' (อยู่ห่างจาก) หมายความว่าคุณห้าม (must not) เดินบนหญ้า" }
+                ],
+                dialogues: [
+                    { q: "A: Are you free tonight? \nB: I have a big exam tomorrow.", options: ["B is saying 'Yes'.", "B is saying 'No'.", "B is saying 'Maybe'."], correct: 1, exp: "B ตอบว่า 'ฉันมีสอบพรุ่งนี้' นี่คือการปฏิเสธทางอ้อม (indirect 'No') หมายความว่าเขาไม่ว่างเพราะต้องอ่านหนังสือ" },
+                    { q: "A: Why don't we go to the cinema? \nB: ...", options: ["That's a great idea!", "Yes, I don't.", "Because it's fun."], correct: 0, exp: "'Why don't we...?' เป็นประโยคชักชวน คำตอบที่เหมาะสมคือการเห็นด้วย (That's a great idea!) หรือปฏิเสธ" },
+                    { q: "A: I'm really tired this morning. \nB: ...", options: ["Me too. I went to bed very late.", "Congratulations!", "I like coffee."], correct: 0, exp: "B กำลังแสดงความรู้สึกร่วม (empathy) โดยพูดว่า 'ฉันก็เหมือนกัน' (Me too.) และให้เหตุผล" },
+                    { q: "A: Excuse me, does this bus go to the museum? \nB: No, you need the number 12. It stops over there.", options: ["Yes, it does.", "Thank you, that's very helpful.", "I want to go to the museum."], correct: 1, exp: "A ถามทาง B ให้ข้อมูล A ควรจะขอบคุณ (Thank you) สำหรับความช่วยเหลือ" },
+                    { q: "A: This pasta is cold. \nB: I'm very sorry, sir. I'll get you a new one.", options: ["At a school", "At a restaurant", "At a hospital"], correct: 1, exp: "บทสนทนาระหว่างลูกค้า (A) ที่บ่นเรื่องอาหาร และพนักงาน (B) ที่ขอโทษ แสดงว่านี่คือ 'At a restaurant' (ที่ร้านอาหาร)" },
+                    { q: "A: What did you think of the film? \nB: ...", options: ["I think it is a film.", "I didn't like it very much. It was boring.", "I am thinking about the film."], correct: 1, exp: "A ถามความคิดเห็น (What did you think...?) B ต้องตอบว่าชอบหรือไม่ชอบ (I didn't like it...)" },
+                    { q: "A: I bought this shirt yesterday, but it's too small. \nB: Do you have the receipt?", options: ["The shirt is too big.", "The customer wants to return the shirt.", "The customer wants to buy the shirt."], correct: 1, exp: "ลูกค้าพูดว่า 'it's too small' (มันเล็กไป) และพนักงานถามหา 'receipt' (ใบเสร็จ) แสดงว่าลูกค้าต้องการคืนหรือเปลี่ยน (return) เสื้อ" },
+                    { q: "A: Could I speak to Mr. Davis, please? \nB: I'm afraid he's in a meeting.", options: ["Mr. Davis is available.", "Mr. Davis is busy.", "Mr. Davis is at home."], correct: 1, exp: "'I'm afraid' (ฉันเกรงว่า) และ 'in a meeting' (กำลังประชุม) เป็นการบอกอย่างสุภาพว่าเขา 'busy' (ไม่ว่าง/ยุ่ง)" },
+                    { q: "A: How about getting a pizza tonight? \nB: I'd rather not. I had pizza for lunch.", options: ["The woman wants pizza.", "The woman does not want pizza.", "The woman is hungry."], correct: 1, exp: "'I'd rather not' (ฉันไม่อยาก) เป็นการปฏิเสธข้อเสนอ และให้เหตุผลว่า 'I had pizza for lunch' (ฉันกินพิซซ่ามื้อเที่ยงไปแล้ว)" },
+                    { q: "A: It's freezing outside! \nB: Yes, you should ... your coat.", options: ["put on", "take off", "look for"], correct: 0, exp: "ข้างนอก 'freezing' (หนาวมาก) B จึงแนะนำว่า 'you should put on' (คุณควรสวม) เสื้อโค้ท" },
+                    { q: "A: Have you finished that report? \nB: Not yet. I need another two hours.", options: ["The report is finished.", "The report is not finished.", "The report is on the desk."], correct: 1, exp: "'Not yet' (ยังไม่) และ 'I need another two hours' (ฉันต้องการอีก 2 ชั่วโมง) หมายความว่ารายงาน 'is not finished' (ยังไม่เสร็จ)" },
+                    { q: "A: I can't find my keys! \nB: ...", options: ["Have you checked your pockets?", "Here they are.", "I am very busy."], correct: 0, exp: "A ทำของหาย B จึงช่วยด้วยการเสนอแนะ (suggestion) ว่า 'Have you checked...?' (คุณเช็ค...หรือยัง?)" },
+                    { q: "A: What's the matter? You look sad. \nB: I failed my driving test.", options: ["B is happy.", "B is angry.", "B is disappointed."], correct: 2, exp: "B 'failed' (สอบตก) และ A บอกว่า B 'look sad' (ดูเศร้า) ดังนั้น B จึงรู้สึก 'disappointed' (ผิดหวัง)" },
+                    { q: "A: Can you lend me 100 Baht? \nB: Sorry, I'm ... myself. I only have 20.", options: ["rich", "kind", "broke"], correct: 2, exp: "B ปฏิเสธเพราะมีเงินแค่ 20 บาท 'I'm broke' (ฉันถังแตก/ไม่มีเงิน) เป็นสำนวนที่เหมาะสม (B1 level)" },
+                    { q: "A: The train leaves in 10 minutes. \nB: ...", options: ["We have plenty of time.", "We should hurry!", "Let's wait here."], correct: 1, exp: "รถไฟจะออกใน 10 นาที (leaves in 10 minutes) B จึงพูดว่า 'We should hurry!' (เราควรรีบ!)" }
+                ]
+            };
+            
+            readingQuizCategoryBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const quizName = btn.dataset.quiz;
+                    startReadingQuiz(quizName, btn.textContent);
+                });
+            });
+
+            function startReadingQuiz(quizName, title) {
+                currentReadingQuiz = allReadingQuizzes[quizName];
+                currentReadingQuestionIndex = 0;
+                readingQuizTitle.textContent = title;
+                readingQuizSelection.classList.add('hidden');
+                readingQuizContainer.classList.remove('hidden');
+                displayReadingQuestion();
+            }
+
+            function displayReadingQuestion() {
+                if (currentReadingQuestionIndex >= currentReadingQuiz.length) {
+                    showReadingQuizSelection();
+                    return;
+                }
+
+                const question = currentReadingQuiz[currentReadingQuestionIndex];
+                readingQuestionText.innerHTML = question.q.replace(/\n/g, '<br>');
+                readingQuizProgress.textContent = `ข้อ ${currentReadingQuestionIndex + 1} / ${currentReadingQuiz.length}`;
+                
+                readingOptionsContainer.innerHTML = '';
+                readingExplanationContainer.classList.add('hidden');
+                readingExplanationText.textContent = '';
+                readingNextBtn.classList.add('hidden');
+
+                question.options.forEach((option, index) => {
+                    const button = document.createElement('button');
+                    button.textContent = option;
+                    button.classList.add('quiz-option-btn');
+                    if (index === question.correct) {
+                        button.dataset.correct = 'true';
+                    }
+                    button.addEventListener('click', selectReadingAnswer);
+                    readingOptionsContainer.appendChild(button);
+                });
+            }
+
+            function selectReadingAnswer(e) {
+                const selectedBtn = e.target;
+                const isCorrect = selectedBtn.dataset.correct === 'true';
+
+                Array.from(readingOptionsContainer.children).forEach(btn => {
+                    btn.disabled = true;
+                    if (btn.dataset.correct === 'true') {
+                        btn.classList.add('correct');
+                    }
+                });
+
+                if (!isCorrect) {
+                    selectedBtn.classList.add('incorrect');
+                }
+
+                readingExplanationText.textContent = currentReadingQuiz[currentReadingQuestionIndex].exp;
+                readingExplanationContainer.classList.remove('hidden');
+                readingNextBtn.classList.remove('hidden');
+            }
+
+            readingNextBtn.addEventListener('click', () => {
+                currentReadingQuestionIndex++;
+                displayReadingQuestion();
+            });
+
+            readingQuitQuizBtn.addEventListener('click', showReadingQuizSelection);
+            
+            function showReadingQuizSelection() {
+                readingQuizContainer.classList.add('hidden');
+                readingQuizSelection.classList.remove('hidden');
+            }
+            
+
+            // --- Listening Quiz Logic (UNCHANGED) ---
+            const synth = window.speechSynthesis;
+            let voices = [];
+            let voiceMale = null;
+            let voiceFemale = null;
+
+            function loadVoices() {
+                voices = synth.getVoices().filter(v => v.lang.startsWith('en'));
+                if (voices.length > 0) {
+                    // Try to find specific male/female voices
+                    voiceMale = voices.find(v => v.name.includes('Male')) || voices.find(v => v.name.includes('David')) || voices[0];
+                    voiceFemale = voices.find(v => v.name.includes('Female')) || voices.find(v => v.name.includes('Zira')) || (voices.length > 1 ? voices[1] : voices[0]);
+                    
+                    // Ensure they are not the same voice if possible
+                    if (voiceMale === voiceFemale && voices.length > 1) {
+                         voiceFemale = voices[1];
+                    }
+                } else {
+                     playAudioBtn.textContent = "ไม่พบเสียงพูด";
+                     playAudioBtn.disabled = true;
+                }
+            }
+            // Use onvoiceschanged OR a timeout fallback
+            synth.onvoiceschanged = loadVoices;
+            setTimeout(loadVoices, 500); // Fallback in case onvoiceschanged doesn't fire
+
+
+            const listeningQuizSelection = document.getElementById('listening-quiz-selection');
+            const startListeningQuizBtn = document.getElementById('start-listening-quiz-btn');
+            const listeningQuizContainer = document.getElementById('listening-quiz-container');
+            const listeningQuizProgress = document.getElementById('listening-quiz-progress');
+            const playAudioBtn = document.getElementById('play-audio-btn');
+            const listeningQuestionText = document.getElementById('listening-question-text');
+            const listeningOptionsContainer = document.getElementById('listening-options-container');
+            const listeningExplanationContainer = document.getElementById('listening-explanation-container');
+            const listeningExplanationText = document.getElementById('listening-explanation-text');
+            const listeningNextBtn = document.getElementById('listening-next-btn');
+            const listeningQuitQuizBtn = document.getElementById('listening-quit-quiz-btn');
+
+            let currentListeningQuiz = [];
+            let currentListeningQuestionIndex = 0;
+            let currentAudioScript = [];
+
+            // --- COMPLEX LISTENING QUIZ DATA (UNCHANGED) ---
+            const listeningQuizData = [
+                {
+                    q: "What time will the woman meet Tom?",
+                    script: [
+                        { speaker: 'Man', text: 'Hello, Sarah. Are you free this afternoon?' },
+                        { speaker: 'Woman', text: 'Hi, Tom. I have a meeting until 2:30. After that, I am free.' },
+                        { speaker: 'Man', text: 'Great! Can we meet at 3:00 PM at the coffee shop?' },
+                        { speaker: 'Woman', text: 'Actually, 3:15 would be better for me. I need to make a quick call first.' },
+                        { speaker: 'Man', text: 'Okay, 3:15 it is. See you then.' }
+                    ],
+                    options: ["2:30 PM", "3:00 PM", "3:15 PM"],
+                    correct: 2,
+                    exp: "ผู้หญิงพูดว่า '3:15 would be better for me' (3:15 จะดีกว่าสำหรับฉัน)"
+                },
+                {
+                    q: "What did the man buy at the supermarket?",
+                    script: [
+                        { speaker: 'Woman', text: 'Did you get everything from the shop?' },
+                        { speaker: 'Man', text: 'I think so. I got the milk, bread, and eggs you asked for. I also bought some apples.' },
+                        { speaker: 'Woman', text: 'What about the cheese?' },
+                        { speaker: 'Man', text: 'Oh, I forgot the cheese. But I remembered to buy your favourite chocolate.' },
+                        { speaker: 'Woman', text: 'That\'s okay!' }
+                    ],
+                    options: ["Milk, bread, and cheese", "Milk, bread, eggs, and chocolate", "Milk, bread, eggs, apples, and chocolate"],
+                    correct: 2,
+                    exp: "ผู้ชายพูดว่าเขาซื้อ 'milk, bread, and eggs' (ตามที่ขอ) และ 'also bought some apples' (ซื้อแอปเปิ้ลด้วย) และ 'remembered to buy your favourite chocolate' (จำได้ว่าซื้อช็อคโกแลต) เขา 'forgot the cheese' (ลืมชีส)"
+                },
+                {
+                    q: "Where are they going for their holiday?",
+                    script: [
+                        { speaker: 'Man', text: 'I am so excited for our holiday next month!' },
+                        { speaker: 'Woman', text: 'Me too! I can\'t wait to go swimming in the sea. The beach will be so relaxing.' },
+                        { speaker: 'Man', text: 'I know. It will be much warmer than staying here. I am tired of this cold weather.' },
+                        { speaker: 'Woman', text: 'I agree. I will pack my sunglasses and sunscreen.' }
+                    ],
+                    options: ["To the mountains", "To the beach", "To a big city"],
+                    correct: 1,
+                    exp: "ผู้หญิงพูดว่า 'I can't wait to go swimming in the sea. The beach will be so relaxing.' (ฉันรอไม่ไหวที่จะไปว่ายน้ำในทะเล ชายหาดคงจะผ่อนคลายมาก)"
+                },
+                {
+                    q: "What is the problem with the man's car?",
+                    script: [
+                        { speaker: 'Woman', text: 'Hello, City Garage. How can I help you?' },
+                        { speaker: 'Man', text: 'Hello. My car won\'t start. I think it might be the battery.' },
+                        { speaker: 'Woman', text: 'I see. Can you hear any noise when you turn the key?' },
+                        { speaker: 'Man', text: 'No, nothing at all. But the lights on the dashboard are working.' },
+                        { speaker: 'Woman', text: 'Okay. It might be the battery, or it could be the starter motor. We can send a mechanic to check it.' }
+                    ],
+                    options: ["The battery is dead", "The lights are not working", "It won't start"],
+                    correct: 2,
+                    exp: "ผู้ชายพูดว่า 'My car won't start' (รถของฉันสตาร์ทไม่ติด) นี่คือปัญหาหลัก"
+                },
+                {
+                    q: "What subject did the girl enjoy most?",
+                    script: [
+                        { speaker: 'Man', text: 'How was school today, Anna?' },
+                        { speaker: 'Woman', text: 'It was good, Dad. We had a test in Maths, which was very difficult.' },
+                        { speaker: 'Man', text: 'Oh no. What about your other classes?' },
+                        { speaker: 'Woman', text: 'History was interesting, we learned about ancient Egypt. But the best class was Science! We did an experiment in the lab.' }
+                    ],
+                    options: ["Maths", "History", "Science"],
+                    correct: 2,
+                    exp: "ผู้หญิงพูดว่า 'But the best class was Science!' (แต่วิชาที่ดีที่สุดคือวิทยาศาสตร์)"
+                },
+                {
+                    q: "How much did the woman pay for the dress?",
+                    script: [
+                        { speaker: 'Man', text: 'That\'s a beautiful dress, Maria. Was it expensive?' },
+                        { speaker: 'Woman', text: 'Thank you! It was in the sale. The original price was 50 pounds.' },
+                        { speaker: 'Man', text: 'Wow, 50 pounds is a lot.' },
+                        { speaker: 'Woman', text: 'I know, but it was half-price. So I only paid 25 pounds.' }
+                    ],
+                    options: ["50 pounds", "25 pounds", "75 pounds"],
+                    correct: 1,
+                    exp: "ผู้หญิงพูดว่ามัน 'half-price' (ครึ่งราคา) จาก 50 ปอนด์ 'So I only paid 25 pounds.' (ดังนั้นฉันจ่ายไปแค่ 25 ปอนด์)"
+                },
+                {
+                    q: "What will the weather be like tomorrow?",
+                    script: [
+                        { speaker: 'Man', text: 'And now for the weather forecast. Today was very cold and windy.' },
+                        { speaker: 'Man', text: 'Tomorrow, the wind will stop, but it will be very wet in the morning. The rain will continue all day.' },
+                        { speaker: 'Man', text: 'However, the temperature will be much warmer, around 15 degrees.' }
+                    ],
+                    options: ["Cold and windy", "Warm and rainy", "Cold and sunny"],
+                    correct: 1,
+                    exp: "ผู้ประกาศข่าวพูดว่า 'it will be very wet in the morning' (อากาศจะเปียกมากในตอนเช้า) และ 'The rain will continue all day' (ฝนจะตกตลอดวัน) และ 'the temperature will be much warmer' (อุณหภูมิจะอุ่นขึ้นมาก)"
+                },
+                {
+                    q: "What does the man want to eat?",
+                    script: [
+                        { speaker: 'Woman', text: 'What should we have for dinner? I can make pasta.' },
+                        { speaker: 'Man', text: 'Hmm, we had pasta last night. I don\'t really want it again.' },
+                        { speaker: 'Woman', text: 'Okay. How about chicken salad?' },
+                        { speaker: 'Man', text: 'I\'m not very hungry. I think I\'ll just have some soup and bread. That sounds perfect.' }
+                    ],
+                    options: ["Pasta", "Chicken salad", "Soup and bread"],
+                    correct: 2,
+                    exp: "ผู้ชายพูดว่า 'I think I'll just have some soup and bread.' (ฉันคิดว่าฉันจะทานแค่ซุปกับขนมปัง)"
+                },
+                {
+                    q: "When is the man's appointment?",
+                    script: [
+                        { speaker: 'Woman', text: 'Doctor\'s office, how can I help?' },
+                        { speaker: 'Man', text: 'Hello, I\'d like to make an appointment to see Dr. Brown.' },
+                        { speaker: 'Woman', text: 'Okay, Dr. Brown is available on Wednesday afternoon or Friday morning.' },
+                        { speaker: 'Man', text: 'I am busy on Wednesday. Friday morning is good. What time?' },
+                        { speaker: 'Woman', text: 'Is 9:30 AM okay?' },
+                        { speaker: 'Man', text: 'Yes, 9:30 on Friday is perfect. Thank you.' }
+                    ],
+                    options: ["Wednesday afternoon", "Friday at 9:30 AM", "Friday at 11:30 AM"],
+                    correct: 1,
+                    exp: "ผู้ชายเลือก 'Friday morning' (เช้าวันศุกร์) และพนักงานต้อนรับเสนอนัด '9:30 AM' ซึ่งเขาตอบว่า 'perfect' (สมบูรณ์แบบ)"
+                },
+                {
+                    q: "What did the woman lose?",
+                    script: [
+                        { speaker: 'Man', text: 'What\'s wrong, Lucy? You look worried.' },
+                        { speaker: 'Woman', text: 'I am! I can\'t find my keys. I had them when I left the cafe.' },
+                        { speaker: 'Man', text: 'Did you check your coat pocket?' },
+                        { speaker: 'Woman', text: 'Yes, I checked my pocket and my handbag. Oh, wait... here they are! They fell under the car seat. Phew!' }
+                    ],
+                    options: ["Her handbag", "Her coat", "Her keys"],
+                    correct: 2,
+                    exp: "ผู้หญิงพูดว่า 'I can't find my keys.' (ฉันหากุญแจไม่เจอ)"
+                }
+            ];
+
+            startListeningQuizBtn.addEventListener('click', () => {
+                currentListeningQuiz = listeningQuizData;
+                currentListeningQuestionIndex = 0;
+                listeningQuizSelection.classList.add('hidden');
+                listeningQuizContainer.classList.remove('hidden');
+                displayListeningQuestion();
+            });
+
+            function displayListeningQuestion() {
+                if (currentListeningQuestionIndex >= currentListeningQuiz.length) {
+                    showListeningQuizSelection();
+                    return;
+                }
+                
+                synth.cancel(); // Stop any previous speech
+                const question = currentListeningQuiz[currentListeningQuestionIndex];
+                currentAudioScript = question.script; 
+                listeningQuestionText.textContent = question.q;
+                listeningQuizProgress.textContent = `ข้อ ${currentListeningQuestionIndex + 1} / ${currentListeningQuiz.length}`;
+                
+                listeningOptionsContainer.innerHTML = '';
+                listeningExplanationContainer.classList.add('hidden');
+                listeningExplanationText.textContent = '';
+                listeningNextBtn.classList.add('hidden');
+                playAudioBtn.disabled = false;
+
+                question.options.forEach((option, index) => {
+                    const button = document.createElement('button');
+                    button.textContent = option;
+                    button.classList.add('quiz-option-btn');
+                    if (index === question.correct) {
+                        button.dataset.correct = 'true';
+                    }
+                    button.addEventListener('click', selectListeningAnswer);
+                    listeningOptionsContainer.appendChild(button);
+                });
+            }
+            
+            function speak(script) {
+                if (synth.speaking) {
+                    synth.cancel();
+                }
+                if (!voiceMale || !voiceFemale) {
+                    loadVoices(); // Try to load again
+                    if (!voiceMale || !voiceFemale) {
+                        console.error("Voices not loaded. Using default.");
+                        // Fallback to default voices if still not loaded
+                        voiceMale = voices[0];
+                        voiceFemale = voices.length > 1 ? voices[1] : voices[0];
+                        if (!voiceMale) {
+                            alert("ไม่สามารถโหลดเสียงพูดได้ กรุณาลองรีเฟรชหน้า");
+                            return;
+                        }
+                    }
+                }
+
+                playAudioBtn.disabled = true;
+
+                script.forEach((line, index) => {
+                    const utterance = new SpeechSynthesisUtterance(line.text);
+                    
+                    if (line.speaker.toLowerCase() === 'woman') {
+                        utterance.voice = voiceFemale;
+                    } else {
+                        utterance.voice = voiceMale;
+                    }
+                    utterance.rate = 0.9;
+                    
+                    if (index === script.length - 1) {
+                        utterance.onend = () => { playAudioBtn.disabled = false; };
+                    }
+                    synth.speak(utterance);
+                });
+            }
+
+            playAudioBtn.addEventListener('click', () => {
+                speak(currentAudioScript);
+            });
+
+            function selectListeningAnswer(e) {
+                synth.cancel(); // Stop audio on answer
+                const selectedBtn = e.target;
+                const isCorrect = selectedBtn.dataset.correct === 'true';
+
+                Array.from(listeningOptionsContainer.children).forEach(btn => {
+                    btn.disabled = true;
+                    if (btn.dataset.correct === 'true') {
+                        btn.classList.add('correct');
+                    }
+                });
+
+                if (!isCorrect) {
+                    selectedBtn.classList.add('incorrect');
+                }
+
+                listeningExplanationText.textContent = currentListeningQuiz[currentListeningQuestionIndex].exp;
+                listeningExplanationContainer.classList.remove('hidden');
+                listeningNextBtn.classList.remove('hidden');
+                playAudioBtn.disabled = true; 
+            }
+
+            listeningNextBtn.addEventListener('click', () => {
+                currentListeningQuestionIndex++;
+                displayListeningQuestion();
+            });
+
+            listeningQuitQuizBtn.addEventListener('click', showListeningQuizSelection);
+            
+            function showListeningQuizSelection() {
+                synth.cancel();
+                listeningQuizContainer.classList.add('hidden');
+                listeningQuizSelection.classList.remove('hidden');
+            }
+
+        });
+    </script>
+</body>
+</html>

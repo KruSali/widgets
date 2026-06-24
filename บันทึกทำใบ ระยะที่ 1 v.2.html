@@ -1,0 +1,971 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>บันทึกการทำงาน: เช็คลิสต์ฟื้นฟูต้นหลังเก็บเกี่ยว</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        body {
+            font-family: 'Sarabun', sans-serif;
+            background-color: #f3f7f4;
+        }
+        /* Custom Checkbox Styling for larger/prettier touch target */
+        .custom-checkbox {
+            width: 1.5rem;
+            height: 1.5rem;
+            border: 2px solid #a3b899;
+            border-radius: 0.375rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .custom-checkbox input[type="checkbox"] {
+            display: none;
+        }
+        .custom-checkbox input[type="checkbox"]:checked + .check-mark {
+            opacity: 1;
+            transform: scale(1);
+        }
+        .custom-checkbox input[type="checkbox"]:checked {
+            background-color: #2e7d32;
+            border-color: #2e7d32;
+        }
+    </style>
+</head>
+<body class="min-h-screen text-slate-800">
+
+    <div class="max-w-6xl mx-auto px-4 py-8">
+        
+        <header class="bg-gradient-to-r from-emerald-800 via-emerald-700 to-teal-800 text-white rounded-3xl p-6 md:p-8 shadow-xl mb-8 relative overflow-hidden">
+            <div class="absolute -right-16 -top-16 w-48 h-48 bg-emerald-600 rounded-full opacity-20 blur-2xl"></div>
+            <div class="absolute -left-16 -bottom-16 w-48 h-48 bg-teal-600 rounded-full opacity-20 blur-2xl"></div>
+            
+            <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
+                <div>
+                    <span class="bg-emerald-900/50 text-emerald-200 text-xs font-bold px-3 py-1.5 rounded-full uppercase tracking-wider">
+                        🌱 กลุ่มทุเรียนมาตรฐาน Q-Chan
+                    </span>
+                    <h1 class="text-2xl md:text-3.5xl font-extrabold mt-3 tracking-tight">
+                        บันทึกการทำงาน: เช็คลิสต์ฟื้นฟูต้นหลังเก็บเกี่ยว
+                    </h1>
+                    <p class="text-emerald-100 text-sm md:text-base mt-2 flex items-center gap-2">
+                        <span>📋 ติดตามความคืบหน้าการทำใบครั้งที่ 1</span>
+                    </p>
+                </div>
+                
+                <div class="flex flex-wrap gap-2">
+                    <button onclick="clearDraft()" class="bg-red-500/20 hover:bg-red-500/40 text-red-200 transition px-4 py-2.5 rounded-xl text-sm font-semibold flex items-center gap-2 border border-red-500/30">
+                        🗑️ ล้างข้อมูลร่าง
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+            
+            <div class="bg-white rounded-2xl p-6 shadow-md border border-emerald-100/60 lg:col-span-2">
+                <h3 class="text-lg font-bold text-emerald-800 mb-4 flex items-center gap-2">
+                    🌾 ข้อมูลแปลงและสมาชิก
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">ชื่อแปลงทุเรียน</label>
+                        <input type="text" id="plot_name" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition" placeholder="ระบุชื่อแปลง หรือ ชื่อเกษตรกร">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">จำนวนไร่ (ไร่)</label>
+                        <input type="number" id="plot_size" step="0.1" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition" placeholder="ตัวอย่าง: 12.5">
+                    </div>
+                    
+                    <div class="md:col-span-2 mt-2">
+                        <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">
+                            หมายเลขสมาชิก <span class="text-amber-600 font-bold">* บังคับกรอก 3 หลักแรก</span> (รูปแบบ: xxx-xxxxxxxx-x)
+                        </label>
+                        <div class="flex flex-wrap items-center gap-1">
+                            <div class="flex gap-1">
+                                <input type="text" pattern="[0-9]*" inputmode="numeric" maxlength="1" id="member_id_1" class="w-8 h-10 text-center bg-amber-50 border border-amber-300 rounded-lg text-lg font-bold text-amber-900 focus:ring-2 focus:ring-amber-500 focus:outline-none transition" oninput="handleMemberIdInput(event, 1)" onkeydown="handleMemberIdKeydown(event, 1)">
+                                <input type="text" pattern="[0-9]*" inputmode="numeric" maxlength="1" id="member_id_2" class="w-8 h-10 text-center bg-amber-50 border border-amber-300 rounded-lg text-lg font-bold text-amber-900 focus:ring-2 focus:ring-amber-500 focus:outline-none transition" oninput="handleMemberIdInput(event, 2)" onkeydown="handleMemberIdKeydown(event, 2)">
+                                <input type="text" pattern="[0-9]*" inputmode="numeric" maxlength="1" id="member_id_3" class="w-8 h-10 text-center bg-amber-50 border border-amber-300 rounded-lg text-lg font-bold text-amber-900 focus:ring-2 focus:ring-amber-500 focus:outline-none transition" oninput="handleMemberIdInput(event, 3)" onkeydown="handleMemberIdKeydown(event, 3)">
+                            </div>
+                            
+                            <span class="text-slate-400 font-extrabold mx-0.5">-</span>
+                            
+                            <div class="flex gap-1">
+                                <input type="text" pattern="[0-9]*" inputmode="numeric" maxlength="1" id="member_id_4" class="w-8 h-10 text-center bg-slate-50 border border-slate-200 rounded-lg text-lg font-bold focus:ring-2 focus:ring-emerald-500 focus:outline-none transition" oninput="handleMemberIdInput(event, 4)" onkeydown="handleMemberIdKeydown(event, 4)">
+                                <input type="text" pattern="[0-9]*" inputmode="numeric" maxlength="1" id="member_id_5" class="w-8 h-10 text-center bg-slate-50 border border-slate-200 rounded-lg text-lg font-bold focus:ring-2 focus:ring-emerald-500 focus:outline-none transition" oninput="handleMemberIdInput(event, 5)" onkeydown="handleMemberIdKeydown(event, 5)">
+                                <input type="text" pattern="[0-9]*" inputmode="numeric" maxlength="1" id="member_id_6" class="w-8 h-10 text-center bg-slate-50 border border-slate-200 rounded-lg text-lg font-bold focus:ring-2 focus:ring-emerald-500 focus:outline-none transition" oninput="handleMemberIdInput(event, 6)" onkeydown="handleMemberIdKeydown(event, 6)">
+                                <input type="text" pattern="[0-9]*" inputmode="numeric" maxlength="1" id="member_id_7" class="w-8 h-10 text-center bg-slate-50 border border-slate-200 rounded-lg text-lg font-bold focus:ring-2 focus:ring-emerald-500 focus:outline-none transition" oninput="handleMemberIdInput(event, 7)" onkeydown="handleMemberIdKeydown(event, 7)">
+                                <input type="text" pattern="[0-9]*" inputmode="numeric" maxlength="1" id="member_id_8" class="w-8 h-10 text-center bg-slate-50 border border-slate-200 rounded-lg text-lg font-bold focus:ring-2 focus:ring-emerald-500 focus:outline-none transition" oninput="handleMemberIdInput(event, 8)" onkeydown="handleMemberIdKeydown(event, 8)">
+                                <input type="text" pattern="[0-9]*" inputmode="numeric" maxlength="1" id="member_id_9" class="w-8 h-10 text-center bg-slate-50 border border-slate-200 rounded-lg text-lg font-bold focus:ring-2 focus:ring-emerald-500 focus:outline-none transition" oninput="handleMemberIdInput(event, 9)" onkeydown="handleMemberIdKeydown(event, 9)">
+                                <input type="text" pattern="[0-9]*" inputmode="numeric" maxlength="1" id="member_id_10" class="w-8 h-10 text-center bg-slate-50 border border-slate-200 rounded-lg text-lg font-bold focus:ring-2 focus:ring-emerald-500 focus:outline-none transition" oninput="handleMemberIdInput(event, 10)" onkeydown="handleMemberIdKeydown(event, 10)">
+                                <input type="text" pattern="[0-9]*" inputmode="numeric" maxlength="1" id="member_id_11" class="w-8 h-10 text-center bg-slate-50 border border-slate-200 rounded-lg text-lg font-bold focus:ring-2 focus:ring-emerald-500 focus:outline-none transition" oninput="handleMemberIdInput(event, 11)" onkeydown="handleMemberIdKeydown(event, 11)">
+                            </div>
+                            
+                            <span class="text-slate-400 font-extrabold mx-0.5">-</span>
+                            
+                            <div class="flex gap-1">
+                                <input type="text" pattern="[0-9]*" inputmode="numeric" maxlength="1" id="member_id_12" class="w-8 h-10 text-center bg-slate-50 border border-slate-200 rounded-lg text-lg font-bold focus:ring-2 focus:ring-emerald-500 focus:outline-none transition" oninput="handleMemberIdInput(event, 12)" onkeydown="handleMemberIdKeydown(event, 12)">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-2xl p-6 shadow-md border border-emerald-100/60 flex flex-col justify-between">
+                <div>
+                    <h3 class="text-lg font-bold text-emerald-800 mb-1 flex items-center gap-2">
+                        📊 ความคืบหน้าภาพรวม
+                    </h3>
+                    <p class="text-xs text-slate-500">ติดตามสถานะงานที่ต้องทำทั้งหมดใน 4 ระยะ</p>
+                </div>
+                
+                <div class="my-4">
+                    <div class="flex justify-between items-end mb-2">
+                        <span class="text-3xl font-extrabold text-emerald-700" id="progress-percent">0%</span>
+                        <span class="text-xs font-semibold text-slate-500" id="progress-ratio">0 จาก 11 รายการ</span>
+                    </div>
+                    <div class="w-full bg-slate-100 rounded-full h-3 overflow-hidden">
+                        <div id="progress-bar" class="bg-emerald-600 h-3 rounded-full transition-all duration-500" style="width: 0%"></div>
+                    </div>
+                </div>
+
+                <div class="text-[11px] text-emerald-700 bg-emerald-50/50 p-2.5 rounded-lg border border-emerald-100">
+                    💡 ระบบบันทึกร่างข้อมูลในเครื่องให้อัตโนมัติทุกครั้งที่มีการเปลี่ยนค่า
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-3xl shadow-lg border border-emerald-100 overflow-hidden mb-8">
+            <div class="p-6 bg-emerald-50 border-b border-emerald-100 flex justify-between items-center">
+                <h2 class="text-xl font-bold text-emerald-900 flex items-center gap-2">
+                    📋 ตารางประเมินผลรวม (ฟื้นฟูต้นหลังเก็บเกี่ยว)
+                </h2>
+                <span class="text-xs bg-emerald-200 text-emerald-800 px-3 py-1 rounded-full font-bold">4 ระยะการดูแล</span>
+            </div>
+            
+            <div class="hidden md:block overflow-x-auto">
+                <table class="w-full border-collapse">
+                    <thead>
+                        <tr class="bg-slate-50 border-b border-emerald-100">
+                            <th class="w-32 py-4 px-6 text-left text-xs font-bold text-slate-400 uppercase tracking-wider"></th>
+                            
+                            <th class="py-4 px-6 text-left border-l border-emerald-100" style="width: 23%;">
+                                <div class="bg-amber-100/80 text-amber-900 rounded-lg p-3 border border-amber-200/50">
+                                    <div class="font-black text-xs">Phase 1</div>
+                                    <div class="text-sm font-extrabold">ปรับสภาพดิน 🟫</div>
+                                </div>
+                            </th>
+                            
+                            <th class="py-4 px-6 text-left border-l border-emerald-100" style="width: 23%;">
+                                <div class="bg-yellow-100/80 text-yellow-900 rounded-lg p-3 border border-yellow-200/50">
+                                    <div class="font-black text-xs">Phase 2</div>
+                                    <div class="text-sm font-extrabold">ฟื้นฟูต้น 🌳</div>
+                                </div>
+                            </th>
+                            
+                            <th class="py-4 px-6 text-left border-l border-emerald-100" style="width: 23%;">
+                                <div class="bg-emerald-100/80 text-emerald-900 rounded-lg p-3 border border-emerald-200/50">
+                                    <div class="font-black text-xs">Phase 3</div>
+                                    <div class="text-sm font-extrabold">กระตุ้นแตกใบ 🌱</div>
+                                </div>
+                            </th>
+                            
+                            <th class="py-4 px-6 text-left border-l border-emerald-100" style="width: 23%;">
+                                <div class="bg-green-800 text-white rounded-lg p-3 shadow-sm">
+                                    <div class="font-black text-xs text-green-200">Phase 4</div>
+                                    <div class="text-sm font-extrabold">บำรุงใบทาง 🍃</div>
+                                </div>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-emerald-50">
+                        
+                        <tr class="hover:bg-slate-50/50 transition">
+                            <td class="py-6 px-6 font-bold text-emerald-800 bg-emerald-50/20 text-center">
+                                <div class="text-sm">ทางดิน</div>
+                                <div class="text-xs text-slate-400 font-normal mt-1">(Soil)</div>
+                            </td>
+                            
+                            <td class="py-6 px-6 border-l border-emerald-50 align-top">
+                                <div class="space-y-3">
+                                    <label class="flex items-start gap-3 cursor-pointer group">
+                                        <input type="checkbox" id="soil_p1_ph" class="rounded border-slate-300 text-emerald-600 focus:ring-emerald-500 w-5 h-5 mt-0.5" onchange="updateProgressAndSave()">
+                                        <span class="text-sm text-slate-700 group-hover:text-emerald-800 transition">วัด pH ดิน</span>
+                                    </label>
+                                    <label class="flex items-start gap-3 cursor-pointer group">
+                                        <input type="checkbox" id="soil_p1_dolo" class="rounded border-slate-300 text-emerald-600 focus:ring-emerald-500 w-5 h-5 mt-0.5" onchange="updateProgressAndSave()">
+                                        <span class="text-sm text-slate-700 group-hover:text-emerald-800 transition">หว่านโดโลไมท์</span>
+                                    </label>
+                                </div>
+                            </td>
+                            
+                            <td class="py-6 px-6 border-l border-emerald-50 align-top bg-yellow-50/10">
+                                <div class="space-y-3">
+                                    <label class="flex items-start gap-3 cursor-pointer group">
+                                        <input type="checkbox" id="soil_p2_fertilizer" class="rounded border-slate-300 text-emerald-600 focus:ring-emerald-500 w-5 h-5 mt-0.5" onchange="updateProgressAndSave()">
+                                        <span class="text-sm text-slate-700 group-hover:text-emerald-800 transition">ปุ๋ยอินทรีย์เคมี 12-3-3</span>
+                                    </label>
+                                </div>
+                            </td>
+                            
+                            <td class="py-6 px-6 border-l border-emerald-50 align-top bg-emerald-50/10">
+                                <div class="space-y-3">
+                                    <label class="flex items-start gap-3 cursor-pointer group">
+                                        <input type="checkbox" id="soil_p3_fert_20" class="rounded border-slate-300 text-emerald-600 focus:ring-emerald-500 w-5 h-5 mt-0.5" onchange="updateProgressAndSave()">
+                                        <span class="text-sm text-slate-700 group-hover:text-emerald-800 transition">ปุ๋ยสูตร 20-10-10</span>
+                                    </label>
+                                    <label class="flex items-start gap-3 cursor-pointer group">
+                                        <input type="checkbox" id="soil_p3_humic" class="rounded border-slate-300 text-emerald-600 focus:ring-emerald-500 w-5 h-5 mt-0.5" onchange="updateProgressAndSave()">
+                                        <span class="text-sm text-slate-700 group-hover:text-emerald-800 transition">พ่นฮิวมิค + ฟูลวิค + อาโทนิค</span>
+                                    </label>
+                                </div>
+                            </td>
+                            
+                            <td class="py-6 px-6 border-l border-emerald-50 align-top bg-slate-50 text-center text-slate-400 italic text-xs">
+                                — ไม่มีรายการพิเศษ —
+                            </td>
+                        </tr>
+
+                        <tr class="hover:bg-slate-50/50 transition">
+                            <td class="py-6 px-6 font-bold text-emerald-800 bg-emerald-50/20 text-center">
+                                <div class="text-sm">ทางใบ</div>
+                                <div class="text-xs text-slate-400 font-normal mt-1">(Foliar)</div>
+                            </td>
+                            
+                            <td class="py-6 px-6 border-l border-emerald-50 align-top bg-slate-50 text-center text-slate-400 italic text-xs">
+                                — ไม่มีรายการพิเศษ —
+                            </td>
+                            
+                            <td class="py-6 px-6 border-l border-emerald-50 align-top bg-yellow-50/10">
+                                <div class="space-y-3">
+                                    <label class="flex items-start gap-3 cursor-pointer group">
+                                        <input type="checkbox" id="foliar_p2_spray" class="rounded border-slate-300 text-emerald-600 focus:ring-emerald-500 w-5 h-5 mt-0.5" onchange="updateProgressAndSave()">
+                                        <span class="text-sm text-slate-700 group-hover:text-emerald-800 transition">
+                                            พ่นดึงใบ <span class="text-xs text-slate-500 block">(เทรนเนอร์ + 21-7-7 + พาสปอร์ต + ยา)</span>
+                                        </span>
+                                    </label>
+                                </div>
+                            </td>
+                            
+                            <td class="py-6 px-6 border-l border-emerald-50 align-top bg-emerald-50/10">
+                                <div class="space-y-3">
+                                    <label class="flex items-start gap-3 cursor-pointer group">
+                                        <input type="checkbox" id="foliar_p3_repeat" class="rounded border-slate-300 text-emerald-600 focus:ring-emerald-500 w-5 h-5 mt-0.5" onchange="updateProgressAndSave()">
+                                        <span class="text-sm text-slate-700 group-hover:text-emerald-800 transition">พ่นดึงใบซ้ำ</span>
+                                    </label>
+                                </div>
+                            </td>
+                            
+                            <td class="py-6 px-6 border-l border-emerald-50 align-top bg-green-50/5">
+                                <div class="space-y-3">
+                                    <label class="flex items-start gap-3 cursor-pointer group">
+                                        <input type="checkbox" id="foliar_p4_red" class="rounded border-slate-300 text-emerald-600 focus:ring-emerald-500 w-5 h-5 mt-0.5" onchange="updateProgressAndSave()">
+                                        <span class="text-sm text-slate-700 group-hover:text-emerald-800 transition">
+                                            ใบปริแดง: <span class="text-xs text-slate-500 block">สาหร่าย + ซุปเปอร์เอ็น + จิบเบอเรลลิน + ยา</span>
+                                        </span>
+                                    </label>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <tr class="hover:bg-slate-50/50 transition">
+                            <td class="py-6 px-6 font-bold text-emerald-800 bg-emerald-50/20 text-center">
+                                <div class="text-xs">ระยะเวลา/ทริค</div>
+                                <div class="text-[10px] text-slate-400 font-normal mt-1">(Timing/Tricks)</div>
+                            </td>
+                            
+                            <td class="py-6 px-6 border-l border-emerald-50 align-top">
+                                <div class="space-y-3">
+                                    <label class="flex items-start gap-3 cursor-pointer group">
+                                        <input type="checkbox" id="trick_p1_rest" class="rounded border-slate-300 text-emerald-600 focus:ring-emerald-500 w-5 h-5 mt-0.5" onchange="updateProgressAndSave()">
+                                        <span class="text-sm text-slate-700 group-hover:text-emerald-800 transition font-medium text-amber-800">พักแปลง 10-15 วัน</span>
+                                    </label>
+                                </div>
+                            </td>
+                            
+                            <td class="py-6 px-6 border-l border-emerald-50 align-top bg-slate-50 text-center text-slate-400 italic text-xs">
+                                — ไม่มีรายการพิเศษ —
+                            </td>
+                            
+                            <td class="py-6 px-6 border-l border-emerald-50 align-top bg-emerald-50/10">
+                                <div class="space-y-3">
+                                    <label class="flex items-start gap-3 cursor-pointer group">
+                                        <input type="checkbox" id="trick_p3_clean" class="rounded border-slate-300 text-emerald-600 focus:ring-emerald-500 w-5 h-5 mt-0.5" onchange="updateProgressAndSave()">
+                                        <span class="text-sm text-slate-700 group-hover:text-emerald-800 transition">
+                                            ล้างต้น: <span class="text-xs text-slate-500 block">ฟอสอีทิล-อะลูมิเนียม (ช่วง 10 วัน)</span>
+                                        </span>
+                                    </label>
+                                </div>
+                            </td>
+                            
+                            <td class="py-6 px-6 border-l border-emerald-50 align-top bg-green-50/5">
+                                <div class="space-y-3">
+                                    <label class="flex items-start gap-3 cursor-pointer group">
+                                        <input type="checkbox" id="trick_p4_open" class="rounded border-slate-300 text-emerald-600 focus:ring-emerald-500 w-5 h-5 mt-0.5" onchange="updateProgressAndSave()">
+                                        <span class="text-sm text-slate-700 group-hover:text-emerald-800 transition">
+                                            ใบเริ่มกาง: <span class="text-xs text-slate-500 block">พ่นซ้ำ งดจิบเบอเรลลิน (หลัง 10-15 วัน)</span>
+                                        </span>
+                                    </label>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="block md:hidden p-4 space-y-4">
+                
+                <div class="border border-amber-200 rounded-2xl overflow-hidden shadow-sm">
+                    <div class="bg-amber-100 p-4 text-amber-900 font-bold flex justify-between items-center">
+                        <span>Phase 1: ปรับสภาพดิน 🟫</span>
+                        <span class="text-xs bg-white/70 px-2.5 py-0.5 rounded-full text-amber-900">3 งาน</span>
+                    </div>
+                    <div class="p-4 bg-white space-y-4">
+                        <div>
+                            <span class="text-xs font-bold text-amber-800 block mb-2">● ทางดิน (Soil)</span>
+                            <div class="space-y-3 pl-2">
+                                <label class="flex items-center gap-3 cursor-pointer">
+                                    <input type="checkbox" id="m_soil_p1_ph" class="rounded border-slate-300 text-emerald-600 w-5 h-5" onchange="syncCheckboxes('m_soil_p1_ph', 'soil_p1_ph')">
+                                    <span class="text-sm">วัด pH ดิน</span>
+                                </label>
+                                <label class="flex items-center gap-3 cursor-pointer">
+                                    <input type="checkbox" id="m_soil_p1_dolo" class="rounded border-slate-300 text-emerald-600 w-5 h-5" onchange="syncCheckboxes('m_soil_p1_dolo', 'soil_p1_dolo')">
+                                    <span class="text-sm">หว่านโดโลไมท์</span>
+                                </label>
+                            </div>
+                        </div>
+                        <hr class="border-amber-100">
+                        <div>
+                            <span class="text-xs font-bold text-amber-800 block mb-2">● ระยะเวลา/ทริค</span>
+                            <div class="space-y-3 pl-2">
+                                <label class="flex items-center gap-3 cursor-pointer">
+                                    <input type="checkbox" id="m_trick_p1_rest" class="rounded border-slate-300 text-emerald-600 w-5 h-5" onchange="syncCheckboxes('m_trick_p1_rest', 'trick_p1_rest')">
+                                    <span class="text-sm text-amber-900 font-medium">พักแปลง 10-15 วัน</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="border border-yellow-200 rounded-2xl overflow-hidden shadow-sm">
+                    <div class="bg-yellow-100 p-4 text-yellow-900 font-bold flex justify-between items-center">
+                        <span>Phase 2: ฟื้นฟูต้น 🌳</span>
+                        <span class="text-xs bg-white/70 px-2.5 py-0.5 rounded-full text-yellow-900">2 งาน</span>
+                    </div>
+                    <div class="p-4 bg-white space-y-4">
+                        <div>
+                            <span class="text-xs font-bold text-yellow-800 block mb-2">● ทางดิน (Soil)</span>
+                            <div class="space-y-3 pl-2">
+                                <label class="flex items-center gap-3 cursor-pointer">
+                                    <input type="checkbox" id="m_soil_p2_fertilizer" class="rounded border-slate-300 text-emerald-600 w-5 h-5" onchange="syncCheckboxes('m_soil_p2_fertilizer', 'soil_p2_fertilizer')">
+                                    <span class="text-sm">ปุ๋ยอินทรีย์เคมี 12-3-3</span>
+                                </label>
+                            </div>
+                        </div>
+                        <hr class="border-yellow-100">
+                        <div>
+                            <span class="text-xs font-bold text-yellow-800 block mb-2">● ทางใบ (Foliar)</span>
+                            <div class="space-y-3 pl-2">
+                                <label class="flex items-start gap-3 cursor-pointer">
+                                    <input type="checkbox" id="m_foliar_p2_spray" class="rounded border-slate-300 text-emerald-600 w-5 h-5 mt-0.5" onchange="syncCheckboxes('m_foliar_p2_spray', 'foliar_p2_spray')">
+                                    <span class="text-sm">
+                                        พ่นดึงใบ <span class="text-xs text-slate-500 block">(เทรนเนอร์ + 21-7-7 + พาสปอร์ต + ยา)</span>
+                                    </span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="border border-emerald-200 rounded-2xl overflow-hidden shadow-sm">
+                    <div class="bg-emerald-100 p-4 text-emerald-900 font-bold flex justify-between items-center">
+                        <span>Phase 3: กระตุ้นแตกใบ 🌱</span>
+                        <span class="text-xs bg-white/70 px-2.5 py-0.5 rounded-full text-emerald-900">4 งาน</span>
+                    </div>
+                    <div class="p-4 bg-white space-y-4">
+                        <div>
+                            <span class="text-xs font-bold text-emerald-800 block mb-2">● ทางดิน (Soil)</span>
+                            <div class="space-y-3 pl-2">
+                                <label class="flex items-center gap-3 cursor-pointer">
+                                    <input type="checkbox" id="m_soil_p3_fert_20" class="rounded border-slate-300 text-emerald-600 w-5 h-5" onchange="syncCheckboxes('m_soil_p3_fert_20', 'soil_p3_fert_20')">
+                                    <span class="text-sm">ปุ๋ยสูตร 20-10-10</span>
+                                </label>
+                                <label class="flex items-center gap-3 cursor-pointer">
+                                    <input type="checkbox" id="m_soil_p3_humic" class="rounded border-slate-300 text-emerald-600 w-5 h-5" onchange="syncCheckboxes('m_soil_p3_humic', 'soil_p3_humic')">
+                                    <span class="text-sm">พ่นฮิวมิค + ฟูลวิค + อาโทนิค</span>
+                                </label>
+                            </div>
+                        </div>
+                        <hr class="border-emerald-100">
+                        <div>
+                            <span class="text-xs font-bold text-emerald-800 block mb-2">● ทางใบ (Foliar)</span>
+                            <div class="space-y-3 pl-2">
+                                <label class="flex items-center gap-3 cursor-pointer">
+                                    <input type="checkbox" id="m_foliar_p3_repeat" class="rounded border-slate-300 text-emerald-600 w-5 h-5" onchange="syncCheckboxes('m_foliar_p3_repeat', 'foliar_p3_repeat')">
+                                    <span class="text-sm">พ่นดึงใบซ้ำ</span>
+                                </label>
+                            </div>
+                        </div>
+                        <hr class="border-emerald-100">
+                        <div>
+                            <span class="text-xs font-bold text-emerald-800 block mb-2">● ระยะเวลา/ทริค</span>
+                            <div class="space-y-3 pl-2">
+                                <label class="flex items-start gap-3 cursor-pointer">
+                                    <input type="checkbox" id="m_trick_p3_clean" class="rounded border-slate-300 text-emerald-600 w-5 h-5 mt-0.5" onchange="syncCheckboxes('m_trick_p3_clean', 'trick_p3_clean')">
+                                    <span class="text-sm">
+                                        ล้างต้น: <span class="text-xs text-slate-500 block font-medium">ฟอสอีทิล-อะลูมิเนียม (ช่วง 10 วัน)</span>
+                                    </span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="border border-green-800 rounded-2xl overflow-hidden shadow-sm">
+                    <div class="bg-green-800 p-4 text-white font-bold flex justify-between items-center">
+                        <span>Phase 4: บำรุงใบทาง 🍃</span>
+                        <span class="text-xs bg-green-900 px-2.5 py-0.5 rounded-full text-white">2 งาน</span>
+                    </div>
+                    <div class="p-4 bg-white space-y-4">
+                        <div>
+                            <span class="text-xs font-bold text-green-800 block mb-2">● ทางใบ (Foliar)</span>
+                            <div class="space-y-3 pl-2">
+                                <label class="flex items-start gap-3 cursor-pointer">
+                                    <input type="checkbox" id="m_foliar_p4_red" class="rounded border-slate-300 text-emerald-600 w-5 h-5 mt-0.5" onchange="syncCheckboxes('m_foliar_p4_red', 'foliar_p4_red')">
+                                    <span class="text-sm">
+                                        ใบปริแดง: <span class="text-xs text-slate-500 block">สาหร่าย + ซุปเปอร์เอ็น + จิบเบอเรลลิน + ยา</span>
+                                    </span>
+                                </label>
+                            </div>
+                        </div>
+                        <hr class="border-emerald-100">
+                        <div>
+                            <span class="text-xs font-bold text-green-800 block mb-2">● ระยะเวลา/ทริค</span>
+                            <div class="space-y-3 pl-2">
+                                <label class="flex items-start gap-3 cursor-pointer">
+                                    <input type="checkbox" id="m_trick_p4_open" class="rounded border-slate-300 text-emerald-600 w-5 h-5 mt-0.5" onchange="syncCheckboxes('m_trick_p4_open', 'trick_p4_open')">
+                                    <span class="text-sm">
+                                        ใบเริ่มกาง: <span class="text-xs text-slate-500 block font-medium">พ่นซ้ำ งดจิบเบอเรลลิน (หลัง 10-15 วัน)</span>
+                                    </span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="bg-white rounded-3xl p-6 md:p-8 shadow-lg border border-emerald-100 mb-8">
+            <h2 class="text-xl font-bold text-emerald-900 mb-6 pb-3 border-b border-emerald-50 flex items-center gap-2">
+                📝 รายละเอียดแปลงทุเรียนและการวิเคราะห์เพิ่มเติม
+            </h2>
+            
+            <div class="space-y-6">
+                <div>
+                    <label class="block text-sm font-bold text-emerald-800 mb-2 flex items-center gap-1.5">
+                        🍃 ระยะใบในปัจจุบัน:
+                    </label>
+                    <input type="text" id="current_leaf" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-slate-800 focus:ring-2 focus:ring-emerald-500 focus:outline-none transition" placeholder="ระบุระยะใบ เช่น ใบอ่อน ดึงใบ ใบเพสลาด">
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-bold text-emerald-800 mb-2 flex items-center gap-1.5">
+                        🌿 สภาพโดยรวมทั่วไป:
+                    </label>
+                    <textarea id="overall_condition" rows="3" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-slate-800 focus:ring-2 focus:ring-emerald-500 focus:outline-none transition" placeholder="ระบุสีใบ ความสมบูรณ์ของลำต้น หรือการสลัดขั้ว"></textarea>
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-bold text-emerald-800 mb-2 flex items-center gap-1.5">
+                        🔧 ข้อปรับปรุงแก้ไข:
+                    </label>
+                    <textarea id="improvements" rows="3" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-slate-800 focus:ring-2 focus:ring-emerald-500 focus:outline-none transition" placeholder="สิ่งที่ต้องระมัดระวัง เช่น สภาพดินเป็นกรด, ขาดน้ำ หรือพบปัญหาโรคพืช/แมลง"></textarea>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-sm font-bold text-emerald-800 mb-2 flex items-center gap-1.5">
+                            📊 แผนงานในระยะต่อไป:
+                        </label>
+                        <textarea id="next_plan" rows="3" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-slate-800 focus:ring-2 focus:ring-emerald-500 focus:outline-none transition" placeholder="ขั้นตอนที่ต้องทำต่อ เช่น เตรียมการให้ปุ๋ยรอบถัดไป"></textarea>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-bold text-emerald-800 mb-2 flex items-center gap-1.5">
+                            📅 นัดหมายครั้งต่อไป:
+                        </label>
+                        <input type="text" id="next_appointment" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-slate-800 focus:ring-2 focus:ring-emerald-500 focus:outline-none transition" placeholder="ระบุวันที่ หรือกิจกรรมในวันถัดไป เช่น 15 สิงหาคม เข้าตรวจแปลงทำใบ">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-3xl p-6 md:p-8 shadow-lg border border-emerald-100 mb-8">
+            <h2 class="text-xl font-bold text-emerald-900 mb-2 flex items-center gap-2">
+                📸 แนบรูปภาพความคืบหน้าแปลง (ส่งได้สูงสุด 5 รูป)
+            </h2>
+            <p class="text-xs text-slate-500 mb-6">
+                รองรับการกดถ่ายรูปโดยตรงจากโทรศัพท์มือถือ หรือเลือกไฟล์รูปภาพจากเครื่อง (รูปจะถูกย่อขนาดเพื่อส่งประหยัดเน็ตอัตโนมัติ)
+            </p>
+
+            <div class="grid grid-cols-2 sm:grid-cols-5 gap-4">
+                <script>
+                    for(let i=1; i<=5; i++) {
+                        document.write(`
+                            <div class="relative group">
+                                <input type="file" id="file_slot_${i}" accept="image/*" class="hidden" onchange="handleImageSelection(event, ${i})">
+                                <div id="preview_container_${i}" onclick="triggerFileInput(${i})" class="aspect-square border-2 border-dashed border-slate-200 hover:border-emerald-500 rounded-2xl flex flex-col items-center justify-center cursor-pointer transition p-3 bg-slate-50/50 text-center">
+                                    <div id="upload_icon_${i}">
+                                        <i class="fa-solid fa-camera text-slate-400 text-2xl mb-1.5 group-hover:scale-110 transition duration-200"></i>
+                                        <p class="text-xs font-semibold text-slate-500">รูปที่ ${i}</p>
+                                    </div>
+                                    <img id="img_preview_${i}" class="hidden w-full h-full object-cover rounded-xl" />
+                                </div>
+                                <button id="btn_delete_${i}" onclick="deleteImageSlot(${i})" class="hidden absolute -top-2 -right-2 bg-red-500 hover:bg-red-600 text-white w-6 h-6 rounded-full flex items-center justify-center text-xs shadow-md transition z-10">
+                                    <i class="fa-solid fa-xmark"></i>
+                                </button>
+                            </div>
+                        `);
+                    }
+                </script>
+            </div>
+        </div>
+
+        <div class="flex flex-col sm:flex-row items-center justify-end gap-4 bg-white p-6 rounded-3xl border border-emerald-100 shadow-md">
+            <div class="text-slate-400 text-xs w-full sm:w-auto text-center sm:text-left">
+                * ตรวจสอบข้อมูลและรูปภาพก่อนส่งบันทึก
+            </div>
+            <button onclick="printForm()" class="w-full sm:w-auto bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold px-6 py-3.5 rounded-xl transition flex items-center justify-center gap-2">
+                🖨️ พิมพ์เอกสาร / เซฟ PDF
+            </button>
+            <button onclick="submitToGoogleSheet()" id="btn-submit" class="w-full sm:w-auto bg-emerald-700 hover:bg-emerald-800 text-white font-extrabold px-8 py-3.5 rounded-xl transition shadow-md flex items-center justify-center gap-2 relative">
+                <span id="btn-text">📤 ส่งบันทึกเข้า Google Sheet</span>
+                <span id="btn-loader" class="hidden animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent"></span>
+            </button>
+        </div>
+
+    </div>
+
+    <div id="toast-box" class="fixed bottom-5 right-5 transform translate-y-20 opacity-0 transition-all duration-300 ease-out z-50 pointer-events-none">
+        <div class="bg-slate-900 text-white px-6 py-4 rounded-2xl shadow-2xl flex items-center gap-3 border border-slate-700">
+            <span id="toast-icon" class="text-emerald-400 text-lg">💡</span>
+            <span id="toast-msg" class="text-sm font-semibold">ข้อความระบบ</span>
+        </div>
+    </div>
+
+    <script>
+        // =========================================================================
+        // ⚠️ การตั้งค่าหลังบ้าน: วาง URL ของ Google Sheets Web App ตรงนี้ได้เลย!
+        // =========================================================================
+        const GOOGLE_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbz66sI9pwkvrbNFb4XywafYmDl-JmZe5dY6XSEyJpp7l5A9FiqKmufot-4P0EfUagI05Q/exec"; 
+
+        // Checklist ID Matrix mapping for responsiveness
+        const syncMap = {
+            'soil_p1_ph': 'm_soil_p1_ph',
+            'soil_p1_dolo': 'm_soil_p1_dolo',
+            'trick_p1_rest': 'm_trick_p1_rest',
+            'soil_p2_fertilizer': 'm_soil_p2_fertilizer',
+            'foliar_p2_spray': 'm_foliar_p2_spray',
+            'soil_p3_fert_20': 'm_soil_p3_fert_20',
+            'soil_p3_humic': 'm_soil_p3_humic',
+            'foliar_p3_repeat': 'm_foliar_p3_repeat',
+            'trick_p3_clean': 'm_trick_p3_clean',
+            'foliar_p4_red': 'm_foliar_p4_red',
+            'trick_p4_open': 'm_trick_p4_open'
+        };
+
+        const checklistIds = Object.keys(syncMap);
+        
+        // Memory to hold current uploaded image data (slot indices 1 to 5)
+        const imagePayloadData = { 1: null, 2: null, 3: null, 4: null, 5: null };
+
+        // System notification handler (Toast replacing alert)
+        function showToast(message, icon = "💡") {
+            const toast = document.getElementById('toast-box');
+            const msgEl = document.getElementById('toast-msg');
+            const iconEl = document.getElementById('toast-icon');
+            
+            msgEl.textContent = message;
+            iconEl.textContent = icon;
+            
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            toast.classList.add('translate-y-0', 'opacity-100');
+            
+            setTimeout(() => {
+                toast.classList.remove('translate-y-0', 'opacity-100');
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 4000);
+        }
+
+        // Trigger native file prompt when clicked
+        function triggerFileInput(slotId) {
+            document.getElementById(`file_slot_${slotId}`).click();
+        }
+
+        // Local Image Selection and Auto Compression System
+        function handleImageSelection(event, slotId) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            // Basic type verification
+            if (!file.type.match('image.*')) {
+                showToast("กรุณาเลือกไฟล์ที่เป็นรูปภาพเท่านั้นครับ", "⚠️");
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = new Image();
+                img.onload = function() {
+                    // Start Client-Side Resizing and Compression (Limit to max 1024px to prevent large payload)
+                    const canvas = document.createElement('canvas');
+                    let width = img.width;
+                    let height = img.height;
+                    const max_size = 1024; 
+                    
+                    if (width > height) {
+                        if (width > max_size) {
+                            height *= max_size / width;
+                            width = max_size;
+                        }
+                    } else {
+                        if (height > max_size) {
+                            width *= max_size / height;
+                            height = max_size;
+                        }
+                    }
+
+                    canvas.width = width;
+                    canvas.height = height;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0, width, height);
+                    
+                    // Compress to JPEG with 0.75 quality 
+                    const dataUrl = canvas.toDataURL('image/jpeg', 0.75);
+                    
+                    // Save to memory
+                    imagePayloadData[slotId] = {
+                        data: dataUrl,
+                        name: file.name,
+                        type: 'image/jpeg'
+                    };
+
+                    // Render Preview Image in Slot
+                    const imgPreview = document.getElementById(`img_preview_${slotId}`);
+                    const uploadIcon = document.getElementById(`upload_icon_${slotId}`);
+                    const deleteBtn = document.getElementById(`btn_delete_${slotId}`);
+                    const container = document.getElementById(`preview_container_${slotId}`);
+
+                    imgPreview.src = dataUrl;
+                    imgPreview.classList.remove('hidden');
+                    uploadIcon.classList.add('hidden');
+                    deleteBtn.classList.remove('hidden');
+                    container.classList.remove('border-dashed', 'bg-slate-50/50');
+                    container.classList.add('border-solid', 'border-emerald-500');
+
+                    showToast(`บีบอัดรูปภาพที่ ${slotId} เรียบร้อย!`, "📸");
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        // Clean-up specified image slot
+        function deleteImageSlot(slotId) {
+            // Unset data
+            imagePayloadData[slotId] = null;
+            document.getElementById(`file_slot_${slotId}`).value = "";
+
+            // Restore elements
+            const imgPreview = document.getElementById(`img_preview_${slotId}`);
+            const uploadIcon = document.getElementById(`upload_icon_${slotId}`);
+            const deleteBtn = document.getElementById(`btn_delete_${slotId}`);
+            const container = document.getElementById(`preview_container_${slotId}`);
+
+            imgPreview.src = "";
+            imgPreview.classList.add('hidden');
+            uploadIcon.classList.remove('hidden');
+            deleteBtn.classList.add('hidden');
+            container.classList.add('border-dashed', 'bg-slate-50/50');
+            container.classList.remove('border-solid', 'border-emerald-500');
+            
+            showToast(`ลบรูปภาพที่ ${slotId} แล้ว`, "🗑️");
+        }
+
+        // Auto-focus helper and restriction for Member ID
+        function handleMemberIdInput(e, index) {
+            const input = e.target;
+            input.value = input.value.replace(/[^0-9]/g, '');
+            
+            if (input.value.length === 1 && index < 12) {
+                const nextInput = document.getElementById(`member_id_${index + 1}`);
+                if (nextInput) nextInput.focus();
+            }
+            updateProgressAndSave();
+        }
+
+        function handleMemberIdKeydown(e, index) {
+            if (e.key === 'Backspace' && e.target.value.length === 0 && index > 1) {
+                const prevInput = document.getElementById(`member_id_${index - 1}`);
+                if (prevInput) {
+                    prevInput.focus();
+                }
+            }
+        }
+
+        // Synchronize checklists between Desktop and Mobile layouts
+        function syncCheckboxes(sourceId, targetId) {
+            const sourceElement = document.getElementById(sourceId);
+            const targetElement = document.getElementById(targetId);
+            if (sourceElement && targetElement) {
+                targetElement.checked = sourceElement.checked;
+            }
+            updateProgressAndSave();
+        }
+
+        // Progress Calculations & Save to LocalStorage
+        function updateProgressAndSave() {
+            let checkedCount = 0;
+            const totalTasks = checklistIds.length;
+            
+            const memberIdDigits = [];
+            for (let i = 1; i <= 12; i++) {
+                memberIdDigits.push(document.getElementById(`member_id_${i}`).value);
+            }
+
+            const formData = {
+                plot_name: document.getElementById('plot_name').value,
+                plot_size: document.getElementById('plot_size').value,
+                current_leaf: document.getElementById('current_leaf').value,
+                overall_condition: document.getElementById('overall_condition').value,
+                improvements: document.getElementById('improvements').value,
+                next_plan: document.getElementById('next_plan').value,
+                next_appointment: document.getElementById('next_appointment').value,
+                member_id_digits: memberIdDigits,
+                checklist: {}
+            };
+
+            checklistIds.forEach(id => {
+                const element = document.getElementById(id);
+                if (element && element.checked) {
+                    checkedCount++;
+                }
+                formData.checklist[id] = element ? element.checked : false;
+                
+                const mobileId = syncMap[id];
+                const mobEl = document.getElementById(mobileId);
+                if (mobEl && element) {
+                    mobEl.checked = element.checked;
+                }
+            });
+
+            const percentage = Math.round((checkedCount / totalTasks) * 100);
+            document.getElementById('progress-percent').textContent = percentage + "%";
+            document.getElementById('progress-ratio').textContent = `${checkedCount} จาก ${totalTasks} รายการ`;
+            document.getElementById('progress-bar').style.width = percentage + "%";
+
+            localStorage.setItem('rehab_checklist_draft_v3', JSON.stringify(formData));
+        }
+
+        // Add auto-saving features to text fields
+        const textInputs = ['plot_name', 'plot_size', 'current_leaf', 'overall_condition', 'improvements', 'next_plan', 'next_appointment'];
+        textInputs.forEach(id => {
+            const el = document.getElementById(id);
+            if (el) {
+                el.addEventListener('input', updateProgressAndSave);
+            }
+        });
+
+        // Load Draft State on Boot
+        window.onload = function() {
+            const draft = localStorage.getItem('rehab_checklist_draft_v3');
+            if (draft) {
+                try {
+                    const data = JSON.parse(draft);
+                    
+                    textInputs.forEach(id => {
+                        if (data[id] !== undefined) {
+                            document.getElementById(id).value = data[id];
+                        }
+                    });
+
+                    if (data.member_id_digits && data.member_id_digits.length === 12) {
+                        for (let i = 1; i <= 12; i++) {
+                            document.getElementById(`member_id_${i}`).value = data.member_id_digits[i-1];
+                        }
+                    }
+
+                    if (data.checklist) {
+                        Object.keys(data.checklist).forEach(id => {
+                            const desktopEl = document.getElementById(id);
+                            const mobileId = syncMap[id];
+                            const mobileEl = document.getElementById(mobileId);
+                            
+                            if (desktopEl) desktopEl.checked = data.checklist[id];
+                            if (mobileEl) mobileEl.checked = data.checklist[id];
+                        });
+                    }
+                    
+                    updateProgressAndSave();
+                } catch (e) {
+                    console.error("การโหลดร่างข้อมูลผิดพลาด", e);
+                }
+            }
+        };
+
+        // Clear draft from screen & memory
+        function clearDraft() {
+            if (confirm("คุณต้องการล้างข้อมูลทั้งหมดในฟอร์มนี้ใช่หรือไม่?")) {
+                localStorage.removeItem('rehab_checklist_draft_v3');
+                
+                textInputs.forEach(id => {
+                    document.getElementById(id).value = '';
+                });
+
+                for (let i = 1; i <= 12; i++) {
+                    document.getElementById(`member_id_${i}`).value = '';
+                }
+                
+                checklistIds.forEach(id => {
+                    const desktopEl = document.getElementById(id);
+                    const mobileId = syncMap[id];
+                    const mobileEl = document.getElementById(mobileId);
+                    
+                    if (desktopEl) desktopEl.checked = false;
+                    if (mobileEl) mobileEl.checked = false;
+                });
+
+                // Clear all Image Slots
+                for (let i = 1; i <= 5; i++) {
+                    deleteImageSlot(i);
+                }
+
+                updateProgressAndSave();
+                showToast("ล้างข้อมูลเรียบร้อยแล้ว!", "🗑️");
+            }
+        }
+
+        // Send submission payload directly to Google Apps Script
+        function submitToGoogleSheet() {
+            if (GOOGLE_WEB_APP_URL === "YOUR_GOOGLE_WEB_APP_URL_HERE" || GOOGLE_WEB_APP_URL.trim() === "") {
+                showToast("กรุณาเปิดไฟล์ HTML นี้ใน Text Editor แล้วตั้งค่าตัวแปร GOOGLE_WEB_APP_URL ก่อนใช้งาน", "⚙️");
+                return;
+            }
+
+            const plotName = document.getElementById('plot_name').value.trim();
+            if (!plotName) {
+                showToast("กรุณากรอก 'ชื่อแปลงทุเรียน' เพื่อใช้เป็นข้อมูลอ้างอิง", "⚠️");
+                document.getElementById('plot_name').focus();
+                return;
+            }
+
+            const m1 = document.getElementById('member_id_1').value.trim();
+            const m2 = document.getElementById('member_id_2').value.trim();
+            const m3 = document.getElementById('member_id_3').value.trim();
+            if (!m1 || !m2 || !m3) {
+                showToast("กรุณากรอกหมายเลขสมาชิก 3 หลักแรกให้ครบถ้วนก่อนส่งบันทึก", "⚠️");
+                document.getElementById('member_id_1').focus();
+                return;
+            }
+
+            const part1 = m1 + m2 + m3;
+            let part2 = "";
+            for (let i = 4; i <= 11; i++) {
+                part2 += document.getElementById(`member_id_${i}`).value.trim();
+            }
+            const part3 = document.getElementById('member_id_12').value.trim();
+            
+            let formattedMemberId = part1;
+            if (part2 || part3) {
+                formattedMemberId += "-" + part2;
+            }
+            if (part3) {
+                formattedMemberId += "-" + part3;
+            }
+
+            // Collect all non-empty images in array sequence
+            const imagesArray = [];
+            for (let i = 1; i <= 5; i++) {
+                if (imagePayloadData[i]) {
+                    imagesArray.push(imagePayloadData[i]);
+                } else {
+                    imagesArray.push(null); // Keep array index consistent with column numbers
+                }
+            }
+
+            // Prepare Payload Object
+            const payload = {
+                plot_name: document.getElementById('plot_name').value,
+                plot_size: document.getElementById('plot_size').value,
+                member_id: formattedMemberId,
+                current_leaf: document.getElementById('current_leaf').value,
+                overall_condition: document.getElementById('overall_condition').value,
+                improvements: document.getElementById('improvements').value,
+                next_plan: document.getElementById('next_plan').value,
+                next_appointment: document.getElementById('next_appointment').value,
+                soil_p1_ph: document.getElementById('soil_p1_ph').checked,
+                soil_p1_dolo: document.getElementById('soil_p1_dolo').checked,
+                trick_p1_rest: document.getElementById('trick_p1_rest').checked,
+                soil_p2_fertilizer: document.getElementById('soil_p2_fertilizer').checked,
+                foliar_p2_spray: document.getElementById('foliar_p2_spray').checked,
+                soil_p3_fert_20: document.getElementById('soil_p3_fert_20').checked,
+                soil_p3_humic: document.getElementById('soil_p3_humic').checked,
+                foliar_p3_repeat: document.getElementById('foliar_p3_repeat').checked,
+                trick_p3_clean: document.getElementById('trick_p3_clean').checked,
+                foliar_p4_red: document.getElementById('foliar_p4_red').checked,
+                trick_p4_open: document.getElementById('trick_p4_open').checked,
+                images: imagesArray // Sends Base64 compressed image files
+            };
+
+            // Loading Animation setup
+            const btn = document.getElementById('btn-submit');
+            const btnText = document.getElementById('btn-text');
+            const loader = document.getElementById('btn-loader');
+
+            btn.disabled = true;
+            btn.classList.add('opacity-75', 'cursor-not-allowed');
+            btnText.textContent = "กำลังส่งข้อมูลภาพและเช็คลิสต์...";
+            loader.classList.remove('hidden');
+
+            fetch(GOOGLE_WEB_APP_URL, {
+                method: 'POST',
+                mode: 'no-cors', 
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(payload)
+            })
+            .then(response => {
+                showToast("ส่งบันทึกและรูปภาพเข้า Google Sheets และ Drive เรียบร้อย!", "✅");
+                
+                // End animations
+                btn.disabled = false;
+                btn.classList.remove('opacity-75', 'cursor-not-allowed');
+                btnText.textContent = "📤 ส่งบันทึกเข้า Google Sheet";
+                loader.classList.add('hidden');
+            })
+            .catch(error => {
+                console.error("ผิดพลาด:", error);
+                showToast("ไม่สามารถส่งข้อมูลได้ กรุณาตรวจสอบลิงก์สคริปต์หลังบ้านหรืออินเทอร์เน็ต", "❌");
+                
+                btn.disabled = false;
+                btn.classList.remove('opacity-75', 'cursor-not-allowed');
+                btnText.textContent = "📤 ส่งบันทึกเข้า Google Sheet";
+                loader.classList.add('hidden');
+            });
+        }
+
+        function printForm() {
+            window.print();
+        }
+    </script>
+</body>
+</html>

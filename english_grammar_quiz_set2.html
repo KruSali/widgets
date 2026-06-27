@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>English Structure Quiz - Set 2 (ข้อ 51-70)</title>
+    <style>
+        :root {
+            --primary: #2b4c7e;
+            --primary-light: #eef4fc;
+            --success: #2e7d32;
+            --success-light: #e8f5e9;
+            --error: #c62828;
+            --error-light: #ffebee;
+            --text-dark: #2c3e50;
+            --text-muted: #7f8c8d;
+            --bg-body: #f8f9fa;
+            --card-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            --border-radius: 14px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Tahoma, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-body);
+            color: var(--text-dark);
+            padding: 20px 12px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 25px;
+            background: linear-gradient(135deg, var(--primary), #1a3050);
+            color: white;
+            padding: 24px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
+        }
+
+        header h1 {
+            font-size: 22px;
+            margin-bottom: 6px;
+            font-weight: 600;
+        }
+
+        header p {
+            font-size: 14px;
+            opacity: 0.85;
+        }
+
+        /* Stats Bar */
+        .stats-bar {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            background: white;
+            padding: 15px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .stat-item .value {
+            font-size: 18px;
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        .stat-item .label {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        /* Quiz Card */
+        .quiz-card {
+            background: white;
+            padding: 25px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
+            margin-bottom: 20px;
+            display: none;
+            animation: fadeIn 0.4s ease-out;
+        }
+
+        .quiz-card.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .q-number {
+            font-size: 13px;
+            font-weight: bold;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+
+        .q-text {
+            font-size: 17px;
+            font-weight: 500;
+            margin-bottom: 20px;
+            border-left: 4px solid var(--primary);
+            padding-left: 12px;
+        }
+
+        .options-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .option-btn {
+            width: 100%;
+            padding: 14px 16px;
+            background: #fdfdfd;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            text-align: left;
+            font-size: 15px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            color: var(--text-dark);
+        }
+
+        .option-btn:hover:not(:disabled) {
+            background: var(--primary-light);
+            border-color: var(--primary);
+        }
+
+        .option-btn:disabled {
+            cursor: not-allowed;
+        }
+
+        /* Answer States */
+        .option-btn.correct {
+            background-color: var(--success-light) !important;
+            border-color: var(--success) !important;
+            color: var(--success) !important;
+            font-weight: 600;
+        }
+
+        .option-btn.incorrect {
+            background-color: var(--error-light) !important;
+            border-color: var(--error) !important;
+            color: var(--error) !important;
+        }
+
+        /* Explanation Box */
+        .explanation-box {
+            margin-top: 20px;
+            padding: 16px;
+            background-color: #fcfcfc;
+            border-top: 3px solid var(--primary);
+            border-radius: 8px;
+            display: none;
+            font-size: 14px;
+        }
+
+        .explanation-box h4 {
+            color: var(--primary);
+            margin-bottom: 5px;
+            font-size: 15px;
+        }
+
+        /* Navigation Controls */
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .nav-btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            background: var(--primary);
+            color: white;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.2s;
+            text-align: center;
+        }
+
+        .nav-btn:hover:not(:disabled) {
+            background: #1a3050;
+        }
+
+        .nav-btn:disabled {
+            background: #bdc3c7;
+            cursor: not-allowed;
+        }
+
+        /* Grid Overview */
+        .grid-card {
+            background: white;
+            padding: 20px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
+            margin-top: 25px;
+        }
+
+        .grid-card h3 {
+            font-size: 15px;
+            margin-bottom: 12px;
+            color: var(--text-dark);
+            text-align: center;
+        }
+
+        .q-grid {
+            display: grid;
+            grid-template-columns: repeat(10, 1fr);
+            gap: 6px;
+        }
+
+        .grid-dot {
+            aspect-ratio: 1;
+            border: 1px solid #cbd5e1;
+            background: #f1f5f9;
+            border-radius: 6px;
+            font-size: 11px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-weight: bold;
+        }
+
+        .grid-dot.answered-correct {
+            background-color: var(--success);
+            color: white;
+            border-color: var(--success);
+        }
+
+        .grid-dot.answered-incorrect {
+            background-color: var(--error);
+            color: white;
+            border-color: var(--error);
+        }
+
+        .grid-dot.current {
+            box-shadow: 0 0 0 3px var(--primary);
+        }
+
+        /* Result View */
+        .result-view {
+            text-align: center;
+            background: white;
+            padding: 35px 25px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
+            display: none;
+        }
+
+        .result-view h2 {
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+
+        .score-circle {
+            width: 130px;
+            height: 130px;
+            border-radius: 50%;
+            background: var(--primary-light);
+            border: 5px solid var(--primary);
+            margin: 20px auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .score-circle .score-num {
+            font-size: 32px;
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        .score-circle .score-total {
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+
+        .restart-btn {
+            margin-top: 25px;
+            background: var(--success);
+        }
+
+        .restart-btn:hover {
+            background: #235e26;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>📝 English Structure Quiz</h1>
+        <p>เซ็ตที่ 2 (ข้อ 51 - 70) | Admissions & College Entrance Test</p>
+    </header>
+
+    <div class="stats-bar" id="statsBar">
+        <div class="stat-item">
+            <div class="value" id="currentNum">1/20</div>
+            <div class="label">ข้อปัจจุบัน</div>
+        </div>
+        <div class="stat-item">
+            <div class="value" id="scoreVal">0</div>
+            <div class="label">คะแนนที่ได้</div>
+        </div>
+        <div class="stat-item">
+            <div class="value" id="progressPct">0%</div>
+            <div class="label">ความคืบหน้า</div>
+        </div>
+    </div>
+
+    <div id="quizContainer">
+        </div>
+
+    <div class="controls" id="quizControls">
+        <button class="nav-btn" id="prevBtn" onclick="changeQuestion(-1)" disabled>◀ ข้อก่อนหน้า</button>
+        <button class="nav-btn" id="nextBtn" onclick="changeQuestion(1)">ข้อถัดไป ▶</button>
+    </div>
+
+    <div class="result-view" id="resultView">
+        <h2>🎉 สรุปผลคะแนนของคุณ</h2>
+        <p>คุณได้ทำแนวข้อสอบครบถ้วนทั้ง 20 ข้อเรียบร้อยแล้ว</p>
+        <div class="score-circle">
+            <div class="score-num" id="finalScore">0</div>
+            <div class="score-total">เต็ม 20</div>
+        </div>
+        <p id="resultFeedback" style="font-weight: 500; margin-bottom: 15px;"></p>
+        <button class="nav-btn restart-btn" onclick="restartQuiz()">🔄 ทำใหม่อีกครั้ง</button>
+    </div>
+
+    <div class="grid-card" id="gridCard">
+        <h3>🎯 แผงควบคุมข้อสอบ</h3>
+        <div class="q-grid" id="questionGrid"></div>
+    </div>
+</div>
+
+<script>
+    const quizData = [
+        {
+            "id": 51,
+            "question": "\"I'm going downtown.\"<br>\"Do you mind ____ with me?\"",
+            "options": ["(A) go", "(B) to go", "(C) went", "(D) going"],
+            "answer": 3,
+            "explanation": "โครงสร้าง <b>mind + V.ing (Gerund)</b> ใช้เมื่อต้องการถามความสมัครใจหรือขอร้องอย่างสุภาพ แปลว่า 'จะรังเกียจไหมที่จะ...'"
+        },
+        {
+            "id": 52,
+            "question": "\"What did your uncle do for the company before he retired?\"<br>\"He ____ the company truck for over ten years.\"",
+            "options": ["(A) has driven", "(B) drives", "(C) is driving", "(D) drove"],
+            "answer": 3,
+            "explanation": "ประโยคนี้ถามถึงเหตุการณ์ในอดีตที่จบลงไปแล้ว (before he retired) แม้จะมีคำว่า for over ten years แต่เนื่องจากเหตุการณ์สิ้นสุดไปแล้ว จึงต้องใช้ <b>Past Simple Tense (drove)</b>"
+        },
+        {
+            "id": 53,
+            "question": "\"How can I clean my coat?\"<br>\"You ought to have your coat ____.\"",
+            "options": ["(A) clean and press", "(B) cleaning and pressing", "(C) cleaned and pressed", "(D) cleaning and pressed"],
+            "answer": 2,
+            "explanation": "ทดสอบเรื่อง Causative Form โครงสร้าง <b>have + something + V.3</b> หมายถึง 'นำสิ่งของไปให้คนอื่นจัดการให้' ในที่นี้คือเอาเสื้อโค้ทไปให้ร้านซักรีด จึงใช้ <b>cleaned and pressed</b>"
+        },
+        {
+            "id": 54,
+            "question": "\"Would you like to hear classical music or contemporary music?\"<br>\"Classical music is my ____.\"",
+            "options": ["(A) preference", "(B) preferring", "(C) one preferring", "(D) one I prefer"],
+            "answer": 0,
+            "explanation": "หลังคำแสดงความเป็นเจ้าของ (my) จะต้องตามด้วยคำนาม (Noun) ดังนั้นคำตอบที่ถูกต้องคือ <b>preference</b> (ความชอบ/สิ่งที่ชอบมากกว่า)"
+        },
+        {
+            "id": 55,
+            "question": "\"John did not like to do that.\"<br>\"____.\"",
+            "options": ["(A) So didn't I", "(B) No did I", "(C) I didn't either", "(D) Neither didn't I"],
+            "answer": 2,
+            "explanation": "การคล้อยตามประโยคปฏิเสธ (ฉันก็ไม่...เหมือนกัน) โครงสร้างพื้นฐานคือ <b>Subject + กริยาช่วยรูปปฏิเสธ + either</b> จึงตอบ <b>I didn't either</b>"
+        },
+        {
+            "id": 56,
+            "question": "\"Where did you put it?\"<br>\"I put it on the ____.\"",
+            "options": ["(A) kitchens table", "(B) table of the kitchen", "(C) kitchen's table", "(D) kitchen table"],
+            "answer": 3,
+            "explanation": "การใช้คำนามประสม (Compound Noun) คำนามที่ทำหน้าที่ขยายคำนามหลักด้านหลังจะต้องอยู่ในรูปเอกพจน์เสมอ จึงใช้ <b>kitchen table</b> (โต๊ะในครัว)"
+        },
+        {
+            "id": 57,
+            "question": "\"Those shirts are very expensive.\"<br>\"Do you know ____?\"",
+            "options": ["(A) how much cost them", "(B) what do they cost", "(C) they cost how much", "(D) what they cost"],
+            "answer": 3,
+            "explanation": "ทดสอบเรื่อง Noun Clause (ประโยคคำถามซ้อนคำถาม) โครงสร้างต้องเรียงแบบประโยคบอกเล่าคือ <b>Wh-word + Subject + Verb</b> จึงได้เป็น <b>what they cost</b>"
+        },
+        {
+            "id": 58,
+            "question": "\"Some children are poorly educated and badly brought up.\"<br>\"It is advisable that young couples ____ support their children.\"",
+            "options": ["(A) be able to", "(B) have the ability to", "(C) is able to", "(D) are able to"],
+            "answer": 0,
+            "explanation": "โครงสร้าง <b>Subjunctive</b> หลังคำว่า advisable that... ประธานจะต้องตามด้วย <b>V.infinitive</b> เสมอ (ไม่ผันตามประธาน) จึงใช้ <b>be able to</b>"
+        },
+        {
+            "id": 59,
+            "question": "\"How did you come here?\"<br>\"I came here ____ a car.\"",
+            "options": ["(A) by", "(B) on", "(C) in", "(D) of"],
+            "answer": 2,
+            "explanation": "ปกติยานพาหนะจะใช้ by (by car) แต่ถ้ามี Article (a, an, the) หรือคำแสดงความเป็นเจ้าของมาคั่น สำหรับรถยนต์เราจะใช้บุพบท <b>in</b> (in a car)"
+        },
+        {
+            "id": 60,
+            "question": "\"Are you going to stay at the hotel until tomorrow?\"<br>\"I don't know, but if I ____, I'll let you know about it.\"",
+            "options": ["(A) stay", "(B) would stay", "(C) will stay", "(D) shall stay"],
+            "answer": 0,
+            "explanation": "ทดสอบ <b>If-Clause Type 1</b> เงื่อนไขที่เป็นไปได้ในอนาคต โครงสร้างคือ If + Present Simple (V.1), Subject + will + V.inf จึงเติม <b>stay</b> ในช่องว่าง"
+        },
+        {
+            "id": 61,
+            "question": "\"The streets are all wet.\"<br>\"It ____ during the night.\"",
+            "options": ["(A) must be raining", "(B) must have been rain", "(C) had to rain", "(D) must have rained"],
+            "answer": 3,
+            "explanation": "การคาดคะเนเหตุการณ์ในอดีตอย่างมั่นใจ (ดูจากหลักฐานคือถนนเปียก) จะใช้โครงสร้าง <b>must have + V.3</b> (ต้องมีฝนตกแน่ๆ) จึงตอบ <b>must have rained</b>"
+        },
+        {
+            "id": 62,
+            "question": "\"Are you going to argue with the teacher about your grades?\"<br>\"No, I'll let ____.\"",
+            "options": ["(A) resting the matter", "(B) the matter rest", "(C) the matter rests", "(D) rest the matter"],
+            "answer": 1,
+            "explanation": "โครงสร้าง Causative Verb 'let' จะต้องตามด้วยกรรมและกริยาช่อง 1 ไม่เติม to (<b>let + Object + V.inf</b>) แปลว่า 'ปล่อยให้เรื่องมันจบไป' จึงตอบ <b>the matter rest</b>"
+        },
+        {
+            "id": 63,
+            "question": "\"How much milk do we have in the refrigerator?\"<br>\"There's ____ left.\"",
+            "options": ["(A) one quart only", "(B) only a quart", "(C) a only quart", "(D) a quart only"],
+            "answer": 1,
+            "explanation": "การวางตำแหน่งคำว่า only จะต้องวางไว้หน้ากลุ่มคำนามหรือตัวเลขที่ต้องการเน้น จึงใช้ <b>only a quart</b> (เหลือแค่ 1 ควอร์ตเท่านั้น)"
+        },
+        {
+            "id": 64,
+            "question": "\"What is the meeting held for?\"<br>\"This meeting is ____ the new committee.\"",
+            "options": ["(A) to select", "(B) select", "(C) selecting", "(D) being selected"],
+            "answer": 0,
+            "explanation": "การบอกวัตถุประสงค์ (Purpose) นิยมใช้โครงสร้าง <b>to + V.inf</b> (Infinitive of purpose) เพื่อบอกว่า 'จัดขึ้นเพื่อเลือกคณะกรรมการใหม่'"
+        },
+        {
+            "id": 65,
+            "question": "\"This glass looks nice, doesn't it?\"<br>\"Yes, but it is ____ for everyday use.\"",
+            "options": ["(A) a too fragile glass", "(B) a fragile too glass", "(C) a glass too fragile", "(D) too fragile a glass"],
+            "answer": 3,
+            "explanation": "โครงสร้างพิเศษในการเน้นคำคุณศัพท์ด้วย too คือ <b>too + Adjective + a/an + Noun</b> (too fragile a glass) แปลว่า แก้วที่เปราะบางเกินไป"
+        },
+        {
+            "id": 66,
+            "question": "\"What would you like to drive?\"<br>\"I would like to drive ____.\"",
+            "options": ["(A) forty-fifth car", "(B) car forty-fifth", "(C) car forty five", "(D) car the forty five"],
+            "answer": 2,
+            "explanation": "การระบุหมายเลขประจำตัวหรือลำดับด้วยคำนาม สามารถใช้ <b>Noun + ตัวเลข (Cardinal Number)</b> ได้เลยโดยไม่ต้องมี the เช่น car forty five (รถหมายเลข 45)"
+        },
+        {
+            "id": 67,
+            "question": "\"How did you hit the ball?\"<br>\"We hit the ball ____.\"",
+            "options": ["(A) hardly", "(B) hard", "(C) force", "(D) quick"],
+            "answer": 1,
+            "explanation": "คำว่า <b>hard</b> เป็นได้ทั้ง Adjective และ Adverb (แปลว่า อย่างแรง/อย่างหนัก) ส่วน hardly แปลว่า แทบจะไม่ จึงต้องตอบ <b>hard</b> เพื่อขยายการตีลูกบอล"
+        },
+        {
+            "id": 68,
+            "question": "\"What should we do?\"<br>\"It is requested that everyone ____ on gasoline.\"",
+            "options": ["(A) economize", "(B) be economical", "(C) economizes", "(D) is economical"],
+            "answer": 0,
+            "explanation": "โครงสร้าง <b>Subjunctive</b> หลังคำว่า requested that ประธานทุกคนต้องตามด้วย <b>V.inf</b> เสมอ (ไม่ผัน s/es) คำตอบคือ <b>economize</b> (ประหยัด)"
+        },
+        {
+            "id": 69,
+            "question": "\"What did you say?\"<br>\"You can ____ me.\"",
+            "options": ["(A) count with", "(B) count in", "(C) count out", "(D) count on"],
+            "answer": 3,
+            "explanation": "ทดสอบ Phrasal Verb สำนวน <b>count on someone</b> หมายถึง 'พึ่งพา หรือไว้ใจใครสักคน' (You can count on me = ไว้ใจฉันได้เลย)"
+        },
+        {
+            "id": 70,
+            "question": "\"As a matter of fact, I don't like the lady.\"<br>\"If the lady ____ actually a bother, I'll take her home.\"",
+            "options": ["(A) are", "(B) was", "(C) is", "(D) were"],
+            "answer": 1,
+            "explanation": "ประโยคนี้เป็นการสมมติเรื่องในปัจจุบัน (If clause type 2) โครงสร้างมาตรฐานจะใช้ <b>were</b> กับประธานทุกตัว แต่ในภาษาพูดทั่วไปหรือไวยากรณ์สมัยใหม่ บางครั้งก็ใช้ <b>was</b> ได้เช่นกัน (ตามเฉลยในเอกสารอ้างอิงของข้อสอบชุดนี้)"
+        }
+    ];
+
+    let currentIndex = 0;
+    let score = 0;
+    const userAnswers = new Array(quizData.length).fill(null);
+
+    function initQuiz() {
+        const container = document.getElementById('quizContainer');
+        const grid = document.getElementById('questionGrid');
+        container.innerHTML = '';
+        grid.innerHTML = '';
+
+        quizData.forEach((q, idx) => {
+            const card = document.createElement('div');
+            card.className = `quiz-card ${idx === 0 ? 'active' : ''}`;
+            card.id = `card-${idx}`;
+
+            let optionsHtml = '';
+            q.options.forEach((opt, optIdx) => {
+                optionsHtml += `<button class="option-btn" id="opt-${idx}-${optIdx}" onclick="selectAnswer(${idx}, ${optIdx})">${opt}</button>`;
+            });
+
+            card.innerHTML = `
+                <div class="q-number">Question ${q.id}</div>
+                <div class="q-text">${q.question}</div>
+                <div class="options-list">${optionsHtml}</div>
+                <div class="explanation-box" id="explain-${idx}">
+                    <h4>💡 คำอธิบาย:</h4>
+                    <p>${q.explanation}</p>
+                </div>
+            `;
+            container.appendChild(card);
+
+            const dot = document.createElement('div');
+            dot.className = `grid-dot ${idx === 0 ? 'current' : ''}`;
+            dot.id = `dot-${idx}`;
+            dot.innerText = q.id;
+            dot.onclick = () => jumpToQuestion(idx);
+            grid.appendChild(dot);
+        });
+
+        updateStatsBar();
+    }
+
+    function selectAnswer(qIdx, optIdx) {
+        if (userAnswers[qIdx] !== null) return; 
+
+        const q = quizData[qIdx];
+        const isCorrect = (optIdx === q.answer);
+        userAnswers[qIdx] = { chosenIndex: optIdx, isCorrect: isCorrect };
+
+        if (isCorrect) score++;
+
+        const chosenBtn = document.getElementById(`opt-${qIdx}-${optIdx}`);
+        if (isCorrect) {
+            chosenBtn.classList.add('correct');
+        } else {
+            chosenBtn.classList.add('incorrect');
+            document.getElementById(`opt-${qIdx}-${q.answer}`).classList.add('correct');
+        }
+
+        q.options.forEach((_, i) => {
+            document.getElementById(`opt-${qIdx}-${i}`).disabled = true;
+        });
+
+        document.getElementById(`explain-${qIdx}`).style.display = 'block';
+
+        const dot = document.getElementById(`dot-${qIdx}`);
+        dot.className = `grid-dot ${isCorrect ? 'answered-correct' : 'answered-incorrect'}`;
+        if (qIdx === currentIndex) dot.classList.add('current');
+
+        updateStatsBar();
+        
+        if (userAnswers.filter(a => a !== null).length === quizData.length) {
+            document.getElementById('nextBtn').innerText = 'ดูผลสรุปคะแนน ▶';
+        }
+    }
+
+    function changeQuestion(direction) {
+        if (currentIndex === quizData.length - 1 && direction === 1) {
+            showResults();
+            return;
+        }
+
+        document.getElementById(`card-${currentIndex}`).classList.remove('active');
+        document.getElementById(`dot-${currentIndex}`).classList.remove('current');
+
+        currentIndex += direction;
+
+        document.getElementById(`card-${currentIndex}`).classList.add('active');
+        document.getElementById(`dot-${currentIndex}`).classList.add('current');
+
+        document.getElementById('prevBtn').disabled = (currentIndex === 0);
+        
+        if (currentIndex === quizData.length - 1) {
+            document.getElementById('nextBtn').innerText = userAnswers.filter(a => a !== null).length === quizData.length ? 'ดูผลสรุปคะแนน ▶' : 'สรุปผลคะแนน';
+        } else {
+            document.getElementById('nextBtn').innerText = 'ข้อถัดไป ▶';
+        }
+
+        updateStatsBar();
+    }
+
+    function jumpToQuestion(idx) {
+        document.getElementById(`card-${currentIndex}`).classList.remove('active');
+        document.getElementById(`dot-${currentIndex}`).classList.remove('current');
+
+        document.getElementById('quizContainer').style.display = 'block';
+        document.getElementById('quizControls').style.display = 'flex';
+        document.getElementById('resultView').style.display = 'none';
+
+        currentIndex = idx;
+
+        document.getElementById(`card-${currentIndex}`).classList.add('active');
+        document.getElementById(`dot-${currentIndex}`).classList.add('current');
+
+        document.getElementById('prevBtn').disabled = (currentIndex === 0);
+        
+        if (currentIndex === quizData.length - 1) {
+            document.getElementById('nextBtn').innerText = userAnswers.filter(a => a !== null).length === quizData.length ? 'ดูผลสรุปคะแนน ▶' : 'สรุปผลคะแนน';
+        } else {
+            document.getElementById('nextBtn').innerText = 'ข้อถัดไป ▶';
+        }
+
+        updateStatsBar();
+    }
+
+    function updateStatsBar() {
+        document.getElementById('currentNum').innerText = `${currentIndex + 1}/${quizData.length}`;
+        document.getElementById('scoreVal').innerText = score;
+        
+        const answeredCount = userAnswers.filter(a => a !== null).length;
+        const pct = Math.round((answeredCount / quizData.length) * 100);
+        document.getElementById('progressPct').innerText = `${pct}%`;
+    }
+
+    function showResults() {
+        document.getElementById('quizContainer').style.display = 'none';
+        document.getElementById('quizControls').style.display = 'none';
+        
+        const resultView = document.getElementById('resultView');
+        resultView.style.display = 'block';
+        
+        document.getElementById('finalScore').innerText = score;
+
+        let feedback = '';
+        if (score >= 18) feedback = 'Excellent! 🌟 แกรมมาร์แน่นมาก!';
+        else if (score >= 14) feedback = 'Good Job! 👍 เก่งมากครับ ทบทวนอีกนิดเต็มร้อยแน่นอน!';
+        else if (score >= 10) feedback = 'Fair! 🎯 ผ่านเกณฑ์พอดีครับ ศึกษาคำอธิบายเพิ่มเติมเพื่อความชัวร์นะ!';
+        else feedback = 'Keep fighting! 📖 ค่อยๆ ฝึกฝนและเรียนรู้จากข้อผิดพลาดครับ!';
+        
+        document.getElementById('resultFeedback').innerText = feedback;
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function restartQuiz() {
+        score = 0;
+        currentIndex = 0;
+        userAnswers.fill(null);
+
+        document.getElementById('quizContainer').style.display = 'block';
+        document.getElementById('quizControls').style.display = 'flex';
+        document.getElementById('resultView').style.display = 'none';
+        document.getElementById('prevBtn').disabled = true;
+        document.getElementById('nextBtn').innerText = 'ข้อถัดไป ▶';
+
+        initQuiz();
+    }
+
+    window.onload = initQuiz;
+</script>
+
+</body>
+</html>

@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>English Structure Quiz - Set 3 (ข้อ 101-150)</title>
+    <style>
+        :root {
+            --primary: #2b4c7e;
+            --primary-light: #eef4fc;
+            --success: #2e7d32;
+            --success-light: #e8f5e9;
+            --error: #c62828;
+            --error-light: #ffebee;
+            --text-dark: #2c3e50;
+            --text-muted: #7f8c8d;
+            --bg-body: #f8f9fa;
+            --card-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            --border-radius: 14px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Tahoma, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-body);
+            color: var(--text-dark);
+            padding: 20px 12px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 25px;
+            background: linear-gradient(135deg, var(--primary), #1a3050);
+            color: white;
+            padding: 24px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
+        }
+
+        header h1 {
+            font-size: 22px;
+            margin-bottom: 6px;
+            font-weight: 600;
+        }
+
+        header p {
+            font-size: 14px;
+            opacity: 0.85;
+        }
+
+        /* Stats Bar */
+        .stats-bar {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            background: white;
+            padding: 15px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .stat-item .value {
+            font-size: 18px;
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        .stat-item .label {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        /* Quiz Card */
+        .quiz-card {
+            background: white;
+            padding: 25px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
+            margin-bottom: 20px;
+            display: none;
+            animation: fadeIn 0.4s ease-out;
+        }
+
+        .quiz-card.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .q-number {
+            font-size: 13px;
+            font-weight: bold;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+
+        .q-text {
+            font-size: 17px;
+            font-weight: 500;
+            margin-bottom: 20px;
+            border-left: 4px solid var(--primary);
+            padding-left: 12px;
+        }
+
+        .options-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .option-btn {
+            width: 100%;
+            padding: 14px 16px;
+            background: #fdfdfd;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            text-align: left;
+            font-size: 15px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            color: var(--text-dark);
+        }
+
+        .option-btn:hover:not(:disabled) {
+            background: var(--primary-light);
+            border-color: var(--primary);
+        }
+
+        .option-btn:disabled {
+            cursor: not-allowed;
+        }
+
+        /* Answer States */
+        .option-btn.correct {
+            background-color: var(--success-light) !important;
+            border-color: var(--success) !important;
+            color: var(--success) !important;
+            font-weight: 600;
+        }
+
+        .option-btn.incorrect {
+            background-color: var(--error-light) !important;
+            border-color: var(--error) !important;
+            color: var(--error) !important;
+        }
+
+        /* Explanation Box */
+        .explanation-box {
+            margin-top: 20px;
+            padding: 16px;
+            background-color: #fcfcfc;
+            border-top: 3px solid var(--primary);
+            border-radius: 8px;
+            display: none;
+            font-size: 14px;
+        }
+
+        .explanation-box h4 {
+            color: var(--primary);
+            margin-bottom: 5px;
+            font-size: 15px;
+        }
+
+        /* Navigation Controls */
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .nav-btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            background: var(--primary);
+            color: white;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.2s;
+            text-align: center;
+        }
+
+        .nav-btn:hover:not(:disabled) {
+            background: #1a3050;
+        }
+
+        .nav-btn:disabled {
+            background: #bdc3c7;
+            cursor: not-allowed;
+        }
+
+        /* Grid Overview */
+        .grid-card {
+            background: white;
+            padding: 20px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
+            margin-top: 25px;
+        }
+
+        .grid-card h3 {
+            font-size: 15px;
+            margin-bottom: 12px;
+            color: var(--text-dark);
+            text-align: center;
+        }
+
+        .q-grid {
+            display: grid;
+            grid-template-columns: repeat(10, 1fr);
+            gap: 6px;
+        }
+
+        .grid-dot {
+            aspect-ratio: 1;
+            border: 1px solid #cbd5e1;
+            background: #f1f5f9;
+            border-radius: 6px;
+            font-size: 11px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-weight: bold;
+        }
+
+        .grid-dot.answered-correct {
+            background-color: var(--success);
+            color: white;
+            border-color: var(--success);
+        }
+
+        .grid-dot.answered-incorrect {
+            background-color: var(--error);
+            color: white;
+            border-color: var(--error);
+        }
+
+        .grid-dot.current {
+            box-shadow: 0 0 0 3px var(--primary);
+        }
+
+        /* Result View */
+        .result-view {
+            text-align: center;
+            background: white;
+            padding: 35px 25px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
+            display: none;
+        }
+
+        .result-view h2 {
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+
+        .score-circle {
+            width: 130px;
+            height: 130px;
+            border-radius: 50%;
+            background: var(--primary-light);
+            border: 5px solid var(--primary);
+            margin: 20px auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .score-circle .score-num {
+            font-size: 32px;
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        .score-circle .score-total {
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+
+        .restart-btn {
+            margin-top: 25px;
+            background: var(--success);
+        }
+
+        .restart-btn:hover {
+            background: #235e26;
+        }
+
+        @media (max-width: 480px) {
+            .q-grid {
+                grid-template-columns: repeat(5, 1fr);
+            }
+            header h1 { font-size: 18px; }
+            .q-text { font-size: 15px; }
+            .option-btn { font-size: 14px; padding: 12px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>📝 English Structure Quiz</h1>
+        <p>เซ็ตที่ 3 (ข้อ 101 - 150) | Admissions & College Entrance Test</p>
+    </header>
+
+    <!-- Stats Panel -->
+    <div class="stats-bar" id="statsBar">
+        <div class="stat-item">
+            <div class="value" id="currentNum">1/50</div>
+            <div class="label">ข้อปัจจุบัน</div>
+        </div>
+        <div class="stat-item">
+            <div class="value" id="scoreVal">0</div>
+            <div class="label">คะแนนที่ได้</div>
+        </div>
+        <div class="stat-item">
+            <div class="value" id="progressPct">0%</div>
+            <div class="label">ความคืบหน้า</div>
+        </div>
+    </div>
+
+    <!-- Main Quiz Interface -->
+    <div id="quizContainer"></div>
+
+    <!-- Navigation Buttons -->
+    <div class="controls" id="quizControls">
+        <button class="nav-btn" id="prevBtn" onclick="changeQuestion(-1)" disabled>◀ ข้อก่อนหน้า</button>
+        <button class="nav-btn" id="nextBtn" onclick="changeQuestion(1)">ข้อถัดไป ▶</button>
+    </div>
+
+    <!-- Final Result Dashboard -->
+    <div class="result-view" id="resultView">
+        <h2>🎉 สรุปผลคะแนนของคุณ</h2>
+        <p>คุณได้ทำแนวข้อสอบครบถ้วนทั้ง 50 ข้อเรียบร้อยแล้ว</p>
+        <div class="score-circle">
+            <div class="score-num" id="finalScore">0</div>
+            <div class="score-total">เต็ม 50</div>
+        </div>
+        <p id="resultFeedback" style="font-weight: 500; margin-bottom: 15px;"></p>
+        <button class="nav-btn restart-btn" onclick="restartQuiz()">🔄 ทำใหม่อีกครั้ง</button>
+    </div>
+
+    <!-- Jump-to-Question Grid Board -->
+    <div class="grid-card" id="gridCard">
+        <h3>🎯 แผงควบคุมข้อสอบ</h3>
+        <div class="q-grid" id="questionGrid"></div>
+    </div>
+</div>
+
+<script>
+    // 50 New Unique Questions Array
+    const quizData = [
+        { id: 101, question: '"Did the manager approve your proposal?"<br>"No, he demanded that it ____ rewritten."', options: ['(A) is', '(B) be', '(C) was', '(D) to be'], answer: 1, explanation: 'โครงสร้าง Subjunctive Mood หลังกริยา demand that ต้องตามด้วย Subject + V.inf เสมอ แม้ประธานจะเป็น it ก็ต้องใช้ be รูปเดิม' },
+        { id: 102, question: '"Your hair looks great!"<br>"Thanks, I just had it ____."', options: ['(A) cut', '(B) cutting', '(C) to cut', '(D) cuts'], answer: 0, explanation: 'โครงสร้าง Causative (have something done) ใช้ have + object + V.3 (Past Participle) หมายถึง ให้คนอื่นทำบางสิ่งให้ (ในที่นี้คือให้ช่างตัดผมให้)' },
+        { id: 103, question: '"What would you do?"<br>"If I ____ you, I would accept the offer."', options: ['(A) am', '(B) was', '(C) were', '(D) have been'], answer: 2, explanation: 'If-Clause Type 2 ใช้สมมติในสิ่งที่เป็นไปไม่ได้หรือตรงข้ามความจริงในปัจจุบัน กฎไวยากรณ์มาตรฐานจะใช้ were กับประธานทุกพจน์' },
+        { id: 104, question: '"Did Mary come to the party?"<br>"No, but she would have come if she ____ invited."', options: ['(A) was', '(B) has been', '(C) would be', '(D) had been'], answer: 3, explanation: 'If-Clause Type 3 สมมติตรงข้ามความจริงในอดีต โครงสร้างคือ If + Subject + Past Perfect (had V.3) คู่กับ would have + V.3' },
+        { id: 105, question: '"What a performance!"<br>"Never before ____ such a talented singer."', options: ['(A) have I seen', '(B) I have seen', '(C) did I saw', '(D) I saw'], answer: 0, explanation: 'การใช้ Inversion เมื่อนำคำเชิงปฏิเสธ (Never) ขึ้นต้นประโยค ต้องสลับโครงสร้างด้านหลังให้เหมือนประโยคคำถาม (กริยาช่วย + ประธาน + กริยาหลัก)' },
+        { id: 106, question: '"How should I study for the exam?"<br>"The more you read, ____ you will understand."', options: ['(A) the much', '(B) more', '(C) the more', '(D) most'], answer: 2, explanation: 'โครงสร้าง Double Comparative (The + ขั้นกว่า, the + ขั้นกว่า) แปลว่า ยิ่ง...ก็ยิ่ง...' },
+        { id: 107, question: '"We\'re running late."<br>"Let\'s take a taxi, ____?"', options: ['(A) don\'t we', '(B) shall we', '(C) will we', '(D) aren\'t we'], answer: 1, explanation: 'กฎของ Question Tag สำหรับประโยคชักชวนที่ขึ้นต้นด้วย Let\'s (Let us) จะต้องลงท้ายด้วย shall we? เสมอ' },
+        { id: 108, question: '"What happened to his leg?"<br>"____ down the stairs, he twisted his ankle."', options: ['(A) Walked', '(B) To walk', '(C) Walking', '(D) Walk'], answer: 2, explanation: 'Participial Phrase: เมื่อประธาน (he) เป็นผู้กระทำกริยาเอง (เดินลงบันได) การลดรูปประโยคจะต้องขึ้นต้นด้วย V.ing' },
+        { id: 109, question: '"Where is the report?"<br>"It ____ to the manager yesterday."', options: ['(A) sent', '(B) was sent', '(C) has sent', '(D) was sending'], answer: 1, explanation: 'ประธาน (It) ไม่สามารถกระทำกริยาเองได้ และมีคำบอกเวลาในอดีต (yesterday) จึงต้องใช้ Passive Voice ของ Past Simple (was + V.3)' },
+        { id: 110, question: '"Are all the students present?"<br>"No, one of the students ____ missing."', options: ['(A) is', '(B) are', '(C) have been', '(D) were'], answer: 0, explanation: 'Subject-Verb Agreement: ประธานที่ขึ้นต้นด้วย One of + คำนามพหูพจน์ จะนับเป็นประธาน "เอกพจน์" เสมอ จึงใช้กริยา is' },
+        { id: 111, question: '"What subject do you like?"<br>"I am very interested ____ learning history."', options: ['(A) on', '(B) for', '(C) in', '(D) about'], answer: 2, explanation: 'คำคุณศัพท์ interested ต้องใช้คู่กับบุพบท in เสมอ (be interested in = สนใจในเรื่อง...)' },
+        { id: 112, question: '"Are you excited about the trip?"<br>"Yes, I am looking forward ____ Paris."', options: ['(A) to visit', '(B) visiting', '(C) visit', '(D) to visiting'], answer: 3, explanation: 'สำนวน look forward to (ตั้งตารอคอย) คำว่า to ในที่นี้เป็น Preposition จึงต้องตามด้วย Gerund (V.ing) เสมอ' },
+        { id: 113, question: '"Excuse me, sir."<br>"Could you tell me where ____?"', options: ['(A) is the station', '(B) the station is', '(C) does the station is', '(D) the station does'], answer: 1, explanation: 'Noun Clause ที่ทำหน้าที่เป็นกรรม (Indirect Question) จะต้องเรียงลำดับคำแบบประโยคบอกเล่า คือ Subject + Verb' },
+        { id: 114, question: '"Why didn\'t you go out?"<br>"It was ____ cold day that we stayed inside."', options: ['(A) so', '(B) such', '(C) such a', '(D) so a'], answer: 2, explanation: 'โครงสร้าง such + (a/an) + adjective + noun + that... ใช้เน้นความมากจนเกิดผลลัพธ์ (หนาวมากจนกระทั่ง...)' },
+        { id: 115, question: '"Can he reach the ceiling?"<br>"No, he is not ____."', options: ['(A) tall enough', '(B) enough tall', '(C) a tall enough', '(D) enough exactly tall'], answer: 0, explanation: 'การใช้คำว่า enough ขยาย Adjective จะต้องวาง enough ไว้ "ด้านหลัง" คำคุณศัพท์เสมอ (Adjective + enough)' },
+        { id: 116, question: '"Do you mind the noise?"<br>"No, I am used ____ in a noisy city."', options: ['(A) to live', '(B) to living', '(C) living', '(D) live'], answer: 1, explanation: 'สำนวน be used to (คุ้นเคยกับ) ต้องตามด้วยคำนาม หรือ Gerund (V.ing) ระวังอย่าสับสนกับ used to (เคย)' },
+        { id: 117, question: '"Do you have a pen?"<br>"No, I wish I ____ one."', options: ['(A) have', '(B) will have', '(C) had', '(D) would have'], answer: 2, explanation: 'การใช้ wish สมมติหรือปรารถนาในสิ่งที่ตรงข้ามกับความจริงใน "ปัจจุบัน" จะต้องตามด้วย Past Simple Tense (V.2)' },
+        { id: 118, question: '"Did you pass the test?"<br>"No, I wish I ____ harder."', options: ['(A) had studied', '(B) studied', '(C) study', '(D) have studied'], answer: 0, explanation: 'การใช้ wish แสดงความเสียดายต่อสิ่งที่เกิดขึ้นไปแล้วใน "อดีต" จะต้องตามด้วย Past Perfect (had + V.3)' },
+        { id: 119, question: '"Do you want to go out?"<br>"I would rather ____ at home."', options: ['(A) staying', '(B) stay', '(C) to stay', '(D) stayed'], answer: 1, explanation: 'สำนวน would rather (อยากจะ...มากกว่า) จะต้องตามด้วย V.infinitive แบบไม่เติม to (Bare Infinitive)' },
+        { id: 120, question: '"Coffee or tea?"<br>"I prefer tea ____ coffee."', options: ['(A) than', '(B) more', '(C) to', '(D) over'], answer: 2, explanation: 'กริยา prefer (ชอบ...มากกว่า) ตามหลักไวยากรณ์มาตรฐานจะใช้คู่กับบุพบท to (prefer A to B)' },
+        { id: 121, question: '"Why was he crying?"<br>"His mother didn\'t let him ____ TV."', options: ['(A) watch', '(B) to watch', '(C) watching', '(D) watched'], answer: 0, explanation: 'Causative Verb: โครงสร้าง let + someone + do something บังคับใช้กริยาช่อง 1 (V.inf) แบบไม่มี to' },
+        { id: 122, question: '"Why are you so tired?"<br>"The boss made me ____ late yesterday."', options: ['(A) working', '(B) to work', '(C) worked', '(D) work'], answer: 3, explanation: 'Causative Verb: โครงสร้าง make + someone + do something (บังคับให้ทำ) ต้องตามด้วย V.inf แบบไม่มี to' },
+        { id: 123, question: '"How did you fix the computer?"<br>"I got my brother ____ it for me."', options: ['(A) fix', '(B) to fix', '(C) fixing', '(D) fixed'], answer: 1, explanation: 'Causative Verb: โครงสร้าง get + someone + to do something (โน้มน้าว/มอบหมายให้ทำ) ต้องมี to นำหน้า V.inf' },
+        { id: 124, question: '"Who is that?"<br>"He is the man ____ wallet was stolen."', options: ['(A) who', '(B) whom', '(C) whose', '(D) which'], answer: 2, explanation: 'Relative Pronoun ที่ใช้แสดงความเป็นเจ้าของ (กระเป๋าตังค์ของชายคนนั้น) คือ whose' },
+        { id: 125, question: '"Where is the book?"<br>"It\'s the one ____ is on the table."', options: ['(A) that', '(B) who', '(C) whom', '(D) whose'], answer: 0, explanation: 'Relative Pronoun ขยายสิ่งของ (the book) ทำหน้าที่เป็นประธานของอนุประโยค สามารถใช้ which หรือ that ได้' },
+        { id: 126, question: '"Did you enjoy the lecture?"<br>"No, it was very ____."', options: ['(A) bore', '(B) boring', '(C) bored', '(D) to bore'], answer: 1, explanation: 'Participial Adjectives: V.ing เมื่อทำหน้าที่เป็นคุณศัพท์จะแปลว่า "น่า..." (boring = น่าเบื่อ ขยาย the lecture)' },
+        { id: 127, question: '"How did you feel about the news?"<br>"I was quite ____."', options: ['(A) surprise', '(B) surprising', '(C) to surprise', '(D) surprised'], answer: 3, explanation: 'Participial Adjectives: V.3 เมื่อทำหน้าที่เป็นคุณศัพท์จะแปลว่า "รู้สึก..." (surprised = รู้สึกประหลาดใจ)' },
+        { id: 128, question: '"Did you play golf?"<br>"____ the heavy rain, we still played."', options: ['(A) Although', '(B) Even though', '(C) Despite', '(D) Because'], answer: 2, explanation: 'Despite (ถึงแม้ว่า) เป็นบุพบท ต้องตามด้วย "กลุ่มคำนาม" (the heavy rain) ในขณะที่ Although ต้องตามด้วยประโยคเต็ม' },
+        { id: 129, question: '"Why didn\'t you go?"<br>"I stayed home ____ the bad weather."', options: ['(A) because of', '(B) because', '(C) since', '(D) as'], answer: 0, explanation: 'Because of (เนื่องจาก/เพราะว่า) ทำหน้าที่เป็นบุพบท จึงต้องตามด้วยกลุ่มคำนาม (the bad weather)' },
+        { id: 130, question: '"____ does it take to get to London?"<br>"About two hours."', options: ['(A) How far', '(B) How much', '(C) How long', '(D) How many'], answer: 2, explanation: 'คำถามที่ต้องการคำตอบเป็นระยะเวลา (เช่น About two hours) จะต้องตั้งคำถามด้วย How long' },
+        { id: 131, question: '"Are you hungry?"<br>"Yes, is there ____ to eat?"', options: ['(A) nothing', '(B) anything', '(C) something', '(D) everywhere'], answer: 1, explanation: 'Indefinite Pronoun: ในประโยคคำถามและประโยคปฏิเสธ เราจะใช้ anything (มีอะไรบางอย่าง...ไหม)' },
+        { id: 132, question: '"How long have you been here?"<br>"I ____ here since 2010."', options: ['(A) have lived', '(B) lived', '(C) live', '(D) am living'], answer: 0, explanation: 'ประโยคที่มีคำบอกเวลา since (ตั้งแต่) บ่งบอกถึงเหตุการณ์ที่เริ่มในอดีตดำเนินมาถึงปัจจุบัน จึงต้องใช้ Present Perfect (have/has + V.3)' },
+        { id: 133, question: '"What were you doing at 8 PM?"<br>"I ____ dinner when the phone rang."', options: ['(A) ate', '(B) have eaten', '(C) eat', '(D) was eating'], answer: 3, explanation: 'Past Continuous (was/were + V.ing) ใช้เล่าเหตุการณ์ที่กำลังดำเนินอยู่ในอดีต ก่อนจะถูกแทรกด้วยอีกเหตุการณ์หนึ่ง (Past Simple)' },
+        { id: 134, question: '"What did she say?"<br>"She said that she ____ return the next day."', options: ['(A) will', '(B) would', '(C) can', '(D) may'], answer: 1, explanation: 'Indirect Speech (รายงานคำพูด) เมื่อกริยาตัวนำเป็นอดีต (said) Tense ในประโยคตามมาจะต้องถูกถอยกลับสู่อดีต (เปลี่ยน will เป็น would)' },
+        { id: 135, question: '"What did the police ask?"<br>"He asked me what ____."', options: ['(A) was my name', '(B) is my name', '(C) my name was', '(D) my name is'], answer: 2, explanation: 'Indirect Question: โครงสร้างต้องเรียงแบบบอกเล่า (Subject + Verb) และเมื่อกริยานำเป็นอดีต (asked) Verb จึงต้องถอยเป็นอดีต (was) ด้วย' },
+        { id: 136, question: '"Why are you walking so fast?"<br>"I want to avoid ____ late."', options: ['(A) being', '(B) to be', '(C) be', '(D) am'], answer: 0, explanation: 'คำกริยา avoid (หลีกเลี่ยง) เป็นกริยาที่บังคับตามด้วย Gerund (V.ing) เสมอ' },
+        { id: 137, question: '"What are your plans?"<br>"I have decided ____ my job."', options: ['(A) quit', '(B) quitting', '(C) to quit', '(D) to quitting'], answer: 2, explanation: 'คำกริยา decide (ตัดสินใจ) เป็นกริยาที่บังคับตามด้วย to infinitive (to + V.inf) เสมอ' },
+        { id: 138, question: '"When is the meeting?"<br>"It is scheduled ____ Monday."', options: ['(A) in', '(B) on', '(C) at', '(D) for'], answer: 1, explanation: 'Preposition of time: สำหรับวันในสัปดาห์ (Days of the week) เช่น Monday, Tuesday จะต้องใช้บุพบท on' },
+        { id: 139, question: '"Where did you meet him?"<br>"I met him ____ the corner of the street."', options: ['(A) in', '(B) on', '(C) over', '(D) at'], answer: 3, explanation: 'Preposition of place: การระบุพิกัดที่ชัดเจนและเจาะจง (จุดใดจุดหนึ่ง) เช่น หัวมุมถนน ป้ายรถเมล์ นิยมใช้ at' },
+        { id: 140, question: '"What do you like to do?"<br>"I enjoy reading, swimming, and ____."', options: ['(A) cycling', '(B) to cycle', '(C) cycle', '(D) cycled'], answer: 0, explanation: 'โครงสร้างคู่ขนาน (Parallelism) คำที่เชื่อมด้วย and จะต้องมีโครงสร้างไวยากรณ์เหมือนกัน (V.ing, V.ing, and V.ing)' },
+        { id: 141, question: '"Is your car working now?"<br>"Yes, I had the mechanic ____ the engine."', options: ['(A) to fix', '(B) fix', '(C) fixing', '(D) fixed'], answer: 1, explanation: 'Causative Verb: โครงสร้าง have + someone + do something (ให้คนอื่นทำบางอย่าง) ต้องตามด้วย V.inf แบบไม่เติม to' },
+        { id: 142, question: '"Did you catch the train?"<br>"Hardly ____ at the station when the train left."', options: ['(A) I had arrived', '(B) I arrived', '(C) had I arrived', '(D) arrive I did'], answer: 2, explanation: 'Inversion: เมื่อขึ้นต้นประโยคด้วย Negative Adverb (Hardly = แทบจะไม่) ต้องใช้โครงสร้างสลับแบบคำถาม (had + Subject + V.3)' },
+        { id: 143, question: '"Is he good at math?"<br>"Yes, he is ____ as his brother."', options: ['(A) as smart', '(B) smarter', '(C) smartest', '(D) smart so'], answer: 0, explanation: 'การเปรียบเทียบขั้นเท่ากัน (Positive Degree) ใช้โครงสร้าง as + Adjective + as' },
+        { id: 144, question: '"How is the new car?"<br>"It is much ____ than the old one."', options: ['(A) good', '(B) better', '(C) best', '(D) well'], answer: 1, explanation: 'มีคำว่า than บ่งบอกถึงขั้นกว่า (Comparative) และสามารถใช้คำว่า much วางหน้า Adjective ขั้นกว่าเพื่อขยายความ (ดีกว่ามาก) ได้' },
+        { id: 145, question: '"Which bag did you buy?"<br>"I bought ____ one in the store."', options: ['(A) most expensive', '(B) more expensive', '(C) expensive', '(D) the most expensive'], answer: 3, explanation: 'การเปรียบเทียบขั้นสูงสุด (Superlative Degree) จะต้องมี Article "the" นำหน้าเสมอ' },
+        { id: 146, question: '"Who should do this?"<br>"Just between you and ____, I think John should do it."', options: ['(A) I', '(B) me', '(C) my', '(D) mine'], answer: 1, explanation: 'คำว่า between เป็น Preposition สรรพนามที่ตามหลังบุพบทจะต้องอยู่ในรูปของกรรม (Object Pronoun) คือ me' },
+        { id: 147, question: '"What did you buy for the house?"<br>"I bought a lot of ____."', options: ['(A) furnitures', '(B) a furniture', '(C) furniture', '(D) the furnitures'], answer: 2, explanation: 'Furniture (เฟอร์นิเจอร์) เป็นคำนามนับไม่ได้ (Uncountable Noun) ในภาษาอังกฤษ จึงไม่สามารถเติม -s หรือใส่ a/an ได้' },
+        { id: 148, question: '"Nobody was there, ____?"<br>"No, it was completely empty."', options: ['(A) were they', '(B) wasn\'t it', '(C) was they', '(D) didn\'t they'], answer: 0, explanation: 'Question Tag: ประธาน Nobody มีความหมายเป็นปฏิเสธ Tag จึงต้องเป็นบอกเล่า และสรรพนามที่ใช้แทน Nobody คือ they จึงใช้กริยา were ให้สอดคล้องกัน' },
+        { id: 149, question: '"Does he usually come on time?"<br>"No, he is ____ late."', options: ['(A) late always', '(B) late always is', '(C) always', '(D) always is'], answer: 2, explanation: 'Adverb of Frequency (always, usually, often...) จะต้องวางไว้ "หลัง" Verb to be เสมอ (he is always late)' },
+        { id: 150, question: '"Are John and his friends coming?"<br>"Neither John nor his friends ____ coming."', options: ['(A) is', '(B) are', '(C) have', '(D) has'], answer: 1, explanation: 'Subject-Verb Agreement: โครงสร้าง Neither...nor... (ไม่ทั้ง...และ...) กริยาจะต้องผันตามประธานตัวที่อยู่ใกล้ที่สุด (his friends เป็นพหูพจน์)' }
+    ];
+
+    let currentIndex = 0;
+    let score = 0;
+    const userAnswers = new Array(quizData.length).fill(null);
+
+    function initQuiz() {
+        const container = document.getElementById('quizContainer');
+        const grid = document.getElementById('questionGrid');
+        container.innerHTML = '';
+        grid.innerHTML = '';
+
+        quizData.forEach((q, idx) => {
+            const card = document.createElement('div');
+            card.className = `quiz-card ${idx === 0 ? 'active' : ''}`;
+            card.id = `card-${idx}`;
+
+            let optionsHtml = '';
+            q.options.forEach((opt, optIdx) => {
+                optionsHtml += `<button class="option-btn" id="opt-${idx}-${optIdx}" onclick="selectAnswer(${idx}, ${optIdx})">${opt}</button>`;
+            });
+
+            card.innerHTML = `
+                <div class="q-number">Question ${q.id}</div>
+                <div class="q-text">${q.question}</div>
+                <div class="options-list">${optionsHtml}</div>
+                <div class="explanation-box" id="explain-${idx}">
+                    <h4>💡 คำอธิบาย:</h4>
+                    <p>${q.explanation}</p>
+                </div>
+            `;
+            container.appendChild(card);
+
+            const dot = document.createElement('div');
+            dot.className = `grid-dot ${idx === 0 ? 'current' : ''}`;
+            dot.id = `dot-${idx}`;
+            dot.innerText = q.id;
+            dot.onclick = () => jumpToQuestion(idx);
+            grid.appendChild(dot);
+        });
+
+        updateStatsBar();
+    }
+
+    function selectAnswer(qIdx, optIdx) {
+        if (userAnswers[qIdx] !== null) return; 
+
+        const q = quizData[qIdx];
+        const isCorrect = (optIdx === q.answer);
+        userAnswers[qIdx] = { chosenIndex: optIdx, isCorrect: isCorrect };
+
+        if (isCorrect) score++;
+
+        const chosenBtn = document.getElementById(`opt-${qIdx}-${optIdx}`);
+        if (isCorrect) {
+            chosenBtn.classList.add('correct');
+        } else {
+            chosenBtn.classList.add('incorrect');
+            document.getElementById(`opt-${qIdx}-${q.answer}`).classList.add('correct');
+        }
+
+        q.options.forEach((_, i) => {
+            document.getElementById(`opt-${qIdx}-${i}`).disabled = true;
+        });
+
+        document.getElementById(`explain-${qIdx}`).style.display = 'block';
+
+        const dot = document.getElementById(`dot-${qIdx}`);
+        dot.className = `grid-dot ${isCorrect ? 'answered-correct' : 'answered-incorrect'}`;
+        if (qIdx === currentIndex) dot.classList.add('current');
+
+        updateStatsBar();
+        
+        if (userAnswers.filter(a => a !== null).length === quizData.length) {
+            document.getElementById('nextBtn').innerText = 'ดูผลสรุปคะแนน ▶';
+        }
+    }
+
+    function changeQuestion(direction) {
+        if (currentIndex === quizData.length - 1 && direction === 1) {
+            showResults();
+            return;
+        }
+
+        document.getElementById(`card-${currentIndex}`).classList.remove('active');
+        document.getElementById(`dot-${currentIndex}`).classList.remove('current');
+
+        currentIndex += direction;
+
+        document.getElementById(`card-${currentIndex}`).classList.add('active');
+        document.getElementById(`dot-${currentIndex}`).classList.add('current');
+
+        document.getElementById('prevBtn').disabled = (currentIndex === 0);
+        
+        if (currentIndex === quizData.length - 1) {
+            document.getElementById('nextBtn').innerText = userAnswers.filter(a => a !== null).length === quizData.length ? 'ดูผลสรุปคะแนน ▶' : 'สรุปผลคะแนน';
+        } else {
+            document.getElementById('nextBtn').innerText = 'ข้อถัดไป ▶';
+        }
+
+        updateStatsBar();
+    }
+
+    function jumpToQuestion(idx) {
+        document.getElementById(`card-${currentIndex}`).classList.remove('active');
+        document.getElementById(`dot-${currentIndex}`).classList.remove('current');
+
+        document.getElementById('quizContainer').style.display = 'block';
+        document.getElementById('quizControls').style.display = 'flex';
+        document.getElementById('resultView').style.display = 'none';
+
+        currentIndex = idx;
+
+        document.getElementById(`card-${currentIndex}`).classList.add('active');
+        document.getElementById(`dot-${currentIndex}`).classList.add('current');
+
+        document.getElementById('prevBtn').disabled = (currentIndex === 0);
+        
+        if (currentIndex === quizData.length - 1) {
+            document.getElementById('nextBtn').innerText = userAnswers.filter(a => a !== null).length === quizData.length ? 'ดูผลสรุปคะแนน ▶' : 'สรุปผลคะแนน';
+        } else {
+            document.getElementById('nextBtn').innerText = 'ข้อถัดไป ▶';
+        }
+
+        updateStatsBar();
+    }
+
+    function updateStatsBar() {
+        document.getElementById('currentNum').innerText = `${currentIndex + 1}/${quizData.length}`;
+        document.getElementById('scoreVal').innerText = score;
+        
+        const answeredCount = userAnswers.filter(a => a !== null).length;
+        const pct = Math.round((answeredCount / quizData.length) * 100);
+        document.getElementById('progressPct').innerText = `${pct}%`;
+    }
+
+    function showResults() {
+        document.getElementById('quizContainer').style.display = 'none';
+        document.getElementById('quizControls').style.display = 'none';
+        
+        const resultView = document.getElementById('resultView');
+        resultView.style.display = 'block';
+        
+        document.getElementById('finalScore').innerText = score;
+
+        let feedback = '';
+        if (score >= 45) feedback = 'Excellent! 🌟 แกรมมาร์แน่นมาก พร้อมทำข้อสอบเข้ามหาวิทยาลัยได้สบายๆ ครับ!';
+        else if (score >= 35) feedback = 'Good Job! 👍 เก่งมากครับ ทบทวนอีกนิดเพื่อความแม่นยำเต็มร้อยนะ!';
+        else if (score >= 25) feedback = 'Fair! 🎯 ผ่านเกณฑ์พอดีครับ ศึกษาคำอธิบายเพิ่มเติมเพื่อความชัวร์นะ!';
+        else feedback = 'Keep fighting! 📖 ค่อยๆ ฝึกฝนและเรียนรู้จากข้อผิดพลาดครับ!';
+        
+        document.getElementById('resultFeedback').innerText = feedback;
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function restartQuiz() {
+        score = 0;
+        currentIndex = 0;
+        userAnswers.fill(null);
+
+        document.getElementById('quizContainer').style.display = 'block';
+        document.getElementById('quizControls').style.display = 'flex';
+        document.getElementById('resultView').style.display = 'none';
+        document.getElementById('prevBtn').disabled = true;
+        document.getElementById('nextBtn').innerText = 'ข้อถัดไป ▶';
+
+        initQuiz();
+    }
+
+    window.onload = initQuiz;
+</script>
+
+</body>
+</html>

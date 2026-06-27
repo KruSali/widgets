@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>English Structure Quiz - Set 1 (ข้อ 1-50)</title>
+    <style>
+        :root {
+            --primary: #2b4c7e;
+            --primary-light: #eef4fc;
+            --success: #2e7d32;
+            --success-light: #e8f5e9;
+            --error: #c62828;
+            --error-light: #ffebee;
+            --text-dark: #2c3e50;
+            --text-muted: #7f8c8d;
+            --bg-body: #f8f9fa;
+            --card-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            --border-radius: 14px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Tahoma, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-body);
+            color: var(--text-dark);
+            padding: 20px 12px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 25px;
+            background: linear-gradient(135deg, var(--primary), #1a3050);
+            color: white;
+            padding: 24px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
+        }
+
+        header h1 {
+            font-size: 22px;
+            margin-bottom: 6px;
+            font-weight: 600;
+        }
+
+        header p {
+            font-size: 14px;
+            opacity: 0.85;
+        }
+
+        /* Stats Bar */
+        .stats-bar {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            background: white;
+            padding: 15px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .stat-item .value {
+            font-size: 18px;
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        .stat-item .label {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        /* Quiz Card */
+        .quiz-card {
+            background: white;
+            padding: 25px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
+            margin-bottom: 20px;
+            display: none;
+            animation: fadeIn 0.4s ease-out;
+        }
+
+        .quiz-card.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .q-number {
+            font-size: 13px;
+            font-weight: bold;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+
+        .q-text {
+            font-size: 17px;
+            font-weight: 500;
+            margin-bottom: 20px;
+            border-left: 4px solid var(--primary);
+            padding-left: 12px;
+        }
+
+        .options-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .option-btn {
+            width: 100%;
+            padding: 14px 16px;
+            background: #fdfdfd;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            text-align: left;
+            font-size: 15px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            color: var(--text-dark);
+        }
+
+        .option-btn:hover:not(:disabled) {
+            background: var(--primary-light);
+            border-color: var(--primary);
+        }
+
+        .option-btn:disabled {
+            cursor: not-allowed;
+        }
+
+        /* Answer States */
+        .option-btn.correct {
+            background-color: var(--success-light) !important;
+            border-color: var(--success) !important;
+            color: var(--success) !important;
+            font-weight: 600;
+        }
+
+        .option-btn.incorrect {
+            background-color: var(--error-light) !important;
+            border-color: var(--error) !important;
+            color: var(--error) !important;
+        }
+
+        /* Explanation Box */
+        .explanation-box {
+            margin-top: 20px;
+            padding: 16px;
+            background-color: #fcfcfc;
+            border-top: 3px solid var(--primary);
+            border-radius: 8px;
+            display: none;
+            font-size: 14px;
+        }
+
+        .explanation-box h4 {
+            color: var(--primary);
+            margin-bottom: 5px;
+            font-size: 15px;
+        }
+
+        /* Navigation Controls */
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .nav-btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            background: var(--primary);
+            color: white;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.2s;
+            text-align: center;
+        }
+
+        .nav-btn:hover:not(:disabled) {
+            background: #1a3050;
+        }
+
+        .nav-btn:disabled {
+            background: #bdc3c7;
+            cursor: not-allowed;
+        }
+
+        /* Grid Overview */
+        .grid-card {
+            background: white;
+            padding: 20px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
+            margin-top: 25px;
+        }
+
+        .grid-card h3 {
+            font-size: 15px;
+            margin-bottom: 12px;
+            color: var(--text-dark);
+            text-align: center;
+        }
+
+        .q-grid {
+            display: grid;
+            grid-template-columns: repeat(10, 1fr);
+            gap: 6px;
+        }
+
+        .grid-dot {
+            aspect-ratio: 1;
+            border: 1px solid #cbd5e1;
+            background: #f1f5f9;
+            border-radius: 6px;
+            font-size: 11px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-weight: bold;
+        }
+
+        .grid-dot.answered-correct {
+            background-color: var(--success);
+            color: white;
+            border-color: var(--success);
+        }
+
+        .grid-dot.answered-incorrect {
+            background-color: var(--error);
+            color: white;
+            border-color: var(--error);
+        }
+
+        .grid-dot.current {
+            box-shadow: 0 0 0 3px var(--primary);
+        }
+
+        /* Result View */
+        .result-view {
+            text-align: center;
+            background: white;
+            padding: 35px 25px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
+            display: none;
+        }
+
+        .result-view h2 {
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+
+        .score-circle {
+            width: 130px;
+            height: 130px;
+            border-radius: 50%;
+            background: var(--primary-light);
+            border: 5px solid var(--primary);
+            margin: 20px auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .score-circle .score-num {
+            font-size: 32px;
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        .score-circle .score-total {
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+
+        .restart-btn {
+            margin-top: 25px;
+            background: var(--success);
+        }
+
+        .restart-btn:hover {
+            background: #235e26;
+        }
+
+        @media (max-width: 480px) {
+            .q-grid {
+                grid-template-columns: repeat(5, 1fr);
+            }
+            header h1 { font-size: 18px; }
+            .q-text { font-size: 15px; }
+            .option-btn { font-size: 14px; padding: 12px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>📝 English Structure Quiz</h1>
+        <p>เซ็ตที่ 1 (ข้อ 1 - 50) | Admissions & College Entrance Test</p>
+    </header>
+
+    <!-- Stats Panel -->
+    <div class="stats-bar" id="statsBar">
+        <div class="stat-item">
+            <div class="value" id="currentNum">1/50</div>
+            <div class="label">ข้อปัจจุบัน</div>
+        </div>
+        <div class="stat-item">
+            <div class="value" id="scoreVal">0</div>
+            <div class="label">คะแนนที่ได้</div>
+        </div>
+        <div class="stat-item">
+            <div class="value" id="progressPct">0%</div>
+            <div class="label">ความคืบหน้า</div>
+        </div>
+    </div>
+
+    <!-- Main Quiz Interface -->
+    <div id="quizContainer">
+        <!-- Question cards will be injected dynamically via JS -->
+    </div>
+
+    <!-- Navigation Buttons -->
+    <div class="controls" id="quizControls">
+        <button class="nav-btn" id="prevBtn" onclick="changeQuestion(-1)" disabled>◀ ข้อก่อนหน้า</button>
+        <button class="nav-btn" id="nextBtn" onclick="changeQuestion(1)">ข้อถัดไป ▶</button>
+    </div>
+
+    <!-- Final Result Dashboard -->
+    <div class="result-view" id="resultView">
+        <h2>🎉 สรุปผลคะแนนของคุณ</h2>
+        <p>คุณได้ทำแนวข้อสอบครบถ้วนทั้ง 50 ข้อเรียบร้อยแล้ว</p>
+        <div class="score-circle">
+            <div class="score-num" id="finalScore">0</div>
+            <div class="score-total">เต็ม 50</div>
+        </div>
+        <p id="resultFeedback" style="font-weight: 500; margin-bottom: 15px;"></p>
+        <button class="nav-btn restart-btn" onclick="restartQuiz()">🔄 ทำใหม่อีกครั้ง</button>
+    </div>
+
+    <!-- Jump-to-Question Grid Board -->
+    <div class="grid-card" id="gridCard">
+        <h3>🎯 แผงควบคุมข้อสอบ (คลิกกระโดดข้ามข้อได้)</h3>
+        <div class="q-grid" id="questionGrid">
+            <!-- Dots generated dynamically -->
+        </div>
+    </div>
+</div>
+
+<script>
+    // Injected question array data
+    const quizData = [{"id": 1, "question": "\"What do you expect me to do?\"<br>\"The house needs ____.\"", "options": ["(A) to be paint", "(B) to painting", "(C) painted", "(D) painting"], "answer": 3, "explanation": "โครงสร้าง <b>need + V-ing</b> หรือ <b>need + to be + V.3</b> ใช้ในความหมายเชิงถูกกระทำ (Passive Voice) เมื่อประธานเป็นสิ่งไม่มีชีวิต แปลว่า 'จำเป็นต้องได้รับการ...' ในที่นี้การใช้ painting จึงถูกต้องและมีความหมายเท่ากับ to be painted ครับ"}, {"id": 2, "question": "\"I never saw him play baseball.\"<br>\"He ____ to like anything.\"", "options": ["(A) is never going", "(B) go never", "(C) never go", "(D) will go"], "answer": 0, "explanation": "โครงสร้าง <b>be going to + V.inf</b> ใช้แสดงแนวโน้มหรือสิ่งที่จะเกิดขึ้น และเมื่อต้องการทำเป็นปฏิเสธด้วยคำว่า never ตำแหน่งของ Adverb of frequency จะอยู่หลัง Verb to be จึงได้รูปประโยคเป็น <b>is never going</b> to like..."}, {"id": 3, "question": "\"Are you going to mail this letter?\"<br>\"No, I must have it ____ first.\"", "options": ["(A) to be addressed", "(B) addressing", "(C) addressed", "(D) address"], "answer": 2, "explanation": "ทดสอบไวยากรณ์เรื่อง <b>Causative Form</b> โครงสร้าง <code>have + something + V.3</code> (Past Participle) หมายถึง 'ให้คนอื่นจัดการหรือทำบางสิ่งให้' ในที่นี้จดหมาย (it) ต้องถูกเขียนจ่าหน้าซอง (addressed) โดยผู้อื่น จึงใช้กริยาช่อง 3"}, {"id": 4, "question": "\"You'll save some money by living with me.\"<br>\"Yes, of course. That seems ____ a good idea.\"", "options": ["(A) to be liked", "(B) as if", "(C) like", "(D) liking"], "answer": 2, "explanation": "โครงสร้าง <b>seem like + Noun Phrase</b> แปลว่า 'ดูเหมือนว่าจะเป็น...' ในประโยคนี้ตามด้วยวลี 'a good idea' ซึ่งเป็นคำนาม จึงเชื่อมด้วยคำว่า like ได้ทันที"}, {"id": 5, "question": "\"Why do you treat me like that?\"<br>\"As you treat me, ____ will I treat you.\"", "options": ["(A) as", "(B) so", "(C) like", "(D) and"], "answer": 1, "explanation": "โครงสร้างความสัมพันธ์แบบสัดส่วนหรือเปรียบเทียบในวรรณกรรม (Correlative Structure) คือ <b>As..., so...</b> แปลว่า 'ฉันใดก็ฉันนั้น' หรือ 'คุณปฏิบัติกับฉันอย่างไร ฉันก็จะปฏิบัติกับคุณอย่างนั้น'"}, {"id": 6, "question": "\"What's the matter, son?\"<br>\"I can't tie these ____.\"", "options": ["(A) shoes laces", "(B) shoe laces", "(C) shoes' laces", "(D) shoe's laces"], "answer": 1, "explanation": "ในคำนามประสม (Compound Noun) คำนามคำแรกที่ทำหน้าที่คล้าย Adjective เพื่อขยายคำนามหลักที่อยู่ข้างหลัง จะต้องอยู่ในรูป<b>เอกพจน์เสมอ</b> (ไม่เติม s) ดังนั้น 'เชือกผูกรองเท้า' จึงต้องเขียนว่า <b>shoe laces</b>"}, {"id": 7, "question": "\"Shall we go now?\"<br>\"I wonder what ____.\"", "options": ["(A) time it is", "(B) time is it", "(C) it is time", "(D) is it time"], "answer": 0, "explanation": "ข้อนี้ทดสอบเรื่อง <b>Noun Clause</b> (Indirect Question) ที่ทำหน้าที่เป็นกรรมหลังคำว่า wonder โครงสร้างภายใน Noun Clause จะต้องเรียงประโยคแบบประโยคบอกเล่า คือ <code>Subject + Verb</code> (what time it is) ไม่ใช่เรียงแบบประโยคคำถาม (is it)"}, {"id": 8, "question": "\"What did Mary's father advise her to do?\"<br>\"He advised that she ____ her education before getting married.\"", "options": ["(A) completes", "(B) completed", "(C) complete", "(D) would complete"], "answer": 2, "explanation": "โครงสร้าง <b>Subjunctive Mood</b> หลังคำกริยาที่แสดงการแนะนำหรือสั่งการ เช่น advise, recommend, suggest, insist จะตามด้วย <code>that + Subject + V.infinitive</code> (กริญารูปเดิม ไม่ผัน ไม่เติม s/es/ed) เสมอ แม้ประธานจะเป็น she ก็ตาม"}, {"id": 9, "question": "\"How long does it take to get there?\"<br>\"It is about a fifteen-hour trip ____ plane.\"", "options": ["(A) by", "(B) over", "(C) in", "(D) at"], "answer": 0, "explanation": "การบอกวิธีการเดินทางด้วยยานพาหนะต่าง ๆ ในเชิงหลักการทั่วไป โดยไม่มีคำนำหน้านาม (เช่น a, the) มาคั่นกลาง เราจะใช้ Preposition <b>by</b> เสมอ เช่น by plane, by train, by car"}, {"id": 10, "question": "\"Shall I invite Tom to my party?\"<br>\"Yes. It'll be nice if you ____.\"", "options": ["(A) do", "(B) do invite", "(C) are", "(D) invited"], "answer": 0, "explanation": "การใช้กริยาช่วย <b>do</b> ทำหน้าที่เป็น Pro-verb เพื่อแทนคำกริยาหลัก (invite him) ที่ถูกกล่าวถึงไปแล้วในประโยคก่อนหน้า เพื่อหลีกเลี่ยงการพูดคำเดิมซ้ำซาก"}, {"id": 11, "question": "\"Who knows the way?\"<br>\"He knows the way ____.\"", "options": ["(A) to go", "(B) going", "(C) goes", "(D) is going"], "answer": 0, "explanation": "โครงสร้าง <b>the way + to-infinitive</b> ใช้เพื่อขยายคำนาม 'the way' ทำหน้าที่เป็น Adjective Phrase บอกวัตถุประสงค์ แปลว่า 'ทางที่จะไป' หรือ 'วิธีที่จะไป'"}, {"id": 12, "question": "\"When will you be back?\"<br>\"I shall ____ as soon as I can.\"", "options": ["(A) be returned", "(B) return back", "(C) return", "(D) be returning back"], "answer": 2, "explanation": "หลังคำกริยาช่วย Modal Verb เช่น shall, will จะต้องตามด้วย <b>V.infinitive</b> เสมอ และคำว่า return มีความหมายในตัวว่า 'กลับมา' อยู่แล้ว จึงไม่จำเป็นต้องใส่คำว่า back ซ้อนเข้ามาอีกให้ฟุ่มเฟือย (Pleonasms)"}, {"id": 13, "question": "\"Do you plan to let Mr. Johnson ____ that money?\"<br>\"Yes, I plan to.\"", "options": ["(A) have", "(B) to have", "(C) having", "(D) to possess"], "answer": 0, "explanation": "คำกริยาประเภท Causative Verb เช่น <b>let</b> มีโครงสร้างบังคับคือ <code>let + someone + V.infinitive (Bare Infinitive - กริยารูปธรรมดาที่ไม่มี to คั่น)</code> ดังนั้นจึงตอบ have"}, {"id": 14, "question": "\"Do you have a job?\"<br>\"Yes, ____.\"", "options": ["(A) I have", "(B) I certain have", "(C) I have it", "(D) I have one"], "answer": 3, "explanation": "การใช้ Pronoun <b>one</b> ทำหน้าที่เป็นสรรพนามแทนคำนามนับได้เอกพจน์ที่ไม่เจาะจง (ในที่นี้คือแทนคำว่า a job) เพื่อหลีกเลี่ยงการพูดคำเดิมซ้ำ ประโยค 'Yes, I have one.' จึงสมบูรณ์และเป็นธรรมชาติที่สุด"}, {"id": 15, "question": "\"Can you see that dog?\"<br>\"There isn't a dog, ____?\"", "options": ["(A) is there", "(B) isn't it", "(C) isn't there", "(D) is it"], "answer": 0, "explanation": "กฎของ <b>Question Tag</b> หากประโยคหลักข้างหน้าเป็นปฏิเสธ (There isn't...) ประโยคส่วนท้าย (Tag) ต้องเป็นบอกเล่า โดยใช้กริยาช่วยตัวเดิมร่วมกับประธานเดิม จึงได้รูปเป็น <b>is there?</b>"}, {"id": 16, "question": "\"Jack, did you see all the acts?\"<br>\"No, when I got to the theater, they were already playing ____.\"", "options": ["(A) act two", "(B) the second act", "(C) the act second", "(D) the act two"], "answer": 1, "explanation": "การระบุลำดับที่ขององก์หรือตอนในการแสดง สามารถเขียนได้ 2 แบบคือ 1) <code>the + Ordinal Number + Noun</code> (the second act) หรือ 2) <code>Noun + Cardinal Number</code> (act two - แบบนี้จะไม่มี the ด้านหน้า) ช้อยส์ B จึงถูกตามโครงสร้างแรก"}, {"id": 17, "question": "\"How did she set her hair?\"<br>\"She set her hair ____.\"", "options": ["(A) very lovely", "(B) in curls", "(C) curl", "(D) curly"], "answer": 1, "explanation": "สำนวน <b>in curls</b> เป็น Prepositional Phrase ที่ทำหน้าที่เสมือน Adverb ขยายกริยา 'set' หมายถึง จัดทรงผมหรือดัดผมให้เป็นลอนม้วนกระดก"}, {"id": 18, "question": "\"What did he say?\"<br>\"He recommended ____ this book.\"", "options": ["(A) read", "(B) to read", "(C) reading", "(D) everyone reads"], "answer": 2, "explanation": "คำกริยา <b>recommend</b> หากตามด้วยคำกริยาทันทีโดยไม่มีกรรมมารองรับ โครงสร้างไวยากรณ์บังคับให้ใช้รูป <b>Gerund (V-ing)</b> เสมอ ดังนั้นจึงต้องใช้ reading"}, {"id": 19, "question": "\"Do you like the plans for the class project?\"<br>\"Not entirely. I don't approve ____ some of them.\"", "options": ["(A) of", "(B) to", "(C) for", "(D) with"], "answer": 0, "explanation": "คำกริยา <b>approve</b> (เห็นชอบ, อนุมัติ, เห็นด้วย) เป็นกริยาที่ต้องใช้คู่กับ Preposition <b>of</b> เสมอตามหลัก Dependent Prepositions (approve of something)"}, {"id": 20, "question": "\"What're you going to do tomorrow?\"<br>\"If it ____ tomorrow, I think I'll attend the meeting.\"", "options": ["(A) won't rain", "(B) doesn't rain", "(C) wouldn't rain", "(D) hadn't rained"], "answer": 1, "explanation": "ข้อนี้เป็น <b>If-Clause Type 1</b> (เงื่อนไขที่เป็นไปได้จริงในปัจจุบันหรืออนาคต) โครงสร้างคือ <code>If + Present Simple, Future Simple</code> ประโยคหลักใช้ I think I'll attend... (Future) ดังนั้นหลัง If จึงต้องเป็น Present Simple ปฏิเสธ คือ <b>doesn't rain</b>"}, {"id": 21, "question": "\"Where did you see Dick?\"<br>\"I saw him ____ downtown last night.\"", "options": ["(A) had worked", "(B) worked", "(C) having worked", "(D) working"], "answer": 3, "explanation": "โครงสร้างของ Verbs of perception (กริยาแสดงการรับรู้) เช่น <code>see + someone + V-ing</code> ใช้เมื่อเราเห็นเหตุการณ์นั้นกำลังดำเนินอยู่ ณ ช่วงเวลาหนึ่งในอดีต (เห็นดิ๊กกำลังทำงานอยู่ตัวเมืองเมื่อคืนนี้)"}, {"id": 22, "question": "\"What do you think about his idea?\"<br>\"This is ____ than the others he has presented.\"", "options": ["(A) an idea more complex", "(B) a complex more idea", "(C) more complex an idea", "(D) an idea complex more"], "answer": 2, "explanation": "โครงสร้างการเปรียบเทียบขั้นกว่าขั้นสูงที่เป็นทางการ: <code>more + Adjective + a/an + Noun</code> ใช้เมื่อAdjective มีความยาวและต้องการเน้นน้ำหนักความเปรียบเทียบ วลี <b>more complex an idea than...</b> จึงเป็นรูปไวยากรณ์ที่ถูกต้องและสละสลวยที่สุด"}, {"id": 23, "question": "\"What?\"<br>\"I used to ____ long hair.\"", "options": ["(A) have", "(B) wear", "(C) reserve", "(D) grow"], "answer": 1, "explanation": "ในภาษาอังกฤษโบราณและภาษาเขียนที่เป็นทางการ คำว่า <b>wear</b> นอกจากแปลว่าสวมใส่เสื้อผ้าแล้ว ยังนิยมใช้กับทรงผม เครา หรือความยาวของเส้นผมด้วย เช่น 'wear long hair' แปลว่า ไว้ผมยาว (ตามรอยที่ผู้เรียนทำเครื่องหมายไว้ในหนังสือเรียนต้นฉบับ)"}, {"id": 24, "question": "\"Is Alice a very good actress?\"<br>\"Yes, she is ____.\"", "options": ["(A) a favorite to me", "(B) a favorite of my", "(C) a favorite of mine", "(D) mine favorite"], "answer": 2, "explanation": "โครงสร้างสำนวนแสดงความเป็นเจ้าของซ้อน (Double Possessive) คือ <code>a/an + Noun + of + Possessive Pronoun</code> เพื่อแสดงความเป็นหนึ่งในหลาย ๆ สิ่ง/คน ดังนั้น 'a favorite of mine' หมายถึง ดาราคนโปรดคนหนึ่งของฉัน"}, {"id": 25, "question": "\"Where did Carol disappear to?\"<br>\"She went to that jewelry store ____ the street.\"", "options": ["(A) across", "(B) near", "(C) by", "(D) from"], "answer": 0, "explanation": "คำบุพบทบอกทิศทาง <b>across the street</b> แปลว่า 'ฝั่งตรงข้ามของถนน' สอดคล้องกับบริบทที่บอกว่าเธอเดินหายไปยังร้านเพชรที่อยู่ฝั่งตรงข้ามถนน"}, {"id": 26, "question": "\"Where do you wish to go?\"<br>\"I wish to go to the ____.\"", "options": ["(A) shoes store", "(B) shoes's store", "(C) shoe store", "(D) shoes' store"], "answer": 2, "explanation": "เช่นเดียวกับข้อ 6 คำนามที่รวมกันเป็น Compound Noun คำนามตัวแรกที่มาทำหน้าที่ขยายนามหลักจะต้องเป็นเอกพจน์เสมอ ร้านขายรองเท้าจึงต้องใช้รูป <b>shoe store</b> เสมอ"}, {"id": 27, "question": "\"What do you think about them?\"<br>\"John walks ____ than Paul.\"", "options": ["(A) more slow", "(B) many more slow", "(C) more slowly", "(D) much more slow"], "answer": 2, "explanation": "ประโยคนี้ต้องการคำขยายกริยาการเดิน (walks) จึงต้องใช้ Adverb คือ slowly และเมื่อทำเป็นขั้นกว่า (Comparative) คำที่มี 2 พยางค์ขึ้นไปและลงท้ายด้วย -ly จะใช้โครงสร้าง <b>more slowly</b>"}, {"id": 28, "question": "\"Did you enjoy the show last night?\"<br>\"Yes, but I wish I ____ a cold.\"", "options": ["(A) hadn't", "(B) didn't have", "(C) hadn't had", "(D) wouldn't have"], "answer": 2, "explanation": "การใช้โครงสร้าง <b>Wish</b> เพื่อแสดงความปรารถนาหรือความเสียดายต่อเหตุการณ์ที่เกิดขึ้นและจบลงไปแล้วในอดีต (บริบทคือ last night) จะต้องใช้คู่กับโครงสร้าง <b>Past Perfect (had + V.3)</b> ดังนั้นคำตอบจึงเป็น <b>hadn't had</b>"}, {"id": 29, "question": "\"What are you studying in class now?\"<br>\"We've been reading ____ the Civil War.\"", "options": ["(A) about something", "(B) something concern about", "(C) something about", "(D) something concern with"], "answer": 2, "explanation": "วลี <b>read something about...</b> หมายถึง 'อ่านบางสิ่งบางอย่างเกี่ยวกับ...' ประโยคเต็มคือ We've been reading something about the Civil War. (พวกเรากำลังอ่านเนื้อหาบางอย่างเกี่ยวกับสงครามกลางเมือง)"}, {"id": 30, "question": "\"Does your uncle understand?\"<br>\"I ____ it to him if I thought he would understand.\"", "options": ["(A) explained", "(B) will explain", "(C) would explain", "(D) explain"], "answer": 2, "explanation": "ข้อนี้เป็น <b>If-Clause Type 2</b> (สมมติเหตุการณ์ที่ตรงข้ามความจริงในปัจจุบัน) โครงสร้างคือ <code>If + Subject + V.2, Subject + would + V.inf</code> (ส่วนของ If อยู่ท้ายประโยคคือ if I thought...) ดังนั้นประโยคหลักข้างหน้าจึงต้องใช้ <b>would explain</b>"}, {"id": 31, "question": "\"What're we going to do?\"<br>\"I don't feel like ____ tonight.\"", "options": ["(A) reading", "(B) to read", "(C) read", "(D) I'm going to read"], "answer": 0, "explanation": "สำนวนไวยากรณ์ <b>feel like + V-ing</b> (Gerund) แปลว่า 'อยากทำ... / มีอารมณ์ร่วมที่จะทำ...' ดังนั้นหลัง don't feel like จึงต้องตามด้วยกริยาเติม ing คือ <b>reading</b>"}, {"id": 32, "question": "\"What did your father want you to do?\"<br>\"He said that he ____ come to see you next year.\"", "options": ["(A) is", "(B) want", "(C) would", "(D) will"], "answer": 2, "explanation": "ข้อนี้เป็นเรื่อง <b>Indirect Speech</b> (รายงานคำพูด) เนื่องจากกริกานำเป็นอดีต (He said that...) ข้อความที่ตามมาซึ่งเดิมทีเป็นอนาคต (will) จะต้องถูกถอย Tense (Backshift) เปลี่ยนจาก will ให้กลายเป็น <b>would</b> เพื่อให้สอดคล้องกัน"}, {"id": 33, "question": "\"Under what condition will he go?\"<br>\"As far as I know, he won't go unless Jean ____.\"", "options": ["(A) will go", "(B) went", "(C) goes", "(D) would go"], "answer": 1, "explanation": "คำเชื่อม <b>unless</b> มีความหมายว่า 'ถ้าไม่...' (if... not) ทำหน้าที่ขึ้นต้นประโยคเงื่อนไขย่อย ซึ่งในโครงสร้างเงื่อนไขแบบอนาคต (Conditional Type 1) หลัง unless จะใช้รูป <b>Present Simple Tense</b> ประธาน Jean เป็นเอกพจน์ กริยาจึงเติม s เป็น <b>goes</b>"}, {"id": 34, "question": "\"Where are you going?\"<br>\"I'm going to take a trip ____ East next week.\"", "options": ["(A) back", "(B) out", "(C) up", "(D) down"], "answer": 0, "explanation": "สำนวน <b>go back East</b> เป็นสำนวนยอดนิยมในสหรัฐอเมริกา หมายถึง เดินทางกลับไปยังภูมิภาคฝั่งตะวันออก (เช่น กลับฝั่งนิวยอร์กหรือบอสตันหลังจากมาอยู่ฝั่งตะวันตก)"}, {"id": 35, "question": "\"Did you read this book yet?\"<br>\"No, but I did glance ____ it.\"", "options": ["(A) with", "(B) on", "(C) onto", "(D) through"], "answer": 3, "explanation": "Phrasal Verb สำคัญ: <b>glance through something</b> แปลว่า 'กวาดสายตาอ่านอย่างคร่าว ๆ' หรืออ่านผ่าน ๆ โดยไม่ได้อ่านทุกตัวอักษรอย่างละเอียด"}, {"id": 36, "question": "\"What does your house look like?\"<br>\"My house is ____ yours.\"", "options": ["(A) as", "(B) like", "(C) same", "(D) same with"], "answer": 1, "explanation": "การเปรียบเทียบความเหมือนของสิ่งของโดยใช้คำว่า 'เหมือนกับ' หลัง Verb to be (is) เราจะใช้คำว่า <b>like</b> ทำหน้าที่เป็นบุพบท ตามด้วยคำนาม/สรรพนาม (is like yours = เหมือนของเธอ)"}, {"id": 37, "question": "\"What did Charlie buy?\"<br>\"He bought ____.\"", "options": ["(A) two box chalk", "(B) two boxes chalk", "(C) two boxes chalks", "(D) two boxes of chalk"], "answer": 3, "explanation": "เนื่องจากคำว่า chalk (ชอล์ก) เป็นคำนามนับไม่ได้ (Uncountable Noun) การบอกจำนวนจึงต้องใช้ลักษณะนามเข้ามาช่วย โครงสร้างคือ <code>จำนวน + ลักษณะนามพหูพจน์ + of + นามนับไม่ได้</code> จึงได้รูปเป็น <b>two boxes of chalk</b> (คำว่า chalk ห้ามเติม s)"}, {"id": 38, "question": "\"What's funny?\"<br>\"Mary extends the vowel sounds of her words as though she ____ from the East.\"", "options": ["(A) was", "(B) is", "(C) were", "(D) are"], "answer": 2, "explanation": "หลังสำนวน <b>as though / as if</b> (ราวกับว่า) ในกรณีสมมติเรื่องที่ไม่เป็นความจริงในปัจจุบัน (แมรี่ไม่ได้มาจากภาคตะวันออกจริง ๆ แต่พูดจาเลียนเสียงชวนให้คิดแบบนั้น) ไวยากรณ์อังกฤษดั้งเดิมกำหนดให้ใช้ <b>were</b> กับประธานทุกพจน์ทุกบุรุษ"}, {"id": 39, "question": "\"Do you need any carrots?\"<br>\"No, my husband is allergic ____ carrots.\"", "options": ["(A) of", "(B) at", "(C) with", "(D) to"], "answer": 3, "explanation": "คำคุณศัพท์ <b>allergic</b> (ซึ่งแพ้สาร หรืออาหาร) มีกฎระเบียบไวยากรณ์ตายตัวว่าจะต้องตามด้วย Preposition <b>to</b> เสมอ (be allergic to something)"}, {"id": 40, "question": "\"What do you think about French?\"<br>\"If I had known French was so difficult, I ____ it up.\"", "options": ["(A) would never taken", "(B) would have never taken", "(C) would never take", "(D) would never have taken"], "answer": 3, "explanation": "ข้อนี้ทดสอบ <b>If-Clause Type 3</b> (ตรงข้ามกับความจริงในอดีต) โครงสร้างคือ <code>If + had + V.3, Subject + would have + V.3</code> เมื่อต้องการทำเป็นปฏิเสธด้วยคำว่า never ตำแหน่งที่ดีที่สุดคือแทรกอยู่หลัง modal verb ตัวแรก จึงได้รูปเป็น <b>would never have taken</b>"}, {"id": 41, "question": "\"Is this book worth ____?\"<br>\"Yes, I think so.\"", "options": ["(A) to read", "(B) the read", "(C) reading", "(D) read"], "answer": 2, "explanation": "โครงสร้างสำนวนสำนัญ: <b>Subject + be + worth + V-ing (Gerund)</b> มีความหมายว่า 'มีค่าควรแก่การทำสิ่งนั้น ๆ' ดังนั้น 'worth reading' แปลว่า ควรค่าแก่การอ่าน"}, {"id": 42, "question": "\"I do like all the holidays.\"<br>\"What holidays ____ in your country?\"", "options": ["(A) are celebrated", "(B) celebrating", "(C) celebrated", "(D) celebrate"], "answer": 0, "explanation": "ประโยคนี้ต้องการรูปประโยคคำถามแบบ <b>Passive Voice</b> (ถูกกระทำ) ในโครงสร้าง Present Simple Tense เนื่องจากถามถึงข้อเท็จจริงทั่วไป วันหยุดต้อง 'ถูกเฉลิมฉลอง' โครงสร้างคือ <code>Verb to be (are) + V.3 (celebrated)</code>"}, {"id": 43, "question": "\"I don't have to work in the library tomorrow night.\"<br>\"In that case, ____ you like to go to the movies with us?\"", "options": ["(A) will", "(B) won't", "(C) wouldn't", "(D) do"], "answer": 2, "explanation": "สำนวนเชิญชวนอย่างสุภาพและแสดงความสนิทสนมเอื้อเฟื้อ: <b>Wouldn't you like to + V.inf?</b> มีความหมายเสมือนคำชวนว่า 'เธออยากจะไปดูหนังกับพวกเราไหมล่ะในเมื่อว่างแล้ว'"}, {"id": 44, "question": "\"I went to see that movie.\"<br>\"But the movie is for adults only. How ____ admitted?\"", "options": ["(A) were you", "(B) have you been", "(C) did you", "(D) could you been"], "answer": 0, "explanation": "ประโยคนี้เป็นคำถามถึงเหตุการณ์ในอดีต (Past Simple) ในรูป <b>Passive Voice</b> เพราะตัวประธาน (you) ต้อง 'ได้รับอนุญาตให้เข้าเรียนหรือเข้าชม' (admitted) โครงสร้างคำถามคือ <code>How + was/were + Subject + V.3?</code> จึงใช้ <b>were you</b>"}, {"id": 45, "question": "\"Don't take this matter too seriously.\"<br>\"This is ____ to be discussed lightly.\"", "options": ["(A) a too critical problem", "(B) a problem too critical", "(C) too critical a problem", "(D) a critical too problem"], "answer": 2, "explanation": "โครงสร้างการขยายคำนามด้วยคำว่า too ขั้นสูง: <code>too + Adjective + a/an + Noun</code> ใช้เพื่อเน้นสภาวะที่มากเกินไปจนส่งผลต่อเหตุการณ์ถัดไป วลี <b>too critical a problem</b> หมายถึง ปัญหาที่วิกฤตเกินกว่าจะเอามาพูดเล่น ๆ ได้"}, {"id": 46, "question": "\"Where's the manager?\"<br>\"There he is, ____ at that desk over near the window.\"", "options": ["(A) sits", "(B) sat", "(C) seats", "(D) seated"], "answer": 3, "explanation": "คำว่า <b>seated</b> ในที่นี้ทำหน้าที่เป็น Past Participle (V.3) ขยายประธาน he ในลักษณะกริยาลดรูป (Participial Clause) หมายถึง 'นั่งอยู่ประจำที่เรียบร้อยแล้ว' (มีความหมายเสมือน who is seated)"}, {"id": 47, "question": "\"He doesn't seem to care for movies very much.\"<br>\"He never goes to the movies because he has ____ money.\"", "options": ["(A) so little", "(B) so small", "(C) so few", "(D) a little"], "answer": 0, "explanation": "คำว่า money เป็นคำนามนับไม่ได้ จึงต้องใช้คำบอกปริมาณคือ <b>little</b> (น้อยจนแทบไม่มี ความหมายเชิงลบ) การเติม 'so' ข้างหน้าช่วยเน้นย้ำความน้อยอย่างรุนแรงจนเป็นเหตุผลที่ทำให้เขาไม่ไปดูหนังเลย"}, {"id": 48, "question": "\"How is the progress?\"<br>\"Two-thirds of the work ____ finished.\"", "options": ["(A) are", "(B) is", "(C) to be", "(D) will"], "answer": 1, "explanation": "กฎประธาน-กริยาสัมพันธ์ (Subject-Verb Agreement) ของเศษส่วน: หากเศษส่วนตามด้วยคำนามนับไม่ได้หรือนามเอกพจน์ (the work) กริยาจะต้องใช้รูป<b>เอกพจน์</b>เสมอ จึงใช้ <b>is</b>"}, {"id": 49, "question": "\"Where is the restaurant, sir?\"<br>\"The restaurant is right ____ the corner of Washington Street.\"", "options": ["(A) at", "(B) of", "(C) on", "(D) in"], "answer": 2, "explanation": "สำนวนการบอกพิกัดสถานที่บริเวณหัวมุมถนนยอดนิยมในภาษาอังกฤษอเมริกันคือ <b>on the corner of + ชื่อถนน</b> (ส่วนคำว่า at the corner มักตามด้วยพิกัดเจาะจงที่เล็กลงไปอีก ในช้อยส์ที่ให้มาคำว่า on จึงถูกต้องตรงตามหนังสือเรียน)"}, {"id": 50, "question": "\"Do you still smoke two packs of cigarettes a day?\"<br>\"No, I've cut ____ to one.\"", "options": ["(A) out", "(B) down", "(C) off", "(D) in"], "answer": 1, "explanation": "สำนวน Phrasal Verb: <b>cut down to + จำนวน</b> หมายถึง 'ลดปริมาณการใช้หรือการบริโภคลงเหลือจำนวน...' ซึ่งเข้ากับบริบทเรื่องการลดสูบบุหรี่จาก 2 ซองเหลือเพียง 1 ซองต่อวันได้อย่างไร้ที่ติ"}];
+
+    let currentIndex = 0;
+    let score = 0;
+    const userAnswers = new Array(quizData.length).fill(null); // stores { chosenIndex, isCorrect }
+
+    function initQuiz() {
+        const container = document.getElementById('quizContainer');
+        const grid = document.getElementById('questionGrid');
+        container.innerHTML = '';
+        grid.innerHTML = '';
+
+        quizData.forEach((q, idx) => {
+            // Generate Question Card DOM Element
+            const card = document.createElement('div');
+            card.className = `quiz-card ${idx === 0 ? 'active' : ''}`;
+            card.id = `card-${idx}`;
+
+            let optionsHtml = '';
+            q.options.forEach((opt, optIdx) => {
+                optionsHtml += `<button class="option-btn" id="opt-${idx}-${optIdx}" onclick="selectAnswer(${idx}, ${optIdx})">${opt}</button>`;
+            });
+
+            card.innerHTML = `
+                <div class="q-number">Question ${idx + 1}</div>
+                <div class="q-text">${q.question}</div>
+                <div class="options-list">${optionsHtml}</div>
+                <div class="explanation-box" id="explain-${idx}">
+                    <h4>💡 คำอธิบายอย่างละเอียด:</h4>
+                    <p>${q.explanation}</p>
+                </div>
+            `;
+            container.appendChild(card);
+
+            // Generate Nav Grid Dots
+            const dot = document.createElement('div');
+            dot.className = `grid-dot ${idx === 0 ? 'current' : ''}`;
+            dot.id = `dot-${idx}`;
+            dot.innerText = idx + 1;
+            dot.onclick = () => jumpToQuestion(idx);
+            grid.appendChild(dot);
+        });
+
+        updateStatsBar();
+    }
+
+    function selectAnswer(qIdx, optIdx) {
+        if (userAnswers[qIdx] !== null) return; // Prevent double clicking or changing answers
+
+        const q = quizData[qIdx];
+        const isCorrect = (optIdx === q.answer);
+        userAnswers[qIdx] = { chosenIndex: optIdx, isCorrect: isCorrect };
+
+        if (isCorrect) score++;
+
+        // Style the buttons
+        const chosenBtn = document.getElementById(`opt-${qIdx}-${optIdx}`);
+        if (isCorrect) {
+            chosenBtn.classList.add('correct');
+        } else {
+            chosenBtn.classList.add('incorrect');
+            // Also show the correct one
+            document.getElementById(`opt-${qIdx}-${q.answer}`).classList.add('correct');
+        }
+
+        // Disable all buttons in this card
+        q.options.forEach((_, i) => {
+            document.getElementById(`opt-${qIdx}-${i}`).disabled = true;
+        });
+
+        // Show detailed explanation text block
+        document.getElementById(`explain-${qIdx}`).style.display = 'block';
+
+        // Update navigation grid panel and status bar
+        const dot = document.getElementById(`dot-${qIdx}`);
+        dot.className = `grid-dot ${isCorrect ? 'answered-correct' : 'answered-incorrect'}`;
+        if (qIdx === currentIndex) dot.classList.add('current');
+
+        updateStatsBar();
+        
+        // Auto show summary if everything is filled
+        if (userAnswers.filter(a => a !== null).length === quizData.length) {
+            document.getElementById('nextBtn').innerText = 'ดูผลสรุปคะแนน ▶';
+        }
+    }
+
+    function changeQuestion(direction) {
+        // If we are at the last question and clicking next, show result page
+        if (currentIndex === quizData.length - 1 && direction === 1) {
+            showResults();
+            return;
+        }
+
+        document.getElementById(`card-${currentIndex}`).classList.remove('active');
+        document.getElementById(`dot-${currentIndex}`).classList.remove('current');
+
+        currentIndex += direction;
+
+        document.getElementById(`card-${currentIndex}`).classList.add('active');
+        document.getElementById(`dot-${currentIndex}`).classList.add('current');
+
+        // Manage button display rules
+        document.getElementById('prevBtn').disabled = (currentIndex === 0);
+        
+        if (currentIndex === quizData.length - 1) {
+            document.getElementById('nextBtn').innerText = userAnswers.filter(a => a !== null).length === quizData.length ? 'ดูผลสรุปคะแนน ▶' : 'สรุปผลคะแนน';
+        } else {
+            document.getElementById('nextBtn').innerText = 'ข้อถัดไป ▶';
+        }
+
+        updateStatsBar();
+    }
+
+    function jumpToQuestion(idx) {
+        document.getElementById(`card-${currentIndex}`).classList.remove('active');
+        document.getElementById(`dot-${currentIndex}`).classList.remove('current');
+
+        // Restore active layout onto hidden container elements
+        document.getElementById('quizContainer').style.display = 'block';
+        document.getElementById('quizControls').style.display = 'flex';
+        document.getElementById('resultView').style.display = 'none';
+
+        currentIndex = idx;
+
+        document.getElementById(`card-${currentIndex}`).classList.add('active');
+        document.getElementById(`dot-${currentIndex}`).classList.add('current');
+
+        document.getElementById('prevBtn').disabled = (currentIndex === 0);
+        
+        if (currentIndex === quizData.length - 1) {
+            document.getElementById('nextBtn').innerText = userAnswers.filter(a => a !== null).length === quizData.length ? 'ดูผลสรุปคะแนน ▶' : 'สรุปผลคะแนน';
+        } else {
+            document.getElementById('nextBtn').innerText = 'ข้อถัดไป ▶';
+        }
+
+        updateStatsBar();
+    }
+
+    function updateStatsBar() {
+        document.getElementById('currentNum').innerText = `${currentIndex + 1}/${quizData.length}`;
+        document.getElementById('scoreVal').innerText = score;
+        
+        const answeredCount = userAnswers.filter(a => a !== null).length;
+        const pct = Math.round((answeredCount / quizData.length) * 100);
+        document.getElementById('progressPct').innerText = `${pct}%`;
+    }
+
+    function showResults() {
+        document.getElementById('quizContainer').style.display = 'none';
+        document.getElementById('quizControls').style.display = 'none';
+        
+        const resultView = document.getElementById('resultView');
+        resultView.style.display = 'block';
+        
+        document.getElementById('finalScore').innerText = score;
+
+        let feedback = '';
+        if (score >= 45) feedback = 'Excellent! 🌟 คุณมีความรู้โครงสร้างไวยากรณ์ในระดับสูงมาก พร้อมทำข้อสอบแข่งขันได้สบายมากครับ!';
+        else if (score >= 35) feedback = 'Good Job! 👍 ทักษะแกรมมาร์ดีเยี่ยม ทบทวนข้อผิดพลาดเล็กน้อยเพื่อความแม่นยำเต็มร้อยตัวจริง!';
+        else if (score >= 25) feedback = 'Fair! 🎯 ผ่านเกณฑ์กึ่งหนึ่ง แนะนำให้อ่านคำอธิบายในข้อที่ผิดเพื่อเสริมฐานรากเพิ่มขึ้นครับ';
+        else feedback = 'Keep fighting! 📖 ค่อยๆ ศึกษาคำอธิบายเพิ่มเติมทีละข้อ จะช่วยให้เข้าใจโครงสร้างประโยคได้ลึกซึ้งยิ่งขึ้นครับ!';
+        
+        document.getElementById('resultFeedback').innerText = feedback;
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function restartQuiz() {
+        score = 0;
+        currentIndex = 0;
+        userAnswers.fill(null);
+
+        document.getElementById('quizContainer').style.display = 'block';
+        document.getElementById('quizControls').style.display = 'flex';
+        document.getElementById('resultView').style.display = 'none';
+        document.getElementById('prevBtn').disabled = true;
+        document.getElementById('nextBtn').innerText = 'ข้อถัดไป ▶';
+
+        initQuiz();
+    }
+
+    // Launch immediately on page load
+    window.onload = initQuiz;
+</script>
+
+</body>
+</html>

@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>English Structure Quiz - Set 6 (ข้อ 251-300)</title>
+    <style>
+        :root {
+            --primary: #2b4c7e;
+            --primary-light: #eef4fc;
+            --success: #2e7d32;
+            --success-light: #e8f5e9;
+            --error: #c62828;
+            --error-light: #ffebee;
+            --text-dark: #2c3e50;
+            --text-muted: #7f8c8d;
+            --bg-body: #f8f9fa;
+            --card-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            --border-radius: 14px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Tahoma, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-body);
+            color: var(--text-dark);
+            padding: 20px 12px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 25px;
+            background: linear-gradient(135deg, var(--primary), #1a3050);
+            color: white;
+            padding: 24px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
+        }
+
+        header h1 {
+            font-size: 22px;
+            margin-bottom: 6px;
+            font-weight: 600;
+        }
+
+        header p {
+            font-size: 14px;
+            opacity: 0.85;
+        }
+
+        /* Stats Bar */
+        .stats-bar {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            background: white;
+            padding: 15px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .stat-item .value {
+            font-size: 18px;
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        .stat-item .label {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        /* Quiz Card */
+        .quiz-card {
+            background: white;
+            padding: 25px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
+            margin-bottom: 20px;
+            display: none;
+            animation: fadeIn 0.4s ease-out;
+        }
+
+        .quiz-card.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .q-number {
+            font-size: 13px;
+            font-weight: bold;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+
+        .q-text {
+            font-size: 17px;
+            font-weight: 500;
+            margin-bottom: 20px;
+            border-left: 4px solid var(--primary);
+            padding-left: 12px;
+        }
+
+        .options-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .option-btn {
+            width: 100%;
+            padding: 14px 16px;
+            background: #fdfdfd;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            text-align: left;
+            font-size: 15px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            color: var(--text-dark);
+        }
+
+        .option-btn:hover:not(:disabled) {
+            background: var(--primary-light);
+            border-color: var(--primary);
+        }
+
+        .option-btn:disabled {
+            cursor: not-allowed;
+        }
+
+        /* Answer States */
+        .option-btn.correct {
+            background-color: var(--success-light) !important;
+            border-color: var(--success) !important;
+            color: var(--success) !important;
+            font-weight: 600;
+        }
+
+        .option-btn.incorrect {
+            background-color: var(--error-light) !important;
+            border-color: var(--error) !important;
+            color: var(--error) !important;
+        }
+
+        /* Explanation Box */
+        .explanation-box {
+            margin-top: 20px;
+            padding: 16px;
+            background-color: #fcfcfc;
+            border-top: 3px solid var(--primary);
+            border-radius: 8px;
+            display: none;
+            font-size: 14px;
+        }
+
+        .explanation-box h4 {
+            color: var(--primary);
+            margin-bottom: 5px;
+            font-size: 15px;
+        }
+
+        /* Navigation Controls */
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .nav-btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            background: var(--primary);
+            color: white;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.2s;
+            text-align: center;
+        }
+
+        .nav-btn:hover:not(:disabled) {
+            background: #1a3050;
+        }
+
+        .nav-btn:disabled {
+            background: #bdc3c7;
+            cursor: not-allowed;
+        }
+
+        /* Grid Overview */
+        .grid-card {
+            background: white;
+            padding: 20px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
+            margin-top: 25px;
+        }
+
+        .grid-card h3 {
+            font-size: 15px;
+            margin-bottom: 12px;
+            color: var(--text-dark);
+            text-align: center;
+        }
+
+        .q-grid {
+            display: grid;
+            grid-template-columns: repeat(10, 1fr);
+            gap: 6px;
+        }
+
+        .grid-dot {
+            aspect-ratio: 1;
+            border: 1px solid #cbd5e1;
+            background: #f1f5f9;
+            border-radius: 6px;
+            font-size: 11px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-weight: bold;
+        }
+
+        .grid-dot.answered-correct {
+            background-color: var(--success);
+            color: white;
+            border-color: var(--success);
+        }
+
+        .grid-dot.answered-incorrect {
+            background-color: var(--error);
+            color: white;
+            border-color: var(--error);
+        }
+
+        .grid-dot.current {
+            box-shadow: 0 0 0 3px var(--primary);
+        }
+
+        /* Result View */
+        .result-view {
+            text-align: center;
+            background: white;
+            padding: 35px 25px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
+            display: none;
+        }
+
+        .result-view h2 {
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+
+        .score-circle {
+            width: 130px;
+            height: 130px;
+            border-radius: 50%;
+            background: var(--primary-light);
+            border: 5px solid var(--primary);
+            margin: 20px auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .score-circle .score-num {
+            font-size: 32px;
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        .score-circle .score-total {
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+
+        .restart-btn {
+            margin-top: 25px;
+            background: var(--success);
+        }
+
+        .restart-btn:hover {
+            background: #235e26;
+        }
+
+        @media (max-width: 480px) {
+            .q-grid {
+                grid-template-columns: repeat(5, 1fr);
+            }
+            header h1 { font-size: 18px; }
+            .q-text { font-size: 15px; }
+            .option-btn { font-size: 14px; padding: 12px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>📝 English Structure Quiz</h1>
+        <p>เซ็ตที่ 6 (ข้อ 251 - 300) | Admissions & College Entrance Test</p>
+    </header>
+
+    <div class="stats-bar" id="statsBar">
+        <div class="stat-item">
+            <div class="value" id="currentNum">1/50</div>
+            <div class="label">ข้อปัจจุบัน</div>
+        </div>
+        <div class="stat-item">
+            <div class="value" id="scoreVal">0</div>
+            <div class="label">คะแนนที่ได้</div>
+        </div>
+        <div class="stat-item">
+            <div class="value" id="progressPct">0%</div>
+            <div class="label">ความคืบหน้า</div>
+        </div>
+    </div>
+
+    <div id="quizContainer"></div>
+
+    <div class="controls" id="quizControls">
+        <button class="nav-btn" id="prevBtn" onclick="changeQuestion(-1)" disabled>◀ ข้อก่อนหน้า</button>
+        <button class="nav-btn" id="nextBtn" onclick="changeQuestion(1)">ข้อถัดไป ▶</button>
+    </div>
+
+    <div class="result-view" id="resultView">
+        <h2>🎉 สรุปผลคะแนนของคุณ</h2>
+        <p>คุณได้ทำแนวข้อสอบครบถ้วนทั้ง 50 ข้อเรียบร้อยแล้ว</p>
+        <div class="score-circle">
+            <div class="score-num" id="finalScore">0</div>
+            <div class="score-total">เต็ม 50</div>
+        </div>
+        <p id="resultFeedback" style="font-weight: 500; margin-bottom: 15px;"></p>
+        <button class="nav-btn restart-btn" onclick="restartQuiz()">🔄 ทำใหม่อีกครั้ง</button>
+    </div>
+
+    <div class="grid-card" id="gridCard">
+        <h3>🎯 แผงควบคุมข้อสอบ</h3>
+        <div class="q-grid" id="questionGrid"></div>
+    </div>
+</div>
+
+<script>
+    const quizData = [
+        { id: 251, question: '"Is John still playing?"<br>"Yes, he ____ for three hours."', options: ['(A) plays', '(B) has been playing', '(C) is playing', '(D) played'], answer: 1, explanation: 'เหตุการณ์ที่เริ่มในอดีตและยังดำเนินอยู่ในปัจจุบันพร้อมบอกระยะเวลา ใช้ Present Perfect Continuous (have been + V.ing)' },
+        { id: 252, question: '"How was the party?"<br>"It ____ by many people."', options: ['(A) attended', '(B) was attended', '(C) was attending', '(D) has attended'], answer: 1, explanation: 'Passive Voice: ปาร์ตี้ถูกเข้าร่วมโดยผู้คนมากมาย (Past Simple Passive: was + V.3)' },
+        { id: 253, question: '"Why are you worried?"<br>"I am afraid of ____ the exam."', options: ['(A) fail', '(B) to fail', '(C) failing', '(D) failed'], answer: 2, explanation: 'Preposition (of) ต้องตามด้วย Gerund (V.ing) เสมอ' },
+        { id: 254, question: '"What do you suggest?"<br>"I suggest that we ____ early."', options: ['(A) leave', '(B) leaving', '(C) to leave', '(D) left'], answer: 0, explanation: 'Subjunctive Mood หลังกริยา suggest + that ต้องตามด้วย V.infinitive ไม่ผัน' },
+        { id: 255, question: '"Does he know the truth?"<br>"No, and neither ____ I."', options: ['(A) do', '(B) does', '(C) did', '(D) am'], answer: 0, explanation: 'การคล้อยตามประโยคปฏิเสธโดยใช้ Neither... ดังนั้นกริยาช่วยต้องผันตามประธาน (I do)' },
+        { id: 256, question: '"She looks very sad."<br>"If only she ____ her friends more often."', options: ['(A) sees', '(B) saw', '(C) had seen', '(D) would see'], answer: 1, explanation: 'If only สมมติความจริงในปัจจุบัน/อนาคต ใช้กริยาช่อง 2 (Past Simple)' },
+        { id: 257, question: '"Where are you going?"<br>"I am going to ____ the letter now."', options: ['(A) post', '(B) posting', '(C) to post', '(D) posted'], answer: 0, explanation: 'โครงสร้าง be going to ต้องตามด้วย V.infinitive (กริยารูปเดิม)' },
+        { id: 258, question: '"Is that your house?"<br>"Yes, it ____ in 1950."', options: ['(A) built', '(B) was built', '(C) has built', '(D) building'], answer: 1, explanation: 'บ้านถูกสร้างในอดีต (Passive Voice Past Simple)' },
+        { id: 259, question: '"Why did you return it?"<br>"It was broken ____ I bought it."', options: ['(A) after', '(B) before', '(C) when', '(D) while'], answer: 2, explanation: 'เมื่อมีเหตุการณ์สองอย่างในอดีต (broken และ bought) ใช้ when เชื่อมแสดงลำดับเวลาได้ดีที่สุด' },
+        { id: 260, question: '"Can you hear that?"<br>"Yes, someone ____ outside."', options: ['(A) sings', '(B) is singing', '(C) sang', '(D) has sung'], answer: 1, explanation: 'การรับรู้เหตุการณ์ที่ "กำลัง" เกิดขึ้น (ขณะได้ยิน) ใช้ Present Continuous' },
+        { id: 261, question: '"Do you have any plans?"<br>"Yes, I ____ to Paris next month."', options: ['(A) am flying', '(B) fly', '(C) flew', '(D) have flown'], answer: 0, explanation: 'การวางแผนในอนาคตที่แน่นอน ใช้ Present Continuous เพื่อสื่อถึงการเตรียมการ' },
+        { id: 262, question: '"Was he happy?"<br>"Yes, he ____ with his results."', options: ['(A) satisfied', '(B) was satisfied', '(C) satisfying', '(D) satisfies'], answer: 1, explanation: 'เขา "รู้สึก" พอใจ ใช้ Passive Voice ในรูป Adjective (was + V.3)' },
+        { id: 263, question: '"How is your son?"<br>"He is ____ boy I know."', options: ['(A) the tall', '(B) the taller', '(C) the tallest', '(D) tallest'], answer: 2, explanation: 'การเปรียบเทียบขั้นสูงสุด (Superlative) ต้องมี the + adj-est' },
+        { id: 264, question: '"Where is your sister?"<br>"She ____ to the supermarket."', options: ['(A) went', '(B) has gone', '(C) has been', '(D) goes'], answer: 1, explanation: 'has gone to หมายถึง ไปแล้วและยังไม่กลับ (gone) ส่วน has been to หมายถึง ไปมาแล้ว (กลับมาแล้ว)' },
+        { id: 265, question: '"Have you been to London?"<br>"Yes, I ____ there twice."', options: ['(A) went', '(B) have been', '(C) have gone', '(D) was'], answer: 1, explanation: 'ประสบการณ์ที่เคยทำมาใช้ Present Perfect (have been to)' },
+        { id: 266, question: '"Why are you angry?"<br>"You ____ me the truth!"', options: ['(A) didn\'t tell', '(B) haven\'t told', '(C) shouldn\'t tell', '(D) don\'t tell'], answer: 0, explanation: 'ระบุเวลาที่ผ่านไปแล้ว (แม้ไม่มีคำบอกเวลาแต่เข้าใจได้ว่าคือในอดีต) ใช้ Past Simple' },
+        { id: 267, question: '"What is that smell?"<br>"Something ____ in the kitchen."', options: ['(A) burns', '(B) is burning', '(C) burned', '(D) has burned'], answer: 1, explanation: 'กลิ่นที่กำลังเกิดตอนนี้ สื่อถึงเหตุการณ์ที่กำลังดำเนินอยู่ (Present Continuous)' },
+        { id: 268, question: '"Did you study?"<br>"I ____ all night long."', options: ['(A) study', '(B) studied', '(C) was studying', '(D) have studied'], answer: 1, explanation: 'เหตุการณ์ที่ทำเสร็จสิ้นไปแล้วในอดีต ใช้ Past Simple' },
+        { id: 269, question: '"Are you ready?"<br>"I ____ for an hour!"', options: ['(A) waited', '(B) was waiting', '(C) have been waiting', '(D) am waiting'], answer: 2, explanation: 'เหตุการณ์ที่ทำต่อเนื่องจนถึงตอนนี้ ใช้ Present Perfect Continuous' },
+        { id: 270, question: '"Why is he laughing?"<br>"He ____ a funny story."', options: ['(A) tells', '(B) is telling', '(C) told', '(D) has told'], answer: 1, explanation: 'เหตุการณ์ที่กำลังเกิดขึ้นขณะพูด ใช้ Present Continuous' },
+        { id: 271, question: '"Where are they?"<br>"They ____ football in the park."', options: ['(A) play', '(B) are playing', '(C) played', '(D) have played'], answer: 1, explanation: 'บอกตำแหน่ง (ในสวน) พร้อมกิจกรรมที่กำลังทำ ใช้ Present Continuous' },
+        { id: 272, question: '"Is she coming?"<br>"No, she ____ to work today."', options: ['(A) doesn\'t go', '(B) isn\'t going', '(C) didn\'t go', '(D) hasn\'t gone'], answer: 1, explanation: 'เหตุการณ์ที่จะไม่เกิดขึ้นในอนาคตอันใกล้ ใช้ Present Continuous ในรูปปฏิเสธ' },
+        { id: 273, question: '"What do you do?"<br>"I ____ as a doctor."', options: ['(A) work', '(B) am working', '(C) worked', '(D) have worked'], answer: 0, explanation: 'งานอาชีพ (ข้อเท็จจริงทั่วไป) ใช้ Present Simple' },
+        { id: 274, question: '"Did you like the book?"<br>"Yes, it ____ by my favorite author."', options: ['(A) wrote', '(B) was written', '(C) has written', '(D) is writing'], answer: 1, explanation: 'หนังสือถูกเขียนโดยนักเขียน (Passive Voice Past Simple)' },
+        { id: 275, question: '"Can you help me?"<br>"Sure, I ____ you in a minute."', options: ['(A) help', '(B) am helping', '(C) will help', '(D) have helped'], answer: 2, explanation: 'การตัดสินใจจะช่วยทันที (ในอีกสักครู่) ใช้ Future Simple (will)' },
+        { id: 276, question: '"What is your plan?"<br>"We ____ to visit my grandmother."', options: ['(A) plan', '(B) are planning', '(C) planned', '(D) have planned'], answer: 1, explanation: 'การวางแผนไว้แล้ว ใช้ Present Continuous หรือ be going to' },
+        { id: 277, question: '"Are you done?"<br>"I ____ the report yet."', options: ['(A) didn\'t finish', '(B) don\'t finish', '(C) haven\'t finished', '(D) wasn\'t finishing'], answer: 2, explanation: 'yet ใช้ในประโยคปฏิเสธของ Present Perfect' },
+        { id: 278, question: '"How is your English?"<br>"It ____ a lot lately."', options: ['(A) improved', '(B) improves', '(C) has improved', '(D) is improving'], answer: 2, explanation: 'คำว่า lately (ช่วงนี้) มักใช้กับ Present Perfect' },
+        { id: 279, question: '"Did you call him?"<br>"Yes, I ____ him an hour ago."', options: ['(A) call', '(B) called', '(C) have called', '(D) am calling'], answer: 1, explanation: 'มีคำระบุเวลาอดีต (an hour ago) ใช้ Past Simple' },
+        { id: 280, question: '"Why is she sad?"<br>"She ____ her job."', options: ['(A) lost', '(B) loses', '(C) has lost', '(D) is losing'], answer: 2, explanation: 'เหตุการณ์ในอดีตที่ส่งผลต่ออารมณ์ปัจจุบัน ใช้ Present Perfect' },
+        { id: 281, question: '"Is it still hot?"<br>"No, the temperature ____."', options: ['(A) fell', '(B) falls', '(C) has fallen', '(D) is falling'], answer: 2, explanation: 'เหตุการณ์ที่เพิ่งเสร็จสิ้นและส่งผลต่อปัจจุบัน ใช้ Present Perfect' },
+        { id: 282, question: '"How did you know?"<br>"I ____ about it in the news."', options: ['(A) read', '(B) have read', '(C) was reading', '(D) am reading'], answer: 0, explanation: 'เหตุการณ์ในอดีตที่เสร็จสิ้นแล้ว ใช้ Past Simple' },
+        { id: 283, question: '"Are you going home?"<br>"Yes, I ____ tired."', options: ['(A) get', '(B) am getting', '(C) got', '(D) have got'], answer: 1, explanation: 'อาการที่กำลังค่อยๆ เปลี่ยนแปลงหรือเกิดขึ้น ใช้ Present Continuous' },
+        { id: 284, question: '"What does she want?"<br>"She ____ to speak to you."', options: ['(A) want', '(B) wants', '(C) is wanting', '(D) has wanted'], answer: 1, explanation: 'want เป็น Stative Verb (กริยาบอกสภาวะ) ไม่นิยมใช้รูป Continuous จึงต้องใช้ Present Simple' },
+        { id: 285, question: '"How is the food?"<br>"It ____ delicious."', options: ['(A) tastes', '(B) is tasting', '(C) tasted', '(D) has tasted'], answer: 0, explanation: 'taste เป็น Stative Verb (ในบริบทนี้) ไม่นิยมใช้รูป Continuous' },
+        { id: 286, question: '"Where is he?"<br>"He ____ to the cinema."', options: ['(A) went', '(B) has gone', '(C) was going', '(D) has been'], answer: 1, explanation: 'ไปแล้วยังไม่กลับ ใช้ has gone' },
+        { id: 287, question: '"Is this yours?"<br>"Yes, it ____ to me."', options: ['(A) belongs', '(B) is belonging', '(C) belonged', '(D) has belonged'], answer: 0, explanation: 'belong เป็น Stative Verb ไม่ใช้รูป Continuous' },
+        { id: 288, question: '"What are you holding?"<br>"It ____ to my friend."', options: ['(A) belongs', '(B) is belonging', '(C) belonged', '(D) has belonged'], answer: 0, explanation: 'belong ไม่ใช้รูป Continuous' },
+        { id: 289, question: '"Did you see him?"<br>"No, he ____ before I got there."', options: ['(A) left', '(B) has left', '(C) had left', '(D) was leaving'], answer: 2, explanation: 'เหตุการณ์ที่จบไปก่อนเหตุการณ์อื่นในอดีต ใช้ Past Perfect' },
+        { id: 290, question: '"Are you busy?"<br>"I ____ for the exam all day."', options: ['(A) studied', '(B) study', '(C) have been studying', '(D) am studying'], answer: 2, explanation: 'ทำต่อเนื่องมาตลอดจนถึงปัจจุบัน ใช้ Present Perfect Continuous' },
+        { id: 291, question: '"Where is she?"<br>"She ____ shopping."', options: ['(A) went', '(B) has gone', '(C) goes', '(D) is going'], answer: 3, explanation: 'ถ้าบริบทต้องการบอกว่ากำลังทำอะไรอยู่ ใช้ Present Continuous' },
+        { id: 292, question: '"Did you enjoy it?"<br>"Yes, I ____ it very much."', options: ['(A) like', '(B) liked', '(C) have liked', '(D) was liking'], answer: 1, explanation: 'เหตุการณ์ในอดีต ใช้ Past Simple' },
+        { id: 293, question: '"Why are you here?"<br>"I ____ for my friend."', options: ['(A) wait', '(B) am waiting', '(C) waited', '(D) have waited'], answer: 1, explanation: 'กำลังรออยู่ ใช้ Present Continuous' },
+        { id: 294, question: '"What is your job?"<br>"I ____ at a bank."', options: ['(A) work', '(B) am working', '(C) worked', '(D) have worked'], answer: 0, explanation: 'ข้อเท็จจริง (งานประจำ) ใช้ Present Simple' },
+        { id: 295, question: '"Where were you?"<br>"I ____ at home all day."', options: ['(A) am', '(B) was', '(C) have been', '(D) had been'], answer: 1, explanation: 'อดีตที่จบไปแล้ว (ในวันนั้น) ใช้ Past Simple' },
+        { id: 296, question: '"Is it cold?"<br>"No, it ____ warm."', options: ['(A) feels', '(B) is feeling', '(C) felt', '(D) has felt'], answer: 0, explanation: 'feel เป็น Stative Verb' },
+        { id: 297, question: '"What did she say?"<br>"She said that she ____ busy."', options: ['(A) is', '(B) was', '(C) has been', '(D) were'], answer: 1, explanation: 'กริยานำเป็นอดีต (said) กริยาในประโยคตามมาต้องเป็นอดีต (was)' },
+        { id: 298, question: '"Are they happy?"<br>"Yes, they ____ married recently."', options: ['(A) get', '(B) are getting', '(C) got', '(D) have got'], answer: 2, explanation: 'เหตุการณ์ที่จบไปแล้วในอดีต (แม้จะเพิ่งจบ) ใช้ Past Simple' },
+        { id: 299, question: '"Is it working?"<br>"No, it ____ broken."', options: ['(A) is', '(B) was', '(C) has been', '(D) had been'], answer: 0, explanation: 'สถานะปัจจุบัน ใช้ Present Simple' },
+        { id: 300, question: '"What are you eating?"<br>"I ____ an apple."', options: ['(A) eat', '(B) am eating', '(C) ate', '(D) have eaten'], answer: 1, explanation: 'กำลังกิน ใช้ Present Continuous' }
+    ];
+
+    let currentIndex = 0;
+    let score = 0;
+    const userAnswers = new Array(quizData.length).fill(null);
+
+    function initQuiz() {
+        const container = document.getElementById('quizContainer');
+        const grid = document.getElementById('questionGrid');
+        container.innerHTML = '';
+        grid.innerHTML = '';
+
+        quizData.forEach((q, idx) => {
+            const card = document.createElement('div');
+            card.className = `quiz-card ${idx === 0 ? 'active' : ''}`;
+            card.id = `card-${idx}`;
+
+            let optionsHtml = '';
+            q.options.forEach((opt, optIdx) => {
+                optionsHtml += `<button class="option-btn" id="opt-${idx}-${optIdx}" onclick="selectAnswer(${idx}, ${optIdx})">${opt}</button>`;
+            });
+
+            card.innerHTML = `
+                <div class="q-number">Question ${q.id}</div>
+                <div class="q-text">${q.question}</div>
+                <div class="options-list">${optionsHtml}</div>
+                <div class="explanation-box" id="explain-${idx}">
+                    <h4>💡 คำอธิบาย:</h4>
+                    <p>${q.explanation}</p>
+                </div>
+            `;
+            container.appendChild(card);
+
+            const dot = document.createElement('div');
+            dot.className = `grid-dot ${idx === 0 ? 'current' : ''}`;
+            dot.id = `dot-${idx}`;
+            dot.innerText = q.id;
+            dot.onclick = () => jumpToQuestion(idx);
+            grid.appendChild(dot);
+        });
+
+        updateStatsBar();
+    }
+
+    function selectAnswer(qIdx, optIdx) {
+        if (userAnswers[qIdx] !== null) return; 
+
+        const q = quizData[qIdx];
+        const isCorrect = (optIdx === q.answer);
+        userAnswers[qIdx] = { chosenIndex: optIdx, isCorrect: isCorrect };
+
+        if (isCorrect) score++;
+
+        const chosenBtn = document.getElementById(`opt-${qIdx}-${optIdx}`);
+        if (isCorrect) {
+            chosenBtn.classList.add('correct');
+        } else {
+            chosenBtn.classList.add('incorrect');
+            document.getElementById(`opt-${qIdx}-${q.answer}`).classList.add('correct');
+        }
+
+        q.options.forEach((_, i) => {
+            document.getElementById(`opt-${qIdx}-${i}`).disabled = true;
+        });
+
+        document.getElementById(`explain-${qIdx}`).style.display = 'block';
+
+        const dot = document.getElementById(`dot-${qIdx}`);
+        dot.className = `grid-dot ${isCorrect ? 'answered-correct' : 'answered-incorrect'}`;
+        if (qIdx === currentIndex) dot.classList.add('current');
+
+        updateStatsBar();
+        
+        if (userAnswers.filter(a => a !== null).length === quizData.length) {
+            document.getElementById('nextBtn').innerText = 'ดูผลสรุปคะแนน ▶';
+        }
+    }
+
+    function changeQuestion(direction) {
+        if (currentIndex === quizData.length - 1 && direction === 1) {
+            showResults();
+            return;
+        }
+
+        document.getElementById(`card-${currentIndex}`).classList.remove('active');
+        document.getElementById(`dot-${currentIndex}`).classList.remove('current');
+
+        currentIndex += direction;
+
+        document.getElementById(`card-${currentIndex}`).classList.add('active');
+        document.getElementById(`dot-${currentIndex}`).classList.add('current');
+
+        document.getElementById('prevBtn').disabled = (currentIndex === 0);
+        
+        if (currentIndex === quizData.length - 1) {
+            document.getElementById('nextBtn').innerText = userAnswers.filter(a => a !== null).length === quizData.length ? 'ดูผลสรุปคะแนน ▶' : 'สรุปผลคะแนน';
+        } else {
+            document.getElementById('nextBtn').innerText = 'ข้อถัดไป ▶';
+        }
+
+        updateStatsBar();
+    }
+
+    function jumpToQuestion(idx) {
+        document.getElementById(`card-${currentIndex}`).classList.remove('active');
+        document.getElementById(`dot-${currentIndex}`).classList.remove('current');
+
+        document.getElementById('quizContainer').style.display = 'block';
+        document.getElementById('quizControls').style.display = 'flex';
+        document.getElementById('resultView').style.display = 'none';
+
+        currentIndex = idx;
+
+        document.getElementById(`card-${currentIndex}`).classList.add('active');
+        document.getElementById(`dot-${currentIndex}`).classList.add('current');
+
+        document.getElementById('prevBtn').disabled = (currentIndex === 0);
+        
+        if (currentIndex === quizData.length - 1) {
+            document.getElementById('nextBtn').innerText = userAnswers.filter(a => a !== null).length === quizData.length ? 'ดูผลสรุปคะแนน ▶' : 'สรุปผลคะแนน';
+        } else {
+            document.getElementById('nextBtn').innerText = 'ข้อถัดไป ▶';
+        }
+
+        updateStatsBar();
+    }
+
+    function updateStatsBar() {
+        document.getElementById('currentNum').innerText = `${currentIndex + 1}/${quizData.length}`;
+        document.getElementById('scoreVal').innerText = score;
+        
+        const answeredCount = userAnswers.filter(a => a !== null).length;
+        const pct = Math.round((answeredCount / quizData.length) * 100);
+        document.getElementById('progressPct').innerText = `${pct}%`;
+    }
+
+    function showResults() {
+        document.getElementById('quizContainer').style.display = 'none';
+        document.getElementById('quizControls').style.display = 'none';
+        
+        const resultView = document.getElementById('resultView');
+        resultView.style.display = 'block';
+        
+        document.getElementById('finalScore').innerText = score;
+
+        let feedback = '';
+        if (score >= 45) feedback = 'Excellent! 🌟 แกรมมาร์แน่นมาก พร้อมทำข้อสอบเข้ามหาวิทยาลัยได้สบายๆ ครับ!';
+        else if (score >= 35) feedback = 'Good Job! 👍 เก่งมากครับ ทบทวนอีกนิดเพื่อความแม่นยำเต็มร้อยนะ!';
+        else if (score >= 25) feedback = 'Fair! 🎯 ผ่านเกณฑ์พอดีครับ ศึกษาคำอธิบายเพิ่มเติมเพื่อความชัวร์นะ!';
+        else feedback = 'Keep fighting! 📖 ค่อยๆ ฝึกฝนและเรียนรู้จากข้อผิดพลาดครับ!';
+        
+        document.getElementById('resultFeedback').innerText = feedback;
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function restartQuiz() {
+        score = 0;
+        currentIndex = 0;
+        userAnswers.fill(null);
+
+        document.getElementById('quizContainer').style.display = 'block';
+        document.getElementById('quizControls').style.display = 'flex';
+        document.getElementById('resultView').style.display = 'none';
+        document.getElementById('prevBtn').disabled = true;
+        document.getElementById('nextBtn').innerText = 'ข้อถัดไป ▶';
+
+        initQuiz();
+    }
+
+    window.onload = initQuiz;
+</script>
+
+</body>
+</html>

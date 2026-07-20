@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amazing Animals! 🌈</title>
+    <style>
+        body {
+            font-family: 'Comic Sans MS', 'Chalkboard SE', sans-serif;
+            background-color: #f0f8ff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden; /* ป้องกันการเลื่อนหน้าจอ ให้ความรู้สึกเหมือนเป็นแอปพลิเคชันบน iPad */
+        }
+
+        /* 
+         * Responsive Container: สัดส่วน 4:3 พอดีกับหน้าจอไอแพด
+         */
+        .presentation-container {
+            container-type: inline-size;
+            aspect-ratio: 4 / 3;
+            width: min(96vw, 128vh); 
+            max-width: 1024px; 
+            max-height: 768px;
+            background-color: white;
+            border: 8px dashed #ffb6c1; /* Crayon-like border */
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        .slide {
+            display: none;
+            width: 100%;
+            height: 100%;
+            padding: 4cqw;
+            box-sizing: border-box;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .active {
+            display: flex;
+        }
+
+        /* Responsive Typography using Container Queries */
+        h1 {
+            color: #ff69b4;
+            font-size: clamp(24px, 5.5cqw, 48px);
+            margin-bottom: 1cqw;
+            margin-top: 0;
+        }
+
+        h2 {
+            color: #4682b4;
+            font-size: clamp(20px, 4.5cqw, 38px);
+            margin-bottom: 2cqw;
+            margin-top: 0;
+        }
+
+        .text-box {
+            background-color: rgba(255, 255, 255, 0.65);
+            padding: 2cqw 3cqw;
+            border-radius: 15px;
+            margin-bottom: 2cqw;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+            max-width: 95%;
+            text-align: left; /* เปลี่ยนให้อ่านง่ายสำหรับ Bullet points */
+        }
+
+        p {
+            font-size: clamp(14px, 2.4cqw, 22px);
+            color: #333;
+            line-height: 1.5;
+            margin: 0;
+            text-align: center; 
+        }
+
+        /* Styles for Bullet Points */
+        ul {
+            margin: 0;
+            padding-left: 4cqw;
+        }
+
+        li {
+            font-size: clamp(14px, 2.3cqw, 20px);
+            color: #333;
+            line-height: 1.4;
+            margin-bottom: 0.8cqw;
+        }
+
+        /* Pastel Backgrounds for Slides */
+        #slide1 { background-color: #fff0f5; }
+        #slide2 { background-color: #fdf5e6; }
+        #slide3 { background-color: #e0ffff; }
+        #slide4 { background-color: #f5fffa; }
+        #slide5 { background-color: #e6e6fa; }
+
+        /* Responsive Image styling */
+        .slide-img {
+            max-width: 75%;
+            height: 30cqw;
+            max-height: 40%;
+            object-fit: cover;
+            border: 5px solid #ffd700;
+            border-radius: 15px;
+            margin: 1cqw 0;
+            background-color: #f0f0f0; 
+            box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+        }
+
+        /* Buttons */
+        .nav-btn {
+            position: absolute;
+            bottom: 3cqw;
+            padding: 1.5cqw 3cqw;
+            font-size: clamp(14px, 2.5cqw, 20px);
+            font-family: inherit;
+            background-color: #ffb6c1;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+            transition: transform 0.2s, background-color 0.2s;
+            z-index: 10;
+        }
+
+        .nav-btn:hover { 
+            background-color: #ff69b4; 
+            color: white; 
+            transform: scale(1.05);
+        }
+        #prevBtn { left: 3cqw; }
+        #nextBtn { right: 3cqw; }
+
+        /* Quiz Styles */
+        .quiz-container {
+            background-color: rgba(255, 255, 255, 0.85);
+            padding: 3cqw;
+            border-radius: 20px;
+            width: 90%;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        #quizStatus {
+            font-size: clamp(12px, 2.2cqw, 18px);
+            color: #8a2be2;
+            font-weight: bold;
+            margin-bottom: 1.5cqw;
+        }
+
+        #questionText {
+            font-size: clamp(16px, 3cqw, 26px);
+            color: #4b0082;
+            font-weight: bold;
+            margin-bottom: 3cqw;
+            min-height: 6cqw;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            line-height: 1.3;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2cqw;
+            width: 100%;
+            margin-bottom: 2cqw;
+        }
+
+        .option-btn {
+            padding: 1.5cqw;
+            font-size: clamp(14px, 2.2cqw, 20px);
+            font-family: inherit;
+            border-radius: 12px;
+            border: 3px solid #9370db;
+            background-color: #f8f8ff;
+            color: #4b0082;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.2s ease;
+        }
+
+        .option-btn:hover:not(:disabled) { 
+            background-color: #e6e6fa; 
+            transform: translateY(-2px);
+        }
+        
+        .option-btn:disabled {
+            cursor: not-allowed;
+            opacity: 0.8;
+        }
+
+        .option-btn.correct {
+            background-color: #98fb98;
+            border-color: #2e8b57;
+            color: #006400;
+        }
+
+        .option-btn.wrong {
+            background-color: #ffb6c1;
+            border-color: #dc143c;
+            color: #8b0000;
+        }
+
+        #feedbackText {
+            font-size: clamp(14px, 2.5cqw, 22px);
+            font-weight: bold;
+            min-height: 3cqw;
+            margin-bottom: 1cqw;
+        }
+
+        .next-q-btn {
+            padding: 1.5cqw 3cqw;
+            font-size: clamp(14px, 2.2cqw, 20px);
+            background-color: #20b2aa;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            display: none;
+            font-family: inherit;
+            font-weight: bold;
+        }
+        .next-q-btn:hover { background-color: #008b8b; }
+
+        /* End screen stats */
+        #scoreBoard {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+        }
+        
+        .score-text {
+            font-size: clamp(24px, 6cqw, 50px);
+            color: #ff1493;
+            margin: 3cqw 0;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="presentation-container">
+        
+        <!-- Slide 1: Welcome -->
+        <div class="slide active" id="slide1">
+            <h1>Welcome to the Animal Kingdom! ⭐️</h1>
+            <div class="text-box" style="text-align: center;">
+                <p>Get ready for a fun adventure! Today, we will learn amazing facts about different groups of animals.</p>
+            </div>
+            <!-- ภาพปก -->
+            <img alt="Welcome Image" class="slide-img" src="https://images.prismic.io/elearn/aVeq1nNYClf9ouxi_Untitled-1%5BRecovered%5D-01.jpg?auto=format%2Ccompress&fit=max&w=1920">
+        </div>
+
+        <!-- Slide 2: Furry Mammals -->
+        <div class="slide" id="slide2">
+            <h2>1. Fantastic Furry Mammals</h2>
+            <div class="text-box">
+                <ul>
+                    <li>They are <b>warm-blooded vertebrates</b> (they have a backbone).</li>
+                    <li>They have hair or fur to keep their bodies warm.</li>
+                    <li>Mothers produce milk to feed their babies.</li>
+                    <li>Most give birth to live young instead of laying eggs!</li>
+                </ul>
+            </div>
+            <!-- ภาพสัตว์เลี้ยงลูกด้วยนม -->
+            <img alt="Mammals" class="slide-img" src="https://a-z-animals.com/media/red-fox-1024x535.jpg">
+        </div>
+
+        <!-- Slide 3: High-flying birds -->
+        <div class="slide" id="slide3">
+            <h2>2. Incredible High-Flying Birds</h2>
+            <div class="text-box">
+                <ul>
+                    <li>They are warm-blooded animals covered in <b>feathers</b>.</li>
+                    <li>They have lightweight, hollow bones to help them fly easily.</li>
+                    <li>They lay hard-shelled eggs, usually in a nest.</li>
+                    <li>They use special beaks to eat their food instead of teeth.</li>
+                </ul>
+            </div>
+            <!-- ภาพนก -->
+            <img alt="Birds" class="slide-img" src="https://res.cloudinary.com/dr0zfbman/images/w_1920,h_1130,c_scale/f_auto,q_auto:good/v1743055135/WordPress%20Content/Birds-1_25561b7c13/Birds-1_25561b7c13.jpg?_i=AA">
+        </div>
+
+        <!-- Slide 4: Six-legged Insects -->
+        <div class="slide" id="slide4">
+            <h2>3. Spectacular Six-Legged Insects</h2>
+            <div class="text-box">
+                <ul>
+                    <li>They are invertebrates with a hard outer shell called an <b>exoskeleton</b>.</li>
+                    <li>Their bodies have exactly 3 parts: head, thorax, and abdomen.</li>
+                    <li>Every insect has 6 jointed legs.</li>
+                    <li>Many go through amazing life changes called <b>metamorphosis</b>.</li>
+                </ul>
+            </div>
+            <!-- ภาพแมลง -->
+            <img alt="Insects" class="slide-img" src="https://www.planetnatural.com/wp-content/uploads/2014/02/predatory-garden-bug-920x518.jpg">
+        </div>
+
+        <!-- Slide 5: Quiz Game -->
+        <div class="slide" id="slide5">
+            <h2>Fun Quiz: What am I? 🤩</h2>
+            <div class="quiz-container" id="quizActiveArea">
+                <div id="quizStatus">Question 1 of 20 | Score: 0</div>
+                <div id="questionText">Loading challenge...</div>
+                
+                <div class="options-grid" id="optionsContainer">
+                    <!-- Buttons generated by JS -->
+                </div>
+                
+                <div id="feedbackText"></div>
+                <button class="next-q-btn" id="nextQBtn" onclick="nextQuestion()">Next Question ➔</button>
+            </div>
+
+            <!-- End Screen -->
+            <div class="quiz-container" id="scoreBoard">
+                <h2>Quiz Complete! 🎉</h2>
+                <div class="score-text" id="finalScoreText">You scored 0 out of 20!</div>
+                <p style="text-align: center;">Great job! You are an Animal Expert!</p>
+                <button class="next-q-btn" style="display:block; margin-top: 2cqw;" onclick="resetQuiz()">Play Again 🔄</button>
+            </div>
+        </div>
+
+        <!-- Navigation -->
+        <button id="prevBtn" class="nav-btn" onclick="changeSlide(-1)">Back</button>
+        <button id="nextBtn" class="nav-btn" onclick="changeSlide(1)">Next</button>
+
+    </div>
+
+    <script>
+        // --- Slide Navigation Logic ---
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+
+        function changeSlide(direction) {
+            slides[currentSlide].classList.remove('active');
+            currentSlide += direction;
+            
+            // Limit bounds
+            if (currentSlide < 0) currentSlide = 0;
+            if (currentSlide >= slides.length) currentSlide = slides.length - 1;
+            
+            slides[currentSlide].classList.add('active');
+            
+            // Manage button visibility
+            document.getElementById('prevBtn').style.display = currentSlide === 0 ? 'none' : 'block';
+            document.getElementById('nextBtn').style.display = currentSlide === slides.length - 1 ? 'none' : 'block';
+        }
+        
+        document.getElementById('prevBtn').style.display = 'none';
+
+        // --- Fun & Easier Quiz Game Logic (20 Items for Grade 6) ---
+        const quizData = [
+            {
+                q: "I have a long trunk and big ears. I am the largest land animal.",
+                options: ["Hippo", "Elephant", "Rhino", "Giraffe"],
+                answer: 1
+            },
+            {
+                q: "I am a big cat with orange and black stripes. I love to swim!",
+                options: ["Lion", "Cheetah", "Tiger", "Leopard"],
+                answer: 2
+            },
+            {
+                q: "I have a very long neck to eat leaves from tall trees.",
+                options: ["Zebra", "Giraffe", "Ostrich", "Camel"],
+                answer: 1
+            },
+            {
+                q: "I am a cute black and white bear that loves eating bamboo.",
+                options: ["Panda", "Koala", "Polar Bear", "Grizzly Bear"],
+                answer: 0
+            },
+            {
+                q: "I hop around Australia and carry my baby in a pouch.",
+                options: ["Rabbit", "Frog", "Kangaroo", "Monkey"],
+                answer: 2
+            },
+            {
+                q: "I am a bird that cannot fly, but I love swimming in the cold ice.",
+                options: ["Duck", "Penguin", "Owl", "Seagull"],
+                answer: 1
+            },
+            {
+                q: "I am known as the 'King of the Jungle' and I have a big furry mane.",
+                options: ["Tiger", "Gorilla", "Lion", "Bear"],
+                answer: 2
+            },
+            {
+                q: "I am a mammal that sleeps upside down and flies at night.",
+                options: ["Bat", "Owl", "Moth", "Eagle"],
+                answer: 0
+            },
+            {
+                q: "I am a very slow reptile that carries my hard house on my back.",
+                options: ["Snake", "Lizard", "Crocodile", "Turtle"],
+                answer: 3
+            },
+            {
+                q: "I am a busy insect that makes sweet honey from flowers.",
+                options: ["Ant", "Butterfly", "Bee", "Fly"],
+                answer: 2
+            },
+            {
+                q: "I am a colorful insect with beautiful wings. I used to be a caterpillar!",
+                options: ["Butterfly", "Dragonfly", "Ladybug", "Beetle"],
+                answer: 0
+            },
+            {
+                q: "I live in the ocean and have 8 long arms called tentacles.",
+                options: ["Shark", "Jellyfish", "Crab", "Octopus"],
+                answer: 3
+            },
+            {
+                q: "I am man's best friend. I love to play fetch and bark!",
+                options: ["Cat", "Dog", "Rabbit", "Horse"],
+                answer: 1
+            },
+            {
+                q: "I am the biggest animal on Earth and I live deep in the sea.",
+                options: ["Shark", "Blue Whale", "Dolphin", "Sea Turtle"],
+                answer: 1
+            },
+            {
+                q: "I am a green amphibian. I love to jump and say 'ribbit'.",
+                options: ["Snake", "Lizard", "Frog", "Toad"],
+                answer: 2
+            },
+            {
+                q: "I am a reptile that can change my skin color to hide in the trees.",
+                options: ["Chameleon", "Snake", "Iguana", "Gecko"],
+                answer: 0
+            },
+            {
+                q: "I am a bird with a huge, colorful beak that lives in the rainforest.",
+                options: ["Parrot", "Toucan", "Flamingo", "Peacock"],
+                answer: 1
+            },
+            {
+                q: "I look like a horse in pajamas with black and white stripes.",
+                options: ["Donkey", "Pony", "Zebra", "Camel"],
+                answer: 2
+            },
+            {
+                q: "I am a very slow mammal. I live in trees and love to sleep all day.",
+                options: ["Sloth", "Monkey", "Koala", "Lemur"],
+                answer: 0
+            },
+            {
+                q: "I am a playful sea mammal that loves to jump out of the water.",
+                options: ["Shark", "Seal", "Dolphin", "Walrus"],
+                answer: 2
+            }
+        ];
+
+        let currentQIndex = 0;
+        let score = 0;
+        let answered = false;
+
+        const questionText = document.getElementById('questionText');
+        const optionsContainer = document.getElementById('optionsContainer');
+        const feedbackText = document.getElementById('feedbackText');
+        const nextQBtn = document.getElementById('nextQBtn');
+        const quizStatus = document.getElementById('quizStatus');
+        const quizActiveArea = document.getElementById('quizActiveArea');
+        const scoreBoard = document.getElementById('scoreBoard');
+        const finalScoreText = document.getElementById('finalScoreText');
+
+        function loadQuizQuestion() {
+            answered = false;
+            feedbackText.innerText = "";
+            nextQBtn.style.display = "none";
+            
+            const currentData = quizData[currentQIndex];
+            quizStatus.innerText = `Question ${currentQIndex + 1} of ${quizData.length} | Score: ${score}`;
+            questionText.innerText = currentData.q;
+            
+            optionsContainer.innerHTML = ""; 
+            
+            currentData.options.forEach((opt, index) => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.innerText = opt;
+                btn.onclick = () => checkAnswer(index, btn);
+                optionsContainer.appendChild(btn);
+            });
+        }
+
+        function checkAnswer(selectedIndex, selectedBtn) {
+            if (answered) return; 
+            answered = true;
+            
+            const currentData = quizData[currentQIndex];
+            const allBtns = optionsContainer.querySelectorAll('.option-btn');
+            
+            allBtns.forEach(b => b.disabled = true);
+            
+            if (selectedIndex === currentData.answer) {
+                selectedBtn.classList.add('correct');
+                feedbackText.innerText = "✅ Awesome! You got it right.";
+                feedbackText.style.color = "#2e8b57";
+                score++;
+            } else {
+                selectedBtn.classList.add('wrong');
+                allBtns[currentData.answer].classList.add('correct'); 
+                feedbackText.innerText = `❌ Oops! The correct answer is ${currentData.options[currentData.answer]}.`;
+                feedbackText.style.color = "#dc143c";
+            }
+            
+            quizStatus.innerText = `Question ${currentQIndex + 1} of ${quizData.length} | Score: ${score}`;
+            nextQBtn.style.display = "block";
+        }
+
+        function nextQuestion() {
+            currentQIndex++;
+            if (currentQIndex >= quizData.length) {
+                showScoreBoard();
+            } else {
+                loadQuizQuestion();
+            }
+        }
+
+        function showScoreBoard() {
+            quizActiveArea.style.display = "none";
+            scoreBoard.style.display = "flex";
+            finalScoreText.innerText = `You scored ${score} out of ${quizData.length}!`;
+        }
+
+        function resetQuiz() {
+            currentQIndex = 0;
+            score = 0;
+            scoreBoard.style.display = "none";
+            quizActiveArea.style.display = "flex";
+            loadQuizQuestion();
+        }
+
+        loadQuizQuestion();
+    </script>
+</body>
+</html>

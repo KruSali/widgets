@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>คู่มือถอดบทเรียนข้อผิดพลาดในการดูแลสวนทุเรียน</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Prompt', 'Kanit', sans-serif;
+        }
+
+        body {
+            background-color: #0b1a12;
+            color: #1a2e22;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+        }
+
+        /* Slide Stage Container */
+        .stage-wrapper {
+            width: 100%;
+            max-width: 1280px;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .slide-card {
+            background: #f4f8f5;
+            border: 2px solid #2e7d32;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+            width: 100%;
+            min-height: 700px;
+            padding: 40px 48px;
+            position: relative;
+            display: none; /* Controlled by JS */
+            flex-direction: column;
+            justify-content: space-between;
+            background-image: 
+                radial-gradient(circle at 95% 5%, rgba(46, 125, 50, 0.08) 0%, transparent 40%),
+                radial-gradient(circle at 5% 95%, rgba(217, 119, 6, 0.06) 0%, transparent 40%);
+        }
+
+        .slide-card.active {
+            display: flex;
+            animation: fadeIn 0.4s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Senior Typography Tweaks (60+ Accessibility) */
+        h1.slide-title-main {
+            font-family: 'Kanit', sans-serif;
+            font-size: 48px;
+            font-weight: 700;
+            color: #0b3c26;
+            line-height: 1.25;
+        }
+
+        h2.slide-header {
+            font-family: 'Kanit', sans-serif;
+            font-size: 38px;
+            font-weight: 600;
+            color: #0b3c26;
+            border-bottom: 3px solid #a3d9b1;
+            padding-bottom: 12px;
+            margin-bottom: 24px;
+        }
+
+        .senior-text {
+            font-size: 24px;
+            line-height: 1.6;
+            color: #1a2f23;
+        }
+
+        .senior-text-lg {
+            font-size: 26px;
+            line-height: 1.6;
+            color: #0f2d1e;
+        }
+
+        /* Custom Box Components */
+        .info-box-danger {
+            background-color: #fef2f2;
+            border-left: 6px solid #dc2626;
+            border-radius: 12px;
+            padding: 20px 24px;
+            margin-bottom: 16px;
+        }
+
+        .info-box-success {
+            background-color: #f0fdf4;
+            border-left: 6px solid #16a34a;
+            border-radius: 12px;
+            padding: 20px 24px;
+            margin-bottom: 16px;
+        }
+
+        .info-box-warning {
+            background-color: #fffbe3;
+            border-left: 6px solid #d97706;
+            border-radius: 12px;
+            padding: 20px 24px;
+            margin-bottom: 16px;
+        }
+
+        .badge-tag {
+            display: inline-block;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        /* Controls Navigation Bar */
+        .nav-controls {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            max-width: 1280px;
+            margin-top: 12px;
+            background-color: #122b1e;
+            padding: 10px 20px;
+            border-radius: 12px;
+            border: 1px solid #2e7d32;
+        }
+
+        .btn-nav {
+            background-color: #2e7d32;
+            color: #ffffff;
+            font-size: 16px;
+            font-weight: 600;
+            padding: 8px 18px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-nav:hover {
+            background-color: #1b5e20;
+            transform: translateY(-2px);
+        }
+
+        .btn-nav:disabled {
+            background-color: #374f41;
+            color: #83998b;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .slide-indicator {
+            color: #e2f1e5;
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        select.slide-select {
+            background-color: #1d3e2d;
+            color: #ffffff;
+            font-size: 15px;
+            padding: 6px 12px;
+            border-radius: 8px;
+            border: 1px solid #4a7c59;
+            outline: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="stage-wrapper">
+
+        <!-- SLIDE 1: COVER -->
+        <div class="slide-card active" id="slide-1">
+            <div class="flex-1 flex flex-col justify-center items-center text-center py-8">
+                <span class="badge-tag bg-emerald-100 text-emerald-900 border border-emerald-300">
+                    🌿 บทเรียนจากสวนจริง (คู่มืออาจารย์สมพงษ์)
+                </span>
+                <h1 class="slide-title-main my-6 text-emerald-950">
+                    คู่มือถอดบทเรียนข้อผิดพลาด<br>ในการดูแลสวนทุเรียน 100 ล้าน
+                </h1>
+                <p class="senior-text-lg text-emerald-800 max-w-4xl mt-2 mb-8">
+                    รวบรวม 6 ประเด็นปัญหาสำคัญที่พบในสวนสมาชิก พร้อมแนวทางแก้ไขให้ตรงจุด<br>
+                    เพื่อการทำใบ สะสมอาหาร และสร้างผลผลิตคุณภาพสูงอย่างยั่งยืน
+                </p>
+                <div class="grid grid-cols-3 gap-6 w-full max-w-4xl mt-4">
+                    <div class="bg-white/80 p-5 rounded-xl border border-emerald-200 shadow-sm text-left">
+                        <i class="fa-solid fa-flask text-3xl text-emerald-700 mb-2"></i>
+                        <h3 class="font-bold text-2xl text-emerald-900">1. การใช้ปุ๋ย/ยา</h3>
+                        <p class="text-xl text-slate-700">ใส่ถูกสูตร ถูกเวลา ถูกจังหวะ</p>
+                    </div>
+                    <div class="bg-white/80 p-5 rounded-xl border border-emerald-200 shadow-sm text-left">
+                        <i class="fa-solid fa-bug text-3xl text-amber-700 mb-2"></i>
+                        <h3 class="font-bold text-2xl text-emerald-900">2. โรคและแมลง</h3>
+                        <p class="text-xl text-slate-700">ป้องกันรากเน่า และเพลี้ยจั๊กจั่น</p>
+                    </div>
+                    <div class="bg-white/80 p-5 rounded-xl border border-emerald-200 shadow-sm text-left">
+                        <i class="fa-solid fa-scissors text-3xl text-teal-700 mb-2"></i>
+                        <h3 class="font-bold text-2xl text-emerald-900">3. ทรงพุ่ม & สารเคมี</h3>
+                        <p class="text-xl text-slate-700">แต่งกิ่งพอดี คุมสารคุมพุ่ม</p>
+                    </div>
+                </div>
+            </div>
+            <div class="flex justify-between items-center pt-4 border-t border-emerald-200 text-xl text-emerald-800">
+                <span>ฉบับปรับปรุงอ่านง่าย สบายตา (ตัวอักษรใหญ่พิเศษ)</span>
+                <span>หน้า 1 / 12</span>
+            </div>
+        </div>
+
+        <!-- SLIDE 2: OVERVIEW -->
+        <div class="slide-card" id="slide-2">
+            <div>
+                <h2 class="slide-header">
+                    <i class="fa-solid fa-list-check text-emerald-700 mr-3"></i>ภาพรวม 6 หัวข้อความผิดพลาดที่พบบ่อย
+                </h2>
+                <div class="grid grid-cols-2 gap-6 my-4">
+                    <div class="bg-white p-6 rounded-xl border border-emerald-200 shadow-sm">
+                        <div class="flex items-center gap-4 mb-3">
+                            <span class="w-12 h-12 bg-red-100 text-red-700 rounded-full flex items-center justify-center font-bold text-2xl">1</span>
+                            <h3 class="font-bold text-2xl text-emerald-950">ปุ๋ย & ธาตุอาหาร</h3>
+                        </div>
+                        <p class="senior-text text-slate-700">ใช้ผิดสูตร ผิดจังหวะ พ่นฮิวมิคทางใบ และให้อาหารน้อยเกินไปจนต้นโทรม</p>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-xl border border-emerald-200 shadow-sm">
+                        <div class="flex items-center gap-4 mb-3">
+                            <span class="w-12 h-12 bg-red-100 text-red-700 rounded-full flex items-center justify-center font-bold text-2xl">2</span>
+                            <h3 class="font-bold text-2xl text-emerald-950">โรคพืช & แมลงศัตรู</h3>
+                        </div>
+                        <p class="senior-text text-slate-700">รากเน่าคอดินจากการถมโคน และเพลี้ยจั๊กจั่นลงกินยอดอ่อน</p>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-xl border border-emerald-200 shadow-sm">
+                        <div class="flex items-center gap-4 mb-3">
+                            <span class="w-12 h-12 bg-red-100 text-red-700 rounded-full flex items-center justify-center font-bold text-2xl">3</span>
+                            <h3 class="font-bold text-2xl text-emerald-950">การแต่งทรงพุ่ม</h3>
+                        </div>
+                        <p class="senior-text text-slate-700">แต่งกิ่งลึกเกิน 50% ทำให้ดึงใบไม่ทัน และปล่อยแขนงใหญ่แย่งอาหาร</p>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-xl border border-emerald-200 shadow-sm">
+                        <div class="flex items-center gap-4 mb-3">
+                            <span class="w-12 h-12 bg-red-100 text-red-700 rounded-full flex items-center justify-center font-bold text-2xl">4</span>
+                            <h3 class="font-bold text-2xl text-emerald-950">ดิน & สภาพแวดล้อม</h3>
+                        </div>
+                        <p class="senior-text text-slate-700">ถางโคนเตียนจนรากแห้ง และการใช้ดินก้นสระทำโคกจนต้นแคระแกรน</p>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-xl border border-emerald-200 shadow-sm">
+                        <div class="flex items-center gap-4 mb-3">
+                            <span class="w-12 h-12 bg-red-100 text-red-700 rounded-full flex items-center justify-center font-bold text-2xl">5</span>
+                            <h3 class="font-bold text-2xl text-emerald-950">สารเคมี & ฮอร์โมน</h3>
+                        </div>
+                        <p class="senior-text text-slate-700">ลงสารแพคโคลฯ หนักเกินไปทำให้ลูกทรงฟักทอง และพ่นยาร้อนช่วงใบอ่อน</p>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-xl border border-emerald-200 shadow-sm">
+                        <div class="flex items-center gap-4 mb-3">
+                            <span class="w-12 h-12 bg-red-100 text-red-700 rounded-full flex items-center justify-center font-bold text-2xl">6</span>
+                            <h3 class="font-bold text-2xl text-emerald-950">การปฏิบัติตามใบงาน</h3>
+                        </div>
+                        <p class="senior-text text-slate-700">คนงานดื้อ หรือเจ้าของสวนจัดยาเองตามความเคยชิน ไม่ตรงตามสูตรอาจารย์</p>
+                    </div>
+                </div>
+            </div>
+            <div class="flex justify-between items-center pt-4 border-t border-emerald-200 text-xl text-emerald-800">
+                <span>หมวดหมู่ข้อผิดพลาดที่ต้องระวัง</span>
+                <span>หน้า 2 / 12</span>
+            </div>
+        </div>
+
+        <!-- SLIDE 3: FERTILIZER ISSUE 1 -->
+        <div class="slide-card" id="slide-3">
+            <div>
+                <h2 class="slide-header">
+                    <i class="fa-solid fa-triangle-exclamation text-amber-600 mr-3"></i>1. ปัญหาการใส่ปุ๋ยผิดสูตร และผิดวัตถุประสงค์
+                </h2>
+                <div class="space-y-6">
+                    <div class="info-box-danger">
+                        <span class="badge-tag bg-red-200 text-red-900">❌ กรณีตัวอย่างข้อผิดพลาด</span>
+                        <ul class="list-disc list-inside senior-text text-red-950 space-y-3">
+                            <li><strong>ใช้ 0-52-46 ในช่วงทำใบชุดที่ 1:</strong> สมาชิกบางรายนำสูตรสะสมอาหารทำดอกไปพ่น ทำให้ใบหยุดชะงัก ไม่ทำใบ</li>
+                            <li><strong>ใช้ปุ๋ยสูตรยูเรียสูง (25-7-7):</strong> อาจารย์เตือนชัดเจนว่า ยูเรียปริมาณมากจะตกค้างและทำให้ดินกลายเป็นกรด</li>
+                            <li><strong>ใช้ 15-0-0 กระตุ้นราก:</strong> เป็นความเข้าใจผิด ไม่แนะนำให้ใช้ในระยะฟื้นฟู</li>
+                        </ul>
+                    </div>
+
+                    <div class="info-box-success">
+                        <span class="badge-tag bg-emerald-200 text-emerald-900">✅ แนวทางแก้ไขที่ถูกต้อง (อาจารย์สมพงษ์)</span>
+                        <p class="senior-text-lg text-emerald-950">
+                            • สำหรับการทำใบชุดที่ 1 ให้เปลี่ยนมาใช้ <strong>ปุ๋ยอินทรีย์เคมี สูตร 12-3-3</strong> ทางดิน เพื่อฟื้นฟูระบบราก และช่วยให้ต้นได้รับธาตุอาหารครบถ้วนโดยดินไม่เสีย
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="flex justify-between items-center pt-4 border-t border-emerald-200 text-xl text-emerald-800">
+                <span>หมวดที่ 1: การจัดการปุ๋ยและธาตุอาหาร</span>
+                <span>หน้า 3 / 12</span>
+            </div>
+        </div>
+
+        <!-- SLIDE 4: FERTILIZER ISSUE 2 -->
+        <div class="slide-card" id="slide-4">
+            <div>
+                <h2 class="slide-header">
+                    <i class="fa-solid fa-clock text-emerald-700 mr-3"></i>1.2 - 1.4 จังหวะการใส่ปุ๋ยและการพ่นยาผิดที่
+                </h2>
+                <div class="grid grid-cols-1 gap-5">
+                    <div class="bg-white p-5 rounded-xl border border-slate-300">
+                        <h3 class="font-bold text-2xl text-amber-800 mb-2">
+                            <i class="fa-solid fa-calendar-xmark mr-2"></i>ใส่ปุ๋ยผิดจังหวะ (ช่วงใบอ่อน)
+                        </h3>
+                        <p class="senior-text text-slate-800">
+                            • <strong>ความเข้าใจผิด:</strong> ไปใส่ปุ๋ยช่วง "ใบอ่อนปริออกมาแล้ว"<br>
+                            • <strong>คำแนะนำ:</strong> ต้องใส่ตั้งแต่ <strong>"ตอนใบแก่ หรือก่อนรัดใบ"</strong> เพื่อส่งอาหารไปแตกใบ เมื่อใบแตกกางแล้วให้งดปุ๋ยทางดิน พ่นเฉพาะทางใบเท่านั้น
+                        </p>
+                    </div>
+
+                    <div class="bg-white p-5 rounded-xl border border-slate-300">
+                        <h3 class="font-bold text-2xl text-red-800 mb-2">
+                            <i class="fa-solid fa-spray-can mr-2"></i>พ่น "ฮิวมิค" ทางใบ (ผิดวิธีเด็ดขาด)
+                        </h3>
+                        <p class="senior-text text-slate-800">
+                            • <strong>ผลเสีย:</strong> เกิดจุดสีน้ำตาลดำบนใบ ใบอ่อนร่วงเสียหาย<br>
+                            • <strong>หลักการที่ถูกต้อง:</strong> ฮิวมิค ฟูลวิค มีไว้สำหรับ <strong>ราดหรือพ่นลงดินเท่านั้น</strong> ห้ามพ่นใส่ใบ
+                        </p>
+                    </div>
+
+                    <div class="bg-white p-5 rounded-xl border border-slate-300">
+                        <h3 class="font-bold text-2xl text-emerald-800 mb-2">
+                            <i class="fa-solid fa-weight-scale mr-2"></i>ให้อาหารน้อยเกินไป / ใช้ปุ๋ยอ่อนเกิน
+                        </h3>
+                        <p class="senior-text text-slate-800">
+                            • สวนที่ใช้ปุ๋ย 9-3-3 แทน 12-3-3 หรือใส่ปริมาณน้อยเกินไป ต้นจะโทรม ใบซีดไม่อิ่ม ใบแตกไม่พร้อมกัน ต้องใส่ปริมาณให้พอดีกับขนาดทรงพุ่ม
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="flex justify-between items-center pt-4 border-t border-emerald-200 text-xl text-emerald-800">
+                <span>หมวดที่ 1: การจัดการปุ๋ยและธาตุอาหาร (ต่อ)</span>
+                <span>หน้า 4 / 12</span>
+            </div>
+        </div>
+
+        <!-- SLIDE 5: PESTS & DISEASES -->
+        <div class="slide-card" id="slide-5">
+            <div>
+                <h2 class="slide-header">
+                    <i class="fa-solid fa-bug text-red-600 mr-3"></i>2. ปัญหาโรคเน่าคอดิน และแมลงศัตรูพืช
+                </h2>
+                <div class="grid grid-cols-2 gap-6">
+                    <div class="info-box-danger h-full">
+                        <h3 class="font-bold text-2xl text-red-900 mb-3">
+                            <i class="fa-solid fa-skull-crossbones mr-2"></i>2.1 โรคเน่าคอดิน & รากเน่า
+                        </h3>
+                        <p class="senior-text text-red-950 mb-3">
+                            เป็นปัญหาเร่งด่วนที่ทำให้ต้นตายได้ สาเหตุหลักเกิดจาก:
+                        </p>
+                        <ul class="list-disc list-inside senior-text text-red-900 space-y-2">
+                            <li>เอาดินใหม่หรือดินก้นสระมาถมกลบโคนต้น</li>
+                            <li>ปลูกต้นต่ำเกินไป น้ำท่วมขังร่องแปลง</li>
+                            <li>โคนต้นอับชื้น เชื้อราไฟทอปโธราเข้าทำลายแผลรอบโคน</li>
+                        </ul>
+                    </div>
+
+                    <div class="info-box-warning h-full">
+                        <h3 class="font-bold text-2xl text-amber-900 mb-3">
+                            <i class="fa-solid fa-locust mr-2"></i>2.2 เพลี้ยจั๊กจั่นทำลายใบอ่อน
+                        </h3>
+                        <p class="senior-text text-amber-950 mb-3">
+                            เพลี้ยระบาดทำลายยอดอ่อนจนกลายเป็น <strong>"ก้านธูป"</strong> สาเหตุเพราะ:
+                        </p>
+                        <ul class="list-disc list-inside senior-text text-amber-900 space-y-2">
+                            <li><strong>ใช้โดรนพ่นยา:</strong> ละอองยาลงไม่ถึงใต้ใบที่เพลี้ยซ่อนอยู่</li>
+                            <li><strong>ใช้ยาร้อน:</strong> พ่นยาฤทธิ์ร้อน เช่น ไซเปอร์เมทริน ช่วงใบอ่อน ทำให้ใบไหม้เกรียม</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="flex justify-between items-center pt-4 border-t border-emerald-200 text-xl text-emerald-800">
+                <span>หมวดที่ 2: โรคพืชและแมลงศัตรู</span>
+                <span>หน้า 5 / 12</span>
+            </div>
+        </div>
+
+        <!-- SLIDE 6: PRUNING ISSUES -->
+        <div class="slide-card" id="slide-6">
+            <div>
+                <h2 class="slide-header">
+                    <i class="fa-solid fa-scissors text-teal-700 mr-3"></i>3. ปัญหาการตัดแต่งทรงพุ่ม
+                </h2>
+                <div class="space-y-5">
+                    <div class="bg-white p-6 rounded-xl border-l-8 border-red-500 shadow-sm">
+                        <h3 class="font-bold text-2xl text-red-900 mb-2">3.1 ตัดแต่งกิ่งลึกและหนักเกินไป (เกิน 50%)</h3>
+                        <p class="senior-text text-slate-800">
+                            การตัดกิ่งออกมากเกินไปทำให้ต้นช็อก เสียสมดุลการสังเคราะห์แสง ดึงใบชุดใหม่มาไม่ทันรอบปี และทำให้ผลผลิตในปีถัดไปลดลงอย่างเห็นได้ชัด
+                        </p>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-xl border-l-8 border-amber-500 shadow-sm">
+                        <h3 class="font-bold text-2xl text-amber-900 mb-2">3.2 ไม่ยอมสอยแขนงข้างต้น</h3>
+                        <p class="senior-text text-slate-800">
+                            การปล่อยให้แขนงใหญ่เจริญเติบโตเต็มต้น แขนงเหล่านี้จะแย่งสารอาหารจากลำต้นหลัก ส่งผลให้ยอดประธานไม่พุ่ง ใบใหม่ไม่สมบูรณ์
+                        </p>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-xl border-l-8 border-emerald-500 shadow-sm">
+                        <h3 class="font-bold text-2xl text-emerald-900 mb-2">3.3 การคุมทรงพุ่มแปลงปลูกชิด</h3>
+                        <p class="senior-text text-slate-800">
+                            แปลงปลูกชิดหากเหลากิ่งออกลึกเกินไปและไม่คุมปลายกิ่ง กิ่งจะชนกันเร็ว บังแสงกันเอง ต้องคอยตัดปลายกิ่งคุมทรงพุ่มให้พอดี
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="flex justify-between items-center pt-4 border-t border-emerald-200 text-xl text-emerald-800">
+                <span>หมวดที่ 3: การจัดการทรงพุ่ม</span>
+                <span>หน้า 6 / 12</span>
+            </div>
+        </div>
+
+        <!-- SLIDE 7: SOIL & ENVIRONMENT -->
+        <div class="slide-card" id="slide-7">
+            <div>
+                <h2 class="slide-header">
+                    <i class="fa-solid fa-mountain-sun text-emerald-800 mr-3"></i>4. ปัญหาดิน สภาพแวดล้อม และระบบน้ำ
+                </h2>
+                <div class="grid grid-cols-2 gap-6 my-4">
+                    <div class="info-box-warning">
+                        <h3 class="font-bold text-2xl text-amber-900 mb-2">
+                            <i class="fa-solid fa-broom mr-2"></i>4.1 ถางดินโคนต้นเตียนเกินไป
+                        </h3>
+                        <p class="senior-text text-amber-950">
+                            • <strong>ผลเสีย:</strong> หน้าดินแห้ง แสงแดดเผารากทุเรียนเสียหาย<br>
+                            • <strong>แนวทางที่ถูก:</strong> ควรมีหญ้าหมักหรือเศษใบไม้ปกคลุมโคนต้น เพื่อรักษาความชื้นให้รากเดินหาอาหาร แต่หากหญ้ายาวเกินไปให้ใช้วิธีตัด ไม่ควรถอนเตียน
+                        </p>
+                    </div>
+
+                    <div class="info-box-danger">
+                        <h3 class="font-bold text-2xl text-red-900 mb-2">
+                            <i class="fa-solid fa-hill-rockslide mr-2"></i>4.2 ดินทำโคกไม่ได้คุณภาพ
+                        </h3>
+                        <p class="senior-text text-red-950">
+                            • <strong>ข้อห้าม:</strong> ห้ามนำ "ดินก้นสระ" หรือดินแน่นเหนียวขาดอากาศมาเสริมโคก<br>
+                            • <strong>ผลกระทบ:</strong> ทำให้ทุเรียนต้นเล็ก เหลือง ไม่เจริญเติบโต แคระแกรน และเกิดโรครากเน่าได้ง่ายที่สุด
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="flex justify-between items-center pt-4 border-t border-emerald-200 text-xl text-emerald-800">
+                <span>หมวดที่ 4: การจัดการดินและสภาพแวดล้อม</span>
+                <span>หน้า 7 / 12</span>
+            </div>
+        </div>
+
+        <!-- SLIDE 8: CHEMICALS & HORMONES -->
+        <div class="slide-card" id="slide-8">
+            <div>
+                <h2 class="slide-header">
+                    <i class="fa-solid fa-vial-circle-check text-purple-800 mr-3"></i>5. ปัญหาการใช้ฮอร์โมนและสารเคมีผิดวิธี
+                </h2>
+                <div class="space-y-6">
+                    <div class="bg-purple-50 border-l-8 border-purple-600 p-6 rounded-xl">
+                        <h3 class="font-bold text-2xl text-purple-950 mb-2">
+                            5.1 สารแพคโคลบิวทราซอล (Paclobutrazol) ตกค้างหนัก
+                        </h3>
+                        <p class="senior-text text-purple-900 mb-3">
+                            การลงสารแพคโคลฯ หนักเกินขนาด ส่งผลเสียร้ายแรงข้ามฤดูกาล:
+                        </p>
+                        <ul class="list-disc list-inside senior-text text-purple-950 space-y-2">
+                            <li>ผลทุเรียนเพี้ยนทรง เป็น <strong>"ทรงกลมคล้ายฟักทอง"</strong> ขั้วสั้น (ต้องฉีดจิ๊บเบอเรลลินยืด)</li>
+                            <li>ใบชุดใหม่แตกมามีขนาดเล็กกะทัดรัด ไม่สมบูรณ์ และเนื้อไม้กิ่งเปราะหักง่าย</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-amber-50 border-l-8 border-amber-600 p-6 rounded-xl">
+                        <h3 class="font-bold text-2xl text-amber-950 mb-2">
+                            5.2 การพ่นยาผิดช่วงเวลา (ยาร้อนช่วงใบอ่อน)
+                        </h3>
+                        <p class="senior-text text-amber-900">
+                            นำยาฤทธิ์ร้อน เช่น <strong>ไซเปอร์เมทริน (Cypermethrin)</strong> ไปพ่นช่วงทุเรียนกำลังแตกใบอ่อน ส่งผลให้เซลล์ใบไหม้ ขอบใบหยิกงอ และใบคลี่กางออกมามีขนาดเล็กแคระ
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="flex justify-between items-center pt-4 border-t border-emerald-200 text-xl text-emerald-800">
+                <span>หมวดที่ 5: การใช้ฮอร์โมนและสารเคมี</span>
+                <span>หน้า 8 / 12</span>
+            </div>
+        </div>
+
+        <!-- SLIDE 9: WORKFLOW & DISCIPLINE -->
+        <div class="slide-card" id="slide-9">
+            <div>
+                <h2 class="slide-header">
+                    <i class="fa-solid fa-clipboard-check text-emerald-700 mr-3"></i>6. ปัญหาการทำงานไม่เป็นไปตามใบงาน
+                </h2>
+                <div class="bg-white p-8 rounded-xl border border-emerald-300 shadow-md my-4">
+                    <div class="flex items-center gap-4 mb-4">
+                        <i class="fa-solid fa-user-xmark text-4xl text-red-600"></i>
+                        <h3 class="font-bold text-3xl text-emerald-950">ความเคยชินเดิม vs แนวทางอาจารย์สมพงษ์</h3>
+                    </div>
+                    <p class="senior-text text-slate-800 mb-6">
+                        พบปัญหาในหลายแปลง เช่น คนงานในสวนดื้อไม่ฟังเจ้าของสวนหรือเจ้าของสวนจัดยาเองตามความคุ้นเคยเดิมๆ ซึ่งผสมตัวยาไม่ตรงตามสูตรและตารางเวลาของอาจารย์
+                    </p>
+                    <div class="info-box-success mb-0">
+                        <h4 class="font-bold text-2xl text-emerald-900 mb-2">💡 ทางออกเพื่อความสำเร็จ:</h4>
+                        <p class="senior-text-lg text-emerald-950">
+                            การทำทุเรียนให้ได้ผลผลิต 100 ล้าน ต้องอาศัย <strong>"ความเคร่งครัดและระบบใบงาน"</strong> ยึดตารางผสมยาตามสัดส่วนที่คำนวณไว้ สื่อสารกับทีมงานให้เข้าใจเหตุผล เพื่อให้การทำงานเป็นไปในทิศทางเดียวกันทั้งสวน
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="flex justify-between items-center pt-4 border-t border-emerald-200 text-xl text-emerald-800">
+                <span>หมวดที่ 6: การบริหารจัดการและวินัยการทำงาน</span>
+                <span>หน้า 9 / 12</span>
+            </div>
+        </div>
+
+        <!-- SLIDE 10: DO'S & DON'TS TABLE -->
+        <div class="slide-card" id="slide-10">
+            <div>
+                <h2 class="slide-header">
+                    <i class="fa-solid fa-table-list text-emerald-800 mr-3"></i>ตารางสรุป Do's & Don'ts (สิ่งที่ควรทำ vs ข้อห้าม)
+                </h2>
+                <div class="overflow-hidden border border-emerald-300 rounded-xl bg-white shadow-sm my-2">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-emerald-900 text-white text-2xl">
+                                <th class="p-4 border-b w-1/2">✅ สิ่งที่ "ควรทำ" (Do)</th>
+                                <th class="p-4 border-b w-1/2 bg-red-900">❌ ข้อห้ามเด็ดขาด (Don't)</th>
+                            </tr>
+                        </thead>
+                        <tbody class="senior-text text-slate-800">
+                            <tr class="border-b bg-emerald-50/50">
+                                <td class="p-4 border-r">ใส่ปุ๋ย 12-3-3 ก่อนรัดใบ/ช่วงใบแก่</td>
+                                <td class="p-4 text-red-900">ห้ามใส่ปุ๋ยทางดินตอนใบอ่อนกำลังกาง</td>
+                            </tr>
+                            <tr class="border-b">
+                                <td class="p-4 border-r">ใช้ฮิวมิค+ฟูลวิค ราดทางดินเท่านั้น</td>
+                                <td class="p-4 text-red-900">ห้ามนำฮิวมิคไปพ่นใส่ใบโดยเด็ดขาด</td>
+                            </tr>
+                            <tr class="border-b bg-emerald-50/50">
+                                <td class="p-4 border-r">รักษาความชื้นโคนต้นด้วยหญ้า/เศษใบไม้</td>
+                                <td class="p-4 text-red-900">ห้ามกวาดถางโคนจนดินโล่งเตียนแห้งแดด</td>
+                            </tr>
+                            <tr class="border-b">
+                                <td class="p-4 border-r">ใช้ยาเย็นสลับกลุ่มยาเพื่อป้องกันเพลี้ย</td>
+                                <td class="p-4 text-red-900">ห้ามใช้ยาร้อน (ไซเปอร์ฯ) พ่นช่วงใบอ่อน</td>
+                            </tr>
+                            <tr class="border-b bg-emerald-50/50">
+                                <td class="p-4 border-r">ตัดแต่งกิ่งไม่เกิน 20-30% สอยแขนงออก</td>
+                                <td class="p-4 text-red-900">ห้ามโกร๋นกิ่งเกิน 50% หรือเอาดินสระกลบโคน</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="flex justify-between items-center pt-4 border-t border-emerald-200 text-xl text-emerald-800">
+                <span>สรุปแนวทางปฏิบัติในแปลง</span>
+                <span>หน้า 10 / 12</span>
+            </div>
+        </div>
+
+        <!-- SLIDE 11: KEY TAKEAWAYS -->
+        <div class="slide-card" id="slide-11">
+            <div>
+                <h2 class="slide-header">
+                    <i class="fa-solid fa-key text-amber-600 mr-3"></i>หัวใจสำคัญสู่ความสำเร็จ (Key Takeaways)
+                </h2>
+                <div class="grid grid-cols-3 gap-6 my-6">
+                    <div class="bg-white p-6 rounded-2xl border-2 border-emerald-400 text-center shadow-md">
+                        <div class="w-20 h-20 bg-emerald-100 text-emerald-800 rounded-full flex items-center justify-center text-4xl mx-auto mb-4">
+                            🌱
+                        </div>
+                        <h3 class="font-bold text-2xl text-emerald-950 mb-2">1. ดินสมบูรณ์ รากเดินดี</h3>
+                        <p class="senior-text text-slate-700">
+                            ปรับ pH ดินให้อยู่ช่วง 5.5-6.5 เติมอินทรียวัตถุ 12-3-3 และไม่กลบโคนมิด
+                        </p>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-2xl border-2 border-emerald-400 text-center shadow-md">
+                        <div class="w-20 h-20 bg-emerald-100 text-emerald-800 rounded-full flex items-center justify-center text-4xl mx-auto mb-4">
+                            🍃
+                        </div>
+                        <h3 class="font-bold text-2xl text-emerald-950 mb-2">2. ทำใบสะสม 2 ชุด</h3>
+                        <p class="senior-text text-slate-700">
+                            ดูแลใบอ่อนให้รอดจากเพลี้ยจั๊กจั่น ได้ใบใหญ่หนาดำ พร้อมทำสารผลิตดอก
+                        </p>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-2xl border-2 border-emerald-400 text-center shadow-md">
+                        <div class="w-20 h-20 bg-emerald-100 text-emerald-800 rounded-full flex items-center justify-center text-4xl mx-auto mb-4">
+                            🎯
+                        </div>
+                        <h3 class="font-bold text-2xl text-emerald-950 mb-2">3. ปฏิบัติตามใบงาน</h3>
+                        <p class="senior-text text-slate-700">
+                            ตรงเวลา ตรงอัตราส่วน ไม่คิดเองเออเอง เพื่อผลผลิตเกรด A ยกสวน
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="flex justify-between items-center pt-4 border-t border-emerald-200 text-xl text-emerald-800">
+                <span>สรุปบทเรียนสำคัญ</span>
+                <span>หน้า 11 / 12</span>
+            </div>
+        </div>
+
+        <!-- SLIDE 12: Q&A / END -->
+        <div class="slide-card" id="slide-12">
+            <div class="flex-1 flex flex-col justify-center items-center text-center py-10">
+                <div class="w-28 h-28 bg-emerald-100 text-emerald-800 rounded-full flex items-center justify-center text-6xl mb-6 shadow-inner">
+                    <i class="fa-solid fa-comments"></i>
+                </div>
+                <h1 class="slide-title-main text-emerald-950 mb-4">
+                    ถาม - ตอบ & แลกเปลี่ยนเรียนรู้
+                </h1>
+                <p class="senior-text-lg text-emerald-800 max-w-3xl mb-8">
+                    "การเรียนรู้จากข้อผิดพลาดในอดีต คือทางลัดที่ดีที่สุดสู่ความสำเร็จในการทำสวนทุเรียน"
+                </p>
+                <div class="bg-white p-6 rounded-xl border border-emerald-300 max-w-xl w-full text-left">
+                    <p class="senior-text text-emerald-900 font-semibold mb-2">📌 ข้อแนะนำสำหรับการประชุมสวน:</p>
+                    <p class="senior-text text-slate-700">• สามารถใช้เอกสารชุดนี้ประกอบการเทรนนิ่งคนงานในสวนได้ทันที</p>
+                </div>
+            </div>
+            <div class="flex justify-between items-center pt-4 border-t border-emerald-200 text-xl text-emerald-800">
+                <span>จบการนำเสนอ</span>
+                <span>หน้า 12 / 12</span>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="nav-controls">
+        <button class="btn-nav" id="btn-prev" onclick="prevSlide()">
+            <i class="fa-solid fa-arrow-left"></i> หน้าก่อนหน้า
+        </button>
+
+        <div class="flex items-center gap-4">
+            <span class="slide-indicator">สไลด์ที่:</span>
+            <select class="slide-select" id="slide-dropdown" onchange="goToSlide(this.value)">
+                <option value="1">1. ปกหน้าแรก</option>
+                <option value="2">2. ภาพรวม 6 ข้อผิดพลาด</option>
+                <option value="3">3. ใส่ปุ๋ยผิดสูตร</option>
+                <option value="4">4. จังหวะใส่ปุ๋ย & ฮิวมิค</option>
+                <option value="5">5. โรคเน่าคอดิน & เพลี้ย</option>
+                <option value="6">6. การตัดแต่งทรงพุ่ม</option>
+                <option value="7">7. ดินโคนต้น & ดินสระ</option>
+                <option value="8">8. สารแพคโคลฯ & ยาร้อน</option>
+                <option value="9">9. วินัยตามใบงาน</option>
+                <option value="10">10. ตาราง Do's & Don'ts</option>
+                <option value="11">11. หัวใจสู่ความสำเร็จ</option>
+                <option value="12">12. ช่วงถาม - ตอบ (Q&A)</option>
+            </select>
+        </div>
+
+        <button class="btn-nav" id="btn-next" onclick="nextSlide()">
+            หน้าถัดไป <i class="fa-solid fa-arrow-right"></i>
+        </button>
+    </div>
+
+    <script>
+        let currentSlide = 1;
+        const totalSlides = 12;
+
+        function updateSlideView() {
+            // Hide all slides
+            for (let i = 1; i <= totalSlides; i++) {
+                const slide = document.getElementById(`slide-${i}`);
+                if (slide) {
+                    slide.classList.remove('active');
+                }
+            }
+
+            // Show current slide
+            const activeSlide = document.getElementById(`slide-${currentSlide}`);
+            if (activeSlide) {
+                activeSlide.classList.add('active');
+            }
+
+            // Update Dropdown
+            const dropdown = document.getElementById('slide-dropdown');
+            if (dropdown) {
+                dropdown.value = currentSlide;
+            }
+
+            // Update Buttons State
+            document.getElementById('btn-prev').disabled = (currentSlide === 1);
+            document.getElementById('btn-next').disabled = (currentSlide === totalSlides);
+
+            // Scroll to top smoothly
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function nextSlide() {
+            if (currentSlide < totalSlides) {
+                currentSlide++;
+                updateSlideView();
+            }
+        }
+
+        function prevSlide() {
+            if (currentSlide > 1) {
+                currentSlide--;
+                updateSlideView();
+            }
+        }
+
+        function goToSlide(slideNum) {
+            currentSlide = parseInt(slideNum);
+            updateSlideView();
+        }
+
+        // Keyboard Arrow Key Navigation
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'ArrowRight' || event.key === 'Space') {
+                nextSlide();
+            } else if (event.key === 'ArrowLeft') {
+                prevSlide();
+            }
+        });
+
+        // Initialize First View
+        window.onload = function() {
+            updateSlideView();
+        };
+    </script>
+</body>
+</html>

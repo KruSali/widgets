@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CVC Phonics Flashcards by MommySali</title>
+    
+    <!-- Load Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Load Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600&family=Mali:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Kanit', sans-serif;
+            background-color: #F0F9FF; /* Soft Pastel Blue */
+            color: #44403C; /* Earth-tone dark */
+            touch-action: pan-y;
+            overflow-x: hidden;
+        }
+
+        .font-mali {
+            font-family: 'Mali', cursive;
+        }
+        
+        /* 3D Flip Card CSS */
+        .perspective-1000 {
+            perspective: 1000px;
+        }
+        
+        .transform-style-3d {
+            transform-style: preserve-3d;
+        }
+        
+        .backface-hidden {
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+        }
+        
+        .rotate-y-180 {
+            transform: rotateY(180deg);
+        }
+
+        /* Button click effect */
+        .btn-active:active {
+            transform: scale(0.92);
+        }
+
+        /* Floating animation for the card */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-5px); }
+            100% { transform: translateY(0px); }
+        }
+        .animate-float {
+            animation: float 4s ease-in-out infinite;
+        }
+        
+        /* Highlight specific text colors */
+        .phonics-letter { color: #0284C7; font-weight: 600; font-family: 'Mali', cursive; } /* sky-600 */
+        .phonics-sound { color: #D97706; font-weight: 500; font-family: 'Kanit', sans-serif; } /* amber-600 */
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between items-center py-8 px-4 sm:px-6">
+
+    <header class="text-center mb-6 w-full max-w-lg">
+        <div class="inline-block bg-white/60 px-4 py-1.5 rounded-full shadow-sm border border-sky-100 mb-3">
+            <span class="text-amber-600 font-medium text-sm sm:text-base">🏡 สอนลูกอ่าน Phonics ง่ายๆ เริ่มที่บ้าน</span>
+        </div>
+        <h1 class="text-3xl md:text-4xl font-bold text-sky-800 drop-shadow-sm font-mali tracking-wide">
+            CVC Flashcards
+        </h1>
+        <p class="text-sky-600/80 mt-1 text-sm">แตะที่การ์ดเพื่อดูคำอ่านและคำแปล</p>
+    </header>
+
+    <main class="flex-1 flex flex-col items-center justify-center w-full max-w-md">
+        
+        <!-- Card Container -->
+        <div class="relative w-full max-w-[320px] aspect-[3/4] perspective-1000 cursor-pointer mb-8 animate-float" onclick="flipCard()">
+            <!-- Card Inner -->
+            <div id="cardInner" class="w-full h-full relative transition-transform duration-500 ease-out transform-style-3d shadow-xl rounded-[2.5rem]">
+                
+                <!-- Front of Card (English Word) -->
+                <div class="absolute w-full h-full backface-hidden bg-white rounded-[2.5rem] border-[6px] border-sky-100 flex flex-col items-center justify-center p-6 text-center">
+                    <div class="text-sky-200 text-6xl sm:text-7xl mb-4 opacity-50 font-mali">✨</div>
+                    <h2 id="wordFront" class="text-7xl sm:text-8xl font-bold text-sky-700 tracking-wider font-mali">
+                        <!-- Word will appear here -->
+                    </h2>
+                    <div class="absolute bottom-6 w-full text-center">
+                        <span class="bg-sky-50 text-sky-400 text-xs px-4 py-2 rounded-full animate-pulse">
+                            แตะเพื่อพลิกการ์ด 👆
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Back of Card (Phonics & Meaning) -->
+                <div class="absolute w-full h-full backface-hidden rotate-y-180 bg-[#FFFBF0] rounded-[2.5rem] border-[6px] border-amber-100 flex flex-col items-center justify-center p-6 text-center shadow-inner">
+                    
+                    <div class="text-amber-800/40 text-sm font-medium mb-4">
+                        คุณพ่อคุณแม่พาออกเสียงทีละตัวนะคะ 🗣️
+                    </div>
+
+                    <!-- Phonics Equation -->
+                    <div id="phonicsBreakdown" class="text-xl sm:text-2xl font-normal text-stone-700 mb-6 leading-relaxed bg-white px-4 py-4 rounded-2xl shadow-sm border border-amber-50 w-full flex flex-wrap justify-center items-center gap-1">
+                        <!-- e.g. c (/เคอะ/) - a (/แอะ/) - t (/เทอะ/) -->
+                    </div>
+                    
+                    <div class="text-3xl text-amber-300 font-bold mb-4 font-mali">=</div>
+                    
+                    <!-- Result & Translation -->
+                    <div class="bg-amber-100/50 px-6 py-3 rounded-2xl border border-amber-200/50 w-full">
+                        <div id="thaiResult" class="text-3xl sm:text-4xl font-bold text-amber-700 mb-1 font-mali">
+                            <!-- e.g. แคท -->
+                        </div>
+                        <div id="thaiMeaning" class="text-lg text-amber-600 font-medium">
+                            <!-- e.g. (แมว) -->
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+
+        <!-- Controls -->
+        <div class="flex items-center justify-between w-full px-4 max-w-[280px]">
+            <button onclick="prevCard()" class="btn-active bg-white text-sky-600 w-14 h-14 rounded-full shadow-md border border-sky-100 flex items-center justify-center text-xl transition-all hover:bg-sky-50 hover:shadow-lg focus:outline-none">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+            </button>
+            
+            <div id="cardCounter" class="text-base font-medium text-sky-800 bg-white/80 px-5 py-2 rounded-full shadow-sm border border-sky-50 font-mali">
+                1 / 22
+            </div>
+            
+            <button onclick="nextCard()" class="btn-active bg-sky-500 text-white w-14 h-14 rounded-full shadow-md border border-sky-400 flex items-center justify-center text-xl transition-all hover:bg-sky-600 hover:shadow-lg focus:outline-none">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+            </button>
+        </div>
+
+    </main>
+
+    <footer class="mt-8 mb-4 text-center w-full">
+        <p class="text-sm font-medium text-stone-500/80 bg-white/50 inline-block px-5 py-2 rounded-full border border-stone-200/40">
+            ครูสาลี่ - อังกฤษฉบับคนเรียนไม่รู้เรื่อง
+        </p>
+    </footer>
+
+    <script>
+        // Data containing exactly 22 CVC words with strict Thai phonics breakdown
+        const cardsData = [
+            { word: "cat", breakdown: [ {l:"c", s:"/เคอะ/"}, {l:"a", s:"/แอะ/"}, {l:"t", s:"/เทอะ/"} ], result: "แคท", meaning: "(แมว)" },
+            { word: "bat", breakdown: [ {l:"b", s:"/เบอะ/"}, {l:"a", s:"/แอะ/"}, {l:"t", s:"/เทอะ/"} ], result: "แบท", meaning: "(ค้างคาว)" },
+            { word: "fat", breakdown: [ {l:"f", s:"/เฟอะ/"}, {l:"a", s:"/แอะ/"}, {l:"t", s:"/เทอะ/"} ], result: "แฟท", meaning: "(อ้วน)" },
+            { word: "rat", breakdown: [ {l:"r", s:"/เรอะ/"}, {l:"a", s:"/แอะ/"}, {l:"t", s:"/เทอะ/"} ], result: "แรท", meaning: "(หนู)" },
+            { word: "hat", breakdown: [ {l:"h", s:"/เฮอะ/"}, {l:"a", s:"/แอะ/"}, {l:"t", s:"/เทอะ/"} ], result: "แฮท", meaning: "(หมวก)" },
+            
+            { word: "pig", breakdown: [ {l:"p", s:"/เพอะ/"}, {l:"i", s:"/อิ/"}, {l:"g", s:"/เกอะ/"} ], result: "พิก", meaning: "(หมู)" },
+            { word: "wig", breakdown: [ {l:"w", s:"/เวอะ/"}, {l:"i", s:"/อิ/"}, {l:"g", s:"/เกอะ/"} ], result: "วิก", meaning: "(ผมปลอม)" },
+            { word: "dig", breakdown: [ {l:"d", s:"/เดอะ/"}, {l:"i", s:"/อิ/"}, {l:"g", s:"/เกอะ/"} ], result: "ดิก", meaning: "(ขุด)" },
+            { word: "fin", breakdown: [ {l:"f", s:"/เฟอะ/"}, {l:"i", s:"/อิ/"}, {l:"n", s:"/เนอะ/"} ], result: "ฟิน", meaning: "(ครีบปลา)" },
+            
+            { word: "dog", breakdown: [ {l:"d", s:"/เดอะ/"}, {l:"o", s:"/เอาะ/"}, {l:"g", s:"/เกอะ/"} ], result: "ดอก", meaning: "(หมา)" },
+            { word: "log", breakdown: [ {l:"l", s:"/เลอะ/"}, {l:"o", s:"/เอาะ/"}, {l:"g", s:"/เกอะ/"} ], result: "ลอก", meaning: "(ท่อนไม้)" },
+            { word: "fox", breakdown: [ {l:"f", s:"/เฟอะ/"}, {l:"o", s:"/เอาะ/"}, {l:"x", s:"/กส์/"} ], result: "ฟอกส์", meaning: "(หมาจิ้งจอก)" },
+            { word: "box", breakdown: [ {l:"b", s:"/เบอะ/"}, {l:"o", s:"/เอาะ/"}, {l:"x", s:"/กส์/"} ], result: "บอกส์", meaning: "(กล่อง)" },
+            
+            { word: "bug", breakdown: [ {l:"b", s:"/เบอะ/"}, {l:"u", s:"/อะ/"}, {l:"g", s:"/เกอะ/"} ], result: "บัก", meaning: "(แมลง)" },
+            { word: "mug", breakdown: [ {l:"m", s:"/เมอะ/"}, {l:"u", s:"/อะ/"}, {l:"g", s:"/เกอะ/"} ], result: "มัก", meaning: "(แก้วมัค)" },
+            { word: "sun", breakdown: [ {l:"s", s:"/เสอะ/"}, {l:"u", s:"/อะ/"}, {l:"n", s:"/เนอะ/"} ], result: "ซัน", meaning: "(พระอาทิตย์)" },
+            { word: "run", breakdown: [ {l:"r", s:"/เรอะ/"}, {l:"u", s:"/อะ/"}, {l:"n", s:"/เนอะ/"} ], result: "รัน", meaning: "(วิ่ง)" },
+            { word: "fun", breakdown: [ {l:"f", s:"/เฟอะ/"}, {l:"u", s:"/อะ/"}, {l:"n", s:"/เนอะ/"} ], result: "ฟัน", meaning: "(สนุก)" },
+            
+            { word: "bed", breakdown: [ {l:"b", s:"/เบอะ/"}, {l:"e", s:"/เอะ/"}, {l:"d", s:"/เดอะ/"} ], result: "เบด", meaning: "(เตียง)" },
+            { word: "red", breakdown: [ {l:"r", s:"/เรอะ/"}, {l:"e", s:"/เอะ/"}, {l:"d", s:"/เดอะ/"} ], result: "เรด", meaning: "(สีแดง)" },
+            { word: "pen", breakdown: [ {l:"p", s:"/เพอะ/"}, {l:"e", s:"/เอะ/"}, {l:"n", s:"/เนอะ/"} ], result: "เพน", meaning: "(ปากกา)" },
+            { word: "hen", breakdown: [ {l:"h", s:"/เฮอะ/"}, {l:"e", s:"/เอะ/"}, {l:"n", s:"/เนอะ/"} ], result: "เฮน", meaning: "(แม่ไก่)" }
+        ];
+
+        let currentIndex = 0;
+        let isFlipped = false;
+
+        const cardInner = document.getElementById('cardInner');
+        const wordFront = document.getElementById('wordFront');
+        const phonicsBreakdown = document.getElementById('phonicsBreakdown');
+        const thaiResult = document.getElementById('thaiResult');
+        const thaiMeaning = document.getElementById('thaiMeaning');
+        const cardCounter = document.getElementById('cardCounter');
+
+        function renderCard() {
+            if (isFlipped) {
+                cardInner.classList.remove('rotate-y-180');
+                isFlipped = false;
+                // Wait for the flip animation to finish before changing the content
+                setTimeout(updateContent, 250);
+            } else {
+                updateContent();
+            }
+        }
+
+        function updateContent() {
+            const currentCard = cardsData[currentIndex];
+            
+            // Update Front
+            wordFront.textContent = currentCard.word;
+            
+            // Update Back (Phonics Equation)
+            phonicsBreakdown.innerHTML = '';
+            currentCard.breakdown.forEach((item, index) => {
+                // Create letter span
+                const letterSpan = document.createElement('span');
+                letterSpan.className = 'phonics-letter text-2xl mx-0.5';
+                letterSpan.textContent = item.l;
+                
+                // Create sound span
+                const soundSpan = document.createElement('span');
+                soundSpan.className = 'phonics-sound text-lg mx-0.5';
+                soundSpan.textContent = item.s;
+                
+                phonicsBreakdown.appendChild(letterSpan);
+                phonicsBreakdown.appendChild(soundSpan);
+
+                // Add minus sign separator if not the last item
+                if (index < currentCard.breakdown.length - 1) {
+                    const dashSpan = document.createElement('span');
+                    dashSpan.className = 'text-stone-300 mx-1 font-bold';
+                    dashSpan.textContent = '-';
+                    phonicsBreakdown.appendChild(dashSpan);
+                }
+            });
+            
+            // Update Back Result
+            thaiResult.textContent = currentCard.result;
+            thaiMeaning.textContent = currentCard.meaning;
+            
+            // Update Counter
+            cardCounter.textContent = `${currentIndex + 1} / ${cardsData.length}`;
+        }
+
+        function flipCard() {
+            isFlipped = !isFlipped;
+            if (isFlipped) {
+                cardInner.classList.add('rotate-y-180');
+            } else {
+                cardInner.classList.remove('rotate-y-180');
+            }
+        }
+
+        function nextCard() {
+            currentIndex = (currentIndex + 1) % cardsData.length;
+            renderCard();
+        }
+
+        function prevCard() {
+            currentIndex = (currentIndex - 1 + cardsData.length) % cardsData.length;
+            renderCard();
+        }
+
+        // Initialize first card
+        window.onload = () => {
+            renderCard();
+        }
+    </script>
+</body>
+</html>

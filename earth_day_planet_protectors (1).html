@@ -1,0 +1,1711 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Earth Day Adventure: Planet Protectors Academy 2.0!</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Fredoka & Quicksand -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            fredoka: ['Fredoka', 'sans-serif'],
+            quicksand: ['Quicksand', 'sans-serif'],
+          },
+          colors: {
+            earth: {
+              blue: '#0284c7',
+              sky: '#38bdf8',
+              green: '#16a34a',
+              leaf: '#22c55e',
+              lime: '#84cc16',
+              sun: '#f59e0b',
+              amber: '#d97706',
+              coral: '#f43f5e',
+              deep: '#0f172a'
+            }
+          },
+          keyframes: {
+            floatSlow: {
+              '0%, 100%': { transform: 'translateY(-6px)' },
+              '50%': { transform: 'translateY(6px)' }
+            },
+            spinGentle: {
+              '0%': { transform: 'rotate(0deg)' },
+              '100%': { transform: 'rotate(360deg)' }
+            },
+            pulseSubtle: {
+              '0%, 100%': { transform: 'scale(1)' },
+              '50%': { transform: 'scale(1.05)' }
+            },
+            popIn: {
+              '0%': { transform: 'scale(0.88)', opacity: '0' },
+              '100%': { transform: 'scale(1)', opacity: '1' }
+            }
+          },
+          animation: {
+            'float': 'floatSlow 3.2s ease-in-out infinite',
+            'spin-slow': 'spinGentle 30s linear infinite',
+            'pulse-gentle': 'pulseSubtle 2.5s ease-in-out infinite',
+            'pop': 'popIn 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards'
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      font-family: 'Quicksand', sans-serif;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+    h1, h2, h3, h4, .font-heading {
+      font-family: 'Fredoka', cursive, sans-serif;
+    }
+    .btn-3d {
+      transition: all 0.15s ease-in-out;
+      box-shadow: 0 6px 0 rgba(0, 0, 0, 0.16);
+    }
+    .btn-3d:active {
+      transform: translateY(4px);
+      box-shadow: 0 2px 0 rgba(0, 0, 0, 0.16);
+    }
+    .card-3d {
+      box-shadow: 0 8px 0 rgba(0, 0, 0, 0.05);
+    }
+    ::-webkit-scrollbar {
+      width: 10px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #e0f2fe;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #38bdf8;
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #0284c7;
+    }
+    @media print {
+      body * {
+        visibility: hidden;
+      }
+      #certificate-frame, #certificate-frame * {
+        visibility: visible;
+      }
+      #certificate-frame {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        margin: 0;
+        padding: 2rem;
+        box-shadow: none;
+        border: 10px double #059669 !important;
+      }
+    }
+  </style>
+</head>
+<body class="bg-gradient-to-b from-sky-100 via-emerald-50 to-blue-100 min-h-screen text-slate-800 flex flex-col justify-between">
+
+  <!-- ============================================== -->
+  <!-- HEADER & VITALITY HUD                          -->
+  <!-- ============================================== -->
+  <header class="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b-4 border-sky-400 px-4 py-2.5 shadow-md">
+    <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-3">
+      
+      <!-- Brand Logo & Live Planet Mood Avatar -->
+      <div class="flex items-center space-x-3 cursor-pointer" onclick="navigateTo('home')">
+        <div class="relative w-12 h-12 rounded-2xl bg-gradient-to-tr from-sky-500 to-emerald-400 flex items-center justify-center text-2xl shadow-md animate-float">
+          <span id="header-planet-emoji">🌍</span>
+          <span id="header-sparkle" class="absolute -top-1 -right-1 text-xs">✨</span>
+        </div>
+        <div>
+          <h1 class="text-xl md:text-2xl font-bold text-sky-900 tracking-wide flex items-center gap-1.5 font-heading">
+            Planet Protectors <span class="bg-amber-100 text-amber-800 text-xs px-2.5 py-0.5 rounded-full uppercase tracking-wider font-extrabold border border-amber-300">April 22</span>
+          </h1>
+          <div class="flex items-center gap-2">
+            <span class="text-xs font-semibold text-slate-500 hidden sm:inline">Earth Vitality:</span>
+            <!-- Live Vitality Progress Bar -->
+            <div class="w-28 sm:w-36 bg-slate-200 h-2.5 rounded-full overflow-hidden border border-slate-300 relative">
+              <div id="vitality-bar-fill" class="bg-gradient-to-r from-emerald-400 to-teal-500 h-full w-[25%] transition-all duration-500"></div>
+            </div>
+            <span id="vitality-text" class="text-xs font-bold text-emerald-700">25%</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Navigation Tabs (6 Interactive Hubs) -->
+      <nav class="flex items-center gap-1 md:gap-1.5 overflow-x-auto py-1 max-w-full">
+        <button onclick="navigateTo('home')" id="nav-home" class="nav-btn px-3 py-1.5 rounded-xl font-heading text-xs md:text-sm font-semibold transition flex items-center gap-1 bg-sky-500 text-white shadow">
+          <span>🏠</span> <span>Earth HQ</span>
+        </button>
+        <button onclick="navigateTo('world')" id="nav-world" class="nav-btn px-3 py-1.5 rounded-xl font-heading text-xs md:text-sm font-semibold text-slate-700 hover:bg-sky-100 transition flex items-center gap-1">
+          <span>🗺️</span> <span>World Tour</span>
+        </button>
+        <button onclick="navigateTo('forest')" id="nav-forest" class="nav-btn px-3 py-1.5 rounded-xl font-heading text-xs md:text-sm font-semibold text-slate-700 hover:bg-sky-100 transition flex items-center gap-1">
+          <span>🌲</span> <span>Tree Sandbox</span>
+        </button>
+        <button onclick="navigateTo('action')" id="nav-action" class="nav-btn px-3 py-1.5 rounded-xl font-heading text-xs md:text-sm font-semibold text-slate-700 hover:bg-sky-100 transition flex items-center gap-1">
+          <span>🎒</span> <span>Eco Lab</span>
+        </button>
+        <button onclick="navigateTo('cleanup')" id="nav-cleanup" class="nav-btn px-3 py-1.5 rounded-xl font-heading text-xs md:text-sm font-semibold text-slate-700 hover:bg-sky-100 transition flex items-center gap-1">
+          <span>🌊</span> <span>Cleanup Game</span>
+        </button>
+        <button onclick="navigateTo('quiz')" id="nav-quiz" class="nav-btn px-3 py-1.5 rounded-xl font-heading text-xs md:text-sm font-semibold text-slate-700 hover:bg-sky-100 transition flex items-center gap-1">
+          <span>⭐</span> <span>Quiz & Badges</span>
+        </button>
+      </nav>
+
+      <!-- Audio Controls (Sound FX & Synthesized Nature Ambience) -->
+      <div class="flex items-center gap-2">
+        <button id="ambienceToggle" onclick="toggleAmbience()" class="p-2 rounded-xl bg-emerald-100 text-emerald-800 hover:bg-emerald-200 text-xs font-bold flex items-center gap-1 shadow-sm transition border border-emerald-300" title="Toggle gentle nature breeze and birds">
+          <span id="ambienceIcon">🍃</span>
+          <span class="hidden md:inline">Nature Ambience</span>
+        </button>
+        <button id="soundToggle" onclick="toggleSound()" class="p-2 rounded-xl bg-amber-100 text-amber-800 hover:bg-amber-200 text-xs font-bold flex items-center gap-1 shadow-sm transition border border-amber-300">
+          <span id="soundIcon">🔊</span>
+          <span class="hidden sm:inline">SFX</span>
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- Main Content Container -->
+  <main class="max-w-7xl w-full mx-auto p-4 md:p-6 flex-grow">
+
+    <!-- ============================================== -->
+    <!-- HUB 1: EARTH HQ & ORIGIN STORY + PAWPRINT CALC -->
+    <!-- ============================================== -->
+    <section id="page-home" class="page-content animate-pop block">
+      
+      <!-- Interactive Hero Banner with Live Earth Avatar -->
+      <div class="relative bg-gradient-to-br from-sky-500 via-teal-500 to-emerald-600 rounded-3xl p-6 md:p-10 text-white shadow-xl overflow-hidden mb-8 border-4 border-white flex flex-col lg:flex-row items-center justify-between gap-6">
+        <div class="max-w-2xl relative z-10">
+          <div class="inline-flex items-center gap-2 bg-white/20 backdrop-blur-md px-3.5 py-1 rounded-full text-xs md:text-sm font-bold mb-3 border border-white/30 text-amber-200">
+            <span>🎉 JOIN OVER 1 BILLION PLANET HEROES • APRIL 22ND</span>
+          </div>
+          <h2 class="text-3xl md:text-5xl font-extrabold font-heading mb-3 leading-tight drop-shadow-sm">
+            Save Our Home, One Super Habit at a Time! 🌿
+          </h2>
+          <p class="text-sky-50 text-sm md:text-base mb-6 leading-relaxed">
+            Earth Day is the world’s biggest environmental festival. It is the day students, families, scientists, and world leaders join forces to clean coastlines, plant oxygen-making forests, and build clean energy!
+          </p>
+          <div class="flex flex-wrap gap-3">
+            <button onclick="navigateTo('forest')" class="btn-3d px-5 py-3 bg-amber-400 hover:bg-amber-300 text-slate-900 font-heading font-bold rounded-2xl text-sm md:text-base shadow-lg flex items-center gap-2">
+              <span>Plant a Virtual Forest</span> <span>🌲</span>
+            </button>
+            <button onclick="navigateTo('cleanup')" class="btn-3d px-5 py-3 bg-white hover:bg-slate-100 text-emerald-800 font-heading font-bold rounded-2xl text-sm md:text-base shadow-lg flex items-center gap-2">
+              <span>Play Ocean Cleanup</span> <span>🌊</span>
+            </button>
+            <button onclick="navigateTo('world')" class="btn-3d px-5 py-3 bg-emerald-800/80 hover:bg-emerald-800 text-white font-heading font-bold rounded-2xl text-sm md:text-base shadow-lg flex items-center gap-2">
+              <span>Global Tour</span> <span>🗺️</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Big Dynamic Earth Mascot Card -->
+        <div class="relative bg-white/15 backdrop-blur-md border-2 border-white/40 p-6 rounded-3xl text-center w-full lg:w-72 flex flex-col items-center shadow-lg">
+          <div id="hero-planet-avatar" class="text-8xl select-none animate-float drop-shadow-md">
+            🌍
+          </div>
+          <div id="planet-mood-badge" class="mt-3 px-3 py-1 bg-white text-emerald-800 rounded-full font-heading font-bold text-xs shadow-sm">
+            Vitality: Growing! 🌱
+          </div>
+          <p id="planet-mood-desc" class="text-xs text-sky-100 mt-2 font-medium">
+            "Plant trees, complete cleanups, and finish quizzes to restore my blue oceans and lush forests!"
+          </p>
+          <button onclick="boostVitality(5, 'Encouraged Earth!')" class="mt-3 btn-3d px-4 py-1.5 bg-amber-300 hover:bg-amber-200 text-slate-900 font-bold rounded-xl text-xs flex items-center gap-1.5 shadow">
+            <span>Give Earth a Hug 🤗</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- 3 Core Foundations Cards -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        
+        <!-- Fact 1 -->
+        <div class="card-3d bg-white rounded-3xl p-6 border-4 border-sky-300 shadow-md flex flex-col justify-between">
+          <div>
+            <div class="w-14 h-14 rounded-2xl bg-sky-100 flex items-center justify-center text-3xl mb-4">
+              🗓️
+            </div>
+            <span class="text-xs uppercase font-extrabold tracking-wider text-sky-600 bg-sky-50 px-2.5 py-1 rounded-full border border-sky-200">The Universal Date</span>
+            <h4 class="text-xl font-bold font-heading text-slate-800 mt-2 mb-2">April 22nd Every Year</h4>
+            <p class="text-slate-600 text-sm leading-relaxed">
+              Why April 22? In 1970, organizers chose this date because it sat between university Spring Break and final exams—ensuring millions of students could walk out into streets to champion clean air!
+            </p>
+          </div>
+          <div class="mt-4 p-3 bg-sky-50 rounded-2xl text-xs font-semibold text-sky-800">
+            💡 Over 193 nations now celebrate Earth Day simultaneously!
+          </div>
+        </div>
+
+        <!-- Fact 2 -->
+        <div class="card-3d bg-white rounded-3xl p-6 border-4 border-emerald-300 shadow-md flex flex-col justify-between">
+          <div>
+            <div class="w-14 h-14 rounded-2xl bg-emerald-100 flex items-center justify-center text-3xl mb-4">
+              📜
+            </div>
+            <span class="text-xs uppercase font-extrabold tracking-wider text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-200">History in 1970</span>
+            <h4 class="text-xl font-bold font-heading text-slate-800 mt-2 mb-2">The Spark of Change</h4>
+            <p class="text-slate-600 text-sm leading-relaxed">
+              US Senator <strong>Gaylord Nelson</strong> and student coordinator <strong>Denis Hayes</strong> galvanized 20 million Americans. This led directly to creating the EPA, the Clean Air Act, and the Endangered Species Act!
+            </p>
+          </div>
+          <div class="mt-4 p-3 bg-emerald-50 rounded-2xl text-xs font-semibold text-emerald-800">
+            🦅 Saved the Bald Eagle and Peregrine Falcon from extinction!
+          </div>
+        </div>
+
+        <!-- Fact 3 -->
+        <div class="card-3d bg-white rounded-3xl p-6 border-4 border-amber-300 shadow-md flex flex-col justify-between">
+          <div>
+            <div class="w-14 h-14 rounded-2xl bg-amber-100 flex items-center justify-center text-3xl mb-4">
+              🤝
+            </div>
+            <span class="text-xs uppercase font-extrabold tracking-wider text-amber-600 bg-amber-50 px-2.5 py-1 rounded-full border border-amber-200">The 365 Spirit</span>
+            <h4 class="text-xl font-bold font-heading text-slate-800 mt-2 mb-2">Every Day is Earth Day</h4>
+            <p class="text-slate-600 text-sm leading-relaxed">
+              April 22 is our rallying cry, but true superheroes protect nature all year long! Simple habits like drinking from reusable bottles and turning off faucets save thousands of gallons of water.
+            </p>
+          </div>
+          <div class="mt-4 p-3 bg-amber-50 rounded-2xl text-xs font-semibold text-amber-800">
+            💧 Turning off taps during brushing saves 8 gallons/day per person!
+          </div>
+        </div>
+
+      </div>
+
+      <!-- NEW: Interactive Kid Carbon Footprint Calculator -->
+      <div class="bg-gradient-to-br from-emerald-50 to-teal-50 border-4 border-emerald-300 rounded-3xl p-6 shadow-md mb-8">
+        <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mb-6">
+          <div>
+            <span class="bg-emerald-200 text-emerald-900 font-extrabold text-xs uppercase px-3 py-1 rounded-full">Interactive Tool</span>
+            <h3 class="text-2xl font-bold font-heading text-emerald-900 mt-1">🐾 My "Green Pawprint" Calculator</h3>
+            <p class="text-slate-600 text-sm">Select your everyday choices to see how many trees your habits equal each year!</p>
+          </div>
+          <div class="bg-white border-2 border-emerald-300 px-5 py-3 rounded-2xl text-center shadow-sm">
+            <div class="text-xs font-extrabold text-slate-500 uppercase">Your Annual Impact</div>
+            <div id="calc-result" class="font-heading font-black text-2xl text-emerald-700">🌱 14 Trees Saved!</div>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <!-- Choice 1: School Commute -->
+          <div class="bg-white p-4 rounded-2xl border-2 border-emerald-200">
+            <label class="block text-xs font-bold text-slate-700 uppercase mb-2">🚲 Going to School:</label>
+            <select id="calc-commute" onchange="calculateFootprint()" class="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm font-semibold text-slate-800 focus:outline-none focus:border-emerald-500">
+              <option value="5">Walking, Biking, or Scooter (Zero emission)</option>
+              <option value="3">School Bus or Carpooling with friends</option>
+              <option value="1">Solo ride in a gas-powered car</option>
+            </select>
+          </div>
+
+          <!-- Choice 2: Lunch Water Bottle -->
+          <div class="bg-white p-4 rounded-2xl border-2 border-emerald-200">
+            <label class="block text-xs font-bold text-slate-700 uppercase mb-2">🚰 Daily Hydration:</label>
+            <select id="calc-bottle" onchange="calculateFootprint()" class="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm font-semibold text-slate-800 focus:outline-none focus:border-emerald-500">
+              <option value="5">Refillable stainless bottle (Zero single plastic)</option>
+              <option value="2">Sometimes buy plastic bottles & recycle</option>
+              <option value="0">Single-use plastic bottles every day</option>
+            </select>
+          </div>
+
+          <!-- Choice 3: Home Energy Habits -->
+          <div class="bg-white p-4 rounded-2xl border-2 border-emerald-200">
+            <label class="block text-xs font-bold text-slate-700 uppercase mb-2">💡 Bedroom Power:</label>
+            <select id="calc-energy" onchange="calculateFootprint()" class="w-full p-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm font-semibold text-slate-800 focus:outline-none focus:border-emerald-500">
+              <option value="4">Always switch off lights, screens & fans</option>
+              <option value="2">Sometimes remember to turn off lamps</option>
+              <option value="0">Leave everything powered on 24/7</option>
+            </select>
+          </div>
+        </div>
+
+        <div id="calc-feedback-box" class="mt-4 p-3 bg-emerald-100/80 rounded-xl text-xs md:text-sm font-semibold text-emerald-900 flex items-center justify-between">
+          <span>🌟 Amazing! Your choices actively prevent over 220 pounds of greenhouse emissions each year!</span>
+          <button onclick="boostVitality(10, 'Calculated Green Pawprint!')" class="btn-3d px-3 py-1 bg-emerald-600 text-white font-bold rounded-lg text-xs">Claim Vitality +10%</button>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ============================================== -->
+    <!-- HUB 2: WORLD CELEBRATION INTERACTIVE MAP       -->
+    <!-- ============================================== -->
+    <section id="page-world" class="page-content hidden animate-pop">
+      <div class="bg-gradient-to-r from-teal-500 via-sky-500 to-indigo-600 rounded-3xl p-6 md:p-8 text-white mb-8 shadow-lg flex flex-col md:flex-row items-center justify-between gap-4">
+        <div>
+          <div class="flex items-center gap-2 mb-2">
+            <span class="bg-white/20 text-white font-bold text-xs uppercase px-3 py-1 rounded-full">Interactive Geography</span>
+            <span class="text-teal-100 font-semibold text-sm">Every Continent Takes Action</span>
+          </div>
+          <h2 class="text-3xl md:text-4xl font-extrabold font-heading">🗺️ Earth Day Around the Globe!</h2>
+          <p class="text-sky-50 mt-1 max-w-xl text-sm md:text-base">
+            Click on different regions of our world to discover real Earth Day traditions, world records, and mega projects!
+          </p>
+        </div>
+        <div class="text-7xl p-3 bg-white/20 rounded-3xl backdrop-blur-sm animate-float">
+          🌐
+        </div>
+      </div>
+
+      <!-- Region Selector Buttons -->
+      <div class="flex flex-wrap gap-2.5 mb-6 justify-center">
+        <button onclick="selectRegion('africa')" class="region-btn btn-3d px-4 py-2 rounded-2xl bg-white border-2 border-emerald-300 font-heading font-bold text-sm text-slate-700 hover:bg-emerald-50">
+          🌍 Africa
+        </button>
+        <button onclick="selectRegion('asia')" class="region-btn btn-3d px-4 py-2 rounded-2xl bg-white border-2 border-emerald-300 font-heading font-bold text-sm text-slate-700 hover:bg-emerald-50">
+          🌏 Asia
+        </button>
+        <button onclick="selectRegion('europe')" class="region-btn btn-3d px-4 py-2 rounded-2xl bg-white border-2 border-emerald-300 font-heading font-bold text-sm text-slate-700 hover:bg-emerald-50">
+          🏰 Europe
+        </button>
+        <button onclick="selectRegion('americas')" class="region-btn btn-3d px-4 py-2 rounded-2xl bg-white border-2 border-emerald-300 font-heading font-bold text-sm text-slate-700 hover:bg-emerald-50">
+          🌎 The Americas
+        </button>
+        <button onclick="selectRegion('oceans')" class="region-btn btn-3d px-4 py-2 rounded-2xl bg-white border-2 border-emerald-300 font-heading font-bold text-sm text-slate-700 hover:bg-emerald-50">
+          🌊 Pacific & Coral Reefs
+        </button>
+        <button onclick="selectRegion('poles')" class="region-btn btn-3d px-4 py-2 rounded-2xl bg-white border-2 border-emerald-300 font-heading font-bold text-sm text-slate-700 hover:bg-emerald-50">
+          ❄️ Polar Ice Caps
+        </button>
+      </div>
+
+      <!-- Active Region Spotlight Card -->
+      <div id="region-display-card" class="bg-white rounded-3xl p-6 md:p-8 border-4 border-sky-300 shadow-xl max-w-4xl mx-auto flex flex-col md:flex-row items-center gap-6 transition-all duration-300">
+        <div id="region-icon" class="text-7xl md:text-8xl p-5 bg-sky-50 rounded-3xl border-2 border-sky-200 animate-pulse-gentle">
+          🌍
+        </div>
+        <div class="flex-grow">
+          <div class="flex items-center gap-2">
+            <span id="region-badge" class="px-3 py-0.5 rounded-full text-xs font-extrabold uppercase bg-emerald-100 text-emerald-800">Continent Feature</span>
+            <span id="region-stat" class="text-xs text-slate-500 font-bold">8,000 km Living Wall</span>
+          </div>
+          <h3 id="region-name" class="text-2xl md:text-3xl font-bold font-heading text-slate-800 mt-1 mb-2">
+            Africa: The Great Green Wall
+          </h3>
+          <p id="region-story" class="text-slate-600 text-sm md:text-base leading-relaxed mb-4">
+            Across 11 countries south of the Sahara Desert, millions of community members are planting an 8,000-kilometer wall of drought-resistant trees. This miraculous project combats desertification, restores fertile farmland, and cools regional temperatures!
+          </p>
+          <div id="region-action" class="p-3 bg-amber-50 rounded-2xl text-xs font-semibold text-amber-900 border border-amber-200">
+            🌱 <em>Student Connection:</em> Kids in Kenya and Senegal plant school baobab and acacia seedlings each April 22nd.
+          </div>
+        </div>
+      </div>
+
+      <!-- Global Celebrations 4-Card Highlights -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-8">
+        <div class="bg-white p-5 rounded-2xl border-2 border-sky-200 shadow-sm">
+          <div class="text-4xl mb-2">🚲</div>
+          <h4 class="font-heading font-bold text-base text-slate-800">Car-Free Boulevards</h4>
+          <p class="text-xs text-slate-600 mt-1">Cities like Paris, Tokyo, and Bogotá close major downtown roads to cars so hundreds of thousands of people cycle, skate, and walk in clean air!</p>
+        </div>
+        <div class="bg-white p-5 rounded-2xl border-2 border-emerald-200 shadow-sm">
+          <div class="text-4xl mb-2">🪸</div>
+          <h4 class="font-heading font-bold text-base text-slate-800">Coral Reef Nurseries</h4>
+          <p class="text-xs text-slate-600 mt-1">Volunteer divers in Fiji, Australia, and the Caribbean attach healthy coral fragments to underwater frames to regrow colorful marine nurseries.</p>
+        </div>
+        <div class="bg-white p-5 rounded-2xl border-2 border-amber-200 shadow-sm">
+          <div class="text-4xl mb-2">🐝</div>
+          <h4 class="font-heading font-bold text-base text-slate-800">Bee & Bug Hotels</h4>
+          <p class="text-xs text-slate-600 mt-1">Schools across Scandinavia and Germany build wooden shelters stuffed with bamboo rods and pinecones for solitary pollinator bees!</p>
+        </div>
+        <div class="bg-white p-5 rounded-2xl border-2 border-purple-200 shadow-sm">
+          <div class="text-4xl mb-2">🎨</div>
+          <h4 class="font-heading font-bold text-base text-slate-800">Recycled Sculpture Fests</h4>
+          <p class="text-xs text-slate-600 mt-1">Artists in Rio de Janeiro and London build giant life-sized whales and hawks entirely from recovered ocean plastics to raise awareness.</p>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ============================================== -->
+    <!-- HUB 3: VIRTUAL FOREST & WILDLIFE SANDBOX       -->
+    <!-- ============================================== -->
+    <section id="page-forest" class="page-content hidden animate-pop">
+      <div class="bg-gradient-to-r from-emerald-600 to-green-500 rounded-3xl p-6 md:p-8 text-white mb-8 shadow-lg flex flex-col md:flex-row items-center justify-between gap-4">
+        <div>
+          <div class="flex items-center gap-2 mb-2">
+            <span class="bg-white/20 text-white font-bold text-xs uppercase px-3 py-1 rounded-full">Interactive Sandbox</span>
+            <span class="text-emerald-100 font-semibold text-sm">Carbon Capture Simulator</span>
+          </div>
+          <h2 class="text-3xl md:text-4xl font-extrabold font-heading">🌲 Plant-a-Planet Forest Builder!</h2>
+          <p class="text-emerald-50 mt-1 max-w-xl text-sm md:text-base">
+            Plant seeds, shower them with rain and sunshine, and watch wildlife return as your forest cleans the atmosphere!
+          </p>
+        </div>
+        <!-- Forest Stats HUD -->
+        <div class="flex items-center gap-3 bg-white/20 backdrop-blur-md px-5 py-3 rounded-2xl border border-white/30 text-center">
+          <div>
+            <div class="text-[10px] uppercase font-bold tracking-wider text-emerald-100">Trees Planted</div>
+            <div id="forest-tree-count" class="font-heading font-black text-2xl text-white">0</div>
+          </div>
+          <div class="w-px h-8 bg-white/30"></div>
+          <div>
+            <div class="text-[10px] uppercase font-bold tracking-wider text-amber-200">CO₂ Absorbed</div>
+            <div id="forest-co2-count" class="font-heading font-black text-2xl text-amber-300">0 lbs</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sandbox Action Bar -->
+      <div class="bg-white rounded-3xl p-6 border-4 border-emerald-300 shadow-md mb-6">
+        <h3 class="font-heading font-bold text-lg text-slate-800 mb-3">Step 1: Choose Your Tree Species to Plant</h3>
+        <div class="flex flex-wrap gap-3 mb-4">
+          <button onclick="selectTreeType('oak')" id="btn-tree-oak" class="tree-type-btn btn-3d px-4 py-2.5 rounded-2xl border-2 border-emerald-500 bg-emerald-100 text-emerald-900 font-heading font-bold text-sm flex items-center gap-2">
+            <span>🌳 Mighty Oak</span> <span class="text-xs bg-emerald-200 px-2 py-0.5 rounded-full">+48 lbs CO₂</span>
+          </button>
+          <button onclick="selectTreeType('pine')" id="btn-tree-pine" class="tree-type-btn btn-3d px-4 py-2.5 rounded-2xl border-2 border-slate-200 bg-white text-slate-700 font-heading font-bold text-sm flex items-center gap-2">
+            <span>🌲 Mountain Pine</span> <span class="text-xs bg-slate-100 px-2 py-0.5 rounded-full">+35 lbs CO₂</span>
+          </button>
+          <button onclick="selectTreeType('apple')" id="btn-tree-apple" class="tree-type-btn btn-3d px-4 py-2.5 rounded-2xl border-2 border-slate-200 bg-white text-slate-700 font-heading font-bold text-sm flex items-center gap-2">
+            <span>🍎 Orchard Apple</span> <span class="text-xs bg-slate-100 px-2 py-0.5 rounded-full">+25 lbs CO₂</span>
+          </button>
+          <button onclick="selectTreeType('mangrove')" id="btn-tree-mangrove" class="tree-type-btn btn-3d px-4 py-2.5 rounded-2xl border-2 border-slate-200 bg-white text-slate-700 font-heading font-bold text-sm flex items-center gap-2">
+            <span>🌿 Coastal Mangrove</span> <span class="text-xs bg-slate-100 px-2 py-0.5 rounded-full">+60 lbs CO₂</span>
+          </button>
+        </div>
+
+        <div class="flex flex-wrap items-center justify-between gap-3 pt-3 border-t border-slate-100">
+          <div class="flex gap-2">
+            <button onclick="plantTree()" class="btn-3d px-6 py-3 bg-emerald-600 hover:bg-emerald-500 text-white font-heading font-bold rounded-2xl text-base shadow flex items-center gap-2">
+              <span>🌱 Plant Selected Seed!</span>
+            </button>
+            <button onclick="waterForest()" class="btn-3d px-5 py-3 bg-sky-500 hover:bg-sky-400 text-white font-heading font-bold rounded-2xl text-sm shadow flex items-center gap-2">
+              <span>🌧️ Rain Shower</span>
+            </button>
+          </div>
+          <button onclick="resetForest()" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-600 font-semibold rounded-xl text-xs">
+            Clear Plot 🔄
+          </button>
+        </div>
+      </div>
+
+      <!-- Living Forest Meadow Canvas Area -->
+      <div id="forest-meadow" class="relative bg-gradient-to-b from-sky-200 via-emerald-100 to-emerald-200 border-4 border-emerald-400 rounded-3xl p-6 min-h-[320px] shadow-inner flex flex-wrap content-end items-end justify-center gap-4 overflow-hidden">
+        
+        <!-- Wildlife guest overlays (appear dynamically) -->
+        <div id="wildlife-owl" class="absolute top-4 left-6 text-4xl animate-float hidden">🦉</div>
+        <div id="wildlife-deer" class="absolute bottom-4 left-10 text-5xl hidden">🦌</div>
+        <div id="wildlife-bee" class="absolute top-12 right-12 text-3xl animate-bounce-slight hidden">🐝</div>
+        <div id="wildlife-squirrel" class="absolute bottom-4 right-14 text-4xl hidden">🐿️</div>
+        <div id="wildlife-fox" class="absolute bottom-4 left-1/3 text-4xl hidden">🦊</div>
+
+        <!-- Initial Placeholder Message -->
+        <div id="forest-empty-msg" class="text-center py-16 text-emerald-800">
+          <div class="text-6xl mb-2">🌱</div>
+          <h4 class="font-heading font-bold text-xl">The soil is ready for planting!</h4>
+          <p class="text-sm font-semibold opacity-80 mt-1">Pick a tree above and click "Plant Selected Seed"!</p>
+        </div>
+
+        <!-- Dynamic Trees Container -->
+        <div id="forest-trees-container" class="w-full flex flex-wrap items-end justify-center gap-4">
+        </div>
+      </div>
+
+      <div class="mt-4 p-4 bg-emerald-100/70 rounded-2xl text-xs md:text-sm text-emerald-900 font-semibold flex items-center gap-3">
+        <span class="text-2xl">💡</span>
+        <span>Every 3 trees planted summons a wild forest animal looking for a safe woodland home!</span>
+      </div>
+
+    </section>
+
+    <!-- ============================================== -->
+    <!-- HUB 4: ECO ACTION LAB (CHECKLIST & DIY POSTERS)-->
+    <!-- ============================================== -->
+    <section id="page-action" class="page-content hidden animate-pop">
+      <div class="bg-gradient-to-r from-emerald-500 to-teal-600 rounded-3xl p-6 md:p-8 text-white mb-8 shadow-lg flex flex-col md:flex-row items-center justify-between gap-4">
+        <div>
+          <div class="flex items-center gap-2 mb-2">
+            <span class="bg-white/20 text-white font-bold text-xs uppercase px-3 py-1 rounded-full">School & Home</span>
+            <span class="text-emerald-100 font-semibold text-sm">Actionable Superpower</span>
+          </div>
+          <h2 class="text-3xl md:text-4xl font-extrabold font-heading">🎒 Eco Action Lab: Student Power!</h2>
+          <p class="text-emerald-50 mt-1 max-w-xl text-sm md:text-base">
+            Students possess massive leverage to inspire families, classrooms, and neighborhoods. Try these daily missions!
+          </p>
+        </div>
+        <div class="text-7xl p-3 bg-white/20 rounded-3xl backdrop-blur-sm animate-float">
+          🌿
+        </div>
+      </div>
+
+      <!-- 4 Action Pillars -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+        
+        <div class="bg-white p-6 rounded-3xl border-3 border-emerald-200 shadow-sm flex gap-4">
+          <div class="text-4xl p-3 bg-emerald-100 rounded-2xl h-fit">🍱</div>
+          <div>
+            <h4 class="font-heading font-bold text-xl text-slate-800">Zero-Waste Bento Challenge</h4>
+            <p class="text-slate-600 text-sm mt-1">
+              Swap cling plastic wraps and single-serving chip bags for washable bento boxes, silicone pouches, and cloth napkins. A single school can save <strong>18,000 plastic wrappers</strong> each semester!
+            </p>
+          </div>
+        </div>
+
+        <div class="bg-white p-6 rounded-3xl border-3 border-sky-200 shadow-sm flex gap-4">
+          <div class="text-4xl p-3 bg-sky-100 rounded-2xl h-fit">🪟</div>
+          <div>
+            <h4 class="font-heading font-bold text-xl text-slate-800">Windowsill Seedling Nursery</h4>
+            <p class="text-slate-600 text-sm mt-1">
+              Save egg cartons and rinsed yogurt cups. Fill with potting soil and plant tomato or basil seeds. Place on sunny classroom windowsills and watch roots sprout through transparent cups!
+            </p>
+          </div>
+        </div>
+
+        <div class="bg-white p-6 rounded-3xl border-3 border-amber-200 shadow-sm flex gap-4">
+          <div class="text-4xl p-3 bg-amber-100 rounded-2xl h-fit">🎨</div>
+          <div>
+            <h4 class="font-heading font-bold text-xl text-slate-800">Hallway Eco Awareness Posters</h4>
+            <p class="text-slate-600 text-sm mt-1">
+              Design catchy cartoon posters above water fountains: <em>"Drink Up, Don't Let It Run!"</em> and by classroom light switches: <em>"Kill the Watts When Leaving the Spot!"</em>
+            </p>
+          </div>
+        </div>
+
+        <div class="bg-white p-6 rounded-3xl border-3 border-purple-200 shadow-sm flex gap-4">
+          <div class="text-4xl p-3 bg-purple-100 rounded-2xl h-fit">🧤</div>
+          <div>
+            <h4 class="font-heading font-bold text-xl text-slate-800">10-Minute Recess Litter Sweepers</h4>
+            <p class="text-slate-600 text-sm mt-1">
+              Form a squad of 3 friends with gloves. Sweep the soccer pitch perimeter and playground mulch before wind and rain carry candy wrappers down street storm drains into oceans!
+            </p>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Interactive Student Checklist -->
+      <div class="bg-gradient-to-br from-emerald-50 to-teal-50 border-3 border-emerald-300 rounded-3xl p-6 shadow-md">
+        <div class="flex items-center justify-between flex-wrap gap-2 mb-3">
+          <h3 class="font-heading font-bold text-2xl text-emerald-900 flex items-center gap-2">
+            <span>📋 My Earth Day Student Checklist</span>
+          </h3>
+          <span id="checklist-counter" class="text-xs font-extrabold uppercase px-3 py-1 bg-emerald-200 text-emerald-900 rounded-full">
+            0 of 6 Completed
+          </span>
+        </div>
+        <p class="text-slate-600 text-sm mb-4">Click each promise you commit to practice at school or home this Earth Day week!</p>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3" id="student-checklist">
+          <label class="flex items-center gap-3 bg-white p-3.5 rounded-2xl border-2 border-emerald-100 cursor-pointer hover:bg-emerald-100/50 transition">
+            <input type="checkbox" onchange="updateChecklist()" class="w-5 h-5 accent-emerald-500 rounded">
+            <span class="text-sm font-semibold text-slate-700">Bring a refillable metal water bottle to school 🚰</span>
+          </label>
+          <label class="flex items-center gap-3 bg-white p-3.5 rounded-2xl border-2 border-emerald-100 cursor-pointer hover:bg-emerald-100/50 transition">
+            <input type="checkbox" onchange="updateChecklist()" class="w-5 h-5 accent-emerald-500 rounded">
+            <span class="text-sm font-semibold text-slate-700">Turn off classroom or bedroom lights when leaving 💡</span>
+          </label>
+          <label class="flex items-center gap-3 bg-white p-3.5 rounded-2xl border-2 border-emerald-100 cursor-pointer hover:bg-emerald-100/50 transition">
+            <input type="checkbox" onchange="updateChecklist()" class="w-5 h-5 accent-emerald-500 rounded">
+            <span class="text-sm font-semibold text-slate-700">Use both front and back of notebook paper 📝</span>
+          </label>
+          <label class="flex items-center gap-3 bg-white p-3.5 rounded-2xl border-2 border-emerald-100 cursor-pointer hover:bg-emerald-100/50 transition">
+            <input type="checkbox" onchange="updateChecklist()" class="w-5 h-5 accent-emerald-500 rounded">
+            <span class="text-sm font-semibold text-slate-700">Pick up 3 pieces of litter from the schoolyard 🧤</span>
+          </label>
+          <label class="flex items-center gap-3 bg-white p-3.5 rounded-2xl border-2 border-emerald-100 cursor-pointer hover:bg-emerald-100/50 transition">
+            <input type="checkbox" onchange="updateChecklist()" class="w-5 h-5 accent-emerald-500 rounded">
+            <span class="text-sm font-semibold text-slate-700">Turn off tap water while soaping hands & brushing 🧼</span>
+          </label>
+          <label class="flex items-center gap-3 bg-white p-3.5 rounded-2xl border-2 border-emerald-100 cursor-pointer hover:bg-emerald-100/50 transition">
+            <input type="checkbox" onchange="updateChecklist()" class="w-5 h-5 accent-emerald-500 rounded">
+            <span class="text-sm font-semibold text-slate-700">Share one awesome Earth Day fact with family 🗣️</span>
+          </label>
+        </div>
+
+        <div id="checklist-success" class="mt-4 p-3 bg-emerald-200 text-emerald-900 rounded-xl text-center font-bold text-sm hidden">
+          🌟 SUPERSTAR! You completed the full checklist! You earned the "Action Hero" badge and +15% Vitality!
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ============================================== -->
+    <!-- HUB 5: OCEAN CLEANUP & WASTE SORTING ARCADE    -->
+    <!-- ============================================== -->
+    <section id="page-cleanup" class="page-content hidden animate-pop">
+      <div class="bg-white rounded-3xl p-6 md:p-8 border-4 border-sky-300 shadow-xl max-w-4xl mx-auto">
+        
+        <!-- Arcade Header & Scoreboard -->
+        <div class="flex flex-wrap items-center justify-between gap-4 border-b-2 border-slate-100 pb-4 mb-6">
+          <div>
+            <span class="bg-sky-100 text-sky-800 text-xs uppercase px-2.5 py-1 rounded-full font-bold">Arcade Simulator</span>
+            <h2 class="text-2xl md:text-3xl font-extrabold font-heading text-slate-800 mt-1">
+              Ocean Rescue: Waste Sorter 🌊
+            </h2>
+          </div>
+          
+          <div class="flex items-center gap-3">
+            <div class="bg-emerald-100 border border-emerald-300 px-4 py-2 rounded-2xl flex items-center gap-2">
+              <span class="text-xl">🏆</span>
+              <div>
+                <div class="text-[10px] text-emerald-700 font-bold uppercase">Eco Score</div>
+                <div id="cleanup-score" class="font-heading font-extrabold text-xl text-emerald-900">0</div>
+              </div>
+            </div>
+
+            <div class="bg-sky-100 border border-sky-300 px-4 py-2 rounded-2xl flex items-center gap-2">
+              <span class="text-xl">🎯</span>
+              <div>
+                <div class="text-[10px] text-sky-700 font-bold uppercase">Target Item</div>
+                <div id="cleanup-progress" class="font-heading font-extrabold text-xl text-sky-900">1 / 8</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Active Arcade Item Stage -->
+        <div id="cleanup-active-screen" class="flex flex-col items-center">
+          
+          <p class="text-sm font-semibold text-slate-500 mb-4 text-center">
+            A piece of debris is drifting near coral reefs! Click the <strong class="text-slate-800">proper disposal bin</strong> to save marine wildlife!
+          </p>
+
+          <!-- Current Floating Item Card -->
+          <div id="cleanup-item-card" class="bg-gradient-to-b from-sky-50 to-blue-50 border-4 border-sky-200 rounded-3xl p-6 w-full max-w-md text-center shadow-inner mb-6 transition-all duration-300">
+            <div id="cleanup-item-emoji" class="text-7xl mb-2 animate-float select-none">
+              🥤
+            </div>
+            <h3 id="cleanup-item-title" class="font-heading font-bold text-2xl text-slate-800">
+              Clean Plastic Water Bottle
+            </h3>
+            <p id="cleanup-item-desc" class="text-slate-600 text-sm mt-1">
+              "Empty clear polyethylene bottle with cap."
+            </p>
+          </div>
+
+          <!-- Sorting Choice Bins (3 options) -->
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 w-full max-w-xl mb-4">
+            
+            <!-- Bin 1: Blue Recycle -->
+            <button onclick="handleWasteSort('recycle')" class="btn-3d p-4 rounded-2xl bg-blue-500 hover:bg-blue-400 text-white font-heading font-bold text-base flex flex-col items-center gap-1 shadow">
+              <span class="text-3xl">♻️</span>
+              <span>RECYCLE BIN</span>
+              <span class="text-[10px] font-normal opacity-90">Paper, Clean Metal & Plastic</span>
+            </button>
+
+            <!-- Bin 2: Green Compost -->
+            <button onclick="handleWasteSort('compost')" class="btn-3d p-4 rounded-2xl bg-emerald-600 hover:bg-emerald-500 text-white font-heading font-bold text-base flex flex-col items-center gap-1 shadow">
+              <span class="text-3xl">🍎</span>
+              <span>COMPOST BIN</span>
+              <span class="text-[10px] font-normal opacity-90">Food Scraps, Leaves & Peels</span>
+            </button>
+
+            <!-- Bin 3: Trash Landfill -->
+            <button onclick="handleWasteSort('trash')" class="btn-3d p-4 rounded-2xl bg-slate-700 hover:bg-slate-600 text-white font-heading font-bold text-base flex flex-col items-center gap-1 shadow">
+              <span class="text-3xl">🗑️</span>
+              <span>TRASH BIN</span>
+              <span class="text-[10px] font-normal opacity-90">Non-recyclable debris</span>
+            </button>
+
+          </div>
+
+          <!-- Feedback notification banner -->
+          <div id="cleanup-feedback" class="h-14 flex items-center justify-center text-center font-bold text-xs md:text-sm px-4 py-2 rounded-2xl w-full max-w-xl opacity-0 transition-opacity">
+            Feedback
+          </div>
+
+        </div>
+
+        <!-- Arcade Finish Screen -->
+        <div id="cleanup-finish-screen" class="hidden text-center py-8">
+          <div class="text-6xl mb-3">🐬🌊✨</div>
+          <h3 class="font-heading font-extrabold text-3xl text-sky-800 mb-2">Ocean Waters Restored!</h3>
+          <p class="text-slate-600 text-base max-w-md mx-auto mb-6">
+            You rescued the coral reef from marine debris and scored <strong id="cleanup-final-score" class="text-emerald-600 text-xl font-bold">80</strong> Eco Points!
+          </p>
+          <div class="flex flex-wrap justify-center gap-4">
+            <button onclick="restartCleanupGame()" class="btn-3d px-6 py-3 bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold rounded-2xl text-sm">
+              Play Again 🔄
+            </button>
+            <button onclick="navigateTo('quiz')" class="btn-3d px-6 py-3 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-2xl text-sm flex items-center gap-2">
+              <span>Unlock Final Badges & Diploma!</span> <span>🎓</span>
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ============================================== -->
+    <!-- HUB 6: QUIZ, BADGES & DIPLOMA STUDIO           -->
+    <!-- ============================================== -->
+    <section id="page-quiz" class="page-content hidden animate-pop">
+      <div class="bg-white rounded-3xl p-6 md:p-8 border-4 border-emerald-300 shadow-xl max-w-4xl mx-auto">
+        
+        <!-- Badges Trophy Shelf -->
+        <div class="mb-8 p-4 bg-slate-50 border-2 border-slate-200 rounded-3xl">
+          <div class="flex items-center justify-between mb-3">
+            <h3 class="font-heading font-bold text-lg text-slate-800 flex items-center gap-2">
+              <span>🏆 My Eco-Hero Badge Cabinet</span>
+            </h3>
+            <span id="badge-count-text" class="text-xs font-bold text-emerald-700 bg-emerald-100 px-3 py-1 rounded-full">
+              0 of 5 Badges Unlocked
+            </span>
+          </div>
+
+          <div class="grid grid-cols-2 sm:grid-cols-5 gap-3 text-center" id="badges-shelf">
+            <!-- Badge 1 -->
+            <div id="badge-explorer" class="p-3 bg-white rounded-2xl border-2 border-slate-200 opacity-40 transition-all">
+              <div class="text-3xl mb-1">🗺️</div>
+              <div class="text-xs font-bold text-slate-700">World Explorer</div>
+              <div class="text-[10px] text-slate-500 mt-0.5">Tour 3 continents</div>
+            </div>
+            <!-- Badge 2 -->
+            <div id="badge-arborist" class="p-3 bg-white rounded-2xl border-2 border-slate-200 opacity-40 transition-all">
+              <div class="text-3xl mb-1">🌲</div>
+              <div class="text-xs font-bold text-slate-700">Forest Planter</div>
+              <div class="text-[10px] text-slate-500 mt-0.5">Plant 3+ trees</div>
+            </div>
+            <!-- Badge 3 -->
+            <div id="badge-diver" class="p-3 bg-white rounded-2xl border-2 border-slate-200 opacity-40 transition-all">
+              <div class="text-3xl mb-1">🌊</div>
+              <div class="text-xs font-bold text-slate-700">Ocean Rescuer</div>
+              <div class="text-[10px] text-slate-500 mt-0.5">Score in cleanup</div>
+            </div>
+            <!-- Badge 4 -->
+            <div id="badge-action" class="p-3 bg-white rounded-2xl border-2 border-slate-200 opacity-40 transition-all">
+              <div class="text-3xl mb-1">🎒</div>
+              <div class="text-xs font-bold text-slate-700">Action Scout</div>
+              <div class="text-[10px] text-slate-500 mt-0.5">Complete checklist</div>
+            </div>
+            <!-- Badge 5 -->
+            <div id="badge-master" class="p-3 bg-white rounded-2xl border-2 border-slate-200 opacity-40 transition-all">
+              <div class="text-3xl mb-1">⭐</div>
+              <div class="text-xs font-bold text-slate-700">Quiz Master</div>
+              <div class="text-[10px] text-slate-500 mt-0.5">Ace the 5 questions</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quiz Container Screen -->
+        <div id="quiz-container">
+          <div class="flex items-center justify-between border-b-2 border-slate-100 pb-4 mb-6">
+            <div>
+              <span class="bg-emerald-100 text-emerald-800 text-xs uppercase px-2.5 py-1 rounded-full font-bold">Knowledge Mastery</span>
+              <h2 class="text-2xl md:text-3xl font-extrabold font-heading text-slate-800 mt-1">
+                Earth Day Champion Quiz 🌟
+              </h2>
+            </div>
+            <div class="text-right">
+              <span class="text-xs text-slate-500 font-bold uppercase">Question</span>
+              <div id="quiz-progress-text" class="font-heading font-extrabold text-xl text-emerald-600">1 / 5</div>
+            </div>
+          </div>
+
+          <!-- Question Prompt -->
+          <div class="mb-6">
+            <h3 id="quiz-question" class="text-xl md:text-2xl font-bold font-heading text-slate-800 mb-2">
+              Loading question...
+            </h3>
+            <p class="text-xs text-slate-500">Pick the best answer below:</p>
+          </div>
+
+          <!-- Options -->
+          <div id="quiz-options" class="flex flex-col gap-3 mb-6">
+            <!-- Dynamic Buttons -->
+          </div>
+
+          <!-- Feedback message -->
+          <div id="quiz-feedback" class="min-h-[44px] text-center font-bold text-sm md:text-base p-2 rounded-xl mb-4 hidden">
+          </div>
+
+          <!-- Next Button -->
+          <div class="flex justify-end">
+            <button id="quiz-next-btn" onclick="nextQuizQuestion()" class="btn-3d hidden px-6 py-2.5 bg-emerald-500 hover:bg-emerald-400 text-white font-bold rounded-2xl text-sm">
+              Next Question →
+            </button>
+          </div>
+        </div>
+
+        <!-- Quiz Finished & Certificate Studio -->
+        <div id="certificate-container" class="hidden text-center">
+          <div class="text-5xl mb-2 animate-float">🎖️🌍✨</div>
+          <h2 class="text-3xl font-extrabold font-heading text-emerald-800">Certified Honorary Planet Protector!</h2>
+          <p class="text-slate-600 text-sm max-w-md mx-auto mt-1 mb-6">
+            You scored <span id="quiz-final-score" class="font-extrabold text-emerald-600 text-lg">5/5</span>! Personalize your official Earth Day Diploma below:
+          </p>
+
+          <!-- Customizer Inputs: Name & Mascot -->
+          <div class="max-w-md mx-auto mb-6 grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div>
+              <label class="block text-xs font-bold text-slate-600 mb-1 text-left">Your Hero Name:</label>
+              <input type="text" id="hero-name-input" placeholder="Your name..." value="Eco Explorer" class="w-full px-4 py-2 rounded-xl border-2 border-emerald-300 focus:border-emerald-500 focus:outline-none font-bold text-slate-700 text-sm shadow-inner" oninput="updateCertificate()">
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-600 mb-1 text-left">Choose Mascot Stamp:</label>
+              <select id="cert-mascot-select" onchange="updateCertificate()" class="w-full px-3 py-2 rounded-xl border-2 border-emerald-300 focus:border-emerald-500 font-bold text-slate-700 text-sm bg-white">
+                <option value="🐢 Sea Turtle Defender">🐢 Sea Turtle Defender</option>
+                <option value="🐼 Giant Panda Pal">🐼 Giant Panda Pal</option>
+                <option value="🐝 Honeybee Guardian">🐝 Honeybee Guardian</option>
+                <option value="🦉 Wise Forest Owl">🦉 Wise Forest Owl</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Official Printable Certificate Frame -->
+          <div id="certificate-frame" class="relative bg-gradient-to-b from-sky-50 via-emerald-50 to-amber-50 border-8 border-double border-emerald-600 rounded-3xl p-6 md:p-10 shadow-2xl text-slate-800 max-w-2xl mx-auto mb-6 text-center">
+            
+            <div class="absolute top-4 left-4 text-3xl">🌱</div>
+            <div class="absolute top-4 right-4 text-3xl">🌏</div>
+            
+            <div class="text-xs uppercase font-extrabold tracking-widest text-emerald-700">Official United Nations of Young Guardians</div>
+            <h3 class="font-heading font-black text-2xl md:text-4xl text-emerald-900 mt-1 mb-2">EARTH DAY GUARDIAN DIPLOMA</h3>
+            <p class="text-xs text-slate-600 italic">This honor and lifelong badge of stewardship is granted to:</p>
+            
+            <div id="cert-hero-name" class="font-heading font-black text-2xl md:text-3xl text-sky-700 my-3 underline decoration-wavy decoration-emerald-400">
+              Eco Explorer
+            </div>
+
+            <p class="text-xs md:text-sm text-slate-700 leading-relaxed max-w-lg mx-auto mb-4">
+              For mastering the origins, history, and global importance of <strong>Earth Day (April 22)</strong>, taking active steps to reduce waste, nurture biodiversity, and solemnly promising to treat every single day like Earth Day!
+            </p>
+
+            <div class="flex items-center justify-between border-t-2 border-emerald-200 pt-4 text-xs text-slate-600 font-semibold px-4">
+              <div class="text-left">
+                <div class="text-[10px] uppercase text-slate-400 font-bold">Granted On</div>
+                <span id="cert-date">April 22</span>
+              </div>
+              <div class="text-center">
+                <div class="text-[10px] uppercase text-slate-400 font-bold">Mascot Division</div>
+                <span id="cert-mascot-display" class="font-bold text-emerald-700">🐢 Sea Turtle Defender</span>
+              </div>
+              <div class="text-right">
+                <div class="text-[10px] uppercase text-slate-400 font-bold">Global Status</div>
+                <span class="font-bold text-emerald-700">🛡️ Certified Ally</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Print & Action Buttons -->
+          <div class="flex flex-wrap justify-center gap-4">
+            <button onclick="window.print()" class="btn-3d px-6 py-3 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-2xl text-sm flex items-center gap-2 shadow-lg">
+              <span>Print or Save PDF Diploma</span> <span>🖨️</span>
+            </button>
+            <button onclick="restartQuiz()" class="btn-3d px-5 py-3 bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold rounded-2xl text-sm">
+              Retake Quiz 🔄
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Cute Non-blocking Modal -->
+  <div id="custom-modal" class="fixed inset-0 bg-black/40 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-white rounded-3xl p-6 max-w-sm w-full text-center shadow-2xl border-4 border-sky-300 animate-pop">
+      <div id="modal-icon" class="text-5xl mb-2">🌍</div>
+      <h4 id="modal-title" class="font-heading font-bold text-xl text-slate-800 mb-1">Notice</h4>
+      <p id="modal-message" class="text-slate-600 text-sm mb-4 leading-relaxed">Message here</p>
+      <button onclick="closeModal()" class="btn-3d w-full py-2.5 bg-sky-500 hover:bg-sky-400 text-white font-heading font-bold rounded-xl text-base">
+        Got it! 👍
+      </button>
+    </div>
+  </div>
+
+  <!-- Pure Canvas Confetti & Leaves Overlay -->
+  <canvas id="confetti-canvas" class="fixed inset-0 pointer-events-none z-40 hidden"></canvas>
+
+  <!-- Footer -->
+  <footer class="bg-white/85 border-t border-sky-200 py-3 px-6 text-center text-xs font-semibold text-slate-500">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2">
+      <div class="flex items-center gap-1.5">
+        <span>🌍 Earth Day is April 22 • But Earth Needs Us All 365 Days!</span>
+      </div>
+      <div>
+        <span>Plant Trees • Clean Oceans • Reduce Single Plastics 🌱</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ============================================== -->
+  <!-- JAVASCRIPT LOGIC ENGINE                        -->
+  <!-- ============================================== -->
+  <script>
+    /* ==============================================================
+       1. SYNTHESIZED SOUND & AMBIENT NATURE GENERATOR (Web Audio API)
+       ============================================================== */
+    let audioCtx = null;
+    let soundEnabled = true;
+    let ambienceRunning = false;
+    let ambienceTimer = null;
+
+    function initAudio() {
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      }
+    }
+
+    function toggleSound() {
+      soundEnabled = !soundEnabled;
+      document.getElementById('soundIcon').innerText = soundEnabled ? '🔊' : '🔇';
+      showModal(
+        soundEnabled ? 'Audio Effects On!' : 'Audio Effects Muted',
+        soundEnabled ? 'Game chimes and fanfare will now play.' : 'All sound effects are muted.',
+        soundEnabled ? '🔔' : '🔇'
+      );
+    }
+
+    function playSound(type) {
+      if (!soundEnabled) return;
+      try {
+        initAudio();
+        const now = audioCtx.currentTime;
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+
+        if (type === 'pop') {
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(450, now);
+          osc.frequency.exponentialRampToValueAtTime(880, now + 0.08);
+          gain.gain.setValueAtTime(0.2, now);
+          gain.gain.exponentialRampToValueAtTime(0.01, now + 0.08);
+          osc.start(now);
+          osc.stop(now + 0.08);
+        } else if (type === 'correct') {
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(523.25, now); // C5
+          osc.frequency.setValueAtTime(659.25, now + 0.08); // E5
+          osc.frequency.setValueAtTime(783.99, now + 0.16); // G5
+          osc.frequency.setValueAtTime(1046.50, now + 0.24); // C6
+          gain.gain.setValueAtTime(0.18, now);
+          gain.gain.exponentialRampToValueAtTime(0.01, now + 0.38);
+          osc.start(now);
+          osc.stop(now + 0.38);
+        } else if (type === 'wrong') {
+          osc.type = 'sawtooth';
+          osc.frequency.setValueAtTime(220, now);
+          osc.frequency.linearRampToValueAtTime(140, now + 0.2);
+          gain.gain.setValueAtTime(0.18, now);
+          gain.gain.exponentialRampToValueAtTime(0.01, now + 0.22);
+          osc.start(now);
+          osc.stop(now + 0.22);
+        } else if (type === 'water') {
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(700, now);
+          osc.frequency.exponentialRampToValueAtTime(300, now + 0.2);
+          gain.gain.setValueAtTime(0.15, now);
+          gain.gain.exponentialRampToValueAtTime(0.01, now + 0.2);
+          osc.start(now);
+          osc.stop(now + 0.2);
+        } else if (type === 'fanfare') {
+          [523, 659, 783, 1046].forEach((f, i) => {
+            const o = audioCtx.createOscillator();
+            const g = audioCtx.createGain();
+            o.connect(g);
+            g.connect(audioCtx.destination);
+            o.type = 'sine';
+            o.frequency.value = f;
+            g.gain.setValueAtTime(0.12, now + i * 0.08);
+            g.gain.exponentialRampToValueAtTime(0.001, now + i * 0.08 + 0.32);
+            o.start(now + i * 0.08);
+            o.stop(now + i * 0.08 + 0.32);
+          });
+        }
+      } catch (err) {
+        console.warn('Audio Context exception:', err);
+      }
+    }
+
+    // Synthesized nature ambience (gentle bird chirps)
+    function toggleAmbience() {
+      initAudio();
+      ambienceRunning = !ambienceRunning;
+      const btn = document.getElementById('ambienceToggle');
+      const icon = document.getElementById('ambienceIcon');
+      
+      if (ambienceRunning) {
+        btn.classList.add('bg-emerald-300');
+        icon.innerText = '🎶';
+        playBirdChirp();
+        ambienceTimer = setInterval(playBirdChirp, 4500);
+      } else {
+        btn.classList.remove('bg-emerald-300');
+        icon.innerText = '🍃';
+        clearInterval(ambienceTimer);
+      }
+    }
+
+    function playBirdChirp() {
+      if (!ambienceRunning || !audioCtx) return;
+      try {
+        const now = audioCtx.currentTime;
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(2200, now);
+        osc.frequency.exponentialRampToValueAtTime(3200, now + 0.08);
+        osc.frequency.exponentialRampToValueAtTime(2600, now + 0.15);
+        gain.gain.setValueAtTime(0.03, now);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.22);
+        osc.start(now);
+        osc.stop(now + 0.22);
+      } catch (e) {
+        console.warn('Ambience chirp failed', e);
+      }
+    }
+
+    /* ==============================================================
+       2. PLANET VITALITY SYSTEM & GLOBAL APP STATE
+       ============================================================== */
+    let vitality = 25;
+    const badgesUnlocked = {
+      explorer: false,
+      arborist: false,
+      diver: false,
+      action: false,
+      master: false
+    };
+
+    function boostVitality(amount, reason = '') {
+      vitality = Math.min(100, vitality + amount);
+      document.getElementById('vitality-bar-fill').style.width = `${vitality}%`;
+      document.getElementById('vitality-text').innerText = `${vitality}%`;
+
+      const avatar = document.getElementById('hero-planet-avatar');
+      const headerEmoji = document.getElementById('header-planet-emoji');
+      const moodBadge = document.getElementById('planet-mood-badge');
+      const moodDesc = document.getElementById('planet-mood-desc');
+
+      if (vitality >= 80) {
+        avatar.innerText = '🌸🌍✨';
+        headerEmoji.innerText = '🌸';
+        moodBadge.innerText = 'Vitality: Thriving & Radiant! 🌟';
+        moodBadge.className = 'mt-3 px-3 py-1 bg-amber-300 text-slate-900 rounded-full font-heading font-bold text-xs shadow-sm';
+        moodDesc.innerText = '"You did it! The air is pure, oceans sparkle, and animals rejoice!"';
+      } else if (vitality >= 50) {
+        avatar.innerText = '🌱🌏🌿';
+        headerEmoji.innerText = '🌱';
+        moodBadge.innerText = 'Vitality: Greening Fast! 🌿';
+        moodBadge.className = 'mt-3 px-3 py-1 bg-emerald-200 text-emerald-900 rounded-full font-heading font-bold text-xs shadow-sm';
+        moodDesc.innerText = '"New saplings are growing and beaches are getting cleaner!"';
+      }
+
+      if (amount > 0) {
+        playSound('pop');
+      }
+    }
+
+    function unlockBadge(badgeKey) {
+      if (!badgesUnlocked[badgeKey]) {
+        badgesUnlocked[badgeKey] = true;
+        const el = document.getElementById(`badge-${badgeKey}`);
+        if (el) {
+          el.classList.remove('opacity-40');
+          el.classList.add('border-emerald-500', 'bg-emerald-50', 'scale-105', 'shadow-md');
+        }
+        
+        let count = 0;
+        Object.values(badgesUnlocked).forEach(v => { if (v) count++; });
+        document.getElementById('badge-count-text').innerText = `${count} of 5 Badges Unlocked`;
+        
+        playSound('fanfare');
+        triggerConfetti();
+        boostVitality(12, 'Unlocked Badge');
+      }
+    }
+
+    /* ==============================================================
+       3. NAVIGATION CONTROLLER
+       ============================================================== */
+    const pages = ['home', 'world', 'forest', 'action', 'cleanup', 'quiz'];
+
+    function navigateTo(pageId) {
+      playSound('pop');
+      pages.forEach(p => {
+        const el = document.getElementById(`page-${p}`);
+        const btn = document.getElementById(`nav-${p}`);
+        if (p === pageId) {
+          el.classList.remove('hidden');
+          el.classList.add('block');
+          btn.className = "nav-btn px-3 py-1.5 rounded-xl font-heading text-xs md:text-sm font-semibold transition flex items-center gap-1 bg-sky-500 text-white shadow";
+        } else {
+          el.classList.add('hidden');
+          el.classList.remove('block');
+          btn.className = "nav-btn px-3 py-1.5 rounded-xl font-heading text-xs md:text-sm font-semibold text-slate-700 hover:bg-sky-100 transition flex items-center gap-1";
+        }
+      });
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function showModal(title, msg, icon = '🌍') {
+      document.getElementById('modal-title').innerText = title;
+      document.getElementById('modal-message').innerText = msg;
+      document.getElementById('modal-icon').innerText = icon;
+      document.getElementById('custom-modal').classList.remove('hidden');
+    }
+
+    function closeModal() {
+      playSound('pop');
+      document.getElementById('custom-modal').classList.add('hidden');
+    }
+
+    /* ==============================================================
+       4. HUB 1: CARBON FOOTPRINT CALCULATOR
+       ============================================================== */
+    function calculateFootprint() {
+      const commute = parseInt(document.getElementById('calc-commute').value);
+      const bottle = parseInt(document.getElementById('calc-bottle').value);
+      const energy = parseInt(document.getElementById('calc-energy').value);
+      
+      const score = commute + bottle + energy;
+      const treesEquivalent = score * 2;
+      const resultBox = document.getElementById('calc-result');
+      resultBox.innerText = `🌱 ${treesEquivalent} Trees Saved!`;
+
+      const fb = document.getElementById('calc-feedback-box');
+      if (score >= 11) {
+        fb.innerHTML = `<span>🌟 Superstar! Your habits eliminate approximately <strong>300 lbs</strong> of carbon dioxide every year!</span>`;
+      } else if (score >= 6) {
+        fb.innerHTML = `<span>👍 Solid green habits! Shifting to walking or reusable bottles could double your savings!</span>`;
+      } else {
+        fb.innerHTML = `<span>💡 Easy room to grow! Small switches like refilling water can save dozens of trees!</span>`;
+      }
+      playSound('pop');
+    }
+
+    /* ==============================================================
+       5. HUB 2: WORLD TOUR INTERACTIVE EXPLORER
+       ============================================================== */
+    const regionData = {
+      africa: {
+        icon: '🌍',
+        name: 'Africa: The Great Green Wall',
+        badge: 'Massive Living Barrier',
+        stat: '8,000 km across 11 nations',
+        story: 'Communities south of the Sahara Desert are planting millions of hardy acacia and baobab trees. This project reverses soil erosion, creates millions of green jobs, and brings back songbirds and fertile gardens!',
+        action: '🌱 Student connection: Classes in Kenya and Senegal plant fruit saplings on school grounds each Earth Day.'
+      },
+      asia: {
+        icon: '🌏',
+        name: 'Asia: Solar Villages & Bamboo Revolution',
+        badge: 'Renewable Frontiers',
+        stat: 'World’s Largest Solar Parks',
+        story: 'Across India and China, massive floating solar farms power hundreds of thousands of homes. Meanwhile, schools build play areas with sustainable, lightning-fast growing bamboo that absorbs four times more carbon than regular trees!',
+        action: '🎋 Student connection: Elementary schools hold bamboo craft fairs and zero-plastic tiffin challenges.'
+      },
+      europe: {
+        icon: '🏰',
+        name: 'Europe: Capital Cities on Two Wheels',
+        badge: 'Car-Free Revolution',
+        stat: '60%+ Daily Bicycle Commuters',
+        story: 'In cities like Copenhagen and Amsterdam, dedicated highway bridges are built solely for bicycles! On Earth Day, major avenues in Paris and Madrid close entirely to car engines so children can rollerblade in pristine air.',
+        action: '🚲 Student connection: "Bike Bus" groups ride safely together to school with parents and teachers.'
+      },
+      americas: {
+        icon: '🌎',
+        name: 'The Americas: Protecting the Amazon & Parks',
+        badge: 'Biodiversity Strongholds',
+        stat: 'Home to 1 in 10 species on Earth',
+        story: 'From Costa Rica’s rainforest corridors to North American National Parks, Earth Day inspires citizen scientists. Young explorers catalog migrating monarchs, wild wolves, and plant milkweed along school borders.',
+        action: '🦋 Student connection: Over 500,000 students plant pollinator gardens for monarch butterflies.'
+      },
+      oceans: {
+        icon: '🌊',
+        name: 'Pacific: Underwater Coral Nurseries',
+        badge: 'Reef Rescue',
+        stat: 'Gardening 50,000 Corals',
+        story: 'In Fiji and the Great Barrier Reef, marine biologists and youth divers tie fragments of resilient heat-tolerant corals onto underwater spider frames, regrowing colorful nurseries for clownfish and turtles!',
+        action: '🤿 Student connection: Coastal school classes monitor local tide pools and test water purity.'
+      },
+      poles: {
+        icon: '❄️',
+        name: 'Polar Regions: Climate Science Sentinels',
+        badge: 'Earth’s Natural Mirrors',
+        stat: 'Reflecting 80% Solar Radiation',
+        story: 'Scientists in Antarctica and Greenland drill deep ice cores that reveal ancient Earth atmospheres going back 800,000 years! Protecting polar ice keeps our global sea levels steady and weather balanced.',
+        action: '🧊 Student connection: Students track polar bear migration corridors with satellite GPS tools.'
+      }
+    };
+
+    let visitedRegions = new Set();
+
+    function selectRegion(key) {
+      playSound('pop');
+      const data = regionData[key];
+      document.getElementById('region-icon').innerText = data.icon;
+      document.getElementById('region-name').innerText = data.name;
+      document.getElementById('region-badge').innerText = data.badge;
+      document.getElementById('region-stat').innerText = data.stat;
+      document.getElementById('region-story').innerText = data.story;
+      document.getElementById('region-action').innerHTML = data.action;
+
+      visitedRegions.add(key);
+      if (visitedRegions.size >= 3) {
+        unlockBadge('explorer');
+      }
+    }
+
+    /* ==============================================================
+       6. HUB 3: PLANT-A-PLANET FOREST SANDBOX
+       ============================================================== */
+    let selectedTree = 'oak';
+    let plantedTrees = [];
+    let totalCO2 = 0;
+
+    const treeSpecs = {
+      oak: { emoji: '🌳', name: 'Mighty Oak', co2: 48 },
+      pine: { emoji: '🌲', name: 'Mountain Pine', co2: 35 },
+      apple: { emoji: '🍎', name: 'Apple Tree', co2: 25 },
+      mangrove: { emoji: '🌿', name: 'Coastal Mangrove', co2: 60 }
+    };
+
+    function selectTreeType(type) {
+      playSound('pop');
+      selectedTree = type;
+      ['oak', 'pine', 'apple', 'mangrove'].forEach(t => {
+        const btn = document.getElementById(`btn-tree-${t}`);
+        if (t === type) {
+          btn.className = "tree-type-btn btn-3d px-4 py-2.5 rounded-2xl border-2 border-emerald-500 bg-emerald-100 text-emerald-900 font-heading font-bold text-sm flex items-center gap-2";
+        } else {
+          btn.className = "tree-type-btn btn-3d px-4 py-2.5 rounded-2xl border-2 border-slate-200 bg-white text-slate-700 font-heading font-bold text-sm flex items-center gap-2";
+        }
+      });
+    }
+
+    function plantTree() {
+      const spec = treeSpecs[selectedTree];
+      plantedTrees.push(spec);
+      totalCO2 += spec.co2;
+
+      document.getElementById('forest-empty-msg')?.classList.add('hidden');
+      document.getElementById('forest-tree-count').innerText = plantedTrees.length;
+      document.getElementById('forest-co2-count').innerText = `${totalCO2} lbs`;
+
+      const container = document.getElementById('forest-trees-container');
+      const treeNode = document.createElement('div');
+      treeNode.className = "flex flex-col items-center animate-pop";
+      treeNode.innerHTML = `
+        <span class="text-5xl md:text-6xl drop-shadow select-none hover:scale-125 transition cursor-pointer" title="${spec.name}">${spec.emoji}</span>
+        <span class="text-[10px] font-bold text-emerald-900 bg-white/70 px-1.5 py-0.5 rounded-full mt-1">${spec.name}</span>
+      `;
+      container.appendChild(treeNode);
+
+      playSound('pop');
+      boostVitality(4, 'Planted a Tree');
+
+      // Summon wildlife at milestones
+      if (plantedTrees.length >= 3) {
+        document.getElementById('wildlife-owl').classList.remove('hidden');
+        unlockBadge('arborist');
+      }
+      if (plantedTrees.length >= 5) {
+        document.getElementById('wildlife-deer').classList.remove('hidden');
+        document.getElementById('wildlife-bee').classList.remove('hidden');
+      }
+      if (plantedTrees.length >= 8) {
+        document.getElementById('wildlife-squirrel').classList.remove('hidden');
+        document.getElementById('wildlife-fox').classList.remove('hidden');
+        triggerConfetti();
+      }
+    }
+
+    function waterForest() {
+      if (plantedTrees.length === 0) {
+        showModal('Plant a seed first!', 'Select a tree species above to start your forest before giving it a rain shower!', '🌱');
+        return;
+      }
+      playSound('water');
+      triggerConfetti();
+      showModal('Gentle Rain Shower! 🌧️', 'Your forest is thriving! The leaves are glossy and soil enriched!', '💧');
+      boostVitality(6, 'Watered Forest');
+    }
+
+    function resetForest() {
+      plantedTrees = [];
+      totalCO2 = 0;
+      document.getElementById('forest-tree-count').innerText = '0';
+      document.getElementById('forest-co2-count').innerText = '0 lbs';
+      document.getElementById('forest-trees-container').innerHTML = '';
+      document.getElementById('forest-empty-msg').classList.remove('hidden');
+
+      ['owl', 'deer', 'bee', 'squirrel', 'fox'].forEach(a => {
+        document.getElementById(`wildlife-${a}`).classList.add('hidden');
+      });
+      playSound('pop');
+    }
+
+    /* ==============================================================
+       7. HUB 4: STUDENT CHECKLIST LOGIC
+       ============================================================== */
+    function updateChecklist() {
+      playSound('pop');
+      const cbs = document.querySelectorAll('#student-checklist input[type="checkbox"]');
+      let count = 0;
+      cbs.forEach(c => { if (c.checked) count++; });
+
+      document.getElementById('checklist-counter').innerText = `${count} of ${cbs.length} Completed`;
+      const successBanner = document.getElementById('checklist-success');
+      
+      if (count === cbs.length) {
+        playSound('fanfare');
+        triggerConfetti();
+        successBanner.classList.remove('hidden');
+        unlockBadge('action');
+      } else {
+        successBanner.classList.add('hidden');
+      }
+    }
+
+    /* ==============================================================
+       8. HUB 5: OCEAN CLEANUP & WASTE SORT ARCADE
+       ============================================================== */
+    const wasteItems = [
+      {
+        emoji: '🥤',
+        name: 'Empty Plastic Soda Bottle',
+        desc: 'Clean clear plastic beverage container.',
+        correct: 'recycle',
+        reason: 'Recycle! Clean plastic bottles can be melted into fresh fabric and new bottles!'
+      },
+      {
+        emoji: '🍌',
+        name: 'Banana Peel',
+        desc: 'Organic leftover fruit skin from lunch.',
+        correct: 'compost',
+        reason: 'Compost! Food scraps break down into rich soil fertilizer instead of harmful landfill methane!'
+      },
+      {
+        emoji: '🥫',
+        name: 'Aluminum Soup Can',
+        desc: 'Rinsed metal tin with no food chunks.',
+        correct: 'recycle',
+        reason: 'Recycle! Aluminum can be melted and back on grocery shelves infinitely in just 60 days!'
+      },
+      {
+        emoji: '🍕',
+        name: 'Greasy Cheesy Pizza Box',
+        desc: 'Cardboard soaked through with cooking oil and melted cheese.',
+        correct: 'trash',
+        reason: 'Trash (or industrial compost)! Grease ruins paper recycling pulping vats and cannot be cleaned out!'
+      },
+      {
+        emoji: '🍎',
+        name: 'Eaten Apple Core',
+        desc: 'Natural core and seeds from a crisp apple.',
+        correct: 'compost',
+        reason: 'Compost! Apple cores rot into healthy plant food in just a few weeks in garden beds!'
+      },
+      {
+        emoji: '📦',
+        name: 'Clean Cardboard Packaging',
+        desc: 'Dry, flattened brown shipping box.',
+        correct: 'recycle',
+        reason: 'Recycle! Dry cardboard is shredded and remade into fresh notebooks and boxes!'
+      },
+      {
+        emoji: '🧻',
+        name: 'Dirty Used Paper Towel',
+        desc: 'Tissue used to wipe up messy sticky paint.',
+        correct: 'trash',
+        reason: 'Trash! Used tissues and napkins have short broken fibers that cannot be recycled into clean paper!'
+      },
+      {
+        emoji: '🍂',
+        name: 'Fallen Autumn Leaves',
+        desc: 'Dry leaves raked from the schoolyard lawn.',
+        correct: 'compost',
+        reason: 'Compost! Dried leaves supply vital carbon ("browns") for balanced soil compost!'
+      }
+    ];
+
+    let cleanupIdx = 0;
+    let cleanupScore = 0;
+
+    function renderCleanupItem() {
+      if (cleanupIdx >= wasteItems.length) {
+        document.getElementById('cleanup-active-screen').classList.add('hidden');
+        document.getElementById('cleanup-finish-screen').classList.remove('hidden');
+        document.getElementById('cleanup-final-score').innerText = `${cleanupScore} / ${wasteItems.length * 10}`;
+        playSound('fanfare');
+        triggerConfetti();
+        unlockBadge('diver');
+        return;
+      }
+
+      const item = wasteItems[cleanupIdx];
+      document.getElementById('cleanup-item-emoji').innerText = item.emoji;
+      document.getElementById('cleanup-item-title').innerText = item.name;
+      document.getElementById('cleanup-item-desc').innerText = `"${item.desc}"`;
+      document.getElementById('cleanup-progress').innerText = `${cleanupIdx + 1} / ${wasteItems.length}`;
+
+      const fb = document.getElementById('cleanup-feedback');
+      fb.style.opacity = '0';
+    }
+
+    function handleWasteSort(choice) {
+      const item = wasteItems[cleanupIdx];
+      const fb = document.getElementById('cleanup-feedback');
+
+      if (choice === item.correct) {
+        playSound('correct');
+        cleanupScore += 10;
+        document.getElementById('cleanup-score').innerText = cleanupScore;
+        fb.className = "h-14 flex items-center justify-center text-center font-bold text-xs md:text-sm px-4 py-2 rounded-2xl w-full max-w-xl bg-emerald-100 text-emerald-800 border border-emerald-300 transition-opacity";
+        fb.innerText = `🎯 Correct! ${item.reason}`;
+        boostVitality(5, 'Sorted Waste Correctly');
+      } else {
+        playSound('wrong');
+        fb.className = "h-14 flex items-center justify-center text-center font-bold text-xs md:text-sm px-4 py-2 rounded-2xl w-full max-w-xl bg-rose-100 text-rose-800 border border-rose-300 transition-opacity";
+        fb.innerText = `💡 Good try! Actually, ${item.reason}`;
+      }
+
+      fb.style.opacity = '1';
+
+      setTimeout(() => {
+        cleanupIdx++;
+        renderCleanupItem();
+      }, 1500);
+    }
+
+    function restartCleanupGame() {
+      cleanupIdx = 0;
+      cleanupScore = 0;
+      document.getElementById('cleanup-score').innerText = '0';
+      document.getElementById('cleanup-finish-screen').classList.add('hidden');
+      document.getElementById('cleanup-active-screen').classList.remove('hidden');
+      renderCleanupItem();
+    }
+
+    /* ==============================================================
+       9. HUB 6: QUIZ & CERTIFICATE DIPLOMA STUDIO
+       ============================================================== */
+    const quizQuestions = [
+      {
+        question: "When is Earth Day officially celebrated every year worldwide?",
+        options: [
+          { text: "December 25th", correct: false },
+          { text: "April 22nd", correct: true },
+          { text: "July 4th", correct: false },
+          { text: "January 1st", correct: false }
+        ],
+        tip: "April 22nd has united more than 190 countries on calendars every single year since 1970!"
+      },
+      {
+        question: "Who were the visionary founders of the very first Earth Day in 1970?",
+        options: [
+          { text: "US Senator Gaylord Nelson & student organizer Denis Hayes", correct: true },
+          { text: "An astronaut on the Moon", correct: false },
+          { text: "A cartoon comic book superhero", correct: false },
+          { text: "The captain of a cruise ship", correct: false }
+        ],
+        tip: "Senator Gaylord Nelson and young leader Denis Hayes mobilized 20 million citizens!"
+      },
+      {
+        question: "Why should we always RINSE plastic bottles and cans before recycling?",
+        options: [
+          { text: "To make them heavier for the recycling truck.", correct: false },
+          { text: "Sticky syrup and food grease ruin entire batches of paper & recyclable plastic.", correct: true },
+          { text: "Fish like drinking the leftover soda.", correct: false },
+          { text: "Recycling factories do not allow clear water.", correct: false }
+        ],
+        tip: "Clean recycling is essential! Food grease and liquids can contaminate entire recycling containers."
+      },
+      {
+        question: "How does planting leafy trees help mitigate climate change?",
+        options: [
+          { text: "Trees absorb carbon dioxide and release fresh, clean oxygen.", correct: true },
+          { text: "Trees make the sidewalks harder to sweep.", correct: false },
+          { text: "Trees permanently block all daylight.", correct: false },
+          { text: "Trees have zero effect on air quality.", correct: false }
+        ],
+        tip: "Spot on! One mature tree can absorb over 48 lbs of carbon dioxide each year!"
+      },
+      {
+        question: "Why is 'REDUCE' the most powerful rule of the 3Rs (Reduce, Reuse, Recycle)?",
+        options: [
+          { text: "Because if waste is never produced, you never have to clean or recycle it!", correct: true },
+          { text: "Because it is the hardest word to spell.", correct: false },
+          { text: "Because recycling requires zero electricity or water.", correct: false },
+          { text: "Because garbage cans are always full.", correct: false }
+        ],
+        tip: "Preventing waste before it begins saves raw materials, factory fuel, and landfill space!"
+      }
+    ];
+
+    let quizIdx = 0;
+    let quizScore = 0;
+    let quizAnswered = false;
+
+    function renderQuiz() {
+      quizAnswered = false;
+      const q = quizQuestions[quizIdx];
+      document.getElementById('quiz-question').innerText = q.question;
+      document.getElementById('quiz-progress-text').innerText = `${quizIdx + 1} / ${quizQuestions.length}`;
+      
+      const optionsBox = document.getElementById('quiz-options');
+      optionsBox.innerHTML = '';
+
+      const fb = document.getElementById('quiz-feedback');
+      fb.classList.add('hidden');
+      document.getElementById('quiz-next-btn').classList.add('hidden');
+
+      q.options.forEach((opt, idx) => {
+        const btn = document.createElement('button');
+        btn.className = "w-full text-left p-4 rounded-2xl border-2 border-slate-200 hover:border-emerald-400 bg-white font-semibold text-sm md:text-base text-slate-700 transition flex items-center gap-3";
+        btn.innerHTML = `<span class="w-8 h-8 rounded-xl bg-slate-100 font-bold flex items-center justify-center text-xs text-slate-600">${String.fromCharCode(65 + idx)}</span> <span>${opt.text}</span>`;
+        btn.onclick = () => selectQuizOption(opt, btn, q);
+        optionsBox.appendChild(btn);
+      });
+    }
+
+    function selectQuizOption(opt, btn, q) {
+      if (quizAnswered) return;
+      quizAnswered = true;
+
+      const fb = document.getElementById('quiz-feedback');
+      fb.classList.remove('hidden');
+
+      if (opt.correct) {
+        playSound('correct');
+        quizScore++;
+        btn.classList.add('border-emerald-500', 'bg-emerald-50', 'text-emerald-900');
+        fb.className = "p-3 rounded-2xl bg-emerald-100 text-emerald-800 text-sm font-bold border border-emerald-300";
+        fb.innerText = `🎉 Brilliant! ${q.tip}`;
+      } else {
+        playSound('wrong');
+        btn.classList.add('border-rose-400', 'bg-rose-50', 'text-rose-900');
+        fb.className = "p-3 rounded-2xl bg-rose-100 text-rose-800 text-sm font-bold border border-rose-300";
+        fb.innerText = `💡 Good try! ${q.tip}`;
+      }
+
+      document.getElementById('quiz-next-btn').classList.remove('hidden');
+    }
+
+    function nextQuizQuestion() {
+      playSound('pop');
+      quizIdx++;
+      if (quizIdx < quizQuestions.length) {
+        renderQuiz();
+      } else {
+        document.getElementById('quiz-container').classList.add('hidden');
+        document.getElementById('certificate-container').classList.remove('hidden');
+        document.getElementById('quiz-final-score').innerText = `${quizScore} / ${quizQuestions.length}`;
+        
+        const now = new Date();
+        document.getElementById('cert-date').innerText = now.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+        
+        if (quizScore >= 4) {
+          unlockBadge('master');
+        }
+
+        playSound('fanfare');
+        triggerConfetti();
+        boostVitality(20, 'Completed Quiz');
+      }
+    }
+
+    function updateCertificate() {
+      const name = document.getElementById('hero-name-input').value.trim() || 'Eco Explorer';
+      const mascot = document.getElementById('cert-mascot-select').value;
+      document.getElementById('cert-hero-name').innerText = name;
+      document.getElementById('cert-mascot-display').innerText = mascot;
+    }
+
+    function restartQuiz() {
+      playSound('pop');
+      quizIdx = 0;
+      quizScore = 0;
+      document.getElementById('certificate-container').classList.add('hidden');
+      document.getElementById('quiz-container').classList.remove('hidden');
+      renderQuiz();
+    }
+
+    /* ==============================================================
+       10. PURE HTML5 CANVAS CONFETTI & FALLING LEAF PARTICLES
+       ============================================================== */
+    function triggerConfetti() {
+      const canvas = document.getElementById('confetti-canvas');
+      canvas.classList.remove('hidden');
+      const ctx = canvas.getContext('2d');
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+
+      const particles = [];
+      const colors = ['#22c55e', '#38bdf8', '#0284c7', '#f59e0b', '#ec4899', '#a855f7', '#84cc16'];
+
+      for (let i = 0; i < 110; i++) {
+        particles.push({
+          x: canvas.width / 2,
+          y: canvas.height / 2,
+          w: Math.random() * 8 + 4,
+          h: Math.random() * 8 + 4,
+          color: colors[Math.floor(Math.random() * colors.length)],
+          vx: (Math.random() - 0.5) * 16,
+          vy: (Math.random() - 0.75) * 18,
+          gravity: 0.38,
+          rotation: Math.random() * 360,
+          rotationSpeed: (Math.random() - 0.5) * 10
+        });
+      }
+
+      let frames = 0;
+      function render() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        let alive = false;
+
+        particles.forEach(p => {
+          p.x += p.vx;
+          p.y += p.vy;
+          p.vy += p.gravity;
+          p.rotation += p.rotationSpeed;
+
+          if (p.y < canvas.height) {
+            alive = true;
+            ctx.save();
+            ctx.translate(p.x, p.y);
+            ctx.rotate((p.rotation * Math.PI) / 180);
+            ctx.fillStyle = p.color;
+            ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+            ctx.restore();
+          }
+        });
+
+        frames++;
+        if (alive && frames < 140) {
+          requestAnimationFrame(render);
+        } else {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          canvas.classList.add('hidden');
+        }
+      }
+
+      render();
+    }
+
+    window.addEventListener('resize', () => {
+      const canvas = document.getElementById('confetti-canvas');
+      if (!canvas.classList.contains('hidden')) {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      }
+    });
+
+    /* ==============================================================
+       11. INITIALIZATION ON WINDOW LOAD
+       ============================================================== */
+    window.onload = function() {
+      calculateFootprint();
+      renderCleanupItem();
+      renderQuiz();
+    };
+  </script>
+</body>
+</html>
